@@ -3,13 +3,14 @@ package v1
 import (
 	"reflect"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/api/apitesting"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/diff"
 )
 
 func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme, codecs := apitesting.SchemeForOrDie(Install)
 	data, err := runtime.Encode(codecs.LegacyCodec(GroupVersion), obj)
 	if err != nil {
@@ -29,19 +30,13 @@ func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
 	}
 	return obj3
 }
-
 func TestDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		original *PodNodeConstraintsConfig
-		expected *PodNodeConstraintsConfig
-	}{
-		{
-			original: &PodNodeConstraintsConfig{},
-			expected: &PodNodeConstraintsConfig{
-				NodeSelectorLabelBlacklist: []string{"kubernetes.io/hostname"},
-			},
-		},
-	}
+		original	*PodNodeConstraintsConfig
+		expected	*PodNodeConstraintsConfig
+	}{{original: &PodNodeConstraintsConfig{}, expected: &PodNodeConstraintsConfig{NodeSelectorLabelBlacklist: []string{"kubernetes.io/hostname"}}}}
 	for i, test := range tests {
 		t.Logf("test %d", i)
 		original := test.original

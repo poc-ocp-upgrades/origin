@@ -3,31 +3,26 @@ package buildgraph
 import (
 	"fmt"
 	"testing"
-
 	"github.com/gonum/graph"
-
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildapi "github.com/openshift/origin/pkg/build/apis/build"
 	nodes "github.com/openshift/origin/pkg/oc/lib/graph/buildgraph/nodes"
 	osgraph "github.com/openshift/origin/pkg/oc/lib/graph/genericgraph"
 )
 
-type objectifier interface {
-	Object() interface{}
-}
+type objectifier interface{ Object() interface{} }
 
 func TestNamespaceEdgeMatching(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
-
 	fn := func(namespace string, g osgraph.Interface) {
 		bc := &buildv1.BuildConfig{}
 		bc.Namespace = namespace
 		bc.Name = "the-bc"
 		nodes.EnsureBuildConfigNode(g, bc)
-
 		b := &buildv1.Build{}
 		b.Namespace = namespace
 		b.Name = "the-build"
@@ -35,11 +30,9 @@ func TestNamespaceEdgeMatching(t *testing.T) {
 		b.Annotations = map[string]string{buildapi.BuildConfigAnnotation: "the-bc"}
 		nodes.EnsureBuildNode(g, b)
 	}
-
 	fn("ns", g)
 	fn("other", g)
 	AddAllBuildEdges(g)
-
 	if len(g.Edges()) != 2 {
 		t.Fatal(g)
 	}
@@ -57,8 +50,9 @@ func TestNamespaceEdgeMatching(t *testing.T) {
 		}
 	}
 }
-
 func namespaceFor(node graph.Node) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj := node.(objectifier).Object()
 	switch t := obj.(type) {
 	case runtime.Object:

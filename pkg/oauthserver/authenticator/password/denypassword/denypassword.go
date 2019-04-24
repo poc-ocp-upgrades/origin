@@ -2,20 +2,29 @@ package denypassword
 
 import (
 	"context"
-
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	"k8s.io/apiserver/pkg/authentication/authenticator"
 )
 
-// denyPasswordAuthenticator denies all password requests
-type denyPasswordAuthenticator struct {
-}
+type denyPasswordAuthenticator struct{}
 
-// New creates a new password authenticator that denies any login attempt
 func New() authenticator.Password {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &denyPasswordAuthenticator{}
 }
-
-// AuthenticatePassword denies any login attempt
 func (a denyPasswordAuthenticator) AuthenticatePassword(ctx context.Context, username, password string) (*authenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, false, nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

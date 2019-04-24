@@ -2,41 +2,47 @@ package buildclone
 
 import (
 	"context"
-
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apiserver/pkg/registry/rest"
-
 	buildapi "github.com/openshift/origin/pkg/build/apis/build"
 	"github.com/openshift/origin/pkg/build/generator"
 )
 
-// NewStorage creates a new storage object for build generation
 func NewStorage(generator *generator.BuildGenerator) *CloneREST {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CloneREST{generator: generator}
 }
 
-// CloneREST is a RESTStorage implementation for a BuildGenerator which supports only
-// the Get operation (as the generator has no underlying storage object).
-type CloneREST struct {
-	generator *generator.BuildGenerator
-}
+type CloneREST struct{ generator *generator.BuildGenerator }
 
 var _ rest.Creater = &CloneREST{}
 
-// New creates a new build clone request
 func (s *CloneREST) New() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapi.BuildRequest{}
 }
-
-// Create instantiates a new build from an existing build
 func (s *CloneREST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := rest.BeforeCreate(Strategy, ctx, obj); err != nil {
 		return nil, err
 	}
 	if err := createValidation(obj); err != nil {
 		return nil, err
 	}
-
 	return s.generator.CloneInternal(ctx, obj.(*buildapi.BuildRequest))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

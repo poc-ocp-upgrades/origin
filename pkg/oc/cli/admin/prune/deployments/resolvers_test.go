@@ -5,34 +5,27 @@ import (
 	"sort"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 )
 
 type mockResolver struct {
-	items []*corev1.ReplicationController
-	err   error
+	items	[]*corev1.ReplicationController
+	err	error
 }
 
 func (m *mockResolver) Resolve() ([]*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.items, m.err
 }
-
 func TestMergeResolver(t *testing.T) {
-	resolverA := &mockResolver{
-		items: []*corev1.ReplicationController{
-			mockDeployment("a", "b", nil),
-		},
-	}
-	resolverB := &mockResolver{
-		items: []*corev1.ReplicationController{
-			mockDeployment("c", "d", nil),
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	resolverA := &mockResolver{items: []*corev1.ReplicationController{mockDeployment("a", "b", nil)}}
+	resolverB := &mockResolver{items: []*corev1.ReplicationController{mockDeployment("c", "d", nil)}}
 	resolver := &mergeResolver{resolvers: []Resolver{resolverA, resolverB}}
 	results, err := resolver.Resolve()
 	if err != nil {
@@ -48,32 +41,20 @@ func TestMergeResolver(t *testing.T) {
 		}
 	}
 }
-
 func TestOrphanDeploymentResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	activeDeploymentConfig := mockDeploymentConfig("a", "active-deployment-config")
 	inactiveDeploymentConfig := mockDeploymentConfig("a", "inactive-deployment-config")
-
 	deploymentConfigs := []*appsv1.DeploymentConfig{activeDeploymentConfig}
 	deployments := []*corev1.ReplicationController{}
-
 	expectedNames := sets.String{}
-	deploymentStatusOptions := []appsv1.DeploymentStatus{
-		appsv1.DeploymentStatusComplete,
-		appsv1.DeploymentStatusFailed,
-		appsv1.DeploymentStatusNew,
-		appsv1.DeploymentStatusPending,
-		appsv1.DeploymentStatusRunning,
-	}
-
-	deploymentStatusFilter := []appsv1.DeploymentStatus{
-		appsv1.DeploymentStatusComplete,
-		appsv1.DeploymentStatusFailed,
-	}
+	deploymentStatusOptions := []appsv1.DeploymentStatus{appsv1.DeploymentStatusComplete, appsv1.DeploymentStatusFailed, appsv1.DeploymentStatusNew, appsv1.DeploymentStatusPending, appsv1.DeploymentStatusRunning}
+	deploymentStatusFilter := []appsv1.DeploymentStatus{appsv1.DeploymentStatusComplete, appsv1.DeploymentStatusFailed}
 	deploymentStatusFilterSet := sets.String{}
 	for _, deploymentStatus := range deploymentStatusFilter {
 		deploymentStatusFilterSet.Insert(string(deploymentStatus))
 	}
-
 	for _, deploymentStatusOption := range deploymentStatusOptions {
 		deployments = append(deployments, withStatus(mockDeployment("a", string(deploymentStatusOption)+"-active", activeDeploymentConfig), deploymentStatusOption))
 		deployments = append(deployments, withStatus(mockDeployment("a", string(deploymentStatusOption)+"-inactive", inactiveDeploymentConfig), deploymentStatusOption))
@@ -83,7 +64,6 @@ func TestOrphanDeploymentResolver(t *testing.T) {
 			expectedNames.Insert(string(deploymentStatusOption) + "-orphan")
 		}
 	}
-
 	dataSet := NewDataSet(deploymentConfigs, deployments)
 	resolver := NewOrphanDeploymentResolver(dataSet, deploymentStatusFilter)
 	results, err := resolver.Resolve()
@@ -98,19 +78,11 @@ func TestOrphanDeploymentResolver(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expectedNames, foundNames)
 	}
 }
-
 func TestPerDeploymentConfigResolver(t *testing.T) {
-	deploymentStatusOptions := []appsv1.DeploymentStatus{
-		appsv1.DeploymentStatusComplete,
-		appsv1.DeploymentStatusFailed,
-		appsv1.DeploymentStatusNew,
-		appsv1.DeploymentStatusPending,
-		appsv1.DeploymentStatusRunning,
-	}
-	deploymentConfigs := []*appsv1.DeploymentConfig{
-		mockDeploymentConfig("a", "deployment-config-1"),
-		mockDeploymentConfig("b", "deployment-config-2"),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	deploymentStatusOptions := []appsv1.DeploymentStatus{appsv1.DeploymentStatusComplete, appsv1.DeploymentStatusFailed, appsv1.DeploymentStatusNew, appsv1.DeploymentStatusPending, appsv1.DeploymentStatusRunning}
+	deploymentConfigs := []*appsv1.DeploymentConfig{mockDeploymentConfig("a", "deployment-config-1"), mockDeploymentConfig("b", "deployment-config-2")}
 	deploymentsPerStatus := 100
 	deployments := []*corev1.ReplicationController{}
 	for _, deploymentConfig := range deploymentConfigs {
@@ -121,21 +93,16 @@ func TestPerDeploymentConfigResolver(t *testing.T) {
 			}
 		}
 	}
-
 	now := metav1.Now()
 	for i := range deployments {
 		creationTimestamp := metav1.NewTime(now.Time.Add(-1 * time.Duration(i) * time.Hour))
 		deployments[i].CreationTimestamp = creationTimestamp
 	}
-
-	// test number to keep at varying ranges
 	for keep := 0; keep < deploymentsPerStatus*2; keep++ {
 		dataSet := NewDataSet(deploymentConfigs, deployments)
-
 		expectedNames := sets.String{}
 		deploymentCompleteStatusFilterSet := sets.NewString(string(appsv1.DeploymentStatusComplete))
 		deploymentFailedStatusFilterSet := sets.NewString(string(appsv1.DeploymentStatusFailed))
-
 		for _, deploymentConfig := range deploymentConfigs {
 			deploymentItems, err := dataSet.ListDeploymentsByDeploymentConfig(deploymentConfig)
 			if err != nil {
@@ -167,7 +134,6 @@ func TestPerDeploymentConfigResolver(t *testing.T) {
 				expectedNames.Insert(deployment.Name)
 			}
 		}
-
 		resolver := NewPerDeploymentConfigResolver(dataSet, keep, keep)
 		results, err := resolver.Resolve()
 		if err != nil {

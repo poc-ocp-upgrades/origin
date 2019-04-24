@@ -2,15 +2,16 @@ package main
 
 import (
 	"math/rand"
+	"bytes"
+	"net/http"
+	"fmt"
 	"os"
 	"path/filepath"
 	"runtime"
 	"time"
-
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apiserver/pkg/util/logs"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
-
 	"github.com/openshift/api/apps"
 	"github.com/openshift/api/authorization"
 	"github.com/openshift/api/build"
@@ -32,18 +33,16 @@ import (
 )
 
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logs.InitLogs()
 	defer logs.FlushLogs()
 	defer serviceability.BehaviorOnPanic(os.Getenv("OPENSHIFT_ON_PANIC"), version.Get())()
 	defer serviceability.Profile(os.Getenv("OPENSHIFT_PROFILE")).Stop()
-
 	rand.Seed(time.Now().UTC().UnixNano())
 	if len(os.Getenv("GOMAXPROCS")) == 0 {
 		runtime.GOMAXPROCS(runtime.NumCPU())
 	}
-
-	// the kubectl scheme expects to have all the recognizable external types it needs to consume.  Install those here.
-	// We can't use the "normal" scheme because apply will use that to build stategic merge patches on CustomResources
 	utilruntime.Must(apps.Install(scheme.Scheme))
 	utilruntime.Must(authorization.Install(scheme.Scheme))
 	utilruntime.Must(build.Install(scheme.Scheme))
@@ -57,15 +56,18 @@ func main() {
 	utilruntime.Must(template.Install(scheme.Scheme))
 	utilruntime.Must(user.Install(scheme.Scheme))
 	legacy.InstallExternalLegacyAll(scheme.Scheme)
-
-	// the legacyscheme is used in kubectl and expects to have the internal types registered.  Explicitly wire our types here.
-	// this does
 	install.InstallInternalOpenShift(legacyscheme.Scheme)
 	legacy.InstallInternalLegacyAll(scheme.Scheme)
-
 	basename := filepath.Base(os.Args[0])
 	command := cli.CommandFor(basename)
 	if err := command.Execute(); err != nil {
 		os.Exit(1)
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

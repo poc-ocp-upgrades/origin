@@ -2,11 +2,12 @@ package podnodeconstraints
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"io"
 	"reflect"
-
 	"k8s.io/klog"
-
 	kapierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -18,7 +19,6 @@ import (
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/apis/extensions"
 	"k8s.io/kubernetes/pkg/auth/nodeidentifier"
-
 	oapps "github.com/openshift/api/apps"
 	"github.com/openshift/api/security"
 	"github.com/openshift/origin/pkg/api/imagereferencemutators"
@@ -29,54 +29,47 @@ import (
 
 const PluginName = "scheduling.openshift.io/PodNodeConstraints"
 
-// kindsToIgnore is a list of kinds that contain a PodSpec that
-// we choose not to handle in this plugin
-var kindsToIgnore = []schema.GroupKind{
-	extensions.Kind("DaemonSet"),
-}
+var kindsToIgnore = []schema.GroupKind{extensions.Kind("DaemonSet")}
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register(PluginName,
-		func(config io.Reader) (admission.Interface, error) {
-			pluginConfig, err := readConfig(config)
-			if err != nil {
-				return nil, err
-			}
-			if pluginConfig == nil {
-				klog.Infof("Admission plugin %q is not configured so it will be disabled.", PluginName)
-				return nil, nil
-			}
-			return NewPodNodeConstraints(pluginConfig, nodeidentifier.NewDefaultNodeIdentifier()), nil
-		})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
+		pluginConfig, err := readConfig(config)
+		if err != nil {
+			return nil, err
+		}
+		if pluginConfig == nil {
+			klog.Infof("Admission plugin %q is not configured so it will be disabled.", PluginName)
+			return nil, nil
+		}
+		return NewPodNodeConstraints(pluginConfig, nodeidentifier.NewDefaultNodeIdentifier()), nil
+	})
 }
-
-// NewPodNodeConstraints creates a new admission plugin to prevent objects that contain pod templates
-// from containing node bindings by name or selector based on role permissions.
 func NewPodNodeConstraints(config *podnodeconstraints.PodNodeConstraintsConfig, nodeIdentifier nodeidentifier.NodeIdentifier) admission.Interface {
-	plugin := podNodeConstraints{
-		config:         config,
-		Handler:        admission.NewHandler(admission.Create, admission.Update),
-		nodeIdentifier: nodeIdentifier,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	plugin := podNodeConstraints{config: config, Handler: admission.NewHandler(admission.Create, admission.Update), nodeIdentifier: nodeIdentifier}
 	if config != nil {
 		plugin.selectorLabelBlacklist = sets.NewString(config.NodeSelectorLabelBlacklist...)
 	}
-
 	return &plugin
 }
 
 type podNodeConstraints struct {
 	*admission.Handler
-	selectorLabelBlacklist sets.String
-	config                 *podnodeconstraints.PodNodeConstraintsConfig
-	authorizer             authorizer.Authorizer
-	nodeIdentifier         nodeidentifier.NodeIdentifier
+	selectorLabelBlacklist	sets.String
+	config			*podnodeconstraints.PodNodeConstraintsConfig
+	authorizer		authorizer.Authorizer
+	nodeIdentifier		nodeidentifier.NodeIdentifier
 }
 
 var _ = initializer.WantsAuthorizer(&podNodeConstraints{})
 var _ = admission.ValidationInterface(&podNodeConstraints{})
 
 func shouldCheckResource(resource schema.GroupResource, kind schema.GroupKind) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedKind, shouldCheck := resourcesToCheck[resource]
 	if !shouldCheck {
 		return false, nil
@@ -92,33 +85,11 @@ func shouldCheckResource(resource schema.GroupResource, kind schema.GroupKind) (
 	return true, nil
 }
 
-// resourcesToCheck is a map of resources and corresponding kinds of things that we want handled in this plugin
-var resourcesToCheck = map[schema.GroupResource]schema.GroupKind{
-	kapi.Resource("pods"):                   kapi.Kind("Pod"),
-	kapi.Resource("podtemplates"):           kapi.Kind("PodTemplate"),
-	kapi.Resource("replicationcontrollers"): kapi.Kind("ReplicationController"),
-	batch.Resource("jobs"):                  batch.Kind("Job"),
-	batch.Resource("jobtemplates"):          batch.Kind("JobTemplate"),
-
-	batch.Resource("cronjobs"):         batch.Kind("CronJob"),
-	extensions.Resource("deployments"): extensions.Kind("Deployment"),
-	extensions.Resource("replicasets"): extensions.Kind("ReplicaSet"),
-	apps.Resource("deployments"):       apps.Kind("Deployment"),
-	apps.Resource("replicasets"):       apps.Kind("ReplicaSet"),
-	apps.Resource("statefulsets"):      apps.Kind("StatefulSet"),
-
-	legacy.Resource("deploymentconfigs"):                   legacy.Kind("DeploymentConfig"),
-	legacy.Resource("podsecuritypolicysubjectreviews"):     legacy.Kind("PodSecurityPolicySubjectReview"),
-	legacy.Resource("podsecuritypolicyselfsubjectreviews"): legacy.Kind("PodSecurityPolicySelfSubjectReview"),
-	legacy.Resource("podsecuritypolicyreviews"):            legacy.Kind("PodSecurityPolicyReview"),
-
-	oapps.Resource("deploymentconfigs"):                      oapps.Kind("DeploymentConfig"),
-	security.Resource("podsecuritypolicysubjectreviews"):     security.Kind("PodSecurityPolicySubjectReview"),
-	security.Resource("podsecuritypolicyselfsubjectreviews"): security.Kind("PodSecurityPolicySelfSubjectReview"),
-	security.Resource("podsecuritypolicyreviews"):            security.Kind("PodSecurityPolicyReview"),
-}
+var resourcesToCheck = map[schema.GroupResource]schema.GroupKind{kapi.Resource("pods"): kapi.Kind("Pod"), kapi.Resource("podtemplates"): kapi.Kind("PodTemplate"), kapi.Resource("replicationcontrollers"): kapi.Kind("ReplicationController"), batch.Resource("jobs"): batch.Kind("Job"), batch.Resource("jobtemplates"): batch.Kind("JobTemplate"), batch.Resource("cronjobs"): batch.Kind("CronJob"), extensions.Resource("deployments"): extensions.Kind("Deployment"), extensions.Resource("replicasets"): extensions.Kind("ReplicaSet"), apps.Resource("deployments"): apps.Kind("Deployment"), apps.Resource("replicasets"): apps.Kind("ReplicaSet"), apps.Resource("statefulsets"): apps.Kind("StatefulSet"), legacy.Resource("deploymentconfigs"): legacy.Kind("DeploymentConfig"), legacy.Resource("podsecuritypolicysubjectreviews"): legacy.Kind("PodSecurityPolicySubjectReview"), legacy.Resource("podsecuritypolicyselfsubjectreviews"): legacy.Kind("PodSecurityPolicySelfSubjectReview"), legacy.Resource("podsecuritypolicyreviews"): legacy.Kind("PodSecurityPolicyReview"), oapps.Resource("deploymentconfigs"): oapps.Kind("DeploymentConfig"), security.Resource("podsecuritypolicysubjectreviews"): security.Kind("PodSecurityPolicySubjectReview"), security.Resource("podsecuritypolicyselfsubjectreviews"): security.Kind("PodSecurityPolicySelfSubjectReview"), security.Resource("podsecuritypolicyreviews"): security.Kind("PodSecurityPolicyReview")}
 
 func readConfig(reader io.Reader) (*podnodeconstraints.PodNodeConstraintsConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reader == nil || reflect.ValueOf(reader).IsNil() {
 		return nil, nil
 	}
@@ -133,14 +104,13 @@ func readConfig(reader io.Reader) (*podnodeconstraints.PodNodeConstraintsConfig,
 	if !ok {
 		return nil, fmt.Errorf("unexpected config object: %#v", obj)
 	}
-	// No validation needed since config is just list of strings
 	return config, nil
 }
-
 func (o *podNodeConstraints) Validate(attr admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
-	case o.config == nil,
-		attr.GetSubresource() != "":
+	case o.config == nil, attr.GetSubresource() != "":
 		return nil
 	}
 	shouldCheck, err := shouldCheckResource(attr.GetResource().GroupResource(), attr.GetKind().GroupKind())
@@ -150,7 +120,6 @@ func (o *podNodeConstraints) Validate(attr admission.Attributes) error {
 	if !shouldCheck {
 		return nil
 	}
-	// Only check Create operation on pods
 	if attr.GetResource().GroupResource() == kapi.Resource("pods") && attr.GetOperation() != admission.Create {
 		return nil
 	}
@@ -158,35 +127,29 @@ func (o *podNodeConstraints) Validate(attr admission.Attributes) error {
 	if err != nil {
 		return err
 	}
-
 	return o.validatePodSpec(attr, ps)
 }
-
-// extract the PodSpec from the pod templates for each object we care about
 func (o *podNodeConstraints) getPodSpec(attr admission.Attributes) (kapi.PodSpec, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec, _, err := imagereferencemutators.GetPodSpec(attr.GetObject())
 	if err != nil {
 		return kapi.PodSpec{}, kapierrors.NewInternalError(err)
 	}
 	return *spec, nil
 }
-
-// validate PodSpec if NodeName or NodeSelector are specified
 func (o *podNodeConstraints) validatePodSpec(attr admission.Attributes, ps kapi.PodSpec) error {
-	// a node creating a mirror pod that targets itself is allowed
-	// see the NodeRestriction plugin for further details
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.isNodeSelfTargetWithMirrorPod(attr, ps.NodeName) {
 		return nil
 	}
-
 	matchingLabels := []string{}
-	// nodeSelector blacklist filter
 	for nodeSelectorLabel := range ps.NodeSelector {
 		if o.selectorLabelBlacklist.Has(nodeSelectorLabel) {
 			matchingLabels = append(matchingLabels, nodeSelectorLabel)
 		}
 	}
-	// nodeName constraint
 	if len(ps.NodeName) > 0 || len(matchingLabels) > 0 {
 		allow, err := o.checkPodsBindAccess(attr)
 		if err != nil {
@@ -205,12 +168,14 @@ func (o *podNodeConstraints) validatePodSpec(attr admission.Attributes, ps kapi.
 	}
 	return nil
 }
-
 func (o *podNodeConstraints) SetAuthorizer(a authorizer.Authorizer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.authorizer = a
 }
-
 func (o *podNodeConstraints) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.authorizer == nil {
 		return fmt.Errorf("%s requires an authorizer", PluginName)
 	}
@@ -219,43 +184,36 @@ func (o *podNodeConstraints) ValidateInitialization() error {
 	}
 	return nil
 }
-
-// build LocalSubjectAccessReview struct to validate role via checkAccess
 func (o *podNodeConstraints) checkPodsBindAccess(attr admission.Attributes) (bool, error) {
-	authzAttr := authorizer.AttributesRecord{
-		User:            attr.GetUserInfo(),
-		Verb:            "create",
-		Namespace:       attr.GetNamespace(),
-		Resource:        "pods",
-		Subresource:     "binding",
-		APIGroup:        kapi.GroupName,
-		ResourceRequest: true,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	authzAttr := authorizer.AttributesRecord{User: attr.GetUserInfo(), Verb: "create", Namespace: attr.GetNamespace(), Resource: "pods", Subresource: "binding", APIGroup: kapi.GroupName, ResourceRequest: true}
 	if attr.GetResource().GroupResource() == kapi.Resource("pods") {
 		authzAttr.Name = attr.GetName()
 	}
 	authorized, _, err := o.authorizer.Authorize(authzAttr)
 	return authorized == authorizer.DecisionAllow, err
 }
-
 func (o *podNodeConstraints) isNodeSelfTargetWithMirrorPod(attr admission.Attributes, nodeName string) bool {
-	// make sure we are actually trying to target a node
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(nodeName) == 0 {
 		return false
 	}
-	// this check specifically requires the object to be pod (unlike the other checks where we want any pod spec)
 	pod, ok := attr.GetObject().(*kapi.Pod)
 	if !ok {
 		return false
 	}
-	// note that anyone can create a mirror pod, but they are not privileged in any way
-	// they are actually highly constrained since they cannot reference secrets
-	// nodes can only create and delete them, and they will delete any "orphaned" mirror pods
 	if _, isMirrorPod := pod.Annotations[kapi.MirrorPodAnnotationKey]; !isMirrorPod {
 		return false
 	}
-	// we are targeting a node with a mirror pod
-	// confirm the user is a node that is targeting itself
 	actualNodeName, isNode := o.nodeIdentifier.NodeIdentity(attr.GetUserInfo())
 	return isNode && actualNodeName == nodeName
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

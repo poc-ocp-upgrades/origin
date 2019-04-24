@@ -7,42 +7,36 @@ import (
 	"io/ioutil"
 	"net/http"
 	"testing"
-
 	th "github.com/gophercloud/gophercloud/testhelper"
 	"github.com/openshift/origin/pkg/oauthserver/api"
 	"k8s.io/apiserver/pkg/authentication/user"
 )
 
-// This type emulates a mapper with "claim" provisioning strategy
-type TestUserIdentityMapperClaim struct {
-	idnts map[string]string
-}
+type TestUserIdentityMapperClaim struct{ idnts map[string]string }
 
 func (m *TestUserIdentityMapperClaim) UserFor(identityInfo api.UserIdentityInfo) (user.Info, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userName := identityInfo.GetProviderUserName()
 	if login, ok := identityInfo.GetExtra()[api.IdentityPreferredUsernameKey]; ok && len(login) > 0 {
 		userName = login
 	}
 	claimedIdentityName := identityInfo.GetProviderName() + ":" + identityInfo.GetProviderUserName()
-
 	if identityName, ok := m.idnts[userName]; ok && identityName != claimedIdentityName {
-		// A user with that user name is already mapped to another identity
 		return nil, fmt.Errorf("Ooops")
 	}
-	// Map the user with new identity
 	m.idnts[userName] = claimedIdentityName
-
 	return &user.DefaultInfo{Name: userName}, nil
 }
 
 var keystoneID string
 
 func TestKeystoneLogin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	th.SetupHTTP()
 	defer th.TeardownHTTP()
-
 	const ID = "0123456789"
-
 	th.Mux.HandleFunc("/v3/auth/tokens", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("X-Subject-Token", ID)
 		type AuthRequest struct {
@@ -50,9 +44,9 @@ func TestKeystoneLogin(t *testing.T) {
 				Identity struct {
 					Password struct {
 						User struct {
-							Domain   struct{ Name string }
-							Name     string
-							Password string
+							Domain		struct{ Name string }
+							Name		string
+							Password	string
 						}
 					}
 				}
@@ -91,51 +85,36 @@ func TestKeystoneLogin(t *testing.T) {
 			w.WriteHeader(http.StatusUnauthorized)
 		}
 	})
-	// -----Test Claim strategy with enabled Keystone identity-----
 	mapperClaim := TestUserIdentityMapperClaim{map[string]string{}}
 	keystoneID = "initial_keystone_id"
 	keystoneAuth := New("keystone_auth", th.Endpoint(), http.DefaultTransport, "default", &mapperClaim, true)
-
-	// 1. User authenticates for the first time, new identity is created
 	_, ok, err := keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "testpw")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, true, ok)
 	th.CheckEquals(t, "keystone_auth:initial_keystone_id", mapperClaim.idnts["testuser"])
-
-	// 2. Authentication with wrong or empty password fails
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "badpw")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, false, ok)
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, false, ok)
-
-	// 3. Id of "testuser" has changed, authentication will fail
 	keystoneID = "new_keystone_id"
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "testpw")
 	th.CheckEquals(t, false, ok)
 	th.CheckEquals(t, "Ooops", err.Error())
-
-	// -----Test Claim strategy with disabled Keystone identity-----
 	mapperClaim = TestUserIdentityMapperClaim{map[string]string{}}
 	keystoneID = "initial_keystone_id"
 	keystoneAuth = New("keystone_auth", th.Endpoint(), http.DefaultTransport, "default", &mapperClaim, false)
-
-	// 1. User authenticates for the first time, new identity is created
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "testpw")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, true, ok)
 	th.CheckEquals(t, "keystone_auth:testuser", mapperClaim.idnts["testuser"])
-
-	// 2. Authentication with wrong or empty password fails
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "badpw")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, false, ok)
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "")
 	th.AssertNoErr(t, err)
 	th.CheckEquals(t, false, ok)
-
-	// 3. Id of "testuser" has changed, authentication will work as before
 	keystoneID = "new_keystone_id"
 	_, ok, err = keystoneAuth.AuthenticatePassword(context.TODO(), "testuser", "testpw")
 	th.CheckEquals(t, true, ok)

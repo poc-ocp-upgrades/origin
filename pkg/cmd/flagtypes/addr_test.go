@@ -5,6 +5,8 @@ import (
 )
 
 func TestAddr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a := (Addr{Value: "somehost:90"}); a.Provided {
 		t.Errorf("bypassing Set should not result in a provided value: %#v", a)
 	}

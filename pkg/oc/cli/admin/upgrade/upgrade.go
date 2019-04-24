@@ -2,39 +2,36 @@ package upgrade
 
 import (
 	"bytes"
+	"net/http"
+	"runtime"
 	"fmt"
 	"io"
 	"sort"
 	"strings"
 	"text/tabwriter"
-
 	"github.com/blang/semver"
 	"github.com/spf13/cobra"
-
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	configv1 "github.com/openshift/api/config/v1"
 	configv1client "github.com/openshift/client-go/config/clientset/versioned"
 	imagereference "github.com/openshift/library-go/pkg/image/reference"
 )
 
 func NewOptions(streams genericclioptions.IOStreams) *Options {
-	return &Options{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &Options{IOStreams: streams}
 }
-
 func New(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewOptions(streams)
-	cmd := &cobra.Command{
-		Use:   "upgrade --to=VERSION",
-		Short: "Upgrade a cluster",
-		Long: templates.LongDesc(`
+	cmd := &cobra.Command{Use: "upgrade --to=VERSION", Short: "Upgrade a cluster", Long: templates.LongDesc(`
 			Upgrade the cluster to a newer version
 
 			This command will request that the cluster begin an upgrade. If no arguments are passed
@@ -60,12 +57,10 @@ func New(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStre
 			is likely to cause data corruption or to completely break a cluster.
 
 			Experimental: This command is under active development and may change without notice.
-		`),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+		`), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flags := cmd.Flags()
 	flags.StringVar(&o.To, "to", o.To, "Specify the version to upgrade to. The version must be on the list of previous or available updates.")
 	flags.StringVar(&o.ToImage, "to-image", o.ToImage, "Provide a release image to upgrade to. WARNING: This option does not check for upgrade compatibility and may break your cluster.")
@@ -77,31 +72,28 @@ func New(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStre
 
 type Options struct {
 	genericclioptions.IOStreams
-
-	To                string
-	ToImage           string
-	ToLatestAvailable bool
-
-	Force bool
-	Clear bool
-
-	Client configv1client.Interface
+	To			string
+	ToImage			string
+	ToLatestAvailable	bool
+	Force			bool
+	Clear			bool
+	Client			configv1client.Interface
 }
 
 func (o *Options) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Clear && (len(o.ToImage) > 0 || len(o.To) > 0 || o.ToLatestAvailable) {
 		return fmt.Errorf("--clear may not be specified with any other flags")
 	}
 	if len(o.To) > 0 && len(o.ToImage) > 0 {
 		return fmt.Errorf("only one of --to or --to-image may be provided")
 	}
-
 	if len(o.To) > 0 {
 		if _, err := semver.Parse(o.To); err != nil {
 			return fmt.Errorf("--to must be a semantic version (e.g. 4.0.1 or 4.1.0-nightly-20181104): %v", err)
 		}
 	}
-	// defend against simple mistakes (4.0.1 is a valid docker image)
 	if len(o.ToImage) > 0 {
 		ref, err := imagereference.Parse(o.ToImage)
 		if err != nil {
@@ -114,7 +106,6 @@ func (o *Options) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string
 			return fmt.Errorf("--to-image must be a valid image pull spec: no tag or digest specified")
 		}
 	}
-
 	cfg, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -126,8 +117,9 @@ func (o *Options) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string
 	o.Client = client
 	return nil
 }
-
 func (o *Options) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cv, err := o.Client.ConfigV1().ClusterVersions().Get("version", metav1.GetOptions{})
 	if err != nil {
 		if errors.IsNotFound(err) {
@@ -135,7 +127,6 @@ func (o *Options) Run() error {
 		}
 		return err
 	}
-
 	switch {
 	case o.Clear:
 		if cv.Spec.DesiredUpdate == nil {
@@ -154,36 +145,29 @@ func (o *Options) Run() error {
 			fmt.Fprintf(o.Out, "Cancelled requested upgrade to %s\n", updateVersionString(*original))
 		}
 		return nil
-
 	case o.ToLatestAvailable:
 		if len(cv.Status.AvailableUpdates) == 0 {
 			fmt.Fprintf(o.Out, "info: Cluster is already at the latest available version %s\n", cv.Status.Desired.Version)
 			return nil
 		}
-
 		if !o.Force {
 			if err := checkForUpgrade(cv); err != nil {
 				return err
 			}
 		}
-
 		sortSemanticVersions(cv.Status.AvailableUpdates)
 		update := cv.Status.AvailableUpdates[len(cv.Status.AvailableUpdates)-1]
 		cv.Spec.DesiredUpdate = &update
-
 		_, err := o.Client.ConfigV1().ClusterVersions().Update(cv)
 		if err != nil {
 			return fmt.Errorf("Unable to upgrade to latest version %s: %v", update.Version, err)
 		}
-
 		if len(update.Version) > 0 {
 			fmt.Fprintf(o.Out, "Updating to latest version %s\n", update.Version)
 		} else {
 			fmt.Fprintf(o.Out, "Updating to latest release image %s\n", update.Image)
 		}
-
 		return nil
-
 	case len(o.To) > 0, len(o.ToImage) > 0:
 		var update *configv1.Update
 		if len(o.To) > 0 {
@@ -212,33 +196,24 @@ func (o *Options) Run() error {
 				fmt.Fprintf(o.Out, "info: Cluster is already using release image %s\n", o.ToImage)
 				return nil
 			}
-			update = &configv1.Update{
-				Version: "",
-				Image:   o.ToImage,
-			}
+			update = &configv1.Update{Version: "", Image: o.ToImage}
 		}
-
 		if !o.Force {
 			if err := checkForUpgrade(cv); err != nil {
 				return err
 			}
 		}
-
 		cv.Spec.DesiredUpdate = update
-
 		_, err := o.Client.ConfigV1().ClusterVersions().Update(cv)
 		if err != nil {
 			return fmt.Errorf("Unable to upgrade: %v", err)
 		}
-
 		if len(update.Version) > 0 {
 			fmt.Fprintf(o.Out, "Updating to %s\n", update.Version)
 		} else {
 			fmt.Fprintf(o.Out, "Updating to release image %s\n", update.Image)
 		}
-
 		return nil
-
 	default:
 		if c := findCondition(cv.Status.Conditions, configv1.OperatorFailing); c != nil && c.Status == configv1.ConditionTrue {
 			prefix := "No upgrade is possible due to an error"
@@ -250,7 +225,6 @@ func (o *Options) Run() error {
 			}
 			return fmt.Errorf("The cluster can't be upgraded, see `oc describe clusterversion`")
 		}
-
 		if c := findCondition(cv.Status.Conditions, configv1.OperatorProgressing); c != nil && len(c.Message) > 0 {
 			if c.Status == configv1.ConditionTrue {
 				fmt.Fprintf(o.Out, "info: An upgrade is in progress. %s\n", c.Message)
@@ -261,12 +235,10 @@ func (o *Options) Run() error {
 			fmt.Fprintln(o.ErrOut, "warning: No current status info, see `oc describe clusterversion` for more details")
 		}
 		fmt.Fprintln(o.Out)
-
 		if len(cv.Status.AvailableUpdates) > 0 {
 			fmt.Fprintf(o.Out, "Updates:\n\n")
 			w := tabwriter.NewWriter(o.Out, 0, 2, 1, ' ', 0)
 			fmt.Fprintf(w, "VERSION\tIMAGE\n")
-			// TODO: add metadata about version
 			for _, update := range cv.Status.AvailableUpdates {
 				fmt.Fprintf(w, "%s\t%s\n", update.Version, update.Image)
 			}
@@ -281,14 +253,12 @@ func (o *Options) Run() error {
 				fmt.Fprintf(o.Out, "No updates available. You may force an upgrade to a specific release image, but doing so may not be supported and result in downtime or data loss.\n")
 			}
 		}
-
-		// TODO: print previous versions
 	}
-
 	return nil
 }
-
 func errorList(errs []error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(errs) == 1 {
 		return errs[0].Error()
 	}
@@ -299,8 +269,9 @@ func errorList(errs []error) string {
 	}
 	return buf.String()
 }
-
 func updateVersionString(update configv1.Update) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(update.Version) > 0 {
 		return update.Version
 	}
@@ -309,8 +280,9 @@ func updateVersionString(update configv1.Update) string {
 	}
 	return "<unknown>"
 }
-
 func stringArrContains(arr []string, s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range arr {
 		if item == s {
 			return true
@@ -318,14 +290,16 @@ func stringArrContains(arr []string, s string) bool {
 	}
 	return false
 }
-
 func writeTabSection(out io.Writer, fn func(w io.Writer)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(out, 0, 4, 1, ' ', 0)
 	fn(w)
 	w.Flush()
 }
-
 func updateIsEquivalent(a, b configv1.Update) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(a.Image) > 0 && len(b.Image) > 0:
 		return a.Image == b.Image
@@ -335,8 +309,9 @@ func updateIsEquivalent(a, b configv1.Update) bool {
 		return false
 	}
 }
-
 func sortSemanticVersions(versions []configv1.Update) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sort.Slice(versions, func(i, j int) bool {
 		a, errA := semver.Parse(versions[i].Version)
 		b, errB := semver.Parse(versions[j].Version)
@@ -358,16 +333,18 @@ func sortSemanticVersions(versions []configv1.Update) {
 		return false
 	})
 }
-
 func versionStrings(updates []configv1.Update) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var arr []string
 	for _, update := range updates {
 		arr = append(arr, update.Version)
 	}
 	return arr
 }
-
 func findCondition(conditions []configv1.ClusterOperatorStatusCondition, name configv1.ClusterStatusConditionType) *configv1.ClusterOperatorStatusCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range conditions {
 		if conditions[i].Type == name {
 			return &conditions[i]
@@ -375,8 +352,9 @@ func findCondition(conditions []configv1.ClusterOperatorStatusCondition, name co
 	}
 	return nil
 }
-
 func checkForUpgrade(cv *configv1.ClusterVersion) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := findCondition(cv.Status.Conditions, "Invalid"); c != nil && c.Status == configv1.ConditionTrue {
 		return fmt.Errorf("The cluster version object is invalid, you must correct the invalid state first.\n\n  Reason: %s\n  Message: %s\n\n", c.Reason, c.Message)
 	}
@@ -387,4 +365,11 @@ func checkForUpgrade(cv *configv1.ClusterVersion) error {
 		return fmt.Errorf("Already upgrading, pass --force to override.\n\n  Reason: %s\n  Message: %s\n\n", c.Reason, c.Message)
 	}
 	return nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

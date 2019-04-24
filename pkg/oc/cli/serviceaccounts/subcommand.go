@@ -2,7 +2,6 @@ package serviceaccounts
 
 import (
 	"github.com/spf13/cobra"
-
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
@@ -19,17 +18,11 @@ const (
 )
 
 func NewCmdServiceAccounts(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
-	cmds := &cobra.Command{
-		Use:     name,
-		Short:   serviceAccountsShort,
-		Long:    serviceAccountsLong,
-		Aliases: []string{"sa"},
-		Run:     kcmdutil.DefaultSubCommandRun(streams.ErrOut),
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	cmds := &cobra.Command{Use: name, Short: serviceAccountsShort, Long: serviceAccountsLong, Aliases: []string{"sa"}, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmds.AddCommand(NewCommandCreateKubeconfig(CreateKubeconfigRecommendedName, fullName+" "+CreateKubeconfigRecommendedName, f, streams))
 	cmds.AddCommand(NewCommandGetServiceAccountToken(GetServiceAccountTokenRecommendedName, fullName+" "+GetServiceAccountTokenRecommendedName, f, streams))
 	cmds.AddCommand(NewCommandNewServiceAccountToken(NewServiceAccountTokenRecommendedName, fullName+" "+NewServiceAccountTokenRecommendedName, f, streams))
-
 	return cmds
 }

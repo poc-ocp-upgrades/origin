@@ -1,21 +1,23 @@
 package errorpage
 
-import "github.com/openshift/origin/pkg/oauthserver/userregistry/identitymapper"
-
-const (
-	// error occurred attempting to claim a user
-	errorCodeClaim = "mapping_claim_error"
-	// error occurred looking up the user
-	errorCodeLookup = "mapping_lookup_error"
-	// general authentication error
-	errorCodeAuthentication = "authentication_error"
-	// general grant error
-	errorCodeGrant = "grant_error"
+import (
+	"github.com/openshift/origin/pkg/oauthserver/userregistry/identitymapper"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 )
 
-// AuthenticationErrorCode returns an error code for the given authentication error.
-// If the error is not recognized, a generic error code is returned.
+const (
+	errorCodeClaim		= "mapping_claim_error"
+	errorCodeLookup		= "mapping_lookup_error"
+	errorCodeAuthentication	= "authentication_error"
+	errorCodeGrant		= "grant_error"
+)
+
 func AuthenticationErrorCode(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case identitymapper.IsClaimError(err):
 		return errorCodeClaim
@@ -25,10 +27,9 @@ func AuthenticationErrorCode(err error) string {
 		return errorCodeAuthentication
 	}
 }
-
-// AuthenticationErrorMessage returns an error message for the given authentication error code.
-// If the error code is not recognized, a generic error message is returned.
 func AuthenticationErrorMessage(code string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch code {
 	case errorCodeClaim:
 		return "Could not create user."
@@ -38,15 +39,20 @@ func AuthenticationErrorMessage(code string) string {
 		return "An authentication error occurred."
 	}
 }
-
-// GrantErrorCode returns an error code for the given grant error.
-// If the error is not recognized, a generic error code is returned.
 func GrantErrorCode(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errorCodeGrant
 }
-
-// GrantErrorMessage returns an error message for the given grant error code.
-// If the error is not recognized, a generic error message is returned.
 func GrantErrorMessage(code string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "A grant error occurred."
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

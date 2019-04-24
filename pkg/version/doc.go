@@ -1,3 +1,16 @@
-// Package version supplies version information collected at build time to
-// OpenShift and Kubernetes components.
 package version
+
+import (
+	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
+)
+
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
+}

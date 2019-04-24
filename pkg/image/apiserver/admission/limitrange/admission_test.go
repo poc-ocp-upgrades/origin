@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -13,7 +12,6 @@ import (
 	"k8s.io/client-go/informers"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/kubernetes/fake"
-
 	"github.com/openshift/api/image"
 	imagev1 "github.com/openshift/api/image/v1"
 	"github.com/openshift/origin/pkg/api/legacy"
@@ -22,31 +20,14 @@ import (
 )
 
 func TestAdmitImageStreamMapping(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		imageStreamMapping *imageapi.ImageStreamMapping
-		limitRange         *corev1.LimitRange
-		shouldAdmit        bool
-		operation          admission.Operation
-	}{
-		"new ism, no limit range": {
-			imageStreamMapping: getImageStreamMapping(),
-			operation:          admission.Create,
-			shouldAdmit:        true,
-		},
-		"new ism, under limit range": {
-			imageStreamMapping: getImageStreamMapping(),
-			limitRange:         getLimitRange("1Ki"),
-			operation:          admission.Create,
-			shouldAdmit:        true,
-		},
-		"new ism, over limit range": {
-			imageStreamMapping: getImageStreamMapping(),
-			limitRange:         getLimitRange("0Ki"),
-			operation:          admission.Create,
-			shouldAdmit:        false,
-		},
-	}
-
+		imageStreamMapping	*imageapi.ImageStreamMapping
+		limitRange		*corev1.LimitRange
+		shouldAdmit		bool
+		operation		admission.Operation
+	}{"new ism, no limit range": {imageStreamMapping: getImageStreamMapping(), operation: admission.Create, shouldAdmit: true}, "new ism, under limit range": {imageStreamMapping: getImageStreamMapping(), limitRange: getLimitRange("1Ki"), operation: admission.Create, shouldAdmit: true}, "new ism, over limit range": {imageStreamMapping: getImageStreamMapping(), limitRange: getLimitRange("0Ki"), operation: admission.Create, shouldAdmit: false}}
 	for k, v := range tests {
 		var fakeKubeClient kubernetes.Interface
 		if v.limitRange != nil {
@@ -60,17 +41,7 @@ func TestAdmitImageStreamMapping(t *testing.T) {
 			continue
 		}
 		informerFactory.Start(wait.NeverStop)
-
-		attrs := admission.NewAttributesRecord(v.imageStreamMapping, nil,
-			image.Kind("ImageStreamMapping").WithVersion("version"),
-			v.imageStreamMapping.Namespace,
-			v.imageStreamMapping.Name,
-			image.Resource("imagestreammappings").WithVersion("version"),
-			"",
-			v.operation,
-			false,
-			nil)
-
+		attrs := admission.NewAttributesRecord(v.imageStreamMapping, nil, image.Kind("ImageStreamMapping").WithVersion("version"), v.imageStreamMapping.Namespace, v.imageStreamMapping.Name, image.Resource("imagestreammappings").WithVersion("version"), "", v.operation, false, nil)
 		err = plugin.(admission.MutationInterface).Admit(attrs)
 		if v.shouldAdmit && err != nil {
 			t.Errorf("%s expected to be admitted but received error %v", k, err)
@@ -80,109 +51,41 @@ func TestAdmitImageStreamMapping(t *testing.T) {
 		}
 	}
 }
-
 func TestAdmitImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		size           resource.Quantity
-		limitSize      resource.Quantity
-		shouldAdmit    bool
-		limitRangeItem *corev1.LimitRangeItem
-	}{
-		"under size": {
-			size:        resource.MustParse("50Mi"),
-			limitSize:   resource.MustParse("100Mi"),
-			shouldAdmit: true,
-		},
-		"equal size": {
-			size:        resource.MustParse("100Mi"),
-			limitSize:   resource.MustParse("100Mi"),
-			shouldAdmit: true,
-		},
-		"over size": {
-			size:        resource.MustParse("101Mi"),
-			limitSize:   resource.MustParse("100Mi"),
-			shouldAdmit: false,
-		},
-		"non-applicable limit range item": {
-			size: resource.MustParse("100Mi"),
-			limitRangeItem: &corev1.LimitRangeItem{
-				Type: corev1.LimitTypeContainer,
-			},
-			shouldAdmit: true,
-		},
-	}
-
+		size		resource.Quantity
+		limitSize	resource.Quantity
+		shouldAdmit	bool
+		limitRangeItem	*corev1.LimitRangeItem
+	}{"under size": {size: resource.MustParse("50Mi"), limitSize: resource.MustParse("100Mi"), shouldAdmit: true}, "equal size": {size: resource.MustParse("100Mi"), limitSize: resource.MustParse("100Mi"), shouldAdmit: true}, "over size": {size: resource.MustParse("101Mi"), limitSize: resource.MustParse("100Mi"), shouldAdmit: false}, "non-applicable limit range item": {size: resource.MustParse("100Mi"), limitRangeItem: &corev1.LimitRangeItem{Type: corev1.LimitTypeContainer}, shouldAdmit: true}}
 	for k, v := range tests {
 		limitRangeItem := v.limitRangeItem
 		if limitRangeItem == nil {
-			limitRangeItem = &corev1.LimitRangeItem{
-				Type: imagev1.LimitTypeImage,
-				Max: corev1.ResourceList{
-					corev1.ResourceStorage: v.limitSize,
-				},
-			}
+			limitRangeItem = &corev1.LimitRangeItem{Type: imagev1.LimitTypeImage, Max: corev1.ResourceList{corev1.ResourceStorage: v.limitSize}}
 		}
-
 		err := admitImage(v.size.Value(), *limitRangeItem)
 		if v.shouldAdmit && err != nil {
 			t.Errorf("%s expected to be admitted but received error %v", k, err)
 		}
-
 		if !v.shouldAdmit && err == nil {
 			t.Errorf("%s expected to be denied but was admitted", k)
 		}
 	}
 }
-
 func TestLimitAppliestoImages(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		limitRange  *corev1.LimitRange
-		shouldApply bool
-	}{
-		"good limit range": {
-			limitRange: &corev1.LimitRange{
-				Spec: corev1.LimitRangeSpec{
-					Limits: []corev1.LimitRangeItem{
-						{
-							Type: imagev1.LimitTypeImage,
-						},
-					},
-				},
-			},
-			shouldApply: true,
-		},
-		"bad limit range": {
-			limitRange: &corev1.LimitRange{
-				Spec: corev1.LimitRangeSpec{
-					Limits: []corev1.LimitRangeItem{
-						{
-							Type: corev1.LimitTypeContainer,
-						},
-					},
-				},
-			},
-			shouldApply: false,
-		},
-		"malformed range with no type": {
-			limitRange: &corev1.LimitRange{
-				Spec: corev1.LimitRangeSpec{
-					Limits: []corev1.LimitRangeItem{},
-				},
-			},
-			shouldApply: false,
-		},
-		"malformed range with no limits": {
-			limitRange:  &corev1.LimitRange{},
-			shouldApply: false,
-		},
-	}
-
+		limitRange	*corev1.LimitRange
+		shouldApply	bool
+	}{"good limit range": {limitRange: &corev1.LimitRange{Spec: corev1.LimitRangeSpec{Limits: []corev1.LimitRangeItem{{Type: imagev1.LimitTypeImage}}}}, shouldApply: true}, "bad limit range": {limitRange: &corev1.LimitRange{Spec: corev1.LimitRangeSpec{Limits: []corev1.LimitRangeItem{{Type: corev1.LimitTypeContainer}}}}, shouldApply: false}, "malformed range with no type": {limitRange: &corev1.LimitRange{Spec: corev1.LimitRangeSpec{Limits: []corev1.LimitRangeItem{}}}, shouldApply: false}, "malformed range with no limits": {limitRange: &corev1.LimitRange{}, shouldApply: false}}
 	plugin, err := NewImageLimitRangerPlugin(nil)
 	if err != nil {
 		t.Fatalf("error creating plugin: %v", err)
 	}
 	ilr := plugin.(*imageLimitRangerPlugin)
-
 	for k, v := range tests {
 		supports := ilr.SupportsLimit(v.limitRange)
 		if supports && !v.shouldApply {
@@ -193,8 +96,9 @@ func TestLimitAppliestoImages(t *testing.T) {
 		}
 	}
 }
-
 func TestHandles(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugin, err := NewImageLimitRangerPlugin(nil)
 	if err != nil {
 		t.Fatalf("error creating plugin: %v", err)
@@ -212,8 +116,9 @@ func TestHandles(t *testing.T) {
 		t.Errorf("plugin is expected to handle connect")
 	}
 }
-
 func TestSupports(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resources := []string{"imagestreammappings"}
 	plugin, err := NewImageLimitRangerPlugin(nil)
 	if err != nil {
@@ -226,7 +131,6 @@ func TestSupports(t *testing.T) {
 			t.Errorf("plugin is expected to support %#v", r)
 		}
 	}
-
 	badKinds := []string{"ImageStream", "Image", "Pod", "foo"}
 	for _, k := range badKinds {
 		attr := admission.NewAttributesRecord(nil, nil, legacy.Kind(k).WithVersion(""), "ns", "name", image.Resource("bar").WithVersion("version"), "", admission.Create, false, nil)
@@ -235,48 +139,24 @@ func TestSupports(t *testing.T) {
 		}
 	}
 }
-
 func getBaseImageWith1Layer() imageapi.Image {
-	return imageapi.Image{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:        testutil.BaseImageWith1LayerDigest,
-			Annotations: map[string]string{imageapi.ManagedByOpenShiftAnnotation: "true"},
-		},
-		DockerImageReference: fmt.Sprintf("registry.example.org/%s/%s", "test", testutil.BaseImageWith1LayerDigest),
-		DockerImageManifest:  testutil.BaseImageWith1Layer,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: testutil.BaseImageWith1LayerDigest, Annotations: map[string]string{imageapi.ManagedByOpenShiftAnnotation: "true"}}, DockerImageReference: fmt.Sprintf("registry.example.org/%s/%s", "test", testutil.BaseImageWith1LayerDigest), DockerImageManifest: testutil.BaseImageWith1Layer}
 }
-
 func getLimitRange(limit string) *corev1.LimitRange {
-	return &corev1.LimitRange{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "test-limit",
-			Namespace: "test",
-		},
-		Spec: corev1.LimitRangeSpec{
-			Limits: []corev1.LimitRangeItem{
-				{
-					Type: imagev1.LimitTypeImage,
-					Max: corev1.ResourceList{
-						corev1.ResourceStorage: resource.MustParse(limit),
-					},
-				},
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &corev1.LimitRange{ObjectMeta: metav1.ObjectMeta{Name: "test-limit", Namespace: "test"}, Spec: corev1.LimitRangeSpec{Limits: []corev1.LimitRangeItem{{Type: imagev1.LimitTypeImage, Max: corev1.ResourceList{corev1.ResourceStorage: resource.MustParse(limit)}}}}}
 }
-
 func getImageStreamMapping() *imageapi.ImageStreamMapping {
-	return &imageapi.ImageStreamMapping{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "test-ism",
-			Namespace: "test",
-		},
-		Image: getBaseImageWith1Layer(),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &imageapi.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: "test-ism", Namespace: "test"}, Image: getBaseImageWith1Layer()}
 }
-
 func newHandlerForTest(c kubernetes.Interface) (admission.Interface, informers.SharedInformerFactory, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugin, err := NewImageLimitRangerPlugin(nil)
 	if err != nil {
 		return nil, nil, err

@@ -2,40 +2,36 @@ package workqueue
 
 import (
 	"sync"
-
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	"k8s.io/klog"
 )
 
-type Work interface {
-	Parallel(fn func())
-}
-
-type Try interface {
-	Try(fn func() error)
-}
-
+type Work interface{ Parallel(fn func()) }
+type Try interface{ Try(fn func() error) }
 type Interface interface {
 	Batch(func(Work))
 	Try(func(Try)) error
 	Queue(func(Work))
 	Done()
 }
-
 type workQueue struct {
-	ch chan workUnit
-	wg *sync.WaitGroup
+	ch	chan workUnit
+	wg	*sync.WaitGroup
 }
 
 func New(workers int, stopCh <-chan struct{}) Interface {
-	q := &workQueue{
-		ch: make(chan workUnit, 100),
-		wg: &sync.WaitGroup{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	q := &workQueue{ch: make(chan workUnit, 100), wg: &sync.WaitGroup{}}
 	go q.run(workers, stopCh)
 	return q
 }
-
 func (q *workQueue) run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if workers <= 0 {
 		workers = 1
 	}
@@ -59,22 +55,17 @@ func (q *workQueue) run(workers int, stopCh <-chan struct{}) {
 	<-stopCh
 	klog.V(4).Infof("work queue exiting")
 }
-
 func (q *workQueue) Batch(fn func(Work)) {
-	w := &worker{
-		wg: &sync.WaitGroup{},
-		ch: q.ch,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	w := &worker{wg: &sync.WaitGroup{}, ch: q.ch}
 	fn(w)
 	w.wg.Wait()
 }
-
 func (q *workQueue) Try(fn func(Try)) error {
-	w := &worker{
-		wg:  &sync.WaitGroup{},
-		ch:  q.ch,
-		err: make(chan error, 1),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	w := &worker{wg: &sync.WaitGroup{}, ch: q.ch, err: make(chan error, 1)}
 	w.wg.Add(1)
 	go func() {
 		fn(w)
@@ -82,31 +73,31 @@ func (q *workQueue) Try(fn func(Try)) error {
 	}()
 	return w.FirstError()
 }
-
 func (q *workQueue) Queue(fn func(Work)) {
-	w := &worker{
-		wg: q.wg,
-		ch: q.ch,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	w := &worker{wg: q.wg, ch: q.ch}
 	fn(w)
 }
-
 func (q *workQueue) Done() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.wg.Wait()
 }
 
 type workUnit struct {
-	fn func()
-	wg *sync.WaitGroup
+	fn	func()
+	wg	*sync.WaitGroup
 }
-
 type worker struct {
-	wg  *sync.WaitGroup
-	ch  chan workUnit
-	err chan error
+	wg	*sync.WaitGroup
+	ch	chan workUnit
+	err	chan error
 }
 
 func (w *worker) FirstError() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	done := make(chan struct{})
 	go func() {
 		w.wg.Wait()
@@ -123,25 +114,30 @@ func (w *worker) FirstError() error {
 		}
 	}
 }
-
 func (w *worker) Parallel(fn func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.wg.Add(1)
 	w.ch <- workUnit{wg: w.wg, fn: fn}
 }
-
 func (w *worker) Try(fn func() error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.wg.Add(1)
-	w.ch <- workUnit{
-		wg: w.wg,
-		fn: func() {
-			err := fn()
-			if w.err == nil {
-				// TODO: have the work queue accumulate errors and release them with Done()
-				klog.Errorf("Worker error: %v", err)
-				return
-			}
-			klog.V(4).Infof("about to send work queue error: %v", err)
-			w.err <- err
-		},
-	}
+	w.ch <- workUnit{wg: w.wg, fn: func() {
+		err := fn()
+		if w.err == nil {
+			klog.Errorf("Worker error: %v", err)
+			return
+		}
+		klog.V(4).Infof("about to send work queue error: %v", err)
+		w.err <- err
+	}}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

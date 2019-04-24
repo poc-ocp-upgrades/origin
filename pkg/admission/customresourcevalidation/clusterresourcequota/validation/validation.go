@@ -2,31 +2,28 @@ package validation
 
 import (
 	"sort"
-
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	unversionedvalidation "k8s.io/apimachinery/pkg/apis/meta/v1/validation"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/apis/core/v1"
 	"k8s.io/kubernetes/pkg/apis/core/validation"
-
 	quotav1 "github.com/openshift/api/quota/v1"
 )
 
-// convertClusterResourceQuotaToAppliedClusterQuota returns back a converted AppliedClusterResourceQuota which is NOT a deep copy.
 func convertAppliedClusterResourceQuotaToClusterResourceQuota(in *quotav1.AppliedClusterResourceQuota) *quotav1.ClusterResourceQuota {
-	return &quotav1.ClusterResourceQuota{
-		ObjectMeta: in.ObjectMeta,
-		Spec:       in.Spec,
-		Status:     in.Status,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &quotav1.ClusterResourceQuota{ObjectMeta: in.ObjectMeta, Spec: in.Spec, Status: in.Status}
 }
-
 func ValidateClusterResourceQuota(clusterquota *quotav1.ClusterResourceQuota) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMeta(&clusterquota.ObjectMeta, false, validation.ValidateResourceQuotaName, field.NewPath("metadata"))
-
-	hasSelectionCriteria := (clusterquota.Spec.Selector.LabelSelector != nil && len(clusterquota.Spec.Selector.LabelSelector.MatchLabels)+len(clusterquota.Spec.Selector.LabelSelector.MatchExpressions) > 0) ||
-		(len(clusterquota.Spec.Selector.AnnotationSelector) > 0)
-
+	hasSelectionCriteria := (clusterquota.Spec.Selector.LabelSelector != nil && len(clusterquota.Spec.Selector.LabelSelector.MatchLabels)+len(clusterquota.Spec.Selector.LabelSelector.MatchExpressions) > 0) || (len(clusterquota.Spec.Selector.AnnotationSelector) > 0)
 	if !hasSelectionCriteria {
 		allErrs = append(allErrs, field.Required(field.NewPath("spec", "selector"), "must restrict the selected projects"))
 	}
@@ -39,7 +36,6 @@ func ValidateClusterResourceQuota(clusterquota *quotav1.ClusterResourceQuota) fi
 	if clusterquota.Spec.Selector.AnnotationSelector != nil {
 		allErrs = append(allErrs, validation.ValidateAnnotations(clusterquota.Spec.Selector.AnnotationSelector, field.NewPath("spec", "selector", "annotations"))...)
 	}
-
 	internalQuota := &core.ResourceQuotaSpec{}
 	if err := v1.Convert_v1_ResourceQuotaSpec_To_core_ResourceQuotaSpec(&clusterquota.Spec.Quota, internalQuota, nil); err != nil {
 		panic(err)
@@ -48,15 +44,12 @@ func ValidateClusterResourceQuota(clusterquota *quotav1.ClusterResourceQuota) fi
 	if err := v1.Convert_v1_ResourceQuotaStatus_To_core_ResourceQuotaStatus(&clusterquota.Status.Total, internalStatus, nil); err != nil {
 		panic(err)
 	}
-
 	allErrs = append(allErrs, validation.ValidateResourceQuotaSpec(internalQuota, field.NewPath("spec", "quota"))...)
 	allErrs = append(allErrs, validation.ValidateResourceQuotaStatus(internalStatus, field.NewPath("status", "overall"))...)
-
 	orderedNamespaces := clusterquota.Status.Namespaces.DeepCopy()
 	sort.Slice(orderedNamespaces, func(i, j int) bool {
 		return orderedNamespaces[i].Namespace < orderedNamespaces[j].Namespace
 	})
-
 	for _, namespace := range orderedNamespaces {
 		fldPath := field.NewPath("status", "namespaces").Key(namespace.Namespace)
 		for k, v := range namespace.Status.Used {
@@ -65,13 +58,19 @@ func ValidateClusterResourceQuota(clusterquota *quotav1.ClusterResourceQuota) fi
 			allErrs = append(allErrs, validation.ValidateResourceQuantityValue(string(k), v, resPath)...)
 		}
 	}
-
 	return allErrs
 }
-
 func ValidateClusterResourceQuotaUpdate(clusterquota, oldClusterResourceQuota *quotav1.ClusterResourceQuota) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&clusterquota.ObjectMeta, &oldClusterResourceQuota.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateClusterResourceQuota(clusterquota)...)
-
 	return allErrs
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

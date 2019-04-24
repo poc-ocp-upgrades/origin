@@ -2,11 +2,12 @@ package flags
 
 import (
 	"testing"
-
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 func TestExpand(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag := NewComponentFlag(nil, "1", "2")
 	if x := flag.Expand("1"); !x.Equal(sets.NewString("1")) {
 		t.Fatalf("unexpected: %#v", x)
@@ -28,8 +29,9 @@ func TestExpand(t *testing.T) {
 		t.Fatalf("unexpected: %#v", x)
 	}
 }
-
 func TestActual(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag := NewComponentFlag(nil, "1", "2")
 	flag.enabled = "1"
 	if x, err := flag.Validate(); err != nil || !x.Equal(sets.NewString("1")) {

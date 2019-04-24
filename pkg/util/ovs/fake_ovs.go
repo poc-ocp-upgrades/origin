@@ -6,33 +6,25 @@ import (
 	"strings"
 )
 
-// ovsFake implements a fake ovs.Interface for testing purposes
-//
-// Note that the code here is *not* expected to be 100% equivalent to ovsExec, as
-// that would require porting over huge amounts of ovs-ofctl source code. It needs
-// to support enough features to make the SDN unit tests pass, and should do enough
-// error checking to catch bugs that have tripped us up in the past (eg,
-// specifying "nw_dst" without "ip").
-
 type ovsPortInfo struct {
-	ofport      int
-	externalIDs map[string]string
-	dst_port    string
+	ofport		int
+	externalIDs	map[string]string
+	dst_port	string
 }
-
 type ovsFake struct {
-	bridge string
-
-	ports map[string]ovsPortInfo
-	flows ovsFlows
+	bridge	string
+	ports	map[string]ovsPortInfo
+	flows	ovsFlows
 }
 
-// NewFake returns a new ovs.Interface
 func NewFake(bridge string) Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsFake{bridge: bridge}
 }
-
 func (fake *ovsFake) AddBridge(properties ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(properties...); err != nil {
 		return err
 	}
@@ -40,40 +32,42 @@ func (fake *ovsFake) AddBridge(properties ...string) error {
 	fake.flows = make([]OvsFlow, 0)
 	return nil
 }
-
 func (fake *ovsFake) DeleteBridge(ifExists bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fake.ports = nil
 	fake.flows = nil
 	return nil
 }
-
 func (fake *ovsFake) ensureExists() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fake.ports == nil {
 		return fmt.Errorf("no bridge named %s", fake.bridge)
 	}
 	return nil
 }
-
 func (fake *ovsFake) GetOFPort(port string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return -1, err
 	}
-
 	if portInfo, exists := fake.ports[port]; exists {
 		return portInfo.ofport, nil
 	} else {
 		return -1, fmt.Errorf("no row %q in table Interface", port)
 	}
 }
-
 func (fake *ovsFake) AddPort(port string, ofportRequest int, properties ...string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return -1, err
 	}
 	if err := validateColumns(properties...); err != nil {
 		return -1, err
 	}
-
 	var externalIDs map[string]string
 	var dst_port string
 	for _, property := range properties {
@@ -88,7 +82,6 @@ func (fake *ovsFake) AddPort(port string, ofportRequest int, properties ...strin
 			dst_port = property[17:]
 		}
 	}
-
 	portInfo, exists := fake.ports[port]
 	if exists {
 		if portInfo.ofport != ofportRequest && ofportRequest != -1 {
@@ -114,32 +107,36 @@ func (fake *ovsFake) AddPort(port string, ofportRequest int, properties ...strin
 	}
 	return portInfo.ofport, nil
 }
-
 func (fake *ovsFake) DeletePort(port string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return err
 	}
-
 	delete(fake.ports, port)
 	return nil
 }
-
 func (fake *ovsFake) SetFrags(mode string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
 func (ovsif *ovsFake) Create(table string, values ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return "", err
 	}
 	return "fake-UUID", nil
 }
-
 func (fake *ovsFake) Destroy(table, record string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
 func (fake *ovsFake) Get(table, record, column string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(column); err != nil {
 		return "", err
 	}
@@ -148,15 +145,17 @@ func (fake *ovsFake) Get(table, record, column string) (string, error) {
 	}
 	return "", nil
 }
-
 func (fake *ovsFake) Set(table, record string, values ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return err
 	}
 	return nil
 }
-
 func (fake *ovsFake) Find(table string, columns []string, condition string) ([]map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(columns...); err != nil {
 		return nil, err
 	}
@@ -187,8 +186,9 @@ func (fake *ovsFake) Find(table string, columns []string, condition string) ([]m
 	}
 	return results, nil
 }
-
 func (fake *ovsFake) FindOne(table, column, condition string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fullResult, err := fake.Find(table, []string{column}, condition)
 	if err != nil {
 		return nil, err
@@ -199,26 +199,38 @@ func (fake *ovsFake) FindOne(table, column, condition string) ([]string, error) 
 	}
 	return result, nil
 }
-
 func (fake *ovsFake) Clear(table, record string, columns ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 
 type ovsFakeTx struct {
-	fake  *ovsFake
-	flows []string
+	fake	*ovsFake
+	flows	[]string
 }
 
 func (fake *ovsFake) NewTransaction() Transaction {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsFakeTx{fake: fake, flows: []string{}}
 }
 
-// sort.Interface support
 type ovsFlows []OvsFlow
 
-func (f ovsFlows) Len() int      { return len(f) }
-func (f ovsFlows) Swap(i, j int) { f[i], f[j] = f[j], f[i] }
+func (f ovsFlows) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(f)
+}
+func (f ovsFlows) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	f[i], f[j] = f[j], f[i]
+}
 func (f ovsFlows) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if f[i].Table != f[j].Table {
 		return f[i].Table < f[j].Table
 	}
@@ -227,11 +239,9 @@ func (f ovsFlows) Less(i, j int) bool {
 	}
 	return f[i].Created.Before(f[j].Created)
 }
-
 func fixFlowFields(flow *OvsFlow) {
-	// Fix up field names to match what dump-flows prints.  Some fields
-	// have aliases or deprecated names that can be used for add/del flows,
-	// but dump always reports the canonical name
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, isArp := flow.FindField("arp"); isArp {
 		for i := range flow.Fields {
 			if flow.Fields[i].Name == "nw_src" {
@@ -242,48 +252,48 @@ func fixFlowFields(flow *OvsFlow) {
 		}
 	}
 }
-
 func (tx *ovsFakeTx) AddFlow(flow string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("add %s", flow))
 }
-
 func (fake *ovsFake) addFlowHelper(flow string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := ParseFlow(ParseForAdd, flow)
 	if err != nil {
 		return err
 	}
 	fixFlowFields(parsed)
-
-	// If there is already an exact match for this flow, then the new flow replaces it.
 	for i := range fake.flows {
 		if FlowMatches(&fake.flows[i], parsed) {
 			fake.flows[i] = *parsed
 			return nil
 		}
 	}
-
 	fake.flows = append(fake.flows, *parsed)
 	sort.Sort(ovsFlows(fake.flows))
 	return nil
 }
-
 func (tx *ovsFakeTx) DeleteFlows(flow string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("delete %s", flow))
 }
-
 func (fake *ovsFake) deleteFlowsHelper(flow string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := ParseFlow(ParseForFilter, flow)
 	if err != nil {
 		return err
 	}
 	fixFlowFields(parsed)
-
 	newFlows := make([]OvsFlow, 0, len(fake.flows))
 	for _, flow := range fake.flows {
 		if !FlowMatches(&flow, parsed) {
@@ -293,16 +303,15 @@ func (fake *ovsFake) deleteFlowsHelper(flow string) error {
 	fake.flows = newFlows
 	return nil
 }
-
 func (tx *ovsFakeTx) Commit() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if err = tx.fake.ensureExists(); err != nil {
 		return err
 	}
-
 	oldFlows := make(ovsFlows, len(tx.fake.flows))
 	copy(oldFlows, tx.fake.flows)
-
 	for _, flow := range tx.flows {
 		if strings.HasPrefix(flow, "add") {
 			flow = strings.TrimLeft(flow, "add")
@@ -314,37 +323,29 @@ func (tx *ovsFakeTx) Commit() error {
 			err = fmt.Errorf("invalid flow %q", flow)
 		}
 		if err != nil {
-			// Transaction failed, restore to old state
 			tx.fake.flows = oldFlows
 			break
 		}
 	}
-
-	// Reset flows
 	tx.flows = []string{}
-
 	return err
 }
-
 func (fake *ovsFake) DumpFlows(flow string, args ...interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return nil, err
 	}
-
-	// "ParseForFilter", because "ParseForDump" is for the *results* of DumpFlows,
-	// not the input
 	filter, err := ParseFlow(ParseForFilter, flow, args...)
 	if err != nil {
 		return nil, err
 	}
 	fixFlowFields(filter)
-
 	flows := make([]string, 0, len(fake.flows))
 	for _, flow := range fake.flows {
 		if !FlowMatches(&flow, filter) {
 			continue
 		}
-
 		str := fmt.Sprintf(" cookie=%s, table=%d", flow.Cookie, flow.Table)
 		if flow.Priority != defaultPriority {
 			str += fmt.Sprintf(", priority=%d", flow.Priority)
@@ -375,6 +376,5 @@ func (fake *ovsFake) DumpFlows(flow string, args ...interface{}) ([]string, erro
 		}
 		flows = append(flows, str)
 	}
-
 	return flows, nil
 }

@@ -5,111 +5,73 @@ import (
 	"runtime"
 	"sync"
 	"testing"
-
 	"k8s.io/klog"
-
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/cli-runtime/pkg/genericclioptions/resource"
 )
 
-// TestResourceVisitor_Visit is used to check for race conditions
 func TestResourceVisitor_Visit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var level klog.Level
-	// save its original value
 	origVerbosity := level.Get()
-	// set log level high enough so we write to ResourceOptions.Out on each success
 	level.Set("1")
-	// restore the original flag value when we return
 	defer func() {
 		level.Set(fmt.Sprintf("%d", origVerbosity))
 	}()
-
 	type fields struct {
-		Out      mapWriter
-		Builder  testBuilder
-		SaveFn   *countSaveFn
-		PrintFn  MigrateActionFunc
-		FilterFn MigrateFilterFunc
-		DryRun   bool
-		Workers  int
+		Out		mapWriter
+		Builder		testBuilder
+		SaveFn		*countSaveFn
+		PrintFn		MigrateActionFunc
+		FilterFn	MigrateFilterFunc
+		DryRun		bool
+		Workers		int
 	}
-	type args struct {
-		fn MigrateVisitFunc
-	}
+	type args struct{ fn MigrateVisitFunc }
 	tests := []struct {
-		name    string
-		fields  fields
-		args    args
-		wantErr bool
-	}{
-		{
-			name: "migrate storage race detection",
-			fields: fields{
-				Out:      make(mapWriter),       // detect writes via multiple goroutines
-				Builder:  testBuilder(5000),     // send a specific amount of infos to SaveFn
-				SaveFn:   new(countSaveFn),      // make sure we process all resources
-				PrintFn:  nil,                   // must be nil to use SaveFn
-				FilterFn: nil,                   // we want no filtering
-				DryRun:   false,                 // must be false to use SaveFn
-				Workers:  32 * runtime.NumCPU(), // same as migrate storage
-			},
-			args: args{
-				fn: AlwaysRequiresMigration, // same as migrate storage
-			},
-			wantErr: false, // should never error
-		},
-	}
+		name	string
+		fields	fields
+		args	args
+		wantErr	bool
+	}{{name: "migrate storage race detection", fields: fields{Out: make(mapWriter), Builder: testBuilder(5000), SaveFn: new(countSaveFn), PrintFn: nil, FilterFn: nil, DryRun: false, Workers: 32 * runtime.NumCPU()}, args: args{fn: AlwaysRequiresMigration}, wantErr: false}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			o := &ResourceVisitor{
-				Out:      tt.fields.Out,
-				Builder:  tt.fields.Builder,
-				SaveFn:   tt.fields.SaveFn.save,
-				PrintFn:  tt.fields.PrintFn,
-				FilterFn: tt.fields.FilterFn,
-				DryRun:   tt.fields.DryRun,
-				Workers:  tt.fields.Workers,
-			}
-			// how many infos are we expected to process
+			o := &ResourceVisitor{Out: tt.fields.Out, Builder: tt.fields.Builder, SaveFn: tt.fields.SaveFn.save, PrintFn: tt.fields.PrintFn, FilterFn: tt.fields.FilterFn, DryRun: tt.fields.DryRun, Workers: tt.fields.Workers}
 			expectedInfos := int(tt.fields.Builder)
-			// countSaveFn will spawn one goroutine per info it sees
 			tt.fields.SaveFn.w.Add(expectedInfos)
-			// process the infos
 			if err := o.Visit(tt.args.fn); (err != nil) != tt.wantErr {
 				t.Errorf("ResourceVisitor.Visit() error = %v, wantErr %v", err, tt.wantErr)
 			}
-			// wait for all countSaveFn goroutines to finish
 			tt.fields.SaveFn.w.Wait()
-			// check that we saw the correct amount of infos throughout
-			writes := len(tt.fields.Out) - 1 // minus one for the summary output
+			writes := len(tt.fields.Out) - 1
 			saves := tt.fields.SaveFn.n
 			if expectedInfos != writes || expectedInfos != saves {
-				t.Errorf("ResourceVisitor.Visit() incorrect counts seen, expectedInfos=%d writes=%d saves=%d out=%v",
-					expectedInfos, writes, saves, tt.fields.Out)
+				t.Errorf("ResourceVisitor.Visit() incorrect counts seen, expectedInfos=%d writes=%d saves=%d out=%v", expectedInfos, writes, saves, tt.fields.Out)
 			}
 		})
 	}
 }
 
-// mapWriter is an io.Writer that is guaranteed to panic if accessed via multiple goroutines at the same time
 type mapWriter map[int]string
 
 func (m mapWriter) Write(p []byte) (n int, err error) {
-	l := len(m)      // makes it easy to track how many times Write is called
-	m[l] = string(p) // string for debugging
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	l := len(m)
+	m[l] = string(p)
 	return len(p), nil
 }
 
-// countSaveFn is used to build a MigrateActionFunc (SaveFn) that records how many times it was called
-// goroutine safe
 type countSaveFn struct {
-	w sync.WaitGroup
-	m sync.Mutex
-	n int
+	w	sync.WaitGroup
+	m	sync.Mutex
+	n	int
 }
 
 func (c *countSaveFn) save(_ *resource.Info, _ Reporter) error {
-	// do not block workers on the mutex, we do not want to accidentally serialize our code in a way that masks race conditions
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		c.m.Lock()
 		c.n++
@@ -119,13 +81,14 @@ func (c *countSaveFn) save(_ *resource.Info, _ Reporter) error {
 	return nil
 }
 
-// testBuilder emits a resource.Visitor that calls resource.VisitorFunc n times
 type testBuilder int
 
 func (t testBuilder) Visitor(_ ...resource.ErrMatchFunc) (resource.Visitor, error) {
-	infos := make(resource.InfoListVisitor, t) // the resource.VisitorFunc will be called t times
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	infos := make(resource.InfoListVisitor, t)
 	for i := range infos {
-		infos[i] = &resource.Info{Mapping: &meta.RESTMapping{}} // just enough to prevent NPEs
+		infos[i] = &resource.Info{Mapping: &meta.RESTMapping{}}
 	}
 	return infos, nil
 }

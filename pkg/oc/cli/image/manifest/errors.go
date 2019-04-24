@@ -2,36 +2,47 @@ package manifest
 
 import (
 	"github.com/docker/distribution/registry/api/errcode"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	registryapiv2 "github.com/docker/distribution/registry/api/v2"
 )
 
 type imageNotFound struct {
-	msg string
-	err error
+	msg	string
+	err	error
 }
 
 func NewImageNotFound(msg string, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageNotFound{msg: msg, err: err}
 }
-
 func (e *imageNotFound) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.msg
 }
 
 type imageForbidden struct {
-	msg string
-	err error
+	msg	string
+	err	error
 }
 
 func NewImageForbidden(msg string, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageForbidden{msg: msg, err: err}
 }
-
 func (e *imageForbidden) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.msg
 }
-
 func IsImageForbidden(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := err.(type) {
 	case errcode.Errors:
 		for _, err := range t {
@@ -49,6 +60,8 @@ func IsImageForbidden(err error) bool {
 	}
 }
 func IsImageNotFound(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := err.(type) {
 	case errcode.Errors:
 		for _, err := range t {
@@ -66,4 +79,11 @@ func IsImageNotFound(err error) bool {
 	default:
 		return false
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

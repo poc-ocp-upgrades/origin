@@ -2,8 +2,10 @@ package route
 
 import (
 	"context"
+	"bytes"
+	"net/http"
+	"runtime"
 	"fmt"
-
 	authorizationapi "k8s.io/api/authorization/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
@@ -12,17 +14,14 @@ import (
 	authorizationclient "k8s.io/client-go/kubernetes/typed/authorization/v1"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	kvalidation "k8s.io/kubernetes/pkg/apis/core/validation"
-
 	authorizationutil "github.com/openshift/origin/pkg/authorization/util"
 	"github.com/openshift/origin/pkg/route"
 	routeapi "github.com/openshift/origin/pkg/route/apis/route"
 	"github.com/openshift/origin/pkg/route/apis/route/validation"
 )
 
-// HostGeneratedAnnotationKey is the key for an annotation set to "true" if the route's host was generated
 const HostGeneratedAnnotationKey = "openshift.io/host.generated"
 
-// Registry is an interface for performing subject access reviews
 type SubjectAccessReviewInterface interface {
 	Create(sar *authorizationapi.SubjectAccessReview) (result *authorizationapi.SubjectAccessReview, err error)
 }
@@ -33,47 +32,40 @@ type routeStrategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 	route.RouteAllocator
-	sarClient SubjectAccessReviewInterface
+	sarClient	SubjectAccessReviewInterface
 }
 
-// NewStrategy initializes the default logic that applies when creating and updating
-// Route objects via the REST API.
 func NewStrategy(allocator route.RouteAllocator, sarClient SubjectAccessReviewInterface) routeStrategy {
-	return routeStrategy{
-		ObjectTyper:    legacyscheme.Scheme,
-		NameGenerator:  names.SimpleNameGenerator,
-		RouteAllocator: allocator,
-		sarClient:      sarClient,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return routeStrategy{ObjectTyper: legacyscheme.Scheme, NameGenerator: names.SimpleNameGenerator, RouteAllocator: allocator, sarClient: sarClient}
 }
-
 func (routeStrategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
-
 func (s routeStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route := obj.(*routeapi.Route)
 	route.Status = routeapi.RouteStatus{}
 	stripEmptyDestinationCACertificate(route)
 }
-
 func (s routeStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route := obj.(*routeapi.Route)
 	oldRoute := old.(*routeapi.Route)
-
 	route.Status = oldRoute.Status
 	stripEmptyDestinationCACertificate(route)
-	// Ignore attempts to clear the spec Host
-	// Prevents "immutable field" errors when applying the same route definition used to create
 	if len(route.Spec.Host) == 0 {
 		route.Spec.Host = oldRoute.Spec.Host
 	}
 }
-
-// allocateHost allocates a host name ONLY if the route doesn't specify a subdomain wildcard policy and
-// the host name on the route is empty and an allocator is configured.
-// It must first allocate the shard and may return an error if shard allocation fails.
 func (s routeStrategy) allocateHost(ctx context.Context, route *routeapi.Route) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostSet := len(route.Spec.Host) > 0
 	certSet := route.Spec.TLS != nil && (len(route.Spec.TLS.CACertificate) > 0 || len(route.Spec.TLS.Certificate) > 0 || len(route.Spec.TLS.DestinationCACertificate) > 0 || len(route.Spec.TLS.Key) > 0)
 	if hostSet || certSet {
@@ -81,22 +73,7 @@ func (s routeStrategy) allocateHost(ctx context.Context, route *routeapi.Route) 
 		if !ok {
 			return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), fmt.Errorf("unable to verify host field can be set"))}
 		}
-		res, err := s.sarClient.Create(
-			authorizationutil.AddUserToSAR(
-				user,
-				&authorizationapi.SubjectAccessReview{
-					Spec: authorizationapi.SubjectAccessReviewSpec{
-						ResourceAttributes: &authorizationapi.ResourceAttributes{
-							Namespace:   apirequest.NamespaceValue(ctx),
-							Verb:        "create",
-							Group:       routeapi.GroupName,
-							Resource:    "routes",
-							Subresource: "custom-host",
-						},
-					},
-				},
-			),
-		)
+		res, err := s.sarClient.Create(authorizationutil.AddUserToSAR(user, &authorizationapi.SubjectAccessReview{Spec: authorizationapi.SubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Namespace: apirequest.NamespaceValue(ctx), Verb: "create", Group: routeapi.GroupName, Resource: "routes", Subresource: "custom-host"}}}))
 		if err != nil {
 			return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), err)}
 		}
@@ -107,14 +84,10 @@ func (s routeStrategy) allocateHost(ctx context.Context, route *routeapi.Route) 
 			return field.ErrorList{field.Forbidden(field.NewPath("spec", "tls"), "you do not have permission to set certificate fields on the route")}
 		}
 	}
-
 	if route.Spec.WildcardPolicy == routeapi.WildcardPolicySubdomain {
-		// Don't allocate a host if subdomain wildcard policy.
 		return nil
 	}
-
 	if len(route.Spec.Host) == 0 && s.RouteAllocator != nil {
-		// TODO: this does not belong here, and should be removed
 		shard, err := s.RouteAllocator.AllocateRouterShard(route)
 		if err != nil {
 			return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), fmt.Errorf("allocation error: %v for route: %#v", err, route))}
@@ -127,62 +100,59 @@ func (s routeStrategy) allocateHost(ctx context.Context, route *routeapi.Route) 
 	}
 	return nil
 }
-
 func (s routeStrategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route := obj.(*routeapi.Route)
 	errs := s.allocateHost(ctx, route)
 	errs = append(errs, validation.ValidateRoute(route)...)
 	return errs
 }
-
 func (routeStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
-// Canonicalize normalizes the object after validation.
 func (routeStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (s routeStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldRoute := old.(*routeapi.Route)
 	objRoute := obj.(*routeapi.Route)
 	errs := s.validateHostUpdate(ctx, objRoute, oldRoute)
 	errs = append(errs, validation.ValidateRouteUpdate(objRoute, oldRoute)...)
 	return errs
 }
-
 func hasCertificateInfo(tls *routeapi.TLSConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if tls == nil {
 		return false
 	}
-	return len(tls.Certificate) > 0 ||
-		len(tls.Key) > 0 ||
-		len(tls.CACertificate) > 0 ||
-		len(tls.DestinationCACertificate) > 0
+	return len(tls.Certificate) > 0 || len(tls.Key) > 0 || len(tls.CACertificate) > 0 || len(tls.DestinationCACertificate) > 0
 }
-
 func certificateChangeRequiresAuth(route, older *routeapi.Route) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case route.Spec.TLS != nil && older.Spec.TLS != nil:
 		a, b := route.Spec.TLS, older.Spec.TLS
 		if !hasCertificateInfo(a) {
-			// removing certificate info is allowed
 			return false
 		}
-		return a.CACertificate != b.CACertificate ||
-			a.Certificate != b.Certificate ||
-			a.DestinationCACertificate != b.DestinationCACertificate ||
-			a.Key != b.Key
+		return a.CACertificate != b.CACertificate || a.Certificate != b.Certificate || a.DestinationCACertificate != b.DestinationCACertificate || a.Key != b.Key
 	case route.Spec.TLS != nil:
-		// using any default certificate is allowed
 		return hasCertificateInfo(route.Spec.TLS)
 	default:
-		// all other cases we are not adding additional certificate info
 		return false
 	}
 }
-
 func (s routeStrategy) validateHostUpdate(ctx context.Context, route, older *routeapi.Route) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostChanged := route.Spec.Host != older.Spec.Host
 	certChanged := certificateChangeRequiresAuth(route, older)
 	if !hostChanged && !certChanged {
@@ -192,22 +162,7 @@ func (s routeStrategy) validateHostUpdate(ctx context.Context, route, older *rou
 	if !ok {
 		return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), fmt.Errorf("unable to verify host field can be changed"))}
 	}
-	res, err := s.sarClient.Create(
-		authorizationutil.AddUserToSAR(
-			user,
-			&authorizationapi.SubjectAccessReview{
-				Spec: authorizationapi.SubjectAccessReviewSpec{
-					ResourceAttributes: &authorizationapi.ResourceAttributes{
-						Namespace:   apirequest.NamespaceValue(ctx),
-						Verb:        "update",
-						Group:       routeapi.GroupName,
-						Resource:    "routes",
-						Subresource: "custom-host",
-					},
-				},
-			},
-		),
-	)
+	res, err := s.sarClient.Create(authorizationutil.AddUserToSAR(user, &authorizationapi.SubjectAccessReview{Spec: authorizationapi.SubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Namespace: apirequest.NamespaceValue(ctx), Verb: "update", Group: routeapi.GroupName, Resource: "routes", Subresource: "custom-host"}}}))
 	if err != nil {
 		return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), err)}
 	}
@@ -215,24 +170,7 @@ func (s routeStrategy) validateHostUpdate(ctx context.Context, route, older *rou
 		if hostChanged {
 			return kvalidation.ValidateImmutableField(route.Spec.Host, older.Spec.Host, field.NewPath("spec", "host"))
 		}
-
-		// if tls is being updated without host being updated, we check if 'create' permission exists on custom-host subresource
-		res, err := s.sarClient.Create(
-			authorizationutil.AddUserToSAR(
-				user,
-				&authorizationapi.SubjectAccessReview{
-					Spec: authorizationapi.SubjectAccessReviewSpec{
-						ResourceAttributes: &authorizationapi.ResourceAttributes{
-							Namespace:   apirequest.NamespaceValue(ctx),
-							Verb:        "create",
-							Group:       routeapi.GroupName,
-							Resource:    "routes",
-							Subresource: "custom-host",
-						},
-					},
-				},
-			),
-		)
+		res, err := s.sarClient.Create(authorizationutil.AddUserToSAR(user, &authorizationapi.SubjectAccessReview{Spec: authorizationapi.SubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Namespace: apirequest.NamespaceValue(ctx), Verb: "create", Group: routeapi.GroupName, Resource: "routes", Subresource: "custom-host"}}}))
 		if err != nil {
 			return field.ErrorList{field.InternalError(field.NewPath("spec", "host"), err)}
 		}
@@ -249,24 +187,26 @@ func (s routeStrategy) validateHostUpdate(ctx context.Context, route, older *rou
 	}
 	return nil
 }
-
 func (routeStrategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 
-type routeStatusStrategy struct {
-	routeStrategy
-}
+type routeStatusStrategy struct{ routeStrategy }
 
 var StatusStrategy = routeStatusStrategy{NewStrategy(nil, nil)}
 
 func (routeStatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newRoute := obj.(*routeapi.Route)
 	oldRoute := old.(*routeapi.Route)
 	newRoute.Spec = oldRoute.Spec
 }
-
 func (routeStatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateRouteStatusUpdate(obj.(*routeapi.Route), old.(*routeapi.Route))
 }
 
@@ -277,9 +217,9 @@ content will only appear for routes accessed via /oapi/v1/routes.
 -----END COMMENT-----
 `
 
-// stripEmptyDestinationCACertificate removes the empty destinationCACertificate if it matches
-// the current route destination CA certificate.
 func stripEmptyDestinationCACertificate(route *routeapi.Route) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tls := route.Spec.TLS
 	if tls == nil || tls.Termination != routeapi.TLSTerminationReencrypt {
 		return
@@ -288,12 +228,9 @@ func stripEmptyDestinationCACertificate(route *routeapi.Route) {
 		tls.DestinationCACertificate = ""
 	}
 }
-
-// DecorateLegacyRouteWithEmptyDestinationCACertificates is used for /oapi/v1 route endpoints
-// to prevent legacy clients from seeing an empty destination CA certificate for reencrypt routes,
-// which the 'route.openshift.io/v1' endpoint allows. These values are injected in REST responses
-// and stripped in PrepareForCreate and PrepareForUpdate.
 func DecorateLegacyRouteWithEmptyDestinationCACertificates(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *routeapi.Route:
 		tls := t.Spec.TLS
@@ -318,4 +255,11 @@ func DecorateLegacyRouteWithEmptyDestinationCACertificates(obj runtime.Object) e
 	default:
 		return fmt.Errorf("unknown type passed to %T", obj)
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

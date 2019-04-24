@@ -6,22 +6,19 @@ import (
 )
 
 func GetKubeAPIServerConfigFileReferences(config *kubecontrolplanev1.KubeAPIServerConfig) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == nil {
 		return []*string{}
 	}
-
 	refs := []*string{}
-
 	refs = append(refs, helpers.GetGenericAPIServerConfigFileReferences(&config.GenericAPIServerConfig)...)
 	refs = append(refs, GetKubeletConnectionInfoFileReferences(&config.KubeletClientInfo)...)
-
 	if config.OAuthConfig != nil {
 		refs = append(refs, GetOAuthConfigFileReferences(config.OAuthConfig)...)
 	}
-
 	refs = append(refs, &config.AggregatorConfig.ProxyClientInfo.CertFile)
 	refs = append(refs, &config.AggregatorConfig.ProxyClientInfo.KeyFile)
-
 	if config.AuthConfig.RequestHeader != nil {
 		refs = append(refs, &config.AuthConfig.RequestHeader.ClientCA)
 	}
@@ -31,22 +28,19 @@ func GetKubeAPIServerConfigFileReferences(config *kubecontrolplanev1.KubeAPIServ
 	if len(config.AuthConfig.OAuthMetadataFile) > 0 {
 		refs = append(refs, &config.AuthConfig.OAuthMetadataFile)
 	}
-
 	refs = append(refs, &config.AggregatorConfig.ProxyClientInfo.CertFile)
 	refs = append(refs, &config.AggregatorConfig.ProxyClientInfo.KeyFile)
-
 	for i := range config.ServiceAccountPublicKeyFiles {
 		refs = append(refs, &config.ServiceAccountPublicKeyFiles[i])
 	}
-
 	return refs
 }
-
 func GetKubeletConnectionInfoFileReferences(config *kubecontrolplanev1.KubeletConnectionInfo) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == nil {
 		return []*string{}
 	}
-
 	refs := []*string{}
 	refs = append(refs, helpers.GetCertFileReferences(&config.CertInfo)...)
 	refs = append(refs, &config.CA)

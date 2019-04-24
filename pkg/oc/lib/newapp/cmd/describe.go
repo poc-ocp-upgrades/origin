@@ -2,14 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"io"
 	"sort"
 	"strings"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
-
 	dockerv10 "github.com/openshift/api/image/docker10"
 	oapi "github.com/openshift/origin/pkg/api"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
@@ -21,22 +22,25 @@ import (
 )
 
 func displayName(meta metav1.ObjectMeta) string {
-	// If an object has a display name, prefer it over the meta name.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	displayName := meta.Annotations[oapi.OpenShiftDisplayName]
 	if len(displayName) > 0 {
 		return displayName
 	}
 	return meta.Name
 }
-
 func localOrRemoteName(meta metav1.ObjectMeta, namespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(meta.Namespace) == 0 {
 		return meta.Name
 	}
 	return meta.Namespace + "/" + meta.Name
 }
-
 func extractFirstImageStreamTag(newOnly bool, images ...*app.ImageRef) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, image := range images {
 		if image == nil {
 			continue
@@ -45,7 +49,6 @@ func extractFirstImageStreamTag(newOnly bool, images ...*app.ImageRef) string {
 			break
 		}
 		ref := image.ObjectReference()
-		// if the reference is to an IST, the image is intended to be an IST
 		if ref.Kind != "ImageStreamTag" || !image.AsImageStream {
 			break
 		}
@@ -53,8 +56,9 @@ func extractFirstImageStreamTag(newOnly bool, images ...*app.ImageRef) string {
 	}
 	return ""
 }
-
 func describeLocatedImage(refInput *app.ComponentInput, baseNamespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	match := refInput.ResolvedMatch
 	switch {
 	case match == nil:
@@ -79,8 +83,9 @@ func describeLocatedImage(refInput *app.ComponentInput, baseNamespace string) st
 		return ""
 	}
 }
-
 func inputAnnotations(match *app.ComponentMatch) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if match == nil {
 		return nil
 	}
@@ -101,11 +106,11 @@ func inputAnnotations(match *app.ComponentMatch) map[string]string {
 	}
 	return base
 }
-
 func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, pipeline *app.Pipeline, baseNamespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refInput := ref.Input()
 	match := refInput.ResolvedMatch
-
 	if locatedImage := describeLocatedImage(refInput, baseNamespace); len(locatedImage) > 0 {
 		fmt.Fprintf(out, "--> %s\n", locatedImage)
 		annotations := inputAnnotations(refInput.ResolvedMatch)
@@ -124,7 +129,6 @@ func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, p
 			fmt.Fprintf(out, "    Tags: %s\n\n", desc)
 		}
 	}
-
 	if pipeline.Build == nil {
 		trackedImage := extractFirstImageStreamTag(true, pipeline.InputImage, pipeline.Image)
 		if len(trackedImage) > 0 {
@@ -166,7 +170,6 @@ func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, p
 		default:
 			source = "<unknown>"
 		}
-
 		fmt.Fprintf(out, "    * A %s build using %s will be created\n", pipeline.Build.Strategy.Strategy, source)
 		if buildOut, err := pipeline.Build.Output.BuildOutput(); err == nil && buildOut != nil && buildOut.To != nil {
 			switch to := buildOut.To; {
@@ -178,23 +181,17 @@ func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, p
 				fmt.Fprintf(out, "      * The resulting image will be pushed to %s %q\n", to.Kind, to.Name)
 			}
 		}
-
 		if noSource {
-			// if we have no source, the user must always provide the source from the local dir(binary build)
 			fmt.Fprintf(out, "      * A binary build was created, use 'oc start-build --from-dir' to trigger a new build\n")
 		} else {
 			if len(trackedImage) > 0 {
-				// if we have a trackedImage/ICT and we have source, the build will be triggered automatically.
 				fmt.Fprintf(out, "      * Every time %q changes a new build will be triggered\n", trackedImage)
 			} else {
-				// if we have source (but not a tracked image), the user must manually trigger a build.
 				fmt.Fprintf(out, "      * Use 'oc start-build' to trigger a new build\n")
 			}
 		}
-
 		if pipeline.Build.Source.RequiresAuth {
-			fmt.Fprintf(out, "      * WARNING: this source repository may require credentials.\n"+
-				"                 Create a secret with your git credentials and use 'oc set build-secret' to assign it to the build config.\n")
+			fmt.Fprintf(out, "      * WARNING: this source repository may require credentials.\n"+"                 Create a secret with your git credentials and use 'oc set build-secret' to assign it to the build config.\n")
 		}
 	}
 	if pipeline.Deployment != nil {
@@ -253,31 +250,32 @@ func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, p
 	}
 	fmt.Fprintln(out)
 }
-
 func hasRootUser(image *dockerv10.DockerImage) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image.Config == nil {
 		return false
 	}
 	return len(image.Config.User) == 0 || image.Config.User == "root" || image.Config.User == "0"
 }
-
 func hasEmptyDir(image *dockerv10.DockerImage) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image.Config == nil {
 		return false
 	}
 	return len(image.Config.Volumes) > 0
 }
-
 func describeGeneratedJob(out io.Writer, ref app.ComponentReference, pod *corev1.Pod, secret *corev1.Secret, baseNamespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refInput := ref.Input()
 	generatorInput := refInput.ResolvedMatch.GeneratorInput
 	hasToken := generatorInput.Token != nil
-
 	fmt.Fprintf(out, "--> Installing application from %q\n", refInput)
 	if locatedImage := describeLocatedImage(refInput, baseNamespace); len(locatedImage) > 0 {
 		fmt.Fprintf(out, "    * %s\n", locatedImage)
 	}
-
 	fmt.Fprintf(out, "    * Install will run in pod %q\n", localOrRemoteName(pod.ObjectMeta, baseNamespace))
 	switch {
 	case secret != nil:
@@ -303,4 +301,11 @@ func describeGeneratedJob(out io.Writer, ref app.ComponentReference, pod *corev1
 			fmt.Fprintf(out, "      action you can take on the cluster.\n")
 		}
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

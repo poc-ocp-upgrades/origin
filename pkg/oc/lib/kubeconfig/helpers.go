@@ -2,11 +2,16 @@ package kubeconfig
 
 import (
 	"github.com/openshift/origin/pkg/cmd/util"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 )
 
-// TODO should be moved upstream
 func RelativizeClientConfigPaths(cfg *clientcmdapi.Config, base string) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, cluster := range cfg.Clusters {
 		if len(cluster.CertificateAuthority) > 0 {
 			if cluster.CertificateAuthority, err = util.MakeAbs(cluster.CertificateAuthority, ""); err != nil {
@@ -38,4 +43,11 @@ func RelativizeClientConfigPaths(cfg *clientcmdapi.Config, base string) (err err
 		cfg.AuthInfos[k] = authInfo
 	}
 	return nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

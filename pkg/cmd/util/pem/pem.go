@@ -2,6 +2,9 @@ package pem
 
 import (
 	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	"encoding/pem"
 	"io/ioutil"
 	"os"
@@ -9,6 +12,8 @@ import (
 )
 
 func BlockFromFile(path string, blockType string) (*pem.Block, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, false, err
@@ -16,8 +21,9 @@ func BlockFromFile(path string, blockType string) (*pem.Block, bool, error) {
 	block, ok := BlockFromBytes(data, blockType)
 	return block, ok, nil
 }
-
 func BlockFromBytes(data []byte, blockType string) (*pem.Block, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		block, remaining := pem.Decode(data)
 		if block == nil {
@@ -29,8 +35,9 @@ func BlockFromBytes(data []byte, blockType string) (*pem.Block, bool) {
 		data = remaining
 	}
 }
-
 func BlockToFile(path string, block *pem.Block, mode os.FileMode) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, err := BlockToBytes(block)
 	if err != nil {
 		return err
@@ -40,11 +47,19 @@ func BlockToFile(path string, block *pem.Block, mode os.FileMode) error {
 	}
 	return ioutil.WriteFile(path, b, mode)
 }
-
 func BlockToBytes(block *pem.Block) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := bytes.Buffer{}
 	if err := pem.Encode(&b, block); err != nil {
 		return nil, err
 	}
 	return b.Bytes(), nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

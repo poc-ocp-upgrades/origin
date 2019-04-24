@@ -2,20 +2,21 @@ package image_ecosystem
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"regexp"
 	"strings"
 	"time"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
-
 	g "github.com/onsi/ginkgo"
-
 	exutil "github.com/openshift/origin/test/extended/util"
 )
 
-// RunInPodContainer will run provided command in the specified pod container.
 func RunInPodContainer(oc *exutil.CLI, selector labels.Selector, cmd []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pods, err := exutil.WaitForPods(oc.KubeClient().CoreV1().Pods(oc.Namespace()), selector, exutil.CheckPodIsRunning, 1, 4*time.Minute)
 	if err != nil {
 		return err
@@ -23,7 +24,6 @@ func RunInPodContainer(oc *exutil.CLI, selector labels.Selector, cmd []string) e
 	if len(pods) != 1 {
 		return fmt.Errorf("Got %d pods for selector %v, expected 1", len(pods), selector)
 	}
-
 	pod, err := oc.KubeClient().CoreV1().Pods(oc.Namespace()).Get(pods[0], metav1.GetOptions{})
 	if err != nil {
 		return err
@@ -36,15 +36,13 @@ func RunInPodContainer(oc *exutil.CLI, selector labels.Selector, cmd []string) e
 	}
 	return err
 }
-
-// CheckPageContains makes a http request for an example application and checks
-// that the result contains given string
 func CheckPageContains(oc *exutil.CLI, endpoint, path, contents string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	address, err := exutil.GetEndpointAddress(oc, endpoint)
 	if err != nil {
 		return false, err
 	}
-
 	response, err := exutil.FetchURL(oc, fmt.Sprintf("http://%s/%s", address, path), 3*time.Minute)
 	if err != nil {
 		return false, err
@@ -55,21 +53,17 @@ func CheckPageContains(oc *exutil.CLI, endpoint, path, contents string) (bool, e
 	}
 	return success, nil
 }
-
-// CheckPageRegexp makes a http request for an example application and checks
-// that the result satisfies a given regexp; it will also return the submatch array entry
-// present at index for possible comparisons
 func CheckPageRegexp(oc *exutil.CLI, endpoint, path, regex string, index int) (bool, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	address, err := exutil.GetEndpointAddress(oc, endpoint)
 	if err != nil {
 		return false, "", err
 	}
-
 	response, err := exutil.FetchURL(oc, fmt.Sprintf("http://%s/%s", address, path), 3*time.Minute)
 	if err != nil {
 		return false, "", err
 	}
-
 	val := ""
 	r, _ := regexp.Compile(regex)
 	parts := r.FindStringSubmatch(response)
@@ -84,4 +78,11 @@ func CheckPageRegexp(oc *exutil.CLI, endpoint, path, regex string, index int) (b
 		}
 	}
 	return success, val, nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

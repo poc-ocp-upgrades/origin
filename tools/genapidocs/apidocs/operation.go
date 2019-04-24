@@ -4,21 +4,22 @@ import (
 	"bytes"
 	"fmt"
 	"strings"
-
 	"github.com/go-openapi/spec"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
 type operation struct {
-	s         *spec.Swagger
-	Path      spec.PathItem
-	PathName  string
-	Operation *spec.Operation
-	OpName    string
-	gvk       schema.GroupVersionKind
+	s		*spec.Swagger
+	Path		spec.PathItem
+	PathName	string
+	Operation	*spec.Operation
+	OpName		string
+	gvk		schema.GroupVersionKind
 }
 
 func (o operation) bodyParameter() *spec.Parameter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, parameter := range o.Operation.Parameters {
 		if parameter.In == "body" {
 			return &parameter
@@ -26,72 +27,55 @@ func (o operation) bodyParameter() *spec.Parameter {
 	}
 	return nil
 }
-
 func (o operation) Description() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ToUpper(o.Operation.Description)
 }
-
 func (o operation) Curl() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := make([]string, 0, 7)
-
 	s = append(s, "$ curl -k")
-
 	if o.OpName != "Get" {
 		s = append(s, " -X "+strings.ToUpper(o.OpName))
 	}
-
 	bodyParameter := o.bodyParameter()
 	if bodyParameter != nil {
 		s = append(s, " -d @-")
 	}
-
-	s = append(s,
-		` -H "Authorization: Bearer $TOKEN"`,
-		" -H 'Accept: application/json'")
-
+	s = append(s, ` -H "Authorization: Bearer $TOKEN"`, " -H 'Accept: application/json'")
 	if bodyParameter != nil {
 		contentType := "application/json"
 		if o.Operation.Consumes[0] != "*/*" {
 			contentType = o.Operation.Consumes[0]
 		}
-
 		s = append(s, fmt.Sprintf(" -H 'Content-Type: %s'", contentType))
 	}
-
 	s = append(s, " https://$ENDPOINT"+EnvStyle(o.PathName))
-
 	var postamble string
 	if bodyParameter != nil {
 		postamble = " <<'EOF'\n" + o.sampleRequest() + "EOF"
 	}
-
 	return strings.Join(s, " \\\n   ") + postamble
 }
-
 func (o operation) HTTPReq() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := make([]string, 0, 7)
-
-	s = append(s,
-		strings.ToUpper(o.OpName)+" "+EnvStyle(o.PathName)+" HTTP/1.1",
-		"Authorization: Bearer $TOKEN",
-		"Accept: application/json",
-		"Connection: close")
-
+	s = append(s, strings.ToUpper(o.OpName)+" "+EnvStyle(o.PathName)+" HTTP/1.1", "Authorization: Bearer $TOKEN", "Accept: application/json", "Connection: close")
 	if o.bodyParameter() != nil {
 		contentType := "application/json"
 		if o.Operation.Consumes[0] != "*/*" {
 			contentType = o.Operation.Consumes[0]
 		}
-
-		s = append(s,
-			fmt.Sprintf("Content-Type: %s'", contentType),
-			"",
-			o.sampleRequest())
+		s = append(s, fmt.Sprintf("Content-Type: %s'", contentType), "", o.sampleRequest())
 	}
 	return strings.Join(s, "\n")
 }
-
 func getGVK(s spec.Schema, gv schema.GroupVersion) schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, gvk := range GroupVersionKinds(s) {
 		if gvk.Group == gv.Group && gvk.Version == gv.Version {
 			return gvk
@@ -99,20 +83,20 @@ func getGVK(s spec.Schema, gv schema.GroupVersion) schema.GroupVersionKind {
 	}
 	return GroupVersionKinds(s)[0]
 }
-
 func (o operation) sampleRequest() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bodyType := RefType(o.bodyParameter().Schema)
 	switch bodyType {
-	case "io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions",
-		"io.k8s.apimachinery.pkg.apis.meta.v1.Patch":
+	case "io.k8s.apimachinery.pkg.apis.meta.v1.DeleteOptions", "io.k8s.apimachinery.pkg.apis.meta.v1.Patch":
 		return "{\n  ...\n}\n"
 	}
-
 	gvk := getGVK(o.s.Definitions[bodyType], o.gvk.GroupVersion())
 	return fmt.Sprintf("{\n  \"kind\": \"%s\",\n  \"apiVersion\": \"%s\",\n  ...\n}\n", gvk.Kind, gvk.GroupVersion().String())
 }
-
 func (o operation) Parameters(t string) []spec.Parameter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parameters := make([]spec.Parameter, 0, len(o.Path.Parameters)+len(o.Operation.Parameters))
 	for _, param := range append(o.Path.Parameters, o.Operation.Parameters...) {
 		if param.In == t {
@@ -121,8 +105,9 @@ func (o operation) Parameters(t string) []spec.Parameter {
 	}
 	return parameters
 }
-
 func (o operation) Verb() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch o.OpName {
 	case "Get":
 		if strings.Contains(o.PathName, "/watch/") {
@@ -135,30 +120,32 @@ func (o operation) Verb() string {
 	}
 	return o.OpName
 }
-
 func (o operation) Plural() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.OpName != "Post" && !strings.Contains(o.PathName, "{name}")
 }
-
 func (o operation) Subresource() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i := strings.LastIndex(o.PathName, "/{name}/"); i != -1 {
 		return o.PathName[i+8:]
 	}
 	return ""
 }
-
 func (o operation) Namespaced() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Contains(o.PathName, "/namespaces/{namespace}")
 }
-
 func (o operation) IsProxy() bool {
-	return o.gvk.Group == "" &&
-		o.gvk.Version == "v1" &&
-		(o.gvk.Kind == "Node" || o.gvk.Kind == "Pod" || o.gvk.Kind == "Service") &&
-		strings.Contains(o.PathName, "/proxy")
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return o.gvk.Group == "" && o.gvk.Version == "v1" && (o.gvk.Kind == "Node" || o.gvk.Kind == "Pod" || o.gvk.Kind == "Service") && strings.Contains(o.PathName, "/proxy")
 }
-
 func (o operation) Anchor() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Map(func(r rune) rune {
 		switch r {
 		case '/':
@@ -170,10 +157,10 @@ func (o operation) Anchor() string {
 		}
 	}, o.OpName+"/"+strings.Trim(o.PathName, "/"))
 }
-
 func (o operation) Title() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := &bytes.Buffer{}
-
 	if o.IsProxy() {
 		fmt.Fprintf(buf, "Proxy %s request to a %s", strings.ToUpper(o.OpName), o.gvk.Kind)
 		if o.Namespaced() {
@@ -184,10 +171,7 @@ func (o operation) Title() string {
 		}
 		return buf.String()
 	}
-
-	if o.gvk.Group == "" &&
-		o.gvk.Version == "v1" &&
-		o.gvk.Kind == "Pod" {
+	if o.gvk.Group == "" && o.gvk.Version == "v1" && o.gvk.Kind == "Pod" {
 		switch {
 		case strings.HasSuffix(o.PathName, "/attach"):
 			return fmt.Sprintf("Attach to a v1.Pod in a namespace (%s)", strings.ToUpper(o.OpName))
@@ -197,36 +181,29 @@ func (o operation) Title() string {
 			return fmt.Sprintf("Port-forward to a v1.Pod in a namespace (%s)", strings.ToUpper(o.OpName))
 		}
 	}
-
 	fmt.Fprintf(buf, "%s ", o.Verb())
-
 	subresource := o.Subresource()
 	if subresource != "" {
 		fmt.Fprintf(buf, "%s of ", subresource)
 	}
-
 	if o.Plural() {
 		fmt.Fprintf(buf, "all %s", Pluralise(o.gvk.Kind))
 	} else {
 		fmt.Fprintf(buf, "a %s", o.gvk.Kind)
 	}
-
 	if o.Namespaced() {
 		fmt.Fprintf(buf, " in a namespace")
 	}
 	return buf.String()
 }
-
 func (o operation) GVR() (gvr schema.GroupVersionResource, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(strings.Trim(o.PathName, "/"), "/")
-
-	if !((parts[0] == "apis" && len(parts) > 3) ||
-		(parts[0] == "api" && len(parts) > 2) ||
-		(parts[0] == "oapi" && len(parts) > 2)) {
+	if !((parts[0] == "apis" && len(parts) > 3) || (parts[0] == "api" && len(parts) > 2) || (parts[0] == "oapi" && len(parts) > 2)) {
 		err = fmt.Errorf("GVR() called on invalid path %s", o.PathName)
 		return
 	}
-
 	var i int
 	switch parts[0] {
 	case "apis":
@@ -244,42 +221,29 @@ func (o operation) GVR() (gvr schema.GroupVersionResource, err error) {
 		i += 2
 	}
 	gvr.Resource = parts[i]
-
 	return
 }
-
 func (o operation) GVK() (schema.GroupVersionKind, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(strings.Trim(o.PathName, "/"), "/")
-
 	if parts[0] != "api" && parts[0] != "oapi" && parts[0] != "apis" {
 		return schema.GroupVersionKind{}, fmt.Errorf("GVK() called on invalid path %s", o.PathName)
 	}
-
 	if (parts[0] == "apis" && len(parts) <= 3) || len(parts) <= 2 {
-		// API group root.  Categorize by operation return value.
 		sch := o.s.Definitions[RefType(o.Operation.Responses.StatusCodeResponses[200].Schema)]
 		return GroupVersionKinds(sch)[0], nil
 	}
-
 	gvr, err := o.GVR()
 	if err != nil {
 		return schema.GroupVersionKind{}, err
 	}
-
-	if gvr.Group == "extensions" &&
-		gvr.Version == "v1beta1" &&
-		gvr.Resource == "replicationcontrollers" {
-		return schema.GroupVersionKind{
-			Version: "v1",
-			Kind:    "ReplicationController",
-		}, nil
+	if gvr.Group == "extensions" && gvr.Version == "v1beta1" && gvr.Resource == "replicationcontrollers" {
+		return schema.GroupVersionKind{Version: "v1", Kind: "ReplicationController"}, nil
 	}
-
 	var kind string
 	switch {
-	case gvr.Resource == "endpoints",
-		gvr.Resource == "securitycontextconstraints":
-		// kind is used in the plural form: don't remove 's'
+	case gvr.Resource == "endpoints", gvr.Resource == "securitycontextconstraints":
 		kind = gvr.Resource
 	case gvr.Group == "template.openshift.io" && gvr.Resource == "processedtemplates":
 		kind = "template"
@@ -292,17 +256,12 @@ func (o operation) GVK() (schema.GroupVersionKind, error) {
 	case strings.HasSuffix(gvr.Resource, "s"):
 		kind = gvr.Resource[:len(gvr.Resource)-1]
 	}
-
 	for _, def := range o.s.Definitions {
 		for _, gvk := range GroupVersionKinds(def) {
-			if gvk.Group == gvr.Group &&
-				gvk.Version == gvr.Version &&
-				strings.ToLower(gvk.Kind) == kind {
-
+			if gvk.Group == gvr.Group && gvk.Version == gvr.Version && strings.ToLower(gvk.Kind) == kind {
 				return gvk, nil
 			}
 		}
 	}
-
 	return schema.GroupVersionKind{}, fmt.Errorf("GVK for %s not found", gvr)
 }

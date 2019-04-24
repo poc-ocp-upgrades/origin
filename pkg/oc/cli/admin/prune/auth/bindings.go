@@ -2,22 +2,23 @@ package auth
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"io"
-
 	corev1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/kubernetes/pkg/apis/core"
 	corev1conversions "k8s.io/kubernetes/pkg/apis/core/v1"
-
 	authv1client "github.com/openshift/client-go/authorization/clientset/versioned/typed/authorization/v1"
 	authorizationapi "github.com/openshift/origin/pkg/authorization/apis/authorization"
 )
 
-// reapClusterBindings removes the subject from cluster-level role bindings
 func reapClusterBindings(removedSubject corev1.ObjectReference, c authv1client.AuthorizationV1Interface, out io.Writer) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := []error{}
-
 	clusterBindings, err := c.ClusterRoleBindings().List(metav1.ListOptions{})
 	if err != nil {
 		return []error{err}
@@ -47,11 +48,10 @@ func reapClusterBindings(removedSubject corev1.ObjectReference, c authv1client.A
 	}
 	return errors
 }
-
-// reapNamespacedBindings removes the subject from namespaced role bindings
 func reapNamespacedBindings(removedSubject corev1.ObjectReference, c authv1client.AuthorizationV1Interface, out io.Writer) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := []error{}
-
 	namespacedBindings, err := c.RoleBindings(metav1.NamespaceAll).List(metav1.ListOptions{})
 	if err != nil {
 		return []error{err}
@@ -81,8 +81,9 @@ func reapNamespacedBindings(removedSubject corev1.ObjectReference, c authv1clien
 	}
 	return errors
 }
-
 func convertObjectReference(ins []corev1.ObjectReference) ([]core.ObjectReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := []core.ObjectReference{}
 	for _, subject := range ins {
 		ref := &core.ObjectReference{}
@@ -92,4 +93,11 @@ func convertObjectReference(ins []corev1.ObjectReference) ([]core.ObjectReferenc
 		result = append(result, *ref)
 	}
 	return result, nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

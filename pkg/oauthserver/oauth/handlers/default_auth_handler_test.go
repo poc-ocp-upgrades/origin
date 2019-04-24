@@ -7,91 +7,93 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
 	oauthapi "github.com/openshift/api/oauth/v1"
 )
 
-type testClient struct {
-	client *oauthapi.OAuthClient
-}
+type testClient struct{ client *oauthapi.OAuthClient }
 
 func (w *testClient) GetId() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Name
 }
-
 func (w *testClient) GetSecret() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("unsupported")
 }
-
 func (w *testClient) ClientSecretMatches(in string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Secret == in
 }
-
 func (w *testClient) GetRedirectUri() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w.client.RedirectURIs) == 0 {
 		return ""
 	}
 	return strings.Join(w.client.RedirectURIs, ",")
 }
-
 func (w *testClient) GetUserData() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client
 }
 
 type mockChallenger struct {
-	headerName  string
-	headerValue string
-	err         error
+	headerName	string
+	headerValue	string
+	err		error
 }
 
 func (h *mockChallenger) AuthenticationChallenge(req *http.Request) (http.Header, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	headers := http.Header{}
 	if len(h.headerName) > 0 {
 		headers.Add(h.headerName, h.headerValue)
 	}
-
 	return headers, h.err
 }
-
 func TestNoHandlersRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authHandler := NewUnionAuthenticationHandler(nil, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
-
 	if handled {
 		t.Error("Unexpectedly handled.")
 	}
 }
-
 func TestNoHandlersChallenge(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authHandler := NewUnionAuthenticationHandler(nil, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
-
 	if handled {
 		t.Error("Unexpectedly handled.")
 	}
 }
-
 func TestWithBadClient(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authHandler := NewUnionAuthenticationHandler(nil, nil, nil, nil)
 	client := &badTestClient{&oauthapi.OAuthClient{}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	expectedError := "apiClient data was not an oauthapi.OAuthClient"
 	if err == nil {
 		t.Errorf("Expected error: %v", expectedError)
@@ -99,25 +101,22 @@ func TestWithBadClient(t *testing.T) {
 	if err.Error() != expectedError {
 		t.Errorf("Expected %v, got %v", expectedError, err)
 	}
-
 	if handled {
 		t.Error("Unexpectedly handled.")
 	}
 }
-
 func TestWithOnlyChallengeErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedError1 := "alfa"
 	expectedError2 := "bravo"
 	failingChallengeHandler1 := &mockChallenger{err: errors.New(expectedError1)}
 	failingChallengeHandler2 := &mockChallenger{err: errors.New(expectedError2)}
-	authHandler := NewUnionAuthenticationHandler(
-		map[string]AuthenticationChallenger{"first": failingChallengeHandler1, "second": failingChallengeHandler2},
-		nil, nil, nil)
+	authHandler := NewUnionAuthenticationHandler(map[string]AuthenticationChallenger{"first": failingChallengeHandler1, "second": failingChallengeHandler2}, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err == nil {
 		t.Errorf("Expected error: %v and %v", expectedError1, expectedError2)
 	}
@@ -127,35 +126,25 @@ func TestWithOnlyChallengeErrors(t *testing.T) {
 	if !strings.Contains(err.Error(), expectedError2) {
 		t.Errorf("Expected %v, got %v", expectedError2, err)
 	}
-
 	if handled {
 		t.Error("Unexpectedly handled.")
 	}
 }
-
 func TestWithChallengeErrorsAndMergedSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedError := "failure"
 	failingChallengeHandler := &mockChallenger{err: errors.New(expectedError)}
 	workingChallengeHandler1 := &mockChallenger{headerName: "Charlie", headerValue: "delta"}
 	workingChallengeHandler2 := &mockChallenger{headerName: "Echo", headerValue: "foxtrot"}
 	workingChallengeHandler3 := &mockChallenger{headerName: "Charlie", headerValue: "golf"}
-
-	// order of the array is not guaranteed
 	expectedHeader1 := map[string][]string{"Charlie": {"delta", "golf"}, "Echo": {"foxtrot"}}
 	expectedHeader2 := map[string][]string{"Charlie": {"golf", "delta"}, "Echo": {"foxtrot"}}
-
-	authHandler := NewUnionAuthenticationHandler(
-		map[string]AuthenticationChallenger{
-			"first":  failingChallengeHandler,
-			"second": workingChallengeHandler1,
-			"third":  workingChallengeHandler2,
-			"fourth": workingChallengeHandler3},
-		nil, nil, nil)
+	authHandler := NewUnionAuthenticationHandler(map[string]AuthenticationChallenger{"first": failingChallengeHandler, "second": workingChallengeHandler1, "third": workingChallengeHandler2, "fourth": workingChallengeHandler3}, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -169,22 +158,17 @@ func TestWithChallengeErrorsAndMergedSuccess(t *testing.T) {
 		t.Errorf("Expected 401, got %d", responseRecorder.Code)
 	}
 }
-
 func TestWithChallengeAndRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedError := "Location"
 	workingChallengeHandler1 := &mockChallenger{headerName: "Location", headerValue: "https://example.com"}
 	workingChallengeHandler2 := &mockChallenger{headerName: "WWW-Authenticate", headerValue: "Basic"}
-
-	authHandler := NewUnionAuthenticationHandler(
-		map[string]AuthenticationChallenger{
-			"first":  workingChallengeHandler1,
-			"second": workingChallengeHandler2,
-		}, nil, nil, nil)
+	authHandler := NewUnionAuthenticationHandler(map[string]AuthenticationChallenger{"first": workingChallengeHandler1, "second": workingChallengeHandler2}, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err == nil {
 		t.Errorf("Expected error, got none")
 	} else if !strings.Contains(err.Error(), expectedError) {
@@ -194,23 +178,16 @@ func TestWithChallengeAndRedirect(t *testing.T) {
 		t.Error("Unexpected handling.")
 	}
 }
-
 func TestWithRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	workingChallengeHandler1 := &mockChallenger{headerName: "Location", headerValue: "https://example.com"}
-
-	// order of the array is not guaranteed
 	expectedHeader1 := map[string][]string{"Location": {"https://example.com"}}
-
-	authHandler := NewUnionAuthenticationHandler(
-		map[string]AuthenticationChallenger{
-			"first": workingChallengeHandler1,
-		},
-		nil, nil, nil)
+	authHandler := NewUnionAuthenticationHandler(map[string]AuthenticationChallenger{"first": workingChallengeHandler1}, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	responseRecorder := httptest.NewRecorder()
 	handled, err := authHandler.AuthenticationNeeded(client, responseRecorder, req)
-
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
@@ -225,89 +202,44 @@ func TestWithRedirect(t *testing.T) {
 	}
 }
 
-type badTestClient struct {
-	client *oauthapi.OAuthClient
-}
+type badTestClient struct{ client *oauthapi.OAuthClient }
 
 func (w *badTestClient) GetId() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Name
 }
-
 func (w *badTestClient) GetSecret() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("unsupported")
 }
-
 func (w *badTestClient) ClientSecretMatches(in string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return in == w.client.Secret
 }
-
 func (w *badTestClient) GetRedirectUri() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w.client.RedirectURIs) == 0 {
 		return ""
 	}
 	return strings.Join(w.client.RedirectURIs, ",")
 }
-
 func (w *badTestClient) GetUserData() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "w.client"
 }
-
 func TestWarningRegex(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
-		Header string
-		Match  bool
-		Parts  []string
-	}{
-		// Empty
-		"empty": {},
-
-		// Invalid code segment
-		"code 2 numbers":   {Header: `19 Origin "Message goes here"`},
-		"code 4 numbers":   {Header: `1999 Origin "Message goes here"`},
-		"code non-numbers": {Header: `ABC Origin "Message goes here"`},
-
-		// Invalid agent segment
-		"agent missing": {Header: `199  "Message goes here"`},
-		"agent spaces":  {Header: `199 Open Shift "Message goes here"`},
-
-		// Invalid text segment
-		"text missing":       {Header: `199 Origin`},
-		"text unquoted":      {Header: `199 Origin Message`},
-		"text single quotes": {Header: `199 Origin 'Message'`},
-		"text bad quotes":    {Header: `199 Origin "Mes"sage"`},
-		"text bad escape":    {Header: `199 Origin "Mes\\"sage"`},
-
-		// Invalid date segment
-		"date unquoted":      {Header: `199 Origin "Message" Date`},
-		"date single quoted": {Header: `199 Origin "Message" 'Date'`},
-		"date empty":         {Header: `199 Origin "Message" ""`},
-
-		// Valid segments
-		"valid no date": {
-			Header: `199 Origin "Message goes here"`,
-			Match:  true,
-			Parts:  []string{"199", "Origin", "Message goes here", ""},
-		},
-
-		"valid with date": {
-			Header: `199 Origin "Message goes here" "date"`,
-			Match:  true,
-			Parts:  []string{"199", "Origin", "Message goes here", "date"},
-		},
-
-		"valid with escaped quote": {
-			Header: `199 Origin "Message \" goes here" "date"`,
-			Match:  true,
-			Parts:  []string{"199", "Origin", `Message \" goes here`, "date"},
-		},
-
-		"valid with escaped quote and slash": {
-			Header: `199 Origin "Message \\\" goes here" "date"`,
-			Match:  true,
-			Parts:  []string{"199", "Origin", `Message \\\" goes here`, "date"},
-		},
-	}
-
+		Header	string
+		Match	bool
+		Parts	[]string
+	}{"empty": {}, "code 2 numbers": {Header: `19 Origin "Message goes here"`}, "code 4 numbers": {Header: `1999 Origin "Message goes here"`}, "code non-numbers": {Header: `ABC Origin "Message goes here"`}, "agent missing": {Header: `199  "Message goes here"`}, "agent spaces": {Header: `199 Open Shift "Message goes here"`}, "text missing": {Header: `199 Origin`}, "text unquoted": {Header: `199 Origin Message`}, "text single quotes": {Header: `199 Origin 'Message'`}, "text bad quotes": {Header: `199 Origin "Mes"sage"`}, "text bad escape": {Header: `199 Origin "Mes\\"sage"`}, "date unquoted": {Header: `199 Origin "Message" Date`}, "date single quoted": {Header: `199 Origin "Message" 'Date'`}, "date empty": {Header: `199 Origin "Message" ""`}, "valid no date": {Header: `199 Origin "Message goes here"`, Match: true, Parts: []string{"199", "Origin", "Message goes here", ""}}, "valid with date": {Header: `199 Origin "Message goes here" "date"`, Match: true, Parts: []string{"199", "Origin", "Message goes here", "date"}}, "valid with escaped quote": {Header: `199 Origin "Message \" goes here" "date"`, Match: true, Parts: []string{"199", "Origin", `Message \" goes here`, "date"}}, "valid with escaped quote and slash": {Header: `199 Origin "Message \\\" goes here" "date"`, Match: true, Parts: []string{"199", "Origin", `Message \\\" goes here`, "date"}}}
 	for k, tc := range testcases {
 		parts := warningRegex.FindStringSubmatch(tc.Header)
 		match := len(parts) > 0

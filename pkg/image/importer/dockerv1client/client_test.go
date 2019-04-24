@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-// tests of running registries are done in the integration client test
-
 func TestHTTPFallback(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -38,8 +38,9 @@ func TestHTTPFallback(t *testing.T) {
 	<-called
 	<-called
 }
-
 func TestV2Check(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -71,12 +72,12 @@ func TestV2Check(t *testing.T) {
 	if tags["image1"] != "image1" {
 		t.Errorf("unexpected tags: %#v", tags)
 	}
-
 	<-called
 	<-called
 }
-
 func TestV2CheckNoDistributionHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 3)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -87,25 +88,17 @@ func TestV2CheckNoDistributionHeader(t *testing.T) {
 			return
 		}
 		w.Header().Set("X-Docker-Endpoints", uri.Host)
-
-		// Images
 		if strings.HasSuffix(r.URL.Path, "/images") {
 			return
 		}
-
-		// ImageTags
 		if strings.HasSuffix(r.URL.Path, "/tags") {
 			fmt.Fprintln(w, `{"tag1":"image1"}`)
 			return
 		}
-
-		// get tag->image id
 		if strings.HasSuffix(r.URL.Path, "latest") {
 			fmt.Fprintln(w, `"image1"`)
 			return
 		}
-
-		// get image json
 		if strings.HasSuffix(r.URL.Path, "json") {
 			fmt.Fprintln(w, `{"id":"image1"}`)
 			return
@@ -124,13 +117,13 @@ func TestV2CheckNoDistributionHeader(t *testing.T) {
 	if tags["tag1"] != "image1" {
 		t.Errorf("unexpected tags: %#v", tags)
 	}
-
 	<-called
 	<-called
 	<-called
 }
-
 func TestInsecureHTTPS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -155,8 +148,9 @@ func TestInsecureHTTPS(t *testing.T) {
 	<-called
 	<-called
 }
-
 func TestProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -184,13 +178,13 @@ func TestProxy(t *testing.T) {
 	<-called
 	<-called
 }
-
 func TestTokenExpiration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uri *url.URL
 	lastToken := ""
 	tokenIndex := 0
 	validToken := ""
-
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Header.Get("X-Docker-Token") == "true" {
 			tokenIndex++
@@ -200,7 +194,6 @@ func TestTokenExpiration(t *testing.T) {
 			w.Header().Set("X-Docker-Endpoints", uri.Host)
 			return
 		}
-
 		auth := r.Header.Get("Authorization")
 		parts := strings.Split(auth, " ")
 		token := parts[1]
@@ -208,25 +201,17 @@ func TestTokenExpiration(t *testing.T) {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
 		}
-
 		w.WriteHeader(http.StatusOK)
-
-		// ImageTags
 		if strings.HasSuffix(r.URL.Path, "/tags") {
 			fmt.Fprintln(w, `{"tag1":"image1"}`)
 		}
-
-		// get tag->image id
 		if strings.HasSuffix(r.URL.Path, "latest") {
 			fmt.Fprintln(w, `"image1"`)
 		}
-
-		// get image json
 		if strings.HasSuffix(r.URL.Path, "json") {
 			fmt.Fprintln(w, `{"id":"image1"}`)
 		}
 	}))
-
 	uri, _ = url.Parse(server.URL)
 	conn, err := NewClient(10*time.Second, true).Connect(uri.Host, true)
 	if err != nil {
@@ -237,44 +222,34 @@ func TestTokenExpiration(t *testing.T) {
 	if _, err := conn.ImageTags("foo", "bar"); err != nil {
 		t.Fatal(err)
 	}
-
-	// expire token, should get an error
 	validToken = ""
 	if _, err := conn.ImageTags("foo", "bar"); err == nil {
 		t.Fatal("expected error")
 	}
-	// retry, should get a new token
 	if _, err := conn.ImageTags("foo", "bar"); err != nil {
 		t.Fatal(err)
 	}
-
-	// expire token, should get an error
 	validToken = ""
 	if _, err := conn.ImageByTag("foo", "bar", "latest"); err == nil {
 		t.Fatal("expected error")
 	}
-	// retry, should get a new token
 	if _, err := conn.ImageByTag("foo", "bar", "latest"); err != nil {
 		t.Fatal(err)
 	}
-
-	// expire token, should get an error
 	validToken = ""
 	if _, err := conn.ImageByID("foo", "bar", "image1"); err == nil {
 		t.Fatal("expected error")
 	}
-	// retry, should get a new token
 	if _, err := conn.ImageByID("foo", "bar", "image1"); err != nil {
 		t.Fatal(err)
 	}
 }
-
 func TestGetTagFallback(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uri *url.URL
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Docker-Endpoints", uri.Host)
-
-		// get all tags
 		if strings.HasSuffix(r.URL.Path, "/tags") {
 			fmt.Fprintln(w, `{"tag1":"image1", "test":"image2"}`)
 			w.WriteHeader(http.StatusOK)
@@ -293,11 +268,7 @@ func TestGetTagFallback(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	repo := &v1repository{
-		name:     "testrepo",
-		endpoint: *uri,
-	}
-	// Case when tag is found
+	repo := &v1repository{name: "testrepo", endpoint: *uri}
 	img, _, err := repo.getTaggedImage(c, "test", "")
 	if err != nil {
 		t.Errorf("unexpected error getting tag: %v", err)
@@ -306,16 +277,15 @@ func TestGetTagFallback(t *testing.T) {
 	if img.Image.ID != "image2" {
 		t.Errorf("unexpected image for tag: %v", img)
 	}
-	// Case when tag is not found
 	img, _, err = repo.getTaggedImage(c, "test2", "")
 	if err == nil {
 		t.Errorf("expected error")
 	}
 }
-
 func TestImageManifest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	manifestDigest := "sha256:958608f8ecc1dc62c93b6c610f3a834dae4220c9642e6e8b4e0f2b3ad7cbd238"
-
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -350,11 +320,9 @@ func TestImageManifest(t *testing.T) {
 	if len(manifest) == 0 {
 		t.Errorf("empty manifest")
 	}
-
 	if string(manifest) != SampleImageManifestSchema1 {
 		t.Errorf("unexpected manifest: %#v", manifest)
 	}
-
 	<-called
 	<-called
 }

@@ -3,12 +3,13 @@ package integration
 import (
 	"crypto/tls"
 	"testing"
-
 	"github.com/openshift/library-go/pkg/crypto"
 	testserver "github.com/openshift/origin/test/util/server"
 )
 
 func TestTLSDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -18,13 +19,10 @@ func TestTLSDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Verify we fail with TLS versions less than the default, and work with TLS versions >= the default
 	for _, tlsVersionName := range crypto.ValidTLSVersions() {
 		tlsVersion := crypto.TLSVersionOrDie(tlsVersionName)
 		expectSuccess := tlsVersion >= crypto.DefaultTLSVersion()
 		config := &tls.Config{MinVersion: tlsVersion, MaxVersion: tlsVersion, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -35,9 +33,6 @@ func TestTLSDefaults(t *testing.T) {
 			}
 		}
 	}
-
-	// Verify the only ciphers we work with are in the default set.
-	// Not all default ciphers will succeed because they depend on the serving cert type.
 	defaultCiphers := map[uint16]bool{}
 	for _, defaultCipher := range crypto.DefaultCiphers() {
 		defaultCiphers[defaultCipher] = true
@@ -49,7 +44,6 @@ func TestTLSDefaults(t *testing.T) {
 		}
 		expectFailure := !defaultCiphers[cipher]
 		config := &tls.Config{CipherSuites: []uint16{cipher}, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -61,29 +55,24 @@ func TestTLSDefaults(t *testing.T) {
 		}
 	}
 }
-
 func TestTLSOverrides(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer testserver.CleanupMasterEtcd(t, master)
-
-	// Pick these ciphers because the first is http2 compatible, and the second works with TLS10
 	master.ServingInfo.MinTLSVersion = "VersionTLS10"
 	master.ServingInfo.CipherSuites = []string{"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", "TLS_RSA_WITH_AES_128_CBC_SHA"}
-
 	_, err = testserver.StartConfiguredMaster(master)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Verify we work with all TLS versions
 	for _, tlsVersionName := range crypto.ValidTLSVersions() {
 		tlsVersion := crypto.TLSVersionOrDie(tlsVersionName)
 		expectSuccess := true
 		config := &tls.Config{MinVersion: tlsVersion, MaxVersion: tlsVersion, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -94,8 +83,6 @@ func TestTLSOverrides(t *testing.T) {
 			}
 		}
 	}
-
-	// Verify the only ciphers we work with are the ones we chose
 	defaultCiphers := map[uint16]bool{}
 	for _, defaultCipher := range crypto.DefaultCiphers() {
 		defaultCiphers[defaultCipher] = true
@@ -115,7 +102,6 @@ func TestTLSOverrides(t *testing.T) {
 			expectFailure = true
 		}
 		config := &tls.Config{CipherSuites: []uint16{cipher}, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -127,8 +113,9 @@ func TestTLSOverrides(t *testing.T) {
 		}
 	}
 }
-
 func TestMasterTLSDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -138,13 +125,10 @@ func TestMasterTLSDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Verify we fail with TLS versions less than the default, and work with TLS versions >= the default
 	for _, tlsVersionName := range crypto.ValidTLSVersions() {
 		tlsVersion := crypto.TLSVersionOrDie(tlsVersionName)
 		expectSuccess := tlsVersion >= crypto.DefaultTLSVersion()
 		config := &tls.Config{MinVersion: tlsVersion, MaxVersion: tlsVersion, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -155,9 +139,6 @@ func TestMasterTLSDefaults(t *testing.T) {
 			}
 		}
 	}
-
-	// Verify the only ciphers we work with are in the default set.
-	// Not all default ciphers will succeed because they depend on the serving cert type.
 	defaultCiphers := map[uint16]bool{}
 	for _, defaultCipher := range crypto.DefaultCiphers() {
 		defaultCiphers[defaultCipher] = true
@@ -169,7 +150,6 @@ func TestMasterTLSDefaults(t *testing.T) {
 		}
 		expectFailure := !defaultCiphers[cipher]
 		config := &tls.Config{CipherSuites: []uint16{cipher}, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -181,29 +161,24 @@ func TestMasterTLSDefaults(t *testing.T) {
 		}
 	}
 }
-
 func TestMasterTLSOverrides(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer testserver.CleanupMasterEtcd(t, master)
-
-	// Pick these ciphers because the first is http2 compatible, and the second works with TLS10
 	master.ServingInfo.MinTLSVersion = "VersionTLS10"
 	master.ServingInfo.CipherSuites = []string{"TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256", "TLS_RSA_WITH_AES_128_CBC_SHA"}
-
 	_, err = testserver.StartConfiguredMaster(master)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Verify we work with all TLS versions
 	for _, tlsVersionName := range crypto.ValidTLSVersions() {
 		tlsVersion := crypto.TLSVersionOrDie(tlsVersionName)
 		expectSuccess := true
 		config := &tls.Config{MinVersion: tlsVersion, MaxVersion: tlsVersion, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {
@@ -214,8 +189,6 @@ func TestMasterTLSOverrides(t *testing.T) {
 			}
 		}
 	}
-
-	// Verify the only ciphers we work with are the ones we chose
 	defaultCiphers := map[uint16]bool{}
 	for _, defaultCipher := range crypto.DefaultCiphers() {
 		defaultCiphers[defaultCipher] = true
@@ -235,7 +208,6 @@ func TestMasterTLSOverrides(t *testing.T) {
 			expectFailure = true
 		}
 		config := &tls.Config{CipherSuites: []uint16{cipher}, InsecureSkipVerify: true}
-
 		{
 			conn, err := tls.Dial(master.ServingInfo.BindNetwork, master.ServingInfo.BindAddress, config)
 			if err == nil {

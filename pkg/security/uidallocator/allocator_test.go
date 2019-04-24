@@ -2,14 +2,14 @@ package uidallocator
 
 import (
 	"testing"
-
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/kubernetes/pkg/registry/core/service/allocator"
-
 	"github.com/openshift/origin/pkg/security/uid"
 )
 
 func TestAllocate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ranger, _ := uid.NewRange(0, 9, 2)
 	r := New(ranger, func(max int, rangeSpec string) allocator.Interface {
 		return allocator.NewContiguousAllocationMap(max, rangeSpec)
@@ -36,7 +36,6 @@ func TestAllocate(t *testing.T) {
 	if _, err := r.AllocateNext(); err != ErrFull {
 		t.Fatal(err)
 	}
-
 	released := uid.Block{Start: 2, End: 3}
 	if err := r.Release(released); err != nil {
 		t.Fatal(err)
@@ -51,7 +50,6 @@ func TestAllocate(t *testing.T) {
 	if released != block {
 		t.Errorf("unexpected %s : %s", block, released)
 	}
-
 	if err := r.Release(released); err != nil {
 		t.Fatal(err)
 	}

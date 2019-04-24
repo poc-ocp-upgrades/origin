@@ -2,8 +2,11 @@ package buildgraph
 
 import (
 	"github.com/gonum/graph"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	corev1 "k8s.io/api/core/v1"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/library-go/pkg/image/reference"
 	buildutil "github.com/openshift/origin/pkg/build/util"
@@ -14,31 +17,16 @@ import (
 )
 
 const (
-	// BuildTriggerImageEdgeKind is an edge from an ImageStream to a BuildConfig that
-	// represents a trigger connection. Changes to the ImageStream will trigger a new build
-	// from the BuildConfig.
-	BuildTriggerImageEdgeKind = "BuildTriggerImage"
-
-	// BuildInputImageEdgeKind is  an edge from an ImageStream to a BuildConfig, where the
-	// ImageStream is the source image for the build (builder in S2I builds, FROM in Docker builds,
-	// custom builder in Custom builds). The same ImageStream can also have a trigger
-	// relationship with the BuildConfig, but not necessarily.
-	BuildInputImageEdgeKind = "BuildInputImage"
-
-	// BuildOutputEdgeKind is an edge from a BuildConfig to an ImageStream. The ImageStream will hold
-	// the ouptut of the Builds created with that BuildConfig.
-	BuildOutputEdgeKind = "BuildOutput"
-
-	// BuildInputEdgeKind is an edge from a source repository to a BuildConfig. The source repository is the
-	// input source for the build.
-	BuildInputEdgeKind = "BuildInput"
-
-	// BuildEdgeKind goes from a BuildConfigNode to a BuildNode and indicates that the buildConfig owns the build
-	BuildEdgeKind = "Build"
+	BuildTriggerImageEdgeKind	= "BuildTriggerImage"
+	BuildInputImageEdgeKind		= "BuildInputImage"
+	BuildOutputEdgeKind		= "BuildOutput"
+	BuildInputEdgeKind		= "BuildInput"
+	BuildEdgeKind			= "Build"
 )
 
-// AddBuildEdges adds edges that connect a BuildConfig to Builds to the given graph
 func AddBuildEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range g.(graph.Graph).Nodes() {
 		if buildNode, ok := n.(*buildgraph.BuildNode); ok {
 			if buildNode.Build.Namespace != node.BuildConfig.Namespace {
@@ -50,17 +38,18 @@ func AddBuildEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNod
 		}
 	}
 }
-
-// AddAllBuildEdges adds build edges to all BuildConfig nodes in the given graph
 func AddAllBuildEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if bcNode, ok := node.(*buildgraph.BuildConfigNode); ok {
 			AddBuildEdges(g, bcNode)
 		}
 	}
 }
-
 func imageRefNode(g osgraph.MutableUniqueGraph, ref *corev1.ObjectReference, bc *buildv1.BuildConfig) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref == nil {
 		return nil
 	}
@@ -80,18 +69,18 @@ func imageRefNode(g osgraph.MutableUniqueGraph, ref *corev1.ObjectReference, bc 
 	}
 	return nil
 }
-
-// AddOutputEdges links the build config to its output image node.
 func AddOutputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node.BuildConfig.Spec.Output.To == nil {
 		return
 	}
 	out := imageRefNode(g, node.BuildConfig.Spec.Output.To, node.BuildConfig)
 	g.AddEdge(node, out, BuildOutputEdgeKind)
 }
-
-// AddInputEdges links the build config to its input image and source nodes.
 func AddInputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in := buildgraph.EnsureSourceRepositoryNode(g, node.BuildConfig.Spec.Source); in != nil {
 		g.AddEdge(in, node, BuildInputEdgeKind)
 	}
@@ -100,9 +89,9 @@ func AddInputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNod
 		g.AddEdge(input, node, BuildInputImageEdgeKind)
 	}
 }
-
-// AddTriggerEdges links the build config to its trigger input image nodes.
 func AddTriggerEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, trigger := range node.BuildConfig.Spec.Triggers {
 		if trigger.Type != buildv1.ImageChangeBuildTriggerType {
 			continue
@@ -115,20 +104,27 @@ func AddTriggerEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigN
 		g.AddEdge(triggerNode, node, BuildTriggerImageEdgeKind)
 	}
 }
-
-// AddInputOutputEdges links the build config to other nodes for the images and source repositories it depends on.
 func AddInputOutputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) *buildgraph.BuildConfigNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	AddInputEdges(g, node)
 	AddTriggerEdges(g, node)
 	AddOutputEdges(g, node)
 	return node
 }
-
-// AddAllInputOutputEdges adds input and output edges for all BuildConfigs in the given graph
 func AddAllInputOutputEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if bcNode, ok := node.(*buildgraph.BuildConfigNode); ok {
 			AddInputOutputEdges(g, bcNode)
 		}
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

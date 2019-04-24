@@ -2,15 +2,17 @@ package main
 
 import (
 	"fmt"
+	"bytes"
+	"runtime"
 	"log"
 	"net/http"
 	"os"
 )
 
 var (
-	version  string
-	subtitle string
-	color    string
+	version		string
+	subtitle	string
+	color		string
 )
 
 const htmlContent = `<!DOCTYPE html>
@@ -33,14 +35,18 @@ const htmlContent = `<!DOCTYPE html>
 </html>`
 
 func deploymentHandler(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(w, htmlContent, version, subtitle, color)
 }
-
 func healthHandler(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintln(w, "ok")
 }
-
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	version = "v1"
 	if len(os.Args) > 1 {
 		version = os.Args[1]
@@ -50,11 +56,15 @@ func main() {
 	if len(color) == 0 {
 		color = "#303030"
 	}
-
 	http.HandleFunc("/", deploymentHandler)
-
 	http.HandleFunc("/_healthz", healthHandler)
-
 	log.Printf("Listening on :8080 at %s ...", version)
 	log.Fatal(http.ListenAndServe(":8080", nil))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

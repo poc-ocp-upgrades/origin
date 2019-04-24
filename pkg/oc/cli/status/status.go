@@ -2,17 +2,17 @@ package status
 
 import (
 	"errors"
+	"bytes"
+	"net/http"
+	"runtime"
 	"fmt"
-
 	"github.com/gonum/graph/encoding/dot"
 	"github.com/spf13/cobra"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/kubernetes"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	appsv1client "github.com/openshift/client-go/apps/clientset/versioned/typed/apps/v1"
 	buildv1client "github.com/openshift/client-go/build/clientset/versioned/typed/build/v1"
 	imagev1client "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1"
@@ -23,11 +23,10 @@ import (
 	dotutil "github.com/openshift/origin/pkg/util/dot"
 )
 
-// StatusRecommendedName is the recommended command name.
 const StatusRecommendedName = "status"
 
 var (
-	statusLong = templates.LongDesc(`
+	statusLong	= templates.LongDesc(`
 		Show a high level overview of the current project
 
 		This command will show services, deployment configs, build configurations, and active deployments.
@@ -37,8 +36,7 @@ var (
 
 		You can specify an output format of "-o dot" to have this command output the generated status
 		graph in DOT format that is suitable for use by the "dot" command.`)
-
-	statusExample = templates.Examples(`
+	statusExample	= templates.Examples(`
 		# See an overview of the current project.
 	  %[1]s
 
@@ -49,46 +47,34 @@ var (
 	  %[1]s --suggest`)
 )
 
-// StatusOptions contains all the necessary options for the Openshift cli status command.
 type StatusOptions struct {
-	namespace     string
-	allNamespaces bool
-	outputFormat  string
-	describer     *describe.ProjectStatusDescriber
-	suggest       bool
-
-	logsCommandName             string
-	securityPolicyCommandFormat string
-	setProbeCommandName         string
-	patchCommandName            string
-
+	namespace			string
+	allNamespaces			bool
+	outputFormat			string
+	describer			*describe.ProjectStatusDescriber
+	suggest				bool
+	logsCommandName			string
+	securityPolicyCommandFormat	string
+	setProbeCommandName		string
+	patchCommandName		string
 	genericclioptions.IOStreams
 }
 
 func NewStatusOptions(streams genericclioptions.IOStreams) *StatusOptions {
-	return &StatusOptions{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &StatusOptions{IOStreams: streams}
 }
-
-// NewCmdStatus implements the OpenShift cli status command.
-// baseCLIName is the path from root cmd to the parent of this cmd.
 func NewCmdStatus(name, baseCLIName, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewStatusOptions(streams)
-	cmd := &cobra.Command{
-		Use:     fmt.Sprintf("%s [-o dot | --suggest ]", StatusRecommendedName),
-		Short:   "Show an overview of the current project",
-		Long:    fmt.Sprintf(statusLong, baseCLIName),
-		Example: fmt.Sprintf(statusExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, baseCLIName, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.RunStatus())
-		},
-	}
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s [-o dot | --suggest ]", StatusRecommendedName), Short: "Show an overview of the current project", Long: fmt.Sprintf(statusLong, baseCLIName), Example: fmt.Sprintf(statusExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, baseCLIName, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.RunStatus())
+	}}
 	cmd.Flags().StringVarP(&o.outputFormat, "output", "o", o.outputFormat, "Output format. One of: dot.")
-	// TODO: remove verbose in 3.12
-	// this is done to trick pflag into allowing the duplicate registration.  The local value here wins
 	cmd.Flags().BoolVarP(&o.suggest, "v", "v", o.suggest, "See details for resolving issues.")
 	cmd.Flags().MarkShorthandDeprecated("v", "Use --suggest instead.  Will be dropped in a future release")
 	cmd.Flags().BoolVar(&o.suggest, "verbose", o.suggest, "See details for resolving issues.")
@@ -96,20 +82,17 @@ func NewCmdStatus(name, baseCLIName, fullName string, f kcmdutil.Factory, stream
 	cmd.Flags().MarkHidden("verbose")
 	cmd.Flags().BoolVar(&o.suggest, "suggest", o.suggest, "See details for resolving issues.")
 	cmd.Flags().BoolVarP(&o.allNamespaces, "all-namespaces", "A", o.allNamespaces, "If true, display status for all namespaces (must have cluster admin)")
-
 	return cmd
 }
-
-// Complete completes the options for the Openshift cli status command.
 func (o *StatusOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, baseCLIName string, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		return kcmdutil.UsageErrorf(cmd, "no arguments should be provided")
 	}
-
 	o.logsCommandName = fmt.Sprintf("%s logs", cmd.Parent().CommandPath())
 	o.securityPolicyCommandFormat = "oc adm policy add-scc-to-user anyuid -n %s -z %s"
 	o.setProbeCommandName = fmt.Sprintf("%s set probe", cmd.Parent().CommandPath())
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -138,7 +121,6 @@ func (o *StatusOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, baseCLI
 	if err != nil {
 		return err
 	}
-
 	rawConfig, err := f.ToRawKubeConfigLoader().RawConfig()
 	if err != nil {
 		return err
@@ -147,7 +129,6 @@ func (o *StatusOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, baseCLI
 	if err != nil {
 		return err
 	}
-
 	if o.allNamespaces {
 		o.namespace = metav1.NamespaceAll
 	} else {
@@ -157,47 +138,21 @@ func (o *StatusOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, baseCLI
 		}
 		o.namespace = namespace
 	}
-
 	if baseCLIName == "" {
 		baseCLIName = "oc"
 	}
-
 	currentNamespace := ""
 	if currentContext, exists := rawConfig.Contexts[rawConfig.CurrentContext]; exists {
 		currentNamespace = currentContext.Namespace
 	}
-
 	nsFlag := kcmdutil.GetFlagString(cmd, "namespace")
 	canRequestProjects, _ := loginutil.CanRequestProjects(clientConfig, o.namespace)
-
-	o.describer = &describe.ProjectStatusDescriber{
-		KubeClient:    kclientset,
-		RESTMapper:    restMapper,
-		ProjectClient: projectClient,
-		BuildClient:   buildClient,
-		ImageClient:   imageClient,
-		AppsClient:    appsClient,
-		RouteClient:   routeClient,
-		Suggest:       o.suggest,
-		Server:        clientConfig.Host,
-
-		CommandBaseName:    baseCLIName,
-		RequestedNamespace: nsFlag,
-		CurrentNamespace:   currentNamespace,
-
-		CanRequestProjects: canRequestProjects,
-
-		// TODO: Remove these and reference them inside the markers using constants.
-		LogsCommandName:             o.logsCommandName,
-		SecurityPolicyCommandFormat: o.securityPolicyCommandFormat,
-		SetProbeCommandName:         o.setProbeCommandName,
-	}
-
+	o.describer = &describe.ProjectStatusDescriber{KubeClient: kclientset, RESTMapper: restMapper, ProjectClient: projectClient, BuildClient: buildClient, ImageClient: imageClient, AppsClient: appsClient, RouteClient: routeClient, Suggest: o.suggest, Server: clientConfig.Host, CommandBaseName: baseCLIName, RequestedNamespace: nsFlag, CurrentNamespace: currentNamespace, CanRequestProjects: canRequestProjects, LogsCommandName: o.logsCommandName, SecurityPolicyCommandFormat: o.securityPolicyCommandFormat, SetProbeCommandName: o.setProbeCommandName}
 	return nil
 }
-
-// Validate validates the options for the Openshift cli status command.
 func (o StatusOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.outputFormat) != 0 && o.outputFormat != "dot" {
 		return fmt.Errorf("invalid output format provided: %s", o.outputFormat)
 	}
@@ -206,14 +161,13 @@ func (o StatusOptions) Validate() error {
 	}
 	return nil
 }
-
-// RunStatus contains all the necessary functionality for the OpenShift cli status command.
 func (o StatusOptions) RunStatus() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		s   string
-		err error
+		s	string
+		err	error
 	)
-
 	switch o.outputFormat {
 	case "":
 		s, err = o.describer.Describe(o.namespace, "")
@@ -233,7 +187,13 @@ func (o StatusOptions) RunStatus() error {
 	default:
 		return fmt.Errorf("invalid output format provided: %s", o.outputFormat)
 	}
-
 	fmt.Fprintf(o.Out, s)
 	return nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

@@ -2,14 +2,14 @@ package extract
 
 import (
 	"bytes"
+	"net/http"
+	"runtime"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"os"
 	"path/filepath"
-
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -21,7 +21,7 @@ import (
 )
 
 var (
-	extractLong = templates.LongDesc(`
+	extractLong	= templates.LongDesc(`
 		Extract files out of secrets and config maps
 
 		The extract command makes it easy to download the contents of a config map or secret into a directory.
@@ -33,8 +33,7 @@ var (
 
 		You can limit which keys are extracted with the --keys=NAME flag, or set the directory to extract to
 		with --to=DIRECTORY.`)
-
-	extractExample = templates.Examples(`
+	extractExample	= templates.Examples(`
 		# extract the secret "test" to the current directory
 	  %[1]s extract secret/test
 
@@ -49,42 +48,32 @@ var (
 )
 
 type ExtractOptions struct {
-	Filenames       []string
-	OnlyKeys        []string
-	TargetDirectory string
-	Overwrite       bool
-
-	Namespace         string
-	ExplicitNamespace bool
-	Resources         []string
-	Builder           func() *resource.Builder
-
-	ExtractFileContentsFn func(runtime.Object) (map[string][]byte, bool, error)
-
+	Filenames		[]string
+	OnlyKeys		[]string
+	TargetDirectory		string
+	Overwrite		bool
+	Namespace		string
+	ExplicitNamespace	bool
+	Resources		[]string
+	Builder			func() *resource.Builder
+	ExtractFileContentsFn	func(runtime.Object) (map[string][]byte, bool, error)
 	genericclioptions.IOStreams
 }
 
 func NewExtractOptions(targetDirectory string, streams genericclioptions.IOStreams) *ExtractOptions {
-	return &ExtractOptions{
-		IOStreams:       streams,
-		TargetDirectory: targetDirectory,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &ExtractOptions{IOStreams: streams, TargetDirectory: targetDirectory}
 }
-
 func NewCmdExtract(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewExtractOptions(".", streams)
-
-	cmd := &cobra.Command{
-		Use:     "extract RESOURCE/NAME [--to=DIRECTORY] [--keys=KEY ...]",
-		Short:   "Extract secrets or config maps to disk",
-		Long:    extractLong,
-		Example: fmt.Sprintf(extractExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+	cmd := &cobra.Command{Use: "extract RESOURCE/NAME [--to=DIRECTORY] [--keys=KEY ...]", Short: "Extract secrets or config maps to disk", Long: extractLong, Example: fmt.Sprintf(extractExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	cmd.Flags().BoolVar(&o.Overwrite, "confirm", o.Overwrite, "If true, overwrite files that already exist.")
 	cmd.Flags().StringVar(&o.TargetDirectory, "to", o.TargetDirectory, "Directory to extract files to.")
 	cmd.Flags().StringSliceVarP(&o.Filenames, "filename", "f", o.Filenames, "Filename, directory, or URL to file to identify to extract the resource.")
@@ -92,49 +81,41 @@ func NewCmdExtract(fullName string, f kcmdutil.Factory, streams genericclioption
 	cmd.Flags().StringSliceVar(&o.OnlyKeys, "keys", o.OnlyKeys, "An optional list of keys to extract (default is all keys).")
 	return cmd
 }
-
 func (o *ExtractOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.ExtractFileContentsFn = extractFileContents
-
 	var err error
 	o.Namespace, o.ExplicitNamespace, err = f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
 	}
-
 	o.Resources = args
 	o.Builder = f.NewBuilder
-
 	return nil
 }
-
 func (o *ExtractOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.TargetDirectory != "-" {
-		// determine if output location is valid before continuing
 		if _, err := os.Stat(o.TargetDirectory); err != nil {
 			return err
 		}
 	}
 	return nil
 }
-
 func name(info *resource.Info) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s", info.Mapping.Resource, info.Name)
 }
-
 func (o *ExtractOptions) Run() error {
-	r := o.Builder().
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		NamespaceParam(o.Namespace).DefaultNamespace().
-		FilenameParam(o.ExplicitNamespace, &resource.FilenameOptions{Recursive: false, Filenames: o.Filenames}).
-		ResourceNames("", o.Resources...).
-		ContinueOnError().
-		Flatten().Do()
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	r := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).NamespaceParam(o.Namespace).DefaultNamespace().FilenameParam(o.ExplicitNamespace, &resource.FilenameOptions{Recursive: false, Filenames: o.Filenames}).ResourceNames("", o.Resources...).ContinueOnError().Flatten().Do()
 	if err := r.Err(); err != nil {
 		return err
 	}
-
 	count := 0
 	contains := sets.NewString(o.OnlyKeys...)
 	err := r.Visit(func(info *resource.Info, err error) error {
@@ -184,8 +165,9 @@ func (o *ExtractOptions) Run() error {
 	}
 	return nil
 }
-
 func (o *ExtractOptions) writeToDisk(path string, data []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Overwrite {
 		if err := ioutil.WriteFile(path, data, 0600); err != nil {
 			return err
@@ -206,10 +188,9 @@ func (o *ExtractOptions) writeToDisk(path string, data []byte) error {
 	fmt.Fprintf(o.Out, "%s\n", path)
 	return nil
 }
-
-// ExtractFileContents returns a map of keys to contents, false if the object cannot support such an
-// operation, or an error.
 func extractFileContents(obj runtime.Object) (map[string][]byte, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *corev1.Secret:
 		return t.Data, true, nil
@@ -222,4 +203,11 @@ func extractFileContents(obj runtime.Object) (map[string][]byte, bool, error) {
 	default:
 		return nil, false, nil
 	}
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

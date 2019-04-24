@@ -7,16 +7,16 @@ import (
 	"sync"
 	"testing"
 	"time"
-
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
 )
 
 func TestScheduler(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keys := []string{}
 	s := newScheduler(2, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {
 		keys = append(keys, key.(string))
 	})
-
 	for i := 0; i < 6; i++ {
 		s.RunOnce()
 		if len(keys) > 0 {
@@ -26,7 +26,6 @@ func TestScheduler(t *testing.T) {
 			t.Fatal(s.position)
 		}
 	}
-
 	s.Add("first", "test")
 	found := false
 	for i, buckets := range s.buckets {
@@ -42,10 +41,8 @@ func TestScheduler(t *testing.T) {
 	if !found {
 		t.Fatal("expected to find key in a bucket")
 	}
-
 	s.Delay("first")
-
-	for i := 0; i < 2; i++ { // Delay shouldn't have put the item in the current bucket
+	for i := 0; i < 2; i++ {
 		s.RunOnce()
 	}
 	if len(keys) != 0 {
@@ -56,10 +53,11 @@ func TestScheduler(t *testing.T) {
 		t.Fatal(keys)
 	}
 }
-
 func TestSchedulerAddAndDelay(t *testing.T) {
-	s := newScheduler(3, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {})
-	// 3 is the last bucket, 0 is the current bucket
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	s := newScheduler(3, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {
+	})
 	s.Add("first", "other")
 	if s.buckets[3]["first"] != "other" {
 		t.Fatalf("placed key in wrong bucket: %#v", s.buckets)
@@ -85,26 +83,24 @@ func TestSchedulerAddAndDelay(t *testing.T) {
 	if s.buckets[1]["sixth"] != "other" {
 		t.Fatalf("placed key in wrong bucket: %#v", s.buckets)
 	}
-
-	// delaying an item moves it to the last bucket
 	s.Delay("second")
 	if s.buckets[3]["second"] != "other" {
 		t.Fatalf("delay placed key in wrong bucket: %#v", s.buckets)
 	}
-	// delaying an item that is not in the map does nothing
 	s.Delay("third")
 	if _, ok := s.buckets[3]["third"]; ok {
 		t.Fatalf("delay placed key in wrong bucket: %#v", s.buckets)
 	}
-	// delaying an item that is already in the latest bucket does nothing
 	s.Delay("fourth")
 	if s.buckets[3]["fourth"] != "other" {
 		t.Fatalf("delay placed key in wrong bucket: %#v", s.buckets)
 	}
 }
-
 func TestSchedulerRemove(t *testing.T) {
-	s := newScheduler(2, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	s := newScheduler(2, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {
+	})
 	s.Add("test", "other")
 	if s.Remove("test", "value") {
 		t.Fatal(s)
@@ -132,11 +128,29 @@ type int64Heap []int64
 
 var _ heap.Interface = &int64Heap{}
 
-func (h int64Heap) Len() int            { return len(h) }
-func (h int64Heap) Less(i, j int) bool  { return h[i] < h[j] }
-func (h int64Heap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }
-func (h *int64Heap) Push(x interface{}) { *h = append(*h, x.(int64)) }
+func (h int64Heap) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(h)
+}
+func (h int64Heap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return h[i] < h[j]
+}
+func (h int64Heap) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	h[i], h[j] = h[j], h[i]
+}
+func (h *int64Heap) Push(x interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	*h = append(*h, x.(int64))
+}
 func (h *int64Heap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	x := (*h)[len(*h)-1]
 	*h = (*h)[:len(*h)-1]
 	return x
@@ -146,41 +160,48 @@ type wallClock struct{}
 
 var _ flowcontrol.Clock = &wallClock{}
 
-func (c wallClock) Now() time.Time        { return time.Now() }
-func (c wallClock) Sleep(d time.Duration) { time.Sleep(d) }
+func (c wallClock) Now() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return time.Now()
+}
+func (c wallClock) Sleep(d time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	time.Sleep(d)
+}
 
-// fakeClock implements flowcontrol.Clock.  Its time starts at the UNIX epoch.
-// When all known threads are in Sleep(), its time advances just enough to wake
-// the first thread (or threads) due to wake.
 type fakeClock struct {
-	c       sync.Cond
-	threads int
-	now     int64
-	wake    int64Heap
+	c	sync.Cond
+	threads	int
+	now	int64
+	wake	int64Heap
 }
 
 var _ flowcontrol.Clock = &fakeClock{}
 
 func newFakeClock(threads int) flowcontrol.Clock {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeClock{threads: threads, c: sync.Cond{L: &sync.Mutex{}}}
 }
-
 func (c *fakeClock) Now() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.c.L.Lock()
 	defer c.c.L.Unlock()
 	return time.Unix(0, c.now)
 }
-
 func (c *fakeClock) Sleep(d time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.c.L.Lock()
 	defer c.c.L.Unlock()
 	wake := c.now + int64(d)
 	heap.Push(&c.wake, wake)
 	if len(c.wake) == c.threads {
-		// everyone is asleep, advance the clock.
 		c.now = heap.Pop(&c.wake).(int64)
 		for len(c.wake) > 0 && c.wake[0] == c.now {
-			// pop any additional threads waiting on the same time.
 			heap.Pop(&c.wake)
 		}
 		c.c.Broadcast()
@@ -189,21 +210,15 @@ func (c *fakeClock) Sleep(d time.Duration) {
 		c.c.Wait()
 	}
 }
-
 func TestSchedulerSanity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
-		buckets = 4
-		items   = 10
+		buckets	= 4
+		items	= 10
 	)
-
-	// if needed for testing, you can revert to using the wall clock via
-	// clock := &wallClock{}
-	clock := newFakeClock(2) // 2 threads: us and the scheduler.
-
-	// 1 token per second => one bucket's worth of items should get scheduled
-	// per second.
+	clock := newFakeClock(2)
 	limiter := flowcontrol.NewTokenBucketRateLimiterWithClock(1, 1, clock)
-
 	m := map[int]int{}
 	s := newScheduler(buckets, limiter, func(key, value interface{}) {
 		fmt.Printf("%v: %v\n", clock.Now().UTC(), key)
@@ -212,18 +227,12 @@ func TestSchedulerSanity(t *testing.T) {
 	for i := 0; i < items; i++ {
 		s.Add(i, nil)
 	}
-
 	go s.RunUntil(make(chan struct{}))
-
-	// run the clock just long enough to expect to have scheduled each item
-	// exactly twice.
 	clock.Sleep((2*buckets-1)*time.Second + 1)
-
 	expected := map[int]int{}
 	for i := 0; i < items; i++ {
 		expected[i] = 2
 	}
-
 	if !reflect.DeepEqual(m, expected) {
 		t.Errorf("m did not match expected: %#v\n", m)
 	}

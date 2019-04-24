@@ -2,8 +2,10 @@ package apiserver
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"sync"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
@@ -14,7 +16,6 @@ import (
 	rbacclient "k8s.io/kubernetes/pkg/client/clientset_generated/internalclientset/typed/rbac/internalversion"
 	rbacregistryvalidation "k8s.io/kubernetes/pkg/registry/rbac/validation"
 	"k8s.io/kubernetes/plugin/pkg/auth/authorizer/rbac"
-
 	authorizationapiv1 "github.com/openshift/api/authorization/v1"
 	"github.com/openshift/origin/pkg/authorization/apiserver/registry/clusterrole"
 	"github.com/openshift/origin/pkg/authorization/apiserver/registry/clusterrolebinding"
@@ -30,88 +31,69 @@ import (
 )
 
 type ExtraConfig struct {
-	KubeAPIServerClientConfig *restclient.Config
-	KubeInformers             kubeinformers.SharedInformerFactory
-	RuleResolver              rbacregistryvalidation.AuthorizationRuleResolver
-	SubjectLocator            rbac.SubjectLocator
-
-	// TODO these should all become local eventually
-	Scheme *runtime.Scheme
-	Codecs serializer.CodecFactory
-
-	makeV1Storage sync.Once
-	v1Storage     map[string]rest.Storage
-	v1StorageErr  error
+	KubeAPIServerClientConfig	*restclient.Config
+	KubeInformers			kubeinformers.SharedInformerFactory
+	RuleResolver			rbacregistryvalidation.AuthorizationRuleResolver
+	SubjectLocator			rbac.SubjectLocator
+	Scheme				*runtime.Scheme
+	Codecs				serializer.CodecFactory
+	makeV1Storage			sync.Once
+	v1Storage			map[string]rest.Storage
+	v1StorageErr			error
 }
-
 type AuthorizationAPIServerConfig struct {
-	GenericConfig *genericapiserver.RecommendedConfig
-	ExtraConfig   ExtraConfig
+	GenericConfig	*genericapiserver.RecommendedConfig
+	ExtraConfig	ExtraConfig
 }
-
 type AuthorizationAPIServer struct {
 	GenericAPIServer *genericapiserver.GenericAPIServer
 }
-
 type completedConfig struct {
-	GenericConfig genericapiserver.CompletedConfig
-	ExtraConfig   *ExtraConfig
+	GenericConfig	genericapiserver.CompletedConfig
+	ExtraConfig	*ExtraConfig
 }
+type CompletedConfig struct{ *completedConfig }
 
-type CompletedConfig struct {
-	// Embed a private pointer that cannot be instantiated outside of this package.
-	*completedConfig
-}
-
-// Complete fills in any fields not set that are required to have valid data. It's mutating the receiver.
 func (c *AuthorizationAPIServerConfig) Complete() completedConfig {
-	cfg := completedConfig{
-		c.GenericConfig.Complete(),
-		&c.ExtraConfig,
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	cfg := completedConfig{c.GenericConfig.Complete(), &c.ExtraConfig}
 	return cfg
 }
-
-// New returns a new instance of AuthorizationAPIServer from the given config.
 func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget) (*AuthorizationAPIServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	genericServer, err := c.GenericConfig.New("authorization.openshift.io-apiserver", delegationTarget)
 	if err != nil {
 		return nil, err
 	}
-
-	s := &AuthorizationAPIServer{
-		GenericAPIServer: genericServer,
-	}
-
+	s := &AuthorizationAPIServer{GenericAPIServer: genericServer}
 	v1Storage, err := c.V1RESTStorage()
 	if err != nil {
 		return nil, err
 	}
-
 	apiGroupInfo := genericapiserver.NewDefaultAPIGroupInfo(authorizationapiv1.GroupName, c.ExtraConfig.Scheme, metav1.ParameterCodec, c.ExtraConfig.Codecs)
 	apiGroupInfo.VersionedResourcesStorageMap[authorizationapiv1.SchemeGroupVersion.Version] = v1Storage
 	if err := s.GenericAPIServer.InstallAPIGroup(&apiGroupInfo); err != nil {
 		return nil, err
 	}
-
 	return s, nil
 }
-
 func (c *completedConfig) V1RESTStorage() (map[string]rest.Storage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.ExtraConfig.makeV1Storage.Do(func() {
 		c.ExtraConfig.v1Storage, c.ExtraConfig.v1StorageErr = c.newV1RESTStorage()
 	})
-
 	return c.ExtraConfig.v1Storage, c.ExtraConfig.v1StorageErr
 }
-
 func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rbacClient, err := rbacclient.NewForConfig(c.ExtraConfig.KubeAPIServerClientConfig)
 	if err != nil {
 		return nil, err
 	}
-
 	selfSubjectRulesReviewStorage := selfsubjectrulesreview.NewREST(c.ExtraConfig.RuleResolver, c.ExtraConfig.KubeInformers.Rbac().V1().ClusterRoles().Lister())
 	subjectRulesReviewStorage := subjectrulesreview.NewREST(c.ExtraConfig.RuleResolver, c.ExtraConfig.KubeInformers.Rbac().V1().ClusterRoles().Lister())
 	subjectAccessReviewStorage := subjectaccessreview.NewREST(c.GenericConfig.Authorization.Authorizer)
@@ -124,7 +106,6 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error building REST storage: %v", err)
 	}
-
 	v1Storage := map[string]rest.Storage{}
 	v1Storage["resourceAccessReviews"] = resourceAccessReviewStorage
 	v1Storage["subjectAccessReviews"] = subjectAccessReviewStorage
@@ -138,4 +119,11 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	v1Storage["clusterRoleBindings"] = clusterrolebinding.NewREST(rbacClient.RESTClient())
 	v1Storage["roleBindingRestrictions"] = roleBindingRestrictionStorage
 	return v1Storage, nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

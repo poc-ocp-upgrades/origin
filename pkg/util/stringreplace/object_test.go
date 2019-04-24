@@ -7,51 +7,25 @@ import (
 )
 
 type sampleInnerStruct struct {
-	Name   string
-	Number int
-	List   []string
-	Map    map[string]string
+	Name	string
+	Number	int
+	List	[]string
+	Map	map[string]string
 }
-
 type sampleStruct struct {
-	Name         string
-	Inner        sampleInnerStruct
-	Ptr          *sampleInnerStruct
-	MapInMap     map[string]map[string]string
-	ArrayInArray [][]string
-	Array        []string
-	ArrayInMap   map[string][]interface{}
+	Name		string
+	Inner		sampleInnerStruct
+	Ptr		*sampleInnerStruct
+	MapInMap	map[string]map[string]string
+	ArrayInArray	[][]string
+	Array		[]string
+	ArrayInMap	map[string][]interface{}
 }
 
 func TestVisitObjectStringsOnStruct(t *testing.T) {
-	samples := [][]sampleStruct{
-		{{}, {}},
-		{{Name: "Foo"}, {Name: "sample-Foo"}},
-		{{Ptr: nil}, {Ptr: nil}},
-		{{Ptr: &sampleInnerStruct{Name: "foo"}}, {Ptr: &sampleInnerStruct{Name: "sample-foo"}}},
-		{{Inner: sampleInnerStruct{Name: "foo"}}, {Inner: sampleInnerStruct{Name: "sample-foo"}}},
-		{{Array: []string{"foo", "bar"}}, {Array: []string{"sample-foo", "sample-bar"}}},
-		{
-			{
-				MapInMap: map[string]map[string]string{
-					"foo": {"bar": "test"},
-				},
-			},
-			{
-				MapInMap: map[string]map[string]string{
-					"sample-foo": {"sample-bar": "sample-test"},
-				},
-			},
-		},
-		{
-			{ArrayInArray: [][]string{{"foo", "bar"}}},
-			{ArrayInArray: [][]string{{"sample-foo", "sample-bar"}}},
-		},
-		{
-			{ArrayInMap: map[string][]interface{}{"key": {"foo", "bar"}}},
-			{ArrayInMap: map[string][]interface{}{"sample-key": {"sample-foo", "sample-bar"}}},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	samples := [][]sampleStruct{{{}, {}}, {{Name: "Foo"}, {Name: "sample-Foo"}}, {{Ptr: nil}, {Ptr: nil}}, {{Ptr: &sampleInnerStruct{Name: "foo"}}, {Ptr: &sampleInnerStruct{Name: "sample-foo"}}}, {{Inner: sampleInnerStruct{Name: "foo"}}, {Inner: sampleInnerStruct{Name: "sample-foo"}}}, {{Array: []string{"foo", "bar"}}, {Array: []string{"sample-foo", "sample-bar"}}}, {{MapInMap: map[string]map[string]string{"foo": {"bar": "test"}}}, {MapInMap: map[string]map[string]string{"sample-foo": {"sample-bar": "sample-test"}}}}, {{ArrayInArray: [][]string{{"foo", "bar"}}}, {ArrayInArray: [][]string{{"sample-foo", "sample-bar"}}}}, {{ArrayInMap: map[string][]interface{}{"key": {"foo", "bar"}}}, {ArrayInMap: map[string][]interface{}{"sample-key": {"sample-foo", "sample-bar"}}}}}
 	for i := range samples {
 		VisitObjectStrings(&samples[i][0], func(in string) (string, bool) {
 			if len(in) == 0 {
@@ -64,23 +38,10 @@ func TestVisitObjectStringsOnStruct(t *testing.T) {
 		}
 	}
 }
-
 func TestVisitObjectStringsOnMap(t *testing.T) {
-	samples := [][]map[string]string{
-		{
-			{"foo": "bar"},
-			{"sample-foo": "sample-bar"},
-		},
-		{
-			{"empty": ""},
-			{"sample-empty": "sample-"},
-		},
-		{
-			{"": "invalid"},
-			{"sample-": "sample-invalid"},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	samples := [][]map[string]string{{{"foo": "bar"}, {"sample-foo": "sample-bar"}}, {{"empty": ""}, {"sample-empty": "sample-"}}, {{"": "invalid"}, {"sample-": "sample-invalid"}}}
 	for i := range samples {
 		VisitObjectStrings(&samples[i][0], func(in string) (string, bool) {
 			return fmt.Sprintf("sample-%s", in), true
@@ -90,15 +51,10 @@ func TestVisitObjectStringsOnMap(t *testing.T) {
 		}
 	}
 }
-
 func TestVisitObjectStringsOnArray(t *testing.T) {
-	samples := [][][]string{
-		{
-			{"foo", "bar"},
-			{"sample-foo", "sample-bar"},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	samples := [][][]string{{{"foo", "bar"}, {"sample-foo", "sample-bar"}}}
 	for i := range samples {
 		VisitObjectStrings(&samples[i][0], func(in string) (string, bool) {
 			return fmt.Sprintf("sample-%s", in), true

@@ -7,7 +7,6 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -25,6 +24,8 @@ import (
 const namespace = "ns"
 
 func newController(t *testing.T, client *fake.Clientset, stopCh <-chan struct{}) *IngressIPController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ipNet, err := net.ParseCIDR("172.16.0.12/28")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -33,136 +34,81 @@ func newController(t *testing.T, client *fake.Clientset, stopCh <-chan struct{})
 		client = fake.NewSimpleClientset()
 	}
 	informerFactory := informers.NewSharedInformerFactory(client, controller.NoResyncPeriodFunc())
-	controller := NewIngressIPController(
-		informerFactory.Core().V1().Services().Informer(),
-		client, ipNet, 10*time.Minute,
-	)
+	controller := NewIngressIPController(informerFactory.Core().V1().Services().Informer(), client, ipNet, 10*time.Minute)
 	informerFactory.Start(stopCh)
 	if !cache.WaitForCacheSync(stopCh, controller.hasSynced) {
 		t.Fatalf("did not sync")
 	}
 	return controller
 }
-
 func newService(name, ip string, typeLoadBalancer bool) *v1.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceType := v1.ServiceTypeClusterIP
 	if typeLoadBalancer {
 		serviceType = v1.ServiceTypeLoadBalancer
 	}
-	service := &v1.Service{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: namespace,
-			Name:      name,
-		},
-		Spec: v1.ServiceSpec{
-			Type: serviceType,
-		},
-	}
+	service := &v1.Service{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}, Spec: v1.ServiceSpec{Type: serviceType}}
 	if len(ip) > 0 {
-		service.Status = v1.ServiceStatus{
-			LoadBalancer: v1.LoadBalancerStatus{
-				Ingress: []v1.LoadBalancerIngress{
-					{
-						IP: ip,
-					},
-				},
-			},
-		}
+		service.Status = v1.ServiceStatus{LoadBalancer: v1.LoadBalancerStatus{Ingress: []v1.LoadBalancerIngress{{IP: ip}}}}
 	}
 	return service
 }
-
 func TestProcessInitialSync(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
-
 	allocatedKey := "lb-allocated"
 	allocatedIP := "172.16.0.1"
-	services := []*v1.Service{
-		newService("regular", "", false),
-		newService(allocatedKey, allocatedIP, true),
-		newService("lb-reallocate", "foo", true),
-		newService("lb-unallocated", "", true),
-	}
+	services := []*v1.Service{newService("regular", "", false), newService(allocatedKey, allocatedIP, true), newService("lb-reallocate", "foo", true), newService("lb-unallocated", "", true)}
 	for _, service := range services {
 		c.enqueueChange(service, nil)
 		c.cache.Add(service)
 	}
-	// Queue a change without caching it to validate that it is ignored
 	c.enqueueChange(newService("ignored", "", true), nil)
-
-	// Enqueue post-sync changes to validate that they are added back
-	// to the queue without being processed.
 	postSyncUpdate := services[0]
 	c.enqueueChange(postSyncUpdate, postSyncUpdate)
 	c.cache.Update(postSyncUpdate)
 	postSyncAddition := newService("lb-post-sync-addition", "", true)
 	c.enqueueChange(postSyncAddition, nil)
 	c.cache.Add(postSyncAddition)
-
 	c.processInitialSync()
-
-	// Validate allocation
-	expectedMap := map[string]string{
-		allocatedIP: fmt.Sprintf("%s/%s", namespace, allocatedKey),
-	}
+	expectedMap := map[string]string{allocatedIP: fmt.Sprintf("%s/%s", namespace, allocatedKey)}
 	if !reflect.DeepEqual(c.allocationMap, expectedMap) {
 		t.Errorf("Expected allocation map %v, got %v", expectedMap, c.allocationMap)
 	}
 	if !c.ipAllocator.Has(net.ParseIP(allocatedIP)) {
 		t.Errorf("IP %v was not marked as allocated", allocatedIP)
 	}
-
-	// Validate queue contents
-	expectedQueueLength := 5 // 3 from initial sync, 2 from post-sync changes
+	expectedQueueLength := 5
 	if c.queue.Len() != expectedQueueLength {
 		t.Errorf("Expected queue length of %d, got %d", expectedQueueLength, c.queue.Len())
 	}
 }
-
 func TestWorkRequeuesWhenFull(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName        string
-		requeuedChange  bool
-		requeuedService bool
-		requeued        bool
-	}{
-		{
-			testName: "Previously requeued change should be requeued",
-			requeued: true,
-		},
-		{
-			testName:        "The only pending allocation should be requeued",
-			requeuedChange:  true,
-			requeuedService: true,
-			requeued:        true,
-		},
-		{
-			testName:        "Already requeued allocation should not be requeued",
-			requeuedService: true,
-			requeued:        false,
-		},
-	}
+		testName	string
+		requeuedChange	bool
+		requeuedService	bool
+		requeued	bool
+	}{{testName: "Previously requeued change should be requeued", requeued: true}, {testName: "The only pending allocation should be requeued", requeuedChange: true, requeuedService: true, requeued: true}, {testName: "Already requeued allocation should not be requeued", requeuedService: true, requeued: false}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
 		c.changeHandler = func(change *serviceChange) error {
 			return ipallocator.ErrFull
 		}
-		// Use a queue with no delay to avoid timing issues
 		c.queue = workqueue.NewRateLimitingQueue(workqueue.NewMaxOfRateLimiter())
-		change := &serviceChange{
-			key:                "foo",
-			requeuedAllocation: test.requeuedChange,
-		}
+		change := &serviceChange{key: "foo", requeuedAllocation: test.requeuedChange}
 		if test.requeuedService {
 			c.requeuedAllocations.Insert(change.key)
 		}
 		c.queue.Add(change)
-
 		c.work()
-
 		requeued := (c.queue.Len() == 1)
 		if test.requeued != requeued {
 			t.Errorf("Expected requeued == %v, got %v", test.requeued, requeued)
@@ -170,37 +116,17 @@ func TestWorkRequeuesWhenFull(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestProcessChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName    string
-		ip          string
-		lb          bool
-		deleted     bool
-		allocatedIP string
-		ipAllocated bool
-	}{
-		{
-			testName: "Deleted service",
-			deleted:  true,
-		},
-		{
-			testName:    "Existing allocation",
-			ip:          "172.16.0.1",
-			lb:          true,
-			allocatedIP: "172.16.0.1",
-		},
-		{
-			testName:    "Needs allocation",
-			lb:          true,
-			ipAllocated: true,
-		},
-		{
-			testName: "Needs deallocation",
-			ip:       "172.16.0.1",
-			lb:       false,
-		},
-	}
+		testName	string
+		ip		string
+		lb		bool
+		deleted		bool
+		allocatedIP	string
+		ipAllocated	bool
+	}{{testName: "Deleted service", deleted: true}, {testName: "Existing allocation", ip: "172.16.0.1", lb: true, allocatedIP: "172.16.0.1"}, {testName: "Needs allocation", lb: true, ipAllocated: true}, {testName: "Needs deallocation", ip: "172.16.0.1", lb: false}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
@@ -217,11 +143,8 @@ func TestProcessChange(t *testing.T) {
 			c.allocationMap[test.ip] = key
 		}
 		change := &serviceChange{key: key}
-
 		freeBefore := c.ipAllocator.Free()
-
 		c.processChange(change)
-
 		switch {
 		case len(test.allocatedIP) > 0:
 			if _, ok := c.allocationMap[test.allocatedIP]; !ok {
@@ -239,31 +162,15 @@ func TestProcessChange(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestClearOldAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName string
-		oldIP    string
-		newIP    string
-		cleared  bool
-	}{
-		{
-			testName: "No old allocation",
-			oldIP:    "",
-			newIP:    "foo",
-		},
-		{
-			testName: "Unchanged allocation",
-			oldIP:    "172.16.0.1",
-			newIP:    "172.16.0.1",
-		},
-		{
-			testName: "Old allocation should be cleared",
-			oldIP:    "172.16.0.1",
-			newIP:    "172.16.0.2",
-			cleared:  true,
-		},
-	}
+		testName	string
+		oldIP		string
+		newIP		string
+		cleared		bool
+	}{{testName: "No old allocation", oldIP: "", newIP: "foo"}, {testName: "Unchanged allocation", oldIP: "172.16.0.1", newIP: "172.16.0.1"}, {testName: "Old allocation should be cleared", oldIP: "172.16.0.1", newIP: "172.16.0.2", cleared: true}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
@@ -275,13 +182,13 @@ func TestClearOldAllocation(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestRecordAllocationReallocates(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
 	var persisted *v1.Service
-	// Keep track of the last-persisted service
 	c.persistenceHandler = func(client kcoreclient.ServicesGetter, service *v1.Service, targetStatus bool) error {
 		persisted = service
 		return nil
@@ -302,8 +209,9 @@ func TestRecordAllocationReallocates(t *testing.T) {
 		t.Errorf("Ingress ip was not persisted")
 	}
 }
-
 func TestAllocateReleasesOnPersistenceFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
@@ -322,37 +230,16 @@ func TestAllocateReleasesOnPersistenceFailure(t *testing.T) {
 		t.Fatalf("IP wasn't released on error")
 	}
 }
-
 func TestClearLocalAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName     string
-		key          string
-		ip           string
-		allocatedKey string
-		cleared      bool
-	}{
-		{
-			testName: "Invalid ip",
-			ip:       "foo",
-		},
-		{
-			testName: "IP not allocated",
-			ip:       "172.16.0.1",
-		},
-		{
-			testName:     "IP not allocated to service",
-			key:          "foo",
-			ip:           "172.16.0.1",
-			allocatedKey: "bar",
-		},
-		{
-			testName:     "Local ip allocation cleared",
-			key:          "foo",
-			ip:           "172.16.0.1",
-			allocatedKey: "foo",
-			cleared:      true,
-		},
-	}
+		testName	string
+		key		string
+		ip		string
+		allocatedKey	string
+		cleared		bool
+	}{{testName: "Invalid ip", ip: "foo"}, {testName: "IP not allocated", ip: "172.16.0.1"}, {testName: "IP not allocated to service", key: "foo", ip: "172.16.0.1", allocatedKey: "bar"}, {testName: "Local ip allocation cleared", key: "foo", ip: "172.16.0.1", allocatedKey: "foo", cleared: true}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
@@ -373,8 +260,9 @@ func TestClearLocalAllocation(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestEnsureExternalIPRespectsNonIngress(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
@@ -392,36 +280,15 @@ func TestEnsureExternalIPRespectsNonIngress(t *testing.T) {
 		t.Errorf("Expected ExternalIPs %v, got %v", expectedExternalIPs, externalIPs)
 	}
 }
-
 func TestAllocateIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName    string
-		requestedIP string
-		allocated   bool
-		asRequested bool
-	}{
-		{
-			testName:    "No requested ip",
-			requestedIP: "",
-			asRequested: false,
-		},
-		{
-			testName:    "Invalid ip",
-			requestedIP: "foo",
-			asRequested: false,
-		},
-		{
-			testName:    "IP not available",
-			requestedIP: "172.16.0.1",
-			allocated:   true,
-			asRequested: false,
-		},
-		{
-			testName:    "Available",
-			requestedIP: "172.16.0.1",
-			asRequested: true,
-		},
-	}
+		testName	string
+		requestedIP	string
+		allocated	bool
+		asRequested	bool
+	}{{testName: "No requested ip", requestedIP: "", asRequested: false}, {testName: "Invalid ip", requestedIP: "foo", asRequested: false}, {testName: "IP not available", requestedIP: "172.16.0.1", allocated: true, asRequested: false}, {testName: "Available", requestedIP: "172.16.0.1", asRequested: true}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		controller := newController(t, nil, stopCh)
@@ -429,7 +296,6 @@ func TestAllocateIP(t *testing.T) {
 			ip := net.ParseIP(test.requestedIP)
 			controller.ipAllocator.Allocate(ip)
 		}
-		// Expect no error for these
 		ip, err := controller.allocateIP(test.requestedIP)
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
@@ -443,51 +309,19 @@ func TestAllocateIP(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestRecordLocalAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key := "svc1"
 	ip := "172.16.0.1"
 	otherKey := "svc2"
 	tests := []struct {
-		testName      string
-		allocationMap map[string]string
-		ip            string
-		reallocate    bool
-		errExpected   bool
-	}{
-		{
-			testName:    "Invalid ip",
-			ip:          "foo",
-			reallocate:  true,
-			errExpected: true,
-		},
-		{
-			testName: "Allocation exists for service",
-			allocationMap: map[string]string{
-				ip: key,
-			},
-			ip: ip,
-		},
-		{
-			testName: "Allocation exists for another service",
-			allocationMap: map[string]string{
-				ip: otherKey,
-			},
-			ip:          ip,
-			reallocate:  true,
-			errExpected: true,
-		},
-		{
-			testName:    "IP not in range",
-			ip:          "172.16.1.1",
-			reallocate:  true,
-			errExpected: true,
-		},
-		{
-			testName: "Allocation successful",
-			ip:       "172.16.0.1",
-		},
-	}
+		testName	string
+		allocationMap	map[string]string
+		ip		string
+		reallocate	bool
+		errExpected	bool
+	}{{testName: "Invalid ip", ip: "foo", reallocate: true, errExpected: true}, {testName: "Allocation exists for service", allocationMap: map[string]string{ip: key}, ip: ip}, {testName: "Allocation exists for another service", allocationMap: map[string]string{ip: otherKey}, ip: ip, reallocate: true, errExpected: true}, {testName: "IP not in range", ip: "172.16.1.1", reallocate: true, errExpected: true}, {testName: "Allocation successful", ip: "172.16.0.1"}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
@@ -497,9 +331,7 @@ func TestRecordLocalAllocation(t *testing.T) {
 				c.ipAllocator.Allocate(net.ParseIP(ipString))
 			}
 		}
-
 		reallocate, err := c.recordLocalAllocation(key, test.ip)
-
 		if test.reallocate != reallocate {
 			t.Errorf("%s: expected reallocate == %v but got %v", test.testName, test.reallocate, reallocate)
 		}
@@ -509,8 +341,6 @@ func TestRecordLocalAllocation(t *testing.T) {
 		case !test.errExpected && (err != nil):
 			t.Errorf("%s: saw unexpected error: %v", test.testName, err)
 		}
-
-		// Ensure allocation was successfully recorded
 		checkAllocation := !test.reallocate && !test.errExpected
 		if checkAllocation {
 			ipKey, ok := c.allocationMap[test.ip]
@@ -523,38 +353,27 @@ func TestRecordLocalAllocation(t *testing.T) {
 		close(stopCh)
 	}
 }
-
 func TestClearPersistedAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName         string
-		persistenceError error
-		ingressIPCount   int
-	}{
-		{
-			testName:         "Status not cleared if external ip not removed",
-			persistenceError: errors.New(""),
-			ingressIPCount:   1,
-		},
-		{
-			testName: "Status cleared",
-		},
-	}
+		testName		string
+		persistenceError	error
+		ingressIPCount		int
+	}{{testName: "Status not cleared if external ip not removed", persistenceError: errors.New(""), ingressIPCount: 1}, {testName: "Status cleared"}}
 	for _, test := range tests {
 		stopCh := make(chan struct{})
 		c := newController(t, nil, stopCh)
 		var persistedService *v1.Service
 		c.persistenceHandler = func(client kcoreclient.ServicesGetter, service *v1.Service, targetStatus bool) error {
-			// Save the last persisted service
 			persistedService = service
 			return test.persistenceError
 		}
 		ip := "172.16.0.1"
 		s := newService("svc", ip, true)
-		// Add other external ips to ensure they are not affected by controller
 		s.Spec.ExternalIPs = []string{"172.16.1.1", ip, "172.16.1.2"}
 		key := fmt.Sprintf("%s/%s", namespace, s.Name)
 		c.clearPersistedAllocation(s, key, "")
-
 		expectedExternalIPs := []string{"172.16.1.1", "172.16.1.2"}
 		externalIPs := persistedService.Spec.ExternalIPs
 		if !reflect.DeepEqual(expectedExternalIPs, externalIPs) {
@@ -567,24 +386,16 @@ func TestClearPersistedAllocation(t *testing.T) {
 		close(stopCh)
 	}
 }
-
-// TestBasicControllerFlow validates controller start, initial sync
-// processing, and post-sync processing.
 func TestBasicControllerFlow(t *testing.T) {
-	startingObjects := []runtime.Object{
-		newService("lb-unallocated", "", true),
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	startingObjects := []runtime.Object{newService("lb-unallocated", "", true)}
 	stop := make(chan struct{})
 	defer close(stop)
-
 	client := fake.NewSimpleClientset(startingObjects...)
 	controller := newController(t, client, stop)
 	controller.changeHandler = controller.processChange
-
 	go controller.Run(stop)
-
-	// Wait for the service spec and status to be updated with an allocated IP.
 	err := wait.Poll(25*time.Millisecond, 2*time.Second, func() (done bool, err error) {
 		for _, genericAction := range client.Actions() {
 			switch action := genericAction.(type) {
@@ -600,10 +411,7 @@ func TestBasicControllerFlow(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed waiting for update: %v", err)
 	}
-
 	client.CoreV1().Services(namespace).Delete("lb-unallocated", &metav1.DeleteOptions{})
-
-	// Wait for a delete to be persisted.
 	err = wait.Poll(25*time.Millisecond, 2*time.Second, func() (done bool, err error) {
 		for _, genericAction := range client.Actions() {
 			switch action := genericAction.(type) {

@@ -5,28 +5,28 @@ import (
 	"testing"
 )
 
-type mockSearcher struct {
-	numResults int
-}
+type mockSearcher struct{ numResults int }
 
 func (m mockSearcher) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
-
 func (m mockSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := ComponentMatches{}
 	for i := 0; i < m.numResults; i++ {
 		results = append(results, &ComponentMatch{Argument: fmt.Sprintf("match%d", i), Score: 0.0})
 	}
-
 	return results, nil
 }
-
 func TestWeightedResolvers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolver1 := WeightedResolver{mockSearcher{2}, 1.0}
 	resolver2 := WeightedResolver{mockSearcher{3}, 1.0}
 	wr := PerfectMatchWeightedResolver{resolver1, resolver2}
-
 	_, err := wr.Resolve("image")
 	if err == nil {
 		t.Error("expected a multiple match error, got no error")

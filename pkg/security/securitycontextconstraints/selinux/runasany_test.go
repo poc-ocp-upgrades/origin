@@ -2,13 +2,13 @@ package selinux
 
 import (
 	"testing"
-
 	api "k8s.io/kubernetes/pkg/apis/core"
-
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
 )
 
 func TestRunAsAnyOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := NewRunAsAny(nil)
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsAny %v", err)
@@ -18,8 +18,9 @@ func TestRunAsAnyOptions(t *testing.T) {
 		t.Errorf("unexpected error initializing NewRunAsAny %v", err)
 	}
 }
-
 func TestRunAsAnyGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := NewRunAsAny(&securityapi.SELinuxContextStrategyOptions{})
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsAny %v", err)
@@ -32,14 +33,10 @@ func TestRunAsAnyGenerate(t *testing.T) {
 		t.Errorf("unexpected error generating uid %v", err)
 	}
 }
-
 func TestRunAsAnyValidate(t *testing.T) {
-	s, err := NewRunAsAny(&securityapi.SELinuxContextStrategyOptions{
-		SELinuxOptions: &api.SELinuxOptions{
-			Level: "foo",
-		},
-	},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	s, err := NewRunAsAny(&securityapi.SELinuxContextStrategyOptions{SELinuxOptions: &api.SELinuxOptions{Level: "foo"}})
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsAny %v", err)
 	}

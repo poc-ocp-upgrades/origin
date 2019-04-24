@@ -5,32 +5,31 @@ import (
 	"io"
 	"regexp"
 	"strings"
-
 	"github.com/onsi/ginkgo"
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/reporters"
 	"github.com/onsi/ginkgo/types"
 )
 
-type ExitError struct {
-	Code int
-}
+type ExitError struct{ Code int }
 
 func (e ExitError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("exit with code %d", e.Code)
 }
 
-// TestOptions handles running a single test.
 type TestOptions struct {
-	DryRun      bool
-	Out, ErrOut io.Writer
+	DryRun		bool
+	Out, ErrOut	io.Writer
 }
 
 func (opt *TestOptions) Run(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 1 {
 		return fmt.Errorf("only a single test name may be passed")
 	}
-
 	tests, err := testsForSuite(config.GinkgoConfig)
 	if err != nil {
 		return err
@@ -45,12 +44,10 @@ func (opt *TestOptions) Run(args []string) error {
 	if test == nil {
 		return fmt.Errorf("no test exists with that name")
 	}
-
 	if opt.DryRun {
 		fmt.Fprintf(opt.Out, "Running test (dry-run)\n")
 		return nil
 	}
-
 	config.GinkgoConfig.FocusString = fmt.Sprintf("^%s$", regexp.QuoteMeta(" [Top Level] "+test.name))
 	config.DefaultReporterConfig.NoColor = true
 	w := ginkgo.GinkgoWriterType()
@@ -59,13 +56,8 @@ func (opt *TestOptions) Run(args []string) error {
 	ginkgo.GlobalSuite().Run(reporter, "", []reporters.Reporter{reporter}, w, config.GinkgoConfig)
 	summary, setup := reporter.Summary()
 	if summary == nil && setup != nil {
-		summary = &types.SpecSummary{
-			Failure: setup.Failure,
-			State:   setup.State,
-		}
+		summary = &types.SpecSummary{Failure: setup.Failure, State: setup.State}
 	}
-
-	// TODO: print stack line?
 	switch {
 	case summary == nil:
 		return fmt.Errorf("test suite set up failed, see logs")
@@ -93,8 +85,9 @@ func (opt *TestOptions) Run(args []string) error {
 	}
 	return nil
 }
-
 func lastFilenameSegment(filename string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if parts := strings.Split(filename, "/vendor/"); len(parts) > 1 {
 		return parts[len(parts)-1]
 	}

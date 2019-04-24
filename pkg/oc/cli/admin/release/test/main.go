@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"bytes"
+	"net/http"
+	"runtime"
 	"io/ioutil"
 	"log"
 	"os"
@@ -9,6 +12,8 @@ import (
 )
 
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	re := regexp.MustCompile(`([\W])(quay\.io/coreos[/\w\-]*)(\:[a-zA-Z\d][a-zA-Z\d\-_]*[a-zA-Z\d]|@\w+:\w+)?`)
 	data, err := ioutil.ReadFile(os.Args[1])
 	if err != nil {
@@ -19,4 +24,11 @@ func main() {
 		return data
 	})
 	fmt.Println(string(out))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

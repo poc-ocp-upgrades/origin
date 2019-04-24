@@ -4,20 +4,15 @@ import (
 	"errors"
 	"fmt"
 	"io"
-
 	"k8s.io/client-go/kubernetes"
-
 	"k8s.io/apiserver/pkg/admission/initializer"
-
 	"k8s.io/client-go/rest"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apiserver/pkg/admission"
 	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/apis/rbac"
-
 	userapi "github.com/openshift/api/user/v1"
 	authorizationtypedclient "github.com/openshift/client-go/authorization/clientset/versioned/typed/authorization/v1"
 	userclient "github.com/openshift/client-go/user/clientset/versioned"
@@ -27,26 +22,22 @@ import (
 )
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register("authorization.openshift.io/RestrictSubjectBindings",
-		func(config io.Reader) (admission.Interface, error) {
-			return NewRestrictUsersAdmission()
-		})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	plugins.Register("authorization.openshift.io/RestrictSubjectBindings", func(config io.Reader) (admission.Interface, error) {
+		return NewRestrictUsersAdmission()
+	})
 }
 
 type GroupCache interface {
 	GroupsFor(string) ([]*userapi.Group, error)
 }
-
-// restrictUsersAdmission implements admission.ValidateInterface and enforces
-// restrictions on adding rolebindings in a project to permit only designated
-// subjects.
 type restrictUsersAdmission struct {
 	*admission.Handler
-
-	roleBindingRestrictionsGetter authorizationtypedclient.RoleBindingRestrictionsGetter
-	userClient                    userclient.Interface
-	kubeClient                    kubernetes.Interface
-	groupCache                    GroupCache
+	roleBindingRestrictionsGetter	authorizationtypedclient.RoleBindingRestrictionsGetter
+	userClient			userclient.Interface
+	kubeClient			kubernetes.Interface
+	groupCache			GroupCache
 }
 
 var _ = oadmission.WantsRESTClientConfig(&restrictUsersAdmission{})
@@ -54,19 +45,19 @@ var _ = oadmission.WantsUserInformer(&restrictUsersAdmission{})
 var _ = initializer.WantsExternalKubeClientSet(&restrictUsersAdmission{})
 var _ = admission.ValidationInterface(&restrictUsersAdmission{})
 
-// NewRestrictUsersAdmission configures an admission plugin that enforces
-// restrictions on adding role bindings in a project.
 func NewRestrictUsersAdmission() (admission.Interface, error) {
-	return &restrictUsersAdmission{
-		Handler: admission.NewHandler(admission.Create, admission.Update),
-	}, nil
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &restrictUsersAdmission{Handler: admission.NewHandler(admission.Create, admission.Update)}, nil
 }
-
 func (q *restrictUsersAdmission) SetExternalKubeClientSet(c kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.kubeClient = c
 }
-
 func (q *restrictUsersAdmission) SetRESTClientConfig(restClientConfig rest.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	q.roleBindingRestrictionsGetter, err = authorizationtypedclient.NewForConfig(&restClientConfig)
 	if err != nil {
@@ -79,16 +70,15 @@ func (q *restrictUsersAdmission) SetRESTClientConfig(restClientConfig rest.Confi
 		return
 	}
 }
-
 func (q *restrictUsersAdmission) SetUserInformer(userInformers userinformer.SharedInformerFactory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.groupCache = usercache.NewGroupCache(userInformers.User().V1().Groups())
 }
-
-// subjectsDelta returns the relative complement of elementsToIgnore in
-// elements (i.e., elements∖elementsToIgnore).
 func subjectsDelta(elementsToIgnore, elements []rbac.Subject) []rbac.Subject {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := []rbac.Subject{}
-
 	for _, el := range elements {
 		keep := true
 		for _, skipEl := range elementsToIgnore {
@@ -101,68 +91,45 @@ func subjectsDelta(elementsToIgnore, elements []rbac.Subject) []rbac.Subject {
 			result = append(result, el)
 		}
 	}
-
 	return result
 }
-
-// Admit makes admission decisions that enforce restrictions on adding
-// project-scoped role-bindings.  In order for a role binding to be permitted,
-// each subject in the binding must be matched by some rolebinding restriction
-// in the namespace.
 func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
-
-	// We only care about rolebindings
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a.GetResource().GroupResource() != rbac.Resource("rolebindings") {
 		return nil
 	}
-
-	// Ignore all operations that correspond to subresource actions.
 	if len(a.GetSubresource()) != 0 {
 		return nil
 	}
-
 	ns := a.GetNamespace()
-	// Ignore cluster-level resources.
 	if len(ns) == 0 {
 		return nil
 	}
-
 	var oldSubjects []rbac.Subject
-
 	obj, oldObj := a.GetObject(), a.GetOldObject()
-
 	rolebinding, ok := obj.(*rbac.RoleBinding)
 	if !ok {
-		return admission.NewForbidden(a,
-			fmt.Errorf("wrong object type for new rolebinding: %T", obj))
+		return admission.NewForbidden(a, fmt.Errorf("wrong object type for new rolebinding: %T", obj))
 	}
-
 	if len(rolebinding.Subjects) == 0 {
 		klog.V(4).Infof("No new subjects; admitting")
 		return nil
 	}
-
 	if oldObj != nil {
 		oldrolebinding, ok := oldObj.(*rbac.RoleBinding)
 		if !ok {
-			return admission.NewForbidden(a,
-				fmt.Errorf("wrong object type for old rolebinding: %T", oldObj))
+			return admission.NewForbidden(a, fmt.Errorf("wrong object type for old rolebinding: %T", oldObj))
 		}
 		oldSubjects = oldrolebinding.Subjects
 	}
-
-	klog.V(4).Infof("Handling rolebinding %s/%s",
-		rolebinding.Namespace, rolebinding.Name)
-
+	klog.V(4).Infof("Handling rolebinding %s/%s", rolebinding.Namespace, rolebinding.Name)
 	newSubjects := subjectsDelta(oldSubjects, rolebinding.Subjects)
 	if len(newSubjects) == 0 {
 		klog.V(4).Infof("No new subjects; admitting")
 		return nil
 	}
-
-	// TODO: Cache rolebinding restrictions.
-	roleBindingRestrictionList, err := q.roleBindingRestrictionsGetter.RoleBindingRestrictions(ns).
-		List(metav1.ListOptions{})
+	roleBindingRestrictionList, err := q.roleBindingRestrictionsGetter.RoleBindingRestrictions(ns).List(metav1.ListOptions{})
 	if err != nil {
 		return admission.NewForbidden(a, err)
 	}
@@ -170,7 +137,6 @@ func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
 		klog.V(4).Infof("No rolebinding restrictions specified; admitting")
 		return nil
 	}
-
 	checkers := []SubjectChecker{}
 	for _, rbr := range roleBindingRestrictionList.Items {
 		checker, err := NewSubjectChecker(&rbr.Spec)
@@ -179,15 +145,11 @@ func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
 		}
 		checkers = append(checkers, checker)
 	}
-
-	roleBindingRestrictionContext, err := newRoleBindingRestrictionContext(ns,
-		q.kubeClient, q.userClient.UserV1(), q.groupCache)
+	roleBindingRestrictionContext, err := newRoleBindingRestrictionContext(ns, q.kubeClient, q.userClient.UserV1(), q.groupCache)
 	if err != nil {
 		return admission.NewForbidden(a, err)
 	}
-
 	checker := NewUnionSubjectChecker(checkers)
-
 	errs := []error{}
 	for _, subject := range newSubjects {
 		allowed, err := checker.Allowed(subject, roleBindingRestrictionContext)
@@ -195,21 +157,18 @@ func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
 			errs = append(errs, err)
 		}
 		if !allowed {
-			errs = append(errs,
-				fmt.Errorf("rolebindings to %s %q are not allowed in project %q",
-					subject.Kind, subject.Name, ns))
+			errs = append(errs, fmt.Errorf("rolebindings to %s %q are not allowed in project %q", subject.Kind, subject.Name, ns))
 		}
 	}
 	if len(errs) != 0 {
 		return admission.NewForbidden(a, kerrors.NewAggregate(errs))
 	}
-
 	klog.V(4).Infof("All new subjects are allowed; admitting")
-
 	return nil
 }
-
 func (q *restrictUsersAdmission) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if q.kubeClient == nil {
 		return errors.New("RestrictUsersAdmission plugin requires a Kubernetes client")
 	}
@@ -222,6 +181,5 @@ func (q *restrictUsersAdmission) ValidateInitialization() error {
 	if q.groupCache == nil {
 		return errors.New("RestrictUsersAdmission plugin requires a group cache")
 	}
-
 	return nil
 }

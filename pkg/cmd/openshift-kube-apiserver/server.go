@@ -2,9 +2,7 @@ package openshift_kube_apiserver
 
 import (
 	"fmt"
-
 	"k8s.io/klog"
-
 	"k8s.io/apiserver/pkg/admission"
 	genericapiserver "k8s.io/apiserver/pkg/server"
 	"k8s.io/kube-aggregator/pkg/apiserver"
@@ -12,38 +10,22 @@ import (
 	"k8s.io/kubernetes/pkg/capabilities"
 	kubelettypes "k8s.io/kubernetes/pkg/kubelet/types"
 	"k8s.io/kubernetes/plugin/pkg/auth/authorizer/rbac/bootstrappolicy"
-
 	kubecontrolplanev1 "github.com/openshift/api/kubecontrolplane/v1"
-
 	"github.com/openshift/origin/pkg/admission/customresourcevalidation/customresourcevalidationregistration"
 	"github.com/openshift/origin/pkg/cmd/openshift-kube-apiserver/kubeadmission"
 	"github.com/openshift/origin/pkg/cmd/openshift-kube-apiserver/openshiftkubeapiserver"
-
 	"k8s.io/kubernetes/pkg/kubeapiserver/options"
-
-	// for metrics
 	_ "k8s.io/kubernetes/pkg/client/metrics/prometheus"
 )
 
 func RunOpenShiftKubeAPIServerServer(kubeAPIServerConfig *kubecontrolplanev1.KubeAPIServerConfig, stopCh <-chan struct{}) error {
-	// This allows to move cluster resource quota to CRD
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apiserver.AddAlwaysLocalDelegateForPrefix("/apis/quota.openshift.io/v1/clusterresourcequotas")
-
-	// Allow privileged containers
-	capabilities.Initialize(capabilities.Capabilities{
-		AllowPrivileged: true,
-		PrivilegedSources: capabilities.PrivilegedSources{
-			HostNetworkSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-			HostPIDSources:     []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-			HostIPCSources:     []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-		},
-	})
-
+	capabilities.Initialize(capabilities.Capabilities{AllowPrivileged: true, PrivilegedSources: capabilities.PrivilegedSources{HostNetworkSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostPIDSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostIPCSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}}})
 	bootstrappolicy.ClusterRoles = bootstrappolicy.OpenshiftClusterRoles
 	bootstrappolicy.ClusterRoleBindings = bootstrappolicy.OpenshiftClusterRoleBindings
-
 	options.AllOrderedPlugins = kubeadmission.NewOrderedKubeAdmissionPlugins(options.AllOrderedPlugins)
-
 	kubeRegisterAdmission := options.RegisterAllAdmissionPlugins
 	options.RegisterAllAdmissionPlugins = func(plugins *admission.Plugins) {
 		kubeRegisterAdmission(plugins)
@@ -51,11 +33,9 @@ func RunOpenShiftKubeAPIServerServer(kubeAPIServerConfig *kubecontrolplanev1.Kub
 		customresourcevalidationregistration.RegisterCustomResourceValidation(plugins)
 	}
 	options.DefaultOffAdmissionPlugins = kubeadmission.NewDefaultOffPluginsFunc(options.DefaultOffAdmissionPlugins())
-
 	configPatchFn, serverPatchContext := openshiftkubeapiserver.NewOpenShiftKubeAPIServerConfigPatch(genericapiserver.NewEmptyDelegate(), kubeAPIServerConfig)
 	app.OpenShiftKubeAPIServerConfigPatch = configPatchFn
 	app.OpenShiftKubeAPIServerServerPatch = serverPatchContext.PatchServer
-
 	cmd := app.NewAPIServerCommand(stopCh)
 	args, err := openshiftkubeapiserver.ConfigToFlags(kubeAPIServerConfig)
 	if err != nil {
@@ -68,6 +48,5 @@ func RunOpenShiftKubeAPIServerServer(kubeAPIServerConfig *kubecontrolplanev1.Kub
 	if err := cmd.RunE(cmd, nil); err != nil {
 		return err
 	}
-
 	return fmt.Errorf("`kube-apiserver %v` exited", args)
 }

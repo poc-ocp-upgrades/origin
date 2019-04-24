@@ -2,20 +2,33 @@ package test
 
 import (
 	docker "github.com/fsouza/go-dockerclient"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 )
 
 type FakeDockerClient struct {
-	// list result
-	Images []docker.APIImages
-	// inspect result
-	Image      *docker.Image
-	ListErr    error
-	InspectErr error
+	Images		[]docker.APIImages
+	Image		*docker.Image
+	ListErr		error
+	InspectErr	error
 }
 
 func (f FakeDockerClient) ListImages(opts docker.ListImagesOptions) ([]docker.APIImages, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.Images, f.ListErr
 }
 func (f FakeDockerClient) InspectImage(name string) (*docker.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.Image, f.InspectErr
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

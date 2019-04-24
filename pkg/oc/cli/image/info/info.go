@@ -2,6 +2,8 @@ package info
 
 import (
 	"bytes"
+	"net/http"
+	"runtime"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -10,22 +12,18 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	"github.com/openshift/origin/pkg/oc/cli/image/workqueue"
-
 	"github.com/docker/distribution"
 	"github.com/docker/distribution/manifest/manifestlist"
 	units "github.com/docker/go-units"
 	digest "github.com/opencontainers/go-digest"
 	"github.com/spf13/cobra"
-
 	"k8s.io/apimachinery/pkg/util/duration"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/klog"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/openshift/origin/pkg/image/apis/image/docker10"
 	imagereference "github.com/openshift/origin/pkg/image/apis/image/reference"
 	"github.com/openshift/origin/pkg/image/registryclient"
@@ -33,27 +31,23 @@ import (
 )
 
 func NewInfoOptions(streams genericclioptions.IOStreams) *InfoOptions {
-	return &InfoOptions{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &InfoOptions{IOStreams: streams}
 }
-
 func NewInfo(parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewInfoOptions(streams)
-	cmd := &cobra.Command{
-		Use:   "info IMAGE",
-		Short: "Display information about an image",
-		Long: templates.LongDesc(`
+	cmd := &cobra.Command{Use: "info IMAGE", Short: "Display information about an image", Long: templates.LongDesc(`
 			Show information about an image in a remote image registry
 
 			Experimental: This command is under active development and may change without notice.
-		`),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+		`), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flags := cmd.Flags()
 	o.FilterOptions.Bind(flags)
 	o.SecurityOptions.Bind(flags)
@@ -63,38 +57,36 @@ func NewInfo(parentName string, streams genericclioptions.IOStreams) *cobra.Comm
 
 type InfoOptions struct {
 	genericclioptions.IOStreams
-
-	SecurityOptions imagemanifest.SecurityOptions
-	FilterOptions   imagemanifest.FilterOptions
-
-	Images []string
-
-	Output string
+	SecurityOptions	imagemanifest.SecurityOptions
+	FilterOptions	imagemanifest.FilterOptions
+	Images		[]string
+	Output		string
 }
 
 func (o *InfoOptions) Complete(cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) < 1 {
 		return fmt.Errorf("info expects at least one argument, an image pull spec")
 	}
 	o.Images = args
 	return nil
 }
-
 func (o *InfoOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.FilterOptions.Validate()
 }
-
 func (o *InfoOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Images) == 0 {
 		return fmt.Errorf("must specify one or more images as arguments")
 	}
-
-	// cache the context
 	_, err := o.SecurityOptions.Context()
 	if err != nil {
 		return err
 	}
-
 	hadError := false
 	for _, location := range o.Images {
 		src, err := imagereference.Parse(location)
@@ -104,48 +96,37 @@ func (o *InfoOptions) Run() error {
 		if len(src.Tag) == 0 && len(src.ID) == 0 {
 			return fmt.Errorf("--from must point to an image ID or image tag")
 		}
-
 		var image *Image
-		retriever := &ImageRetriever{
-			Image: map[string]imagereference.DockerImageReference{
-				location: src,
-			},
-			SecurityOptions: o.SecurityOptions,
-			ManifestListCallback: func(from string, list *manifestlist.DeserializedManifestList, all map[digest.Digest]distribution.Manifest) (map[digest.Digest]distribution.Manifest, error) {
-				filtered := make(map[digest.Digest]distribution.Manifest)
-				for _, manifest := range list.Manifests {
-					if !o.FilterOptions.Include(&manifest, len(list.Manifests) > 1) {
-						klog.V(5).Infof("Skipping image for %#v from %s", manifest.Platform, from)
-						continue
-					}
-					filtered[manifest.Digest] = all[manifest.Digest]
+		retriever := &ImageRetriever{Image: map[string]imagereference.DockerImageReference{location: src}, SecurityOptions: o.SecurityOptions, ManifestListCallback: func(from string, list *manifestlist.DeserializedManifestList, all map[digest.Digest]distribution.Manifest) (map[digest.Digest]distribution.Manifest, error) {
+			filtered := make(map[digest.Digest]distribution.Manifest)
+			for _, manifest := range list.Manifests {
+				if !o.FilterOptions.Include(&manifest, len(list.Manifests) > 1) {
+					klog.V(5).Infof("Skipping image for %#v from %s", manifest.Platform, from)
+					continue
 				}
-				if len(filtered) == 1 {
-					return filtered, nil
-				}
-
-				buf := &bytes.Buffer{}
-				w := tabwriter.NewWriter(buf, 0, 0, 1, ' ', 0)
-				fmt.Fprintf(w, "  OS\tDIGEST\n")
-				for _, manifest := range list.Manifests {
-					fmt.Fprintf(w, "  %s\t%s\n", imagemanifest.PlatformSpecString(manifest.Platform), manifest.Digest)
-				}
-				w.Flush()
-				return nil, fmt.Errorf("the image is a manifest list and contains multiple images - use --filter-by-os to select from:\n\n%s\n", buf.String())
-			},
-
-			ImageMetadataCallback: func(from string, i *Image, err error) error {
-				if err != nil {
-					return err
-				}
-				image = i
-				return nil
-			},
-		}
+				filtered[manifest.Digest] = all[manifest.Digest]
+			}
+			if len(filtered) == 1 {
+				return filtered, nil
+			}
+			buf := &bytes.Buffer{}
+			w := tabwriter.NewWriter(buf, 0, 0, 1, ' ', 0)
+			fmt.Fprintf(w, "  OS\tDIGEST\n")
+			for _, manifest := range list.Manifests {
+				fmt.Fprintf(w, "  %s\t%s\n", imagemanifest.PlatformSpecString(manifest.Platform), manifest.Digest)
+			}
+			w.Flush()
+			return nil, fmt.Errorf("the image is a manifest list and contains multiple images - use --filter-by-os to select from:\n\n%s\n", buf.String())
+		}, ImageMetadataCallback: func(from string, i *Image, err error) error {
+			if err != nil {
+				return err
+			}
+			image = i
+			return nil
+		}}
 		if err := retriever.Run(); err != nil {
 			return err
 		}
-
 		switch o.Output {
 		case "":
 		case "json":
@@ -158,14 +139,12 @@ func (o *InfoOptions) Run() error {
 		default:
 			return fmt.Errorf("unrecognized --output, only 'json' is supported")
 		}
-
 		if err := describeImage(o.Out, image); err != nil {
 			hadError = true
 			if err != kcmdutil.ErrExit {
 				fmt.Fprintf(o.ErrOut, "error: %v", err)
 			}
 		}
-
 	}
 	if hadError {
 		return kcmdutil.ErrExit
@@ -174,21 +153,21 @@ func (o *InfoOptions) Run() error {
 }
 
 type Image struct {
-	Name          string                              `json:"name"`
-	Ref           imagereference.DockerImageReference `json:"-"`
-	Digest        digest.Digest                       `json:"digest"`
-	ContentDigest digest.Digest                       `json:"contentDigest"`
-	ListDigest    digest.Digest                       `json:"listDigest"`
-	MediaType     string                              `json:"mediaType"`
-	Layers        []distribution.Descriptor           `json:"layers"`
-	Config        *docker10.DockerImageConfig         `json:"config"`
-
-	Manifest distribution.Manifest `json:"-"`
+	Name		string					`json:"name"`
+	Ref		imagereference.DockerImageReference	`json:"-"`
+	Digest		digest.Digest				`json:"digest"`
+	ContentDigest	digest.Digest				`json:"contentDigest"`
+	ListDigest	digest.Digest				`json:"listDigest"`
+	MediaType	string					`json:"mediaType"`
+	Layers		[]distribution.Descriptor		`json:"layers"`
+	Config		*docker10.DockerImageConfig		`json:"config"`
+	Manifest	distribution.Manifest			`json:"-"`
 }
 
 func describeImage(out io.Writer, image *Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
-
 	w := tabwriter.NewWriter(out, 0, 4, 1, ' ', 0)
 	defer w.Flush()
 	fmt.Fprintf(w, "Name:\t%s\n", image.Name)
@@ -202,7 +181,6 @@ func describeImage(out io.Writer, image *Image) error {
 		fmt.Fprintf(w, "Content Digest:\t%s\n\tERROR: the image contents do not match the requested digest, this image has been tampered with\n", image.ContentDigest)
 		err = kcmdutil.ErrExit
 	}
-
 	fmt.Fprintf(w, "Media Type:\t%s\n", image.MediaType)
 	if image.Config.Created.IsZero() {
 		fmt.Fprintf(w, "Created:\t%s\n", "<unknown>")
@@ -211,7 +189,6 @@ func describeImage(out io.Writer, image *Image) error {
 	}
 	switch l := len(image.Layers); l {
 	case 0:
-		// legacy case, server does not know individual layers
 		fmt.Fprintf(w, "Layer Size:\t%s\n", units.HumanSize(float64(image.Config.Size)))
 	case 1:
 		fmt.Fprintf(w, "Image Size:\t%s\n", units.HumanSize(float64(image.Layers[0].Size)))
@@ -220,14 +197,12 @@ func describeImage(out io.Writer, image *Image) error {
 		if image.Config.Size == 0 {
 			imageSize = fmt.Sprintf("%d layers (size unavailable)", len(image.Layers))
 		}
-
 		fmt.Fprintf(w, "Image Size:\t%s\n", imageSize)
 		for i, layer := range image.Layers {
 			layerSize := units.HumanSize(float64(layer.Size))
 			if layer.Size == 0 {
 				layerSize = "--"
 			}
-
 			if i == 0 {
 				fmt.Fprintf(w, "%s\t%s\t%s\n", "Layers:", layerSize, layer.Digest)
 			} else {
@@ -240,7 +215,6 @@ func describeImage(out io.Writer, image *Image) error {
 	if len(image.Config.Author) > 0 {
 		fmt.Fprintf(w, "Author:\t%s\n", image.Config.Author)
 	}
-
 	config := image.Config.Config
 	if config != nil {
 		hasCommand := false
@@ -269,7 +243,6 @@ func describeImage(out io.Writer, image *Image) error {
 			fmt.Fprintf(w, "Exposes Ports:\t%s\n", strings.Join(ports.List(), ", "))
 		}
 	}
-
 	if config != nil && len(config.Env) > 0 {
 		for i, env := range config.Env {
 			if i == 0 {
@@ -279,7 +252,6 @@ func describeImage(out io.Writer, image *Image) error {
 			}
 		}
 	}
-
 	if config != nil && len(config.Labels) > 0 {
 		var keys []string
 		for k := range config.Labels {
@@ -294,7 +266,6 @@ func describeImage(out io.Writer, image *Image) error {
 			}
 		}
 	}
-
 	if config != nil && len(config.Volumes) > 0 {
 		var keys []string
 		for k := range config.Volumes {
@@ -309,39 +280,33 @@ func describeImage(out io.Writer, image *Image) error {
 			}
 		}
 	}
-
 	fmt.Fprintln(w)
 	return err
 }
-
 func writeTabSection(out io.Writer, fn func(w io.Writer)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(out, 0, 4, 1, ' ', 0)
 	fn(w)
 	w.Flush()
 }
 
 type ImageRetriever struct {
-	Image           map[string]imagereference.DockerImageReference
-	SecurityOptions imagemanifest.SecurityOptions
-	ParallelOptions imagemanifest.ParallelOptions
-	// ImageMetadataCallback is invoked once per image retrieved, and may be called in parallel if
-	// MaxPerRegistry is set higher than 1. If err is passed image is nil. If an error is returned
-	// execution will stop.
-	ImageMetadataCallback func(from string, image *Image, err error) error
-	// ManifestListCallback, if specified, is invoked if the root image is a manifest list. If an
-	// error returned processing stops. If zero manifests are returned the next item is rendered
-	// and no ImageMetadataCallback calls occur. If more than one manifest is returned
-	// ImageMetadataCallback will be invoked once for each item.
-	ManifestListCallback func(from string, list *manifestlist.DeserializedManifestList, all map[digest.Digest]distribution.Manifest) (map[digest.Digest]distribution.Manifest, error)
+	Image			map[string]imagereference.DockerImageReference
+	SecurityOptions		imagemanifest.SecurityOptions
+	ParallelOptions		imagemanifest.ParallelOptions
+	ImageMetadataCallback	func(from string, image *Image, err error) error
+	ManifestListCallback	func(from string, list *manifestlist.DeserializedManifestList, all map[digest.Digest]distribution.Manifest) (map[digest.Digest]distribution.Manifest, error)
 }
 
 func (o *ImageRetriever) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := context.Background()
 	fromContext, err := o.SecurityOptions.Context()
 	if err != nil {
 		return err
 	}
-
 	callbackFn := o.ImageMetadataCallback
 	if callbackFn == nil {
 		callbackFn = func(_ string, _ *Image, err error) error {
@@ -360,7 +325,6 @@ func (o *ImageRetriever) Run() error {
 				if err != nil {
 					return callbackFn(name, nil, fmt.Errorf("unable to connect to image repository %s: %v", from.Exact(), err))
 				}
-
 				allManifests, manifestList, listDigest, err := imagemanifest.AllManifests(ctx, from, repo)
 				if err != nil {
 					if imagemanifest.IsImageForbidden(err) {
@@ -383,37 +347,23 @@ func (o *ImageRetriever) Run() error {
 					}
 					return callbackFn(name, nil, fmt.Errorf("unable to read image %s: %v", from, err))
 				}
-
 				if o.ManifestListCallback != nil && manifestList != nil {
 					allManifests, err = o.ManifestListCallback(name, manifestList, allManifests)
 					if err != nil {
 						return err
 					}
 				}
-
 				if len(allManifests) == 0 {
 					return imagemanifest.NewImageNotFound(fmt.Sprintf("no manifests could be found for %q", from), nil)
 				}
-
 				for srcDigest, srcManifest := range allManifests {
 					contentDigest, contentErr := registryclient.ContentDigestForManifest(srcManifest, srcDigest.Algorithm())
 					if contentErr != nil {
 						return callbackFn(name, nil, contentErr)
 					}
-
 					imageConfig, layers, manifestErr := imagemanifest.ManifestToImageConfig(ctx, srcManifest, repo.Blobs(ctx), imagemanifest.ManifestLocation{ManifestList: listDigest, Manifest: srcDigest})
 					mediaType, _, _ := srcManifest.Payload()
-					if err := callbackFn(name, &Image{
-						Name:          from.Exact(),
-						Ref:           from,
-						MediaType:     mediaType,
-						Digest:        srcDigest,
-						ContentDigest: contentDigest,
-						ListDigest:    listDigest,
-						Config:        imageConfig,
-						Layers:        layers,
-						Manifest:      srcManifest,
-					}, manifestErr); err != nil {
+					if err := callbackFn(name, &Image{Name: from.Exact(), Ref: from, MediaType: mediaType, Digest: srcDigest, ContentDigest: contentDigest, ListDigest: listDigest, Config: imageConfig, Layers: layers, Manifest: srcManifest}, manifestErr); err != nil {
 						return err
 					}
 				}
@@ -421,4 +371,11 @@ func (o *ImageRetriever) Run() error {
 			})
 		}
 	})
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

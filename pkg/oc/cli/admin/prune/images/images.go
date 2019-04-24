@@ -2,6 +2,8 @@ package images
 
 import (
 	"crypto/x509"
+	"bytes"
+	"runtime"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,11 +16,9 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	gonum "github.com/gonum/graph"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -34,7 +34,6 @@ import (
 	kclientcmd "k8s.io/client-go/tools/clientcmd"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	appsv1client "github.com/openshift/client-go/apps/clientset/versioned/typed/apps/v1"
 	buildv1client "github.com/openshift/client-go/build/clientset/versioned/typed/build/v1"
@@ -48,7 +47,6 @@ import (
 	"github.com/openshift/origin/pkg/version"
 )
 
-// PruneImagesRecommendedName is the recommended command name
 const PruneImagesRecommendedName = "images"
 
 var errNoToken = errors.New("you must use a client config with a token")
@@ -56,7 +54,7 @@ var errNoToken = errors.New("you must use a client config with a token")
 const registryURLNotReachable = `(?:operation|connection) timed out|no such host`
 
 var (
-	imagesLongDesc = templates.LongDesc(`
+	imagesLongDesc	= templates.LongDesc(`
 		Remove image stream tags, images, and image layers by age or usage
 
 		This command removes historical image stream tags, unused images, and unreferenced image
@@ -84,8 +82,7 @@ var (
 		 3. registry url is a private or link-local address
 		 4. user's config allows for insecure connection (the user logged in to the cluster with
 			--insecure-skip-tls-verify or allowed for insecure connection)`)
-
-	imagesExample = templates.Examples(`
+	imagesExample	= templates.Examples(`
 	  # See, what the prune command would delete if only images and their referrers were more than an hour old
 	  # and obsoleted by 3 newer revisions under the same tag were considered.
 	  %[1]s %[2]s --keep-tag-revisions=3 --keep-younger-than=60m
@@ -106,66 +103,47 @@ var (
 	  # Force a secure connection with a custom certificate authority to the particular registry host name
 	  %[1]s %[2]s --registry-url=registry.example.org --certificate-authority=/path/to/custom/ca.crt --confirm`)
 )
-
 var (
-	defaultKeepYoungerThan         = 60 * time.Minute
-	defaultKeepTagRevisions        = 3
-	defaultPruneImageOverSizeLimit = false
-	defaultPruneRegistry           = true
+	defaultKeepYoungerThan		= 60 * time.Minute
+	defaultKeepTagRevisions		= 3
+	defaultPruneImageOverSizeLimit	= false
+	defaultPruneRegistry		= true
 )
 
-// PruneImagesOptions holds all the required options for pruning images.
 type PruneImagesOptions struct {
-	Confirm             bool
-	KeepYoungerThan     *time.Duration
-	KeepTagRevisions    *int
-	PruneOverSizeLimit  *bool
-	AllImages           *bool
-	CABundle            string
-	RegistryUrlOverride string
-	Namespace           string
-	ForceInsecure       bool
-	PruneRegistry       *bool
-	IgnoreInvalidRefs   bool
-
-	ClientConfig       *restclient.Config
-	AppsClient         appsv1client.AppsV1Interface
-	BuildClient        buildv1client.BuildV1Interface
-	ImageClient        imagev1client.ImageV1Interface
-	ImageClientFactory func() (imagev1client.ImageV1Interface, error)
-	DiscoveryClient    discovery.DiscoveryInterface
-	KubeClient         kubernetes.Interface
-	Timeout            time.Duration
-	Out                io.Writer
-	ErrOut             io.Writer
+	Confirm			bool
+	KeepYoungerThan		*time.Duration
+	KeepTagRevisions	*int
+	PruneOverSizeLimit	*bool
+	AllImages		*bool
+	CABundle		string
+	RegistryUrlOverride	string
+	Namespace		string
+	ForceInsecure		bool
+	PruneRegistry		*bool
+	IgnoreInvalidRefs	bool
+	ClientConfig		*restclient.Config
+	AppsClient		appsv1client.AppsV1Interface
+	BuildClient		buildv1client.BuildV1Interface
+	ImageClient		imagev1client.ImageV1Interface
+	ImageClientFactory	func() (imagev1client.ImageV1Interface, error)
+	DiscoveryClient		discovery.DiscoveryInterface
+	KubeClient		kubernetes.Interface
+	Timeout			time.Duration
+	Out			io.Writer
+	ErrOut			io.Writer
 }
 
-// NewCmdPruneImages implements the OpenShift cli prune images command.
 func NewCmdPruneImages(f kcmdutil.Factory, parentName, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allImages := true
-	opts := &PruneImagesOptions{
-		Confirm:            false,
-		KeepYoungerThan:    &defaultKeepYoungerThan,
-		KeepTagRevisions:   &defaultKeepTagRevisions,
-		PruneOverSizeLimit: &defaultPruneImageOverSizeLimit,
-		PruneRegistry:      &defaultPruneRegistry,
-		AllImages:          &allImages,
-	}
-
-	cmd := &cobra.Command{
-		Use:   name,
-		Short: "Remove unreferenced images",
-		Long:  fmt.Sprintf(imagesLongDesc, bootstrappolicy.ImagePrunerRoleName),
-
-		Example: fmt.Sprintf(imagesExample, parentName, name),
-
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(opts.Complete(f, cmd, args, streams.Out))
-			kcmdutil.CheckErr(opts.Validate())
-			kcmdutil.CheckErr(opts.Run())
-		},
-	}
-
+	opts := &PruneImagesOptions{Confirm: false, KeepYoungerThan: &defaultKeepYoungerThan, KeepTagRevisions: &defaultKeepTagRevisions, PruneOverSizeLimit: &defaultPruneImageOverSizeLimit, PruneRegistry: &defaultPruneRegistry, AllImages: &allImages}
+	cmd := &cobra.Command{Use: name, Short: "Remove unreferenced images", Long: fmt.Sprintf(imagesLongDesc, bootstrappolicy.ImagePrunerRoleName), Example: fmt.Sprintf(imagesExample, parentName, name), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(opts.Complete(f, cmd, args, streams.Out))
+		kcmdutil.CheckErr(opts.Validate())
+		kcmdutil.CheckErr(opts.Run())
+	}}
 	cmd.Flags().BoolVar(&opts.Confirm, "confirm", opts.Confirm, "If true, specify that image pruning should proceed. Defaults to false, displaying what would be deleted but not actually deleting anything. Requires a valid route to the integrated Docker registry (see --registry-url).")
 	cmd.Flags().BoolVar(opts.AllImages, "all", *opts.AllImages, "Include images that were imported from external registries as candidates for pruning.  If pruned, all the mirrored objects associated with them will also be removed from the integrated registry.")
 	cmd.Flags().DurationVar(opts.KeepYoungerThan, "keep-younger-than", *opts.KeepYoungerThan, "Specify the minimum age of an image and its referrers for it to be considered a candidate for pruning.")
@@ -176,17 +154,14 @@ func NewCmdPruneImages(f kcmdutil.Factory, parentName, name string, streams gene
 	cmd.Flags().BoolVar(&opts.ForceInsecure, "force-insecure", opts.ForceInsecure, "If true, allow an insecure connection to the docker registry that is hosted via HTTP or has an invalid HTTPS certificate. Whenever possible, use --certificate-authority instead of this dangerous option.")
 	cmd.Flags().BoolVar(opts.PruneRegistry, "prune-registry", *opts.PruneRegistry, "If false, the prune operation will clean up image API objects, but the none of the associated content in the registry is removed.  Note, if only image API objects are cleaned up through use of this flag, the only means for subsequently cleaning up registry data corresponding to those image API objects is to employ the 'hard prune' administrative task.")
 	cmd.Flags().BoolVar(&opts.IgnoreInvalidRefs, "ignore-invalid-refs", opts.IgnoreInvalidRefs, "If true, the pruning process will ignore all errors while parsing image references. This means that the pruning process will ignore the intended connection between the object and the referenced image. As a result an image may be incorrectly deleted as unused.")
-
 	return cmd
 }
-
-// Complete turns a partially defined PruneImagesOptions into a solvent structure
-// which can be validated and used for pruning images.
 func (o *PruneImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		return kcmdutil.UsageErrorf(cmd, "no arguments are allowed to this command")
 	}
-
 	if !cmd.Flags().Lookup("prune-over-size-limit").Changed {
 		o.PruneOverSizeLimit = nil
 	} else {
@@ -197,7 +172,6 @@ func (o *PruneImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, ar
 			o.KeepTagRevisions = nil
 		}
 	}
-
 	o.Namespace = metav1.NamespaceAll
 	if cmd.Flags().Lookup("namespace").Changed {
 		var err error
@@ -208,7 +182,6 @@ func (o *PruneImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, ar
 	}
 	o.Out = out
 	o.ErrOut = os.Stderr
-
 	var err error
 	o.ClientConfig, err = f.ToRESTConfig()
 	if err != nil {
@@ -237,19 +210,16 @@ func (o *PruneImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, ar
 	if err != nil {
 		return err
 	}
-
 	o.ImageClientFactory = getImageClientFactory(f)
-
 	o.Timeout = o.ClientConfig.Timeout
 	if o.Timeout == 0 {
 		o.Timeout = time.Duration(10 * time.Second)
 	}
-
 	return nil
 }
-
-// Validate ensures that a PruneImagesOptions is valid and can be used to execute pruning.
 func (o PruneImagesOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.PruneOverSizeLimit != nil && (o.KeepYoungerThan != nil || o.KeepTagRevisions != nil) {
 		return fmt.Errorf("--prune-over-size-limit cannot be specified with --keep-tag-revisions nor --keep-younger-than")
 	}
@@ -270,65 +240,52 @@ func (o PruneImagesOptions) Validate() error {
 	}
 	return nil
 }
-
-// Run contains all the necessary functionality for the OpenShift cli prune images command.
 func (o PruneImagesOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allPods, err := o.KubeClient.CoreV1().Pods(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
-
 	allRCs, err := o.KubeClient.CoreV1().ReplicationControllers(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
-
 	allBCs, err := o.BuildClient.BuildConfigs(o.Namespace).List(metav1.ListOptions{})
-	// We need to tolerate 'not found' errors for buildConfigs since they may be disabled in Atomic
 	err = oserrors.TolerateNotFoundError(err)
 	if err != nil {
 		return err
 	}
-
 	allBuilds, err := o.BuildClient.Builds(o.Namespace).List(metav1.ListOptions{})
-	// We need to tolerate 'not found' errors for builds since they may be disabled in Atomic
 	err = oserrors.TolerateNotFoundError(err)
 	if err != nil {
 		return err
 	}
-
 	allDSs, err := o.KubeClient.AppsV1().DaemonSets(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
-		// TODO: remove in future (3.9) release
 		if !kerrors.IsForbidden(err) {
 			return err
 		}
 		fmt.Fprintf(o.ErrOut, "Failed to list daemonsets: %v\n - * Make sure to update clusterRoleBindings.\n", err)
 	}
-
 	allDeployments, err := o.KubeClient.AppsV1().Deployments(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
-		// TODO: remove in future (3.9) release
 		if !kerrors.IsForbidden(err) {
 			return err
 		}
 		fmt.Fprintf(o.ErrOut, "Failed to list deployments: %v\n - * Make sure to update clusterRoleBindings.\n", err)
 	}
-
 	allDCs, err := o.AppsClient.DeploymentConfigs(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
-
 	allRSs, err := o.KubeClient.AppsV1().ReplicaSets(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
-		// TODO: remove in future (3.9) release
 		if !kerrors.IsForbidden(err) {
 			return err
 		}
 		fmt.Fprintf(o.ErrOut, "Failed to list replicasets: %v\n - * Make sure to update clusterRoleBindings.\n", err)
 	}
-
 	limitRangesList, err := o.KubeClient.CoreV1().LimitRanges(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -343,38 +300,31 @@ func (o PruneImagesOptions) Run() error {
 		limits = append(limits, &limit)
 		limitRangesMap[limit.Namespace] = limits
 	}
-
 	allImages, err := o.ImageClient.Images().List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
 	imageWatcher, err := o.ImageClient.Images().Watch(metav1.ListOptions{})
 	if err != nil {
-		utilruntime.HandleError(fmt.Errorf("internal error: failed to watch for images: %v"+
-			"\n - image changes will not be detected", err))
+		utilruntime.HandleError(fmt.Errorf("internal error: failed to watch for images: %v"+"\n - image changes will not be detected", err))
 		imageWatcher = watch.NewFake()
 	}
-
 	imageStreamWatcher, err := o.ImageClient.ImageStreams(o.Namespace).Watch(metav1.ListOptions{})
 	if err != nil {
-		utilruntime.HandleError(fmt.Errorf("internal error: failed to watch for image streams: %v"+
-			"\n - image stream changes will not be detected", err))
+		utilruntime.HandleError(fmt.Errorf("internal error: failed to watch for image streams: %v"+"\n - image stream changes will not be detected", err))
 		imageStreamWatcher = watch.NewFake()
 	}
 	defer imageStreamWatcher.Stop()
-
 	allStreams, err := o.ImageClient.ImageStreams(o.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
-
 	var (
-		registryHost          = o.RegistryUrlOverride
-		registryClientFactory imageprune.RegistryClientFactoryFunc
-		registryClient        *http.Client
-		registryPinger        imageprune.RegistryPinger
+		registryHost		= o.RegistryUrlOverride
+		registryClientFactory	imageprune.RegistryClientFactoryFunc
+		registryClient		*http.Client
+		registryPinger		imageprune.RegistryPinger
 	)
-
 	if o.Confirm {
 		if len(registryHost) == 0 {
 			registryHost, err = imageprune.DetermineRegistryHost(allImages, allStreams)
@@ -382,13 +332,10 @@ func (o PruneImagesOptions) Run() error {
 				return fmt.Errorf("unable to determine registry: %v", err)
 			}
 		}
-
 		insecure := o.ForceInsecure
 		if !insecure && len(o.CABundle) == 0 {
-			insecure = o.ClientConfig.TLSClientConfig.Insecure || netutils.IsPrivateAddress(registryHost) ||
-				strings.HasPrefix(registryHost, "http://")
+			insecure = o.ClientConfig.TLSClientConfig.Insecure || netutils.IsPrivateAddress(registryHost) || strings.HasPrefix(registryHost, "http://")
 		}
-
 		registryClientFactory = func() (*http.Client, error) {
 			return getRegistryClient(o.ClientConfig, o.CABundle, insecure)
 		}
@@ -396,17 +343,11 @@ func (o PruneImagesOptions) Run() error {
 		if err != nil {
 			return err
 		}
-
-		registryPinger = &imageprune.DefaultRegistryPinger{
-			Client:   registryClient,
-			Insecure: insecure,
-		}
+		registryPinger = &imageprune.DefaultRegistryPinger{Client: registryClient, Insecure: insecure}
 	} else {
 		registryPinger = &imageprune.DryRunRegistryPinger{}
 		registryClientFactory = imageprune.FakeRegistryClientFactory
 	}
-
-	// verify the registy connection now to avoid future surprises
 	registryURL, err := registryPinger.Ping(registryHost)
 	if err != nil {
 		if len(o.RegistryUrlOverride) == 0 && regexp.MustCompile(registryURLNotReachable).MatchString(err.Error()) {
@@ -414,31 +355,7 @@ func (o PruneImagesOptions) Run() error {
 		}
 		return fmt.Errorf("failed to ping registry %s: %v", registryHost, err)
 	}
-
-	options := imageprune.PrunerOptions{
-		KeepYoungerThan:       o.KeepYoungerThan,
-		KeepTagRevisions:      o.KeepTagRevisions,
-		PruneOverSizeLimit:    o.PruneOverSizeLimit,
-		AllImages:             o.AllImages,
-		Images:                allImages,
-		ImageWatcher:          imageWatcher,
-		Streams:               allStreams,
-		StreamWatcher:         imageStreamWatcher,
-		Pods:                  allPods,
-		RCs:                   allRCs,
-		BCs:                   allBCs,
-		Builds:                allBuilds,
-		DSs:                   allDSs,
-		Deployments:           allDeployments,
-		DCs:                   allDCs,
-		RSs:                   allRSs,
-		LimitRanges:           limitRangesMap,
-		DryRun:                o.Confirm == false,
-		RegistryClientFactory: registryClientFactory,
-		RegistryURL:           registryURL,
-		PruneRegistry:         o.PruneRegistry,
-		IgnoreInvalidRefs:     o.IgnoreInvalidRefs,
-	}
+	options := imageprune.PrunerOptions{KeepYoungerThan: o.KeepYoungerThan, KeepTagRevisions: o.KeepTagRevisions, PruneOverSizeLimit: o.PruneOverSizeLimit, AllImages: o.AllImages, Images: allImages, ImageWatcher: imageWatcher, Streams: allStreams, StreamWatcher: imageStreamWatcher, Pods: allPods, RCs: allRCs, BCs: allBCs, Builds: allBuilds, DSs: allDSs, Deployments: allDeployments, DCs: allDCs, RSs: allRSs, LimitRanges: limitRangesMap, DryRun: o.Confirm == false, RegistryClientFactory: registryClientFactory, RegistryURL: registryURL, PruneRegistry: o.PruneRegistry, IgnoreInvalidRefs: o.IgnoreInvalidRefs}
 	if o.Namespace != metav1.NamespaceAll {
 		options.Namespace = o.Namespace
 	}
@@ -447,7 +364,6 @@ func (o PruneImagesOptions) Run() error {
 		o.printGraphBuildErrors(errs)
 		return fmt.Errorf("failed to build graph - no changes made")
 	}
-
 	imagePrunerFactory := func() (imageprune.ImageDeleter, error) {
 		return &describingImageDeleter{w: o.Out, errOut: o.ErrOut}, nil
 	}
@@ -455,13 +371,11 @@ func (o PruneImagesOptions) Run() error {
 	layerLinkDeleter := &describingLayerLinkDeleter{w: o.Out, errOut: o.ErrOut}
 	blobDeleter := &describingBlobDeleter{w: o.Out, errOut: o.ErrOut}
 	manifestDeleter := &describingManifestDeleter{w: o.Out, errOut: o.ErrOut}
-
 	if o.Confirm {
 		imageStreamDeleter.delegate = imageprune.NewImageStreamDeleter(o.ImageClient)
 		layerLinkDeleter.delegate = imageprune.NewLayerLinkDeleter()
 		blobDeleter.delegate = imageprune.NewBlobDeleter()
 		manifestDeleter.delegate = imageprune.NewManifestDeleter()
-
 		imagePrunerFactory = func() (imageprune.ImageDeleter, error) {
 			imageClient, err := o.ImageClientFactory()
 			if err != nil {
@@ -472,18 +386,10 @@ func (o PruneImagesOptions) Run() error {
 	} else {
 		fmt.Fprintln(o.ErrOut, "Dry run enabled - no modifications will be made. Add --confirm to remove images")
 	}
-
 	if o.PruneRegistry != nil && !*o.PruneRegistry {
 		fmt.Fprintln(o.Out, "Only API objects will be removed.  No modifications to the image registry will be made.")
 	}
-
-	deletions, failures := pruner.Prune(
-		imagePrunerFactory,
-		imageStreamDeleter,
-		layerLinkDeleter,
-		blobDeleter,
-		manifestDeleter,
-	)
+	deletions, failures := pruner.Prune(imagePrunerFactory, imageStreamDeleter, layerLinkDeleter, blobDeleter, manifestDeleter)
 	printSummary(o.Out, deletions, failures)
 	if len(failures) == 1 {
 		return &failures[0]
@@ -493,9 +399,9 @@ func (o PruneImagesOptions) Run() error {
 	}
 	return nil
 }
-
 func printSummary(out io.Writer, deletions []imageprune.Deletion, failures []imageprune.Failure) {
-	// TODO: for higher verbosity, sum by error type
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(failures) == 0 {
 		fmt.Fprintf(out, "Deleted %d objects.\n", len(deletions))
 	} else {
@@ -505,12 +411,9 @@ func printSummary(out io.Writer, deletions []imageprune.Deletion, failures []ima
 	if !klog.V(2) {
 		return
 	}
-
 	fmt.Fprintf(out, "\n")
-
 	w := tabwriter.NewWriter(out, 10, 4, 3, ' ', 0)
 	defer w.Flush()
-
 	buckets := make(map[string]struct{ deletions, failures, total uint64 })
 	count := func(node gonum.Node, parent gonum.Node, deletions uint64, failures uint64) {
 		bucket := ""
@@ -533,14 +436,12 @@ func printSummary(out io.Writer, deletions []imageprune.Deletion, failures []ima
 		c.total += deletions + failures
 		buckets[bucket] = c
 	}
-
 	for _, d := range deletions {
 		count(d.Node, d.Parent, 1, 0)
 	}
 	for _, f := range failures {
 		count(f.Node, f.Parent, 0, 1)
 	}
-
 	printAndPopBucket := func(name string, desc string) {
 		cnt, ok := buckets[name]
 		if ok {
@@ -553,30 +454,26 @@ func printSummary(out io.Writer, deletions []imageprune.Deletion, failures []ima
 		if cnt.failures == 0 {
 			return
 		}
-		// add padding before failures to make it appear subordinate to the line above
 		for i := 0; i < len(desc)-len("failures"); i++ {
 			fmt.Fprintf(w, " ")
 		}
 		fmt.Fprintf(w, "failures:\t%d\n", cnt.failures)
 	}
-
 	printAndPopBucket("is", "Image Stream updates")
 	printAndPopBucket("image", "Image deletions")
 	printAndPopBucket("blob", "Blob deletions")
 	printAndPopBucket("component/"+string(imagegraph.ImageComponentTypeManifest), "Image Manifest Link deletions")
 	printAndPopBucket("component/"+string(imagegraph.ImageComponentTypeConfig), "Image Config Link deletions")
 	printAndPopBucket("component/"+string(imagegraph.ImageComponentTypeLayer), "Image Layer Link deletions")
-
 	for name := range buckets {
 		printAndPopBucket(name, fmt.Sprintf("%s deletions", strings.TrimPrefix(name, "other/")))
 	}
 }
-
 func (o *PruneImagesOptions) printGraphBuildErrors(errs kutilerrors.Aggregate) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refErrors := []error{}
-
 	fmt.Fprintf(o.ErrOut, "Failed to build graph!\n")
-
 	for _, err := range errs.Errors() {
 		if _, ok := err.(*imageprune.ErrBadReference); ok {
 			refErrors = append(refErrors, err)
@@ -584,7 +481,6 @@ func (o *PruneImagesOptions) printGraphBuildErrors(errs kutilerrors.Aggregate) {
 			fmt.Fprintf(o.ErrOut, "%v\n", err)
 		}
 	}
-
 	if len(refErrors) > 0 {
 		clientVersion, masterVersion, err := getClientAndMasterVersions(o.DiscoveryClient, o.Timeout)
 		if err != nil {
@@ -595,42 +491,41 @@ func (o *PruneImagesOptions) printGraphBuildErrors(errs kutilerrors.Aggregate) {
 			fmt.Fprintf(o.ErrOut, "  %s\n", err)
 		}
 		fmt.Fprintf(o.ErrOut, "\nEither fix the references or delete the objects to make the pruner proceed.\n")
-
 		if masterVersion != nil && (clientVersion.Major != masterVersion.Major || clientVersion.Minor != masterVersion.Minor) {
 			fmt.Fprintf(o.ErrOut, "Client version (%s) doesn't match master (%s), which may allow for different image references. Try to re-run this binary with the same version.\n", clientVersion, masterVersion)
 		}
 	}
 }
 
-// describingImageStreamDeleter prints information about each image stream update.
-// If a delegate exists, its DeleteImageStream function is invoked prior to returning.
 type describingImageStreamDeleter struct {
-	w             io.Writer
-	delegate      imageprune.ImageStreamDeleter
-	headerPrinted bool
-	errOut        io.Writer
+	w		io.Writer
+	delegate	imageprune.ImageStreamDeleter
+	headerPrinted	bool
+	errOut		io.Writer
 }
 
 var _ imageprune.ImageStreamDeleter = &describingImageStreamDeleter{}
 
 func (p *describingImageStreamDeleter) GetImageStream(stream *imagev1.ImageStream) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stream, nil
 }
-
 func (p *describingImageStreamDeleter) UpdateImageStream(stream *imagev1.ImageStream) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.delegate == nil {
 		return stream, nil
 	}
-
 	updatedStream, err := p.delegate.UpdateImageStream(stream)
 	if err != nil {
 		fmt.Fprintf(p.errOut, "error updating image stream %s/%s to remove image references: %v\n", stream.Namespace, stream.Name, err)
 	}
-
 	return updatedStream, err
 }
-
 func (p *describingImageStreamDeleter) NotifyImageStreamPrune(stream *imagev1.ImageStream, updatedTags []string, deletedTags []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(updatedTags) > 0 {
 		fmt.Fprintf(p.w, "Updating istags %s/%s: %s\n", stream.Namespace, stream.Name, strings.Join(updatedTags, ", "))
 	}
@@ -639,209 +534,165 @@ func (p *describingImageStreamDeleter) NotifyImageStreamPrune(stream *imagev1.Im
 	}
 }
 
-// describingImageDeleter prints information about each image being deleted.
-// If a delegate exists, its DeleteImage function is invoked prior to returning.
 type describingImageDeleter struct {
-	w             io.Writer
-	delegate      imageprune.ImageDeleter
-	headerPrinted bool
-	errOut        io.Writer
+	w		io.Writer
+	delegate	imageprune.ImageDeleter
+	headerPrinted	bool
+	errOut		io.Writer
 }
 
 var _ imageprune.ImageDeleter = &describingImageDeleter{}
 
 func (p *describingImageDeleter) DeleteImage(image *imagev1.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting image %s\n", image.Name)
-
 	if p.delegate == nil {
 		return nil
 	}
-
 	err := p.delegate.DeleteImage(image)
 	if err != nil {
 		fmt.Fprintf(p.errOut, "error deleting image %s from server: %v\n", image.Name, err)
 	}
-
 	return err
 }
 
-// describingLayerLinkDeleter prints information about each repo layer link being deleted. If a delegate
-// exists, its DeleteLayerLink function is invoked prior to returning.
 type describingLayerLinkDeleter struct {
-	w             io.Writer
-	delegate      imageprune.LayerLinkDeleter
-	headerPrinted bool
-	errOut        io.Writer
+	w		io.Writer
+	delegate	imageprune.LayerLinkDeleter
+	headerPrinted	bool
+	errOut		io.Writer
 }
 
 var _ imageprune.LayerLinkDeleter = &describingLayerLinkDeleter{}
 
 func (p *describingLayerLinkDeleter) DeleteLayerLink(registryClient *http.Client, registryURL *url.URL, repo, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting layer link %s in repository %s\n", name, repo)
-
 	if p.delegate == nil {
 		return nil
 	}
-
 	err := p.delegate.DeleteLayerLink(registryClient, registryURL, repo, name)
 	if err != nil {
 		fmt.Fprintf(p.errOut, "error deleting repository %s layer link %s from the registry: %v\n", repo, name, err)
 	}
-
 	return err
 }
 
-// describingBlobDeleter prints information about each blob being deleted. If a
-// delegate exists, its DeleteBlob function is invoked prior to returning.
 type describingBlobDeleter struct {
-	w             io.Writer
-	delegate      imageprune.BlobDeleter
-	headerPrinted bool
-	errOut        io.Writer
+	w		io.Writer
+	delegate	imageprune.BlobDeleter
+	headerPrinted	bool
+	errOut		io.Writer
 }
 
 var _ imageprune.BlobDeleter = &describingBlobDeleter{}
 
 func (p *describingBlobDeleter) DeleteBlob(registryClient *http.Client, registryURL *url.URL, layer string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting blob %s\n", layer)
-
 	if p.delegate == nil {
 		return nil
 	}
-
 	err := p.delegate.DeleteBlob(registryClient, registryURL, layer)
 	if err != nil {
 		fmt.Fprintf(p.errOut, "error deleting blob %s from the registry: %v\n", layer, err)
 	}
-
 	return err
 }
 
-// describingManifestDeleter prints information about each repo manifest being
-// deleted. If a delegate exists, its DeleteManifest function is invoked prior
-// to returning.
 type describingManifestDeleter struct {
-	w             io.Writer
-	delegate      imageprune.ManifestDeleter
-	headerPrinted bool
-	errOut        io.Writer
+	w		io.Writer
+	delegate	imageprune.ManifestDeleter
+	headerPrinted	bool
+	errOut		io.Writer
 }
 
 var _ imageprune.ManifestDeleter = &describingManifestDeleter{}
 
 func (p *describingManifestDeleter) DeleteManifest(registryClient *http.Client, registryURL *url.URL, repo, manifest string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting manifest link %s in repository %s\n", manifest, repo)
-
 	if p.delegate == nil {
 		return nil
 	}
-
 	err := p.delegate.DeleteManifest(registryClient, registryURL, repo, manifest)
 	if err != nil {
 		fmt.Fprintf(p.errOut, "error deleting manifest link %s from repository %s: %v\n", manifest, repo, err)
 	}
-
 	return err
 }
-
 func getImageClientFactory(f kcmdutil.Factory) func() (imagev1client.ImageV1Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func() (imagev1client.ImageV1Interface, error) {
 		clientConfig, err := f.ToRESTConfig()
 		if err != nil {
 			return nil, err
 		}
-
 		return imagev1client.NewForConfig(clientConfig)
 	}
 }
-
-// getRegistryClient returns a registry client. Note that registryCABundle and registryInsecure=true are
-// mutually exclusive. If registryInsecure=true is specified, the ca bundle is ignored.
 func getRegistryClient(clientConfig *restclient.Config, registryCABundle string, registryInsecure bool) (*http.Client, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		err                      error
-		cadata                   []byte
-		registryCABundleIncluded = false
-		token                    = clientConfig.BearerToken
+		err				error
+		cadata				[]byte
+		registryCABundleIncluded	= false
+		token				= clientConfig.BearerToken
 	)
-
 	if len(token) == 0 {
 		return nil, errNoToken
 	}
-
 	if len(registryCABundle) > 0 {
 		cadata, err = ioutil.ReadFile(registryCABundle)
 		if err != nil {
 			return nil, fmt.Errorf("failed to read registry ca bundle: %v", err)
 		}
 	}
-
-	// copy the config
 	registryClientConfig := *clientConfig
 	registryClientConfig.TLSClientConfig.Insecure = registryInsecure
-
-	// zero out everything we don't want to use
 	registryClientConfig.BearerToken = ""
 	registryClientConfig.CertFile = ""
 	registryClientConfig.CertData = []byte{}
 	registryClientConfig.KeyFile = ""
 	registryClientConfig.KeyData = []byte{}
-
 	if registryInsecure {
-		// it's not allowed to specify insecure flag together with CAs
 		registryClientConfig.CAFile = ""
 		registryClientConfig.CAData = []byte{}
-
 	} else if len(cadata) > 0 && len(registryClientConfig.CAData) == 0 {
-		// If given, we want to append cabundle to the resulting tlsConfig.RootCAs. However, if we
-		// leave CAData unset, tlsConfig may not be created. We could append the caBundle to the
-		// CAData here directly if we were ok doing a binary magic, which is not the case.
 		registryClientConfig.CAData = cadata
 		registryCABundleIncluded = true
 	}
-
-	// we have to set a username to something for the Docker login but it's not actually used
 	registryClientConfig.Username = "unused"
-
-	// set the "password" to be the token
 	registryClientConfig.Password = token
-
 	tlsConfig, err := restclient.TLSConfigFor(&registryClientConfig)
 	if err != nil {
 		return nil, err
 	}
-
-	// Add the CA bundle to the client config's CA roots if provided and we haven't done that already.
-	// FIXME: handle registryCABundle on one place
 	if tlsConfig != nil && len(cadata) > 0 && !registryCABundleIncluded && !registryInsecure {
 		if tlsConfig.RootCAs == nil {
 			tlsConfig.RootCAs = x509.NewCertPool()
 		}
 		tlsConfig.RootCAs.AppendCertsFromPEM(cadata)
 	}
-
-	transport := knet.SetTransportDefaults(&http.Transport{
-		TLSClientConfig: tlsConfig,
-	})
-
+	transport := knet.SetTransportDefaults(&http.Transport{TLSClientConfig: tlsConfig})
 	wrappedTransport, err := restclient.HTTPWrappersForConfig(&registryClientConfig, transport)
 	if err != nil {
 		return nil, err
 	}
-
-	return &http.Client{
-		Transport: wrappedTransport,
-	}, nil
+	return &http.Client{Transport: wrappedTransport}, nil
 }
-
-// getClientAndMasterVersions returns version info for client and master binaries. If it takes too long to get
-// a response from the master, timeout error is returned.
 func getClientAndMasterVersions(client discovery.DiscoveryInterface, timeout time.Duration) (clientVersion, masterVersion *apimachineryversion.Info, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	done := make(chan error)
-
 	go func() {
 		defer close(done)
-
 		ocVersionBody, err := client.RESTClient().Get().AbsPath("/version/openshift").Do().Raw()
 		switch {
 		case err == nil:
@@ -852,14 +703,12 @@ func getClientAndMasterVersions(client discovery.DiscoveryInterface, timeout tim
 				return
 			}
 			masterVersion = &ocServerInfo
-
 		case kerrors.IsNotFound(err) || kerrors.IsUnauthorized(err) || kerrors.IsForbidden(err):
 		default:
 			done <- err
 			return
 		}
 	}()
-
 	select {
 	case err, closed := <-done:
 		if strings.HasSuffix(fmt.Sprintf("%v", err), "connection refused") || kclientcmd.IsEmptyConfig(err) || kclientcmd.IsConfigurationInvalid(err) {
@@ -868,13 +717,17 @@ func getClientAndMasterVersions(client discovery.DiscoveryInterface, timeout tim
 		if closed && err != nil {
 			return nil, nil, err
 		}
-	// do not block error printing if the master is busy
 	case <-time.After(timeout):
 		return nil, nil, fmt.Errorf("error: server took too long to respond with version information.")
 	}
-
 	v := version.Get()
 	clientVersion = &v
-
 	return
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

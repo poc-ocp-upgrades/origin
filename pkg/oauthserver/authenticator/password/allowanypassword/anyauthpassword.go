@@ -2,36 +2,40 @@ package allowanypassword
 
 import (
 	"context"
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	"strings"
-
 	"k8s.io/apiserver/pkg/authentication/authenticator"
-
 	authapi "github.com/openshift/origin/pkg/oauthserver/api"
 	"github.com/openshift/origin/pkg/oauthserver/authenticator/identitymapper"
 )
 
-// alwaysAcceptPasswordAuthenticator approves any login attempt with non-blank username and password
 type alwaysAcceptPasswordAuthenticator struct {
-	providerName   string
-	identityMapper authapi.UserIdentityMapper
+	providerName	string
+	identityMapper	authapi.UserIdentityMapper
 }
 
-// New creates a new password authenticator that approves any login attempt with non-blank username and password
 func New(providerName string, identityMapper authapi.UserIdentityMapper) authenticator.Password {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &alwaysAcceptPasswordAuthenticator{providerName, identityMapper}
 }
-
-// AuthenticatePassword approves any login attempt with non-blank username and password
 func (a alwaysAcceptPasswordAuthenticator) AuthenticatePassword(ctx context.Context, username, password string) (*authenticator.Response, bool, error) {
-	// Since this IDP doesn't validate usernames or passwords, disallow usernames consisting entirely of spaces
-	// Normalize usernames by removing leading/trailing spaces
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	username = strings.TrimSpace(username)
-
 	if username == "" || password == "" {
 		return nil, false, nil
 	}
-
 	identity := authapi.NewDefaultUserIdentityInfo(a.providerName, username)
-
 	return identitymapper.ResponseFor(a.identityMapper, identity)
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

@@ -2,25 +2,27 @@ package app
 
 import (
 	"strings"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	templatev1 "github.com/openshift/api/template/v1"
 )
 
 func templateScorer(template templatev1.Template, term string) (float32, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	score := stringProximityScorer(template.Name, term)
 	return score, score < 0.3
 }
-
 func imageStreamScorer(imageStream imagev1.ImageStream, term string) (float32, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	score := stringProximityScorer(imageStream.Name, term)
 	return score, score < 0.3
 }
-
 func stringProximityScorer(s, query string) float32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sLower := strings.ToLower(s)
 	queryLower := strings.ToLower(query)
-
 	var score float32
 	switch {
 	case query == "*":
@@ -40,13 +42,12 @@ func stringProximityScorer(s, query string) float32 {
 	default:
 		score = 1.0
 	}
-
 	return score
 }
-
 func partialScorer(a, b string, prefix bool, partial, none float32) (bool, float32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
-	// If either one is empty, it's a partial match because the values do not conflict.
 	case len(a) == 0 && len(b) != 0, len(a) != 0 && len(b) == 0:
 		return true, partial
 	case a != b:

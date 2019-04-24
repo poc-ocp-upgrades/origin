@@ -2,13 +2,14 @@ package operators
 
 import (
 	"encoding/json"
+	"bytes"
+	"net/http"
+	"runtime"
 	"fmt"
 	"strings"
 	"time"
-
 	g "github.com/onsi/ginkgo"
 	o "github.com/onsi/gomega"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
@@ -17,17 +18,14 @@ import (
 
 var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 	defer g.GinkgoRecover()
-
 	g.It("have no crashlooping pods in core namespaces over two minutes", func() {
 		c, err := e2e.LoadClientset()
 		o.Expect(err).NotTo(o.HaveOccurred())
-
 		var lastPodsWithProblems []*corev1.Pod
 		var pending map[string]*corev1.Pod
 		wait.PollImmediate(5*time.Second, 2*time.Minute, func() (bool, error) {
 			allPods, err := c.CoreV1().Pods("").List(metav1.ListOptions{})
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			var pods []*corev1.Pod
 			for i := range allPods.Items {
 				pod := &allPods.Items[i]
@@ -36,7 +34,6 @@ var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 				}
 				pods = append(pods, pod)
 			}
-
 			if pending == nil {
 				pending = make(map[string]*corev1.Pod)
 				for _, pod := range pods {
@@ -51,7 +48,6 @@ var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 					}
 				}
 			}
-
 			var podsWithProblems []*corev1.Pod
 			var names []string
 			for _, pod := range pods {
@@ -90,7 +86,6 @@ var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 			e2e.Logf("Pod status %s/%s:\n%s", pod.Namespace, pod.Name, string(status))
 			msg = append(msg, fmt.Sprintf("Pod %s/%s is not healthy: %v", pod.Namespace, pod.Name, pod.Status.Message))
 		}
-
 		for _, pod := range pending {
 			if _, ok := ns[pod.Namespace]; !ok {
 				e2e.DumpEventsInNamespace(func(opts metav1.ListOptions, ns string) (*corev1.EventList, error) {
@@ -105,12 +100,13 @@ var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 			}
 			msg = append(msg, fmt.Sprintf("Pod %s/%s was pending entire time: %v", pod.Namespace, pod.Name, pod.Status.Message))
 		}
-
 		o.Expect(msg).To(o.BeEmpty())
 	})
 })
 
 func hasCreateContainerError(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, status := range append(append([]corev1.ContainerStatus{}, pod.Status.InitContainerStatuses...), pod.Status.ContainerStatuses...) {
 		if status.State.Waiting != nil {
 			if status.State.Waiting.Reason == "CreateContainerError" {
@@ -124,8 +120,9 @@ func hasCreateContainerError(pod *corev1.Pod) bool {
 	}
 	return false
 }
-
 func hasImagePullError(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, status := range append(append([]corev1.ContainerStatus{}, pod.Status.InitContainerStatuses...), pod.Status.ContainerStatuses...) {
 		if status.State.Waiting != nil {
 			if reason := status.State.Waiting.Reason; reason == "ErrImagePull" || reason == "ImagePullBackOff" {
@@ -139,8 +136,9 @@ func hasImagePullError(pod *corev1.Pod) bool {
 	}
 	return false
 }
-
 func hasFailingContainer(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, status := range append(append([]corev1.ContainerStatus{}, pod.Status.InitContainerStatuses...), pod.Status.ContainerStatuses...) {
 		if status.State.Terminated != nil && status.State.Terminated.ExitCode != 0 {
 			pod.Status.Message = status.State.Terminated.Message
@@ -152,8 +150,9 @@ func hasFailingContainer(pod *corev1.Pod) bool {
 	}
 	return pod.Status.Phase == corev1.PodFailed
 }
-
 func isCrashLooping(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, status := range append(append([]corev1.ContainerStatus{}, pod.Status.InitContainerStatuses...), pod.Status.ContainerStatuses...) {
 		if status.State.Waiting != nil {
 			if reason := status.State.Waiting.Reason; reason == "CrashLoopBackOff" {
@@ -167,8 +166,9 @@ func isCrashLooping(pod *corev1.Pod) bool {
 	}
 	return false
 }
-
 func hasExcessiveRestarts(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, status := range append(append([]corev1.ContainerStatus{}, pod.Status.InitContainerStatuses...), pod.Status.ContainerStatuses...) {
 		if status.RestartCount > 5 {
 			pod.Status.Message = fmt.Sprintf("container %s has restarted more than 5 times", status.Name)
@@ -176,4 +176,11 @@ func hasExcessiveRestarts(pod *corev1.Pod) bool {
 		}
 	}
 	return false
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

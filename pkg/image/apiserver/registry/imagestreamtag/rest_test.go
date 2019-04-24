@@ -4,11 +4,9 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	etcd "github.com/coreos/etcd/clientv3"
 	"golang.org/x/net/context"
 	"k8s.io/apiserver/pkg/registry/rest"
-
 	authorizationapi "k8s.io/api/authorization/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,7 +19,6 @@ import (
 	etcdtesting "k8s.io/apiserver/pkg/storage/etcd/testing"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	"github.com/openshift/origin/pkg/image/apis/image/validation/fake"
@@ -31,179 +28,91 @@ import (
 	"github.com/openshift/origin/pkg/image/apiserver/registry/imagestream"
 	imagestreametcd "github.com/openshift/origin/pkg/image/apiserver/registry/imagestream/etcd"
 	"github.com/openshift/origin/pkg/image/apiserver/registryhostname"
-
 	_ "github.com/openshift/origin/pkg/api/install"
 )
 
-var testDefaultRegistry = func() (string, bool) { return "defaultregistry:5000", true }
-
-type fakeSubjectAccessReviewRegistry struct {
+var testDefaultRegistry = func() (string, bool) {
+	return "defaultregistry:5000", true
 }
 
+type fakeSubjectAccessReviewRegistry struct{}
+
 func (f *fakeSubjectAccessReviewRegistry) Create(subjectAccessReview *authorizationapi.SubjectAccessReview) (*authorizationapi.SubjectAccessReview, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 
-type fakeUser struct {
-}
+type fakeUser struct{}
 
 var _ user.Info = &fakeUser{}
 
 func (u *fakeUser) GetName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "user"
 }
-
 func (u *fakeUser) GetUID() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "uid"
 }
-
 func (u *fakeUser) GetGroups() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{"group1"}
 }
-
 func (u *fakeUser) GetExtra() map[string][]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string][]string{}
 }
-
 func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, etcdStorage := etcdtesting.NewUnsecuredEtcd3TestClientServer(t)
 	etcdStorage.Codec = legacyscheme.Codecs.LegacyCodec(schema.GroupVersion{Group: "image.openshift.io", Version: "v1"})
 	etcdClient := etcd.NewKV(server.V3Client)
 	imagestreamRESTOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "imagestreams"}
 	rw := &fake.RegistryWhitelister{}
-
 	imageRESTOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "images"}
 	imageStorage, err := imageetcd.NewREST(imageRESTOptions)
 	if err != nil {
 		t.Fatal(err)
 	}
 	registry := registryhostname.TestingRegistryHostnameRetriever(testDefaultRegistry, "", "")
-	imageStreamStorage, _, imageStreamStatus, internalStorage, err := imagestreametcd.NewRESTWithLimitVerifier(
-		imagestreamRESTOptions,
-		registry,
-		&fakeSubjectAccessReviewRegistry{},
-		&admfake.ImageStreamLimitVerifier{},
-		rw,
-		imagestreametcd.NewEmptyLayerIndex(),
-	)
+	imageStreamStorage, _, imageStreamStatus, internalStorage, err := imagestreametcd.NewRESTWithLimitVerifier(imagestreamRESTOptions, registry, &fakeSubjectAccessReviewRegistry{}, &admfake.ImageStreamLimitVerifier{}, rw, imagestreametcd.NewEmptyLayerIndex())
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	imageRegistry := image.NewRegistry(imageStorage)
 	imageStreamRegistry := imagestream.NewRegistry(imageStreamStorage, imageStreamStatus, internalStorage)
-
 	storage := NewREST(imageRegistry, imageStreamRegistry, rw)
-
 	return etcdClient, server, storage
 }
 
-type statusError interface {
-	Status() metav1.Status
-}
+type statusError interface{ Status() metav1.Status }
 
 func TestGetImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		image           *imageapi.Image
-		repo            *imageapi.ImageStream
-		expectError     bool
-		errorTargetKind string
-		errorTargetID   string
-	}{
-		"happy path": {
-			image: &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"},
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test",
-				},
-				Spec: imageapi.ImageStreamSpec{
-					Tags: map[string]imageapi.TagReference{
-						"latest": {
-							Annotations: map[string]string{
-								"color": "blue",
-								"size":  "large",
-							},
-						},
-					},
-				},
-				Status: imageapi.ImageStreamStatus{
-					Tags: map[string]imageapi.TagEventList{
-						"latest": {
-							Items: []imageapi.TagEvent{
-								{
-									Created:              metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC),
-									DockerImageReference: "test",
-									Image:                "10",
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-		"image = ''": {
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{Name: "test"},
-				Status: imageapi.ImageStreamStatus{
-					Tags: map[string]imageapi.TagEventList{
-						"latest": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: ""}}},
-					},
-				}},
-			expectError:     true,
-			errorTargetKind: "imagestreamtags",
-			errorTargetID:   "test:latest",
-		},
-		"missing image": {
-			repo: &imageapi.ImageStream{Status: imageapi.ImageStreamStatus{
-				Tags: map[string]imageapi.TagEventList{
-					"latest": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: "10"}}},
-				},
-			}},
-			expectError:     true,
-			errorTargetKind: "images",
-			errorTargetID:   "10",
-		},
-		"missing repo": {
-			expectError:     true,
-			errorTargetKind: "imagestreams",
-			errorTargetID:   "test",
-		},
-		"missing tag": {
-			image: &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"},
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{Name: "test"},
-				Status: imageapi.ImageStreamStatus{
-					Tags: map[string]imageapi.TagEventList{
-						"other": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: "10"}}},
-					},
-				}},
-			expectError:     true,
-			errorTargetKind: "imagestreamtags",
-			errorTargetID:   "test:latest",
-		},
-	}
-
+		image		*imageapi.Image
+		repo		*imageapi.ImageStream
+		expectError	bool
+		errorTargetKind	string
+		errorTargetID	string
+	}{"happy path": {image: &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"}, repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test"}, Spec: imageapi.ImageStreamSpec{Tags: map[string]imageapi.TagReference{"latest": {Annotations: map[string]string{"color": "blue", "size": "large"}}}}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{Created: metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC), DockerImageReference: "test", Image: "10"}}}}}}}, "image = ''": {repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: ""}}}}}}, expectError: true, errorTargetKind: "imagestreamtags", errorTargetID: "test:latest"}, "missing image": {repo: &imageapi.ImageStream{Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: "10"}}}}}}, expectError: true, errorTargetKind: "images", errorTargetID: "10"}, "missing repo": {expectError: true, errorTargetKind: "imagestreams", errorTargetID: "test"}, "missing tag": {image: &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"}, repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"other": {Items: []imageapi.TagEvent{{DockerImageReference: "test", Image: "10"}}}}}}, expectError: true, errorTargetKind: "imagestreamtags", errorTargetID: "test:latest"}}
 	for name, testCase := range tests {
 		func() {
 			client, server, storage := setup(t)
 			defer server.Terminate(t)
-
 			if testCase.image != nil {
-				client.Put(
-					context.TODO(),
-					etcdtest.AddPrefix("/images/"+testCase.image.Name),
-					runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.image),
-				)
+				client.Put(context.TODO(), etcdtest.AddPrefix("/images/"+testCase.image.Name), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.image))
 			}
 			if testCase.repo != nil {
-				client.Put(
-					context.TODO(),
-					etcdtest.AddPrefix("/imagestreams/default/test"),
-					runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.repo),
-				)
+				client.Put(context.TODO(), etcdtest.AddPrefix("/imagestreams/default/test"), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.repo))
 			}
-
 			obj, err := storage.Get(apirequest.NewDefaultContext(), "test:latest", &metav1.GetOptions{})
 			gotErr := err != nil
 			if e, a := testCase.expectError, gotErr; e != a {
@@ -238,42 +147,16 @@ func TestGetImageStreamTag(t *testing.T) {
 		}()
 	}
 }
-
 func TestGetImageStreamTagDIR(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expDockerImageReference := "foo/bar/baz:latest"
 	image := &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz:different"}
-	repo := &imageapi.ImageStream{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: "default",
-			Name:      "test",
-		},
-		Status: imageapi.ImageStreamStatus{
-			Tags: map[string]imageapi.TagEventList{
-				"latest": {
-					Items: []imageapi.TagEvent{
-						{
-							Created:              metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC),
-							DockerImageReference: expDockerImageReference,
-							Image:                "10",
-						},
-					},
-				},
-			},
-		},
-	}
-
+	repo := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{Created: metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC), DockerImageReference: expDockerImageReference, Image: "10"}}}}}}
 	client, server, storage := setup(t)
 	defer server.Terminate(t)
-	client.Put(
-		context.TODO(),
-		etcdtest.AddPrefix("/images/"+image.Name),
-		runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), image),
-	)
-	client.Put(
-		context.TODO(),
-		etcdtest.AddPrefix("/imagestreams/default/test"),
-		runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), repo),
-	)
+	client.Put(context.TODO(), etcdtest.AddPrefix("/images/"+image.Name), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), image))
+	client.Put(context.TODO(), etcdtest.AddPrefix("/imagestreams/default/test"), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), repo))
 	obj, err := storage.Get(apirequest.NewDefaultContext(), "test:latest", &metav1.GetOptions{})
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -283,124 +166,20 @@ func TestGetImageStreamTagDIR(t *testing.T) {
 		t.Errorf("Different DockerImageReference: expected %s, got %s", expDockerImageReference, actual.Image.DockerImageReference)
 	}
 }
-
 func TestDeleteImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		repo        *imageapi.ImageStream
-		expectError bool
-	}{
-		"repo not found": {
-			expectError: true,
-		},
-		"nil tag map": {
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test",
-				},
-			},
-			expectError: true,
-		},
-		"missing tag": {
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test",
-				},
-				Spec: imageapi.ImageStreamSpec{
-					Tags: map[string]imageapi.TagReference{
-						"other": {
-							From: &kapi.ObjectReference{
-								Kind: "ImageStreamTag",
-								Name: "test:foo",
-							},
-						},
-					},
-				},
-			},
-			expectError: true,
-		},
-		"happy path": {
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace:  "default",
-					Name:       "test",
-					Generation: 2,
-				},
-				Spec: imageapi.ImageStreamSpec{
-					Tags: map[string]imageapi.TagReference{
-						"another": {
-							From: &kapi.ObjectReference{
-								Kind: "ImageStreamTag",
-								Name: "test:foo",
-							},
-						},
-						"latest": {
-							From: &kapi.ObjectReference{
-								Kind: "ImageStreamTag",
-								Name: "test:bar",
-							},
-						},
-					},
-				},
-				Status: imageapi.ImageStreamStatus{
-					DockerImageRepository: "registry.default.local/default/test",
-					Tags: map[string]imageapi.TagEventList{
-						"another": {
-							Items: []imageapi.TagEvent{
-								{
-									DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Generation:           2,
-								},
-							},
-						},
-						"foo": {
-							Items: []imageapi.TagEvent{
-								{
-									DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Generation:           2,
-								},
-							},
-						},
-						"latest": {
-							Items: []imageapi.TagEvent{
-								{
-									DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Generation:           2,
-								},
-							},
-						},
-						"bar": {
-							Items: []imageapi.TagEvent{
-								{
-									DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-									Generation:           2,
-								},
-							},
-						},
-					},
-				},
-			},
-		},
-	}
-
+		repo		*imageapi.ImageStream
+		expectError	bool
+	}{"repo not found": {expectError: true}, "nil tag map": {repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test"}}, expectError: true}, "missing tag": {repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test"}, Spec: imageapi.ImageStreamSpec{Tags: map[string]imageapi.TagReference{"other": {From: &kapi.ObjectReference{Kind: "ImageStreamTag", Name: "test:foo"}}}}}, expectError: true}, "happy path": {repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test", Generation: 2}, Spec: imageapi.ImageStreamSpec{Tags: map[string]imageapi.TagReference{"another": {From: &kapi.ObjectReference{Kind: "ImageStreamTag", Name: "test:foo"}}, "latest": {From: &kapi.ObjectReference{Kind: "ImageStreamTag", Name: "test:bar"}}}}, Status: imageapi.ImageStreamStatus{DockerImageRepository: "registry.default.local/default/test", Tags: map[string]imageapi.TagEventList{"another": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}, "foo": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}, "latest": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}, "bar": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}}}}}}
 	for name, testCase := range tests {
 		func() {
 			client, server, storage := setup(t)
 			defer server.Terminate(t)
-
 			if testCase.repo != nil {
-				client.Put(
-					context.TODO(),
-					etcdtest.AddPrefix("/imagestreams/default/test"),
-					runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.repo),
-				)
+				client.Put(context.TODO(), etcdtest.AddPrefix("/imagestreams/default/test"), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), testCase.repo))
 			}
-
 			ctx := apirequest.WithUser(apirequest.NewDefaultContext(), &fakeUser{})
 			obj, _, err := storage.Delete(ctx, "test:latest", nil)
 			gotError := err != nil
@@ -410,7 +189,6 @@ func TestDeleteImageStreamTag(t *testing.T) {
 			if testCase.expectError {
 				return
 			}
-
 			if obj == nil {
 				t.Fatalf("%s: unexpected nil response", name)
 			}
@@ -418,55 +196,13 @@ func TestDeleteImageStreamTag(t *testing.T) {
 			if e, a := expectedStatus, obj; !reflect.DeepEqual(e, a) {
 				t.Errorf("%s:\nexpect=%#v\nactual=%#v", name, e, a)
 			}
-
 			updatedRepo, err := storage.imageStreamRegistry.GetImageStream(apirequest.NewDefaultContext(), "test", &metav1.GetOptions{})
 			if err != nil {
 				t.Fatalf("%s: error retrieving updated repo: %s", name, err)
 			}
 			three := int64(3)
-			expectedStreamSpec := map[string]imageapi.TagReference{
-				"another": {
-					Name: "another",
-					From: &kapi.ObjectReference{
-						Kind: "ImageStreamTag",
-						Name: "test:foo",
-					},
-					Generation: &three,
-					ReferencePolicy: imageapi.TagReferencePolicy{
-						Type: imageapi.SourceTagReferencePolicy,
-					},
-				},
-			}
-			expectedStreamStatus := map[string]imageapi.TagEventList{
-				"another": {
-					Items: []imageapi.TagEvent{
-						{
-							DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Generation:           2,
-						},
-					},
-				},
-				"foo": {
-					Items: []imageapi.TagEvent{
-						{
-							DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Generation:           2,
-						},
-					},
-				},
-				"bar": {
-					Items: []imageapi.TagEvent{
-						{
-							DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Image:                "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f",
-							Generation:           2,
-						},
-					},
-				},
-			}
-
+			expectedStreamSpec := map[string]imageapi.TagReference{"another": {Name: "another", From: &kapi.ObjectReference{Kind: "ImageStreamTag", Name: "test:foo"}, Generation: &three, ReferencePolicy: imageapi.TagReferencePolicy{Type: imageapi.SourceTagReferencePolicy}}}
+			expectedStreamStatus := map[string]imageapi.TagEventList{"another": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}, "foo": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}, "bar": {Items: []imageapi.TagEvent{{DockerImageReference: "registry.default.local/default/test@sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Image: "sha256:381151ac5b7f775e8371e489f3479b84a4c004c90ceddb2ad80b6877215a892f", Generation: 2}}}}
 			if updatedRepo.Generation != 3 {
 				t.Errorf("%s: unexpected generation: %d", name, updatedRepo.Generation)
 			}
@@ -479,73 +215,20 @@ func TestDeleteImageStreamTag(t *testing.T) {
 		}()
 	}
 }
-
 func TestCreateImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		istag           runtime.Object
-		expectError     bool
-		errorTargetKind string
-		errorTargetID   string
-	}{
-		"valid istag": {
-			istag: &imageapi.ImageStreamTag{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test:tag",
-				},
-				Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"},
-				Tag: &imageapi.TagReference{
-					Name:            "latest",
-					From:            &kapi.ObjectReference{Kind: "DockerImage", Name: "foo/bar/baz"},
-					ReferencePolicy: imageapi.TagReferencePolicy{Type: imageapi.SourceTagReferencePolicy},
-				},
-			},
-		},
-		"invalid tag": {
-			istag: &imageapi.ImageStreamTag{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test:tag",
-				},
-				Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"},
-				Tag:   &imageapi.TagReference{},
-			},
-			expectError:     true,
-			errorTargetKind: "ImageStreamTag",
-			errorTargetID:   "test:tag",
-		},
-		"nil tag": {
-			istag: &imageapi.ImageStreamTag{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "default",
-					Name:      "test:tag",
-				},
-				Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"},
-			},
-		},
-	}
-
+		istag		runtime.Object
+		expectError	bool
+		errorTargetKind	string
+		errorTargetID	string
+	}{"valid istag": {istag: &imageapi.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test:tag"}, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"}, Tag: &imageapi.TagReference{Name: "latest", From: &kapi.ObjectReference{Kind: "DockerImage", Name: "foo/bar/baz"}, ReferencePolicy: imageapi.TagReferencePolicy{Type: imageapi.SourceTagReferencePolicy}}}}, "invalid tag": {istag: &imageapi.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test:tag"}, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"}, Tag: &imageapi.TagReference{}}, expectError: true, errorTargetKind: "ImageStreamTag", errorTargetID: "test:tag"}, "nil tag": {istag: &imageapi.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test:tag"}, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz"}}}}
 	for name, tc := range tests {
 		func() {
 			client, server, storage := setup(t)
 			defer server.Terminate(t)
-
-			client.Put(
-				context.TODO(),
-				etcdtest.AddPrefix("/imagestreams/default/test"),
-				runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion),
-					&imageapi.ImageStream{
-						ObjectMeta: metav1.ObjectMeta{
-							CreationTimestamp: metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC),
-							Namespace:         "default",
-							Name:              "test",
-						},
-						Spec: imageapi.ImageStreamSpec{
-							Tags: map[string]imageapi.TagReference{},
-						},
-					},
-				))
-
+			client.Put(context.TODO(), etcdtest.AddPrefix("/imagestreams/default/test"), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{CreationTimestamp: metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC), Namespace: "default", Name: "test"}, Spec: imageapi.ImageStreamSpec{Tags: map[string]imageapi.TagReference{}}}))
 			ctx := apirequest.WithUser(apirequest.NewDefaultContext(), &fakeUser{})
 			_, err := storage.Create(ctx, tc.istag, rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 			gotErr := err != nil

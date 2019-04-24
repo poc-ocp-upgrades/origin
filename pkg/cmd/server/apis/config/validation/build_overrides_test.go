@@ -2,112 +2,20 @@ package validation
 
 import (
 	"testing"
-
 	"k8s.io/apimachinery/pkg/util/validation/field"
-
 	buildapi "github.com/openshift/origin/pkg/build/apis/build"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 )
 
 func TestValidateBuildOverridesConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		config      *configapi.BuildOverridesConfig
-		errExpected bool
-		errField    string
-		errType     field.ErrorType
-	}{
-		// 0: label: valid
-		{
-			config: &configapi.BuildOverridesConfig{
-				ImageLabels: []buildapi.ImageLabel{
-					{
-						Name:  "A",
-						Value: "B",
-					},
-				},
-			},
-			errExpected: false,
-		},
-		// 1: label: empty name
-		{
-			config: &configapi.BuildOverridesConfig{
-				ImageLabels: []buildapi.ImageLabel{
-					{
-						Name:  "",
-						Value: "empty",
-					},
-				},
-			},
-			errExpected: true,
-			errField:    "imageLabels[0].name",
-			errType:     field.ErrorTypeRequired,
-		},
-		// 2: label: bad name
-		{
-			config: &configapi.BuildOverridesConfig{
-				ImageLabels: []buildapi.ImageLabel{
-					{
-						Name:  "\tč;",
-						Value: "????",
-					},
-				},
-			},
-			errExpected: true,
-			errField:    "imageLabels[0].name",
-			errType:     field.ErrorTypeInvalid,
-		},
-		// 3: duplicate label
-		{
-			config: &configapi.BuildOverridesConfig{
-				ImageLabels: []buildapi.ImageLabel{
-					{
-						Name:  "name",
-						Value: "Jan",
-					},
-					{
-						Name:  "name",
-						Value: "Elvis",
-					},
-				},
-			},
-			errExpected: true,
-			errField:    "imageLabels[1].name",
-			errType:     field.ErrorTypeInvalid,
-		},
-		// 4: valid nodeselector
-		{
-			config: &configapi.BuildOverridesConfig{
-				NodeSelector: map[string]string{"A": "B"},
-			},
-			errExpected: false,
-		},
-		// 5: invalid nodeselector
-		{
-			config: &configapi.BuildOverridesConfig{
-				NodeSelector: map[string]string{"A@B!": "C"},
-			},
-			errExpected: true,
-			errField:    "nodeSelector[A@B!]",
-			errType:     field.ErrorTypeInvalid,
-		},
-		// 6: valid annotation
-		{
-			config: &configapi.BuildOverridesConfig{
-				Annotations: map[string]string{"A": "B"},
-			},
-			errExpected: false,
-		},
-		// 7: invalid annotation
-		{
-			config: &configapi.BuildOverridesConfig{
-				Annotations: map[string]string{"A B": "C"},
-			},
-			errExpected: true,
-			errField:    "annotations",
-			errType:     field.ErrorTypeInvalid,
-		},
-	}
-
+		config		*configapi.BuildOverridesConfig
+		errExpected	bool
+		errField	string
+		errType		field.ErrorType
+	}{{config: &configapi.BuildOverridesConfig{ImageLabels: []buildapi.ImageLabel{{Name: "A", Value: "B"}}}, errExpected: false}, {config: &configapi.BuildOverridesConfig{ImageLabels: []buildapi.ImageLabel{{Name: "", Value: "empty"}}}, errExpected: true, errField: "imageLabels[0].name", errType: field.ErrorTypeRequired}, {config: &configapi.BuildOverridesConfig{ImageLabels: []buildapi.ImageLabel{{Name: "\tč;", Value: "????"}}}, errExpected: true, errField: "imageLabels[0].name", errType: field.ErrorTypeInvalid}, {config: &configapi.BuildOverridesConfig{ImageLabels: []buildapi.ImageLabel{{Name: "name", Value: "Jan"}, {Name: "name", Value: "Elvis"}}}, errExpected: true, errField: "imageLabels[1].name", errType: field.ErrorTypeInvalid}, {config: &configapi.BuildOverridesConfig{NodeSelector: map[string]string{"A": "B"}}, errExpected: false}, {config: &configapi.BuildOverridesConfig{NodeSelector: map[string]string{"A@B!": "C"}}, errExpected: true, errField: "nodeSelector[A@B!]", errType: field.ErrorTypeInvalid}, {config: &configapi.BuildOverridesConfig{Annotations: map[string]string{"A": "B"}}, errExpected: false}, {config: &configapi.BuildOverridesConfig{Annotations: map[string]string{"A B": "C"}}, errExpected: true, errField: "annotations", errType: field.ErrorTypeInvalid}}
 	for i, tc := range tests {
 		result := ValidateBuildOverridesConfig(tc.config)
 		if !tc.errExpected {

@@ -7,131 +7,64 @@ import (
 	"regexp"
 	"strings"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/diff"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	templateapiv1 "github.com/openshift/api/template/v1"
 	templateapi "github.com/openshift/origin/pkg/template/apis/template"
 	"github.com/openshift/origin/pkg/template/generator"
-
 	_ "github.com/openshift/origin/pkg/api/install"
 )
 
 func makeParameter(name, value, generate string, required bool) templateapi.Parameter {
-	return templateapi.Parameter{
-		Name:     name,
-		Value:    value,
-		Generate: generate,
-		Required: required,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return templateapi.Parameter{Name: name, Value: value, Generate: generate, Required: required}
 }
 
-type FooGenerator struct {
-}
+type FooGenerator struct{}
 
 func (g FooGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "foo", nil
 }
 
-type ErrorGenerator struct {
-}
+type ErrorGenerator struct{}
 
 func (g ErrorGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", fmt.Errorf("error")
 }
 
-type NoStringGenerator struct {
-}
+type NoStringGenerator struct{}
 
 func (g NoStringGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NoStringGenerator{}, nil
 }
 
-type EmptyGenerator struct {
-}
+type EmptyGenerator struct{}
 
 func (g EmptyGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", nil
 }
-
 func TestParameterGenerators(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		parameter  templateapi.Parameter
-		generators map[string]generator.Generator
-		shouldPass bool
-		expected   templateapi.Parameter
-		errType    field.ErrorType
-		fieldPath  string
-	}{
-		{ // Empty generator, should pass
-			makeParameter("PARAM-pass-empty-gen", "X", "", false),
-			map[string]generator.Generator{},
-			true,
-			makeParameter("PARAM-pass-empty-gen", "X", "", false),
-			"",
-			"",
-		},
-		{ // Foo generator, should pass
-			makeParameter("PARAM-pass-foo-gen", "", "foo", false),
-			map[string]generator.Generator{"foo": FooGenerator{}},
-			true,
-			makeParameter("PARAM-pass-foo-gen", "foo", "", false),
-			"",
-			"",
-		},
-		{ // Foo generator, should fail
-			makeParameter("PARAM-fail-foo-gen", "", "foo", false),
-			map[string]generator.Generator{},
-			false,
-			makeParameter("PARAM-fail-foo-gen", "foo", "", false),
-			field.ErrorTypeInvalid,
-			"template.parameters[0]",
-		},
-		{ // No str generator, should fail
-			makeParameter("PARAM-fail-nostr-gen", "", "foo", false),
-			map[string]generator.Generator{"foo": NoStringGenerator{}},
-			false,
-			makeParameter("PARAM-fail-nostr-gen", "foo", "", false),
-			field.ErrorTypeInvalid,
-			"template.parameters[0]",
-		},
-		{ // Invalid generator, should fail
-			makeParameter("PARAM-fail-inv-gen", "", "invalid", false),
-			map[string]generator.Generator{"invalid": nil},
-			false,
-			makeParameter("PARAM-fail-inv-gen", "", "invalid", false),
-			field.ErrorTypeInvalid,
-			"template.parameters[0]",
-		},
-		{ // Error generator, should fail
-			makeParameter("PARAM-fail-err-gen", "", "error", false),
-			map[string]generator.Generator{"error": ErrorGenerator{}},
-			false,
-			makeParameter("PARAM-fail-err-gen", "", "error", false),
-			field.ErrorTypeInvalid,
-			"template.parameters[0]",
-		},
-		{ // Error required parameter, no value, should fail
-			makeParameter("PARAM-fail-no-val", "", "", true),
-			map[string]generator.Generator{"error": ErrorGenerator{}},
-			false,
-			makeParameter("PARAM-fail-no-val", "", "", true),
-			field.ErrorTypeRequired,
-			"template.parameters[0]",
-		},
-		{ // Error required parameter, no value from generator, should fail
-			makeParameter("PARAM-fail-no-val-from-gen", "", "empty", true),
-			map[string]generator.Generator{"empty": EmptyGenerator{}},
-			false,
-			makeParameter("PARAM-fail-no-val-from-gen", "", "empty", true),
-			field.ErrorTypeRequired,
-			"template.parameters[0]",
-		},
-	}
-
+		parameter	templateapi.Parameter
+		generators	map[string]generator.Generator
+		shouldPass	bool
+		expected	templateapi.Parameter
+		errType		field.ErrorType
+		fieldPath	string
+	}{{makeParameter("PARAM-pass-empty-gen", "X", "", false), map[string]generator.Generator{}, true, makeParameter("PARAM-pass-empty-gen", "X", "", false), "", ""}, {makeParameter("PARAM-pass-foo-gen", "", "foo", false), map[string]generator.Generator{"foo": FooGenerator{}}, true, makeParameter("PARAM-pass-foo-gen", "foo", "", false), "", ""}, {makeParameter("PARAM-fail-foo-gen", "", "foo", false), map[string]generator.Generator{}, false, makeParameter("PARAM-fail-foo-gen", "foo", "", false), field.ErrorTypeInvalid, "template.parameters[0]"}, {makeParameter("PARAM-fail-nostr-gen", "", "foo", false), map[string]generator.Generator{"foo": NoStringGenerator{}}, false, makeParameter("PARAM-fail-nostr-gen", "foo", "", false), field.ErrorTypeInvalid, "template.parameters[0]"}, {makeParameter("PARAM-fail-inv-gen", "", "invalid", false), map[string]generator.Generator{"invalid": nil}, false, makeParameter("PARAM-fail-inv-gen", "", "invalid", false), field.ErrorTypeInvalid, "template.parameters[0]"}, {makeParameter("PARAM-fail-err-gen", "", "error", false), map[string]generator.Generator{"error": ErrorGenerator{}}, false, makeParameter("PARAM-fail-err-gen", "", "error", false), field.ErrorTypeInvalid, "template.parameters[0]"}, {makeParameter("PARAM-fail-no-val", "", "", true), map[string]generator.Generator{"error": ErrorGenerator{}}, false, makeParameter("PARAM-fail-no-val", "", "", true), field.ErrorTypeRequired, "template.parameters[0]"}, {makeParameter("PARAM-fail-no-val-from-gen", "", "empty", true), map[string]generator.Generator{"empty": EmptyGenerator{}}, false, makeParameter("PARAM-fail-no-val-from-gen", "", "empty", true), field.ErrorTypeRequired, "template.parameters[0]"}}
 	for i, test := range tests {
 		processor := NewProcessor(test.generators)
 		template := templateapi.Template{Parameters: []templateapi.Parameter{test.parameter}}
@@ -157,8 +90,9 @@ func TestParameterGenerators(t *testing.T) {
 		}
 	}
 }
-
 func TestProcessValue(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var template templateapi.Template
 	if err := runtime.DecodeInto(legacyscheme.Codecs.UniversalDecoder(), []byte(`{
 		"kind":"Template", "apiVersion":"template.openshift.io/v1",
@@ -189,12 +123,8 @@ func TestProcessValue(t *testing.T) {
 	}`), &template); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	generators := map[string]generator.Generator{
-		"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337))),
-	}
+	generators := map[string]generator.Generator{"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337)))}
 	processor := NewProcessor(generators)
-
-	// Define custom parameter for the transformation:
 	addParameter(&template, makeParameter("VALUE", "1", "", false))
 	addParameter(&template, makeParameter("STRING_1", "string1", "", false))
 	addParameter(&template, makeParameter("STRING_2", "string2", "", false))
@@ -203,8 +133,6 @@ func TestProcessValue(t *testing.T) {
 	addParameter(&template, makeParameter("INVALID_JSON_MAP", "{\"key\":\"value\"", "", false))
 	addParameter(&template, makeParameter("VALID_JSON_ARRAY", "[\"key\",\"value\"]", "", false))
 	addParameter(&template, makeParameter("INVALID_JSON_ARRAY", "[\"key\":\"value\"", "", false))
-
-	// Transform the template config into the result config
 	errs := processor.Process(&template)
 	if len(errs) > 0 {
 		t.Fatalf("unexpected error: %v", errs)
@@ -216,7 +144,6 @@ func TestProcessValue(t *testing.T) {
 	expect := `{"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},"objects":[{"apiVersion":"v1","kind":"Service","metadata":{"labels":{"i1":1,"invalidjsonarray":"[\"key\":\"value\"","invalidjsonmap":"{\"key\":\"value\"","key1":"1","key2":"$1","quoted_string":"string1","s1_s1":"string1_string1","s1_s2":"string1_string2","untouched":"a${{INT_1}}","untouched2":"${{INT_1}}a","untouched3":"${{INVALID_PARAMETER}}","untouched4":"${{INVALID PARAMETER}}","validjsonarray":["key","value"],"validjsonmap":{"key":"value"}}}}],"parameters":[{"name":"VALUE","value":"1"},{"name":"STRING_1","value":"string1"},{"name":"STRING_2","value":"string2"},{"name":"INT_1","value":"1"},{"name":"VALID_JSON_MAP","value":"{\"key\":\"value\"}"},{"name":"INVALID_JSON_MAP","value":"{\"key\":\"value\""},{"name":"VALID_JSON_ARRAY","value":"[\"key\",\"value\"]"},{"name":"INVALID_JSON_ARRAY","value":"[\"key\":\"value\""}]}`
 	stringResult := strings.TrimSpace(string(result))
 	if expect != stringResult {
-		//t.Errorf("unexpected output, expected: \n%s\nGot:\n%s\n", expect, stringResult)
 		t.Errorf("unexpected output: %s", diff.StringDiff(expect, stringResult))
 	}
 }
@@ -224,13 +151,13 @@ func TestProcessValue(t *testing.T) {
 var trailingWhitespace = regexp.MustCompile(`\n\s*`)
 
 func TestEvaluateLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		Input  string
-		Output string
-		Labels map[string]string
-	}{
-		"no labels": {
-			Input: `{
+		Input	string
+		Output	string
+		Labels	map[string]string
+	}{"no labels": {Input: `{
 				"kind":"Template", "apiVersion":"template.openshift.io/v1",
 				"objects": [
 					{
@@ -238,8 +165,7 @@ func TestEvaluateLabels(t *testing.T) {
 						"metadata": {"labels": {"key1": "v1", "key2": "v2"}	}
 					}
 				]
-			}`,
-			Output: `{
+			}`, Output: `{
 				"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},
 				"objects":[
 					{
@@ -247,10 +173,7 @@ func TestEvaluateLabels(t *testing.T) {
 						"labels":{"key1":"v1","key2":"v2"}}
 					}
 				]
-			}`,
-		},
-		"one different label": {
-			Input: `{
+			}`}, "one different label": {Input: `{
 				"kind":"Template", "apiVersion":"template.openshift.io/v1",
 				"objects": [
 					{
@@ -258,8 +181,7 @@ func TestEvaluateLabels(t *testing.T) {
 						"metadata": {"labels": {"key1": "v1", "key2": "v2"}	}
 					}
 				]
-			}`,
-			Output: `{
+			}`, Output: `{
 				"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},
 				"objects":[
 					{
@@ -268,11 +190,7 @@ func TestEvaluateLabels(t *testing.T) {
 					}
 				],
 				"labels":{"key3":"v3"}
-			}`,
-			Labels: map[string]string{"key3": "v3"},
-		},
-		"when the root object has labels and metadata": {
-			Input: `{
+			}`, Labels: map[string]string{"key3": "v3"}}, "when the root object has labels and metadata": {Input: `{
 				"kind":"Template", "apiVersion":"template.openshift.io/v1",
 				"objects": [
 					{
@@ -284,8 +202,7 @@ func TestEvaluateLabels(t *testing.T) {
 						}
 					}
 				]
-			}`,
-			Output: `{
+			}`, Output: `{
 				"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},
 				"objects":[
 					{
@@ -295,11 +212,7 @@ func TestEvaluateLabels(t *testing.T) {
 					}
 				],
 				"labels":{"key3":"v3"}
-			}`,
-			Labels: map[string]string{"key3": "v3"},
-		},
-		"overwrites label": {
-			Input: `{
+			}`, Labels: map[string]string{"key3": "v3"}}, "overwrites label": {Input: `{
 				"kind":"Template", "apiVersion":"template.openshift.io/v1",
 				"objects": [
 					{
@@ -307,8 +220,7 @@ func TestEvaluateLabels(t *testing.T) {
 						"metadata": {"labels": {"key1": "v1", "key2": "v2"}	}
 					}
 				]
-			}`,
-			Output: `{
+			}`, Output: `{
 				"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},
 				"objects":[
 					{
@@ -317,11 +229,7 @@ func TestEvaluateLabels(t *testing.T) {
 					}
 				],
 				"labels":{"key2":"v3"}
-			}`,
-			Labels: map[string]string{"key2": "v3"},
-		},
-		"parameterised labels": {
-			Input: `{
+			}`, Labels: map[string]string{"key2": "v3"}}, "parameterised labels": {Input: `{
 				"kind":"Template", "apiVersion":"template.openshift.io/v1",
 				"objects": [
 					{
@@ -339,8 +247,7 @@ func TestEvaluateLabels(t *testing.T) {
 						"value": "value"
 					}
 				]
-			}`,
-			Output: `{
+			}`, Output: `{
 				"kind":"Template","apiVersion":"template.openshift.io/v1","metadata":{"creationTimestamp":null},
 				"objects":[
 					{
@@ -359,26 +266,16 @@ func TestEvaluateLabels(t *testing.T) {
 					}
 				],
 				"labels":{"key":"value"}
-			}`,
-			Labels: map[string]string{"${KEY}": "${VALUE}"},
-		},
-	}
-
+			}`, Labels: map[string]string{"${KEY}": "${VALUE}"}}}
 	for k, testCase := range testCases {
 		var template templateapi.Template
 		if err := runtime.DecodeInto(legacyscheme.Codecs.UniversalDecoder(), []byte(testCase.Input), &template); err != nil {
 			t.Errorf("%s: unexpected error: %v", k, err)
 			continue
 		}
-
-		generators := map[string]generator.Generator{
-			"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337))),
-		}
+		generators := map[string]generator.Generator{"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337)))}
 		processor := NewProcessor(generators)
-
 		template.ObjectLabels = testCase.Labels
-
-		// Transform the template config into the result config
 		errs := processor.Process(&template)
 		if len(errs) > 0 {
 			t.Errorf("%s: unexpected error: %v", k, errs)
@@ -398,28 +295,21 @@ func TestEvaluateLabels(t *testing.T) {
 		}
 	}
 }
-
 func TestProcessTemplateParameters(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var template, expectedTemplate templateapi.Template
 	jsonData, _ := ioutil.ReadFile("../../../test/templates/testdata/guestbook.json")
 	if err := runtime.DecodeInto(legacyscheme.Codecs.UniversalDecoder(), jsonData, &template); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	expectedData, _ := ioutil.ReadFile("../../../test/templates/testdata/guestbook_list.json")
 	if err := runtime.DecodeInto(legacyscheme.Codecs.UniversalDecoder(), expectedData, &expectedTemplate); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	generators := map[string]generator.Generator{
-		"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337))),
-	}
+	generators := map[string]generator.Generator{"expression": generator.NewExpressionValueGenerator(rand.New(rand.NewSource(1337)))}
 	processor := NewProcessor(generators)
-
-	// Define custom parameter for the transformation:
 	addParameter(&template, makeParameter("CUSTOM_PARAM1", "1", "", false))
-
-	// Transform the template config into the result config
 	errs := processor.Process(&template)
 	if len(errs) > 0 {
 		t.Fatalf("unexpected error: %v", errs)
@@ -429,15 +319,13 @@ func TestProcessTemplateParameters(t *testing.T) {
 		t.Fatalf("unexpected error during encoding Config: %#v", err)
 	}
 	exp, _ := runtime.Encode(legacyscheme.Codecs.LegacyCodec(templateapiv1.SchemeGroupVersion), &expectedTemplate)
-
 	if string(result) != string(exp) {
 		t.Errorf("unexpected output: %s", diff.StringDiff(string(exp), string(result)))
 	}
 }
-
-// addParameter adds new custom parameter to the Template. It overrides
-// the existing parameter, if already defined.
 func addParameter(t *templateapi.Template, param templateapi.Parameter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if existing := DeprecatedGetParameterByNameInternal(t, param.Name); existing != nil {
 		*existing = param
 	} else {

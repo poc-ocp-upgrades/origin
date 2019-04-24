@@ -2,41 +2,41 @@ package graphview
 
 import (
 	"sort"
-
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 type IntSet map[int]sets.Empty
 
-// NewIntSet creates a IntSet from a list of values.
 func NewIntSet(items ...int) IntSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ss := IntSet{}
 	ss.Insert(items...)
 	return ss
 }
-
-// Insert adds items to the set.
 func (s IntSet) Insert(items ...int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range items {
 		s[item] = sets.Empty{}
 	}
 }
-
-// Delete removes all items from the set.
 func (s IntSet) Delete(items ...int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range items {
 		delete(s, item)
 	}
 }
-
-// Has returns true iff item is contained in the set.
 func (s IntSet) Has(item int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, contained := s[item]
 	return contained
 }
-
-// List returns the contents as a sorted string slice.
 func (s IntSet) List() []int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := make([]int, 0, len(s))
 	for key := range s {
 		res = append(res, key)

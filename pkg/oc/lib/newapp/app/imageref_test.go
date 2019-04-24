@@ -4,9 +4,7 @@ import (
 	"os"
 	"reflect"
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	buildv1 "github.com/openshift/api/build/v1"
 	imagev1 "github.com/openshift/api/image/v1"
@@ -16,44 +14,18 @@ import (
 )
 
 func TestBuildConfigOutput(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, err := git.Parse("https://github.com/openshift/origin.git")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	output := &ImageRef{
-		Reference: imageapi.DockerImageReference{
-			Registry:  "myregistry",
-			Namespace: "openshift",
-			Name:      "origin",
-		},
-	}
-	base := &ImageRef{
-		Reference: imageapi.DockerImageReference{
-			Namespace: "openshift",
-			Name:      "ruby",
-		},
-		Info:          testImageInfo(),
-		AsImageStream: true,
-	}
+	output := &ImageRef{Reference: imageapi.DockerImageReference{Registry: "myregistry", Namespace: "openshift", Name: "origin"}}
+	base := &ImageRef{Reference: imageapi.DockerImageReference{Namespace: "openshift", Name: "ruby"}, Info: testImageInfo(), AsImageStream: true}
 	tests := []struct {
-		asImageStream bool
-		want          *corev1.ObjectReference
-	}{
-		{
-			asImageStream: true,
-			want: &corev1.ObjectReference{
-				Kind: "ImageStreamTag",
-				Name: "origin:latest",
-			},
-		},
-		{
-			asImageStream: false,
-			want: &corev1.ObjectReference{
-				Kind: "DockerImage",
-				Name: "myregistry/openshift/origin",
-			},
-		},
-	}
+		asImageStream	bool
+		want		*corev1.ObjectReference
+	}{{asImageStream: true, want: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "origin:latest"}}, {asImageStream: false, want: &corev1.ObjectReference{Kind: "DockerImage", Name: "myregistry/openshift/origin"}}}
 	for i, test := range tests {
 		output.AsImageStream = test.asImageStream
 		source := &SourceRef{URL: url}
@@ -86,17 +58,10 @@ func TestBuildConfigOutput(t *testing.T) {
 		}
 	}
 }
-
 func TestSimpleDeploymentConfig(t *testing.T) {
-	image := &ImageRef{
-		Reference: imageapi.DockerImageReference{
-			Registry:  "myregistry",
-			Namespace: "openshift",
-			Name:      "origin",
-		},
-		Info:          testImageInfo(),
-		AsImageStream: true,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	image := &ImageRef{Reference: imageapi.DockerImageReference{Registry: "myregistry", Namespace: "openshift", Name: "origin"}, Info: testImageInfo(), AsImageStream: true}
 	deploy := &DeploymentConfigRef{Images: []*ImageRef{image}}
 	config, err := deploy.DeploymentConfig()
 	if err != nil {
@@ -117,97 +82,18 @@ func TestSimpleDeploymentConfig(t *testing.T) {
 		}
 	}
 }
-
 func TestImageRefDeployableContainerPorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name          string
-		inputPorts    map[string]struct{}
-		expectedPorts map[int]string
-		expectError   bool
-		noConfig      bool
-	}{
-		{
-			name: "tcp implied, individual ports",
-			inputPorts: map[string]struct{}{
-				"123": {},
-				"456": {},
-			},
-			expectedPorts: map[int]string{
-				123: "TCP",
-				456: "TCP",
-			},
-			expectError: false,
-		},
-		{
-			name: "tcp implied, multiple ports",
-			inputPorts: map[string]struct{}{
-				"123 456":  {},
-				"678 1123": {},
-			},
-			expectedPorts: map[int]string{
-				123:  "TCP",
-				678:  "TCP",
-				456:  "TCP",
-				1123: "TCP",
-			},
-			expectError: false,
-		},
-		{
-			name: "tcp and udp, individual ports",
-			inputPorts: map[string]struct{}{
-				"123/tcp": {},
-				"456/udp": {},
-			},
-			expectedPorts: map[int]string{
-				123: "TCP",
-				456: "UDP",
-			},
-			expectError: false,
-		},
-		{
-			name: "tcp implied, multiple ports",
-			inputPorts: map[string]struct{}{
-				"123/tcp 456/udp":  {},
-				"678/udp 1123/tcp": {},
-			},
-			expectedPorts: map[int]string{
-				123:  "TCP",
-				456:  "UDP",
-				678:  "UDP",
-				1123: "TCP",
-			},
-			expectError: false,
-		},
-		{
-			name: "invalid format",
-			inputPorts: map[string]struct{}{
-				"123/tcp abc": {},
-			},
-			expectedPorts: map[int]string{
-				123: "TCP",
-			},
-			expectError: false,
-		},
-		{
-			name:          "no image config",
-			expectedPorts: map[int]string{},
-			expectError:   false,
-			noConfig:      true,
-		},
-	}
+		name		string
+		inputPorts	map[string]struct{}
+		expectedPorts	map[int]string
+		expectError	bool
+		noConfig	bool
+	}{{name: "tcp implied, individual ports", inputPorts: map[string]struct{}{"123": {}, "456": {}}, expectedPorts: map[int]string{123: "TCP", 456: "TCP"}, expectError: false}, {name: "tcp implied, multiple ports", inputPorts: map[string]struct{}{"123 456": {}, "678 1123": {}}, expectedPorts: map[int]string{123: "TCP", 678: "TCP", 456: "TCP", 1123: "TCP"}, expectError: false}, {name: "tcp and udp, individual ports", inputPorts: map[string]struct{}{"123/tcp": {}, "456/udp": {}}, expectedPorts: map[int]string{123: "TCP", 456: "UDP"}, expectError: false}, {name: "tcp implied, multiple ports", inputPorts: map[string]struct{}{"123/tcp 456/udp": {}, "678/udp 1123/tcp": {}}, expectedPorts: map[int]string{123: "TCP", 456: "UDP", 678: "UDP", 1123: "TCP"}, expectError: false}, {name: "invalid format", inputPorts: map[string]struct{}{"123/tcp abc": {}}, expectedPorts: map[int]string{123: "TCP"}, expectError: false}, {name: "no image config", expectedPorts: map[int]string{}, expectError: false, noConfig: true}}
 	for _, test := range tests {
-		imageRef := &ImageRef{
-			Reference: imageapi.DockerImageReference{
-				Namespace: "test",
-				Name:      "image",
-				Tag:       imageapi.DefaultImageTag,
-			},
-			Info: &imageapi.DockerImage{
-				Config: &imageapi.DockerConfig{
-					ExposedPorts: test.inputPorts,
-				},
-			},
-		}
+		imageRef := &ImageRef{Reference: imageapi.DockerImageReference{Namespace: "test", Name: "image", Tag: imageapi.DefaultImageTag}, Info: &imageapi.DockerImage{Config: &imageapi.DockerConfig{ExposedPorts: test.inputPorts}}}
 		if test.noConfig {
 			imageRef.Info.Config = nil
 		}
@@ -240,8 +126,9 @@ func TestImageRefDeployableContainerPorts(t *testing.T) {
 		}
 	}
 }
-
 func TestFromName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
 	imageRef, err := g.FromName("some.registry.com:1234/namespace1/name:tag1234")
 	if err != nil {
@@ -261,14 +148,11 @@ func TestFromName(t *testing.T) {
 		t.Fatalf("Unexpected tag: %s", ref.Tag)
 	}
 }
-
 func TestFromStream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
-	repo := imagev1.ImageStream{
-		Status: imagev1.ImageStreamStatus{
-			DockerImageRepository: "my.registry:5000/test/image",
-		},
-	}
+	repo := imagev1.ImageStream{Status: imagev1.ImageStreamStatus{DockerImageRepository: "my.registry:5000/test/image"}}
 	imageRef, err := g.FromStream(&repo, "tag1234")
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -284,8 +168,9 @@ func TestFromStream(t *testing.T) {
 		t.Fatalf("Unexpected name: %s", ref.Name)
 	}
 }
-
 func TestFromNameAndPorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
 	ports := []string{"8080"}
 	imageRef, err := g.FromNameAndPorts("some.registry.com:1234/namespace1/name:tag1234", ports)
@@ -309,9 +194,9 @@ func TestFromNameAndPorts(t *testing.T) {
 		t.Fatalf("Expected port %s not found", ports[0])
 	}
 }
-
 func TestFromDockerfile(t *testing.T) {
-	// Setup a Dockerfile
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	df, err := os.Create("Dockerfile")
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -325,8 +210,6 @@ func TestFromDockerfile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	// Actual test
 	g := NewImageRefGenerator()
 	name := "some.registry.com:1234/namespace1/name:tag1234"
 	imageRef, err := g.FromDockerfile(name, pwd, ".")

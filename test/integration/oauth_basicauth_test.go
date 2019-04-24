@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"testing"
 	"time"
-
 	"github.com/openshift/library-go/pkg/crypto"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"github.com/openshift/origin/pkg/cmd/util"
@@ -24,98 +23,32 @@ import (
 )
 
 const (
-	basicAuthRemoteCACert     = "remote-ca.crt"
-	basicAuthRemoteServer     = "remote-server"
-	basicAuthRemoteServerCert = "remote-server.crt"
-	basicAuthRemoteServerKey  = "remote-server.key"
-	basicAuthClient           = "client"
-	basicAuthClientCert       = "client.crt"
-	basicAuthClientKey        = "client.key"
+	basicAuthRemoteCACert		= "remote-ca.crt"
+	basicAuthRemoteServer		= "remote-server"
+	basicAuthRemoteServerCert	= "remote-server.crt"
+	basicAuthRemoteServerKey	= "remote-server.key"
+	basicAuthClient			= "client"
+	basicAuthClientCert		= "client.crt"
+	basicAuthClientKey		= "client.key"
 )
 
 func TestOAuthBasicAuthPassword(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedLogin := "username"
 	expectedPassword := "password"
 	expectedAuthHeader := "Basic " + base64.StdEncoding.EncodeToString([]byte(expectedLogin+":"+expectedPassword))
-
 	testcases := map[string]struct {
-		RemoteStatus  int
-		RemoteHeaders http.Header
-		RemoteBody    []byte
-
-		ExpectUsername  string
-		ExpectSuccess   bool
-		ExpectErrStatus int32
-	}{
-		"success": {
-			RemoteStatus:   200,
-			RemoteHeaders:  http.Header{"Content-Type": []string{"application/json"}},
-			RemoteBody:     []byte(`{"sub":"remoteusername"}`),
-			ExpectSuccess:  true,
-			ExpectUsername: "remoteusername",
-		},
-		"401": {
-			RemoteStatus:    401,
-			RemoteHeaders:   http.Header{"Content-Type": []string{"application/json"}},
-			RemoteBody:      []byte(`{"error":"bad-user"}`),
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 401,
-		},
-		"301": {
-			RemoteStatus:    301,
-			RemoteHeaders:   http.Header{"Location": []string{"http://www.example.com"}},
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"302": {
-			RemoteStatus:    302,
-			RemoteHeaders:   http.Header{"Location": []string{"http://www.example.com"}},
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"303": {
-			RemoteStatus:    303,
-			RemoteHeaders:   http.Header{"Location": []string{"http://www.example.com"}},
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"304": {
-			RemoteStatus:    304,
-			RemoteHeaders:   http.Header{"Location": []string{"http://www.example.com"}},
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"305": {
-			RemoteStatus:    305,
-			RemoteHeaders:   http.Header{"Location": []string{"http://www.example.com"}},
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"404": {
-			RemoteStatus:    404,
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-		"500": {
-			RemoteStatus:    500,
-			ExpectSuccess:   false,
-			ExpectUsername:  "",
-			ExpectErrStatus: 500,
-		},
-	}
-
-	// Create tempfiles with certs and keys we're going to use
+		RemoteStatus	int
+		RemoteHeaders	http.Header
+		RemoteBody	[]byte
+		ExpectUsername	string
+		ExpectSuccess	bool
+		ExpectErrStatus	int32
+	}{"success": {RemoteStatus: 200, RemoteHeaders: http.Header{"Content-Type": []string{"application/json"}}, RemoteBody: []byte(`{"sub":"remoteusername"}`), ExpectSuccess: true, ExpectUsername: "remoteusername"}, "401": {RemoteStatus: 401, RemoteHeaders: http.Header{"Content-Type": []string{"application/json"}}, RemoteBody: []byte(`{"error":"bad-user"}`), ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 401}, "301": {RemoteStatus: 301, RemoteHeaders: http.Header{"Location": []string{"http://www.example.com"}}, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "302": {RemoteStatus: 302, RemoteHeaders: http.Header{"Location": []string{"http://www.example.com"}}, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "303": {RemoteStatus: 303, RemoteHeaders: http.Header{"Location": []string{"http://www.example.com"}}, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "304": {RemoteStatus: 304, RemoteHeaders: http.Header{"Location": []string{"http://www.example.com"}}, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "305": {RemoteStatus: 305, RemoteHeaders: http.Header{"Location": []string{"http://www.example.com"}}, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "404": {RemoteStatus: 404, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}, "500": {RemoteStatus: 500, ExpectSuccess: false, ExpectUsername: "", ExpectErrStatus: 500}}
 	certNames := map[string]string{}
 	basicAuthCAPrefix := "basicauthtest"
 	certDir, err := ioutil.TempDir("", "oauthbasic")
-	// setup CA
 	caCert, err := createCA(certDir, basicAuthCAPrefix)
 	if err != nil {
 		t.Fatal(err)
@@ -123,7 +56,6 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 	defer os.RemoveAll(certDir)
 	t.Logf("cert dir is %s\n", certDir)
 	certNames[basicAuthRemoteCACert] = caCert
-	// setup server certs
 	ip, err := util.DefaultLocalIP4()
 	if err != nil {
 		t.Fatal(err)
@@ -133,24 +65,19 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 	}
 	certNames[basicAuthRemoteServerCert] = filepath.Join(certDir, basicAuthRemoteServerCert)
 	certNames[basicAuthRemoteServerKey] = filepath.Join(certDir, basicAuthRemoteServerKey)
-	// setup client certs
 	if _, err := createClientCert(basicAuthClient, certDir, basicAuthCAPrefix); err != nil {
 		t.Fatal(err)
 	}
 	certNames[basicAuthClientCert] = filepath.Join(certDir, basicAuthClientCert)
 	certNames[basicAuthClientKey] = filepath.Join(certDir, basicAuthClientKey)
-
-	// Build client cert pool
 	clientCAs, err := util.CertPoolFromFile(certNames[basicAuthRemoteCACert])
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Build remote handler
 	var (
-		remoteStatus  int
-		remoteHeaders http.Header
-		remoteBody    []byte
+		remoteStatus	int
+		remoteHeaders	http.Header
+		remoteBody	[]byte
 	)
 	remoteHandler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		if req.TLS == nil {
@@ -165,7 +92,6 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 			w.WriteHeader(http.StatusUnauthorized)
 			t.Fatalf("Expected auth header %s got %s", expectedAuthHeader, req.Header.Get("Authorization"))
 		}
-
 		for k, values := range remoteHeaders {
 			for _, v := range values {
 				w.Header().Add(k, v)
@@ -174,81 +100,39 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 		w.WriteHeader(remoteStatus)
 		w.Write(remoteBody)
 	})
-
-	// Start remote server
 	remoteAddr, err := testserver.FindAvailableBindAddress(9443, 9999)
 	if err != nil {
 		t.Fatalf("Couldn't get free address for test server: %v", err)
 	}
-	remoteServer := &http.Server{
-		Addr:           remoteAddr,
-		Handler:        remoteHandler,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-		TLSConfig: crypto.SecureTLSConfig(&tls.Config{
-			// RequireAndVerifyClientCert lets us limit requests to ones with a valid client certificate
-			ClientAuth: tls.RequireAndVerifyClientCert,
-			ClientCAs:  clientCAs,
-		}),
-	}
+	remoteServer := &http.Server{Addr: remoteAddr, Handler: remoteHandler, ReadTimeout: 10 * time.Second, WriteTimeout: 10 * time.Second, MaxHeaderBytes: 1 << 20, TLSConfig: crypto.SecureTLSConfig(&tls.Config{ClientAuth: tls.RequireAndVerifyClientCert, ClientCAs: clientCAs})}
 	go func() {
 		if err := remoteServer.ListenAndServeTLS(certNames[basicAuthRemoteServerCert], certNames[basicAuthRemoteServerKey]); err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
 	}()
-
-	// Build master config
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterOptions)
-
-	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{
-		Name:            "basicauth",
-		UseAsChallenger: true,
-		UseAsLogin:      true,
-		MappingMethod:   "claim",
-		Provider: &configapi.BasicAuthPasswordIdentityProvider{
-			RemoteConnectionInfo: configapi.RemoteConnectionInfo{
-				URL: fmt.Sprintf("https://%s", remoteAddr),
-				CA:  certNames[basicAuthRemoteCACert],
-				ClientCert: configapi.CertInfo{
-					CertFile: certNames[basicAuthClientCert],
-					KeyFile:  certNames[basicAuthClientKey],
-				},
-			},
-		},
-	}
-
-	// Start server
+	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{Name: "basicauth", UseAsChallenger: true, UseAsLogin: true, MappingMethod: "claim", Provider: &configapi.BasicAuthPasswordIdentityProvider{RemoteConnectionInfo: configapi.RemoteConnectionInfo{URL: fmt.Sprintf("https://%s", remoteAddr), CA: certNames[basicAuthRemoteCACert], ClientCert: configapi.CertInfo{CertFile: certNames[basicAuthClientCert], KeyFile: certNames[basicAuthClientKey]}}}}
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMaster(masterOptions)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	clientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Use the server and CA info
 	anonConfig := restclient.Config{}
 	anonConfig.Host = clientConfig.Host
 	anonConfig.CAFile = clientConfig.CAFile
 	anonConfig.CAData = clientConfig.CAData
-
 	for k, tc := range testcases {
-		// Specify the remote server's response
 		remoteStatus = tc.RemoteStatus
 		remoteHeaders = tc.RemoteHeaders
 		remoteBody = tc.RemoteBody
-
-		// Attempt to obtain a token
 		accessToken, err := tokencmd.RequestToken(&anonConfig, nil, expectedLogin, expectedPassword)
-
-		// Expected error
 		if !tc.ExpectSuccess {
 			if err == nil {
 				t.Errorf("%s: Expected error, got token=%v", k, accessToken)
@@ -259,21 +143,16 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 			}
 			continue
 		}
-
-		// Expected success
 		if err != nil {
 			t.Errorf("%s: Unexpected error: %v", k, err)
 			continue
 		}
-
-		// Make sure we can use the token, and it represents who we expect
 		userConfig := anonConfig
 		userConfig.BearerToken = accessToken
 		userClient, err := userclient.NewForConfig(&userConfig)
 		if err != nil {
 			t.Fatalf("%s: Unexpected error: %v", k, err)
 		}
-
 		user, err := userClient.Users().Get("~", metav1.GetOptions{})
 		if err != nil {
 			t.Fatalf("%s: Unexpected error: %v", k, err)
@@ -281,7 +160,5 @@ func TestOAuthBasicAuthPassword(t *testing.T) {
 		if user.Name != tc.ExpectUsername {
 			t.Fatalf("%s: Expected %v as the user, got %v", k, tc.ExpectUsername, user)
 		}
-
 	}
-
 }

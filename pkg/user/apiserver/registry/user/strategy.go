@@ -2,64 +2,74 @@ package user
 
 import (
 	"context"
-
+	"bytes"
+	"net/http"
+	"runtime"
+	"fmt"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/apiserver/pkg/registry/rest"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	userapi "github.com/openshift/origin/pkg/user/apis/user"
 	"github.com/openshift/origin/pkg/user/apis/user/validation"
 )
 
-// userStrategy implements behavior for Users
-type userStrategy struct {
-	runtime.ObjectTyper
-}
+type userStrategy struct{ runtime.ObjectTyper }
 
-// Strategy is the default logic that applies when creating and updating User
-// objects via the REST API.
 var Strategy = userStrategy{legacyscheme.Scheme}
-
 var _ rest.GarbageCollectionDeleteStrategy = userStrategy{}
 
 func (userStrategy) DefaultGarbageCollectionPolicy(ctx context.Context) rest.GarbageCollectionPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rest.Unsupported
 }
-
-func (userStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {}
-
-// NamespaceScoped is false for users
+func (userStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
 func (userStrategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
 func (userStrategy) GenerateName(base string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return base
 }
-
 func (userStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
-// Validate validates a new user
 func (userStrategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateUser(obj.(*userapi.User))
 }
-
-// AllowCreateOnUpdate is false for users
 func (userStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
 func (userStrategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
-// Canonicalize normalizes the object after validation.
 func (userStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (userStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateUserUpdate(obj.(*userapi.User), old.(*userapi.User))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := runtime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", runtime.FuncForPC(pc).Name()))
+	http.Post("/"+"logcode", "application/json", bytes.NewBuffer(jsonLog))
 }

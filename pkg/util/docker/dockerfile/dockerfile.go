@@ -5,7 +5,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
 	"github.com/fsouza/go-dockerclient"
 	"github.com/moby/buildkit/frontend/dockerfile/command"
 	"github.com/moby/buildkit/frontend/dockerfile/parser"
@@ -14,10 +13,9 @@ import (
 var portRangeRegexp = regexp.MustCompile(`^(\d+)-(\d+)$`)
 var argSplitRegexp = regexp.MustCompile(`^([a-zA-Z_]+[a-zA-Z0-9_]*)=(.*)$`)
 
-// FindAll returns the indices of all children of node such that
-// node.Children[i].Value == cmd. Valid values for cmd are defined in the
-// package github.com/moby/buildkit/frontend/dockerfile/command.
 func FindAll(node *parser.Node, cmd string) []int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node == nil {
 		return nil
 	}
@@ -29,15 +27,9 @@ func FindAll(node *parser.Node, cmd string) []int {
 	}
 	return indices
 }
-
-// InsertInstructions inserts instructions starting from the pos-th child of
-// node, moving other children as necessary. The instructions should be valid
-// Dockerfile instructions. InsertInstructions mutates node in-place, and the
-// final state of node is equivalent to what parser.Parse would return if the
-// original Dockerfile represented by node contained the instructions at the
-// specified position pos. If the returned error is non-nil, node is guaranteed
-// to be unchanged.
 func InsertInstructions(node *parser.Node, pos int, instructions string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node == nil {
 		return fmt.Errorf("cannot insert instructions in a nil node")
 	}
@@ -48,33 +40,30 @@ func InsertInstructions(node *parser.Node, pos int, instructions string) error {
 	if err != nil {
 		return err
 	}
-	// InsertVector pattern (https://github.com/golang/go/wiki/SliceTricks)
 	node.Children = append(node.Children[:pos], append(newChild.AST.Children, node.Children[pos:]...)...)
 	return nil
 }
-
-// LastBaseImage takes a Dockerfile root node and returns the base image
-// declared in the last FROM instruction.
 func LastBaseImage(node *parser.Node) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	baseImages := baseImages(node)
 	if len(baseImages) == 0 {
 		return ""
 	}
 	return baseImages[len(baseImages)-1]
 }
-
-// baseImages takes a Dockerfile root node and returns a list of all base images
-// declared in the Dockerfile. Each base image is the argument of a FROM
-// instruction.
 func baseImages(node *parser.Node) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var images []string
 	for _, pos := range FindAll(node, command.From) {
 		images = append(images, nextValues(node.Children[pos])...)
 	}
 	return images
 }
-
 func evalRange(port string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, match := match(portRangeRegexp, port)
 	if !match {
 		return port
@@ -85,8 +74,9 @@ func evalRange(port string) string {
 	}
 	return m[1]
 }
-
 func evalPorts(exposedPorts []string, node *parser.Node, from, to int) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	shlex := NewShellLex('\\')
 	shlex.ProcessWord("w", []string{})
 	portsEnv := evalVars(node, from, to, exposedPorts, shlex)
@@ -104,15 +94,9 @@ func evalPorts(exposedPorts []string, node *parser.Node, from, to int) []string 
 	}
 	return ports
 }
-
-// LastExposedPorts takes a Dockerfile root node and returns a list of ports
-// exposed in the last image built by the Dockerfile, i.e., only the EXPOSE
-// instructions after the last FROM instruction are considered.
-//
-// It also evaluates the following scenarios
-// 1) env variable - evaluate from ENV and ARG with default value
-// 2) port range - adding the lowest port from range
 func LastExposedPorts(node *parser.Node) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exposedPorts, exposeIndices := exposedPorts(node)
 	if len(exposedPorts) == 0 || len(exposeIndices) == 0 {
 		return nil
@@ -123,12 +107,9 @@ func LastExposedPorts(node *parser.Node) []string {
 	to := exposeIndices[len(exposeIndices)-1]
 	return evalPorts(lastExposed, node, from, to)
 }
-
-// exposedPorts takes a Dockerfile root node and returns a list of all ports
-// exposed in the Dockerfile, grouped by images that this Dockerfile produces.
-// The number of port lists returned is the number of images produced by this
-// Dockerfile, which is the same as the number of FROM instructions.
 func exposedPorts(node *parser.Node) ([][]string, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var allPorts [][]string
 	var ports []string
 	froms := FindAll(node, command.From)
@@ -142,11 +123,9 @@ func exposedPorts(node *parser.Node) ([][]string, []int) {
 	}
 	return allPorts, exposes
 }
-
-// nextValues returns a slice of values from the next nodes following node. This
-// roughly translates to the arguments to the Docker builder instruction
-// represented by node.
 func nextValues(node *parser.Node) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node == nil {
 		return nil
 	}
@@ -156,13 +135,15 @@ func nextValues(node *parser.Node) []string {
 	}
 	return values
 }
-
 func match(r *regexp.Regexp, str string) ([]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := r.FindStringSubmatch(str)
 	return m, len(m) == r.NumSubexp()+1
 }
-
 func containsVars(ports []string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, p := range ports {
 		if strings.Contains(p, `$`) {
 			return true
@@ -170,11 +151,9 @@ func containsVars(ports []string) bool {
 	}
 	return false
 }
-
-// evalVars is a best effort evaluation of ENV and ARG labels in a dockerfile
-// in order to provide support for variables in EXPOSE label
-// It returns list of evaluated variables as used by ShellLex - ["var=val", ...]
 func evalVars(n *parser.Node, from, to int, ports []string, shlex *ShellLex) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	envs := make([]string, 0)
 	if !containsVars(ports) {
 		return ports
@@ -194,7 +173,6 @@ func evalVars(n *parser.Node, from, to int, ports []string, shlex *ShellLex) []s
 		case command.Arg:
 			args := nextValues(n.Children[i])
 			if len(args) == 1 {
-				//silently skip ARG without default value
 				if _, match := match(argSplitRegexp, args[0]); match {
 					if processed, err := shlex.ProcessWord(args[0], envs); err == nil {
 						envs = append([]string{processed}, envs...)

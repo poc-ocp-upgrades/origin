@@ -6,9 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strings"
-
 	. "github.com/onsi/ginkgo"
-
 	"github.com/openshift/origin/pkg/oc/cli/admin/release"
 	exutil "github.com/openshift/origin/test/extended/util"
 	v1 "k8s.io/api/core/v1"
@@ -19,21 +17,16 @@ import (
 
 var _ = Describe("[Feature:Platform][Smoke] Managed cluster", func() {
 	oc := exutil.NewCLIWithoutNamespace("operators")
-
 	It("should ensure pods use images from our release image with proper ImagePullPolicy", func() {
 		imagePullSecret, err := oc.KubeFramework().ClientSet.CoreV1().Secrets("openshift-config").Get("pull-secret", metav1.GetOptions{})
 		if err != nil {
 			e2e.Failf("unable to get pull secret for cluster: %v", err)
 		}
-
-		// cache file to local temp location
 		imagePullFile, err := ioutil.TempFile("", "image-pull-secret")
 		if err != nil {
 			e2e.Failf("unable to create a temporary file: %v", err)
 		}
 		defer os.Remove(imagePullFile.Name())
-
-		// write the content
 		imagePullSecretBytes := imagePullSecret.Data[".dockerconfigjson"]
 		if _, err := imagePullFile.Write(imagePullSecretBytes); err != nil {
 			e2e.Failf("unable to write pull secret to temp file: %v", err)
@@ -41,11 +34,8 @@ var _ = Describe("[Feature:Platform][Smoke] Managed cluster", func() {
 		if err := imagePullFile.Close(); err != nil {
 			e2e.Failf("unable to close file: %v", err)
 		}
-
-		// find out the current installed release info using the temp file
 		out, err := oc.Run("adm", "release", "info").Args("--pullspecs", "-o", "json", "--registry-config", imagePullFile.Name()).Output()
 		if err != nil {
-			// TODO need to determine why release tests are not having access to read payload
 			e2e.Logf("unable to read release payload with error: %v", err)
 			return
 		}
@@ -55,8 +45,6 @@ var _ = Describe("[Feature:Platform][Smoke] Managed cluster", func() {
 		}
 		e2e.Logf("Release Info image=%s", releaseInfo.Image)
 		e2e.Logf("Release Info number of tags %v", len(releaseInfo.References.Spec.Tags))
-
-		// valid images include the release image and all its tagged references
 		validImages := sets.NewString()
 		validImages.Insert(releaseInfo.Image)
 		if releaseInfo.References == nil {
@@ -68,18 +56,12 @@ var _ = Describe("[Feature:Platform][Smoke] Managed cluster", func() {
 				validImages.Insert(tag.From.Name)
 			}
 		}
-
-		// iterate over the references to find valid images
 		pods, err := oc.KubeFramework().ClientSet.CoreV1().Pods("").List(metav1.ListOptions{})
 		if err != nil {
 			e2e.Failf("unable to list pods: %v", err)
 		}
-
-		// list of pods that use images not in the release payload
 		invalidPodContainerImages := sets.NewString()
 		invalidPodContainerImagePullPolicy := sets.NewString()
-		// a pod in a namespace that begins with kube-* or openshift-* must come from our release payload
-		// TODO components in openshift-operators may not come from our payload, may want to weaken restriction
 		namespacePrefixes := sets.NewString("kube-", "openshift-")
 		for i := range pods.Items {
 			pod := pods.Items[i]
@@ -105,7 +87,6 @@ var _ = Describe("[Feature:Platform][Smoke] Managed cluster", func() {
 				}
 			}
 		}
-		// log for debugging output before we ultimately fail
 		e2e.Logf("Pods found with invalid container images not present in release payload: %s", strings.Join(invalidPodContainerImages.List(), "\n"))
 		e2e.Logf("Pods found with invalid container image pull policy not equal to IfNotPresent: %s", strings.Join(invalidPodContainerImagePullPolicy.List(), "\n"))
 		if len(invalidPodContainerImages) > 0 {
