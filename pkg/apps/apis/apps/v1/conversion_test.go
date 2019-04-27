@@ -3,14 +3,12 @@ package v1
 import (
 	"reflect"
 	"testing"
-
 	kapiv1 "k8s.io/api/core/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/diff"
 	"k8s.io/apimachinery/pkg/util/intstr"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-
 	"github.com/openshift/api/apps/v1"
 	newer "github.com/openshift/origin/pkg/apps/apis/apps"
 )
@@ -19,38 +17,43 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	utilruntime.Must(Install(scheme))
 }
-
 func TestTriggerRoundTrip(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		testName   string
-		kind, name string
-	}{
-		{
-			testName: "ImageStream -> ImageStreamTag",
-			kind:     "ImageStream",
-			name:     "golang",
-		},
-		{
-			testName: "ImageStreamTag -> ImageStreamTag",
-			kind:     "ImageStreamTag",
-			name:     "golang:latest",
-		},
-		{
-			testName: "ImageRepository -> ImageStreamTag",
-			kind:     "ImageRepository",
-			name:     "golang",
-		},
-	}
-
+		testName	string
+		kind, name	string
+	}{{testName: "ImageStream -> ImageStreamTag", kind: "ImageStream", name: "golang"}, {testName: "ImageStreamTag -> ImageStreamTag", kind: "ImageStreamTag", name: "golang:latest"}, {testName: "ImageRepository -> ImageStreamTag", kind: "ImageRepository", name: "golang"}}
 	for _, test := range tests {
-		p := v1.DeploymentTriggerImageChangeParams{
-			From: kapiv1.ObjectReference{
-				Kind: test.kind,
-				Name: test.name,
-			},
-		}
+		p := v1.DeploymentTriggerImageChangeParams{From: kapiv1.ObjectReference{Kind: test.kind, Name: test.name}}
 		out := &newer.DeploymentTriggerImageChangeParams{}
 		if err := scheme.Convert(&p, out, nil); err != nil {
 			t.Errorf("%s: unexpected error: %v", test.testName, err)
@@ -63,86 +66,25 @@ func TestTriggerRoundTrip(t *testing.T) {
 		}
 	}
 }
-
 func Test_convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrategyParams(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		in  *v1.RollingDeploymentStrategyParams
-		out *newer.RollingDeploymentStrategyParams
-	}{
-		{
-			in: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxUnavailable:      newIntOrString(intstr.FromString("25%")),
-				Pre: &v1.LifecycleHook{
-					FailurePolicy: v1.LifecycleHookFailurePolicyIgnore,
-				},
-				Post: &v1.LifecycleHook{
-					FailurePolicy: v1.LifecycleHookFailurePolicyAbort,
-				},
-			},
-			out: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromInt(0),
-				MaxUnavailable:      intstr.FromString("25%"),
-				Pre: &newer.LifecycleHook{
-					FailurePolicy: newer.LifecycleHookFailurePolicyIgnore,
-				},
-				Post: &newer.LifecycleHook{
-					FailurePolicy: newer.LifecycleHookFailurePolicyAbort,
-				},
-			},
-		},
-		{
-			in: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            newIntOrString(intstr.FromString("25%")),
-			},
-			out: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromString("25%"),
-				MaxUnavailable:      intstr.FromInt(0),
-			},
-		},
-		{
-			in: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            newIntOrString(intstr.FromInt(10)),
-				MaxUnavailable:      newIntOrString(intstr.FromInt(20)),
-			},
-			out: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromInt(10),
-				MaxUnavailable:      intstr.FromInt(20),
-			},
-		},
-		{
-			in: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-			},
-			out: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromString("25%"),
-				MaxUnavailable:      intstr.FromString("25%"),
-			},
-		},
-	}
-
+		in	*v1.RollingDeploymentStrategyParams
+		out	*newer.RollingDeploymentStrategyParams
+	}{{in: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxUnavailable: newIntOrString(intstr.FromString("25%")), Pre: &v1.LifecycleHook{FailurePolicy: v1.LifecycleHookFailurePolicyIgnore}, Post: &v1.LifecycleHook{FailurePolicy: v1.LifecycleHookFailurePolicyAbort}}, out: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromInt(0), MaxUnavailable: intstr.FromString("25%"), Pre: &newer.LifecycleHook{FailurePolicy: newer.LifecycleHookFailurePolicyIgnore}, Post: &newer.LifecycleHook{FailurePolicy: newer.LifecycleHookFailurePolicyAbort}}}, {in: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: newIntOrString(intstr.FromString("25%"))}, out: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromString("25%"), MaxUnavailable: intstr.FromInt(0)}}, {in: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: newIntOrString(intstr.FromInt(10)), MaxUnavailable: newIntOrString(intstr.FromInt(20))}, out: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromInt(10), MaxUnavailable: intstr.FromInt(20)}}, {in: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7)}, out: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromString("25%"), MaxUnavailable: intstr.FromString("25%")}}}
 	for i, test := range tests {
 		t.Logf("running test case #%d", i)
 		out := &newer.RollingDeploymentStrategyParams{}
@@ -154,62 +96,25 @@ func Test_convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentSt
 		}
 	}
 }
-
 func Test_convert_api_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrategyParams(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		in  *newer.RollingDeploymentStrategyParams
-		out *v1.RollingDeploymentStrategyParams
-	}{
-		{
-			in: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromInt(0),
-				MaxUnavailable:      intstr.FromString("25%"),
-			},
-			out: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            newIntOrString(intstr.FromInt(0)),
-				MaxUnavailable:      newIntOrString(intstr.FromString("25%")),
-			},
-		},
-		{
-			in: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromString("25%"),
-				MaxUnavailable:      intstr.FromInt(0),
-			},
-			out: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            newIntOrString(intstr.FromString("25%")),
-				MaxUnavailable:      newIntOrString(intstr.FromInt(0)),
-			},
-		},
-		{
-			in: &newer.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            intstr.FromInt(10),
-				MaxUnavailable:      intstr.FromInt(20),
-			},
-			out: &v1.RollingDeploymentStrategyParams{
-				UpdatePeriodSeconds: newInt64(5),
-				IntervalSeconds:     newInt64(6),
-				TimeoutSeconds:      newInt64(7),
-				MaxSurge:            newIntOrString(intstr.FromInt(10)),
-				MaxUnavailable:      newIntOrString(intstr.FromInt(20)),
-			},
-		},
-	}
-
+		in	*newer.RollingDeploymentStrategyParams
+		out	*v1.RollingDeploymentStrategyParams
+	}{{in: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromInt(0), MaxUnavailable: intstr.FromString("25%")}, out: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: newIntOrString(intstr.FromInt(0)), MaxUnavailable: newIntOrString(intstr.FromString("25%"))}}, {in: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromString("25%"), MaxUnavailable: intstr.FromInt(0)}, out: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: newIntOrString(intstr.FromString("25%")), MaxUnavailable: newIntOrString(intstr.FromInt(0))}}, {in: &newer.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: intstr.FromInt(10), MaxUnavailable: intstr.FromInt(20)}, out: &v1.RollingDeploymentStrategyParams{UpdatePeriodSeconds: newInt64(5), IntervalSeconds: newInt64(6), TimeoutSeconds: newInt64(7), MaxSurge: newIntOrString(intstr.FromInt(10)), MaxUnavailable: newIntOrString(intstr.FromInt(20))}}}
 	for _, test := range tests {
 		out := &v1.RollingDeploymentStrategyParams{}
 		if err := scheme.Convert(test.in, out, nil); err != nil {
@@ -220,15 +125,54 @@ func Test_convert_api_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStr
 		}
 	}
 }
-
 func newInt64(val int64) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &val
 }
-
 func newInt32(val int32) *int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &val
 }
-
 func newIntOrString(ios intstr.IntOrString) *intstr.IntOrString {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ios
 }

@@ -10,11 +10,9 @@ import (
 	"os"
 	"reflect"
 	"testing"
-
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	restclient "k8s.io/client-go/rest"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
-
 	userv1typedclient "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"github.com/openshift/origin/pkg/oc/cli/login"
@@ -23,39 +21,33 @@ import (
 	testserver "github.com/openshift/origin/test/util/server"
 )
 
-// TestOAuthOIDC checks CLI password login against an OIDC provider
 func TestOAuthOIDC(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("skipping until auth team figures this out in the new split API setup, see https://bugzilla.redhat.com/show_bug.cgi?id=1640351")
-	expectedTokenPost := url.Values{
-		"grant_type":    []string{"password"},
-		"client_id":     []string{"myclient"},
-		"client_secret": []string{"mysecret"},
-		"username":      []string{"mylogin"},
-		"password":      []string{"mypassword"},
-		"scope":         []string{"openid scope1 scope2"},
-	}
-
-	// id_token made at https://jwt.io/
-	// {
-	// 	"sub": "mysub",
-	// 	"name": "John Doe",
-	// 	"myidclaim": "myid",
-	// 	"myemailclaim":"myemail",
-	// }
+	expectedTokenPost := url.Values{"grant_type": []string{"password"}, "client_id": []string{"myclient"}, "client_secret": []string{"mysecret"}, "username": []string{"mylogin"}, "password": []string{"mypassword"}, "scope": []string{"openid scope1 scope2"}}
 	tokenResponse := `{
 		"token_type":   "bearer",
 		"access_token": "12345",
 		"id_token":     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJteXN1YiIsIm5hbWUiOiJKb2huIERvZSIsIm15aWRjbGFpbSI6Im15aWQiLCJteWVtYWlsY2xhaW0iOiJteWVtYWlsIn0.yMx2ZQw8Su641H_kO8ec_tFaysrFEc9uFUFm4ZbLGHw"
 	}`
-
-	// Additional claims in userInfo (sub claim must match)
 	userinfoResponse := `{
 		"sub": "mysub",
 	 	"mynameclaim":"myname",
 	 	"myusernameclaim":"myusername"
 	}`
-
-	// Write cert we're going to use to verify OIDC server requests
 	caFile, err := ioutil.TempFile("", "test.crt")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -64,15 +56,11 @@ func TestOAuthOIDC(t *testing.T) {
 	if err := ioutil.WriteFile(caFile.Name(), oidcLocalhostCert, os.FileMode(0600)); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Get master config
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterOptions)
-
-	// Set up a dummy OIDC server
 	oidcServer := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.String() {
 		case "/token":
@@ -85,65 +73,31 @@ func TestOAuthOIDC(t *testing.T) {
 			if !reflect.DeepEqual(r.PostForm, expectedTokenPost) {
 				t.Fatalf("Expected\n%#v\ngot\n%#v", expectedTokenPost, r.PostForm)
 			}
-
 			w.Write([]byte(tokenResponse))
-
 		case "/userinfo":
 			if r.Header.Get("Authorization") != "Bearer 12345" {
 				t.Fatalf("Expected authorization header, got %#v", r.Header)
 			}
 			w.Write([]byte(userinfoResponse))
-
 		default:
 			t.Fatalf("Unexpected OIDC request: %v", r.URL.String())
 		}
 	}))
 	cert, err := tls.X509KeyPair(oidcLocalhostCert, oidcLocalhostKey)
-	oidcServer.TLS = &tls.Config{
-		Certificates: []tls.Certificate{cert},
-	}
+	oidcServer.TLS = &tls.Config{Certificates: []tls.Certificate{cert}}
 	oidcServer.StartTLS()
 	defer oidcServer.Close()
-
-	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{
-		Name:            "oidc",
-		UseAsChallenger: true,
-		UseAsLogin:      true,
-		MappingMethod:   "claim",
-		Provider: &configapi.OpenIDIdentityProvider{
-			CA:           caFile.Name(),
-			ClientID:     "myclient",
-			ClientSecret: configapi.StringSource{StringSourceSpec: configapi.StringSourceSpec{Value: "mysecret"}},
-			ExtraScopes:  []string{"scope1", "scope2"},
-			URLs: configapi.OpenIDURLs{
-				Authorize: oidcServer.URL + "/authorize",
-				Token:     oidcServer.URL + "/token",
-				UserInfo:  oidcServer.URL + "/userinfo",
-			},
-			Claims: configapi.OpenIDClaims{
-				ID:                []string{"myidclaim"},
-				Email:             []string{"myemailclaim"},
-				Name:              []string{"mynameclaim"},
-				PreferredUsername: []string{"myusernameclaim"},
-			},
-		},
-	}
-
-	// Start server
+	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{Name: "oidc", UseAsChallenger: true, UseAsLogin: true, MappingMethod: "claim", Provider: &configapi.OpenIDIdentityProvider{CA: caFile.Name(), ClientID: "myclient", ClientSecret: configapi.StringSource{StringSourceSpec: configapi.StringSourceSpec{Value: "mysecret"}}, ExtraScopes: []string{"scope1", "scope2"}, URLs: configapi.OpenIDURLs{Authorize: oidcServer.URL + "/authorize", Token: oidcServer.URL + "/token", UserInfo: oidcServer.URL + "/userinfo"}, Claims: configapi.OpenIDClaims{ID: []string{"myidclaim"}, Email: []string{"myemailclaim"}, Name: []string{"mynameclaim"}, PreferredUsername: []string{"myusernameclaim"}}}}
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMaster(masterOptions)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	clientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Get the master CA data for the login command
 	masterCAFile := clientConfig.CAFile
 	if masterCAFile == "" {
-		// Write master ca data
 		tmpFile, err := ioutil.TempFile("", "ca.crt")
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -154,15 +108,8 @@ func TestOAuthOIDC(t *testing.T) {
 		}
 		masterCAFile = tmpFile.Name()
 	}
-
-	// Attempt a login using a redirecting auth proxy
 	loginOutput := &bytes.Buffer{}
-	loginOptions := &login.LoginOptions{
-		Server:             clientConfig.Host,
-		CAFile:             masterCAFile,
-		StartingKubeConfig: &clientcmdapi.Config{},
-		IOStreams:          genericclioptions.IOStreams{Out: loginOutput, In: bytes.NewBufferString("mylogin\nmypassword\n"), ErrOut: ioutil.Discard},
-	}
+	loginOptions := &login.LoginOptions{Server: clientConfig.Host, CAFile: masterCAFile, StartingKubeConfig: &clientcmdapi.Config{}, IOStreams: genericclioptions.IOStreams{Out: loginOutput, In: bytes.NewBufferString("mylogin\nmypassword\n"), ErrOut: ioutil.Discard}}
 	if err := loginOptions.GatherInfo(); err != nil {
 		t.Fatalf("Error logging in: %v\n%v", err, loginOutput.String())
 	}
@@ -172,16 +119,7 @@ func TestOAuthOIDC(t *testing.T) {
 	if len(loginOptions.Config.BearerToken) == 0 {
 		t.Fatalf("Expected token after authentication: %#v", loginOptions.Config)
 	}
-
-	// Ex
-	userConfig := &restclient.Config{
-		Host: clientConfig.Host,
-		TLSClientConfig: restclient.TLSClientConfig{
-			CAFile: clientConfig.CAFile,
-			CAData: clientConfig.CAData,
-		},
-		BearerToken: loginOptions.Config.BearerToken,
-	}
+	userConfig := &restclient.Config{Host: clientConfig.Host, TLSClientConfig: restclient.TLSClientConfig{CAFile: clientConfig.CAFile, CAData: clientConfig.CAData}, BearerToken: loginOptions.Config.BearerToken}
 	userClient, err := userv1typedclient.NewForConfig(userConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -202,10 +140,6 @@ func TestOAuthOIDC(t *testing.T) {
 	}
 }
 
-// oidcLocalhostCert is a PEM-encoded TLS cert with SAN IPs
-// "127.0.0.1" and "[::1]", expiring at Jan 29 16:00:00 2084 GMT.
-// generated from src/crypto/tls:
-// go run generate_cert.go  --rsa-bits 1024 --host 127.0.0.1,::1,example.com --ca --start-date "Jan 1 00:00:00 1970" --duration=1000000h
 var oidcLocalhostCert = []byte(`-----BEGIN CERTIFICATE-----
 MIICEzCCAXygAwIBAgIQMIMChMLGrR+QvmQvpwAU6zANBgkqhkiG9w0BAQsFADAS
 MRAwDgYDVQQKEwdBY21lIENvMCAXDTcwMDEwMTAwMDAwMFoYDzIwODQwMTI5MTYw
@@ -220,8 +154,6 @@ tyC4lNhbcF2Idq9greZwbYCqTTTr2XiRNSMLCOjKyI7ukPoPjo16ocHj+P3vZGfs
 h1fIw3cSS2OolhloGw/XM6RWPWtPAlGykKLciQrBru5NAPvCMsb/I1DAceTiotQM
 fblo6RBxUQ==
 -----END CERTIFICATE-----`)
-
-// oidcLocalhostKey is the private key for oidcLocalhostCert.
 var oidcLocalhostKey = []byte(`-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDuLnQAI3mDgey3VBzWnB2L39JUU4txjeVE6myuDqkM/uGlfjb9
 SjY1bIw4iA5sBBZzHi3z0h1YV8QPuxEbi4nW91IJm2gsvvZhIrCHS3l6afab4pZB

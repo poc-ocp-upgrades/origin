@@ -9,7 +9,6 @@ import (
 	describeversioned "k8s.io/kubernetes/pkg/kubectl/describe/versioned"
 	"k8s.io/kubernetes/pkg/kubectl/generate/versioned"
 	"k8s.io/kubernetes/pkg/kubectl/polymorphichelpers"
-
 	"github.com/openshift/origin/pkg/api/legacygroupification"
 	"github.com/openshift/origin/pkg/oc/originpolymorphichelpers"
 	"github.com/openshift/origin/pkg/oc/util/clientcmd"
@@ -17,16 +16,26 @@ import (
 )
 
 func shimKubectlForOc() {
-	// we only need this change for `oc`.  `kubectl` should behave as close to `kubectl` as we can
-	// if we call this factory construction method, we want the openshift style config loading
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kclientcmd.ErrEmptyConfig = genericclioptions.NewErrConfigurationMissing()
 	kcmdset.ParseDockerImageReferenceToStringFunc = clientcmd.ParseDockerImageReferenceToStringFunc
 	openshiftpatch.OAPIToGroupified = legacygroupification.OAPIToGroupified
 	openshiftpatch.OAPIToGroupifiedGVK = legacygroupification.OAPIToGroupifiedGVK
 	openshiftpatch.IsOAPIFn = legacygroupification.IsOAPI
 	openshiftpatch.IsOC = true
-
-	// update polymorphic helpers
 	polymorphichelpers.AttachablePodForObjectFn = originpolymorphichelpers.NewAttachablePodForObjectFn(polymorphichelpers.AttachablePodForObjectFn)
 	polymorphichelpers.CanBeAutoscaledFn = originpolymorphichelpers.NewCanBeAutoscaledFn(polymorphichelpers.CanBeAutoscaledFn)
 	polymorphichelpers.CanBeExposedFn = originpolymorphichelpers.NewCanBeExposedFn(polymorphichelpers.CanBeExposedFn)
@@ -40,8 +49,6 @@ func shimKubectlForOc() {
 	polymorphichelpers.RollbackerFn = originpolymorphichelpers.NewRollbackerFn(polymorphichelpers.RollbackerFn)
 	polymorphichelpers.StatusViewerFn = originpolymorphichelpers.NewStatusViewerFn(polymorphichelpers.StatusViewerFn)
 	polymorphichelpers.UpdatePodSpecForObjectFn = originpolymorphichelpers.NewUpdatePodSpecForObjectFn(polymorphichelpers.UpdatePodSpecForObjectFn)
-
-	// update some functions we inject
 	versioned.GeneratorFn = originpolymorphichelpers.NewGeneratorsFn(versioned.GeneratorFn)
 	describeversioned.DescriberFn = originpolymorphichelpers.NewDescriberFn(describeversioned.DescriberFn)
 	version.OverrideGetVersionFn = oversion.Get

@@ -3,85 +3,68 @@ package allocation
 import (
 	"fmt"
 	"testing"
-
 	routeapi "github.com/openshift/origin/pkg/route/apis/route"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type TestAllocationPlugin struct {
-	Name string
-}
+type TestAllocationPlugin struct{ Name string }
 
 func (p *TestAllocationPlugin) Allocate(route *routeapi.Route) (*routeapi.RouterShard, error) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &routeapi.RouterShard{ShardName: "test", DNSSuffix: "openshift.test"}, nil
 }
-
 func (p *TestAllocationPlugin) GenerateHostname(route *routeapi.Route, shard *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(route.Spec.To.Name) > 0 && len(route.Namespace) > 0 {
 		return fmt.Sprintf("%s-%s.%s", route.Spec.To.Name, route.Namespace, shard.DNSSuffix)
 	}
-
 	return "test-test-test.openshift.test"
 }
-
 func TestRouteAllocationController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name  string
-		route *routeapi.Route
-	}{
-		{
-			name: "No Name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "namespace",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "service",
-					},
-				},
-			},
-		},
-		{
-			name: "No namespace",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "name",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "nonamespace",
-					},
-				},
-			},
-		},
-		{
-			name: "No service name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-			},
-		},
-		{
-			name: "Valid route",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-				Spec: routeapi.RouteSpec{
-					Host: "www.example.org",
-					To: routeapi.RouteTargetReference{
-						Name: "serviceName",
-					},
-				},
-			},
-		},
-	}
-
+		name	string
+		route	*routeapi.Route
+	}{{name: "No Name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Namespace: "namespace"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "service"}}}}, {name: "No namespace", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "nonamespace"}}}}, {name: "No service name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}}}, {name: "Valid route", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}, Spec: routeapi.RouteSpec{Host: "www.example.org", To: routeapi.RouteTargetReference{Name: "serviceName"}}}}}
 	plugin := &TestAllocationPlugin{Name: "test allocation plugin"}
 	fac := &RouteAllocationControllerFactory{}
 	allocator := fac.Create(plugin)

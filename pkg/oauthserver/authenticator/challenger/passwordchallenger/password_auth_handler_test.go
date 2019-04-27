@@ -8,11 +8,23 @@ import (
 )
 
 func TestAuthChallengeNeeded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	realm := "testing-realm"
 	expectedChallenge := fmt.Sprintf(`Basic realm="%s"`, realm)
-
 	handler := NewBasicAuthChallenger(realm)
-
 	req, _ := http.NewRequest("GET", "", nil)
 	req.Header.Set(CSRFTokenHeader, "1")
 	header, err := handler.AuthenticationChallenge(req)
@@ -25,15 +37,25 @@ func TestAuthChallengeNeeded(t *testing.T) {
 	if challenge := header.Get("WWW-Authenticate"); challenge != expectedChallenge {
 		t.Errorf("Expected %v, got %v", expectedChallenge, challenge)
 	}
-
 }
-
 func TestAuthChallengeWithoutCSRF(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	realm := "testing-realm"
 	expectedWarning := CSRFTokenHeader
-
 	handler := NewBasicAuthChallenger(realm)
-
 	req, _ := http.NewRequest("GET", "", nil)
 	header, err := handler.AuthenticationChallenge(req)
 	if err != nil {
@@ -45,5 +67,4 @@ func TestAuthChallengeWithoutCSRF(t *testing.T) {
 	if challenge := header.Get("WWW-Authenticate"); challenge != "" {
 		t.Errorf("Unexpected challenge %v", challenge)
 	}
-
 }

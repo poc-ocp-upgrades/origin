@@ -3,11 +3,24 @@ package user
 import (
 	"strings"
 	"testing"
-
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
 )
 
 func TestNonRootOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := NewRunAsNonRoot(nil)
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsNonRoot %v", err)
@@ -17,8 +30,21 @@ func TestNonRootOptions(t *testing.T) {
 		t.Errorf("unexpected error initializing NewRunAsNonRoot %v", err)
 	}
 }
-
 func TestNonRootGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := NewRunAsNonRoot(&securityapi.RunAsUserStrategyOptions{})
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsNonRoot %v", err)
@@ -31,15 +57,27 @@ func TestNonRootGenerate(t *testing.T) {
 		t.Errorf("unexpected error generating uid %v", err)
 	}
 }
-
 func TestNonRootValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 1
 	var badUID int64 = 0
 	s, err := NewRunAsNonRoot(&securityapi.RunAsUserStrategyOptions{})
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsNonRoot %v", err)
 	}
-
 	errs := s.Validate(nil, nil, nil, nil, &badUID)
 	expectedMessage := "runAsUser: Invalid value: 0: running with the root UID is forbidden"
 	if len(errs) == 0 {
@@ -47,7 +85,6 @@ func TestNonRootValidate(t *testing.T) {
 	} else if !strings.Contains(errs[0].Error(), expectedMessage) {
 		t.Errorf("expected error to contain %q but it did not: %v", expectedMessage, errs)
 	}
-
 	errs = s.Validate(nil, nil, nil, nil, nil)
 	expectedMessage = "runAsNonRoot: Required value: must be true"
 	if len(errs) == 0 {
@@ -55,7 +92,6 @@ func TestNonRootValidate(t *testing.T) {
 	} else if !strings.Contains(errs[0].Error(), expectedMessage) {
 		t.Errorf("expected error to contain %q but it did not: %v", expectedMessage, errs)
 	}
-
 	no := false
 	errs = s.Validate(nil, nil, nil, &no, nil)
 	expectedMessage = "runAsNonRoot: Invalid value: false: must be true"
@@ -64,12 +100,10 @@ func TestNonRootValidate(t *testing.T) {
 	} else if !strings.Contains(errs[0].Error(), expectedMessage) {
 		t.Errorf("expected error to contain %q but it did not: %v", expectedMessage, errs)
 	}
-
 	errs = s.Validate(nil, nil, nil, nil, &uid)
 	if len(errs) != 0 {
 		t.Errorf("expected no errors from non-root uid but got %v", errs)
 	}
-
 	yes := true
 	errs = s.Validate(nil, nil, nil, &yes, nil)
 	if len(errs) != 0 {

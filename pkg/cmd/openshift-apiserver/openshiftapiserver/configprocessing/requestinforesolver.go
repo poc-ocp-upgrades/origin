@@ -7,11 +7,21 @@ import (
 )
 
 func OpenshiftRequestInfoResolver() apirequest.RequestInfoResolver {
-	// Default API request info factory
-	requestInfoFactory := &apirequest.RequestInfoFactory{
-		APIPrefixes:          sets.NewString("api", "apis"),
-		GrouplessAPIPrefixes: sets.NewString("api"),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	requestInfoFactory := &apirequest.RequestInfoFactory{APIPrefixes: sets.NewString("api", "apis"), GrouplessAPIPrefixes: sets.NewString("api")}
 	personalSARRequestInfoResolver := oauthorizer.NewPersonalSARRequestInfoResolver(requestInfoFactory)
 	projectRequestInfoResolver := oauthorizer.NewProjectRequestInfoResolver(personalSARRequestInfoResolver)
 	return projectRequestInfoResolver

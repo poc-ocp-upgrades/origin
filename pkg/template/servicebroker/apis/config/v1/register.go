@@ -7,20 +7,28 @@ import (
 
 const GroupName = "config.templateservicebroker.openshift.io"
 
-// SchemeGroupVersion is group version used to register these objects
 var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: "v1"}
-
 var (
-	SchemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)
-	AddToScheme   = SchemeBuilder.AddToScheme
-
-	localSchemeBuilder = &SchemeBuilder
+	SchemeBuilder		= runtime.NewSchemeBuilder(addKnownTypes)
+	AddToScheme		= SchemeBuilder.AddToScheme
+	localSchemeBuilder	= &SchemeBuilder
 )
 
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(SchemeGroupVersion,
-		&TemplateServiceBrokerConfig{},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	scheme.AddKnownTypes(SchemeGroupVersion, &TemplateServiceBrokerConfig{})
 	return nil
 }

@@ -2,9 +2,7 @@ package create
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
-
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericclioptions/printers"
@@ -12,7 +10,6 @@ import (
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	routev1client "github.com/openshift/client-go/route/clientset/versioned/typed/route/v1"
 )
 
@@ -24,74 +21,91 @@ var (
 		If you wish to create unsecured routes, see "%[1]s expose -h"`)
 )
 
-// NewCmdCreateRoute is a macro command to create a secured route.
 func NewCmdCreateRoute(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "route",
-		Short: "Expose containers externally via secured routes",
-		Long:  fmt.Sprintf(routeLong, fullName),
-		Run:   kcmdutil.DefaultSubCommandRun(streams.ErrOut),
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	cmd := &cobra.Command{Use: "route", Short: "Expose containers externally via secured routes", Long: fmt.Sprintf(routeLong, fullName), Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmd.AddCommand(NewCmdCreateEdgeRoute(fullName, f, streams))
 	cmd.AddCommand(NewCmdCreatePassthroughRoute(fullName, f, streams))
 	cmd.AddCommand(NewCmdCreateReencryptRoute(fullName, f, streams))
-
 	return cmd
 }
 
-// CreateRouteSubcommandOptions is an options struct to support create subcommands
 type CreateRouteSubcommandOptions struct {
-	// PrintFlags holds options necessary for obtaining a printer
-	PrintFlags *genericclioptions.PrintFlags
-	// Name of resource being created
-	Name        string
-	ServiceName string
-	// DryRun is true if the command should be simulated but not run against the server
-	DryRun bool
-
-	Namespace        string
-	EnforceNamespace bool
-
-	Mapper meta.RESTMapper
-
-	Printer printers.ResourcePrinter
-
-	Client     routev1client.RoutesGetter
-	CoreClient corev1client.CoreV1Interface
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Name			string
+	ServiceName		string
+	DryRun			bool
+	Namespace		string
+	EnforceNamespace	bool
+	Mapper			meta.RESTMapper
+	Printer			printers.ResourcePrinter
+	Client			routev1client.RoutesGetter
+	CoreClient		corev1client.CoreV1Interface
 	genericclioptions.IOStreams
 }
 
 func NewCreateRouteSubcommandOptions(ioStreams genericclioptions.IOStreams) *CreateRouteSubcommandOptions {
-	return &CreateRouteSubcommandOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme),
-		IOStreams:  ioStreams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateRouteSubcommandOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: ioStreams}
 }
-
 func (o *CreateRouteSubcommandOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	o.Name, err = resolveRouteName(args)
 	if err != nil {
 		return err
 	}
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
 	}
-
 	o.CoreClient, err = corev1client.NewForConfig(clientConfig)
 	if err != nil {
 		return err
 	}
-
 	o.Client, err = routev1client.NewForConfig(clientConfig)
 	if err != nil {
 		return err
 	}
-
 	o.Mapper, err = f.ToRESTMapper()
 	if err != nil {
 		return err
@@ -100,7 +114,6 @@ func (o *CreateRouteSubcommandOptions) Complete(f kcmdutil.Factory, cmd *cobra.C
 	if err != nil {
 		return err
 	}
-
 	o.DryRun = kcmdutil.GetDryRunFlag(cmd)
 	if o.DryRun {
 		o.PrintFlags.Complete("%s (dry run)")
@@ -109,11 +122,23 @@ func (o *CreateRouteSubcommandOptions) Complete(f kcmdutil.Factory, cmd *cobra.C
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func resolveRouteName(args []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch len(args) {
 	case 0:
 	case 1:

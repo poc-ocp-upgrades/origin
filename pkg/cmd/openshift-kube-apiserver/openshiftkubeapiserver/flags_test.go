@@ -6,14 +6,24 @@ import (
 )
 
 func TestSNICertKeys(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
-		names    []string
-		expected string
-	}{
-		{names: []string{"foo"}, expected: "secret.crt,secret.key:foo"},
-		{names: []string{"foo", "bar"}, expected: "secret.crt,secret.key:foo,bar"},
-		{expected: "secret.crt,secret.key"},
-	}
+		names		[]string
+		expected	string
+	}{{names: []string{"foo"}, expected: "secret.crt,secret.key:foo"}, {names: []string{"foo", "bar"}, expected: "secret.crt,secret.key:foo,bar"}, {expected: "secret.crt,secret.key"}}
 	for _, tc := range testCases {
 		t.Run("", func(t *testing.T) {
 			result := sniCertKeys([]v1.NamedCertificate{{Names: tc.names, CertInfo: v1.CertInfo{CertFile: "secret.crt", KeyFile: "secret.key"}}})

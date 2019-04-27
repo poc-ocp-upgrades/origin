@@ -5,11 +5,25 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
 type FakeLabelsResource struct {
-	metav1.TypeMeta   `json:",inline"`
-	metav1.ObjectMeta `json:"metadata,omitempty"`
+	metav1.TypeMeta		`json:",inline"`
+	metav1.ObjectMeta	`json:"metadata,omitempty"`
 }
 
-func (obj *FakeLabelsResource) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *FakeLabelsResource) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &obj.TypeMeta
+}

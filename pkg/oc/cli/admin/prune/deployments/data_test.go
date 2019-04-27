@@ -4,48 +4,122 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 )
 
 func mockDeploymentConfig(namespace, name string) *appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsv1.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
-
 func withSize(item *corev1.ReplicationController, replicas int32) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item.Spec.Replicas = &replicas
 	item.Status.Replicas = int32(replicas)
 	return item
 }
-
 func withCreated(item *corev1.ReplicationController, creationTimestamp metav1.Time) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item.CreationTimestamp = creationTimestamp
 	return item
 }
-
 func withStatus(item *corev1.ReplicationController, status appsv1.DeploymentStatus) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item.Annotations[appsv1.DeploymentStatusAnnotation] = string(status)
 	return item
 }
-
 func mockDeployment(namespace, name string, deploymentConfig *appsv1.DeploymentConfig) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zero := int32(0)
-	item := &corev1.ReplicationController{
-		ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name, Annotations: map[string]string{}},
-		Spec:       corev1.ReplicationControllerSpec{Replicas: &zero},
-	}
+	item := &corev1.ReplicationController{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name, Annotations: map[string]string{}}, Spec: corev1.ReplicationControllerSpec{Replicas: &zero}}
 	if deploymentConfig != nil {
 		item.Annotations[appsv1.DeploymentConfigAnnotation] = deploymentConfig.Name
 	}
 	item.Annotations[appsv1.DeploymentStatusAnnotation] = string(appsv1.DeploymentStatusNew)
 	return item
 }
-
 func TestDeploymentByDeploymentConfigIndexFunc(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := mockDeploymentConfig("a", "b")
 	deployment := mockDeployment("a", "c", config)
 	actualKey, err := DeploymentByDeploymentConfigIndexFunc(deployment)
@@ -66,17 +140,28 @@ func TestDeploymentByDeploymentConfigIndexFunc(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expectedKey, actualKey)
 	}
 }
-
 func TestFilterBeforePredicate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	youngerThan := time.Hour
 	now := metav1.Now()
 	old := metav1.NewTime(now.Time.Add(-1 * youngerThan))
 	items := []*corev1.ReplicationController{}
 	items = append(items, withCreated(mockDeployment("a", "old", nil), old))
 	items = append(items, withCreated(mockDeployment("a", "new", nil), now))
-	filter := &andFilter{
-		filterPredicates: []FilterPredicate{NewFilterBeforePredicate(youngerThan)},
-	}
+	filter := &andFilter{filterPredicates: []FilterPredicate{NewFilterBeforePredicate(youngerThan)}}
 	result := filter.Filter(items)
 	if len(result) != 1 {
 		t.Errorf("Unexpected number of results")
@@ -85,8 +170,21 @@ func TestFilterBeforePredicate(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expected, actual)
 	}
 }
-
 func TestEmptyDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployments := []*corev1.ReplicationController{}
 	deploymentConfigs := []*appsv1.DeploymentConfig{}
 	dataSet := NewDataSet(deploymentConfigs, deployments)
@@ -116,18 +214,23 @@ func TestEmptyDataSet(t *testing.T) {
 		t.Errorf("Unexpected result %v", deploymentResults)
 	}
 }
-
 func TestPopulatedDataSet(t *testing.T) {
-	deploymentConfigs := []*appsv1.DeploymentConfig{
-		mockDeploymentConfig("a", "deployment-config-1"),
-		mockDeploymentConfig("b", "deployment-config-2"),
-	}
-	deployments := []*corev1.ReplicationController{
-		mockDeployment("a", "deployment-1", deploymentConfigs[0]),
-		mockDeployment("a", "deployment-2", deploymentConfigs[0]),
-		mockDeployment("b", "deployment-3", deploymentConfigs[1]),
-		mockDeployment("c", "deployment-4", nil),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	deploymentConfigs := []*appsv1.DeploymentConfig{mockDeploymentConfig("a", "deployment-config-1"), mockDeploymentConfig("b", "deployment-config-2")}
+	deployments := []*corev1.ReplicationController{mockDeployment("a", "deployment-1", deploymentConfigs[0]), mockDeployment("a", "deployment-2", deploymentConfigs[0]), mockDeployment("b", "deployment-3", deploymentConfigs[1]), mockDeployment("c", "deployment-4", nil)}
 	dataSet := NewDataSet(deploymentConfigs, deployments)
 	for _, deployment := range deployments {
 		deploymentConfig, exists, err := dataSet.GetDeploymentConfig(deployment)

@@ -6,12 +6,11 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
 	"golang.org/x/net/html"
 )
 
 const (
-	sampleGetForm = `
+	sampleGetForm	= `
 <html>
 <body>
     <form id="1">
@@ -27,8 +26,7 @@ const (
 </body>
 </html>
 `
-
-	samplePostForm = `
+	samplePostForm	= `
 <html>
 <body>
     <form id="1" action="/test" method="post">
@@ -47,23 +45,25 @@ const (
 )
 
 func TestGetElementsByTagName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		Data        string
-		TagName     string
-		ExpectedIds []string
-	}{
-		{
-			Data:        sampleGetForm,
-			TagName:     `form`,
-			ExpectedIds: []string{"1", "2"},
-		},
-		{
-			Data:        sampleGetForm,
-			TagName:     `input`,
-			ExpectedIds: []string{"i1-1", "i1-2", "i1-3", "i2-1", "i2-2", "i2-3"},
-		},
-	}
-
+		Data		string
+		TagName		string
+		ExpectedIds	[]string
+	}{{Data: sampleGetForm, TagName: `form`, ExpectedIds: []string{"1", "2"}}, {Data: sampleGetForm, TagName: `input`, ExpectedIds: []string{"i1-1", "i1-2", "i1-3", "i2-1", "i2-2", "i2-3"}}}
 	for i, tc := range tests {
 		root, err := html.Parse(strings.NewReader(tc.Data))
 		if err != nil {
@@ -82,36 +82,30 @@ func TestGetElementsByTagName(t *testing.T) {
 		}
 	}
 }
-
 func TestNewRequestFromForm(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	currentURL, _ := url.Parse("https://localhost:1234")
-
 	relativeGetReq, _ := http.NewRequest("GET", "https://localhost:1234?a=av&sa=sav", nil)
-
-	relativePostReq, _ := http.NewRequest("POST", "https://localhost:1234/test", strings.NewReader(url.Values{
-		"a":  []string{"av"},
-		"sa": []string{"sav"},
-	}.Encode()))
+	relativePostReq, _ := http.NewRequest("POST", "https://localhost:1234/test", strings.NewReader(url.Values{"a": []string{"av"}, "sa": []string{"sav"}}.Encode()))
 	relativePostReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
 	tests := []struct {
-		Data            string
-		CurrentURL      *url.URL
-		ExpectedRequest *http.Request
-	}{
-		{
-			Data:            sampleGetForm,
-			CurrentURL:      currentURL,
-			ExpectedRequest: relativeGetReq,
-		},
-		{
-			Data:            samplePostForm,
-			CurrentURL:      currentURL,
-			ExpectedRequest: relativePostReq,
-		},
-	}
-
+		Data		string
+		CurrentURL	*url.URL
+		ExpectedRequest	*http.Request
+	}{{Data: sampleGetForm, CurrentURL: currentURL, ExpectedRequest: relativeGetReq}, {Data: samplePostForm, CurrentURL: currentURL, ExpectedRequest: relativePostReq}}
 	for i, tc := range tests {
 		root, err := html.Parse(strings.NewReader(tc.Data))
 		if err != nil {

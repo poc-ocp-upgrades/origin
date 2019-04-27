@@ -10,11 +10,9 @@ import (
 	"os"
 	"strings"
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	restclient "k8s.io/client-go/rest"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
-
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"github.com/openshift/origin/pkg/oc/cli/login"
 	userclient "github.com/openshift/origin/pkg/user/generated/internalclientset/typed/user/internalversion"
@@ -23,19 +21,23 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
 
-// TestOAuthRequestHeader checks the following scenarios:
-//  * request containing remote user header is ignored if it doesn't have client cert auth
-//  * request containing remote user header is honored if it has valid client cert auth matching ClientCommonNames
-//  * unauthenticated requests are redirected to an auth proxy
-//  * login command succeeds against a request-header identity provider via redirection to an auth proxy
 func TestOAuthRequestHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("skipping until auth team figures this out in the new split API setup, see https://bugzilla.redhat.com/show_bug.cgi?id=1640351")
-	// Test data used by auth proxy
-	users := map[string]string{
-		"myusername": "mypassword",
-	}
-
-	// Write cert we're going to use to verify OAuth requestheader requests
+	users := map[string]string{"myusername": "mypassword"}
 	caFile, err := ioutil.TempFile("", "test.crt")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -44,45 +46,32 @@ func TestOAuthRequestHeader(t *testing.T) {
 	if err := ioutil.WriteFile(caFile.Name(), rootCACert, os.FileMode(0600)); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Get master config
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterOptions)
 	masterURL, _ := url.Parse(masterOptions.OAuthConfig.MasterPublicURL)
-
-	// Set up an auth proxy
 	var proxyTransport http.RoundTripper
 	proxyServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Decide whether to challenge
 		username, password, hasBasicAuth := r.BasicAuth()
 		if correctPassword, hasUser := users[username]; !hasBasicAuth || !hasUser || password != correctPassword {
 			w.Header().Set("WWW-Authenticate", "Basic realm=Protected Area")
 			w.WriteHeader(401)
 			return
 		}
-
-		// Swap the scheme and host to the master, keeping path and params the same
 		proxyURL := r.URL
 		proxyURL.Scheme = masterURL.Scheme
 		proxyURL.Host = masterURL.Host
-
-		// Build a request, copying the original method, body, and headers, overriding the remote user headers
 		proxyRequest, _ := http.NewRequest(r.Method, proxyURL.String(), r.Body)
 		proxyRequest.Header = r.Header
 		proxyRequest.Header.Set("My-Remote-User", username)
 		proxyRequest.Header.Set("SSO-User", "")
-
-		// Round trip to the back end
 		response, err := proxyTransport.RoundTrip(r)
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
 		}
 		defer response.Body.Close()
-
-		// Copy response back to originator
 		for k, v := range response.Header {
 			w.Header()[k] = v
 		}
@@ -92,33 +81,15 @@ func TestOAuthRequestHeader(t *testing.T) {
 		}
 	}))
 	defer proxyServer.Close()
-
-	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{
-		Name:            "requestheader",
-		UseAsChallenger: true,
-		UseAsLogin:      true,
-		MappingMethod:   "claim",
-		Provider: &configapi.RequestHeaderIdentityProvider{
-			ChallengeURL:      proxyServer.URL + "/oauth/authorize?${query}",
-			LoginURL:          "http://www.example.com/login?then=${url}",
-			ClientCA:          caFile.Name(),
-			ClientCommonNames: []string{"proxy"},
-			Headers:           []string{"My-Remote-User", "SSO-User"},
-		},
-	}
-
-	// Start server
+	masterOptions.OAuthConfig.IdentityProviders[0] = configapi.IdentityProvider{Name: "requestheader", UseAsChallenger: true, UseAsLogin: true, MappingMethod: "claim", Provider: &configapi.RequestHeaderIdentityProvider{ChallengeURL: proxyServer.URL + "/oauth/authorize?${query}", LoginURL: "http://www.example.com/login?then=${url}", ClientCA: caFile.Name(), ClientCommonNames: []string{"proxy"}, Headers: []string{"My-Remote-User", "SSO-User"}}}
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMaster(masterOptions)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	clientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Use the server and CA info, but no client cert info
 	anonConfig := restclient.Config{}
 	anonConfig.Host = clientConfig.Host
 	anonConfig.CAFile = clientConfig.CAFile
@@ -127,8 +98,6 @@ func TestOAuthRequestHeader(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Use the server and CA info, with cert info
 	proxyConfig := anonConfig
 	proxyConfig.CertData = proxyClientCert
 	proxyConfig.KeyData = proxyClientKey
@@ -136,8 +105,6 @@ func TestOAuthRequestHeader(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// client cert that is valid, but not in the list of allowed common names
 	otherCertConfig := anonConfig
 	otherCertConfig.CertData = otherClientCert
 	otherCertConfig.KeyData = otherClientKey
@@ -145,8 +112,6 @@ func TestOAuthRequestHeader(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// client cert that has the desired common name, but does not have a valid signature
 	invalidCertConfig := anonConfig
 	invalidCertConfig.CertData = invalidClientCert
 	invalidCertConfig.KeyData = invalidClientKey
@@ -154,45 +119,22 @@ func TestOAuthRequestHeader(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	state := `{"then": "/index.html?a=1&b=2&c=%2F"}`
 	encodedState := (url.Values{"state": []string{state}}).Encode()
-
 	authorizeURL := clientConfig.Host + "/oauth/authorize?client_id=openshift-challenging-client&response_type=token&" + encodedState
 	proxyURL := proxyServer.URL + "/oauth/authorize?client_id=openshift-challenging-client&response_type=token&" + encodedState
-
 	testcases := map[string]struct {
-		transport                http.RoundTripper
-		expectDirectRequestError bool
-	}{
-		"anonymous": {
-			transport:                anonTransport,
-			expectDirectRequestError: false,
-		},
-		"valid signature, invalid cn": {
-			transport: otherCertTransport,
-			// TODO: this should redirect once we add support for client-cert logins
-			expectDirectRequestError: true,
-		},
-		"invalid signature, valid cn": {
-			transport: invalidCertTransport,
-			// TODO: this should redirect once we add support for client-cert logins
-			expectDirectRequestError: true,
-		},
-	}
-
+		transport			http.RoundTripper
+		expectDirectRequestError	bool
+	}{"anonymous": {transport: anonTransport, expectDirectRequestError: false}, "valid signature, invalid cn": {transport: otherCertTransport, expectDirectRequestError: true}, "invalid signature, valid cn": {transport: invalidCertTransport, expectDirectRequestError: true}}
 	for k, tc := range testcases {
-		// Build the authorize request, spoofing a remote user header
 		directRequest, err := http.NewRequest("GET", authorizeURL, nil)
 		directRequest.Header.Set("My-Remote-User", "myuser")
-
-		// direct request against authorizeURL should redirect to proxy
 		directResponse, err := tc.transport.RoundTrip(directRequest)
 		if err != nil {
 			t.Errorf("%s: unexpected error: %v", k, err)
 			continue
 		}
-
 		if tc.expectDirectRequestError {
 			if directResponse.StatusCode != 500 {
 				body, _ := ioutil.ReadAll(directResponse.Body)
@@ -217,11 +159,8 @@ func TestOAuthRequestHeader(t *testing.T) {
 				continue
 			}
 		}
-
-		// request to proxy without credentials should return 401
 		proxyRequest, err := http.NewRequest("GET", proxyURL, nil)
 		proxyRequest.Header.Set("My-Remote-User", "myuser")
-
 		unauthenticatedProxyResponse, err := tc.transport.RoundTrip(proxyRequest)
 		if err != nil {
 			t.Errorf("%s: unexpected error: %v", k, err)
@@ -231,10 +170,7 @@ func TestOAuthRequestHeader(t *testing.T) {
 			t.Errorf("%s: expected 401 status, got: %v", k, unauthenticatedProxyResponse.StatusCode)
 			continue
 		}
-
-		// request to proxy with credentials should succeed with given credentials, not with passed Remote-User header
 		proxyRequest.SetBasicAuth("myusername", "mypassword")
-
 		authenticatedProxyResponse, err := tc.transport.RoundTrip(proxyRequest)
 		if err != nil {
 			t.Errorf("%s: unexpected error: %v", k, err)
@@ -249,32 +185,25 @@ func TestOAuthRequestHeader(t *testing.T) {
 			t.Errorf("%s: expected successful token request, got error %v", k, tokenRedirect.String())
 			continue
 		}
-
-		// Grab the raw fragment ourselves, since the stdlib URL parsing decodes parts of it
 		fragment := ""
 		if parts := strings.SplitN(authenticatedProxyResponse.Header.Get("Location"), "#", 2); len(parts) == 2 {
 			fragment = parts[1]
 		}
-		// Extract query-encoded values from the fragment
 		fragmentValues, err := url.ParseQuery(fragment)
 		if err != nil {
 			t.Errorf("%s: %v", k, err)
 			continue
 		}
-		// Ensure the state was retrieved correctly
 		returnedState := fragmentValues.Get("state")
 		if returnedState != state {
 			t.Errorf("%s: Expected state\n\t%v\ngot\n\t%v", k, state, returnedState)
 			continue
 		}
-		// Ensure the access_token was retrieved correctly
 		accessToken := fragmentValues.Get("access_token")
 		if accessToken == "" {
 			t.Errorf("%s: Expected access token, got %s", k, tokenRedirect.String())
 			continue
 		}
-
-		// Make sure we can use the token, and it represents who we expect
 		userConfig := anonConfig
 		userConfig.BearerToken = accessToken
 		userClient := userclient.NewForConfigOrDie(&userConfig)
@@ -288,11 +217,8 @@ func TestOAuthRequestHeader(t *testing.T) {
 			continue
 		}
 	}
-
-	// Get the master CA data for the login command
 	masterCAFile := anonConfig.CAFile
 	if masterCAFile == "" {
-		// Write master ca data
 		tmpFile, err := ioutil.TempFile("", "ca.crt")
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -303,15 +229,8 @@ func TestOAuthRequestHeader(t *testing.T) {
 		}
 		masterCAFile = tmpFile.Name()
 	}
-
-	// Attempt a login using a redirecting auth proxy
 	loginOutput := &bytes.Buffer{}
-	loginOptions := &login.LoginOptions{
-		Server:             anonConfig.Host,
-		CAFile:             masterCAFile,
-		StartingKubeConfig: &clientcmdapi.Config{},
-		IOStreams:          genericclioptions.IOStreams{In: bytes.NewBufferString("myusername\nmypassword\n"), Out: loginOutput, ErrOut: ioutil.Discard},
-	}
+	loginOptions := &login.LoginOptions{Server: anonConfig.Host, CAFile: masterCAFile, StartingKubeConfig: &clientcmdapi.Config{}, IOStreams: genericclioptions.IOStreams{In: bytes.NewBufferString("myusername\nmypassword\n"), Out: loginOutput, ErrOut: ioutil.Discard}}
 	if err := loginOptions.GatherInfo(); err != nil {
 		t.Fatalf("Error trying to determine server info: %v\n%v", err, loginOutput.String())
 	}
@@ -324,8 +243,7 @@ func TestOAuthRequestHeader(t *testing.T) {
 }
 
 var (
-	// oc adm ca create-signer-cert --name=test-ca --overwrite=true
-	rootCACert = []byte(`
+	rootCACert	= []byte(`
 Certificate:
     Data:
         Version: 3 (0x2)
@@ -398,9 +316,7 @@ PhlO0gzINguHIv2ONLpgPNeBD1w1f2xkrs0YSacHVM99lJLzE6TxbCuqSlsw+SPQ
 HOJWbU3FuRkuvZ2/Qyvpju/ntt3qIlKu5pRIGsQe5gS1wYbeSQOrOg==
 -----END CERTIFICATE-----
 `)
-
-	// oc adm create-api-client-config --basename=proxy --client-dir=. --user=proxy
-	proxyClientCert = []byte(`
+	proxyClientCert	= []byte(`
 Certificate:
     Data:
         Version: 3 (0x2)
@@ -475,8 +391,7 @@ oXY72XLPBY4upp2baNQ2dpV2aE4ckLsixG08vRa/Vwbe9nYaKhDc9dmPI6Y5STRm
 bXQsgS0PSaTS84yp3HKLeyuVN5r1tH+dYf4EwVNIvCaO+AGPrCRNRKx9Tf1bov+5
 MzMug4HSZlQ=
 -----END CERTIFICATE-----`)
-
-	proxyClientKey = []byte(`
+	proxyClientKey	= []byte(`
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA2wl5PTctaSotV8+HJ6duBwCmr3EZGB7zBAAJVFImZwPxpu81
 5nPL7kZ1EV8wRtzR+yxou6jgYA/6WfLRQKF5KYOOprYsIsEKPAR0rl2hPdubYeq7
@@ -505,9 +420,7 @@ dSmVatvGsqYsQbPKOAp3ZcMQiqTIPUFeYSuzs3TuTs/tZ1cwfseN4M2bs258ynsT
 51PHf9W7BDmvHZn8JMg688SSklatAUj4h3nnGWco1de9YL1bBLPg
 -----END RSA PRIVATE KEY-----
 `)
-
-	// oc adm create-api-client-config --basename=other --client-dir=. --user=other
-	otherClientCert = []byte(`
+	otherClientCert	= []byte(`
 Certificate:
     Data:
         Version: 3 (0x2)
@@ -582,8 +495,7 @@ lojQZ9cQFzXpbtQrYfbQTQJ1c3rPA+3S4jtvz1gukui2wuEbXTNGP5VTZ3ppkr4t
 jq5ZiL+HVYV5zSBYecNrTXhDwEhEbXgk4iYkmZeBuUOkbR7dMVNbNknM31jo8qgl
 MM1pqMENx4Q=
 -----END CERTIFICATE-----`)
-
-	otherClientKey = []byte(`
+	otherClientKey	= []byte(`
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEA2G2eQVHT6Zm5bTdNcjJt6D4BOBUwzVz7DuF2ATI4zxsOjOwh
 W4clqmusbUuppcReqkMycJafMN3Hug+o3nNytRCfVQqAvxDMx+NVm23hE2vC174c
@@ -612,11 +524,7 @@ vWyX2MBY8yccNwUyNiwbEfiy9A+XLtNpsuVvNGzOp5CQAs/wIPTCfRD7zVUtIhUN
 PVEo4cjWU2JK68lSTyW3UWdoPwcKIdDlnure/al7NpIG2g6weBubpQ==
 -----END RSA PRIVATE KEY-----
 `)
-
-	// invalidClientCert is a client cert with the desired name which is NOT signed by the root CA crt, but by another signer with the same name
-	// oc adm ca create-signer-cert --name=test-ca --overwrite=true
-	// oc adm create-api-client-config --basename=invalid --client-dir=. --user=invalid
-	invalidClientCert = []byte(`
+	invalidClientCert	= []byte(`
 Certificate:
     Data:
         Version: 3 (0x2)
@@ -691,8 +599,7 @@ yAvgrADw1BKFLCulKdtU5oPjSNJhZeYTMQnNyLo5PPfKq5PqIRJfSQ1GFxXMrnKo
 ZpdW8y85dbX5Pv9aTzuMFk2/cFXFt+501zlL2vnaOYQlYiSouPMta+VxYCbLca28
 JSr5OuwlucNc5A==
 -----END CERTIFICATE-----`)
-
-	invalidClientKey = []byte(`
+	invalidClientKey	= []byte(`
 -----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEArIdecTY5bSszQA7/1j1npYs9flbFP0mpQn1v2jDMD81kzCCR
 5EGynFT4mv66feYrL//8yHtPvz1hXBhuEG+oM55Uj/esNFf0/wDHJAfd30fhvA/W

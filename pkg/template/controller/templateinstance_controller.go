@@ -5,10 +5,8 @@ import (
 	"fmt"
 	"strings"
 	"time"
-
 	"github.com/prometheus/client_golang/prometheus"
 	"k8s.io/klog"
-
 	authorizationv1 "k8s.io/api/authorization/v1"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -27,7 +25,6 @@ import (
 	"k8s.io/client-go/util/workqueue"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	"k8s.io/utils/clock"
-
 	templatev1 "github.com/openshift/api/template/v1"
 	buildv1client "github.com/openshift/client-go/build/clientset/versioned"
 	templatev1clienttyped "github.com/openshift/client-go/template/clientset/versioned/typed/template/v1"
@@ -38,91 +35,91 @@ import (
 )
 
 const (
-	readinessTimeout = time.Hour
-
-	WaitForReadyAnnotation    = "template.alpha.openshift.io/wait-for-ready"
-	TemplateInstanceOwner     = "template.openshift.io/template-instance-owner"
-	TemplateInstanceFinalizer = "template.openshift.io/finalizer"
+	readinessTimeout		= time.Hour
+	WaitForReadyAnnotation		= "template.alpha.openshift.io/wait-for-ready"
+	TemplateInstanceOwner		= "template.openshift.io/template-instance-owner"
+	TemplateInstanceFinalizer	= "template.openshift.io/finalizer"
 )
 
 var (
 	TimeoutErr = errors.New("timeout while waiting for template instance to be ready")
 )
 
-// TemplateInstanceController watches for new TemplateInstance objects and
-// instantiates the template contained within, using parameters read from a
-// linked Secret object.  The TemplateInstanceController instantiates objects
-// using its own service account, first verifying that the requester also has
-// permissions to instantiate.
 type TemplateInstanceController struct {
-	// TODO replace this with use of a codec built against the dynamic client
-	// (discuss w/ deads what this means)
-	dynamicRestMapper meta.RESTMapper
-	dynamicClient     dynamic.Interface
-	templateClient    templatev1clienttyped.TemplateV1Interface
-
-	// FIXME: Remove then cient when the build configs are able to report the
-	//				status of the last build.
-	buildClient buildv1client.Interface
-
-	sarClient authorizationclient.SubjectAccessReviewsGetter
-	kc        kubernetes.Interface
-
-	lister   templatelister.TemplateInstanceLister
-	informer cache.SharedIndexInformer
-
-	queue workqueue.RateLimitingInterface
-
-	readinessLimiter workqueue.RateLimiter
-
-	clock clock.Clock
+	dynamicRestMapper	meta.RESTMapper
+	dynamicClient		dynamic.Interface
+	templateClient		templatev1clienttyped.TemplateV1Interface
+	buildClient		buildv1client.Interface
+	sarClient		authorizationclient.SubjectAccessReviewsGetter
+	kc			kubernetes.Interface
+	lister			templatelister.TemplateInstanceLister
+	informer		cache.SharedIndexInformer
+	queue			workqueue.RateLimitingInterface
+	readinessLimiter	workqueue.RateLimiter
+	clock			clock.Clock
 }
 
-// NewTemplateInstanceController returns a new TemplateInstanceController.
 func NewTemplateInstanceController(dynamicRestMapper meta.RESTMapper, dynamicClient dynamic.Interface, sarClient authorizationclient.SubjectAccessReviewsGetter, kc kubernetes.Interface, buildClient buildv1client.Interface, templateClient templatev1clienttyped.TemplateV1Interface, informer templatev1informer.TemplateInstanceInformer) *TemplateInstanceController {
-	c := &TemplateInstanceController{
-		dynamicRestMapper: dynamicRestMapper,
-		dynamicClient:     dynamicClient,
-		sarClient:         sarClient,
-		kc:                kc,
-		templateClient:    templateClient,
-		buildClient:       buildClient,
-		lister:            informer.Lister(),
-		informer:          informer.Informer(),
-		queue:             workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "openshift_template_instance_controller"),
-		readinessLimiter:  workqueue.NewItemFastSlowRateLimiter(5*time.Second, 20*time.Second, 200),
-		clock:             clock.RealClock{},
-	}
-
-	c.informer.AddEventHandler(cache.ResourceEventHandlerFuncs{
-		AddFunc: func(obj interface{}) {
-			c.enqueue(obj.(*templatev1.TemplateInstance))
-		},
-		UpdateFunc: func(_, obj interface{}) {
-			c.enqueue(obj.(*templatev1.TemplateInstance))
-		},
-		DeleteFunc: func(obj interface{}) {
-		},
-	})
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	c := &TemplateInstanceController{dynamicRestMapper: dynamicRestMapper, dynamicClient: dynamicClient, sarClient: sarClient, kc: kc, templateClient: templateClient, buildClient: buildClient, lister: informer.Lister(), informer: informer.Informer(), queue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "openshift_template_instance_controller"), readinessLimiter: workqueue.NewItemFastSlowRateLimiter(5*time.Second, 20*time.Second, 200), clock: clock.RealClock{}}
+	c.informer.AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: func(obj interface{}) {
+		c.enqueue(obj.(*templatev1.TemplateInstance))
+	}, UpdateFunc: func(_, obj interface{}) {
+		c.enqueue(obj.(*templatev1.TemplateInstance))
+	}, DeleteFunc: func(obj interface{}) {
+	}})
 	prometheus.MustRegister(c)
-
 	return c
 }
-
-// getTemplateInstance returns the TemplateInstance from the shared informer,
-// given its key (dequeued from c.queue).
 func (c *TemplateInstanceController) getTemplateInstance(key string) (*templatev1.TemplateInstance, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
 		return nil, err
 	}
-
 	return c.lister.TemplateInstances(namespace).Get(name)
 }
-
-// sync is the actual controller worker function.
 func (c *TemplateInstanceController) sync(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	templateInstanceOriginal, err := c.getTemplateInstance(key)
 	if apierrors.IsNotFound(err) {
 		return nil
@@ -130,136 +127,89 @@ func (c *TemplateInstanceController) sync(key string) error {
 	if err != nil {
 		return err
 	}
-
-	if TemplateInstanceHasCondition(templateInstanceOriginal, templatev1.TemplateInstanceReady, corev1.ConditionTrue) ||
-		TemplateInstanceHasCondition(templateInstanceOriginal, templatev1.TemplateInstanceInstantiateFailure, corev1.ConditionTrue) {
+	if TemplateInstanceHasCondition(templateInstanceOriginal, templatev1.TemplateInstanceReady, corev1.ConditionTrue) || TemplateInstanceHasCondition(templateInstanceOriginal, templatev1.TemplateInstanceInstantiateFailure, corev1.ConditionTrue) {
 		return nil
 	}
-
 	klog.V(4).Infof("TemplateInstance controller: syncing %s", key)
-
 	templateInstanceCopy := templateInstanceOriginal.DeepCopy()
-
 	if len(templateInstanceCopy.Status.Objects) != len(templateInstanceCopy.Spec.Template.Objects) {
 		err = c.instantiate(templateInstanceCopy)
 		if err != nil {
 			klog.V(4).Infof("TemplateInstance controller: instantiate %s returned %v", key, err)
-
-			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{
-				Type:    templatev1.TemplateInstanceInstantiateFailure,
-				Status:  corev1.ConditionTrue,
-				Reason:  "Failed",
-				Message: formatError(err),
-			})
+			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{Type: templatev1.TemplateInstanceInstantiateFailure, Status: corev1.ConditionTrue, Reason: "Failed", Message: formatError(err)})
 			templateInstanceCompleted.WithLabelValues(string(templatev1.TemplateInstanceInstantiateFailure)).Inc()
 		}
 	}
-
 	if !TemplateInstanceHasCondition(templateInstanceCopy, templatev1.TemplateInstanceInstantiateFailure, corev1.ConditionTrue) {
 		ready, err := c.checkReadiness(templateInstanceCopy)
 		if err != nil && !kerrors.IsTimeout(err) {
-			// NB: kerrors.IsTimeout() is true in the case of an API server
-			// timeout, not the timeout caused by readinessTimeout expiring.
 			klog.V(4).Infof("TemplateInstance controller: checkReadiness %s returned %v", key, err)
-
-			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{
-				Type:    templatev1.TemplateInstanceInstantiateFailure,
-				Status:  corev1.ConditionTrue,
-				Reason:  "Failed",
-				Message: formatError(err),
-			})
-			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{
-				Type:    templatev1.TemplateInstanceReady,
-				Status:  corev1.ConditionFalse,
-				Reason:  "Failed",
-				Message: "See InstantiateFailure condition for error message",
-			})
+			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{Type: templatev1.TemplateInstanceInstantiateFailure, Status: corev1.ConditionTrue, Reason: "Failed", Message: formatError(err)})
+			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{Type: templatev1.TemplateInstanceReady, Status: corev1.ConditionFalse, Reason: "Failed", Message: "See InstantiateFailure condition for error message"})
 			templateInstanceCompleted.WithLabelValues(string(templatev1.TemplateInstanceInstantiateFailure)).Inc()
-
 		} else if ready {
-			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{
-				Type:   templatev1.TemplateInstanceReady,
-				Status: corev1.ConditionTrue,
-				Reason: "Created",
-			})
+			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{Type: templatev1.TemplateInstanceReady, Status: corev1.ConditionTrue, Reason: "Created"})
 			templateInstanceCompleted.WithLabelValues(string(templatev1.TemplateInstanceReady)).Inc()
-
 		} else {
-			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{
-				Type:    templatev1.TemplateInstanceReady,
-				Status:  corev1.ConditionFalse,
-				Reason:  "Waiting",
-				Message: "Waiting for instantiated objects to report ready",
-			})
+			templateInstanceSetCondition(templateInstanceCopy, templatev1.TemplateInstanceCondition{Type: templatev1.TemplateInstanceReady, Status: corev1.ConditionFalse, Reason: "Waiting", Message: "Waiting for instantiated objects to report ready"})
 		}
 	}
-
 	_, err = c.templateClient.TemplateInstances(templateInstanceCopy.Namespace).UpdateStatus(templateInstanceCopy)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("TemplateInstance status update failed: %v", err))
 		return err
 	}
-
-	if !TemplateInstanceHasCondition(templateInstanceCopy, templatev1.TemplateInstanceReady, corev1.ConditionTrue) &&
-		!TemplateInstanceHasCondition(templateInstanceCopy, templatev1.TemplateInstanceInstantiateFailure, corev1.ConditionTrue) {
+	if !TemplateInstanceHasCondition(templateInstanceCopy, templatev1.TemplateInstanceReady, corev1.ConditionTrue) && !TemplateInstanceHasCondition(templateInstanceCopy, templatev1.TemplateInstanceInstantiateFailure, corev1.ConditionTrue) {
 		c.enqueueAfter(templateInstanceCopy, c.readinessLimiter.When(key))
 	} else {
 		c.readinessLimiter.Forget(key)
 	}
-
 	return nil
 }
-
 func (c *TemplateInstanceController) checkReadiness(templateInstance *templatev1.TemplateInstance) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.clock.Now().After(templateInstance.CreationTimestamp.Add(readinessTimeout)) {
 		return false, TimeoutErr
 	}
-
 	extra := map[string][]string{}
 	for k, v := range templateInstance.Spec.Requester.Extra {
 		extra[k] = []string(v)
 	}
-
-	u := &user.DefaultInfo{
-		Name:   templateInstance.Spec.Requester.Username,
-		UID:    templateInstance.Spec.Requester.UID,
-		Groups: templateInstance.Spec.Requester.Groups,
-		Extra:  extra,
-	}
-
+	u := &user.DefaultInfo{Name: templateInstance.Spec.Requester.Username, UID: templateInstance.Spec.Requester.UID, Groups: templateInstance.Spec.Requester.Groups, Extra: extra}
 	for _, object := range templateInstance.Status.Objects {
 		if !CanCheckReadiness(object.Ref) {
 			continue
 		}
-
 		mapping, err := c.dynamicRestMapper.RESTMapping(object.Ref.GroupVersionKind().GroupKind())
 		if err != nil {
 			return false, err
 		}
-
-		if err = util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{
-			Namespace: object.Ref.Namespace,
-			Verb:      "get",
-			Group:     mapping.Resource.Group,
-			Resource:  mapping.Resource.Resource,
-			Name:      object.Ref.Name,
-		}); err != nil {
+		if err = util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: object.Ref.Namespace, Verb: "get", Group: mapping.Resource.Group, Resource: mapping.Resource.Resource, Name: object.Ref.Name}); err != nil {
 			return false, err
 		}
-
 		obj, err := c.dynamicClient.Resource(mapping.Resource).Namespace(object.Ref.Namespace).Get(object.Ref.Name, metav1.GetOptions{})
 		if err != nil {
 			return false, err
 		}
-
 		if obj.GetUID() != object.Ref.UID {
 			return false, kerrors.NewNotFound(mapping.Resource.GroupResource(), object.Ref.Name)
 		}
-
 		if strings.ToLower(obj.GetAnnotations()[WaitForReadyAnnotation]) != "true" {
 			continue
 		}
-
 		ready, failed, err := CheckReadiness(c.buildClient, object.Ref, obj)
 		if err != nil {
 			return false, err
@@ -271,122 +221,161 @@ func (c *TemplateInstanceController) checkReadiness(templateInstance *templatev1
 			return false, nil
 		}
 	}
-
 	return true, nil
 }
-
-// Run runs the controller until stopCh is closed, with as many workers as
-// specified.
 func (c *TemplateInstanceController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
-
 	if !cache.WaitForCacheSync(stopCh, c.informer.HasSynced) {
 		return
 	}
-
 	klog.V(2).Infof("Starting TemplateInstance controller")
-
 	for i := 0; i < workers; i++ {
 		go wait.Until(c.runWorker, time.Second, stopCh)
 	}
-
 	<-stopCh
 }
-
-// runWorker repeatedly calls processNextWorkItem until the latter wants to
-// exit.
 func (c *TemplateInstanceController) runWorker() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.processNextWorkItem() {
 	}
 }
-
-// processNextWorkItem reads from the queue and calls the sync worker function.
-// It returns false only when the queue is closed.
 func (c *TemplateInstanceController) processNextWorkItem() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, quit := c.queue.Get()
 	if quit {
 		return false
 	}
 	defer c.queue.Done(key)
-
 	err := c.sync(key.(string))
-	if err == nil { // for example, success, or the TemplateInstance has gone away
+	if err == nil {
 		c.queue.Forget(key)
 		return true
 	}
-
 	utilruntime.HandleError(fmt.Errorf("TemplateInstance %v failed with: %v", key, err))
-	c.queue.AddRateLimited(key) // avoid hot looping
-
+	c.queue.AddRateLimited(key)
 	return true
 }
-
-// enqueue adds a TemplateInstance to c.queue.  This function is called on the
-// shared informer goroutine.
 func (c *TemplateInstanceController) enqueue(templateInstance *templatev1.TemplateInstance) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(templateInstance)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", templateInstance, err))
 		return
 	}
-
 	c.queue.Add(key)
 }
-
-// enqueueAfter adds a TemplateInstance to c.queue after a duration.
 func (c *TemplateInstanceController) enqueueAfter(templateInstance *templatev1.TemplateInstance, duration time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(templateInstance)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", templateInstance, err))
 		return
 	}
-
 	c.queue.AddAfter(key, duration)
 }
-
-// instantiate instantiates the objects contained in a TemplateInstance.  Any
-// parameters for instantiation are contained in the Secret linked to the
-// TemplateInstance.
 func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.TemplateInstance) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if templateInstance.Spec.Requester == nil || templateInstance.Spec.Requester.Username == "" {
 		return fmt.Errorf("spec.requester.username not set")
 	}
-
 	extra := map[string][]string{}
 	for k, v := range templateInstance.Spec.Requester.Extra {
 		extra[k] = []string(v)
 	}
-
-	u := &user.DefaultInfo{
-		Name:   templateInstance.Spec.Requester.Username,
-		UID:    templateInstance.Spec.Requester.UID,
-		Groups: templateInstance.Spec.Requester.Groups,
-		Extra:  extra,
-	}
-
+	u := &user.DefaultInfo{Name: templateInstance.Spec.Requester.Username, UID: templateInstance.Spec.Requester.UID, Groups: templateInstance.Spec.Requester.Groups, Extra: extra}
 	var secret *corev1.Secret
 	if templateInstance.Spec.Secret != nil {
-		if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{
-			Namespace: templateInstance.Namespace,
-			Verb:      "get",
-			Group:     corev1.GroupName,
-			Resource:  "secrets",
-			Name:      templateInstance.Spec.Secret.Name,
-		}); err != nil {
+		if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: templateInstance.Namespace, Verb: "get", Group: corev1.GroupName, Resource: "secrets", Name: templateInstance.Spec.Secret.Name}); err != nil {
 			return err
 		}
-
 		s, err := c.kc.CoreV1().Secrets(templateInstance.Namespace).Get(templateInstance.Spec.Secret.Name, metav1.GetOptions{})
 		secret = s
 		if err != nil {
 			return err
 		}
 	}
-
 	templatePtr := &templateInstance.Spec.Template
 	template := templatePtr.DeepCopy()
-
 	if secret != nil {
 		for i, param := range template.Parameters {
 			if value, ok := secret.Data[param.Name]; ok {
@@ -395,19 +384,10 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			}
 		}
 	}
-
-	if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{
-		Namespace: templateInstance.Namespace,
-		Verb:      "create",
-		Group:     templatev1.GroupName,
-		Resource:  "templateconfigs",
-		Name:      template.Name,
-	}); err != nil {
+	if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: templateInstance.Namespace, Verb: "create", Group: templatev1.GroupName, Resource: "templateconfigs", Name: template.Name}); err != nil {
 		return err
 	}
-
 	klog.V(4).Infof("TemplateInstance controller: creating TemplateConfig for %s/%s", templateInstance.Namespace, templateInstance.Name)
-
 	v1Template, err := legacyscheme.Scheme.ConvertToVersion(template, templatev1.GroupVersion)
 	if err != nil {
 		return err
@@ -416,7 +396,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 	if err != nil {
 		return err
 	}
-
 	for _, obj := range processedObjects.Items {
 		labels := obj.GetLabels()
 		if labels == nil {
@@ -425,9 +404,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 		labels[TemplateInstanceOwner] = string(templateInstance.UID)
 		obj.SetLabels(labels)
 	}
-
-	// First, do all the SARs to ensure the requester actually has permissions
-	// to create.
 	klog.V(4).Infof("TemplateInstance controller: running SARs for %s/%s", templateInstance.Namespace, templateInstance.Name)
 	allErrors := []error{}
 	for _, currObj := range processedObjects.Items {
@@ -436,7 +412,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			allErrors = append(allErrors, mappingErr)
 			continue
 		}
-
 		namespace := templateInstance.Namespace
 		if len(currObj.GetNamespace()) > 0 {
 			namespace = currObj.GetNamespace()
@@ -445,14 +420,7 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			allErrors = append(allErrors, errors.New("namespace was empty"))
 			continue
 		}
-
-		if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{
-			Namespace: namespace,
-			Verb:      "create",
-			Group:     restMapping.Resource.Group,
-			Resource:  restMapping.Resource.Resource,
-			Name:      currObj.GetName(),
-		}); err != nil {
+		if err := util.Authorize(c.sarClient.SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: namespace, Verb: "create", Group: restMapping.Resource.Group, Resource: restMapping.Resource.Resource, Name: currObj.GetName()}); err != nil {
 			allErrors = append(allErrors, err)
 			continue
 		}
@@ -460,9 +428,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 	if len(allErrors) > 0 {
 		return utilerrors.NewAggregate(allErrors)
 	}
-
-	// Second, create the objects, being tolerant if they already exist and are
-	// labelled as having previously been created by us.
 	klog.V(4).Infof("TemplateInstance controller: creating objects for %s/%s", templateInstance.Namespace, templateInstance.Name)
 	templateInstance.Status.Objects = nil
 	allErrors = []error{}
@@ -472,7 +437,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			allErrors = append(allErrors, mappingErr)
 			continue
 		}
-
 		namespace := templateInstance.Namespace
 		if len(currObj.GetNamespace()) > 0 {
 			namespace = currObj.GetNamespace()
@@ -481,7 +445,6 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			allErrors = append(allErrors, errors.New("namespace was empty"))
 			continue
 		}
-
 		createObj, createErr := c.dynamicClient.Resource(restMapping.Resource).Namespace(namespace).Create(&currObj, metav1.CreateOptions{})
 		if kerrors.IsAlreadyExists(createErr) {
 			freshGottenObj, getErr := c.dynamicClient.Resource(restMapping.Resource).Namespace(namespace).Get(currObj.GetName(), metav1.GetOptions{})
@@ -489,10 +452,7 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 				allErrors = append(allErrors, getErr)
 				continue
 			}
-
 			owner, ok := freshGottenObj.GetLabels()[TemplateInstanceOwner]
-			// if the labels match, it's already our object so pretend we created
-			// it successfully.
 			if ok && owner == string(templateInstance.UID) {
 				createObj, createErr = freshGottenObj, nil
 			} else {
@@ -504,22 +464,8 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 			allErrors = append(allErrors, createErr)
 			continue
 		}
-
-		templateInstance.Status.Objects = append(templateInstance.Status.Objects,
-			templatev1.TemplateInstanceObject{
-				Ref: corev1.ObjectReference{
-					Kind:       restMapping.GroupVersionKind.Kind,
-					Namespace:  namespace,
-					Name:       createObj.GetName(),
-					UID:        createObj.GetUID(),
-					APIVersion: restMapping.GroupVersionKind.GroupVersion().String(),
-				},
-			},
-		)
+		templateInstance.Status.Objects = append(templateInstance.Status.Objects, templatev1.TemplateInstanceObject{Ref: corev1.ObjectReference{Kind: restMapping.GroupVersionKind.Kind, Namespace: namespace, Name: createObj.GetName(), UID: createObj.GetUID(), APIVersion: restMapping.GroupVersionKind.GroupVersion().String()}})
 	}
-
-	// unconditionally add finalizer to the templateinstance because it should always have one.
-	// TODO perhaps this should be done in a strategy long term.
 	hasFinalizer := false
 	for _, v := range templateInstance.Finalizers {
 		if v == TemplateInstanceFinalizer {
@@ -533,13 +479,23 @@ func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.Te
 	if len(allErrors) > 0 {
 		return utilerrors.NewAggregate(allErrors)
 	}
-
 	return nil
 }
-
-// formatError returns err.Error(), unless err is an Aggregate, in which case it
-// "\n"-separates the contained errors.
 func formatError(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err, ok := err.(kerrs.Aggregate); ok {
 		var errorStrings []string
 		for _, err := range err.Errors() {
@@ -547,11 +503,23 @@ func formatError(err error) string {
 		}
 		return strings.Join(errorStrings, "\n")
 	}
-
 	return err.Error()
 }
-
 func TemplateInstanceHasCondition(templateInstance *templatev1.TemplateInstance, typ templatev1.TemplateInstanceConditionType, status corev1.ConditionStatus) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range templateInstance.Status.Conditions {
 		if c.Type == typ && c.Status == status {
 			return true
@@ -559,22 +527,30 @@ func TemplateInstanceHasCondition(templateInstance *templatev1.TemplateInstance,
 	}
 	return false
 }
-
 func templateInstanceSetCondition(templateInstance *templatev1.TemplateInstance, condition templatev1.TemplateInstanceCondition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	condition.LastTransitionTime = metav1.Now()
-
 	for i, c := range templateInstance.Status.Conditions {
 		if c.Type == condition.Type {
-			if c.Message == condition.Message &&
-				c.Reason == condition.Reason &&
-				c.Status == condition.Status {
+			if c.Message == condition.Message && c.Reason == condition.Reason && c.Status == condition.Status {
 				return
 			}
-
 			templateInstance.Status.Conditions[i] = condition
 			return
 		}
 	}
-
 	templateInstance.Status.Conditions = append(templateInstance.Status.Conditions, condition)
 }

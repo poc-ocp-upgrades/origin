@@ -5,7 +5,6 @@ import (
 	"net"
 	"testing"
 	"time"
-
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -14,7 +13,6 @@ import (
 	kinformers "k8s.io/client-go/informers"
 	kclientset "k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
-
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"github.com/openshift/origin/pkg/route/controller/ingressip"
 	testserver "github.com/openshift/origin/test/util/server"
@@ -22,9 +20,21 @@ import (
 
 const sentinelName = "sentinel"
 
-// TestIngressIPAllocation validates that ingress ip allocation is
-// performed correctly even when multiple controllers are running.
 func TestIngressIPAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -38,63 +48,40 @@ func TestIngressIPAllocation(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-	clientConfig, err := configapi.GetClientConfig(clusterAdminKubeConfig, &configapi.ClientConnectionOverrides{
-		QPS:   20,
-		Burst: 50,
-	})
+	clientConfig, err := configapi.GetClientConfig(clusterAdminKubeConfig, &configapi.ClientConnectionOverrides{QPS: 20, Burst: 50})
 	if err != nil {
 		t.Fatal(err)
 	}
 	kc := kclientset.NewForConfigOrDie(clientConfig)
-
 	stopChannel := make(chan struct{})
 	defer close(stopChannel)
 	received := make(chan bool)
-
 	rand.Seed(time.Now().UTC().UnixNano())
-
 	t.Log("start informer to watch for sentinel")
-	_, informerController := cache.NewInformer(
-		&cache.ListWatch{
-			ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
-				return kc.CoreV1().Services(metav1.NamespaceAll).List(options)
-			},
-			WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
-				return kc.CoreV1().Services(metav1.NamespaceAll).Watch(options)
-			},
-		},
-		&v1.Service{},
-		time.Minute*10,
-		cache.ResourceEventHandlerFuncs{
-			UpdateFunc: func(old, cur interface{}) {
-				service := cur.(*v1.Service)
-				if service.Name == sentinelName && len(service.Spec.ExternalIPs) > 0 {
-					received <- true
-				}
-			},
-		},
-	)
+	_, informerController := cache.NewInformer(&cache.ListWatch{ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
+		return kc.CoreV1().Services(metav1.NamespaceAll).List(options)
+	}, WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
+		return kc.CoreV1().Services(metav1.NamespaceAll).Watch(options)
+	}}, &v1.Service{}, time.Minute*10, cache.ResourceEventHandlerFuncs{UpdateFunc: func(old, cur interface{}) {
+		service := cur.(*v1.Service)
+		if service.Name == sentinelName && len(service.Spec.ExternalIPs) > 0 {
+			received <- true
+		}
+	}})
 	go informerController.Run(stopChannel)
-
 	t.Log("start generating service events")
 	go generateServiceEvents(t, kc)
-
-	// Start a second controller that will be out of sync with the first
 	kubeInformers := kinformers.NewSharedInformerFactory(kc, 0)
 	_, ipNet, err := net.ParseCIDR(masterConfig.NetworkConfig.IngressIPNetworkCIDR)
 	c := ingressip.NewIngressIPController(kubeInformers.Core().V1().Services().Informer(), kc, ipNet, 10*time.Minute)
 	kubeInformers.Start(stopChannel)
 	go c.Run(stopChannel)
-
 	t.Log("waiting for sentinel to be updated with external ip")
 	select {
 	case <-received:
 	case <-time.After(time.Duration(90 * time.Second)):
 		t.Fatal("took too long")
 	}
-
-	// Validate that all services of type load balancer have a unique
-	// ingress ip and corresponding external ip.
 	services, err := kc.CoreV1().Services(metav1.NamespaceDefault).List(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -127,12 +114,26 @@ func TestIngressIPAllocation(t *testing.T) {
 }
 
 const (
-	createOp = iota
+	createOp	= iota
 	updateOp
 	deleteOp
 )
 
 func generateServiceEvents(t *testing.T, kc kclientset.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	maxMillisecondInterval := 25
 	minServiceCount := 10
 	maxOperations := minServiceCount + 30
@@ -162,7 +163,6 @@ func generateServiceEvents(t *testing.T, kc kclientset.Interface) {
 			if err != nil {
 				continue
 			}
-			// Flip the service type
 			if s.Spec.Type == v1.ServiceTypeLoadBalancer {
 				s.Spec.Type = v1.ServiceTypeClusterIP
 				s.Spec.Ports[0].NodePort = 0
@@ -187,35 +187,31 @@ func generateServiceEvents(t *testing.T, kc kclientset.Interface) {
 		i++
 		time.Sleep(time.Duration(rand.Intn(maxMillisecondInterval)) * time.Millisecond)
 	}
-
-	// Create one last service to serve as a sentinel. The service
-	// will be created after a slight delay so that it can be assured
-	// of being the last service a controller will see, and with a
-	// known name so its processing can be detected.
 	time.Sleep(time.Millisecond * 100)
 	_, err := createService(kc, sentinelName, true)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
-
 func createService(kc kclientset.Interface, name string, typeLoadBalancer bool) (*v1.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceType := v1.ServiceTypeClusterIP
 	if typeLoadBalancer {
 		serviceType = v1.ServiceTypeLoadBalancer
 	}
-	service := &v1.Service{
-		ObjectMeta: metav1.ObjectMeta{
-			GenerateName: "service-",
-			Name:         name,
-		},
-		Spec: v1.ServiceSpec{
-			Type: serviceType,
-			Ports: []v1.ServicePort{{
-				Protocol: "TCP",
-				Port:     8080,
-			}},
-		},
-	}
+	service := &v1.Service{ObjectMeta: metav1.ObjectMeta{GenerateName: "service-", Name: name}, Spec: v1.ServiceSpec{Type: serviceType, Ports: []v1.ServicePort{{Protocol: "TCP", Port: 8080}}}}
 	return kc.CoreV1().Services(metav1.NamespaceDefault).Create(service)
 }

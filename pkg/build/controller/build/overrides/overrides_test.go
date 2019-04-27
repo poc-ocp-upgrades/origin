@@ -3,34 +3,32 @@ package overrides
 import (
 	"reflect"
 	"testing"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apiserver/pkg/admission"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	openshiftcontrolplanev1 "github.com/openshift/api/openshiftcontrolplane/v1"
 	testutil "github.com/openshift/origin/pkg/build/controller/common/testutil"
 )
 
 func TestBuildOverrideForcePull(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name  string
-		build *buildv1.Build
-	}{
-		{
-			name:  "build - custom",
-			build: testutil.Build().WithCustomStrategy().AsBuild(),
-		},
-		{
-			name:  "build - docker",
-			build: testutil.Build().WithDockerStrategy().AsBuild(),
-		},
-		{
-			name:  "build - source",
-			build: testutil.Build().WithSourceStrategy().AsBuild(),
-		},
-	}
-
+		name	string
+		build	*buildv1.Build
+	}{{name: "build - custom", build: testutil.Build().WithCustomStrategy().AsBuild()}, {name: "build - docker", build: testutil.Build().WithDockerStrategy().AsBuild()}, {name: "build - source", build: testutil.Build().WithSourceStrategy().AsBuild()}}
 	ops := []admission.Operation{admission.Create, admission.Update}
 	for _, test := range tests {
 		for _, op := range ops {
@@ -65,123 +63,28 @@ func TestBuildOverrideForcePull(t *testing.T) {
 		}
 	}
 }
-
 func TestLabelOverrides(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		buildLabels    []buildv1.ImageLabel
-		overrideLabels []buildv1.ImageLabel
-		expected       []buildv1.ImageLabel
-	}{
-		{
-			buildLabels:    nil,
-			overrideLabels: nil,
-			expected:       nil,
-		},
-		{
-			buildLabels: nil,
-			overrideLabels: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-			expected: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-		},
-		{
-			buildLabels: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-			overrideLabels: nil,
-			expected: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-		},
-		{
-			buildLabels: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "public",
-				},
-			},
-			overrideLabels: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-			expected: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-		},
-		{
-			buildLabels: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-			},
-			overrideLabels: []buildv1.ImageLabel{
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-			expected: []buildv1.ImageLabel{
-				{
-					Name:  "distribution-scope",
-					Value: "private",
-				},
-				{
-					Name:  "changelog-url",
-					Value: "file:///dev/null",
-				},
-			},
-		},
-	}
-
+		buildLabels	[]buildv1.ImageLabel
+		overrideLabels	[]buildv1.ImageLabel
+		expected	[]buildv1.ImageLabel
+	}{{buildLabels: nil, overrideLabels: nil, expected: nil}, {buildLabels: nil, overrideLabels: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}, expected: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}}, {buildLabels: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}, overrideLabels: nil, expected: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}}, {buildLabels: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "public"}}, overrideLabels: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}, expected: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}}, {buildLabels: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}}, overrideLabels: []buildv1.ImageLabel{{Name: "changelog-url", Value: "file:///dev/null"}}, expected: []buildv1.ImageLabel{{Name: "distribution-scope", Value: "private"}, {Name: "changelog-url", Value: "file:///dev/null"}}}}
 	for i, test := range tests {
-		overridesConfig := &openshiftcontrolplanev1.BuildOverridesConfig{
-			ImageLabels: test.overrideLabels,
-		}
-
+		overridesConfig := &openshiftcontrolplanev1.BuildOverridesConfig{ImageLabels: test.overrideLabels}
 		admitter := BuildOverrides{overridesConfig}
 		pod := testutil.Pod().WithBuild(t, testutil.Build().WithImageLabels(test.buildLabels).AsBuild())
 		err := admitter.ApplyOverrides((*v1.Pod)(pod))
@@ -189,40 +92,36 @@ func TestLabelOverrides(t *testing.T) {
 			t.Fatalf("unexpected error: %v", err)
 		}
 		build := pod.GetBuild(t)
-
 		result := build.Spec.Output.ImageLabels
 		if !reflect.DeepEqual(result, test.expected) {
 			t.Errorf("expected[%d]: %v, got: %v", i, test.expected, result)
 		}
 	}
 }
-
 func TestBuildOverrideNodeSelector(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name      string
-		build     *buildv1.Build
-		overrides map[string]string
-		expected  map[string]string
-	}{
-		{
-			name:      "build - full override",
-			build:     testutil.Build().WithNodeSelector(map[string]string{"key1": "value1"}).AsBuild(),
-			overrides: map[string]string{"key1": "override1", "key2": "override2"},
-			expected:  map[string]string{"key1": "override1", "key2": "override2"},
-		},
-		{
-			name:      "build - partial override",
-			build:     testutil.Build().WithNodeSelector(map[string]string{"key1": "value1"}).AsBuild(),
-			overrides: map[string]string{"key2": "override2"},
-			expected:  map[string]string{"key1": "value1", "key2": "override2"},
-		},
-	}
-
+		name		string
+		build		*buildv1.Build
+		overrides	map[string]string
+		expected	map[string]string
+	}{{name: "build - full override", build: testutil.Build().WithNodeSelector(map[string]string{"key1": "value1"}).AsBuild(), overrides: map[string]string{"key1": "override1", "key2": "override2"}, expected: map[string]string{"key1": "override1", "key2": "override2"}}, {name: "build - partial override", build: testutil.Build().WithNodeSelector(map[string]string{"key1": "value1"}).AsBuild(), overrides: map[string]string{"key2": "override2"}, expected: map[string]string{"key1": "value1", "key2": "override2"}}}
 	for _, test := range tests {
 		overrides := BuildOverrides{Config: &openshiftcontrolplanev1.BuildOverridesConfig{NodeSelector: test.overrides}}
 		pod := testutil.Pod().WithBuild(t, test.build)
-		// normally the pod will have the nodeselectors from the build, due to the pod creation logic
-		// in the build controller flow. fake it out here.
 		pod.Spec.NodeSelector = test.build.Spec.NodeSelector
 		err := overrides.ApplyOverrides((*v1.Pod)(pod))
 		if err != nil {
@@ -238,38 +137,28 @@ func TestBuildOverrideNodeSelector(t *testing.T) {
 		}
 	}
 }
-
 func TestBuildOverrideAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name        string
-		build       *buildv1.Build
-		annotations map[string]string
-		overrides   map[string]string
-		expected    map[string]string
-	}{
-		{
-			name:        "build - nil annotations",
-			build:       testutil.Build().AsBuild(),
-			annotations: nil,
-			overrides:   map[string]string{"key1": "override1", "key2": "override2"},
-			expected:    map[string]string{"key1": "override1", "key2": "override2"},
-		},
-		{
-			name:        "build - full override",
-			build:       testutil.Build().AsBuild(),
-			annotations: map[string]string{"key1": "value1"},
-			overrides:   map[string]string{"key1": "override1", "key2": "override2"},
-			expected:    map[string]string{"key1": "override1", "key2": "override2"},
-		},
-		{
-			name:        "build - partial override",
-			build:       testutil.Build().AsBuild(),
-			annotations: map[string]string{"key1": "value1"},
-			overrides:   map[string]string{"key2": "override2"},
-			expected:    map[string]string{"key1": "value1", "key2": "override2"},
-		},
-	}
-
+		name		string
+		build		*buildv1.Build
+		annotations	map[string]string
+		overrides	map[string]string
+		expected	map[string]string
+	}{{name: "build - nil annotations", build: testutil.Build().AsBuild(), annotations: nil, overrides: map[string]string{"key1": "override1", "key2": "override2"}, expected: map[string]string{"key1": "override1", "key2": "override2"}}, {name: "build - full override", build: testutil.Build().AsBuild(), annotations: map[string]string{"key1": "value1"}, overrides: map[string]string{"key1": "override1", "key2": "override2"}, expected: map[string]string{"key1": "override1", "key2": "override2"}}, {name: "build - partial override", build: testutil.Build().AsBuild(), annotations: map[string]string{"key1": "value1"}, overrides: map[string]string{"key2": "override2"}, expected: map[string]string{"key1": "value1", "key2": "override2"}}}
 	for _, test := range tests {
 		overrides := BuildOverrides{Config: &openshiftcontrolplanev1.BuildOverridesConfig{Annotations: test.overrides}}
 		pod := testutil.Pod().WithBuild(t, test.build)

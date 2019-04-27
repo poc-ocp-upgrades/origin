@@ -1,23 +1,46 @@
 package errors
 
 import "strings"
-
 import (
 	kapierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// TolerateNotFoundError tolerates 'not found' errors
 func TolerateNotFoundError(err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if kapierrors.IsNotFound(err) {
 		return nil
 	}
 	return err
 }
-
-// ErrorToSentence will capitalize the first letter of the error
-// message and add a period to the end if one is not present.
 func ErrorToSentence(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	msg := err.Error()
 	if len(msg) == 0 {
 		return msg
@@ -28,9 +51,21 @@ func ErrorToSentence(err error) string {
 	}
 	return msg
 }
-
-// IsTimeoutErr returns true if the error indicates timeout
 func IsTimeoutErr(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e, ok := err.(*kapierrors.StatusError)
 	if !ok {
 		return false

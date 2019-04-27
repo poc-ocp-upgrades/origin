@@ -3,56 +3,37 @@ package controller
 import (
 	"fmt"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/client-go/tools/record"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildlister "github.com/openshift/client-go/build/listers/build/v1"
 )
 
 func TestHandleBuildConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name              string
-		bc                *buildv1.BuildConfig
-		expectBuild       bool
-		instantiatorError bool
-		expectErr         bool
-	}{
-		{
-			name:        "build config with no config change trigger",
-			bc:          baseBuildConfig(),
-			expectBuild: false,
-		},
-		{
-			name:        "build config with non-zero last version",
-			bc:          buildConfigWithNonZeroLastVersion(),
-			expectBuild: false,
-		},
-		{
-			name:        "build config with config change trigger",
-			bc:          buildConfigWithConfigChangeTrigger(),
-			expectBuild: true,
-		},
-		{
-			name:              "instantiator error",
-			bc:                buildConfigWithConfigChangeTrigger(),
-			instantiatorError: true,
-			expectErr:         true,
-		},
-	}
-
+		name			string
+		bc			*buildv1.BuildConfig
+		expectBuild		bool
+		instantiatorError	bool
+		expectErr		bool
+	}{{name: "build config with no config change trigger", bc: baseBuildConfig(), expectBuild: false}, {name: "build config with non-zero last version", bc: buildConfigWithNonZeroLastVersion(), expectBuild: false}, {name: "build config with config change trigger", bc: buildConfigWithConfigChangeTrigger(), expectBuild: true}, {name: "instantiator error", bc: buildConfigWithConfigChangeTrigger(), instantiatorError: true, expectErr: true}}
 	for _, tc := range tests {
-		instantiator := &testInstantiator{
-			err: tc.instantiatorError,
-		}
-		controller := &BuildConfigController{
-			buildConfigInstantiator: instantiator,
-			buildLister:             &okBuildLister{},
-			buildDeleter:            &okBuildDeleter{},
-			buildConfigGetter:       &okBuildConfigGetter{BuildConfig: tc.bc},
-			recorder:                &record.FakeRecorder{},
-		}
+		instantiator := &testInstantiator{err: tc.instantiatorError}
+		controller := &BuildConfigController{buildConfigInstantiator: instantiator, buildLister: &okBuildLister{}, buildDeleter: &okBuildDeleter{}, buildConfigGetter: &okBuildConfigGetter{BuildConfig: tc.bc}, recorder: &record.FakeRecorder{}}
 		err := controller.handleBuildConfig(tc.bc)
 		if err != nil {
 			if !tc.expectErr {
@@ -71,23 +52,49 @@ func TestHandleBuildConfig(t *testing.T) {
 			t.Errorf("%s: did not expect a build to be started.", tc.name)
 		}
 	}
-
 }
 
 type testInstantiator struct {
-	requestName string
-	err         bool
+	requestName	string
+	err		bool
 }
 
 func (i *testInstantiator) Instantiate(namespace string, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i.requestName = request.Name
 	if i.err {
 		return nil, fmt.Errorf("error")
 	}
 	return &buildv1.Build{}, nil
 }
-
 func baseBuildConfig() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := &buildv1.BuildConfig{}
 	bc.Name = "testBuildConfig"
 	bc.Spec.Strategy.SourceStrategy = &buildv1.SourceBuildStrategy{}
@@ -95,16 +102,42 @@ func baseBuildConfig() *buildv1.BuildConfig {
 	bc.Spec.Strategy.SourceStrategy.From.Kind = "ImageStreamTag"
 	return bc
 }
-
 func buildConfigWithConfigChangeTrigger() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := baseBuildConfig()
 	configChangeTrigger := buildv1.BuildTriggerPolicy{}
 	configChangeTrigger.Type = buildv1.ConfigChangeBuildTriggerType
 	bc.Spec.Triggers = append(bc.Spec.Triggers, configChangeTrigger)
 	return bc
 }
-
 func buildConfigWithNonZeroLastVersion() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := buildConfigWithConfigChangeTrigger()
 	bc.Status.LastVersion = 1
 	return bc
@@ -113,38 +146,130 @@ func buildConfigWithNonZeroLastVersion() *buildv1.BuildConfig {
 type okBuildLister struct{}
 
 func (okc *okBuildLister) List(label labels.Selector) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
-
 func (okc *okBuildLister) Builds(ns string) buildlister.BuildNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return okc
 }
-
 func (okc *okBuildLister) Get(name string) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 
 type okBuildDeleter struct{}
 
 func (okc *okBuildDeleter) DeleteBuild(*buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 
-type okBuildConfigGetter struct {
-	BuildConfig *buildv1.BuildConfig
-}
+type okBuildConfigGetter struct{ BuildConfig *buildv1.BuildConfig }
 
 func (okc *okBuildConfigGetter) Get(name string) (*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if okc.BuildConfig != nil {
 		return okc.BuildConfig, nil
 	}
 	return &buildv1.BuildConfig{}, nil
 }
-
 func (okc *okBuildConfigGetter) BuildConfigs(ns string) buildlister.BuildConfigNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return okc
 }
-
 func (okc *okBuildConfigGetter) List(label labels.Selector) ([]*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("not implemented")
 }

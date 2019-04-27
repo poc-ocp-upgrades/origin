@@ -3,7 +3,6 @@ package requestlimit
 import (
 	"bytes"
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -13,28 +12,35 @@ import (
 	corev1listers "k8s.io/client-go/listers/core/v1"
 	clientgotesting "k8s.io/client-go/testing"
 	"k8s.io/client-go/tools/cache"
-
 	"github.com/openshift/api/project"
 	userapi "github.com/openshift/api/user/v1"
 	fakeuserclient "github.com/openshift/client-go/user/clientset/versioned/fake"
 	projectapi "github.com/openshift/origin/pkg/project/apis/project"
 	requestlimitapi "github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
-
-	// install all APIs
 	_ "github.com/openshift/origin/pkg/api/install"
 )
 
 func TestReadConfig(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		config      string
-		expected    requestlimitapi.ProjectRequestLimitConfig
-		errExpected bool
-	}{
-		{
-			// multiple selectors
-			config: `apiVersion: project.openshift.io/v1
+		config		string
+		expected	requestlimitapi.ProjectRequestLimitConfig
+		errExpected	bool
+	}{{config: `apiVersion: project.openshift.io/v1
 kind: ProjectRequestLimitConfig
 limits:
 - selector:
@@ -54,57 +60,13 @@ limits:
   maxProjects: 20
 - selector: {}
   maxProjects: 1
-`,
-			expected: requestlimitapi.ProjectRequestLimitConfig{
-				Limits: []requestlimitapi.ProjectLimitBySelector{
-					{
-						Selector:    map[string]string{"level": "platinum"},
-						MaxProjects: nil,
-					},
-					{
-						Selector:    map[string]string{"level": "gold"},
-						MaxProjects: intp(500),
-					},
-					{
-						Selector:    map[string]string{"level": "silver"},
-						MaxProjects: intp(100),
-					},
-					{
-						Selector:    map[string]string{"level": "bronze"},
-						MaxProjects: intp(20),
-					},
-					{
-						Selector:    map[string]string{},
-						MaxProjects: intp(1),
-					},
-				},
-			},
-		},
-		{
-			// single selector
-			config: `apiVersion: project.openshift.io/v1
+`, expected: requestlimitapi.ProjectRequestLimitConfig{Limits: []requestlimitapi.ProjectLimitBySelector{{Selector: map[string]string{"level": "platinum"}, MaxProjects: nil}, {Selector: map[string]string{"level": "gold"}, MaxProjects: intp(500)}, {Selector: map[string]string{"level": "silver"}, MaxProjects: intp(100)}, {Selector: map[string]string{"level": "bronze"}, MaxProjects: intp(20)}, {Selector: map[string]string{}, MaxProjects: intp(1)}}}}, {config: `apiVersion: project.openshift.io/v1
 kind: ProjectRequestLimitConfig
 limits:
 - maxProjects: 1
-`,
-			expected: requestlimitapi.ProjectRequestLimitConfig{
-				Limits: []requestlimitapi.ProjectLimitBySelector{
-					{
-						Selector:    nil,
-						MaxProjects: intp(1),
-					},
-				},
-			},
-		},
-		{
-			// no selectors
-			config: `apiVersion: project.openshift.io/v1
+`, expected: requestlimitapi.ProjectRequestLimitConfig{Limits: []requestlimitapi.ProjectLimitBySelector{{Selector: nil, MaxProjects: intp(1)}}}}, {config: `apiVersion: project.openshift.io/v1
 kind: ProjectRequestLimitConfig
-`,
-			expected: requestlimitapi.ProjectRequestLimitConfig{},
-		},
-	}
-
+`, expected: requestlimitapi.ProjectRequestLimitConfig{}}}
 	for n, tc := range tests {
 		cfg, err := readConfig(bytes.NewBufferString(tc.config))
 		if err != nil && !tc.errExpected {
@@ -120,31 +82,26 @@ kind: ProjectRequestLimitConfig
 		}
 	}
 }
-
 func TestMaxProjectByRequester(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		userLabels      map[string]string
-		expectUnlimited bool
-		expectedLimit   int
-	}{
-		{
-			userLabels:      map[string]string{"platinum": "yes"},
-			expectUnlimited: true,
-		},
-		{
-			userLabels:    map[string]string{"gold": "yes"},
-			expectedLimit: 10,
-		},
-		{
-			userLabels:    map[string]string{"silver": "yes", "bronze": "yes"},
-			expectedLimit: 3,
-		},
-		{
-			userLabels:    map[string]string{"unknown": "yes"},
-			expectedLimit: 1,
-		},
-	}
-
+		userLabels	map[string]string
+		expectUnlimited	bool
+		expectedLimit	int
+	}{{userLabels: map[string]string{"platinum": "yes"}, expectUnlimited: true}, {userLabels: map[string]string{"gold": "yes"}, expectedLimit: 10}, {userLabels: map[string]string{"silver": "yes", "bronze": "yes"}, expectedLimit: 3}, {userLabels: map[string]string{"unknown": "yes"}, expectedLimit: 1}}
 	for _, tc := range tests {
 		reqLimit, err := NewProjectRequestLimit(multiLevelConfig())
 		if err != nil {
@@ -153,14 +110,11 @@ func TestMaxProjectByRequester(t *testing.T) {
 		user := fakeUser("testuser", tc.userLabels)
 		client := fakeuserclient.NewSimpleClientset(user)
 		reqLimit.(*projectRequestLimit).userClient = client.UserV1()
-
 		maxProjects, hasLimit, err := reqLimit.(*projectRequestLimit).maxProjectsByRequester("testuser")
 		if err != nil {
 			t.Errorf("Unexpected error: %v", err)
 		}
-
 		if tc.expectUnlimited {
-
 			if hasLimit {
 				t.Errorf("Expected no limit, but got limit for labels %v", tc.userLabels)
 			}
@@ -175,35 +129,29 @@ func TestMaxProjectByRequester(t *testing.T) {
 		}
 	}
 }
-
 func TestProjectCountByRequester(t *testing.T) {
-	nsLister := fakeNamespaceLister(map[string]projectCount{
-		"user1": {1, 5}, // total 6, expect 4
-		"user2": {5, 1}, // total 6, expect 5
-		"user3": {1, 0}, // total 1, expect 1
-	})
-	reqLimit := &projectRequestLimit{
-		nsLister:       nsLister,
-		nsListerSynced: func() bool { return true },
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	nsLister := fakeNamespaceLister(map[string]projectCount{"user1": {1, 5}, "user2": {5, 1}, "user3": {1, 0}})
+	reqLimit := &projectRequestLimit{nsLister: nsLister, nsListerSynced: func() bool {
+		return true
+	}}
 	tests := []struct {
-		user   string
-		expect int
-	}{
-		{
-			user:   "user1",
-			expect: 4,
-		},
-		{
-			user:   "user2",
-			expect: 5,
-		},
-		{
-			user:   "user3",
-			expect: 1,
-		},
-	}
-
+		user	string
+		expect	int
+	}{{user: "user1", expect: 4}, {user: "user2", expect: 5}, {user: "user3", expect: 1}}
 	for _, test := range tests {
 		actual, err := reqLimit.projectCountByRequester(test.user)
 		if err != nil {
@@ -213,87 +161,44 @@ func TestProjectCountByRequester(t *testing.T) {
 			t.Errorf("user %s got %d, expected %d", test.user, actual, test.expect)
 		}
 	}
-
 }
-
 func TestAdmit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		config          *requestlimitapi.ProjectRequestLimitConfig
-		user            string
-		expectForbidden bool
-	}{
-		{
-			config: multiLevelConfig(),
-			user:   "user1",
-		},
-		{
-			config:          multiLevelConfig(),
-			user:            "user2",
-			expectForbidden: true,
-		},
-		{
-			config: multiLevelConfig(),
-			user:   "user3",
-		},
-		{
-			config:          multiLevelConfig(),
-			user:            "user4",
-			expectForbidden: true,
-		},
-		{
-			config: emptyConfig(),
-			user:   "user2",
-		},
-		{
-			config:          singleDefaultConfig(),
-			user:            "user3",
-			expectForbidden: true,
-		},
-		{
-			config: singleDefaultConfig(),
-			user:   "user1",
-		},
-		{
-			config: nil,
-			user:   "user3",
-		},
-	}
-
+		config		*requestlimitapi.ProjectRequestLimitConfig
+		user		string
+		expectForbidden	bool
+	}{{config: multiLevelConfig(), user: "user1"}, {config: multiLevelConfig(), user: "user2", expectForbidden: true}, {config: multiLevelConfig(), user: "user3"}, {config: multiLevelConfig(), user: "user4", expectForbidden: true}, {config: emptyConfig(), user: "user2"}, {config: singleDefaultConfig(), user: "user3", expectForbidden: true}, {config: singleDefaultConfig(), user: "user1"}, {config: nil, user: "user3"}}
 	for _, tc := range tests {
-		nsLister := fakeNamespaceLister(map[string]projectCount{
-			"user1": {0, 1},
-			"user2": {2, 2},
-			"user3": {5, 3},
-			"user4": {1, 0},
-		})
-
+		nsLister := fakeNamespaceLister(map[string]projectCount{"user1": {0, 1}, "user2": {2, 2}, "user3": {5, 3}, "user4": {1, 0}})
 		client := fakeuserclient.NewSimpleClientset()
-		client.PrependReactor("get", "users", userFn(map[string]labels.Set{
-			"user2": {"bronze": "yes"},
-			"user3": {"platinum": "yes"},
-			"user4": {"unknown": "yes"},
-		}))
+		client.PrependReactor("get", "users", userFn(map[string]labels.Set{"user2": {"bronze": "yes"}, "user3": {"platinum": "yes"}, "user4": {"unknown": "yes"}}))
 		reqLimit, err := NewProjectRequestLimit(tc.config)
 		if err != nil {
 			t.Fatalf("Unexpected error: %v", err)
 		}
 		reqLimit.(*projectRequestLimit).userClient = client.UserV1()
 		reqLimit.(*projectRequestLimit).nsLister = nsLister
-		reqLimit.(*projectRequestLimit).nsListerSynced = func() bool { return true }
+		reqLimit.(*projectRequestLimit).nsListerSynced = func() bool {
+			return true
+		}
 		if err = reqLimit.(admission.InitializationValidator).ValidateInitialization(); err != nil {
 			t.Fatalf("validation error: %v", err)
 		}
-		err = reqLimit.(admission.ValidationInterface).Validate(admission.NewAttributesRecord(
-			&projectapi.ProjectRequest{},
-			nil,
-			project.Kind("ProjectRequest").WithVersion("version"),
-			"foo",
-			"name",
-			project.Resource("projectrequests").WithVersion("version"),
-			"",
-			"CREATE",
-			false,
-			&user.DefaultInfo{Name: tc.user}))
+		err = reqLimit.(admission.ValidationInterface).Validate(admission.NewAttributesRecord(&projectapi.ProjectRequest{}, nil, project.Kind("ProjectRequest").WithVersion("version"), "foo", "name", project.Resource("projectrequests").WithVersion("version"), "", "CREATE", false, &user.DefaultInfo{Name: tc.user}))
 		if err != nil && !tc.expectForbidden {
 			t.Errorf("Got unexpected error for user %s: %v", tc.user, err)
 			continue
@@ -303,12 +208,38 @@ func TestAdmit(t *testing.T) {
 		}
 	}
 }
-
 func intp(n int) *int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &n
 }
-
 func selectorEquals(a, b map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a) != len(b) {
 		return false
 	}
@@ -319,8 +250,21 @@ func selectorEquals(a, b map[string]string) bool {
 	}
 	return true
 }
-
 func configEquals(a, b *requestlimitapi.ProjectRequestLimitConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a.Limits) != len(b.Limits) {
 		return false
 	}
@@ -341,20 +285,44 @@ func configEquals(a, b *requestlimitapi.ProjectRequestLimitConfig) bool {
 	}
 	return true
 }
-
 func fakeNs(name string, terminating bool) *corev1.Namespace {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := &corev1.Namespace{}
 	ns.Name = names.SimpleNameGenerator.GenerateName("testns")
-	ns.Annotations = map[string]string{
-		"openshift.io/requester": name,
-	}
+	ns.Annotations = map[string]string{"openshift.io/requester": name}
 	if terminating {
 		ns.Status.Phase = corev1.NamespaceTerminating
 	}
 	return ns
 }
-
 func fakeUser(name string, labels map[string]string) *userapi.User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user := &userapi.User{}
 	user.Name = name
 	user.Labels = labels
@@ -362,11 +330,25 @@ func fakeUser(name string, labels map[string]string) *userapi.User {
 }
 
 type projectCount struct {
-	active      int
-	terminating int
+	active		int
+	terminating	int
 }
 
 func fakeNamespaceLister(requesters map[string]projectCount) corev1listers.NamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{})
 	for requester, count := range requesters {
 		for i := 0; i < count.active; i++ {
@@ -378,52 +360,74 @@ func fakeNamespaceLister(requesters map[string]projectCount) corev1listers.Names
 	}
 	return corev1listers.NewNamespaceLister(indexer)
 }
-
 func userFn(usersAndLabels map[string]labels.Set) clientgotesting.ReactionFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		name := action.(clientgotesting.GetAction).GetName()
 		return true, fakeUser(name, map[string]string(usersAndLabels[name])), nil
 	}
 }
-
 func multiLevelConfig() *requestlimitapi.ProjectRequestLimitConfig {
-	return &requestlimitapi.ProjectRequestLimitConfig{
-		Limits: []requestlimitapi.ProjectLimitBySelector{
-			{
-				Selector:    map[string]string{"platinum": "yes"},
-				MaxProjects: nil,
-			},
-			{
-				Selector:    map[string]string{"gold": "yes"},
-				MaxProjects: intp(10),
-			},
-			{
-				Selector:    map[string]string{"silver": "yes"},
-				MaxProjects: intp(3),
-			},
-			{
-				Selector:    map[string]string{"bronze": "yes"},
-				MaxProjects: intp(2),
-			},
-			{
-				Selector:    map[string]string{},
-				MaxProjects: intp(1),
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &requestlimitapi.ProjectRequestLimitConfig{Limits: []requestlimitapi.ProjectLimitBySelector{{Selector: map[string]string{"platinum": "yes"}, MaxProjects: nil}, {Selector: map[string]string{"gold": "yes"}, MaxProjects: intp(10)}, {Selector: map[string]string{"silver": "yes"}, MaxProjects: intp(3)}, {Selector: map[string]string{"bronze": "yes"}, MaxProjects: intp(2)}, {Selector: map[string]string{}, MaxProjects: intp(1)}}}
 }
-
 func emptyConfig() *requestlimitapi.ProjectRequestLimitConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &requestlimitapi.ProjectRequestLimitConfig{}
 }
-
 func singleDefaultConfig() *requestlimitapi.ProjectRequestLimitConfig {
-	return &requestlimitapi.ProjectRequestLimitConfig{
-		Limits: []requestlimitapi.ProjectLimitBySelector{
-			{
-				Selector:    nil,
-				MaxProjects: intp(1),
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &requestlimitapi.ProjectRequestLimitConfig{Limits: []requestlimitapi.ProjectLimitBySelector{{Selector: nil, MaxProjects: intp(1)}}}
 }

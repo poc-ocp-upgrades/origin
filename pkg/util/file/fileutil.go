@@ -6,14 +6,26 @@ import (
 	"os"
 )
 
-// ReadLines reads the content of the given file into a string slice
 func ReadLines(fileName string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
 	}
 	defer file.Close()
-
 	scanner := bufio.NewScanner(file)
 	var lines []string
 	for scanner.Scan() {
@@ -21,17 +33,27 @@ func ReadLines(fileName string) ([]string, error) {
 	}
 	return lines, scanner.Err()
 }
-
-// LoadData reads the specified file and returns it as a bytes slice.
 func LoadData(file string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(file) == 0 {
 		return []byte{}, nil
 	}
-
 	bytes, err := ioutil.ReadFile(file)
 	if err != nil {
 		return []byte{}, err
 	}
-
 	return bytes, nil
 }

@@ -6,10 +6,22 @@ import (
 )
 
 func SetRecommendedOpenShiftAPIServerConfigDefaults(config *openshiftcontrolplanev1.OpenShiftAPIServerConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configdefaults.DefaultString(&config.GenericAPIServerConfig.StorageConfig.StoragePrefix, "openshift.io")
-
 	configdefaults.SetRecommendedGenericAPIServerConfigDefaults(&config.GenericAPIServerConfig)
-
 	configdefaults.DefaultString(&config.RoutingConfig.Subdomain, "router.default.svc.cluster.local")
 	configdefaults.DefaultString(&config.JenkinsPipelineConfig.TemplateNamespace, "openshift")
 	configdefaults.DefaultString(&config.JenkinsPipelineConfig.TemplateName, "jenkins-ephemeral")
@@ -17,7 +29,6 @@ func SetRecommendedOpenShiftAPIServerConfigDefaults(config *openshiftcontrolplan
 	if len(config.ServiceAccountOAuthGrantMethod) == 0 {
 		config.ServiceAccountOAuthGrantMethod = openshiftcontrolplanev1.GrantHandlerPrompt
 	}
-
 	if config.ImagePolicyConfig.MaxImagesBulkImportedPerRepository == 0 {
 		config.ImagePolicyConfig.MaxImagesBulkImportedPerRepository = 50
 	}

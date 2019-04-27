@@ -9,11 +9,9 @@ import (
 	"strings"
 	"sync"
 	"time"
-
 	digest "github.com/opencontainers/go-digest"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -21,7 +19,6 @@ import (
 	"k8s.io/client-go/util/retry"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	imageclient "github.com/openshift/client-go/image/clientset/versioned"
 	"github.com/openshift/origin/pkg/image/apis/image/docker10"
@@ -31,27 +28,40 @@ import (
 	"github.com/openshift/origin/pkg/oc/cli/image/mirror"
 )
 
-// NewMirrorOptions creates the options for mirroring a release.
 func NewMirrorOptions(streams genericclioptions.IOStreams) *MirrorOptions {
-	return &MirrorOptions{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &MirrorOptions{IOStreams: streams}
 }
-
-// NewMirror creates a command to mirror an existing release.
-//
-// Example command to mirror a release to a local repository to work offline
-//
-// $ oc adm release mirror \
-//     --from=registry.svc.ci.openshift.org/openshift/v4.0 \
-//     --to=mycompany.com/myrepository/repo
-//
 func NewMirror(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewMirrorOptions(streams)
-	cmd := &cobra.Command{
-		Use:   "mirror",
-		Short: "Mirror a release to a different image registry location",
-		Long: templates.LongDesc(`
+	cmd := &cobra.Command{Use: "mirror", Short: "Mirror a release to a different image registry location", Long: templates.LongDesc(`
 			Mirror an OpenShift release image to another registry
 
 			Copies the images and update payload for a given release from one registry to another.
@@ -65,21 +75,17 @@ func NewMirror(f kcmdutil.Factory, parentName string, streams genericclioptions.
 			correct information to give to OpenShift to use that content offline. An alternate mode
 			is to specify --to-image-stream, which imports the images directly into an OpenShift
 			image stream.
-		`),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(cmd, f, args))
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+		`), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(cmd, f, args))
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flags := cmd.Flags()
 	o.SecurityOptions.Bind(flags)
 	o.ParallelOptions.Bind(flags)
-
 	flags.StringVar(&o.From, "from", o.From, "Image containing the release payload.")
 	flags.StringVar(&o.To, "to", o.To, "An image repository to push to.")
 	flags.StringVar(&o.ToImageStream, "to-image-stream", o.ToImageStream, "An image stream to tag images into.")
 	flags.BoolVar(&o.DryRun, "dry-run", o.DryRun, "Display information about the mirror without actually executing it.")
-
 	flags.BoolVar(&o.SkipRelease, "skip-release-image", o.SkipRelease, "Do not push the release image.")
 	flags.StringVar(&o.ToRelease, "to-release-image", o.ToRelease, "Specify an alternate locations for the release image instead as tag 'release' in --to")
 	return cmd
@@ -87,27 +93,34 @@ func NewMirror(f kcmdutil.Factory, parentName string, streams genericclioptions.
 
 type MirrorOptions struct {
 	genericclioptions.IOStreams
-
-	SecurityOptions imagemanifest.SecurityOptions
-	ParallelOptions imagemanifest.ParallelOptions
-
-	From string
-
-	To            string
-	ToImageStream string
-
-	ToRelease   string
-	SkipRelease bool
-
-	DryRun bool
-
-	ClientFn func() (imageclient.Interface, string, error)
-
-	ImageStream *imagev1.ImageStream
-	TargetFn    func(component string) imagereference.DockerImageReference
+	SecurityOptions	imagemanifest.SecurityOptions
+	ParallelOptions	imagemanifest.ParallelOptions
+	From		string
+	To		string
+	ToImageStream	string
+	ToRelease	string
+	SkipRelease	bool
+	DryRun		bool
+	ClientFn	func() (imageclient.Interface, string, error)
+	ImageStream	*imagev1.ImageStream
+	TargetFn	func(component string) imagereference.DockerImageReference
 }
 
 func (o *MirrorOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(args) == 0 && len(o.From) == 0:
 		return fmt.Errorf("must specify a release image with --from")
@@ -139,32 +152,38 @@ func (o *MirrorOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []
 const replaceComponentMarker = "X-X-X-X-X-X-X"
 
 func (o *MirrorOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.From) == 0 && o.ImageStream == nil {
 		return fmt.Errorf("must specify a release image with --from")
 	}
-
 	if (len(o.To) == 0) == (len(o.ToImageStream) == 0) {
 		return fmt.Errorf("must specify an image repository or image stream to mirror the release to")
 	}
-
 	if o.SkipRelease && len(o.ToRelease) > 0 {
 		return fmt.Errorf("--skip-release-image and --to-release-image may not both be specified")
 	}
-
 	var recreateRequired bool
 	var hasPrefix bool
 	var targetFn func(name string) imagereference.DockerImageReference
 	var dst string
 	if len(o.ToImageStream) > 0 {
-		dst = imagereference.DockerImageReference{
-			Registry:  "example.com",
-			Namespace: "somenamespace",
-			Name:      "mirror",
-		}.Exact()
+		dst = imagereference.DockerImageReference{Registry: "example.com", Namespace: "somenamespace", Name: "mirror"}.Exact()
 	} else {
 		dst = o.To
 	}
-
 	if strings.Contains(dst, "${component}") {
 		format := strings.Replace(dst, "${component}", replaceComponentMarker, -1)
 		dstRef, err := imagereference.Parse(format)
@@ -181,7 +200,6 @@ func (o *MirrorOptions) Run() error {
 		}
 		replaceCount := strings.Count(dst, "${component}")
 		recreateRequired = replaceCount > 1 || (replaceCount == 1 && !strings.Contains(dstRef.Tag, replaceComponentMarker))
-
 	} else {
 		ref, err := imagereference.Parse(dst)
 		if err != nil {
@@ -197,19 +215,15 @@ func (o *MirrorOptions) Run() error {
 		}
 		hasPrefix = true
 	}
-
 	o.TargetFn = targetFn
-
 	if recreateRequired {
 		return fmt.Errorf("when mirroring to multiple repositories, use the new release command with --from-release and --mirror")
 	}
-
 	verifier := imagemanifest.NewVerifier()
 	is := o.ImageStream
 	if is == nil {
 		o.ImageStream = &imagev1.ImageStream{}
 		is = o.ImageStream
-		// load image references
 		buf := &bytes.Buffer{}
 		extractOpts := NewExtractOptions(genericclioptions.IOStreams{Out: buf, ErrOut: o.ErrOut})
 		extractOpts.SecurityOptions = o.SecurityOptions
@@ -235,7 +249,6 @@ func (o *MirrorOptions) Run() error {
 			fmt.Fprintf(o.ErrOut, "warning: %v\n", err)
 		}
 	}
-
 	var mappings []mirror.Mapping
 	if len(o.From) > 0 && !o.SkipRelease {
 		src := o.From
@@ -248,23 +261,11 @@ func (o *MirrorOptions) Run() error {
 			if err != nil {
 				return fmt.Errorf("invalid --to-release-image: %v", err)
 			}
-			mappings = append(mappings, mirror.Mapping{
-				Type:        mirror.DestinationRegistry,
-				Source:      srcRef,
-				Destination: dstRef,
-				Name:        o.ToRelease,
-			})
+			mappings = append(mappings, mirror.Mapping{Type: mirror.DestinationRegistry, Source: srcRef, Destination: dstRef, Name: o.ToRelease})
 		} else if !o.SkipRelease {
-			mappings = append(mappings, mirror.Mapping{
-				Type:        mirror.DestinationRegistry,
-				Source:      srcRef,
-				Destination: targetFn("release"),
-				Name:        "release",
-			})
+			mappings = append(mappings, mirror.Mapping{Type: mirror.DestinationRegistry, Source: srcRef, Destination: targetFn("release"), Name: "release"})
 		}
 	}
-
-	// build the mapping list for mirroring and rewrite if necessary
 	for i := range is.Spec.Tags {
 		tag := &is.Spec.Tags[i]
 		if tag.From == nil || tag.From.Kind != "DockerImage" {
@@ -277,25 +278,16 @@ func (o *MirrorOptions) Run() error {
 		if len(from.Tag) > 0 || len(from.ID) == 0 {
 			return fmt.Errorf("image-references should only contain pointers to images by digest: %s", tag.From.Name)
 		}
-
-		mappings = append(mappings, mirror.Mapping{
-			Type:        mirror.DestinationRegistry,
-			Source:      from,
-			Destination: targetFn(tag.Name),
-			Name:        tag.Name,
-		})
+		mappings = append(mappings, mirror.Mapping{Type: mirror.DestinationRegistry, Source: from, Destination: targetFn(tag.Name), Name: tag.Name})
 		klog.V(2).Infof("Mapping %#v", mappings[len(mappings)-1])
-
 		dstRef := targetFn(tag.Name)
 		dstRef.Tag = ""
 		dstRef.ID = from.ID
 		tag.From.Name = dstRef.Exact()
 	}
-
 	if len(mappings) == 0 {
 		fmt.Fprintf(o.ErrOut, "warning: Release image contains no image references - is this a valid release?\n")
 	}
-
 	if len(o.ToImageStream) > 0 {
 		remaining := make(map[string]mirror.Mapping)
 		for _, mapping := range mappings {
@@ -307,7 +299,6 @@ func (o *MirrorOptions) Run() error {
 		}
 		hasErrors := make(map[string]error)
 		maxPerIteration := 12
-
 		for retries := 4; (len(remaining) > 0 || len(hasErrors) > 0) && retries > 0; {
 			if len(remaining) == 0 {
 				for _, mapping := range mappings {
@@ -319,42 +310,17 @@ func (o *MirrorOptions) Run() error {
 				retries--
 			}
 			err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
-				isi := &imagev1.ImageStreamImport{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: o.ToImageStream,
-					},
-					Spec: imagev1.ImageStreamImportSpec{
-						Import: !o.DryRun,
-					},
-				}
+				isi := &imagev1.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: o.ToImageStream}, Spec: imagev1.ImageStreamImportSpec{Import: !o.DryRun}}
 				for _, mapping := range remaining {
-					isi.Spec.Images = append(isi.Spec.Images, imagev1.ImageImportSpec{
-						From: corev1.ObjectReference{
-							Kind: "DockerImage",
-							Name: mapping.Source.Exact(),
-						},
-						To: &corev1.LocalObjectReference{
-							Name: mapping.Name,
-						},
-					})
+					isi.Spec.Images = append(isi.Spec.Images, imagev1.ImageImportSpec{From: corev1.ObjectReference{Kind: "DockerImage", Name: mapping.Source.Exact()}, To: &corev1.LocalObjectReference{Name: mapping.Name}})
 					if len(isi.Spec.Images) > maxPerIteration {
 						break
 					}
 				}
-
-				// use RESTClient directly here to be able to extend request timeout
 				result := &imagev1.ImageStreamImport{}
-				if err := client.ImageV1().RESTClient().Post().
-					Namespace(ns).
-					Resource(imagev1.Resource("imagestreamimports").Resource).
-					Body(isi).
-					// this instructs the api server to allow our request to take up to an hour - chosen as a high boundary
-					Timeout(3 * time.Minute).
-					Do().
-					Into(result); err != nil {
+				if err := client.ImageV1().RESTClient().Post().Namespace(ns).Resource(imagev1.Resource("imagestreamimports").Resource).Body(isi).Timeout(3 * time.Minute).Do().Into(result); err != nil {
 					return err
 				}
-
 				for i, image := range result.Status.Images {
 					name := result.Spec.Images[i].To.Name
 					klog.V(4).Infof("Import result for %s: %#v", name, image.Status)
@@ -374,7 +340,6 @@ func (o *MirrorOptions) Run() error {
 				return err
 			}
 		}
-
 		if len(hasErrors) > 0 {
 			var messages []string
 			for k, v := range hasErrors {
@@ -386,11 +351,9 @@ func (o *MirrorOptions) Run() error {
 			}
 			return fmt.Errorf("unable to import some release images:\n* %s", strings.Join(messages, "\n* "))
 		}
-
 		fmt.Fprintf(os.Stderr, "Mirrored %d images to %s/%s\n", len(mappings), ns, o.ToImageStream)
 		return nil
 	}
-
 	fmt.Fprintf(os.Stderr, "info: Mirroring %d images to %s ...\n", len(mappings), dst)
 	var lock sync.Mutex
 	opts := mirror.NewMirrorImageOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
@@ -401,8 +364,6 @@ func (o *MirrorOptions) Run() error {
 	opts.ManifestUpdateCallback = func(registry string, manifests map[digest.Digest]digest.Digest) error {
 		lock.Lock()
 		defer lock.Unlock()
-
-		// when uploading to a schema1 registry, manifest ids change and we must remap them
 		for i := range is.Spec.Tags {
 			tag := &is.Spec.Tags[i]
 			if tag.From == nil || tag.From.Kind != "DockerImage" {
@@ -426,7 +387,6 @@ func (o *MirrorOptions) Run() error {
 	if err := opts.Run(); err != nil {
 		return err
 	}
-
 	to := o.ToRelease
 	if len(to) == 0 {
 		to = targetFn("release").String()
@@ -438,8 +398,21 @@ func (o *MirrorOptions) Run() error {
 	}
 	return nil
 }
-
 func sourceImageRef(is *imagev1.ImageStream, name string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tag := range is.Spec.Tags {
 		if tag.Name != name {
 			continue

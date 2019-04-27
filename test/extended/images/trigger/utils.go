@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"time"
-
 	"github.com/ghodss/yaml"
-
 	appsv1 "k8s.io/api/apps/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/watch"
@@ -16,26 +14,50 @@ import (
 )
 
 func readDeploymentFixture(path string) (*appsv1.Deployment, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-
 	deployment := new(appsv1.Deployment)
 	err = yaml.Unmarshal(data, deployment)
 	if err != nil {
 		return nil, err
 	}
-
 	return deployment, err
 }
-
 func waitForDeploymentModification(appsClient appsv1clientset.AppsV1Interface, objMeta metav1.ObjectMeta, timeout time.Duration, condition func(deployment *appsv1.Deployment) (bool, error)) (*appsv1.Deployment, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	watcher, err := appsClient.Deployments(objMeta.Namespace).Watch(metav1.SingleObject(objMeta))
 	if err != nil {
 		return nil, err
 	}
-
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 	event, err := watchtools.UntilWithoutRetry(ctx, watcher, func(event watch.Event) (bool, error) {

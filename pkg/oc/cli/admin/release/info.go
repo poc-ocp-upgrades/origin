@@ -17,7 +17,6 @@ import (
 	"sync"
 	"text/tabwriter"
 	"time"
-
 	"github.com/MakeNowJust/heredoc"
 	"github.com/blang/semver"
 	"github.com/docker/distribution"
@@ -25,7 +24,6 @@ import (
 	digest "github.com/opencontainers/go-digest"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/duration"
@@ -33,7 +31,6 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imageapi "github.com/openshift/api/image/v1"
 	configv1client "github.com/openshift/client-go/config/clientset/versioned"
 	"github.com/openshift/origin/pkg/image/apis/image/docker10"
@@ -44,18 +41,39 @@ import (
 )
 
 func NewInfoOptions(streams genericclioptions.IOStreams) *InfoOptions {
-	return &InfoOptions{
-		IOStreams:       streams,
-		ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 4},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &InfoOptions{IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 4}}
 }
-
 func NewInfo(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewInfoOptions(streams)
-	cmd := &cobra.Command{
-		Use:   "info IMAGE [--changes-from=IMAGE] [--verify|--commits|--pullspecs]",
-		Short: "Display information about a release",
-		Long: templates.LongDesc(`
+	cmd := &cobra.Command{Use: "info IMAGE [--changes-from=IMAGE] [--verify|--commits|--pullspecs]", Short: "Display information about a release", Long: templates.LongDesc(`
 			Show information about an OpenShift release
 
 			This command retrieves, verifies, and formats the information describing an OpenShift update.
@@ -81,21 +99,16 @@ func NewInfo(f kcmdutil.Factory, parentName string, streams genericclioptions.IO
 			The --bugs and --changelog flags will use git to clone the source of the release and display
 			the code changes that occurred between the two release arguments. This operation is slow
 			and requires sufficient disk space on the selected drive to clone all repositories.
-		`),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+		`), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flags := cmd.Flags()
 	o.SecurityOptions.Bind(flags)
 	o.ParallelOptions.Bind(flags)
-
 	flags.StringVar(&o.From, "changes-from", o.From, "Show changes from this image to the requested image.")
-
 	flags.BoolVar(&o.Verify, "verify", o.Verify, "Generate bug listings from the changelogs in the git repositories extracted to this path.")
-
 	flags.BoolVar(&o.ShowContents, "contents", o.ShowContents, "Display the contents of a release.")
 	flags.BoolVar(&o.ShowCommit, "commits", o.ShowCommit, "Display information about the source an image was created with.")
 	flags.BoolVar(&o.ShowPullSpec, "pullspecs", o.ShowPullSpec, "Display the pull spec of each image instead of the digest.")
@@ -109,26 +122,36 @@ func NewInfo(f kcmdutil.Factory, parentName string, streams genericclioptions.IO
 
 type InfoOptions struct {
 	genericclioptions.IOStreams
-
-	Images []string
-	From   string
-
-	Output       string
-	ImageFor     string
-	ShowContents bool
-	ShowCommit   bool
-	ShowPullSpec bool
-	ShowSize     bool
-	Verify       bool
-
-	ChangelogDir string
-	BugsDir      string
-
-	ParallelOptions imagemanifest.ParallelOptions
-	SecurityOptions imagemanifest.SecurityOptions
+	Images		[]string
+	From		string
+	Output		string
+	ImageFor	string
+	ShowContents	bool
+	ShowCommit	bool
+	ShowPullSpec	bool
+	ShowSize	bool
+	Verify		bool
+	ChangelogDir	string
+	BugsDir		string
+	ParallelOptions	imagemanifest.ParallelOptions
+	SecurityOptions	imagemanifest.SecurityOptions
 }
 
 func (o *InfoOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) == 0 {
 		cfg, err := f.ToRESTConfig()
 		if err != nil {
@@ -164,8 +187,21 @@ func (o *InfoOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []st
 	}
 	return nil
 }
-
 func (o *InfoOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	if len(o.ImageFor) > 0 {
 		count++
@@ -217,25 +253,34 @@ func (o *InfoOptions) Validate() error {
 			return fmt.Errorf("--output only supports 'json'")
 		}
 	}
-
 	if len(o.Images) == 0 {
 		return fmt.Errorf("must specify a release image as an argument")
 	}
 	if len(o.From) > 0 && len(o.Images) != 1 {
 		return fmt.Errorf("must specify a single release image as argument when comparing to another release image")
 	}
-
 	return nil
 }
-
 func (o *InfoOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fetchImages := o.ShowSize || o.Verify
-
 	if len(o.From) > 0 && !o.Verify {
 		if o.ShowContents {
 			return diffContents(o.From, o.Images[0], o.Out)
 		}
-
 		var baseRelease *ReleaseInfo
 		var baseErr error
 		done := make(chan struct{})
@@ -243,17 +288,14 @@ func (o *InfoOptions) Run() error {
 			defer close(done)
 			baseRelease, baseErr = o.LoadReleaseInfo(o.From, fetchImages)
 		}()
-
 		release, err := o.LoadReleaseInfo(o.Images[0], fetchImages)
 		if err != nil {
 			return err
 		}
-
 		<-done
 		if baseErr != nil {
 			return baseErr
 		}
-
 		diff, err := calculateDiff(baseRelease, release)
 		if err != nil {
 			return err
@@ -266,7 +308,6 @@ func (o *InfoOptions) Run() error {
 		}
 		return describeReleaseDiff(o.Out, diff, o.ShowCommit)
 	}
-
 	var exitErr error
 	for _, image := range o.Images {
 		release, err := o.LoadReleaseInfo(image, fetchImages)
@@ -287,8 +328,21 @@ func (o *InfoOptions) Run() error {
 	}
 	return exitErr
 }
-
 func diffContents(a, b string, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(out, `To see the differences between these releases, run:
 
   %[1]s adm release extract %[2]s --to=/tmp/old
@@ -298,8 +352,21 @@ func diffContents(a, b string, out io.Writer) error {
 `, os.Args[0], a, b)
 	return nil
 }
-
 func (o *InfoOptions) describeImage(release *ReleaseInfo) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.ShowContents {
 		_, err := io.Copy(o.Out, newContentStreamForRelease(release))
 		return err
@@ -322,8 +389,21 @@ func (o *InfoOptions) describeImage(release *ReleaseInfo) error {
 	}
 	return describeReleaseInfo(o.Out, release, o.ShowCommit, o.ShowPullSpec, o.ShowSize)
 }
-
 func findImageSpec(image *imageapi.ImageStream, tagName, imageName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tag := range image.Spec.Tags {
 		if tag.Name == tagName {
 			if tag.From != nil && tag.From.Kind == "DockerImage" && len(tag.From.Name) > 0 {
@@ -333,23 +413,28 @@ func findImageSpec(image *imageapi.ImageStream, tagName, imageName string) (stri
 	}
 	return "", fmt.Errorf("no image tag %q exists in the release image %s", tagName, imageName)
 }
-
 func calculateDiff(from, to *ReleaseInfo) (*ReleaseDiff, error) {
-	diff := &ReleaseDiff{
-		From:             from,
-		To:               to,
-		ChangedImages:    make(map[string]*ImageReferenceDiff),
-		ChangedManifests: make(map[string]*ReleaseManifestDiff),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	diff := &ReleaseDiff{From: from, To: to, ChangedImages: make(map[string]*ImageReferenceDiff), ChangedManifests: make(map[string]*ReleaseManifestDiff)}
 	for i := range from.References.Spec.Tags {
 		tag := &from.References.Spec.Tags[i]
 		if tag.From == nil || tag.From.Kind != "DockerImage" {
 			continue
 		}
-		diff.ChangedImages[tag.Name] = &ImageReferenceDiff{
-			Name: tag.Name,
-			From: tag,
-		}
+		diff.ChangedImages[tag.Name] = &ImageReferenceDiff{Name: tag.Name, From: tag}
 	}
 	for i := range to.References.Spec.Tags {
 		tag := &to.References.Spec.Tags[i]
@@ -360,10 +445,7 @@ func calculateDiff(from, to *ReleaseInfo) (*ReleaseDiff, error) {
 			exists.To = tag
 			continue
 		}
-		diff.ChangedImages[tag.Name] = &ImageReferenceDiff{
-			Name: tag.Name,
-			To:   tag,
-		}
+		diff.ChangedImages[tag.Name] = &ImageReferenceDiff{Name: tag.Name, To: tag}
 	}
 	for k, v := range diff.ChangedImages {
 		if v.From != nil && v.To != nil && v.From.From.Name == v.To.From.Name {
@@ -371,92 +453,98 @@ func calculateDiff(from, to *ReleaseInfo) (*ReleaseDiff, error) {
 		}
 	}
 	for name, manifest := range from.ManifestFiles {
-		diff.ChangedManifests[name] = &ReleaseManifestDiff{
-			Filename: name,
-			From:     manifest,
-		}
+		diff.ChangedManifests[name] = &ReleaseManifestDiff{Filename: name, From: manifest}
 	}
 	for name, manifest := range to.ManifestFiles {
 		if exists, ok := diff.ChangedManifests[name]; ok {
 			exists.To = manifest
 			continue
 		}
-		diff.ChangedManifests[name] = &ReleaseManifestDiff{
-			Filename: name,
-			From:     manifest,
-		}
+		diff.ChangedManifests[name] = &ReleaseManifestDiff{Filename: name, From: manifest}
 	}
 	for k, v := range diff.ChangedManifests {
 		if bytes.Equal(v.From, v.To) {
 			delete(diff.ChangedManifests, k)
 		}
 	}
-
 	return diff, nil
 }
 
 type ReleaseDiff struct {
-	From, To *ReleaseInfo
-
-	ChangedImages    map[string]*ImageReferenceDiff
-	ChangedManifests map[string]*ReleaseManifestDiff
+	From, To		*ReleaseInfo
+	ChangedImages		map[string]*ImageReferenceDiff
+	ChangedManifests	map[string]*ReleaseManifestDiff
 }
-
 type ImageReferenceDiff struct {
-	Name string
-
-	From, To *imageapi.TagReference
+	Name		string
+	From, To	*imageapi.TagReference
 }
-
 type ReleaseManifestDiff struct {
-	Filename string
-
-	From, To []byte
+	Filename	string
+	From, To	[]byte
 }
-
 type ReleaseInfo struct {
-	Image         string                              `json:"image"`
-	ImageRef      imagereference.DockerImageReference `json:"-"`
-	Digest        digest.Digest                       `json:"digest"`
-	ContentDigest digest.Digest                       `json:"contentDigest"`
-	// TODO: return the list digest in the future
-	// ListDigest    digest.Digest                       `json:"listDigest"`
-	Config     *docker10.DockerImageConfig `json:"config"`
-	Metadata   *CincinnatiMetadata         `json:"metadata"`
-	References *imageapi.ImageStream       `json:"references"`
-
-	ComponentVersions map[string]string `json:"versions"`
-
-	Images map[string]*Image `json:"images"`
-
-	RawMetadata   map[string][]byte `json:"-"`
-	ManifestFiles map[string][]byte `json:"-"`
-	UnknownFiles  []string          `json:"-"`
-
-	Warnings []string `json:"warnings"`
+	Image			string					`json:"image"`
+	ImageRef		imagereference.DockerImageReference	`json:"-"`
+	Digest			digest.Digest				`json:"digest"`
+	ContentDigest		digest.Digest				`json:"contentDigest"`
+	Config			*docker10.DockerImageConfig		`json:"config"`
+	Metadata		*CincinnatiMetadata			`json:"metadata"`
+	References		*imageapi.ImageStream			`json:"references"`
+	ComponentVersions	map[string]string			`json:"versions"`
+	Images			map[string]*Image			`json:"images"`
+	RawMetadata		map[string][]byte			`json:"-"`
+	ManifestFiles		map[string][]byte			`json:"-"`
+	UnknownFiles		[]string				`json:"-"`
+	Warnings		[]string				`json:"warnings"`
 }
-
 type Image struct {
-	Name          string                              `json:"name"`
-	Ref           imagereference.DockerImageReference `json:"-"`
-	Digest        digest.Digest                       `json:"digest"`
-	ContentDigest digest.Digest                       `json:"contentDigest"`
-	ListDigest    digest.Digest                       `json:"listDigest"`
-	MediaType     string                              `json:"mediaType"`
-	Layers        []distribution.Descriptor           `json:"layers"`
-	Config        *docker10.DockerImageConfig         `json:"config"`
-
-	Manifest distribution.Manifest `json:"-"`
+	Name		string					`json:"name"`
+	Ref		imagereference.DockerImageReference	`json:"-"`
+	Digest		digest.Digest				`json:"digest"`
+	ContentDigest	digest.Digest				`json:"contentDigest"`
+	ListDigest	digest.Digest				`json:"listDigest"`
+	MediaType	string					`json:"mediaType"`
+	Layers		[]distribution.Descriptor		`json:"layers"`
+	Config		*docker10.DockerImageConfig		`json:"config"`
+	Manifest	distribution.Manifest			`json:"-"`
 }
 
 func (i *ReleaseInfo) PreferredName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i.Metadata != nil {
 		return i.Metadata.Version
 	}
 	return i.References.Name
 }
-
 func (i *ReleaseInfo) Platform() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os := i.Config.OS
 	if len(os) > 0 {
 		os = "unknown"
@@ -467,24 +555,29 @@ func (i *ReleaseInfo) Platform() string {
 	}
 	return fmt.Sprintf("%s/%s", os, arch)
 }
-
 func (o *InfoOptions) LoadReleaseInfo(image string, retrieveImages bool) (*ReleaseInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := imagereference.Parse(image)
 	if err != nil {
 		return nil, err
 	}
-
 	verifier := imagemanifest.NewVerifier()
 	opts := extract.NewOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
 	opts.SecurityOptions = o.SecurityOptions
-
-	release := &ReleaseInfo{
-		Image:    image,
-		ImageRef: ref,
-
-		RawMetadata: make(map[string][]byte),
-	}
-
+	release := &ReleaseInfo{Image: image, ImageRef: ref, RawMetadata: make(map[string][]byte)}
 	opts.ImageMetadataCallback = func(m *extract.Mapping, dgst, contentDigest digest.Digest, config *docker10.DockerImageConfig) {
 		verifier.Verify(dgst, contentDigest)
 		release.Digest = dgst
@@ -492,15 +585,7 @@ func (o *InfoOptions) LoadReleaseInfo(image string, retrieveImages bool) (*Relea
 		release.Config = config
 	}
 	opts.OnlyFiles = true
-	opts.Mappings = []extract.Mapping{
-		{
-			ImageRef: ref,
-
-			From:        "release-manifests/",
-			To:          ".",
-			LayerFilter: extract.NewPositionLayerFilter(-1),
-		},
-	}
+	opts.Mappings = []extract.Mapping{{ImageRef: ref, From: "release-manifests/", To: ".", LayerFilter: extract.NewPositionLayerFilter(-1)}}
 	var errs []error
 	opts.TarEntryCallback = func(hdr *tar.Header, _ extract.LayerInfo, r io.Reader) (bool, error) {
 		switch hdr.Name {
@@ -554,38 +639,30 @@ func (o *InfoOptions) LoadReleaseInfo(image string, retrieveImages bool) (*Relea
 	if len(errs) > 0 {
 		return nil, fmt.Errorf("release image could not be read: %s", errorList(errs))
 	}
-
 	if release.References == nil {
 		return nil, fmt.Errorf("release image did not contain an image-references file")
 	}
-
 	release.ComponentVersions, errs = readComponentVersions(release.References)
 	for _, err := range errs {
 		release.Warnings = append(release.Warnings, err.Error())
 	}
-
 	if retrieveImages {
 		var lock sync.Mutex
 		release.Images = make(map[string]*Image)
-		r := &imageinfo.ImageRetriever{
-			Image:           make(map[string]imagereference.DockerImageReference),
-			SecurityOptions: o.SecurityOptions,
-			ParallelOptions: o.ParallelOptions,
-			ImageMetadataCallback: func(name string, image *imageinfo.Image, err error) error {
-				if image != nil {
-					verifier.Verify(image.Digest, image.ContentDigest)
-				}
-				lock.Lock()
-				defer lock.Unlock()
-				if err != nil {
-					release.Warnings = append(release.Warnings, fmt.Sprintf("tag %q: %v", name, err))
-					return nil
-				}
-				copied := Image(*image)
-				release.Images[name] = &copied
+		r := &imageinfo.ImageRetriever{Image: make(map[string]imagereference.DockerImageReference), SecurityOptions: o.SecurityOptions, ParallelOptions: o.ParallelOptions, ImageMetadataCallback: func(name string, image *imageinfo.Image, err error) error {
+			if image != nil {
+				verifier.Verify(image.Digest, image.ContentDigest)
+			}
+			lock.Lock()
+			defer lock.Unlock()
+			if err != nil {
+				release.Warnings = append(release.Warnings, fmt.Sprintf("tag %q: %v", name, err))
 				return nil
-			},
-		}
+			}
+			copied := Image(*image)
+			release.Images[name] = &copied
+			return nil
+		}}
 		for _, tag := range release.References.Spec.Tags {
 			if tag.From == nil || tag.From.Kind != "DockerImage" {
 				continue
@@ -601,7 +678,6 @@ func (o *InfoOptions) LoadReleaseInfo(image string, retrieveImages bool) (*Relea
 			return nil, err
 		}
 	}
-
 	if !verifier.Verified() {
 		err := fmt.Errorf("the release image failed content verification and may have been tampered with")
 		if !o.SecurityOptions.SkipVerification {
@@ -609,13 +685,24 @@ func (o *InfoOptions) LoadReleaseInfo(image string, retrieveImages bool) (*Relea
 		}
 		fmt.Fprintf(o.ErrOut, "warning: %v\n", err)
 	}
-
 	sort.Strings(release.Warnings)
-
 	return release, nil
 }
-
 func readComponentVersions(is *imageapi.ImageStream) (map[string]string, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	combined := make(map[string]sets.String)
 	for _, tag := range is.Spec.Tags {
@@ -650,8 +737,21 @@ func readComponentVersions(is *imageapi.ImageStream) (map[string]string, []error
 	}
 	return out, errs
 }
-
 func errorList(errs []error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(errs) == 1 {
 		return errs[0].Error()
 	}
@@ -662,8 +762,21 @@ func errorList(errs []error) string {
 	}
 	return buf.String()
 }
-
 func stringArrContains(arr []string, s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range arr {
 		if item == s {
 			return true
@@ -671,8 +784,21 @@ func stringArrContains(arr []string, s string) bool {
 	}
 	return false
 }
-
 func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if diff.To.Digest == diff.From.Digest {
 		fmt.Fprintf(out, "Releases are identical\n")
 		return nil
@@ -686,7 +812,6 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 	if from, to := diff.From.Platform(), diff.To.Platform(); from != to {
 		fmt.Fprintf(w, "OS/Arch:\t%s\t%s\n", from, to)
 	}
-
 	switch {
 	case diff.From.Metadata != nil && diff.To.Metadata != nil:
 		fmt.Fprintln(w)
@@ -701,7 +826,6 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 	case diff.From.Metadata == nil && diff.To.Metadata != nil:
 		fmt.Fprintf(w, "Has Release Metadata:\t\tYes\n")
 	}
-
 	if len(diff.ChangedImages) > 0 {
 		var keys []string
 		maxLen := 0
@@ -740,7 +864,6 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 				}
 			}
 		})
-
 		if len(rebuilt) > 0 {
 			writeTabSection(w, func(w io.Writer) {
 				count := 0
@@ -763,7 +886,6 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 				}
 			})
 		}
-
 		writeTabSection(w, func(w io.Writer) {
 			count := 0
 			for _, k := range keys {
@@ -781,7 +903,6 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 				}
 			}
 		})
-
 		writeTabSection(w, func(w io.Writer) {
 			count := 0
 			for _, k := range keys {
@@ -799,8 +920,21 @@ func describeReleaseDiff(out io.Writer, diff *ReleaseDiff, showCommit bool) erro
 	fmt.Fprintln(w)
 	return nil
 }
-
 func repoAndCommit(ref *imageapi.TagReference) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repo := ref.Annotations[annotationBuildSourceLocation]
 	commit := ref.Annotations[annotationBuildSourceCommit]
 	if len(repo) == 0 || len(commit) == 0 {
@@ -808,8 +942,21 @@ func repoAndCommit(ref *imageapi.TagReference) string {
 	}
 	return urlForRepoAndCommit(repo, commit)
 }
-
 func gitDiffOrCommit(from, to *imageapi.TagReference) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldRepo, newRepo := from.Annotations[annotationBuildSourceLocation], to.Annotations[annotationBuildSourceLocation]
 	oldCommit, newCommit := from.Annotations[annotationBuildSourceCommit], to.Annotations[annotationBuildSourceCommit]
 	if len(newRepo) == 0 || len(newCommit) == 0 {
@@ -829,8 +976,21 @@ func gitDiffOrCommit(from, to *imageapi.TagReference) string {
 	}
 	return fmt.Sprintf("%s -> %s", urlForRepoAndCommit(oldRepo, oldCommit), urlForRepoAndCommit(newRepo, newCommit))
 }
-
 func urlForRepoAndCommit(repo, commit string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasPrefix(repo, urlGithubPrefix) {
 		if u, err := url.Parse(repo); err == nil {
 			u.Path = path.Join(u.Path, "commit", fmt.Sprintf("%s", commit))
@@ -839,8 +999,21 @@ func urlForRepoAndCommit(repo, commit string) string {
 	}
 	return fmt.Sprintf("%s %s", repo, commit)
 }
-
 func urlForRepoAndCommitRange(repo, from, to string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.HasPrefix(repo, urlGithubPrefix) {
 		if u, err := url.Parse(repo); err == nil {
 			u.Path = path.Join(u.Path, "compare", fmt.Sprintf("%s...%s", from, to))
@@ -849,13 +1022,39 @@ func urlForRepoAndCommitRange(repo, from, to string) string {
 	}
 	return fmt.Sprintf("%s %s %s", repo, from, to)
 }
-
 func codeChanged(from, to *imageapi.TagReference) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldCommit, newCommit := from.Annotations[annotationBuildSourceCommit], to.Annotations[annotationBuildSourceCommit]
 	return len(oldCommit) > 0 && len(newCommit) > 0 && oldCommit != newCommit
 }
-
 func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSpec, showSize bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(out, 0, 4, 1, ' ', 0)
 	defer w.Flush()
 	now := time.Now()
@@ -867,13 +1066,11 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 	if len(release.UnknownFiles) > 0 {
 		fmt.Fprintf(w, "Unknown files:\t%d\n", len(release.UnknownFiles))
 	}
-
 	fmt.Fprintln(w)
 	refExact := release.ImageRef
 	refExact.Tag = ""
 	refExact.ID = release.Digest.String()
 	fmt.Fprintf(w, "Pull From:\t%s\n", refExact.String())
-
 	if m := release.Metadata; m != nil {
 		fmt.Fprintln(w)
 		fmt.Fprintf(w, "Release Metadata:\n")
@@ -924,7 +1121,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 					layerCount[digest] = count + 1
 				}
 			}
-
 			var baseHeader string
 			if len(baseLayer) > 1 {
 				baseHeader = "BASE"
@@ -936,15 +1132,11 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 				if tag.From == nil || tag.From.Kind != "DockerImage" {
 					continue
 				}
-
 				image, ok := release.Images[tag.Name]
 				if !ok {
 					fmt.Fprintf(w, "  %s\t\t\t\t\t\n", tag.Name)
 					continue
 				}
-
-				// create a column for a small number of unique base layers that visually indicates
-				// which base layer belongs to which image
 				var base string
 				if len(baseLayer) > 1 {
 					if baseIndex, ok := baseLayer[image.Layers[0].Digest.String()]; ok {
@@ -960,9 +1152,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 						}
 					}
 				}
-
-				// count the size of the image and the unique size of the image, to give a better
-				// idea of which images impact the payload the most
 				unshared := int64(0)
 				size := int64(0)
 				for _, layer := range image.Layers {
@@ -972,9 +1161,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 					}
 					unshared += layer.Size
 				}
-				// if this image has no unique layers, find the top-most layer and if this is the
-				// first time it has been shown print the top layer size (as a reasonable proxy
-				// for how much this image in particular contributes)
 				if unshared == 0 {
 					top := image.Layers[len(image.Layers)-1]
 					if _, ok := coveredLayer[top.Digest.String()]; !ok {
@@ -994,7 +1180,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 			} else {
 				fmt.Fprintf(w, "  %s across %d layers\n", units.HumanSize(float64(totalSize)), len(layerCount))
 			}
-
 		case showCommit:
 			fmt.Fprintf(w, "  NAME\tREPO\tCOMMIT\t\n")
 			for _, tag := range release.References.Spec.Tags {
@@ -1003,7 +1188,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 				}
 				fmt.Fprintf(w, "  %s\t%s\t%s\n", tag.Name, tag.Annotations[annotationBuildSourceLocation], tag.Annotations[annotationBuildSourceCommit])
 			}
-
 		case pullSpec:
 			fmt.Fprintf(w, "  NAME\tPULL SPEC\n")
 			for _, tag := range release.References.Spec.Tags {
@@ -1012,7 +1196,6 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 				}
 				fmt.Fprintf(w, "  %s\t%s\n", tag.Name, tag.From.Name)
 			}
-
 		default:
 			fmt.Fprintf(w, "  NAME\tDIGEST\n")
 			for _, tag := range release.References.Spec.Tags {
@@ -1042,14 +1225,40 @@ func describeReleaseInfo(out io.Writer, release *ReleaseInfo, showCommit, pullSp
 	fmt.Fprintln(w)
 	return nil
 }
-
 func writeTabSection(out io.Writer, fn func(w io.Writer)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(out, 0, 4, 1, ' ', 0)
 	fn(w)
 	w.Flush()
 }
-
 func sortSemanticVersions(versionStrings []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var versions []semver.Version
 	for _, version := range versionStrings {
 		v, err := semver.Parse(version)
@@ -1065,19 +1274,44 @@ func sortSemanticVersions(versionStrings []string) []string {
 	}
 	return versionStrings
 }
-
 func digestOrRef(ref string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref, err := imagereference.Parse(ref); err == nil && len(ref.ID) > 0 {
 		return ref.ID
 	}
 	return ref
 }
-
 func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if diff.To.Digest == diff.From.Digest {
 		return fmt.Errorf("releases are identical")
 	}
-
 	fmt.Fprintf(out, heredoc.Docf(`
 		# %s
 
@@ -1086,13 +1320,11 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		Image Digest: %s
 
 	`, diff.To.PreferredName(), diff.To.References.CreationTimestamp.UTC(), "`"+diff.To.Digest+"`"))
-
 	if release, ok := diff.To.References.Annotations[annotationReleaseFromRelease]; ok {
 		fmt.Fprintf(out, "Promoted from %s\n\n", release)
 	}
 	fmt.Fprintln(out)
 	fmt.Fprintf(out, "## Changes from %s\n\n", diff.From.PreferredName())
-
 	if keys := orderedKeys(diff.To.ComponentVersions); len(keys) > 0 {
 		fmt.Fprintf(out, "### Components\n\n")
 		for _, key := range keys {
@@ -1107,9 +1339,7 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		fmt.Fprintln(out)
 		fmt.Fprintln(out)
 	}
-
 	var hasError bool
-
 	var added, removed []string
 	for k, imageDiff := range diff.ChangedImages {
 		switch {
@@ -1120,10 +1350,8 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		}
 	}
 	codeChanges, imageChanges, incorrectImageChanges := releaseDiffContentChanges(diff)
-
 	sort.Strings(added)
 	sort.Strings(removed)
-
 	if len(added) > 0 {
 		fmt.Fprintf(out, "### New images\n\n")
 		for _, k := range added {
@@ -1132,7 +1360,6 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		fmt.Fprintln(out)
 		fmt.Fprintln(out)
 	}
-
 	if len(removed) > 0 {
 		fmt.Fprintf(out, "### Removed images\n\n")
 		for _, k := range removed {
@@ -1141,7 +1368,6 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		fmt.Fprintln(out)
 		fmt.Fprintln(out)
 	}
-
 	if len(imageChanges) > 0 || len(incorrectImageChanges) > 0 {
 		fmt.Fprintf(out, "### Rebuilt images without code change\n\n")
 		for _, change := range imageChanges {
@@ -1153,7 +1379,6 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 		fmt.Fprintln(out)
 		fmt.Fprintln(out)
 	}
-
 	for _, change := range codeChanges {
 		u, commits, err := commitsForRepo(dir, change, out, errOut)
 		if err != nil {
@@ -1180,19 +1405,9 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 				}
 				switch {
 				case commit.Bug > 0:
-					fmt.Fprintf(out,
-						"* [Bug %d](%s): %s %s\n",
-						commit.Bug,
-						fmt.Sprintf("https://bugzilla.redhat.com/show_bug.cgi?id=%d", commit.Bug),
-						commit.Subject,
-						suffix,
-					)
+					fmt.Fprintf(out, "* [Bug %d](%s): %s %s\n", commit.Bug, fmt.Sprintf("https://bugzilla.redhat.com/show_bug.cgi?id=%d", commit.Bug), commit.Subject, suffix)
 				default:
-					fmt.Fprintf(out,
-						"* %s %s\n",
-						commit.Subject,
-						suffix,
-					)
+					fmt.Fprintf(out, "* %s %s\n", commit.Subject, suffix)
 				}
 			}
 			if u.Host == "github.com" {
@@ -1208,15 +1423,26 @@ func describeChangelog(out, errOut io.Writer, diff *ReleaseDiff, dir string) err
 	}
 	return nil
 }
-
 func describeBugs(out, errOut io.Writer, diff *ReleaseDiff, dir string, format string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if diff.To.Digest == diff.From.Digest {
 		return fmt.Errorf("releases are identical")
 	}
-
 	var hasError bool
 	codeChanges, _, _ := releaseDiffContentChanges(diff)
-
 	bugIDs := sets.NewInt()
 	for _, change := range codeChanges {
 		_, commits, err := commitsForRepo(dir, change, out, errOut)
@@ -1232,9 +1458,7 @@ func describeBugs(out, errOut io.Writer, diff *ReleaseDiff, dir string, format s
 			bugIDs.Insert(commit.Bug)
 		}
 	}
-
 	bugs := make(map[int]BugInfo)
-
 	u, err := url.Parse("https://bugzilla.redhat.com/rest/bug")
 	if err != nil {
 		return err
@@ -1250,16 +1474,13 @@ func describeBugs(out, errOut io.Writer, diff *ReleaseDiff, dir string, format s
 			next = allBugIDs
 			allBugIDs = nil
 		}
-
 		bugList, err := retrieveBugs(client, u, next, 2)
 		if err != nil {
-
 		}
 		for _, bug := range bugList.Bugs {
 			bugs[bug.ID] = bug
 		}
 	}
-
 	var valid []int
 	for _, id := range bugIDs.List() {
 		if _, ok := bugs[id]; !ok {
@@ -1269,7 +1490,6 @@ func describeBugs(out, errOut io.Writer, diff *ReleaseDiff, dir string, format s
 		}
 		valid = append(valid, id)
 	}
-
 	if len(valid) > 0 {
 		switch format {
 		case "name":
@@ -1286,14 +1506,26 @@ func describeBugs(out, errOut io.Writer, diff *ReleaseDiff, dir string, format s
 			tw.Flush()
 		}
 	}
-
 	if hasError {
 		return kcmdutil.ErrExit
 	}
 	return nil
 }
-
 func retrieveBugs(client *http.Client, server *url.URL, bugs []int, retries int) (*BugList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q := url.Values{}
 	for _, id := range bugs {
 		q.Add("id", strconv.Itoa(id))
@@ -1331,43 +1563,78 @@ func retrieveBugs(client *http.Client, server *url.URL, bugs []int, retries int)
 type BugList struct {
 	Bugs []BugInfo `json:"bugs"`
 }
-
 type BugInfo struct {
-	ID       int    `json:"id"`
-	Status   string `json:"status"`
-	Priority string `json:"priority"`
-	Summary  string `json:"summary"`
+	ID		int	`json:"id"`
+	Status		string	`json:"status"`
+	Priority	string	`json:"priority"`
+	Summary		string	`json:"summary"`
 }
-
 type ImageChange struct {
-	Name     string
-	From, To imagereference.DockerImageReference
+	Name		string
+	From, To	imagereference.DockerImageReference
 }
-
 type CodeChange struct {
-	Repo     string
-	From, To string
-
-	AlternateRepos []string
-
-	ImagesAffected []string
+	Repo		string
+	From, To	string
+	AlternateRepos	[]string
+	ImagesAffected	[]string
 }
 
 func (c CodeChange) FromShort() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.From) > 8 {
 		return c.From[:8]
 	}
 	return c.From
 }
-
 func (c CodeChange) ToShort() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(c.To) > 8 {
 		return c.To[:8]
 	}
 	return c.To
 }
-
 func commitsForRepo(dir string, change CodeChange, out, errOut io.Writer) (*url.URL, []MergeCommit, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := sourceLocationAsURL(change.Repo)
 	if err != nil {
 		return nil, nil, fmt.Errorf("The source repository cannot be parsed %s: %v", change.Repo, err)
@@ -1382,8 +1649,21 @@ func commitsForRepo(dir string, change CodeChange, out, errOut io.Writer) (*url.
 	}
 	return u, commits, nil
 }
-
 func releaseDiffContentChanges(diff *ReleaseDiff) ([]CodeChange, []ImageChange, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var imageChanges []ImageChange
 	var unexpectedChanges []string
 	var keys []string
@@ -1400,19 +1680,13 @@ func releaseDiffContentChanges(diff *ReleaseDiff) ([]CodeChange, []ImageChange, 
 					if fromRef, err := imagereference.Parse(from.From.Name); err == nil {
 						if toRef, err := imagereference.Parse(to.From.Name); err == nil {
 							if len(fromRef.ID) > 0 && fromRef.ID == toRef.ID {
-								// no change or only location changed
 								break
 							}
-							imageChanges = append(imageChanges, ImageChange{
-								Name: imageDiff.Name,
-								From: fromRef,
-								To:   toRef,
-							})
+							imageChanges = append(imageChanges, ImageChange{Name: imageDiff.Name, From: fromRef, To: toRef})
 							break
 						}
 					}
 				}
-				// before or after tag did not have a valid image reference
 				unexpectedChanges = append(unexpectedChanges, k)
 				break
 			}
@@ -1437,13 +1711,10 @@ func releaseDiffContentChanges(diff *ReleaseDiff) ([]CodeChange, []ImageChange, 
 		from, to := imageDiff.From, imageDiff.To
 		oldRepo, newRepo := from.Annotations[annotationBuildSourceLocation], to.Annotations[annotationBuildSourceLocation]
 		oldCommit, newCommit := from.Annotations[annotationBuildSourceCommit], to.Annotations[annotationBuildSourceCommit]
-
 		var alternateRepos []string
 		if len(oldRepo) > 0 && oldRepo != newRepo {
 			alternateRepos = append(alternateRepos, oldRepo)
 		}
-
-		// only display a given chunk of changes once
 		commitRange := fmt.Sprintf("%s..%s", oldCommit, newCommit)
 		allKeys := repoToCommitsToImages[newRepo][commitRange]
 		if len(allKeys) == 0 {
@@ -1451,19 +1722,25 @@ func releaseDiffContentChanges(diff *ReleaseDiff) ([]CodeChange, []ImageChange, 
 		}
 		repoToCommitsToImages[newRepo][commitRange] = nil
 		sort.Strings(allKeys)
-
-		codeChanges = append(codeChanges, CodeChange{
-			Repo:           newRepo,
-			From:           oldCommit,
-			To:             newCommit,
-			AlternateRepos: alternateRepos,
-			ImagesAffected: allKeys,
-		})
+		codeChanges = append(codeChanges, CodeChange{Repo: newRepo, From: oldCommit, To: newCommit, AlternateRepos: alternateRepos, ImagesAffected: allKeys})
 	}
 	return codeChanges, imageChanges, unexpectedChanges
 }
-
 func refToShortDescription(ref *imageapi.TagReference) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if from := ref.From; from != nil {
 		name := ref.Name
 		if u, err := sourceLocationAsURL(ref.Annotations[annotationBuildSourceLocation]); err == nil {
@@ -1494,8 +1771,21 @@ func refToShortDescription(ref *imageapi.TagReference) string {
 	}
 	return ref.Name
 }
-
 func componentName(key string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(key, "-")
 	for i, part := range parts {
 		if len(part) > 0 {
@@ -1504,8 +1794,21 @@ func componentName(key string) string {
 	}
 	return strings.Join(parts, " ")
 }
-
 func orderedKeys(m map[string]string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keys := make([]string, 0, len(m))
 	for k := range m {
 		keys = append(keys, k)
@@ -1515,15 +1818,28 @@ func orderedKeys(m map[string]string) []string {
 }
 
 type contentStream struct {
-	current []byte
-	parts   [][]byte
+	current	[]byte
+	parts	[][]byte
 }
 
 func (s *contentStream) Read(p []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	remaining := len(p)
 	count := 0
 	for remaining > 0 {
-		// find the next buffer, if we have nothing
 		if len(s.current) == 0 {
 			if len(s.parts) == 0 {
 				return count, io.EOF
@@ -1531,17 +1847,12 @@ func (s *contentStream) Read(p []byte) (int, error) {
 			s.current = s.parts[0]
 			s.parts = s.parts[1:]
 		}
-
 		have := len(s.current)
-
-		// fill the buffer completely
 		if have >= remaining {
 			copy(p, s.current[:remaining])
 			s.current = s.current[remaining:]
 			return count + remaining, nil
 		}
-
-		// fill the buffer with whatever we have left
 		copy(p, s.current[:have])
 		s.current = nil
 		p = p[have:]
@@ -1550,22 +1861,32 @@ func (s *contentStream) Read(p []byte) (int, error) {
 	}
 	return count, nil
 }
-
 func newContentStreamForRelease(image *ReleaseInfo) io.Reader {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := make([]string, 0, len(image.ManifestFiles))
 	for name := range image.ManifestFiles {
 		names = append(names, name)
 	}
 	sort.Strings(names)
-
 	rawNames := make([]string, 0, len(image.RawMetadata))
 	for name := range image.RawMetadata {
 		rawNames = append(rawNames, name)
 	}
 	sort.Strings(rawNames)
-
 	data := make([][]byte, 0, (len(names)+len(rawNames))*3)
-
 	for _, name := range rawNames {
 		content := image.RawMetadata[name]
 		data = append(data, []byte(fmt.Sprintf("# %s\n", name)), content)

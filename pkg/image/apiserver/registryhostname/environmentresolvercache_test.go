@@ -2,7 +2,6 @@ package registryhostname
 
 import (
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -10,15 +9,21 @@ import (
 )
 
 func TestServiceResolverCacheEmpty(t *testing.T) {
-	fakeClient := fake.NewSimpleClientset(&corev1.Service{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "foo",
-			Namespace: metav1.NamespaceDefault,
-		},
-		Spec: corev1.ServiceSpec{
-			Ports: []corev1.ServicePort{{Port: 80}},
-		},
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	fakeClient := fake.NewSimpleClientset(&corev1.Service{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: metav1.NamespaceDefault}, Spec: corev1.ServiceSpec{Ports: []corev1.ServicePort{{Port: 80}}}})
 	cache := newServiceResolverCache(fakeClient.CoreV1().Services("default").Get)
 	if v, ok := cache.resolve("FOO_SERVICE_HOST"); v != "" || !ok {
 		t.Errorf("unexpected cache item")
@@ -37,31 +42,48 @@ func TestServiceResolverCacheEmpty(t *testing.T) {
 }
 
 type fakeRetriever struct {
-	service *corev1.Service
-	err     error
+	service	*corev1.Service
+	err	error
 }
 
 func (r fakeRetriever) Get(name string, options metav1.GetOptions) (*corev1.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.service, r.err
 }
-
 func TestServiceResolverCache(t *testing.T) {
-	c := fakeRetriever{
-		err: errors.NewNotFound(corev1.Resource("Service"), "bar"),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	c := fakeRetriever{err: errors.NewNotFound(corev1.Resource("Service"), "bar")}
 	cache := newServiceResolverCache(c.Get)
 	if v, ok := cache.resolve("FOO_SERVICE_HOST"); v != "" || ok {
 		t.Errorf("unexpected cache item")
 	}
-
-	c = fakeRetriever{
-		service: &corev1.Service{
-			Spec: corev1.ServiceSpec{
-				ClusterIP: "127.0.0.1",
-				Ports:     []corev1.ServicePort{{Port: 80}},
-			},
-		},
-	}
+	c = fakeRetriever{service: &corev1.Service{Spec: corev1.ServiceSpec{ClusterIP: "127.0.0.1", Ports: []corev1.ServicePort{{Port: 80}}}}}
 	cache = newServiceResolverCache(c.Get)
 	if v, ok := cache.resolve("FOO_SERVICE_HOST"); v != "127.0.0.1" || !ok {
 		t.Errorf("unexpected cache item")

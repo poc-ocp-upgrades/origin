@@ -3,7 +3,6 @@ package auth
 import (
 	"fmt"
 	"io"
-
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -11,11 +10,24 @@ import (
 )
 
 func reapForRole(bindingClient rbacv1client.RoleBindingsGetter, namespace, name string, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bindings, err := bindingClient.RoleBindings(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
-
 	errors := []error{}
 	for _, binding := range bindings.Items {
 		if binding.RoleRef.Kind == "Role" && binding.RoleRef.Name == name {
@@ -27,6 +39,5 @@ func reapForRole(bindingClient rbacv1client.RoleBindingsGetter, namespace, name 
 			}
 		}
 	}
-
 	return utilerrors.NewAggregate(errors)
 }

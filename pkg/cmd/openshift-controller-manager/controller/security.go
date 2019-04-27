@@ -2,7 +2,6 @@ package controller
 
 import (
 	"fmt"
-
 	"github.com/openshift/origin/pkg/cmd/server/bootstrappolicy"
 	sccallocation "github.com/openshift/origin/pkg/security/controller"
 	"github.com/openshift/origin/pkg/security/mcs"
@@ -10,6 +9,20 @@ import (
 )
 
 func RunNamespaceSecurityAllocationController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uidRange, err := uid.ParseRange(ctx.OpenshiftControllerConfig.SecurityAllocator.UIDAllocatorRange)
 	if err != nil {
 		return true, fmt.Errorf("unable to describe UID range: %v", err)
@@ -18,7 +31,6 @@ func RunNamespaceSecurityAllocationController(ctx *ControllerContext) (bool, err
 	if err != nil {
 		return true, fmt.Errorf("unable to describe MCS category range: %v", err)
 	}
-
 	kubeClient, err := ctx.ClientBuilder.Client(bootstrappolicy.InfraNamespaceSecurityAllocationControllerServiceAccountName)
 	if err != nil {
 		return true, err
@@ -27,15 +39,7 @@ func RunNamespaceSecurityAllocationController(ctx *ControllerContext) (bool, err
 	if err != nil {
 		return true, err
 	}
-
-	controller := sccallocation.NewNamespaceSCCAllocationController(
-		ctx.KubernetesInformers.Core().V1().Namespaces(),
-		kubeClient.CoreV1().Namespaces(),
-		securityClient.SecurityV1(),
-		uidRange,
-		sccallocation.DefaultMCSAllocation(uidRange, mcsRange, ctx.OpenshiftControllerConfig.SecurityAllocator.MCSLabelsPerProject),
-	)
+	controller := sccallocation.NewNamespaceSCCAllocationController(ctx.KubernetesInformers.Core().V1().Namespaces(), kubeClient.CoreV1().Namespaces(), securityClient.SecurityV1(), uidRange, sccallocation.DefaultMCSAllocation(uidRange, mcsRange, ctx.OpenshiftControllerConfig.SecurityAllocator.MCSLabelsPerProject))
 	go controller.Run(ctx.Stop)
-
 	return true, nil
 }

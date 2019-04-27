@@ -2,7 +2,6 @@ package defaultrolebindings
 
 import (
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -17,50 +16,27 @@ import (
 )
 
 func TestSync(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name                      string
-		startingNamespaces        []*corev1.Namespace
-		startingRoleBindings      []*rbacv1.RoleBinding
-		namespaceToSync           string
-		expectedRoleBindingsNames []string
-	}{
-		{
-			name: "create-all",
-			startingNamespaces: []*corev1.Namespace{
-				{ObjectMeta: metav1.ObjectMeta{Name: "foo"}},
-			},
-			startingRoleBindings: []*rbacv1.RoleBinding{
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "bar"}},
-			},
-			namespaceToSync:           "foo",
-			expectedRoleBindingsNames: []string{"system:image-pullers", "system:image-builders", "system:deployers"},
-		},
-		{
-			name: "create-missing",
-			startingNamespaces: []*corev1.Namespace{
-				{ObjectMeta: metav1.ObjectMeta{Name: "foo"}},
-			},
-			startingRoleBindings: []*rbacv1.RoleBinding{
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "bar"}},
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-builders"}},
-			},
-			namespaceToSync:           "foo",
-			expectedRoleBindingsNames: []string{"system:image-pullers", "system:deployers"},
-		},
-		{
-			name: "create-none",
-			startingNamespaces: []*corev1.Namespace{
-				{ObjectMeta: metav1.ObjectMeta{Name: "foo"}},
-			},
-			startingRoleBindings: []*rbacv1.RoleBinding{
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-builders"}},
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-pullers"}},
-				{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:deployers"}},
-			},
-			namespaceToSync: "foo",
-		},
-	}
-
+		name				string
+		startingNamespaces		[]*corev1.Namespace
+		startingRoleBindings		[]*rbacv1.RoleBinding
+		namespaceToSync			string
+		expectedRoleBindingsNames	[]string
+	}{{name: "create-all", startingNamespaces: []*corev1.Namespace{{ObjectMeta: metav1.ObjectMeta{Name: "foo"}}}, startingRoleBindings: []*rbacv1.RoleBinding{{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "bar"}}}, namespaceToSync: "foo", expectedRoleBindingsNames: []string{"system:image-pullers", "system:image-builders", "system:deployers"}}, {name: "create-missing", startingNamespaces: []*corev1.Namespace{{ObjectMeta: metav1.ObjectMeta{Name: "foo"}}}, startingRoleBindings: []*rbacv1.RoleBinding{{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "bar"}}, {ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-builders"}}}, namespaceToSync: "foo", expectedRoleBindingsNames: []string{"system:image-pullers", "system:deployers"}}, {name: "create-none", startingNamespaces: []*corev1.Namespace{{ObjectMeta: metav1.ObjectMeta{Name: "foo"}}}, startingRoleBindings: []*rbacv1.RoleBinding{{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-builders"}}, {ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:image-pullers"}}, {ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "system:deployers"}}}, namespaceToSync: "foo"}}
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			roleBindingIndexer := cache.NewIndexer(controller.KeyFunc, cache.Indexers{})
@@ -75,17 +51,11 @@ func TestSync(t *testing.T) {
 				namespaceIndexer.Add(obj)
 			}
 			fakeClient := kubeclientfake.NewSimpleClientset(objs...)
-			c := DefaultRoleBindingController{
-				roleBindingClient: fakeClient.RbacV1(),
-				roleBindingLister: rbaclisters.NewRoleBindingLister(roleBindingIndexer),
-				namespaceLister:   corelisters.NewNamespaceLister(namespaceIndexer),
-			}
-
+			c := DefaultRoleBindingController{roleBindingClient: fakeClient.RbacV1(), roleBindingLister: rbaclisters.NewRoleBindingLister(roleBindingIndexer), namespaceLister: corelisters.NewNamespaceLister(namespaceIndexer)}
 			err := c.syncNamespace(test.namespaceToSync)
 			if err != nil {
 				t.Fatal(err)
 			}
-
 			allActions := fakeClient.Actions()
 			createActions := []clienttesting.CreateAction{}
 			for i := range allActions {
@@ -99,7 +69,6 @@ func TestSync(t *testing.T) {
 			if len(createActions) != len(test.expectedRoleBindingsNames) {
 				t.Fatalf("expected %v, got %#v", test.expectedRoleBindingsNames, createActions)
 			}
-
 			for i, name := range test.expectedRoleBindingsNames {
 				action := createActions[i]
 				metadata, err := meta.Accessor(action.GetObject())
@@ -115,5 +84,4 @@ func TestSync(t *testing.T) {
 			}
 		})
 	}
-
 }

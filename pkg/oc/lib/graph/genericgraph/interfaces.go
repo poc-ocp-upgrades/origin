@@ -4,59 +4,64 @@ import (
 	"github.com/gonum/graph"
 )
 
-// Marker is a struct that describes something interesting on a Node
 type Marker struct {
-	// Node is the optional node that this message is attached to
-	Node graph.Node
-	// RelatedNodes is an optional list of other nodes that are involved in this marker.
-	RelatedNodes []graph.Node
-
-	// Severity indicates how important this problem is.
-	Severity Severity
-	// Key is a short string to identify this message
-	Key string
-
-	// Message is a human-readable string that describes what is interesting
-	Message string
-	// Suggestion is a human-readable string that holds advice for resolving this
-	// marker.
-	Suggestion Suggestion
+	Node		graph.Node
+	RelatedNodes	[]graph.Node
+	Severity	Severity
+	Key		string
+	Message		string
+	Suggestion	Suggestion
 }
-
-// Severity indicates how important this problem is.
 type Severity string
 
 const (
-	// InfoSeverity is interesting
-	// Currently used in missing probe markers
-	InfoSeverity Severity = "info"
-	// WarningSeverity is probably wrong, but we aren't certain
-	WarningSeverity Severity = "warning"
-	// ErrorSeverity is definitely wrong, this won't work
-	ErrorSeverity Severity = "error"
+	InfoSeverity	Severity	= "info"
+	WarningSeverity	Severity	= "warning"
+	ErrorSeverity	Severity	= "error"
 )
 
 type Markers []Marker
-
-// MarkerScanner is a function for analyzing a graph and finding interesting things in it
 type MarkerScanner func(g Graph, f Namer) []Marker
 
 func (m Markers) BySeverity(severity Severity) []Marker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []Marker{}
 	for i := range m {
 		if m[i].Severity == severity {
 			ret = append(ret, m[i])
 		}
 	}
-
 	return ret
 }
-
-// FilterByNamespace returns all the markers that are not associated with missing nodes
-// from other namespaces (other than the provided namespace).
 func (m Markers) FilterByNamespace(namespace string) Markers {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filtered := Markers{}
-
 	for i := range m {
 		markerNodes := []graph.Node{}
 		markerNodes = append(markerNodes, m[i].Node)
@@ -72,18 +77,62 @@ func (m Markers) FilterByNamespace(namespace string) Markers {
 			filtered = append(filtered, m[i])
 		}
 	}
-
 	return filtered
 }
 
 type BySeverity []Marker
 
-func (m BySeverity) Len() int      { return len(m) }
-func (m BySeverity) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
+func (m BySeverity) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(m)
+}
+func (m BySeverity) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m[i], m[j] = m[j], m[i]
+}
 func (m BySeverity) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lhs := m[i]
 	rhs := m[j]
-
 	switch lhs.Severity {
 	case ErrorSeverity:
 		switch rhs.Severity {
@@ -101,15 +150,60 @@ func (m BySeverity) Less(i, j int) bool {
 			return false
 		}
 	}
-
 	return true
 }
 
 type ByNodeID []Marker
 
-func (m ByNodeID) Len() int      { return len(m) }
-func (m ByNodeID) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
+func (m ByNodeID) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(m)
+}
+func (m ByNodeID) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m[i], m[j] = m[j], m[i]
+}
 func (m ByNodeID) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m[i].Node == nil {
 		return true
 	}
@@ -121,14 +215,74 @@ func (m ByNodeID) Less(i, j int) bool {
 
 type ByKey []Marker
 
-func (m ByKey) Len() int      { return len(m) }
-func (m ByKey) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
+func (m ByKey) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(m)
+}
+func (m ByKey) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m[i], m[j] = m[j], m[i]
+}
 func (m ByKey) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Key < m[j].Key
 }
 
 type Suggestion string
 
 func (s Suggestion) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(s)
 }

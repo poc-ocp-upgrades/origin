@@ -4,7 +4,6 @@ import (
 	"errors"
 	"reflect"
 	"testing"
-
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/diff"
@@ -13,7 +12,6 @@ import (
 	kauthorizer "k8s.io/apiserver/pkg/authorization/authorizer"
 	apirequest "k8s.io/apiserver/pkg/endpoints/request"
 	apiserverrest "k8s.io/apiserver/pkg/registry/rest"
-
 	authorizationapi "github.com/openshift/origin/pkg/authorization/apis/authorization"
 	"github.com/openshift/origin/pkg/authorization/apiserver/registry/resourceaccessreview"
 	"github.com/openshift/origin/pkg/authorization/apiserver/registry/util"
@@ -21,60 +19,91 @@ import (
 )
 
 type resourceAccessTest struct {
-	authorizer    *testAuthorizer
-	reviewRequest *authorizationapi.LocalResourceAccessReview
+	authorizer	*testAuthorizer
+	reviewRequest	*authorizationapi.LocalResourceAccessReview
 }
-
 type testAuthorizer struct {
-	subjects []rbacv1.Subject
-	err      string
-
-	actualAttributes kauthorizer.Attributes
+	subjects		[]rbacv1.Subject
+	err			string
+	actualAttributes	kauthorizer.Attributes
 }
 
 func (a *testAuthorizer) Authorize(attributes kauthorizer.Attributes) (decision kauthorizer.Decision, reason string, err error) {
-	// allow the initial check for "can I run this RAR at all"
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if attributes.GetResource() == "localresourceaccessreviews" {
 		return kauthorizer.DecisionAllow, "", nil
 	}
-
 	return kauthorizer.DecisionNoOpinion, "", errors.New("Unsupported")
 }
 func (a *testAuthorizer) AllowedSubjects(attributes kauthorizer.Attributes) ([]rbacv1.Subject, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.actualAttributes = attributes
 	if len(a.err) == 0 {
 		return a.subjects, nil
 	}
 	return a.subjects, errors.New(a.err)
 }
-
 func TestNoNamespace(t *testing.T) {
-	test := &resourceAccessTest{
-		authorizer: &testAuthorizer{
-			err: "namespace is required on this type: ",
-		},
-		reviewRequest: &authorizationapi.LocalResourceAccessReview{
-			Action: authorizationapi.Action{
-				Namespace: "",
-				Verb:      "get",
-				Resource:  "pods",
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	test := &resourceAccessTest{authorizer: &testAuthorizer{err: "namespace is required on this type: "}, reviewRequest: &authorizationapi.LocalResourceAccessReview{Action: authorizationapi.Action{Namespace: "", Verb: "get", Resource: "pods"}}}
 	test.runTest(t)
 }
-
 func TestConflictingNamespace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizer := &testAuthorizer{}
-	reviewRequest := &authorizationapi.LocalResourceAccessReview{
-		Action: authorizationapi.Action{
-			Namespace: "foo",
-			Verb:      "get",
-			Resource:  "pods",
-		},
-	}
-
+	reviewRequest := &authorizationapi.LocalResourceAccessReview{Action: authorizationapi.Action{Namespace: "foo", Verb: "get", Resource: "pods"}}
 	storage := NewREST(resourceaccessreview.NewRegistry(resourceaccessreview.NewREST(authorizer, authorizer)))
 	ctx := apirequest.WithNamespace(apirequest.NewContext(), "bar")
 	_, err := storage.Create(ctx, reviewRequest, apiserverrest.ValidateAllObjectFunc, &metav1.CreateOptions{})
@@ -85,56 +114,61 @@ func TestConflictingNamespace(t *testing.T) {
 		t.Fatalf("expected %v, got %v", e, a)
 	}
 }
-
 func TestEmptyReturn(t *testing.T) {
-	test := &resourceAccessTest{
-		authorizer: &testAuthorizer{},
-		reviewRequest: &authorizationapi.LocalResourceAccessReview{
-			Action: authorizationapi.Action{
-				Namespace: "unittest",
-				Verb:      "get",
-				Resource:  "pods",
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	test := &resourceAccessTest{authorizer: &testAuthorizer{}, reviewRequest: &authorizationapi.LocalResourceAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "get", Resource: "pods"}}}
 	test.runTest(t)
 }
-
 func TestNoErrors(t *testing.T) {
-	test := &resourceAccessTest{
-		authorizer: &testAuthorizer{
-			subjects: []rbacv1.Subject{
-				{APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "one"},
-				{APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "two"},
-				{APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "three"},
-				{APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "four"},
-			},
-		},
-		reviewRequest: &authorizationapi.LocalResourceAccessReview{
-			Action: authorizationapi.Action{
-				Namespace: "unittest",
-				Verb:      "delete",
-				Resource:  "deploymentConfig",
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	test := &resourceAccessTest{authorizer: &testAuthorizer{subjects: []rbacv1.Subject{{APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "one"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "two"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "three"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "four"}}}, reviewRequest: &authorizationapi.LocalResourceAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "delete", Resource: "deploymentConfig"}}}
 	test.runTest(t)
 }
-
 func (r *resourceAccessTest) runTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := NewREST(resourceaccessreview.NewRegistry(resourceaccessreview.NewREST(r.authorizer, r.authorizer)))
-
 	users, groups := authorizationutil.RBACSubjectsToUsersAndGroups(r.authorizer.subjects, r.reviewRequest.Action.Namespace)
-	expectedResponse := &authorizationapi.ResourceAccessReviewResponse{
-		Namespace: r.reviewRequest.Action.Namespace,
-		Users:     sets.NewString(users...),
-		Groups:    sets.NewString(groups...),
-	}
-
+	expectedResponse := &authorizationapi.ResourceAccessReviewResponse{Namespace: r.reviewRequest.Action.Namespace, Users: sets.NewString(users...), Groups: sets.NewString(groups...)}
 	expectedAttributes := util.ToDefaultAuthorizationAttributes(nil, r.reviewRequest.Action.Namespace, r.reviewRequest.Action)
-
 	ctx := apirequest.WithNamespace(apirequest.WithUser(apirequest.NewContext(), &user.DefaultInfo{}), r.reviewRequest.Action.Namespace)
 	obj, err := storage.Create(ctx, r.reviewRequest, apiserverrest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if err != nil && len(r.authorizer.err) == 0 {
@@ -147,10 +181,8 @@ func (r *resourceAccessTest) runTest(t *testing.T) {
 		if e, a := r.authorizer.err, err.Error(); e != a {
 			t.Fatalf("expected %v, got %v", e, a)
 		}
-
 		return
 	}
-
 	switch obj.(type) {
 	case *authorizationapi.ResourceAccessReviewResponse:
 		if !reflect.DeepEqual(expectedResponse, obj) {
@@ -163,7 +195,6 @@ func (r *resourceAccessTest) runTest(t *testing.T) {
 	default:
 		t.Errorf("Unexpected obj type: %v", obj)
 	}
-
 	if !reflect.DeepEqual(expectedAttributes, r.authorizer.actualAttributes) {
 		t.Errorf("diff %v", diff.ObjectGoPrintDiff(expectedAttributes, r.authorizer.actualAttributes))
 	}

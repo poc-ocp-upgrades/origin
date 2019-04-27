@@ -6,13 +6,23 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 )
 
-// Scheme is the default instance of runtime.Scheme to which types in the Kubernetes API are already registered.
 var Scheme = runtime.NewScheme()
-
-// Codecs provides access to encoding and decoding for the scheme
 var Codecs = serializer.NewCodecFactory(Scheme)
 
-// DefaultJSONEncoder returns a default encoder for our scheme
 func DefaultJSONEncoder() runtime.Encoder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return unstructured.JSONFallbackEncoder{Encoder: Codecs.LegacyCodec(Scheme.PrioritizedVersionsAllGroups()...)}
 }

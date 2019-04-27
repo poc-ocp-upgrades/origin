@@ -3,9 +3,7 @@ package v1
 import (
 	"reflect"
 	"testing"
-
 	runtime "k8s.io/apimachinery/pkg/runtime"
-
 	v1 "github.com/openshift/api/authorization/v1"
 	authorizationapi "github.com/openshift/origin/pkg/authorization/apis/authorization"
 )
@@ -13,16 +11,39 @@ import (
 var scheme = runtime.NewScheme()
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Install(scheme)
 	authorizationapi.Install(scheme)
 }
-
 func TestDefaults(t *testing.T) {
-	obj := &v1.PolicyRule{
-		APIGroups: nil,
-		Verbs:     []string{authorizationapi.VerbAll},
-		Resources: []string{authorizationapi.ResourceAll},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	obj := &v1.PolicyRule{APIGroups: nil, Verbs: []string{authorizationapi.VerbAll}, Resources: []string{authorizationapi.ResourceAll}}
 	out := &authorizationapi.PolicyRule{}
 	if err := scheme.Convert(obj, out, nil); err != nil {
 		t.Fatal(err)

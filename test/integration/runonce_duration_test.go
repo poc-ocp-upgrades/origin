@@ -2,10 +2,8 @@ package integration
 
 import (
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
-
 	pluginapi "github.com/openshift/origin/pkg/autoscaling/admission/apis/runonceduration"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	testutil "github.com/openshift/origin/test/util"
@@ -13,23 +11,44 @@ import (
 )
 
 func testRunOnceDurationPod(activeDeadlineSeconds int64) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &corev1.Pod{}
 	pod.GenerateName = "testpod"
 	pod.Spec.RestartPolicy = corev1.RestartPolicyNever
-	pod.Spec.Containers = []corev1.Container{
-		{
-			Name:  "container",
-			Image: "test/image",
-		},
-	}
+	pod.Spec.Containers = []corev1.Container{{Name: "container", Image: "test/image"}}
 	if activeDeadlineSeconds > 0 {
 		pod.Spec.ActiveDeadlineSeconds = &activeDeadlineSeconds
 	}
 	return pod
 }
-
 func testPodDuration(t *testing.T, name string, kclientset kubernetes.Interface, pod *corev1.Pod, expected int64) {
-	// Pod with no duration set
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, err := kclientset.CoreV1().Pods(testutil.Namespace()).Create(pod)
 	if err != nil {
 		t.Fatalf("%s: unexpected: %v", name, err)
@@ -42,45 +61,73 @@ func testPodDuration(t *testing.T, name string, kclientset kubernetes.Interface,
 		t.Errorf("%s: unexpected value for pod.Spec.ActiveDeadlineSeconds: %d. Expected: %d", name, *pod.Spec.ActiveDeadlineSeconds, expected)
 	}
 }
-
 func TestRunOnceDurationAdmissionPlugin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var secs int64 = 3600
-	config := &pluginapi.RunOnceDurationConfig{
-		ActiveDeadlineSecondsLimit: &secs,
-	}
+	config := &pluginapi.RunOnceDurationConfig{ActiveDeadlineSecondsLimit: &secs}
 	kclientset, fn := setupRunOnceDurationTest(t, config, nil)
 	defer fn()
-
 	testPodDuration(t, "global, no duration", kclientset, testRunOnceDurationPod(0), 3600)
 	testPodDuration(t, "global, larger duration", kclientset, testRunOnceDurationPod(7200), 3600)
 	testPodDuration(t, "global, smaller duration", kclientset, testRunOnceDurationPod(100), 100)
 }
-
 func TestRunOnceDurationAdmissionPluginProjectLimit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var secs int64 = 3600
-	config := &pluginapi.RunOnceDurationConfig{
-		ActiveDeadlineSecondsLimit: &secs,
-	}
-	nsAnnotations := map[string]string{
-		pluginapi.ActiveDeadlineSecondsLimitAnnotation: "100",
-	}
+	config := &pluginapi.RunOnceDurationConfig{ActiveDeadlineSecondsLimit: &secs}
+	nsAnnotations := map[string]string{pluginapi.ActiveDeadlineSecondsLimitAnnotation: "100"}
 	kclientset, fn := setupRunOnceDurationTest(t, config, nsAnnotations)
 	defer fn()
 	testPodDuration(t, "project, no duration", kclientset, testRunOnceDurationPod(0), 100)
 	testPodDuration(t, "project, larger duration", kclientset, testRunOnceDurationPod(7200), 100)
 	testPodDuration(t, "project, smaller duration", kclientset, testRunOnceDurationPod(50), 50)
 }
-
 func setupRunOnceDurationTest(t *testing.T, pluginConfig *pluginapi.RunOnceDurationConfig, nsAnnotations map[string]string) (kubernetes.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("error creating config: %v", err)
 	}
-	masterConfig.AdmissionConfig.PluginConfig = map[string]*configapi.AdmissionPluginConfig{
-		"autoscaling.openshift.io/RunOnceDuration": {
-			Configuration: pluginConfig,
-		},
-	}
+	masterConfig.AdmissionConfig.PluginConfig = map[string]*configapi.AdmissionPluginConfig{"autoscaling.openshift.io/RunOnceDuration": {Configuration: pluginConfig}}
 	kubeConfigFile, err := testserver.StartConfiguredMaster(masterConfig)
 	if err != nil {
 		t.Fatalf("error starting server: %v", err)

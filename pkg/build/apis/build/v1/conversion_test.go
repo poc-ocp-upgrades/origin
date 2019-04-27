@@ -2,14 +2,12 @@ package v1
 
 import (
 	"testing"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/conversion/queryparams"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	kinternal "k8s.io/kubernetes/pkg/apis/core"
-
 	"github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/api/apihelpers/apitesting"
 	internal "github.com/openshift/origin/pkg/build/apis/build"
@@ -20,26 +18,55 @@ var Convert = scheme.Convert
 var codecs = serializer.NewCodecFactory(scheme)
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Install(scheme)
 }
-
 func TestFieldSelectorConversions(t *testing.T) {
-
-	apitesting.FieldKeyCheck{
-		SchemeBuilder: []func(*runtime.Scheme) error{Install},
-		Kind:          v1.GroupVersion.WithKind("Build"),
-		// Ensure previously supported labels have conversions. DO NOT REMOVE THINGS FROM THIS LIST
-		AllowedExternalFieldKeys: []string{"status", "podName"},
-		FieldKeyEvaluatorFn:      internal.BuildFieldSelector,
-	}.Check(t)
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("Build"), AllowedExternalFieldKeys: []string{"status", "podName"}, FieldKeyEvaluatorFn: internal.BuildFieldSelector}.Check(t)
 }
-
 func TestBinaryBuildRequestOptions(t *testing.T) {
-	r := &internal.BinaryBuildRequestOptions{
-		AsFile: "Dockerfile",
-		Commit: "abcdef",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	r := &internal.BinaryBuildRequestOptions{AsFile: "Dockerfile", Commit: "abcdef"}
 	versioned, err := scheme.ConvertToVersion(r, v1.GroupVersion)
 	if err != nil {
 		t.Fatal(err)
@@ -56,135 +83,24 @@ func TestBinaryBuildRequestOptions(t *testing.T) {
 		t.Errorf("unexpected decoded object: %#v", decoded)
 	}
 }
-
 func TestV1APIBuildConfigConversion(t *testing.T) {
-	buildConfigs := []*v1.BuildConfig{
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: v1.BuildConfigSpec{
-				CommonSpec: v1.CommonSpec{
-					Source: v1.BuildSource{
-						Type: v1.BuildSourceGit,
-						Git: &v1.GitBuildSource{
-							URI: "http://github.com/my/repository",
-						},
-						ContextDir: "context",
-					},
-					Strategy: v1.BuildStrategy{
-						Type: v1.DockerBuildStrategyType,
-						DockerStrategy: &v1.DockerBuildStrategy{
-							From: &corev1.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-					Output: v1.BuildOutput{
-						To: &corev1.ObjectReference{
-							Kind: "ImageStream",
-							Name: "outputstream",
-						},
-					},
-				},
-				Triggers: []v1.BuildTriggerPolicy{
-					{
-						Type: v1.ImageChangeBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GitHubWebHookBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GenericWebHookBuildTriggerTypeDeprecated,
-					},
-				},
-			},
-		},
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: v1.BuildConfigSpec{
-				CommonSpec: v1.CommonSpec{
-					Source: v1.BuildSource{
-						Type: v1.BuildSourceGit,
-						Git: &v1.GitBuildSource{
-							URI: "http://github.com/my/repository",
-						},
-						ContextDir: "context",
-					},
-					Strategy: v1.BuildStrategy{
-						Type: v1.SourceBuildStrategyType,
-						SourceStrategy: &v1.SourceBuildStrategy{
-							From: corev1.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-					Output: v1.BuildOutput{
-						To: &corev1.ObjectReference{
-							Kind: "ImageStream",
-							Name: "outputstream",
-						},
-					},
-				},
-				Triggers: []v1.BuildTriggerPolicy{
-					{
-						Type: v1.ImageChangeBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GitHubWebHookBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GenericWebHookBuildTriggerTypeDeprecated,
-					},
-				},
-			},
-		},
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: v1.BuildConfigSpec{
-				CommonSpec: v1.CommonSpec{
-					Source: v1.BuildSource{
-						Type: v1.BuildSourceGit,
-						Git: &v1.GitBuildSource{
-							URI: "http://github.com/my/repository",
-						},
-						ContextDir: "context",
-					},
-					Strategy: v1.BuildStrategy{
-						Type: v1.CustomBuildStrategyType,
-						CustomStrategy: &v1.CustomBuildStrategy{
-							From: corev1.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-					Output: v1.BuildOutput{
-						To: &corev1.ObjectReference{
-							Kind: "ImageStream",
-							Name: "outputstream",
-						},
-					},
-				},
-				Triggers: []v1.BuildTriggerPolicy{
-					{
-						Type: v1.ImageChangeBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GitHubWebHookBuildTriggerTypeDeprecated,
-					},
-					{
-						Type: v1.GenericWebHookBuildTriggerTypeDeprecated,
-					},
-				},
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildConfigs := []*v1.BuildConfig{{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Source: v1.BuildSource{Type: v1.BuildSourceGit, Git: &v1.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: v1.BuildStrategy{Type: v1.DockerBuildStrategyType, DockerStrategy: &v1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}, Output: v1.BuildOutput{To: &corev1.ObjectReference{Kind: "ImageStream", Name: "outputstream"}}}, Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerTypeDeprecated}, {Type: v1.GitHubWebHookBuildTriggerTypeDeprecated}, {Type: v1.GenericWebHookBuildTriggerTypeDeprecated}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Source: v1.BuildSource{Type: v1.BuildSourceGit, Git: &v1.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: v1.BuildStrategy{Type: v1.SourceBuildStrategyType, SourceStrategy: &v1.SourceBuildStrategy{From: corev1.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}, Output: v1.BuildOutput{To: &corev1.ObjectReference{Kind: "ImageStream", Name: "outputstream"}}}, Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerTypeDeprecated}, {Type: v1.GitHubWebHookBuildTriggerTypeDeprecated}, {Type: v1.GenericWebHookBuildTriggerTypeDeprecated}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Source: v1.BuildSource{Type: v1.BuildSourceGit, Git: &v1.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: v1.BuildStrategy{Type: v1.CustomBuildStrategyType, CustomStrategy: &v1.CustomBuildStrategy{From: corev1.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}, Output: v1.BuildOutput{To: &corev1.ObjectReference{Kind: "ImageStream", Name: "outputstream"}}}, Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerTypeDeprecated}, {Type: v1.GitHubWebHookBuildTriggerTypeDeprecated}, {Type: v1.GenericWebHookBuildTriggerTypeDeprecated}}}}}
 	for c, bc := range buildConfigs {
-
 		var internalbuild internal.BuildConfig
-
 		Convert(bc, &internalbuild, nil)
 		switch bc.Spec.Strategy.Type {
 		case v1.SourceBuildStrategyType:
@@ -208,10 +124,8 @@ func TestV1APIBuildConfigConversion(t *testing.T) {
 			switch trigger.Type {
 			case internal.ImageChangeBuildTriggerType:
 				foundImageChange = true
-
 			case internal.GenericWebHookBuildTriggerType:
 				foundGeneric = true
-
 			case internal.GitHubWebHookBuildTriggerType:
 				foundGitHub = true
 			}
@@ -227,105 +141,47 @@ func TestV1APIBuildConfigConversion(t *testing.T) {
 		}
 	}
 }
-
 func TestAPIV1NoSourceBuildConfigConversion(t *testing.T) {
-	buildConfigs := []*internal.BuildConfig{
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: internal.BuildConfigSpec{
-				CommonSpec: internal.CommonSpec{
-					Source: internal.BuildSource{},
-					Strategy: internal.BuildStrategy{
-						DockerStrategy: &internal.DockerBuildStrategy{
-							From: &kinternal.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: internal.BuildConfigSpec{
-				CommonSpec: internal.CommonSpec{
-					Source: internal.BuildSource{},
-					Strategy: internal.BuildStrategy{
-						SourceStrategy: &internal.SourceBuildStrategy{
-							From: kinternal.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-				},
-			},
-		},
-		{
-			ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-			Spec: internal.BuildConfigSpec{
-				CommonSpec: internal.CommonSpec{
-					Source: internal.BuildSource{},
-					Strategy: internal.BuildStrategy{
-						CustomStrategy: &internal.CustomBuildStrategy{
-							From: kinternal.ObjectReference{
-								Kind: "ImageStream",
-								Name: "fromstream",
-							},
-						},
-					},
-				},
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildConfigs := []*internal.BuildConfig{{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{DockerStrategy: &internal.DockerBuildStrategy{From: &kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{SourceStrategy: &internal.SourceBuildStrategy{From: kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{CustomStrategy: &internal.CustomBuildStrategy{From: kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}}
 	for c, bc := range buildConfigs {
-
 		var internalbuild v1.BuildConfig
-
 		Convert(bc, &internalbuild, nil)
 		if internalbuild.Spec.Source.Type != v1.BuildSourceNone {
 			t.Errorf("Unexpected source type at index %d: %s", c, internalbuild.Spec.Source.Type)
 		}
 	}
 }
-
 func TestInvalidImageChangeTriggerRemoval(t *testing.T) {
-	buildConfig := v1.BuildConfig{
-		ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-		Spec: v1.BuildConfigSpec{
-			CommonSpec: v1.CommonSpec{
-				Strategy: v1.BuildStrategy{
-					Type: v1.DockerBuildStrategyType,
-					DockerStrategy: &v1.DockerBuildStrategy{
-						From: &corev1.ObjectReference{
-							Kind: "DockerImage",
-							Name: "fromimage",
-						},
-					},
-				},
-			},
-			Triggers: []v1.BuildTriggerPolicy{
-				{
-					Type:        v1.ImageChangeBuildTriggerType,
-					ImageChange: &v1.ImageChangeTrigger{},
-				},
-				{
-					Type: v1.ImageChangeBuildTriggerType,
-					ImageChange: &v1.ImageChangeTrigger{
-						From: &corev1.ObjectReference{
-							Kind: "ImageStreamTag",
-							Name: "imagestream",
-						},
-					},
-				},
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildConfig := v1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{Type: v1.DockerBuildStrategyType, DockerStrategy: &v1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "DockerImage", Name: "fromimage"}}}}, Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerType, ImageChange: &v1.ImageChangeTrigger{}}, {Type: v1.ImageChangeBuildTriggerType, ImageChange: &v1.ImageChangeTrigger{From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "imagestream"}}}}}}
 	var internalBC internal.BuildConfig
-
 	Convert(&buildConfig, &internalBC, nil)
 	if len(internalBC.Spec.Triggers) != 1 {
 		t.Errorf("Expected 1 trigger, got %d", len(internalBC.Spec.Triggers))
@@ -333,30 +189,24 @@ func TestInvalidImageChangeTriggerRemoval(t *testing.T) {
 	if internalBC.Spec.Triggers[0].ImageChange.From == nil {
 		t.Errorf("Expected remaining trigger to have a From value")
 	}
-
 }
-
 func TestImageChangeTriggerNilImageChangePointer(t *testing.T) {
-	buildConfig := v1.BuildConfig{
-		ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"},
-		Spec: v1.BuildConfigSpec{
-			CommonSpec: v1.CommonSpec{
-				Strategy: v1.BuildStrategy{
-					Type:           v1.SourceBuildStrategyType,
-					SourceStrategy: &v1.SourceBuildStrategy{},
-				},
-			},
-			Triggers: []v1.BuildTriggerPolicy{
-				{
-					Type:        v1.ImageChangeBuildTriggerType,
-					ImageChange: nil,
-				},
-			},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildConfig := v1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{Type: v1.SourceBuildStrategyType, SourceStrategy: &v1.SourceBuildStrategy{}}}, Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerType, ImageChange: nil}}}}
 	var internalBC internal.BuildConfig
-
 	Convert(&buildConfig, &internalBC, nil)
 	for _, ic := range internalBC.Spec.Triggers {
 		if ic.ImageChange == nil {

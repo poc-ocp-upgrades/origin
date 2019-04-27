@@ -10,54 +10,59 @@ import (
 	"path"
 	"path/filepath"
 	"strings"
-
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog"
-
 	"github.com/openshift/source-to-image/pkg/tar"
 	s2ifs "github.com/openshift/source-to-image/pkg/util/fs"
 )
 
-// tarStrategy implements the tar copy strategy.
-// The tar strategy consists of creating a tar of the file contents to copy
-// and then streaming them to/from the container to the destination to a tar
-// command waiting for STDIN input. If the --delete flag is specified, the
-// contents of the destination directory are first cleared before the copy.
-// The tar strategy requires that the remote container contain the tar command.
 type tarStrategy struct {
-	Quiet          bool
-	Delete         bool
-	Tar            tar.Tar
-	RemoteExecutor executor
-	Includes       []string
-	Excludes       []string
-	IgnoredFlags   []string
-	Flags          []string
+	Quiet		bool
+	Delete		bool
+	Tar		tar.Tar
+	RemoteExecutor	executor
+	Includes	[]string
+	Excludes	[]string
+	IgnoredFlags	[]string
+	Flags		[]string
 }
 
-// NewTarStrategy returns a copy strategy that uses tar.
 func NewTarStrategy(o *RsyncOptions) CopyStrategy {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tarHelper := tar.New(s2ifs.NewFileSystem())
 	tarHelper.SetExclusionPattern(nil)
-
 	ignoredFlags := rsyncSpecificFlags(o)
-
 	remoteExec := newRemoteExecutor(o)
-
-	return &tarStrategy{
-		Quiet:          o.Quiet,
-		Delete:         o.Delete,
-		Includes:       o.RsyncInclude,
-		Excludes:       o.RsyncExclude,
-		Tar:            tarHelper,
-		RemoteExecutor: remoteExec,
-		IgnoredFlags:   ignoredFlags,
-		Flags:          tarFlagsFromOptions(o),
-	}
+	return &tarStrategy{Quiet: o.Quiet, Delete: o.Delete, Includes: o.RsyncInclude, Excludes: o.RsyncExclude, Tar: tarHelper, RemoteExecutor: remoteExec, IgnoredFlags: ignoredFlags, Flags: tarFlagsFromOptions(o)}
 }
-
 func deleteContents(dir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Deleting local directory contents: %s", dir)
 	files, err := ioutil.ReadDir(dir)
 	if err != nil {
@@ -79,26 +84,42 @@ func deleteContents(dir string) error {
 	}
 	return nil
 }
-
 func deleteLocal(source, dest *PathSpec) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deleteDir := dest.Path
-	// Determine which directory to empty based on source parameter
-	// If the source does not end in a path separator, the directory
-	// being copied over is the directory that needs to be cleaned out
-	// in the destination. This is to replicate the behavior of the
-	// rsync --delete flag
 	if !strings.HasSuffix(source.Path, "/") {
 		deleteDir = filepath.Join(deleteDir, filepath.Base(source.Path))
 	}
 	return deleteContents(deleteDir)
 }
-
 func deleteRemote(source, dest *PathSpec, ex executor) error {
-	// Determine which directory to empty based on source parameter
-	// If the source does not end in a path separator, the directory
-	// being copied over is the directory that needs to be cleaned out
-	// in the destination. This is to replicate the behavior of the
-	// rsync --delete flag
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deleteDir := dest.Path
 	if !strings.HasSuffix(source.Path, string(filepath.Separator)) {
 		deleteDir = path.Join(deleteDir, path.Base(source.Path))
@@ -106,24 +127,46 @@ func deleteRemote(source, dest *PathSpec, ex executor) error {
 	deleteCmd := []string{"sh", "-c", fmt.Sprintf("shopt -s dotglob && rm -rf %s", path.Join(deleteDir, "*"))}
 	return executeWithLogging(ex, deleteCmd)
 }
-
 func deleteFiles(source, dest *PathSpec, remoteExecutor executor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if dest.Local() {
 		return deleteLocal(source, dest)
 	}
 	return deleteRemote(source, dest, remoteExecutor)
 }
-
 func (r *tarStrategy) Copy(source, destination *PathSpec, out, errOut io.Writer) error {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(3).Infof("Copying files with tar")
-
 	if len(r.IgnoredFlags) > 0 {
 		fmt.Fprintf(errOut, "Ignoring the following flags because they only apply to rsync: %s\n", strings.Join(r.IgnoredFlags, ", "))
 	}
-
 	if r.Delete {
-		// Implement the rsync --delete flag as a separate call to first delete directory contents
 		err := deleteFiles(source, destination, r.RemoteExecutor)
 		if err != nil {
 			return fmt.Errorf("unable to delete files in destination: %v", err)
@@ -135,8 +178,6 @@ func (r *tarStrategy) Copy(source, destination *PathSpec, out, errOut io.Writer)
 	}
 	defer tmp.Close()
 	defer os.Remove(tmp.Name())
-
-	// Create tar
 	if source.Local() {
 		klog.V(4).Infof("Creating local tar file %s from local path %s", tmp.Name(), source.Path)
 		err = tarLocal(r.Tar, source.Path, tmp)
@@ -155,12 +196,9 @@ func (r *tarStrategy) Copy(source, destination *PathSpec, out, errOut io.Writer)
 			return fmt.Errorf("error creating remote tar of source directory: %v", err)
 		}
 	}
-
 	if _, err := tmp.Seek(0, io.SeekStart); err != nil {
 		return fmt.Errorf("error resetting position in a temporary tar file %s: %v", tmp.Name(), err)
 	}
-
-	// Extract tar
 	if destination.Local() {
 		klog.V(4).Infof("Untarring temp file %s to local directory %s", tmp.Name(), destination.Path)
 		err = untarLocal(r.Tar, destination.Path, tmp, r.Quiet, out)
@@ -180,8 +218,21 @@ func (r *tarStrategy) Copy(source, destination *PathSpec, out, errOut io.Writer)
 	}
 	return nil
 }
-
 func (r *tarStrategy) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	if r.Tar == nil {
 		errs = append(errs, errors.New("tar helper must be provided"))
@@ -194,45 +245,76 @@ func (r *tarStrategy) Validate() error {
 	}
 	return nil
 }
-
 func (r *tarStrategy) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "tar"
 }
-
 func tarRemote(exec executor, sourceDir string, includes, excludes []string, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Tarring %s remotely", sourceDir)
-
 	exclude := []string{}
 	for _, pattern := range excludes {
 		exclude = append(exclude, fmt.Sprintf("--exclude=%s", pattern))
 	}
-
 	var cmd []string
 	if strings.HasSuffix(sourceDir, "/") {
 		include := []string{"."}
 		include = append(include, includes...)
-
 		cmd = []string{"tar", "-C", sourceDir, "-c"}
 		cmd = append(cmd, append(include, exclude...)...)
 	} else {
 		include := []string{}
-
 		for _, pattern := range includes {
 			include = append(include, path.Join(path.Base(sourceDir), pattern))
 		}
-
 		cmd = []string{"tar", "-C", path.Dir(sourceDir), "-c", path.Base(sourceDir)}
 		cmd = append(cmd, append(include, exclude...)...)
 	}
 	klog.V(4).Infof("Remote tar command: %s", strings.Join(cmd, " "))
 	return exec.Execute(cmd, nil, out, errOut)
 }
-
 func tarLocal(tar tar.Tar, sourceDir string, w io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Tarring %s locally", sourceDir)
-	// includeParent mimics rsync's behavior. When the source path ends in a path
-	// separator, then only the contents of the directory are copied. Otherwise,
-	// the directory itself is copied.
 	includeParent := true
 	if strings.HasSuffix(sourceDir, string(filepath.Separator)) {
 		includeParent = false
@@ -240,16 +322,42 @@ func tarLocal(tar tar.Tar, sourceDir string, w io.Writer) error {
 	}
 	return tar.CreateTarStream(sourceDir, includeParent, w)
 }
-
 func untarLocal(tar tar.Tar, destinationDir string, r io.Reader, quiet bool, logger io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Extracting tar locally to %s", destinationDir)
 	if quiet {
 		return tar.ExtractTarStream(destinationDir, r)
 	}
 	return tar.ExtractTarStreamWithLogging(destinationDir, r, logger)
 }
-
 func untarRemote(exec executor, destinationDir string, flags []string, in io.Reader, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := []string{"tar", "-C", destinationDir, "-ox"}
 	cmd = append(cmd, flags...)
 	klog.V(4).Infof("Extracting tar remotely with command: %s", strings.Join(cmd, " "))

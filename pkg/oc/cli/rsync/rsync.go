@@ -6,30 +6,25 @@ import (
 	"io"
 	"sync"
 	"time"
-
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/openshift/origin/pkg/util/fsnotification"
 )
 
 const (
-	// RsyncRecommendedName is the recommended name for the rsync command
-	RsyncRecommendedName = "rsync"
-
-	noRsyncUnixWarning    = "WARNING: rsync command not found in path. Please use your package manager to install it.\n"
-	noRsyncWindowsWarning = "WARNING: rsync command not found in path. Download cwRsync for Windows and add it to your PATH.\n"
+	RsyncRecommendedName	= "rsync"
+	noRsyncUnixWarning	= "WARNING: rsync command not found in path. Please use your package manager to install it.\n"
+	noRsyncWindowsWarning	= "WARNING: rsync command not found in path. Download cwRsync for Windows and add it to your PATH.\n"
 )
 
 var (
-	rsyncLong = templates.LongDesc(`
+	rsyncLong	= templates.LongDesc(`
 		Copy local files to or from a pod container
 
 		This command will copy local files to or from a remote container.
@@ -44,93 +39,89 @@ var (
 		The following flags are passed to rsync by default:
 		--archive --no-owner --no-group --omit-dir-times --numeric-ids
 		`)
-
-	rsyncExample = templates.Examples(`
+	rsyncExample	= templates.Examples(`
 	  # Synchronize a local directory with a pod directory
 	  %[1]s ./local/dir/ POD:/remote/dir
 
 	  # Synchronize a pod directory with a local directory
 	  %[1]s POD:/remote/dir/ ./local/dir`)
-
-	rsyncDefaultFlags = []string{"--archive", "--no-owner", "--no-group", "--omit-dir-times", "--numeric-ids"}
+	rsyncDefaultFlags	= []string{"--archive", "--no-owner", "--no-group", "--omit-dir-times", "--numeric-ids"}
 )
 
-// CopyStrategy implementations copy file to/from a pod.
 type CopyStrategy interface {
 	Copy(source, destination *PathSpec, out, errOut io.Writer) error
 	Validate() error
 	String() string
 }
-
-// executor executes commands
 type executor interface {
 	Execute(command []string, in io.Reader, out, err io.Writer) error
 }
-
-// forwarder forwards pod ports to the local machine
 type forwarder interface {
 	ForwardPorts(ports []string, stopChan <-chan struct{}) error
 }
-
-// podChecker can check if pods are valid (exists, etc)
-type podChecker interface {
-	CheckPod() error
-}
-
-// RsyncOptions holds the options to execute the sync command
+type podChecker interface{ CheckPod() error }
 type RsyncOptions struct {
-	Namespace         string
-	ContainerName     string
-	Source            *PathSpec
-	Destination       *PathSpec
-	Strategy          CopyStrategy
-	StrategyName      string
-	Quiet             bool
-	Delete            bool
-	Watch             bool
-	Compress          bool
-	SuggestedCmdUsage string
-
-	RshCmd        string
-	RsyncInclude  []string
-	RsyncExclude  []string
-	RsyncProgress bool
-	RsyncNoPerms  bool
-
-	Config *rest.Config
-	Client kubernetes.Interface
+	Namespace		string
+	ContainerName		string
+	Source			*PathSpec
+	Destination		*PathSpec
+	Strategy		CopyStrategy
+	StrategyName		string
+	Quiet			bool
+	Delete			bool
+	Watch			bool
+	Compress		bool
+	SuggestedCmdUsage	string
+	RshCmd			string
+	RsyncInclude		[]string
+	RsyncExclude		[]string
+	RsyncProgress		bool
+	RsyncNoPerms		bool
+	Config			*rest.Config
+	Client			kubernetes.Interface
 	genericclioptions.IOStreams
 }
 
 func NewRsyncOptions(streams genericclioptions.IOStreams) *RsyncOptions {
-	return &RsyncOptions{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &RsyncOptions{IOStreams: streams}
 }
-
-// NewCmdRsync creates a new sync command
 func NewCmdRsync(name, parent string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewRsyncOptions(streams)
-
-	cmd := &cobra.Command{
-		Use:     fmt.Sprintf("%s SOURCE DESTINATION", name),
-		Short:   "Copy files between local filesystem and a pod",
-		Long:    rsyncLong,
-		Example: fmt.Sprintf(rsyncExample, parent+" "+name),
-		Run: func(c *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, c, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.RunRsync())
-		},
-	}
-
-	// NOTE: When adding new flags to the command, please update the rshExcludeFlags in copy_rsync.go
-	// if those flags should not be passed to the rsh command.
-
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s SOURCE DESTINATION", name), Short: "Copy files between local filesystem and a pod", Long: rsyncLong, Example: fmt.Sprintf(rsyncExample, parent+" "+name), Run: func(c *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, c, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.RunRsync())
+	}}
 	cmd.Flags().StringVarP(&o.ContainerName, "container", "c", "", "Container within the pod")
 	cmd.Flags().StringVar(&o.StrategyName, "strategy", "", "Specify which strategy to use for copy: rsync, rsync-daemon, or tar")
-
-	// Flags for rsync options, Must match rsync flag names
 	cmd.Flags().BoolVarP(&o.Quiet, "quiet", "q", false, "Suppress non-error messages")
 	cmd.Flags().BoolVar(&o.Delete, "delete", false, "If true, delete files not present in source")
 	cmd.Flags().StringSliceVar(&o.RsyncExclude, "exclude", nil, "If true, exclude files matching specified pattern")
@@ -139,19 +130,44 @@ func NewCmdRsync(name, parent string, f kcmdutil.Factory, streams genericcliopti
 	cmd.Flags().BoolVar(&o.RsyncNoPerms, "no-perms", false, "If true, do not transfer permissions")
 	cmd.Flags().BoolVarP(&o.Watch, "watch", "w", false, "Watch directory for changes and resync automatically")
 	cmd.Flags().BoolVar(&o.Compress, "compress", false, "compress file data during the transfer")
-
 	return cmd
 }
-
 func warnNoRsync(out io.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if isWindows() {
 		fmt.Fprintf(out, noRsyncWindowsWarning)
 		return
 	}
 	fmt.Fprintf(out, noRsyncUnixWarning)
 }
-
 func (o *RsyncOptions) GetCopyStrategy(name string) (CopyStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch name {
 	case "":
 		return NewDefaultCopyStrategy(o), nil
@@ -165,9 +181,21 @@ func (o *RsyncOptions) GetCopyStrategy(name string) (CopyStrategy, error) {
 		return nil, fmt.Errorf("unknown strategy: %s", name)
 	}
 }
-
-// Complete verifies command line arguments and loads data from the command environment
 func (o *RsyncOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch n := len(args); {
 	case n == 0:
 		cmd.Help()
@@ -177,34 +205,26 @@ func (o *RsyncOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	case n > 2:
 		return kcmdutil.UsageErrorf(cmd, "only SOURCE_DIR and POD:DESTINATION_DIR should be specified as arguments")
 	}
-
 	var err error
 	if o.Config, err = f.ToRESTConfig(); err != nil {
 		return err
 	}
-
 	if o.Client, err = kubernetes.NewForConfig(o.Config); err != nil {
 		return err
 	}
-
 	namespace, _, err := f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
 	}
 	o.Namespace = namespace
-
-	// allow and parse resources specified in the <kind>/<name> format
 	parsedSourcePath, err := resolveResourceKindPath(f, args[0], namespace)
 	if err != nil {
 		return err
 	}
-
 	parsedDestPath, err := resolveResourceKindPath(f, args[1], namespace)
 	if err != nil {
 		return err
 	}
-
-	// Set main command arguments
 	o.Source, err = parsePathSpec(parsedSourcePath)
 	if err != nil {
 		return err
@@ -213,29 +233,36 @@ func (o *RsyncOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	if err != nil {
 		return err
 	}
-
 	fullCmdName := ""
 	cmdParent := cmd.Parent()
 	if cmdParent != nil {
 		fullCmdName = cmdParent.CommandPath()
 	}
-
 	if len(fullCmdName) > 0 && kcmdutil.IsSiblingCommandExists(cmd, "describe") {
 		o.SuggestedCmdUsage = fmt.Sprintf("Use '%s describe pod/%s -n %s' to see all of the containers in this pod.", fullCmdName, o.PodName(), o.Namespace)
 	}
-
 	o.RshCmd = DefaultRsyncRemoteShellToUse(cmd)
-
 	o.Strategy, err = o.GetCopyStrategy(o.StrategyName)
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
-// Validate checks that SyncOptions has all necessary fields
 func (o *RsyncOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Out == nil || o.ErrOut == nil {
 		return errors.New("output and error streams must be specified")
 	}
@@ -248,10 +275,8 @@ func (o *RsyncOptions) Validate() error {
 	if err := o.Destination.Validate(); err != nil {
 		return err
 	}
-	// If source and destination are both local or both remote throw an error
 	if o.Source.Local() == o.Destination.Local() {
-		return errors.New("rsync is only valid between a local directory and a pod directory; " +
-			"specify a pod directory as [PODNAME]:[DIR]")
+		return errors.New("rsync is only valid between a local directory and a pod directory; " + "specify a pod directory as [PODNAME]:[DIR]")
 	}
 	if o.Destination.Local() && o.Watch {
 		return errors.New("\"--watch\" can only be used with a local source directory")
@@ -259,42 +284,57 @@ func (o *RsyncOptions) Validate() error {
 	if err := o.Strategy.Validate(); err != nil {
 		return err
 	}
-
 	return nil
 }
-
-// RunRsync copies files from source to destination
 func (o *RsyncOptions) RunRsync() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.Strategy.Copy(o.Source, o.Destination, o.Out, o.ErrOut); err != nil {
 		return err
 	}
-
 	if !o.Watch {
 		return nil
 	}
 	return o.WatchAndSync()
 }
-
-// WatchAndSync sets up a recursive filesystem watch on the sync path
-// and invokes rsync each time the path changes.
 func (o *RsyncOptions) WatchAndSync() error {
-
-	// these variables must be accessed while holding the changeLock
-	// mutex as they are shared between goroutines to communicate
-	// sync state/events.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		changeLock sync.Mutex
-		dirty      bool
-		lastChange time.Time
-		watchError error
+		changeLock	sync.Mutex
+		dirty		bool
+		lastChange	time.Time
+		watchError	error
 	)
-
 	watcher, err := fsnotify.NewWatcher()
 	if err != nil {
 		return fmt.Errorf("error setting up filesystem watcher: %v", err)
 	}
 	defer watcher.Close()
-
 	go func() {
 		for {
 			select {
@@ -320,12 +360,10 @@ func (o *RsyncOptions) WatchAndSync() error {
 			}
 		}
 	}()
-
 	err = fsnotification.AddRecursiveWatch(watcher, o.Source.Path)
 	if err != nil {
 		return fmt.Errorf("error watching source path %s: %v", o.Source.Path, err)
 	}
-
 	delay := 2 * time.Second
 	ticker := time.NewTicker(delay)
 	defer ticker.Stop()
@@ -334,11 +372,6 @@ func (o *RsyncOptions) WatchAndSync() error {
 		if watchError != nil {
 			return watchError
 		}
-		// if a change happened more than 'delay' seconds ago, sync it now.
-		// if a change happened less than 'delay' seconds ago, sleep for 'delay' seconds
-		// and see if more changes happen, we don't want to sync when
-		// the filesystem is in the middle of changing due to a massive
-		// set of changes (such as a local build in progress).
 		if dirty && time.Now().After(lastChange.Add(delay)) {
 			klog.V(1).Info("Synchronizing filesystem changes...")
 			err = o.Strategy.Copy(o.Source, o.Destination, o.Out, o.ErrOut)
@@ -352,10 +385,21 @@ func (o *RsyncOptions) WatchAndSync() error {
 		<-ticker.C
 	}
 }
-
-// PodName returns the name of the pod as specified in either the
-// the source or destination arguments
 func (o *RsyncOptions) PodName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Source.PodName) > 0 {
 		return o.Source.PodName
 	}

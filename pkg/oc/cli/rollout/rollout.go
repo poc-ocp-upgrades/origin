@@ -2,7 +2,6 @@ package rollout
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/kubernetes/pkg/kubectl/cmd/rollout"
@@ -30,16 +29,22 @@ var (
 		* Custom - run your own deployment process inside a Docker container using your own scripts.`)
 )
 
-// NewCmdRollout facilitates kubectl rollout subcommands
 func NewCmdRollout(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:   "rollout SUBCOMMAND",
-		Short: "Manage a Kubernetes deployment or OpenShift deployment config",
-		Long:  rolloutLong,
-		Run:   kcmdutil.DefaultSubCommandRun(streams.ErrOut),
-	}
-
-	// subcommands
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	cmd := &cobra.Command{Use: "rollout SUBCOMMAND", Short: "Manage a Kubernetes deployment or OpenShift deployment config", Long: rolloutLong, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmd.AddCommand(NewCmdRolloutHistory(fullName, f, streams))
 	cmd.AddCommand(NewCmdRolloutPause(fullName, f, streams))
 	cmd.AddCommand(NewCmdRolloutResume(fullName, f, streams))
@@ -48,18 +53,16 @@ func NewCmdRollout(fullName string, f kcmdutil.Factory, streams genericclioption
 	cmd.AddCommand(NewCmdRolloutStatus(fullName, f, streams))
 	cmd.AddCommand(NewCmdRolloutCancel(fullName, f, streams))
 	cmd.AddCommand(NewCmdRolloutRetry(fullName, f, streams))
-
 	return cmd
 }
 
 var (
-	rolloutHistoryLong = templates.LongDesc(`
+	rolloutHistoryLong	= templates.LongDesc(`
 		View the history of rollouts for a specific deployment config
 
 		You can also view more detailed information for a specific revision
 		by using the --revision flag.`)
-
-	rolloutHistoryExample = templates.Examples(`
+	rolloutHistoryExample	= templates.Examples(`
 		# View the rollout history of a deployment
 	  %[1]s rollout history dc/nginx
 
@@ -67,8 +70,21 @@ var (
 	  %[1]s rollout history dc/nginx --revision=3`)
 )
 
-// NewCmdRolloutHistory is a wrapper for the Kubernetes cli rollout history command
 func NewCmdRolloutHistory(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutHistory(f, streams)
 	cmd.Long = rolloutHistoryLong
 	cmd.Example = fmt.Sprintf(rolloutHistoryExample, fullName)
@@ -77,21 +93,33 @@ func NewCmdRolloutHistory(fullName string, f kcmdutil.Factory, streams genericcl
 }
 
 var (
-	rolloutPauseLong = templates.LongDesc(`
+	rolloutPauseLong	= templates.LongDesc(`
     Mark the provided resource as paused
 
     Paused resources will not be reconciled by a controller.
     Use \"%[1]s rollout resume\" to resume a paused resource.`)
-
-	rolloutPauseExample = templates.Examples(`
+	rolloutPauseExample	= templates.Examples(`
     # Mark the nginx deployment as paused. Any current state of
     # the deployment will continue its function, new updates to the deployment will not
     # have an effect as long as the deployment is paused.
     %[1]s rollout pause dc/nginx`)
 )
 
-// NewCmdRolloutPause is a wrapper for the Kubernetes cli rollout pause command
 func NewCmdRolloutPause(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutPause(f, streams)
 	cmd.Long = rolloutPauseLong
 	cmd.Example = fmt.Sprintf(rolloutPauseExample, fullName)
@@ -100,19 +128,31 @@ func NewCmdRolloutPause(fullName string, f kcmdutil.Factory, streams genericclio
 }
 
 var (
-	rolloutResumeLong = templates.LongDesc(`
+	rolloutResumeLong	= templates.LongDesc(`
     Resume a paused resource
 
     Paused resources will not be reconciled by a controller. By resuming a
     resource, we allow it to be reconciled again.`)
-
-	rolloutResumeExample = templates.Examples(`
+	rolloutResumeExample	= templates.Examples(`
     # Resume an already paused deployment
     %[1]s rollout resume dc/nginx`)
 )
 
-// NewCmdRolloutResume is a wrapper for the Kubernetes cli rollout resume command
 func NewCmdRolloutResume(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutResume(f, streams)
 	cmd.Long = rolloutResumeLong
 	cmd.Example = fmt.Sprintf(rolloutResumeExample, fullName)
@@ -121,7 +161,7 @@ func NewCmdRolloutResume(fullName string, f kcmdutil.Factory, streams genericcli
 }
 
 var (
-	rolloutUndoLong = templates.LongDesc(`
+	rolloutUndoLong	= templates.LongDesc(`
     Revert an application back to a previous deployment
 
     When you run this command your deployment configuration will be updated to
@@ -140,8 +180,7 @@ var (
     a human-readable representation of the updated deployment configuration instead of
     executing the rollback. This is useful if you're not quite sure what the outcome
     will be.`)
-
-	rolloutUndoExample = templates.Examples(`
+	rolloutUndoExample	= templates.Examples(`
     # Rollback to the previous deployment
     %[1]s rollout undo dc/nginx
 
@@ -149,8 +188,21 @@ var (
     %[1]s rollout undo dc/nginx --to-revision=3`)
 )
 
-// NewCmdRolloutUndo is a wrapper for the Kubernetes cli rollout undo command
 func NewCmdRolloutUndo(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutUndo(f, streams)
 	cmd.Long = rolloutUndoLong
 	cmd.Example = fmt.Sprintf(rolloutUndoExample, fullName)
@@ -159,16 +211,28 @@ func NewCmdRolloutUndo(fullName string, f kcmdutil.Factory, streams genericcliop
 }
 
 var (
-	rolloutStatusLong = templates.LongDesc(`
+	rolloutStatusLong	= templates.LongDesc(`
 		Watch the status of the latest rollout, until it's done.`)
-
-	rolloutStatusExample = templates.Examples(`
+	rolloutStatusExample	= templates.Examples(`
 		# Watch the status of the latest rollout
   	%[1]s rollout status dc/nginx`)
 )
 
-// NewCmdRolloutStatus is a wrapper for the Kubernetes cli rollout status command
 func NewCmdRolloutStatus(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutStatus(f, streams)
 	cmd.Long = rolloutStatusLong
 	cmd.Example = fmt.Sprintf(rolloutStatusExample, fullName)

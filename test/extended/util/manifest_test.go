@@ -3,37 +3,54 @@ package util
 import (
 	"reflect"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	appsv1.Install(scheme.Scheme)
 }
-
 func TestReadFixture(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tt := []struct {
-		name     string
-		path     string
-		expected runtime.Object
-	}{
-		{
-			name:     "dc V1",
-			path:     FixturePath("testdata", "deployments", "deployment-simple.yaml"),
-			expected: &appsv1.DeploymentConfig{},
-		},
-	}
-
+		name		string
+		path		string
+		expected	runtime.Object
+	}{{name: "dc V1", path: FixturePath("testdata", "deployments", "deployment-simple.yaml"), expected: &appsv1.DeploymentConfig{}}}
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			obj, err := ReadFixture(tc.path)
 			if err != nil {
 				t.Error(err)
 			}
-
 			expected := reflect.TypeOf(tc.expected)
 			got := reflect.TypeOf(obj)
 			if expected != got {

@@ -4,18 +4,28 @@ import (
 	"io"
 	"os/exec"
 	"strings"
-
 	"k8s.io/klog"
 )
 
-// localExecutor will execute commands on the local machine
 type localExecutor struct{}
 
-// ensure localExecutor implements the executor interface
 var _ executor = &localExecutor{}
 
-// Execute will run a command locally
 func (*localExecutor) Execute(command []string, in io.Reader, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(3).Infof("Local executor running command: %s", strings.Join(command, " "))
 	cmd := exec.Command(command[0], command[1:]...)
 	cmd.Stdout = out
@@ -27,8 +37,20 @@ func (*localExecutor) Execute(command []string, in io.Reader, out, errOut io.Wri
 	}
 	return err
 }
-
-// newLocalExecutor instantiates a local executor
 func newLocalExecutor() executor {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &localExecutor{}
 }

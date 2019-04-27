@@ -11,11 +11,9 @@ import (
 	"sync"
 	"testing"
 	"time"
-
 	"github.com/docker/distribution/registry/api/errcode"
 	gocontext "golang.org/x/net/context"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -23,7 +21,6 @@ import (
 	"k8s.io/apimachinery/pkg/watch"
 	restclient "k8s.io/client-go/rest"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
-
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	imageclient "github.com/openshift/origin/pkg/image/generated/internalclientset"
 	"github.com/openshift/origin/pkg/image/importer"
@@ -31,17 +28,29 @@ import (
 	"github.com/openshift/origin/pkg/image/registryclient"
 	testutil "github.com/openshift/origin/test/util"
 	testserver "github.com/openshift/origin/test/util/server"
-
 	"github.com/davecgh/go-spew/spew"
 )
 
 func TestImageStreamImport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -52,100 +61,37 @@ func TestImageStreamImport(t *testing.T) {
 	}
 	clusterAdminImageClient := imageclient.NewForConfigOrDie(clusterAdminConfig).Image()
 	userImageClient := imageclient.NewForConfigOrDie(userConfig).Image()
-
-	// can't give invalid image specs, should be invalid
-	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "doesnotexist",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "///a/a/a/a/a/redis:latest"}, To: &kapi.LocalObjectReference{Name: "tag"}},
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}},
-			},
-		},
-	})
+	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "doesnotexist"}, Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "///a/a/a/a/a/redis:latest"}, To: &kapi.LocalObjectReference{Name: "tag"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}}}}})
 	if err == nil || !errors.IsInvalid(err) {
 		t.Fatalf("unexpected responses: %#v %#v %#v", err, isi, isi.Status.Import)
 	}
-	// does not create stream
 	if _, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Get("doesnotexist", metav1.GetOptions{}); err == nil || !errors.IsNotFound(err) {
 		t.Fatal(err)
 	}
-
-	// can't create on non-whitelisted images
-	isi, err = userImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "doesnotexist",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mycompany.com/test/forbidden-image"}, To: &kapi.LocalObjectReference{Name: "tag"}},
-			},
-		},
-	})
+	isi, err = userImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "doesnotexist"}, Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mycompany.com/test/forbidden-image"}, To: &kapi.LocalObjectReference{Name: "tag"}}}}})
 	if err == nil || !errors.IsInvalid(err) {
 		t.Fatalf("unexpected responses: %#v %#v %#v", err, isi, isi.Status.Import)
 	}
-	// does not create stream
 	if _, err := userImageClient.ImageStreams(testutil.Namespace()).Get("doesnotexist", metav1.GetOptions{}); err == nil || !errors.IsNotFound(err) {
 		t.Fatal(err)
 	}
-	// verify we can't create a tag outside the whitelist either
-	if _, err := userImageClient.ImageStreams(testutil.Namespace()).Create(&imageapi.ImageStream{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "import-whitelist",
-		},
-		Spec: imageapi.ImageStreamSpec{
-			Tags: map[string]imageapi.TagReference{
-				"invalid": {
-					From: &kapi.ObjectReference{Name: "mycompany.com/test/forbidden-image", Kind: "DockerImage"},
-				},
-			},
-		},
-	}); err == nil || !errors.IsInvalid(err) || !strings.Contains(err.Error(), "Forbidden: registry \"mycompany.com\" not allowed by whitelist") {
+	if _, err := userImageClient.ImageStreams(testutil.Namespace()).Create(&imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "import-whitelist"}, Spec: imageapi.ImageStreamSpec{Tags: map[string]imageapi.TagReference{"invalid": {From: &kapi.ObjectReference{Name: "mycompany.com/test/forbidden-image", Kind: "DockerImage"}}}}}); err == nil || !errors.IsInvalid(err) || !strings.Contains(err.Error(), "Forbidden: registry \"mycompany.com\" not allowed by whitelist") {
 		t.Fatal(err)
 	}
-
-	// import without committing
-	isi, err = clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "doesnotexist",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}, To: &kapi.LocalObjectReference{Name: "other"}},
-			},
-		},
-	})
+	isi, err = clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "doesnotexist"}, Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}, To: &kapi.LocalObjectReference{Name: "other"}}}}})
 	if err != nil || isi == nil || isi.Status.Import != nil {
 		t.Fatalf("unexpected responses: %v %#v %#v", err, isi, isi.Status.Import)
 	}
-	// does not create stream
 	if _, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Get("doesnotexist", metav1.GetOptions{}); err == nil || !errors.IsNotFound(err) {
 		t.Fatal(err)
 	}
-
-	// import with commit
-	isi, err = clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "doesnotexist",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Import: true,
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}, To: &kapi.LocalObjectReference{Name: "other"}},
-			},
-		},
-	})
+	isi, err = clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "doesnotexist"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}, To: &kapi.LocalObjectReference{Name: "other"}}}}})
 	if err != nil || isi == nil || isi.Status.Import == nil {
 		t.Fatalf("unexpected responses: %v %#v", err, isi)
 	}
-
 	if isi.Status.Images[0].Image == nil || isi.Status.Images[0].Image.DockerImageMetadata.Size == 0 || len(isi.Status.Images[0].Image.DockerImageLayers) == 0 {
 		t.Fatalf("unexpected image output: %#v", isi.Status.Images[0].Image)
 	}
-
 	stream := isi.Status.Import
 	if _, ok := stream.Annotations[imageapi.DockerImageRepositoryCheckAnnotation]; !ok {
 		t.Fatalf("unexpected stream: %#v", stream)
@@ -154,8 +100,7 @@ func TestImageStreamImport(t *testing.T) {
 		t.Fatalf("unexpected stream: %#v", stream)
 	}
 	for tag, ref := range stream.Spec.Tags {
-		if ref.Generation == nil || *ref.Generation != stream.Generation || tag != "other" || ref.From == nil ||
-			ref.From.Name != "redis:latest" || ref.From.Kind != "DockerImage" {
+		if ref.Generation == nil || *ref.Generation != stream.Generation || tag != "other" || ref.From == nil || ref.From.Name != "redis:latest" || ref.From.Kind != "DockerImage" {
 			t.Fatalf("unexpected stream: %#v", stream)
 		}
 		event := stream.Status.Tags[tag]
@@ -163,31 +108,32 @@ func TestImageStreamImport(t *testing.T) {
 			t.Fatalf("unexpected stream: %#v", stream)
 		}
 	}
-
-	// stream should not have changed
 	stream2, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Get("doesnotexist", metav1.GetOptions{})
 	if err != nil {
 		t.Fatal(err)
 	}
-	if stream.Generation != stream2.Generation || !reflect.DeepEqual(stream.Spec, stream2.Spec) ||
-		!reflect.DeepEqual(stream.Status, stream2.Status) || !reflect.DeepEqual(stream.Annotations, stream2.Annotations) {
+	if stream.Generation != stream2.Generation || !reflect.DeepEqual(stream.Spec, stream2.Spec) || !reflect.DeepEqual(stream.Status, stream2.Status) || !reflect.DeepEqual(stream.Annotations, stream2.Annotations) {
 		t.Errorf("streams changed: %#v %#v", stream, stream2)
 	}
 }
-
-// mockRegistryHandler returns a registry mock handler with several repositories. requireAuth causes handler
-// to return unauthorized and request basic authentication header if not given. count is increased each
-// time the handler is invoked. There are three repositories:
-//  - test/image with phpManifest
-//  - test/image2 with etcdManifest
-//  - test/image3 with tags: v1, v2 and latest
-//    - the first points to etcdManifest
-//    - the others cause handler to return unknown error
 func mockRegistryHandler(t *testing.T, requireAuth bool, count *int) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		(*count)++
 		t.Logf("%d got %s %s", *count, r.Method, r.URL.Path)
-
 		w.Header().Set("Docker-Distribution-API-Version", "registry/2.0")
 		if requireAuth {
 			if len(r.Header.Get("Authorization")) == 0 {
@@ -196,7 +142,6 @@ func mockRegistryHandler(t *testing.T, requireAuth bool, count *int) http.Handle
 				return
 			}
 		}
-
 		switch r.URL.Path {
 		case "/v2/":
 			w.Write([]byte(`{}`))
@@ -221,64 +166,73 @@ func mockRegistryHandler(t *testing.T, requireAuth bool, count *int) http.Handle
 		}
 	})
 }
-
 func testImageStreamImport(t *testing.T, c imageclient.Interface, imageSize int64, imagestreamimport *imageapi.ImageStreamImport) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isi, err := c.Image().ImageStreamImports(testutil.Namespace()).Create(imagestreamimport)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if len(isi.Status.Images) != 1 {
 		t.Errorf("imported unexpected number of images (%d != 1)", len(isi.Status.Images))
 	}
-
 	for i, image := range isi.Status.Images {
 		if image.Status.Status != metav1.StatusSuccess {
 			t.Errorf("unexpected status %d: %#v", i, image.Status)
 		}
-
 		if image.Image == nil {
 			t.Errorf("unexpected empty image %d", i)
 		}
-
-		// the image name is always the sha256, and size is calculated
 		if image.Image.Name != convertedDigest {
 			t.Errorf("unexpected image %d: %#v (expect %q)", i, image.Image.Name, convertedDigest)
 		}
-
-		// the image size is calculated
 		if image.Image.DockerImageMetadata.Size == 0 {
 			t.Errorf("unexpected image size %d: %#v", i, image.Image.DockerImageMetadata.Size)
 		}
-
 		if image.Image.DockerImageMetadata.Size != imageSize {
 			t.Errorf("unexpected image size %d: %#v (expect %d)", i, image.Image.DockerImageMetadata.Size, imageSize)
 		}
 	}
 }
-
 func testImageStreamImportWithPath(t *testing.T, reponame string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageDigest := "sha256:815d06b56f4138afacd0009b8e3799fcdce79f0507bf8d0588e219b93ab6fd4d"
-	descriptors := map[string]int64{
-		"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4": 3000,
-		"sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa": 200,
-		"sha256:b4ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4": 10,
-	}
-
+	descriptors := map[string]int64{"sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4": 3000, "sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa": 200, "sha256:b4ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4": 10}
 	imageSize := int64(0)
 	for _, size := range descriptors {
 		imageSize += size
 	}
-
-	// start regular HTTP servers
 	requireAuth := false
 	count := 0
 	countStat := 0
-
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		count++
 		t.Logf("%d got %s %s", count, r.Method, r.URL.Path)
-
 		w.Header().Set("Docker-Distribution-API-Version", "registry/2.0")
 		if requireAuth {
 			if len(r.Header.Get("Authorization")) == 0 {
@@ -287,7 +241,6 @@ func testImageStreamImportWithPath(t *testing.T, reponame string) {
 				return
 			}
 		}
-
 		switch r.URL.Path {
 		case "/v2/":
 			w.Write([]byte(`{}`))
@@ -319,80 +272,79 @@ func testImageStreamImportWithPath(t *testing.T, reponame string) {
 			t.Fatalf("unexpected request %s: %#v", r.URL.Path, r)
 		}
 	}))
-
 	url, _ := url.Parse(server.URL)
-
-	// start a master
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	err = testutil.CreateNamespace(clusterAdminKubeConfig, testutil.Namespace())
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	clusterAdminImageClient := imageclient.NewForConfigOrDie(clusterAdminClientConfig)
-
-	testImageStreamImport(t, clusterAdminImageClient, imageSize, &imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "test",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Import: true,
-			Images: []imageapi.ImageImportSpec{
-				{
-					From:         kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/" + reponame + ":testtag"},
-					To:           &kapi.LocalObjectReference{Name: "other"},
-					ImportPolicy: imageapi.TagImportPolicy{Insecure: true},
-				},
-			},
-		},
-	})
-
+	testImageStreamImport(t, clusterAdminImageClient, imageSize, &imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/" + reponame + ":testtag"}, To: &kapi.LocalObjectReference{Name: "other"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: true}}}}})
 	if countStat != len(descriptors) {
 		t.Fatalf("unexpected number of blob stats %d (expected %d)", countStat, len(descriptors))
 	}
-
-	testImageStreamImport(t, clusterAdminImageClient, imageSize, &imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "test1",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Import: true,
-			Images: []imageapi.ImageImportSpec{
-				{
-					From:         kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/" + reponame + ":testtag"},
-					To:           &kapi.LocalObjectReference{Name: "other1"},
-					ImportPolicy: imageapi.TagImportPolicy{Insecure: true},
-				},
-			},
-		},
-	})
-
-	// Test that the global layer cache is working. The counter shouldn't change
-	// because all the information is available in the cache.
+	testImageStreamImport(t, clusterAdminImageClient, imageSize, &imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "test1"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/" + reponame + ":testtag"}, To: &kapi.LocalObjectReference{Name: "other1"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: true}}}}})
 	if countStat != len(descriptors) {
 		t.Fatalf("the global layer cache is not working: unexpected number of blob stats %d (expected %d)", countStat, len(descriptors))
 	}
 }
-
 func TestImageStreamImportOfV1ImageFromV2Repository(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testImageStreamImportWithPath(t, "test/image")
 }
-
 func TestImageStreamImportOfMultiSegmentDockerReference(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testImageStreamImportWithPath(t, "test/foo/bar/image")
 }
-
 func TestImageStreamImportAuthenticated(t *testing.T) {
-	// start regular HTTP servers
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	server := httptest.NewServer(mockRegistryHandler(t, true, &count))
 	server2 := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -404,16 +356,11 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 		}
 		w.WriteHeader(http.StatusForbidden)
 	}))
-
-	// start a TLS server
 	count2 := 0
 	server3 := httptest.NewTLSServer(mockRegistryHandler(t, true, &count2))
-
 	url1, _ := url.Parse(server.URL)
 	url2, _ := url.Parse(server2.URL)
 	url3, _ := url.Parse(server3.URL)
-
-	// start a master
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -432,34 +379,9 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	specFn := func(insecure bool, host1, host2 string) *imageapi.ImageStreamImport {
-		return &imageapi.ImageStreamImport{
-			ObjectMeta: metav1.ObjectMeta{Name: "test"},
-			Spec: imageapi.ImageStreamImportSpec{
-				Import: true,
-				Images: []imageapi.ImageImportSpec{
-					{
-						From:         kapi.ObjectReference{Kind: "DockerImage", Name: host1 + "/test/image@" + phpDigest},
-						To:           &kapi.LocalObjectReference{Name: "latest"},
-						ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure},
-					},
-					{
-						From:         kapi.ObjectReference{Kind: "DockerImage", Name: host1 + "/test/image2@" + etcdDigest},
-						To:           &kapi.LocalObjectReference{Name: "other"},
-						ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure},
-					},
-					{
-						From:         kapi.ObjectReference{Kind: "DockerImage", Name: host2 + "/test/image:other"},
-						To:           &kapi.LocalObjectReference{Name: "failed"},
-						ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure},
-					},
-				},
-			},
-		}
+		return &imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: host1 + "/test/image@" + phpDigest}, To: &kapi.LocalObjectReference{Name: "latest"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: host1 + "/test/image2@" + etcdDigest}, To: &kapi.LocalObjectReference{Name: "other"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: host2 + "/test/image:other"}, To: &kapi.LocalObjectReference{Name: "failed"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: insecure}}}}}
 	}
-
-	// import expecting auth errors
 	importSpec := specFn(true, url1.Host, url2.Host)
 	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(importSpec)
 	if err != nil {
@@ -473,28 +395,14 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 			t.Fatalf("import of image %d did not report unauthorized: %#v", i, image.Status)
 		}
 	}
-
 	servers := []string{url1.Host, url3.Host}
-
-	// test import of both TLS and non-TLS with an insecure input
 	for i, host := range servers {
 		t.Logf("testing %s host", host)
-
-		// add secrets for subsequent checks
-		_, err = kc.CoreV1().Secrets(testutil.Namespace()).Create(&corev1.Secret{
-			ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("secret-%d", i+1)},
-			Type:       corev1.SecretTypeDockerConfigJson,
-			Data: map[string][]byte{
-				corev1.DockerConfigJsonKey: []byte(`{"auths":{"` + host + `/test/image/":{"auth":"` + base64.StdEncoding.EncodeToString([]byte("user:password")) + `"}}}`),
-			},
-		})
+		_, err = kc.CoreV1().Secrets(testutil.Namespace()).Create(&corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("secret-%d", i+1)}, Type: corev1.SecretTypeDockerConfigJson, Data: map[string][]byte{corev1.DockerConfigJsonKey: []byte(`{"auths":{"` + host + `/test/image/":{"auth":"` + base64.StdEncoding.EncodeToString([]byte("user:password")) + `"}}}`)}})
 		if err != nil {
 			t.Fatal(err)
 		}
-
 		importSpec := specFn(true, host, url2.Host)
-
-		// import expecting regular image to pass
 		isi, err = clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(importSpec)
 		if err != nil {
 			t.Fatal(err)
@@ -511,14 +419,12 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 				}
 			}
 		}
-
 		if items := isi.Status.Import.Status.Tags["latest"].Items; len(items) != 1 || items[0].Image != phpDigest {
 			t.Fatalf("import of first image does not point to the correct image: %#v", items)
 		}
 		if isi.Status.Images[0].Image == nil || isi.Status.Images[0].Image.DockerImageMetadata.Size == 0 || len(isi.Status.Images[0].Image.DockerImageLayers) == 0 {
 			t.Fatalf("unexpected image output: %#v", isi.Status.Images[0].Image)
 		}
-
 		is, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Get("test", metav1.GetOptions{})
 		if err != nil {
 			t.Fatal(err)
@@ -527,7 +433,6 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 		if tagEvent == nil {
 			t.Fatalf("no image tagged for latest: %#v", is)
 		}
-
 		var expectedGen int64
 		switch i {
 		case 0:
@@ -535,7 +440,6 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 		case 1:
 			expectedGen = 3
 		}
-
 		if tagEvent == nil || tagEvent.Image != phpDigest || tagEvent.Generation != expectedGen || tagEvent.DockerImageReference != host+"/test/image@"+phpDigest {
 			t.Fatalf("expected the php image to be tagged: %#v", tagEvent)
 		}
@@ -555,23 +459,29 @@ func TestImageStreamImportAuthenticated(t *testing.T) {
 		}
 	}
 }
-
-// Verifies that individual errors for particular tags are handled properly when pulling all tags from a
-// repository.
 func TestImageStreamImportTagsFromRepository(t *testing.T) {
-	// start regular HTTP servers
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	server := httptest.NewServer(mockRegistryHandler(t, false, &count))
-
 	url, _ := url.Parse(server.URL)
-
-	// start a master
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -581,20 +491,7 @@ func TestImageStreamImportTagsFromRepository(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	importSpec := &imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{Name: "test"},
-		Spec: imageapi.ImageStreamImportSpec{
-			Import: true,
-			Repository: &imageapi.RepositoryImportSpec{
-				From:            kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/test/image3"},
-				ImportPolicy:    imageapi.TagImportPolicy{Insecure: true},
-				IncludeManifest: true,
-			},
-		},
-	}
-
-	// import expecting regular image to pass
+	importSpec := &imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Repository: &imageapi.RepositoryImportSpec{From: kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/test/image3"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: true}, IncludeManifest: true}}}
 	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(importSpec)
 	if err != nil {
 		t.Fatal(err)
@@ -636,7 +533,6 @@ func TestImageStreamImportTagsFromRepository(t *testing.T) {
 			}
 		}
 	}
-
 	is, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Get("test", metav1.GetOptions{})
 	if err != nil {
 		t.Fatal(err)
@@ -645,16 +541,25 @@ func TestImageStreamImportTagsFromRepository(t *testing.T) {
 	if tagEvent == nil {
 		t.Fatalf("no image tagged for v1: %#v", is)
 	}
-
 	if tagEvent == nil || tagEvent.Image != etcdDigest || tagEvent.DockerImageReference != url.Host+"/test/image3@"+etcdDigest {
 		t.Fatalf("expected the etcd image to be tagged: %#v", tagEvent)
 	}
 }
-
-// Verifies that the import scheduler fetches an image repeatedly (every 1s as per the default
-// test controller interval), updates the image stream only when there are changes, and if an
-// error occurs writes the error only once (instead of every interval)
 func TestImageStreamImportScheduled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	written := make(chan struct{}, 2)
 	count := 0
 	var lock sync.Mutex
@@ -699,7 +604,6 @@ func TestImageStreamImportScheduled(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -709,55 +613,31 @@ func TestImageStreamImportScheduled(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	url, _ := url.Parse(server.URL)
-
-	// import with commit
-	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "test",
-		},
-		Spec: imageapi.ImageStreamImportSpec{
-			Import: true,
-			Images: []imageapi.ImageImportSpec{
-				{
-					From:         kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/test/image:latest"},
-					To:           &kapi.LocalObjectReference{Name: "latest"},
-					ImportPolicy: imageapi.TagImportPolicy{Insecure: true, Scheduled: true},
-				},
-			},
-		},
-	})
+	isi, err := clusterAdminImageClient.ImageStreamImports(testutil.Namespace()).Create(&imageapi.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Spec: imageapi.ImageStreamImportSpec{Import: true, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: url.Host + "/test/image:latest"}, To: &kapi.LocalObjectReference{Name: "latest"}, ImportPolicy: imageapi.TagImportPolicy{Insecure: true, Scheduled: true}}}}})
 	if err != nil {
 		t.Fatal(err)
 	}
 	if isi == nil || isi.Status.Import == nil {
 		t.Fatalf("unexpected responses: %#v", isi)
 	}
-
 	if !isi.Status.Import.Spec.Tags["latest"].ImportPolicy.Scheduled {
 		t.Fatalf("scheduled tag not saved: %#v", isi.Status.Import)
 	}
 	if items := isi.Status.Import.Status.Tags["latest"].Items; len(items) != 1 || items[0].Image != etcdDigest {
 		t.Fatalf("import of first image does not point to the correct image: %#v", items)
 	}
-
 	if isi.Status.Images[0].Image == nil || isi.Status.Images[0].Image.DockerImageMetadata.Size == 0 || len(isi.Status.Images[0].Image.DockerImageLayers) == 0 {
 		t.Fatalf("unexpected image output: %#v", isi.Status.Images[0].Image)
 	}
-
-	// initial import
 	<-written
-	// scheduled import
 	<-written
-
 	is := isi.Status.Import
 	w, err := clusterAdminImageClient.ImageStreams(is.Namespace).Watch(metav1.ListOptions{ResourceVersion: is.ResourceVersion})
 	if err != nil {
 		t.Fatal(err)
 	}
 	defer w.Stop()
-
 	ch := w.ResultChan()
 	var event watch.Event
 	select {
@@ -780,7 +660,6 @@ func TestImageStreamImportScheduled(t *testing.T) {
 	if change.Generation != 2 || tagGen == nil || *tagGen != 2 {
 		t.Fatalf("expected generation 2 for stream and spec tag: %v %#v", tagGen, change)
 	}
-
 	tag, ok := change.Spec.Tags["latest"]
 	if !ok {
 		t.Fatalf("object at generation %d did not have tag latest: %#v", change.Generation, change)
@@ -798,15 +677,11 @@ func TestImageStreamImportScheduled(t *testing.T) {
 	if items[1].Image != etcdDigest || items[1].DockerImageReference != url.Host+"/test/image@"+etcdDigest {
 		t.Fatalf("expected tagged image: %#v", items[1])
 	}
-
-	// wait for next event
 	select {
 	case <-written:
 	case <-time.After(2 * time.Second):
 		t.Fatalf("waited too long for 3rd write")
 	}
-
-	// expect to have the error recorded on the server
 	event = <-ch
 	change, ok = event.Object.(*imageapi.ImageStream)
 	if !ok {
@@ -827,8 +702,6 @@ func TestImageStreamImportScheduled(t *testing.T) {
 	if len(conditions) == 0 || conditions[0].Type != imageapi.ImportSuccess || string(conditions[0].Status) != "False" || conditions[0].Generation != 3 {
 		t.Fatalf("expected generation 3 for condition and import failed: %#v", conditions)
 	}
-
-	// sleep for a period of time to check for a second scheduled import
 	time.Sleep(2 * time.Second)
 	select {
 	case event := <-ch:
@@ -836,31 +709,29 @@ func TestImageStreamImportScheduled(t *testing.T) {
 	default:
 	}
 }
-
 func TestImageStreamImportDockerHub(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rt, _ := restclient.TransportFor(&restclient.Config{})
 	importCtx := registryclient.NewContext(rt, nil)
-
-	imports := &imageapi.ImageStreamImport{
-		Spec: imageapi.ImageStreamImportSpec{
-			Repository: &imageapi.RepositoryImportSpec{
-				From: kapi.ObjectReference{Kind: "DockerImage", Name: "mongo"},
-			},
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis"}},
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql"}},
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}},
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql/doesnotexistinanyform"}},
-			},
-		},
-	}
-
+	imports := &imageapi.ImageStreamImport{Spec: imageapi.ImageStreamImportSpec{Repository: &imageapi.RepositoryImportSpec{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mongo"}}, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql/doesnotexistinanyform"}}}}}
 	err := retryWhenUnreachable(t, func() error {
 		i := importer.NewImageStreamImporter(importCtx, 3, nil, nil)
 		if err := i.Import(gocontext.Background(), imports, &imageapi.ImageStream{}); err != nil {
 			return err
 		}
-
 		errs := []error{}
 		for i, d := range imports.Status.Images {
 			fromName := imports.Spec.Images[i].From.Name
@@ -873,7 +744,6 @@ func TestImageStreamImportDockerHub(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if imports.Status.Repository.Status.Status != metav1.StatusSuccess || len(imports.Status.Repository.Images) != 3 || len(imports.Status.Repository.AdditionalTags) < 1 {
 		t.Errorf("unexpected repository: %#v", imports.Status.Repository)
 	}
@@ -897,26 +767,30 @@ func TestImageStreamImportDockerHub(t *testing.T) {
 		t.Errorf("unexpected object: %#v", d)
 	}
 }
-
 func TestImageStreamImportQuayIO(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rt, _ := restclient.TransportFor(&restclient.Config{})
 	importCtx := registryclient.NewContext(rt, nil)
-
 	repositoryName := quayRegistryName + "/coreos/etcd"
-	imports := &imageapi.ImageStreamImport{
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}},
-			},
-		},
-	}
-
+	imports := &imageapi.ImageStreamImport{Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}}}}}
 	err := retryWhenUnreachable(t, func() error {
 		i := importer.NewImageStreamImporter(importCtx, 3, nil, nil)
 		if err := i.Import(gocontext.Background(), imports, &imageapi.ImageStream{}); err != nil {
 			return err
 		}
-
 		errs := []error{}
 		for i, d := range imports.Status.Images {
 			fromName := imports.Spec.Images[i].From.Name
@@ -932,7 +806,6 @@ func TestImageStreamImportQuayIO(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if imports.Status.Repository != nil {
 		t.Errorf("unexpected repository: %#v", imports.Status.Repository)
 	}
@@ -941,35 +814,34 @@ func TestImageStreamImportQuayIO(t *testing.T) {
 	}
 	d := imports.Status.Images[0]
 	if d.Image == nil || len(d.Image.DockerImageManifest) == 0 || !strings.HasPrefix(d.Image.DockerImageReference, repositoryName+"@") || len(d.Image.DockerImageMetadata.ID) == 0 || len(d.Image.DockerImageLayers) == 0 {
-		s := spew.ConfigState{
-			Indent: " ",
-			// Extra deep spew.
-			DisableMethods: true,
-		}
+		s := spew.ConfigState{Indent: " ", DisableMethods: true}
 		t.Logf("import: %s", s.Sdump(d))
 		t.Fatalf("unexpected object: %#v", d.Image)
 	}
 }
-
 func TestImageStreamImportRedHatRegistry(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rt, _ := restclient.TransportFor(&restclient.Config{})
 	importCtx := registryclient.NewContext(rt, nil)
-
 	repositoryName := pulpRegistryName + "/rhel7"
-	// test without the client on the context
-	imports := &imageapi.ImageStreamImport{
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}},
-			},
-		},
-	}
-
+	imports := &imageapi.ImageStreamImport{Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}}}}}
 	i := importer.NewImageStreamImporter(importCtx, 3, nil, nil)
 	if err := i.Import(gocontext.Background(), imports, &imageapi.ImageStream{}); err != nil {
 		t.Fatal(err)
 	}
-
 	if imports.Status.Repository != nil {
 		t.Errorf("unexpected repository: %#v", imports.Status.Repository)
 	}
@@ -980,15 +852,7 @@ func TestImageStreamImportRedHatRegistry(t *testing.T) {
 	if d.Image == nil || d.Status.Status == metav1.StatusFailure {
 		t.Errorf("unexpected object: %#v", d.Status)
 	}
-
-	// test with the client on the context
-	imports = &imageapi.ImageStreamImport{
-		Spec: imageapi.ImageStreamImportSpec{
-			Images: []imageapi.ImageImportSpec{
-				{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}},
-			},
-		},
-	}
+	imports = &imageapi.ImageStreamImport{Spec: imageapi.ImageStreamImportSpec{Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: repositoryName}}}}}
 	context := gocontext.WithValue(gocontext.Background(), importer.ContextKeyV1RegistryClient, dockerregistry.NewClient(20*time.Second, false))
 	importCtx = registryclient.NewContext(rt, nil)
 	err := retryWhenUnreachable(t, func() error {
@@ -996,7 +860,6 @@ func TestImageStreamImportRedHatRegistry(t *testing.T) {
 		if err := i.Import(context, imports, &imageapi.ImageStream{}); err != nil {
 			return err
 		}
-
 		errs := []error{}
 		for i, d := range imports.Status.Images {
 			fromName := imports.Spec.Images[i].From.Name
@@ -1012,7 +875,6 @@ func TestImageStreamImportRedHatRegistry(t *testing.T) {
 		}
 		t.Fatal(err.Error())
 	}
-
 	if imports.Status.Repository != nil {
 		t.Errorf("unexpected repository: %#v", imports.Status.Repository)
 	}
@@ -1075,7 +937,6 @@ const etcdManifest = `{
       }
    ]
 }`
-
 const phpDigest = "sha256:28ba1e77e05a16a44e27250ff4f7116290eba339cc1a57d1652557eca4f25133"
 const phpManifest = `{
    "schemaVersion": 1,
@@ -1201,10 +1062,7 @@ const phpManifest = `{
       }
    ]
 }`
-
 const danglingDigest = `sha256:f374c0d9b59e6fdf9f8922d59e946b05fbeabaed70b0639d7b6b524f3299e87b`
-
-// This manifest obtained by conversion of manifest v2 -> v1.
 const convertedDigest = `sha256:2a3b2f1a74f4351d1faf7ca48ea7f0ca97fad0801053fcf16df8474af6b89229`
 const convertedManifest = `{
    "schemaVersion": 1,

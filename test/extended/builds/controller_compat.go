@@ -2,7 +2,6 @@ package builds
 
 import (
 	g "github.com/onsi/ginkgo"
-
 	"github.com/openshift/origin/test/common/build"
 	exutil "github.com/openshift/origin/test/extended/util"
 )
@@ -12,20 +11,16 @@ var _ = g.Describe("[bldcompat][Slow][Compatibility] build controller", func() {
 	var (
 		oc = exutil.NewCLI("compat-build-controllers", exutil.KubeConfigPath())
 	)
-
 	g.Context("", func() {
-
 		g.BeforeEach(func() {
 			exutil.PreTestDump()
 		})
-
 		g.AfterEach(func() {
 			if g.CurrentGinkgoTestDescription().Failed {
 				exutil.DumpPodStates(oc)
 				exutil.DumpPodLogsStartingWith("", oc)
 			}
 		})
-
 		g.Describe("RunBuildControllerTest", func() {
 			g.It("should succeed", func() {
 				build.RunBuildControllerTest(g.GinkgoT(), oc.BuildClient().BuildV1(), oc.AdminKubeClient(), oc.Namespace())

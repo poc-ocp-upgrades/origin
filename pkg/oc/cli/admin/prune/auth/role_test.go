@@ -4,7 +4,6 @@ import (
 	"io/ioutil"
 	"reflect"
 	"testing"
-
 	rbacv1 "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -14,74 +13,26 @@ import (
 )
 
 func TestRoleReaper(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name                string
-		role                *rbacv1.Role
-		bindings            []*rbacv1.RoleBinding
-		deletedBindingNames []string
-	}{
-		{
-			name: "no bindings",
-			role: &rbacv1.Role{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "foo",
-					Name:      "role",
-				},
-			},
-		},
-		{
-			name: "bindings",
-			role: &rbacv1.Role{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "role",
-					Namespace: "one",
-				},
-			},
-			bindings: []*rbacv1.RoleBinding{
-				{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "binding-1",
-						Namespace: "one",
-					},
-					RoleRef: rbacv1.RoleRef{Name: "role", Kind: "Role"},
-				},
-				{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "binding-2",
-						Namespace: "one",
-					},
-					RoleRef: rbacv1.RoleRef{Name: "role2", Kind: "Role"},
-				},
-				{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "binding-3",
-						Namespace: "one",
-					},
-					RoleRef: rbacv1.RoleRef{Name: "role", Kind: "Role"},
-				},
-			},
-			deletedBindingNames: []string{"binding-1", "binding-3"},
-		},
-		{
-			name: "bindings in to cluster scoped ignored",
-			role: &rbacv1.Role{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "role",
-					Namespace: "one",
-				},
-			},
-			bindings: []*rbacv1.RoleBinding{
-				{
-					ObjectMeta: metav1.ObjectMeta{
-						Name:      "binding-1",
-						Namespace: "one",
-					},
-					RoleRef: rbacv1.RoleRef{Name: "role", Kind: "ClusterRole"},
-				},
-			},
-		},
-	}
-
+		name			string
+		role			*rbacv1.Role
+		bindings		[]*rbacv1.RoleBinding
+		deletedBindingNames	[]string
+	}{{name: "no bindings", role: &rbacv1.Role{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "role"}}}, {name: "bindings", role: &rbacv1.Role{ObjectMeta: metav1.ObjectMeta{Name: "role", Namespace: "one"}}, bindings: []*rbacv1.RoleBinding{{ObjectMeta: metav1.ObjectMeta{Name: "binding-1", Namespace: "one"}, RoleRef: rbacv1.RoleRef{Name: "role", Kind: "Role"}}, {ObjectMeta: metav1.ObjectMeta{Name: "binding-2", Namespace: "one"}, RoleRef: rbacv1.RoleRef{Name: "role2", Kind: "Role"}}, {ObjectMeta: metav1.ObjectMeta{Name: "binding-3", Namespace: "one"}, RoleRef: rbacv1.RoleRef{Name: "role", Kind: "Role"}}}, deletedBindingNames: []string{"binding-1", "binding-3"}}, {name: "bindings in to cluster scoped ignored", role: &rbacv1.Role{ObjectMeta: metav1.ObjectMeta{Name: "role", Namespace: "one"}}, bindings: []*rbacv1.RoleBinding{{ObjectMeta: metav1.ObjectMeta{Name: "binding-1", Namespace: "one"}, RoleRef: rbacv1.RoleRef{Name: "role", Kind: "ClusterRole"}}}}}
 	for _, test := range tests {
 		startingObjects := []runtime.Object{}
 		startingObjects = append(startingObjects, test.role)
@@ -89,18 +40,15 @@ func TestRoleReaper(t *testing.T) {
 			startingObjects = append(startingObjects, binding)
 		}
 		tc := fake.NewSimpleClientset(startingObjects...)
-
 		actualDeletedBindingNames := []string{}
 		tc.PrependReactor("delete", "rolebindings", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 			actualDeletedBindingNames = append(actualDeletedBindingNames, action.(clientgotesting.DeleteAction).GetName())
 			return true, nil, nil
 		})
-
 		err := reapForRole(tc.RbacV1(), test.role.Namespace, test.role.Name, ioutil.Discard)
 		if err != nil {
 			t.Errorf("%s: unexpected error: %v", test.name, err)
 		}
-
 		expected := sets.NewString(test.deletedBindingNames...)
 		actuals := sets.NewString(actualDeletedBindingNames...)
 		if !reflect.DeepEqual(expected.List(), actuals.List()) {

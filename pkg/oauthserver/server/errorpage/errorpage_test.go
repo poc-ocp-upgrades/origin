@@ -7,28 +7,24 @@ import (
 )
 
 func TestErrorPage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		Headers       http.Header
-		ExpectHandled bool
-	}{
-		"should not handle non-browser": {
-			Headers:       http.Header{},
-			ExpectHandled: false,
-		},
-		"should handle html-accepting browser": {
-			Headers:       http.Header{"Accept": []string{"text/html"}},
-			ExpectHandled: true,
-		},
-		"should handle mozilla browser": {
-			Headers:       http.Header{"User-Agent": []string{"Mozilla/5.0"}},
-			ExpectHandled: true,
-		},
-		"should not handle mozilla browser requesting json": {
-			Headers:       http.Header{"Accept": []string{"application/json"}, "User-Agent": []string{"Mozilla/5.0"}},
-			ExpectHandled: false,
-		},
-	}
-
+		Headers		http.Header
+		ExpectHandled	bool
+	}{"should not handle non-browser": {Headers: http.Header{}, ExpectHandled: false}, "should handle html-accepting browser": {Headers: http.Header{"Accept": []string{"text/html"}}, ExpectHandled: true}, "should handle mozilla browser": {Headers: http.Header{"User-Agent": []string{"Mozilla/5.0"}}, ExpectHandled: true}, "should not handle mozilla browser requesting json": {Headers: http.Header{"Accept": []string{"application/json"}, "User-Agent": []string{"Mozilla/5.0"}}, ExpectHandled: false}}
 	for k, testCase := range testCases {
 		renderer, err := NewErrorPageTemplateRenderer("")
 		if err != nil {
@@ -36,7 +32,6 @@ func TestErrorPage(t *testing.T) {
 			continue
 		}
 		handler := NewErrorPageHandler(renderer)
-
 		{
 			resp := httptest.NewRecorder()
 			handled, err := handler.AuthenticationError(nil, resp, &http.Request{Header: testCase.Headers})
@@ -49,7 +44,6 @@ func TestErrorPage(t *testing.T) {
 				continue
 			}
 		}
-
 		{
 			resp := httptest.NewRecorder()
 			handled, err := handler.GrantError(nil, resp, &http.Request{Header: testCase.Headers})
@@ -64,30 +58,25 @@ func TestErrorPage(t *testing.T) {
 		}
 	}
 }
-
 func TestValidateErrorPageTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		Template      string
-		TemplateValid bool
-	}{
-		"broken template": {
-			Template:      `Test {{ .BadField }}`,
-			TemplateValid: false,
-		},
-		"default template": {
-			Template:      defaultErrorPageTemplateString,
-			TemplateValid: true,
-		},
-		"template example": {
-			Template:      ErrorPageTemplateExample,
-			TemplateValid: true,
-		},
-		"original template example": {
-			Template:      originalErrorPageTemplateExample,
-			TemplateValid: true,
-		},
-	}
-
+		Template	string
+		TemplateValid	bool
+	}{"broken template": {Template: `Test {{ .BadField }}`, TemplateValid: false}, "default template": {Template: defaultErrorPageTemplateString, TemplateValid: true}, "template example": {Template: ErrorPageTemplateExample, TemplateValid: true}, "original template example": {Template: originalErrorPageTemplateExample, TemplateValid: true}}
 	for k, testCase := range testCases {
 		allErrs := ValidateErrorPageTemplate([]byte(testCase.Template))
 		if testCase.TemplateValid {
@@ -100,8 +89,6 @@ func TestValidateErrorPageTemplate(t *testing.T) {
 	}
 }
 
-// Make sure the original version of the default template always validates
-// this is to avoid breaking existing customized templates.
 const originalErrorPageTemplateExample = `<!DOCTYPE html>
 <!--
 

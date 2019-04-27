@@ -2,91 +2,31 @@ package validation
 
 import (
 	"testing"
-
 	"github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit"
-
 	"k8s.io/apimachinery/pkg/util/validation/field"
 )
 
 func TestValidateProjectRequestLimitConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		config      requestlimit.ProjectRequestLimitConfig
-		errExpected bool
-		errType     field.ErrorType
-		errField    string
-	}{
-		// 0: empty config
-		{
-			config: requestlimit.ProjectRequestLimitConfig{},
-		},
-		// 1: single default
-		{
-			config: requestlimit.ProjectRequestLimitConfig{
-				Limits: []requestlimit.ProjectLimitBySelector{
-					{
-						Selector:    nil,
-						MaxProjects: intp(1),
-					},
-				},
-			},
-		},
-		// 2: multiple limits
-		{
-			config: requestlimit.ProjectRequestLimitConfig{
-				Limits: []requestlimit.ProjectLimitBySelector{
-					{
-						Selector:    map[string]string{"foo": "bar", "foo2": "baz"},
-						MaxProjects: intp(10),
-					},
-					{
-						Selector:    map[string]string{"foo": "foo"},
-						MaxProjects: intp(1),
-					},
-				},
-			},
-		},
-		// 3: negative limit (error)
-		{
-			config: requestlimit.ProjectRequestLimitConfig{
-				Limits: []requestlimit.ProjectLimitBySelector{
-					{
-						Selector:    map[string]string{"foo": "bar", "foo2": "baz"},
-						MaxProjects: intp(10),
-					},
-					{
-						Selector:    map[string]string{"foo": "foo"},
-						MaxProjects: intp(-1),
-					},
-				},
-			},
-			errExpected: true,
-			errType:     field.ErrorTypeInvalid,
-			errField:    "limits[1].maxProjects",
-		},
-		// 4: invalid selector label (error)
-		{
-			config: requestlimit.ProjectRequestLimitConfig{
-				Limits: []requestlimit.ProjectLimitBySelector{
-					{
-						Selector:    map[string]string{"foo": "bar", "foo2": "baz"},
-						MaxProjects: intp(10),
-					},
-					{
-						Selector:    nil,
-						MaxProjects: intp(5),
-					},
-					{
-						Selector:    map[string]string{"foo": "foo", "*invalid/label": "test"},
-						MaxProjects: intp(1),
-					},
-				},
-			},
-			errExpected: true,
-			errType:     field.ErrorTypeInvalid,
-			errField:    "limits[2].selector",
-		},
-	}
-
+		config		requestlimit.ProjectRequestLimitConfig
+		errExpected	bool
+		errType		field.ErrorType
+		errField	string
+	}{{config: requestlimit.ProjectRequestLimitConfig{}}, {config: requestlimit.ProjectRequestLimitConfig{Limits: []requestlimit.ProjectLimitBySelector{{Selector: nil, MaxProjects: intp(1)}}}}, {config: requestlimit.ProjectRequestLimitConfig{Limits: []requestlimit.ProjectLimitBySelector{{Selector: map[string]string{"foo": "bar", "foo2": "baz"}, MaxProjects: intp(10)}, {Selector: map[string]string{"foo": "foo"}, MaxProjects: intp(1)}}}}, {config: requestlimit.ProjectRequestLimitConfig{Limits: []requestlimit.ProjectLimitBySelector{{Selector: map[string]string{"foo": "bar", "foo2": "baz"}, MaxProjects: intp(10)}, {Selector: map[string]string{"foo": "foo"}, MaxProjects: intp(-1)}}}, errExpected: true, errType: field.ErrorTypeInvalid, errField: "limits[1].maxProjects"}, {config: requestlimit.ProjectRequestLimitConfig{Limits: []requestlimit.ProjectLimitBySelector{{Selector: map[string]string{"foo": "bar", "foo2": "baz"}, MaxProjects: intp(10)}, {Selector: nil, MaxProjects: intp(5)}, {Selector: map[string]string{"foo": "foo", "*invalid/label": "test"}, MaxProjects: intp(1)}}}, errExpected: true, errType: field.ErrorTypeInvalid, errField: "limits[2].selector"}}
 	for i, tc := range tests {
 		errs := ValidateProjectRequestLimitConfig(&tc.config)
 		if len(errs) > 0 && !tc.errExpected {
@@ -109,7 +49,20 @@ func TestValidateProjectRequestLimitConfig(t *testing.T) {
 		}
 	}
 }
-
 func intp(n int) *int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &n
 }

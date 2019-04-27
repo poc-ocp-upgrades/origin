@@ -5,10 +5,8 @@ import (
 	"io"
 	"sort"
 	"strings"
-
 	"github.com/docker/go-units"
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -16,7 +14,6 @@ import (
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	dockerv10 "github.com/openshift/api/image/docker10"
 	imagev1 "github.com/openshift/api/image/v1"
@@ -30,58 +27,83 @@ import (
 )
 
 const (
-	TopImagesRecommendedName = "images"
-	maxImageIDLength         = 20
+	TopImagesRecommendedName	= "images"
+	maxImageIDLength		= 20
 )
 
 var (
-	topImagesLong = templates.LongDesc(`
+	topImagesLong	= templates.LongDesc(`
 		Show usage statistics for Images
 
 		This command analyzes all the Images managed by the platform and presents current
 		usage statistics.`)
-
-	topImagesExample = templates.Examples(`
+	topImagesExample	= templates.Examples(`
 		# Show usage statistics for Images
   	%[1]s %[2]s`)
 )
 
 type TopImagesOptions struct {
-	// internal values
-	Images  *imagev1.ImageList
-	Streams *imagev1.ImageStreamList
-	Pods    *corev1.PodList
-
+	Images	*imagev1.ImageList
+	Streams	*imagev1.ImageStreamList
+	Pods	*corev1.PodList
 	genericclioptions.IOStreams
 }
 
 func NewTopImagesOptions(streams genericclioptions.IOStreams) *TopImagesOptions {
-	return &TopImagesOptions{
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &TopImagesOptions{IOStreams: streams}
 }
-
-// NewCmdTopImages implements the OpenShift cli top images command.
 func NewCmdTopImages(f kcmdutil.Factory, parentName, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewTopImagesOptions(streams)
-	cmd := &cobra.Command{
-		Use:     name,
-		Short:   "Show usage statistics for Images",
-		Long:    topImagesLong,
-		Example: fmt.Sprintf(topImagesExample, parentName, name),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate(cmd))
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
-
+	cmd := &cobra.Command{Use: name, Short: "Show usage statistics for Images", Long: topImagesLong, Example: fmt.Sprintf(topImagesExample, parentName, name), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate(cmd))
+		kcmdutil.CheckErr(o.Run())
+	}}
 	return cmd
 }
-
-// Complete turns a partially defined TopImagesOptions into a solvent structure
-// which can be validated and used for showing limits usage.
 func (o *TopImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -94,40 +116,59 @@ func (o *TopImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args
 	if err != nil {
 		return err
 	}
-
 	namespace := cmd.Flag("namespace").Value.String()
 	if len(namespace) == 0 {
 		namespace = metav1.NamespaceAll
 	}
-
 	allImages, err := imageClient.Images().List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
 	o.Images = allImages
-
 	allStreams, err := imageClient.ImageStreams(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
 	o.Streams = allStreams
-
 	allPods, err := kClient.Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
 	}
 	o.Pods = allPods
-
 	return nil
 }
-
-// Validate ensures that a TopImagesOptions is valid and can be used to execute command.
 func (o TopImagesOptions) Validate(cmd *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Run contains all the necessary functionality to show current image references.
 func (o TopImagesOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	infos := o.imagesTop()
 	Print(o.Out, ImageColumns, infos)
 	return nil
@@ -135,19 +176,32 @@ func (o TopImagesOptions) Run() error {
 
 var ImageColumns = []string{"NAME", "IMAGESTREAMTAG", "PARENTS", "USAGE", "METADATA", "STORAGE"}
 
-// imageInfo contains statistic information about Image usage.
 type imageInfo struct {
-	Image           string
-	ImageStreamTags []string
-	Parents         []string
-	Usage           []string
-	Metadata        bool
-	Storage         int64
+	Image		string
+	ImageStreamTags	[]string
+	Parents		[]string
+	Usage		[]string
+	Metadata	bool
+	Storage		int64
 }
 
 var _ Info = &imageInfo{}
 
 func (i imageInfo) PrintLine(out io.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	printValue(out, i.Image)
 	printArray(out, i.ImageStreamTags)
 	shortParents := make([]string, len(i.Parents))
@@ -163,16 +217,26 @@ func (i imageInfo) PrintLine(out io.Writer) {
 	printBool(out, i.Metadata)
 	printValue(out, units.BytesSize(float64(i.Storage)))
 }
-
-// imagesTop generates Image information from a graph and returns this as a list
-// of imageInfo array.
 func (o TopImagesOptions) imagesTop() []Info {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := genericgraph.New()
 	addImagesToGraph(g, o.Images)
 	addImageStreamsToGraph(g, o.Streams)
 	addPodsToGraph(g, o.Pods)
 	markParentsInGraph(g)
-
 	infos := []Info{}
 	imageNodes := getImageNodes(g.Nodes())
 	for _, in := range imageNodes {
@@ -182,14 +246,7 @@ func (o TopImagesOptions) imagesTop() []Info {
 		usage := getImageUsage(g, in)
 		metadata := len(image.DockerImageManifest) != 0 && len(image.DockerImageLayers) != 0
 		storage := getStorage(image)
-		infos = append(infos, imageInfo{
-			Image:           image.Name,
-			ImageStreamTags: istags,
-			Parents:         parents,
-			Usage:           usage,
-			Metadata:        metadata,
-			Storage:         storage,
-		})
+		infos = append(infos, imageInfo{Image: image.Name, ImageStreamTags: istags, Parents: parents, Usage: usage, Metadata: metadata, Storage: storage})
 	}
 	sort.Slice(infos, func(i, j int) bool {
 		a, b := infos[i].(imageInfo), infos[j].(imageInfo)
@@ -201,11 +258,23 @@ func (o TopImagesOptions) imagesTop() []Info {
 		}
 		return a.Storage > b.Storage
 	})
-
 	return infos
 }
-
 func getStorage(image *imagev1.Image) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := int64(0)
 	blobSet := sets.NewString()
 	for _, layer := range image.DockerImageLayers {
@@ -228,8 +297,21 @@ func getStorage(image *imagev1.Image) int64 {
 	}
 	return storage
 }
-
 func getImageStreamTags(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	istags := []string{}
 	for _, e := range g.InboundEdges(node, ImageStreamImageEdgeKind) {
 		streamNode, ok := e.From().(*imagegraph.ImageStreamNode)
@@ -242,8 +324,21 @@ func getImageStreamTags(g genericgraph.Graph, node *imagegraph.ImageNode) []stri
 	}
 	return istags
 }
-
 func getTags(stream *imagev1.ImageStream, image *imagev1.Image) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tags := []string{}
 	for _, tag := range stream.Status.Tags {
 		if len(tag.Items) > 0 && tag.Items[0].Image == image.Name {
@@ -253,8 +348,21 @@ func getTags(stream *imagev1.ImageStream, image *imagev1.Image) []string {
 	imageapi.PrioritizeTags(tags)
 	return tags
 }
-
 func getImageParents(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parents := []string{}
 	for _, e := range g.InboundEdges(node, ParentImageEdgeKind) {
 		imageNode, ok := e.From().(*imagegraph.ImageNode)
@@ -265,8 +373,21 @@ func getImageParents(g genericgraph.Graph, node *imagegraph.ImageNode) []string 
 	}
 	return parents
 }
-
 func getImageUsage(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	usage := []string{}
 	for _, e := range g.InboundEdges(node, PodImageEdgeKind) {
 		podNode, ok := e.From().(*kubegraph.PodNode)
@@ -277,13 +398,25 @@ func getImageUsage(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
 	}
 	return usage
 }
-
 func getController(pod *corev1.Pod) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	controller := "<unknown>"
 	if pod.Annotations == nil {
 		return controller
 	}
-
 	if bc, ok := pod.Annotations[buildapi.BuildAnnotation]; ok {
 		return fmt.Sprintf("Build: %s/%s", pod.Namespace, bc)
 	}
@@ -293,6 +426,5 @@ func getController(pod *corev1.Pod) string {
 	if dc, ok := pod.Annotations[appsv1.DeploymentPodAnnotation]; ok {
 		return fmt.Sprintf("Deployer: %s/%s", pod.Namespace, dc)
 	}
-
 	return controller
 }

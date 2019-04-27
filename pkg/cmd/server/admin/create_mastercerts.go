@@ -7,17 +7,14 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	utilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/util/cert"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/openshift/library-go/pkg/crypto"
 	"github.com/openshift/origin/pkg/util/parallel"
 )
@@ -69,69 +66,84 @@ var masterCertLong = templates.LongDesc(`
 	for certain configuration changes.`)
 
 type CreateMasterCertsOptions struct {
-	CertDir    string
-	SignerName string
-
-	ExpireDays       int
-	SignerExpireDays int
-
-	APIServerCAFiles []string
-
-	Hostnames []string
-
-	APIServerURL       string
-	PublicAPIServerURL string
-
-	Overwrite bool
-
+	CertDir			string
+	SignerName		string
+	ExpireDays		int
+	SignerExpireDays	int
+	APIServerCAFiles	[]string
+	Hostnames		[]string
+	APIServerURL		string
+	PublicAPIServerURL	string
+	Overwrite		bool
 	genericclioptions.IOStreams
 }
 
 func NewCreateMasterCertsOptions(streams genericclioptions.IOStreams) *CreateMasterCertsOptions {
-	return &CreateMasterCertsOptions{
-		ExpireDays:       crypto.DefaultCertificateLifetimeInDays,
-		SignerExpireDays: crypto.DefaultCACertificateLifetimeInDays,
-		CertDir:          "openshift.local.config/master",
-		SignerName:       DefaultSignerName(),
-		APIServerURL:     "https://localhost:8443",
-		IOStreams:        streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateMasterCertsOptions{ExpireDays: crypto.DefaultCertificateLifetimeInDays, SignerExpireDays: crypto.DefaultCACertificateLifetimeInDays, CertDir: "openshift.local.config/master", SignerName: DefaultSignerName(), APIServerURL: "https://localhost:8443", IOStreams: streams}
 }
-
 func NewCommandCreateMasterCerts(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCreateMasterCertsOptions(streams)
-	cmd := &cobra.Command{
-		Use:  commandName,
-		Long: fmt.Sprintf(masterCertLong, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Validate(args))
-			kcmdutil.CheckErr(o.CreateMasterCerts())
-		},
-	}
-
+	cmd := &cobra.Command{Use: commandName, Long: fmt.Sprintf(masterCertLong, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Validate(args))
+		kcmdutil.CheckErr(o.CreateMasterCerts())
+	}}
 	cmd.Flags().StringVar(&o.CertDir, "cert-dir", o.CertDir, "The certificate data directory.")
 	cmd.Flags().StringVar(&o.SignerName, "signer-name", o.SignerName, "The name to use for the generated signer.")
 	cmd.Flags().StringSliceVar(&o.APIServerCAFiles, "certificate-authority", o.APIServerCAFiles, "Optional files containing signing authorities to use (in addition to the generated signer) to verify the API server's serving certificate.")
-
 	cmd.Flags().StringVar(&o.APIServerURL, "master", o.APIServerURL, "The API server's URL.")
 	cmd.Flags().StringVar(&o.PublicAPIServerURL, "public-master", o.PublicAPIServerURL, "The API public facing server's URL (if applicable).")
 	cmd.Flags().StringSliceVar(&o.Hostnames, "hostnames", o.Hostnames, "Every hostname or IP that server certs should be valid for (comma-delimited list)")
 	cmd.Flags().BoolVar(&o.Overwrite, "overwrite", o.Overwrite, "Overwrite all existing cert/key/config files (WARNING: includes signer/CA)")
-
 	cmd.Flags().IntVar(&o.ExpireDays, "expire-days", o.ExpireDays, "Validity of the certificates in days (defaults to 2 years). WARNING: extending this above default value is highly discouraged.")
 	cmd.Flags().IntVar(&o.SignerExpireDays, "signer-expire-days", o.SignerExpireDays, "Validity of the CA certificate in days (defaults to 5 years). WARNING: extending this above default value is highly discouraged.")
-
-	// set dynamic value annotation - allows man pages  to be generated and verified
 	cmd.Flags().SetAnnotation("signer-name", "manpage-def-value", []string{"openshift-signer@<current_timestamp>"})
-
-	// autocompletion hints
 	cmd.MarkFlagFilename("cert-dir")
 	cmd.MarkFlagFilename("certificate-authority")
-
 	return cmd
 }
-
 func (o CreateMasterCertsOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -157,97 +169,110 @@ func (o CreateMasterCertsOptions) Validate(args []string) error {
 	} else if len(u.Scheme) == 0 {
 		return errors.New("master must be a valid URL (e.g. https://10.0.0.1:8443)")
 	}
-
 	if len(o.PublicAPIServerURL) == 0 {
-		// not required
 	} else if u, err := url.Parse(o.PublicAPIServerURL); err != nil {
 		return errors.New("public master must be a valid URL (e.g. https://example.com:8443)")
 	} else if len(u.Scheme) == 0 {
 		return errors.New("public master must be a valid URL (e.g. https://example.com:8443)")
 	}
-
 	for _, caFile := range o.APIServerCAFiles {
 		if _, err := cert.NewPool(caFile); err != nil {
 			return fmt.Errorf("certificate authority must be a valid certificate file: %v", err)
 		}
 	}
-
 	return nil
 }
-
 func (o CreateMasterCertsOptions) CreateMasterCerts() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Creating all certs with: %#v", o)
-
 	getSignerCertOptions, err := o.createNewSigner(CAFilePrefix)
 	if err != nil {
 		return err
 	}
-
 	frontProxyOptions := o
 	frontProxyOptions.SignerName = DefaultFrontProxySignerName()
 	getFrontProxySignerCertOptions, err := frontProxyOptions.createNewSigner(FrontProxyCAFilePrefix)
 	if err != nil {
 		return err
 	}
-
-	errs := parallel.Run(
-		func() error { return o.createCABundle(getSignerCertOptions) },
-		func() error { return o.createServerCerts(getSignerCertOptions) },
-		func() error { return o.createAPIClients(getSignerCertOptions) },
-		func() error { return o.createEtcdClientCerts(getSignerCertOptions) },
-		func() error { return o.createKubeletClientCerts(getSignerCertOptions) },
-		func() error { return o.createProxyClientCerts(getSignerCertOptions) },
-		func() error { return o.createServiceAccountKeys() },
-		func() error { return o.createServiceSigningCA(getSignerCertOptions) },
-		func() error { return frontProxyOptions.createAggregatorClientCerts(getFrontProxySignerCertOptions) },
-	)
+	errs := parallel.Run(func() error {
+		return o.createCABundle(getSignerCertOptions)
+	}, func() error {
+		return o.createServerCerts(getSignerCertOptions)
+	}, func() error {
+		return o.createAPIClients(getSignerCertOptions)
+	}, func() error {
+		return o.createEtcdClientCerts(getSignerCertOptions)
+	}, func() error {
+		return o.createKubeletClientCerts(getSignerCertOptions)
+	}, func() error {
+		return o.createProxyClientCerts(getSignerCertOptions)
+	}, func() error {
+		return o.createServiceAccountKeys()
+	}, func() error {
+		return o.createServiceSigningCA(getSignerCertOptions)
+	}, func() error {
+		return frontProxyOptions.createAggregatorClientCerts(getFrontProxySignerCertOptions)
+	})
 	return utilerrors.NewAggregate(errs)
 }
-
 func (o CreateMasterCertsOptions) createNewSigner(prefix string) (*SignerCertOptions, error) {
-	signerCertOptions := CreateSignerCertOptions{
-		CertFile:   DefaultCertFilename(o.CertDir, prefix),
-		KeyFile:    DefaultKeyFilename(o.CertDir, prefix),
-		SerialFile: DefaultSerialFilename(o.CertDir, prefix),
-		ExpireDays: o.SignerExpireDays,
-		Name:       o.SignerName,
-		Overwrite:  o.Overwrite,
-		IOStreams:  o.IOStreams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	signerCertOptions := CreateSignerCertOptions{CertFile: DefaultCertFilename(o.CertDir, prefix), KeyFile: DefaultKeyFilename(o.CertDir, prefix), SerialFile: DefaultSerialFilename(o.CertDir, prefix), ExpireDays: o.SignerExpireDays, Name: o.SignerName, Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 	if err := signerCertOptions.Validate(nil); err != nil {
 		return nil, err
 	}
 	if _, err := signerCertOptions.CreateSignerCert(); err != nil {
 		return nil, err
 	}
-	// once we've minted the signer, don't overwrite it
-	return &SignerCertOptions{
-		CertFile:   DefaultCertFilename(o.CertDir, prefix),
-		KeyFile:    DefaultKeyFilename(o.CertDir, prefix),
-		SerialFile: DefaultSerialFilename(o.CertDir, prefix),
-	}, nil
-
+	return &SignerCertOptions{CertFile: DefaultCertFilename(o.CertDir, prefix), KeyFile: DefaultKeyFilename(o.CertDir, prefix), SerialFile: DefaultSerialFilename(o.CertDir, prefix)}, nil
 }
-
 func (o CreateMasterCertsOptions) createAPIClients(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, clientCertInfo := range DefaultAPIClientCerts(o.CertDir) {
 		if err := o.createClientCert(clientCertInfo, getSignerCertOptions); err != nil {
 			return err
 		}
-
-		createKubeConfigOptions := CreateKubeConfigOptions{
-			APIServerURL:       o.APIServerURL,
-			PublicAPIServerURL: o.PublicAPIServerURL,
-			APIServerCAFiles:   append([]string{getSignerCertOptions.CertFile}, o.APIServerCAFiles...),
-
-			CertFile: clientCertInfo.CertLocation.CertFile,
-			KeyFile:  clientCertInfo.CertLocation.KeyFile,
-
-			ContextNamespace: metav1.NamespaceDefault,
-
-			KubeConfigFile: DefaultKubeConfigFilename(filepath.Dir(clientCertInfo.CertLocation.CertFile), clientCertInfo.UnqualifiedUser),
-			IOStreams:      o.IOStreams,
-		}
+		createKubeConfigOptions := CreateKubeConfigOptions{APIServerURL: o.APIServerURL, PublicAPIServerURL: o.PublicAPIServerURL, APIServerCAFiles: append([]string{getSignerCertOptions.CertFile}, o.APIServerCAFiles...), CertFile: clientCertInfo.CertLocation.CertFile, KeyFile: clientCertInfo.CertLocation.KeyFile, ContextNamespace: metav1.NamespaceDefault, KubeConfigFile: DefaultKubeConfigFilename(filepath.Dir(clientCertInfo.CertLocation.CertFile), clientCertInfo.UnqualifiedUser), IOStreams: o.IOStreams}
 		if err := createKubeConfigOptions.Validate(nil); err != nil {
 			return err
 		}
@@ -257,15 +282,41 @@ func (o CreateMasterCertsOptions) createAPIClients(getSignerCertOptions *SignerC
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createAggregatorClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.createClientCert(DefaultAggregatorClientCertInfo(o.CertDir), getSignerCertOptions); err != nil {
 		return err
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createEtcdClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, clientCertInfo := range DefaultEtcdClientCerts(o.CertDir) {
 		if err := o.createClientCert(clientCertInfo, getSignerCertOptions); err != nil {
 			return err
@@ -273,8 +324,21 @@ func (o CreateMasterCertsOptions) createEtcdClientCerts(getSignerCertOptions *Si
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createProxyClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, clientCertInfo := range DefaultProxyClientCerts(o.CertDir) {
 		if err := o.createClientCert(clientCertInfo, getSignerCertOptions); err != nil {
 			return err
@@ -282,8 +346,21 @@ func (o CreateMasterCertsOptions) createProxyClientCerts(getSignerCertOptions *S
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createKubeletClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, clientCertInfo := range DefaultKubeletClientCerts(o.CertDir) {
 		if err := o.createClientCert(clientCertInfo, getSignerCertOptions); err != nil {
 			return err
@@ -291,21 +368,22 @@ func (o CreateMasterCertsOptions) createKubeletClientCerts(getSignerCertOptions 
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createClientCert(clientCertInfo ClientCertInfo, getSignerCertOptions *SignerCertOptions) error {
-	clientCertOptions := CreateClientCertOptions{
-		SignerCertOptions: getSignerCertOptions,
-
-		CertFile: clientCertInfo.CertLocation.CertFile,
-		KeyFile:  clientCertInfo.CertLocation.KeyFile,
-
-		ExpireDays: o.ExpireDays,
-
-		User:      clientCertInfo.User,
-		Groups:    clientCertInfo.Groups.List(),
-		Overwrite: o.Overwrite,
-		Output:    o.Out,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	clientCertOptions := CreateClientCertOptions{SignerCertOptions: getSignerCertOptions, CertFile: clientCertInfo.CertLocation.CertFile, KeyFile: clientCertInfo.CertLocation.KeyFile, ExpireDays: o.ExpireDays, User: clientCertInfo.User, Groups: clientCertInfo.Groups.List(), Overwrite: o.Overwrite, Output: o.Out}
 	if err := clientCertOptions.Validate(nil); err != nil {
 		return err
 	}
@@ -314,36 +392,49 @@ func (o CreateMasterCertsOptions) createClientCert(clientCertInfo ClientCertInfo
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createCABundle(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caFiles := []string{getSignerCertOptions.CertFile}
 	caFiles = append(caFiles, o.APIServerCAFiles...)
 	caData, err := readFiles(caFiles, []byte("\n"))
 	if err != nil {
 		return err
 	}
-
-	// ensure parent dir
 	if err := os.MkdirAll(o.CertDir, os.FileMode(0755)); err != nil {
 		return err
 	}
 	return ioutil.WriteFile(DefaultCABundleFile(o.CertDir), caData, 0644)
 }
-
 func (o CreateMasterCertsOptions) createServerCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, serverCertInfo := range DefaultServerCerts(o.CertDir) {
-		serverCertOptions := CreateServerCertOptions{
-			SignerCertOptions: getSignerCertOptions,
-
-			CertFile: serverCertInfo.CertFile,
-			KeyFile:  serverCertInfo.KeyFile,
-
-			ExpireDays: o.ExpireDays,
-
-			Hostnames: o.Hostnames,
-			Overwrite: o.Overwrite,
-			IOStreams: o.IOStreams,
-		}
+		serverCertOptions := CreateServerCertOptions{SignerCertOptions: getSignerCertOptions, CertFile: serverCertInfo.CertFile, KeyFile: serverCertInfo.KeyFile, ExpireDays: o.ExpireDays, Hostnames: o.Hostnames, Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 		if err := serverCertOptions.Validate(nil); err != nil {
 			return err
 		}
@@ -353,15 +444,22 @@ func (o CreateMasterCertsOptions) createServerCerts(getSignerCertOptions *Signer
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createServiceAccountKeys() error {
-	keypairOptions := CreateKeyPairOptions{
-		PublicKeyFile:  DefaultServiceAccountPublicKeyFile(o.CertDir),
-		PrivateKeyFile: DefaultServiceAccountPrivateKeyFile(o.CertDir),
-
-		Overwrite: o.Overwrite,
-		IOStreams: o.IOStreams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	keypairOptions := CreateKeyPairOptions{PublicKeyFile: DefaultServiceAccountPublicKeyFile(o.CertDir), PrivateKeyFile: DefaultServiceAccountPrivateKeyFile(o.CertDir), Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 	if err := keypairOptions.Validate(nil); err != nil {
 		return err
 	}
@@ -370,20 +468,23 @@ func (o CreateMasterCertsOptions) createServiceAccountKeys() error {
 	}
 	return nil
 }
-
 func (o CreateMasterCertsOptions) createServiceSigningCA(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caInfo := DefaultServiceSignerCAInfo(o.CertDir)
-
-	caOptions := CreateSignerCertOptions{
-		CertFile:   caInfo.CertFile,
-		KeyFile:    caInfo.KeyFile,
-		SerialFile: "", // we want the random cert serial for this one
-		ExpireDays: o.SignerExpireDays,
-		Name:       DefaultServiceServingCertSignerName(),
-		IOStreams:  o.IOStreams,
-
-		Overwrite: o.Overwrite,
-	}
+	caOptions := CreateSignerCertOptions{CertFile: caInfo.CertFile, KeyFile: caInfo.KeyFile, SerialFile: "", ExpireDays: o.SignerExpireDays, Name: DefaultServiceServingCertSignerName(), IOStreams: o.IOStreams, Overwrite: o.Overwrite}
 	if err := caOptions.Validate(nil); err != nil {
 		return err
 	}

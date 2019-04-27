@@ -9,19 +9,16 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
 	"github.com/containers/image/docker/policyconfiguration"
 	"github.com/containers/image/docker/reference"
 	"github.com/containers/image/signature"
 	sigtypes "github.com/containers/image/types"
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	imagev1typedclient "github.com/openshift/client-go/image/clientset/versioned/typed/image/v1"
 	userv1typedclient "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
@@ -30,7 +27,7 @@ import (
 )
 
 var (
-	verifyImageSignatureLongDesc = templates.LongDesc(`
+	verifyImageSignatureLongDesc	= templates.LongDesc(`
 	Verifies the image signature of an image imported to internal registry using the local public GPG key.
 
 	This command verifies if the image identity contained in the image signature can be trusted
@@ -51,8 +48,7 @@ var (
 
 	To remove all verifications, users can use the "--remove-all" flag.
 	`)
-
-	verifyImageSignatureExample = templates.Examples(`
+	verifyImageSignatureExample	= templates.Examples(`
 	# Verify the image signature and identity using the local GPG keychain
 	%[1]s sha256:c841e9b64e4579bd56c794bdd7c36e1c257110fd2404bebbb8b613e4935228c4 \
 			--expected-identity=registry.local:5000/foo/bar:v1
@@ -76,46 +72,58 @@ const (
 )
 
 type VerifyImageSignatureOptions struct {
-	InputImage        string
-	ExpectedIdentity  string
-	PublicKeyFilename string
-	PublicKey         []byte
-	Save              bool
-	RemoveAll         bool
-	CurrentUser       string
-	CurrentUserToken  string
-	RegistryURL       string
-	Insecure          bool
-
-	ImageClient imagev1typedclient.ImageV1Interface
-
+	InputImage		string
+	ExpectedIdentity	string
+	PublicKeyFilename	string
+	PublicKey		[]byte
+	Save			bool
+	RemoveAll		bool
+	CurrentUser		string
+	CurrentUserToken	string
+	RegistryURL		string
+	Insecure		bool
+	ImageClient		imagev1typedclient.ImageV1Interface
 	genericclioptions.IOStreams
 }
 
 func NewVerifyImageSignatureOptions(streams genericclioptions.IOStreams) *VerifyImageSignatureOptions {
-	return &VerifyImageSignatureOptions{
-		// TODO: This improves the error message users get when containers/image is not able
-		// to locate the pubring.gpg file (which is default).
-		// This should be improved/fixed in containers/image.
-		PublicKeyFilename: filepath.Join(os.Getenv("GNUPGHOME"), "pubring.gpg"),
-		IOStreams:         streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &VerifyImageSignatureOptions{PublicKeyFilename: filepath.Join(os.Getenv("GNUPGHOME"), "pubring.gpg"), IOStreams: streams}
 }
-
 func NewCmdVerifyImageSignature(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewVerifyImageSignatureOptions(streams)
-	cmd := &cobra.Command{
-		Use:     fmt.Sprintf("%s IMAGE --expected-identity=EXPECTED_IDENTITY [--save]", VerifyRecommendedName),
-		Short:   "Verify the image identity contained in the image signature",
-		Long:    verifyImageSignatureLongDesc,
-		Example: fmt.Sprintf(verifyImageSignatureExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
-
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s IMAGE --expected-identity=EXPECTED_IDENTITY [--save]", VerifyRecommendedName), Short: "Verify the image identity contained in the image signature", Long: verifyImageSignatureLongDesc, Example: fmt.Sprintf(verifyImageSignatureExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Run())
+	}}
 	cmd.Flags().StringVar(&o.ExpectedIdentity, "expected-identity", o.ExpectedIdentity, "An expected image docker reference to verify (required).")
 	cmd.Flags().BoolVar(&o.Save, "save", o.Save, "If true, the result of the verification will be saved to an image object.")
 	cmd.Flags().BoolVar(&o.RemoveAll, "remove-all", o.RemoveAll, "If set, all signature verifications will be removed from the given image.")
@@ -124,8 +132,21 @@ func NewCmdVerifyImageSignature(name, fullName string, f kcmdutil.Factory, strea
 	cmd.Flags().BoolVar(&o.Insecure, "insecure", o.Insecure, "If set, use the insecure protocol for registry communication.")
 	return cmd
 }
-
 func (o *VerifyImageSignatureOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.RemoveAll {
 		if len(o.ExpectedIdentity) == 0 {
 			return errors.New("the --expected-identity is required")
@@ -140,12 +161,25 @@ func (o *VerifyImageSignatureOptions) Validate() error {
 	return nil
 }
 func (o *VerifyImageSignatureOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 1 {
 		return kcmdutil.UsageErrorf(cmd, "exactly one image must be specified")
 	}
 	o.InputImage = args[0]
 	var err error
-
 	if len(o.PublicKeyFilename) > 0 {
 		if o.PublicKey, err = ioutil.ReadFile(o.PublicKeyFilename); err != nil {
 			return fmt.Errorf("unable to read --public-key: %v", err)
@@ -159,20 +193,14 @@ func (o *VerifyImageSignatureOptions) Complete(f kcmdutil.Factory, cmd *cobra.Co
 	if err != nil {
 		return err
 	}
-
 	userClient, err := userv1typedclient.NewForConfig(clientConfig)
 	if err != nil {
 		return err
 	}
-
-	// We need the current user name so we can record it into an verification condition and
-	// we need a bearer token so we can fetch the manifest from the registry.
-	// TODO: Add support for external registries (currently only integrated registry will
 	if me, err := userClient.Users().Get("~", metav1.GetOptions{}); err != nil {
 		return err
 	} else {
 		o.CurrentUser = me.Name
-
 		if config, err := f.ToRESTConfig(); err != nil {
 			return err
 		} else {
@@ -181,11 +209,23 @@ func (o *VerifyImageSignatureOptions) Complete(f kcmdutil.Factory, cmd *cobra.Co
 			}
 		}
 	}
-
 	return nil
 }
-
 func (o VerifyImageSignatureOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	img, err := o.ImageClient.Images().Get(o.InputImage, metav1.GetOptions{})
 	if err != nil {
 		return err
@@ -193,7 +233,6 @@ func (o VerifyImageSignatureOptions) Run() error {
 	if len(img.Signatures) == 0 {
 		return fmt.Errorf("%s does not have any signature", img.Name)
 	}
-
 	pr, err := signature.NewPRSignedByKeyPath(signature.SBKeyTypeGPGKeys, o.PublicKeyFilename, signature.NewPRMMatchRepoDigestOrExact())
 	if err != nil {
 		return fmt.Errorf("unable to prepare verification policy requirements: %v", err)
@@ -204,13 +243,10 @@ func (o VerifyImageSignatureOptions) Run() error {
 		return fmt.Errorf("unable to setup policy: %v", err)
 	}
 	defer pc.Destroy()
-
 	if o.RemoveAll {
 		img.Signatures = []imagev1.ImageSignature{}
 	}
-
 	for i, s := range img.Signatures {
-		// Verify the signature against the policy
 		signedBy, err := o.verifySignature(pc, img, s.Content)
 		if err != nil {
 			fmt.Fprintf(o.ErrOut, "error verifying signature %s for image %s (verification status will be removed): %v\n", img.Signatures[i].Name, o.InputImage, err)
@@ -218,31 +254,12 @@ func (o VerifyImageSignatureOptions) Run() error {
 			continue
 		}
 		fmt.Fprintf(o.Out, "image %q identity is now confirmed (signed by GPG key %q)\n", o.InputImage, signedBy)
-
 		now := metav1.Now()
-		newConditions := []imagev1.SignatureCondition{
-			{
-				Type:               imageapi.SignatureTrusted,
-				Status:             corev1.ConditionTrue,
-				LastProbeTime:      now,
-				LastTransitionTime: now,
-				Reason:             "manually verified",
-				Message:            fmt.Sprintf("verified by user %q", o.CurrentUser),
-			},
-			// TODO: This should be not needed (need to relax validation).
-			{
-				Type:               imageapi.SignatureForImage,
-				Status:             corev1.ConditionTrue,
-				LastProbeTime:      now,
-				LastTransitionTime: now,
-			},
-		}
+		newConditions := []imagev1.SignatureCondition{{Type: imageapi.SignatureTrusted, Status: corev1.ConditionTrue, LastProbeTime: now, LastTransitionTime: now, Reason: "manually verified", Message: fmt.Sprintf("verified by user %q", o.CurrentUser)}, {Type: imageapi.SignatureForImage, Status: corev1.ConditionTrue, LastProbeTime: now, LastTransitionTime: now}}
 		img.Signatures[i].Conditions = newConditions
 		img.Signatures[i].IssuedBy = &imagev1.SignatureIssuer{}
-		// TODO: This should not be just a key id but a human-readable identity.
 		img.Signatures[i].IssuedBy.CommonName = signedBy
 	}
-
 	if o.Save || o.RemoveAll {
 		_, err := o.ImageClient.Images().Update(img)
 		return err
@@ -251,14 +268,25 @@ func (o VerifyImageSignatureOptions) Run() error {
 	}
 	return nil
 }
-
-// getImageManifest fetches the manifest for provided image from the integrated registry.
 func (o *VerifyImageSignatureOptions) getImageManifest(img *imagev1.Image) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := imageapi.ParseDockerImageReference(img.DockerImageReference)
 	if err != nil {
 		return nil, err
 	}
-	// TODO(juanvallejo): Add missing methods to DockerImageReference object in library-go helper
 	registryURL := parsed.RegistryURL()
 	if len(o.RegistryURL) > 0 {
 		registryURL = &url.URL{Host: o.RegistryURL, Scheme: "https"}
@@ -268,13 +296,21 @@ func (o *VerifyImageSignatureOptions) getImageManifest(img *imagev1.Image) ([]by
 	}
 	return getImageManifestByIDFromRegistry(registryURL, parsed.RepositoryName(), img.Name, o.CurrentUser, o.CurrentUserToken, o.Insecure)
 }
-
-// verifySignature takes policy, image and the image signature blob and verifies that the
-// signature was signed by a trusted key, the expected identity matches the one in the
-// signature message and the manifest matches as well.
-// In case the image identity is confirmed, this function returns the matching GPG key in
-// short form, otherwise it returns rejection reason.
 func (o *VerifyImageSignatureOptions) verifySignature(pc *signature.PolicyContext, img *imagev1.Image, sigBlob []byte) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	manifest, err := o.getImageManifest(img)
 	if err != nil {
 		return "", fmt.Errorf("failed to get image %q manifest: %v", img.Name, err)
@@ -287,43 +323,85 @@ func (o *VerifyImageSignatureOptions) verifySignature(pc *signature.PolicyContex
 		return "", fmt.Errorf("signature rejected: %v", err)
 	}
 	if untrustedInfo, err := signature.GetUntrustedSignatureInformationWithoutVerifying(sigBlob); err != nil {
-		// Tis is treated as an unverified signature. It really shouldn’t happen anyway.
 		return "", fmt.Errorf("error getting signing key identity: %v", err)
 	} else {
 		return untrustedInfo.UntrustedShortKeyIdentifier, nil
 	}
 }
 
-// dummyDockerTransport is containers/image/docker.Transport, except that it only provides identity information.
 var dummyDockerTransport = dockerTransport{}
 
 type dockerTransport struct{}
 
 func (t dockerTransport) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "docker"
 }
-
-// ParseReference converts a string, which should not start with the ImageTransport.Name prefix, into an ImageReference.
 func (t dockerTransport) ParseReference(reference string) (sigtypes.ImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return parseDockerReference(reference)
 }
-
-// ValidatePolicyConfigurationScope checks that scope is a valid name for a signature.PolicyTransportScopes keys
-// (i.e. a valid PolicyConfigurationIdentity() or PolicyConfigurationNamespaces() return value).
-// It is acceptable to allow an invalid value which will never be matched, it can "only" cause user confusion.
-// scope passed to this function will not be "", that value is always allowed.
 func (t dockerTransport) ValidatePolicyConfigurationScope(scope string) error {
-	// FIXME? We could be verifying the various character set and length restrictions
-	// from docker/distribution/reference.regexp.go, but other than that there
-	// are few semantically invalid strings.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 
-// dummyDockerReference is containers/image/docker.Reference, except that only provides identity information.
 type dummyDockerReference struct{ ref reference.Named }
 
-// parseDockerReference converts a string, which should not start with the ImageTransport.Name prefix, into an Docker ImageReference.
 func parseDockerReference(refString string) (sigtypes.ImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !strings.HasPrefix(refString, "//") {
 		return nil, fmt.Errorf("docker: image reference %s does not start with //", refString)
 	}
@@ -332,113 +410,263 @@ func parseDockerReference(refString string) (sigtypes.ImageReference, error) {
 		return nil, err
 	}
 	ref = reference.TagNameOnly(ref)
-
 	if reference.IsNameOnly(ref) {
 		return nil, fmt.Errorf("Docker reference %s has neither a tag nor a digest", reference.FamiliarString(ref))
 	}
-	// A github.com/distribution/reference value can have a tag and a digest at the same time!
-	// The docker/distribution API does not really support that (we can’t ask for an image with a specific
-	// tag and digest), so fail.  This MAY be accepted in the future.
-	// (Even if it were supported, the semantics of policy namespaces are unclear - should we drop
-	// the tag or the digest first?)
 	_, isTagged := ref.(reference.NamedTagged)
 	_, isDigested := ref.(reference.Canonical)
 	if isTagged && isDigested {
 		return nil, fmt.Errorf("Docker references with both a tag and digest are currently not supported")
 	}
-	return dummyDockerReference{
-		ref: ref,
-	}, nil
+	return dummyDockerReference{ref: ref}, nil
 }
-
 func (ref dummyDockerReference) Transport() sigtypes.ImageTransport {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dummyDockerTransport
 }
-
-// StringWithinTransport returns a string representation of the reference, which MUST be such that
-// reference.Transport().ParseReference(reference.StringWithinTransport()) returns an equivalent reference.
-// NOTE: The returned string is not promised to be equal to the original input to ParseReference;
-// e.g. default attribute values omitted by the user may be filled in in the return value, or vice versa.
-// WARNING: Do not use the return value in the UI to describe an image, it does not contain the Transport().Name() prefix.
 func (ref dummyDockerReference) StringWithinTransport() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "//" + reference.FamiliarString(ref.ref)
 }
-
-// DockerReference returns a Docker reference associated with this reference
-// (fully explicit, i.e. !reference.IsNameOnly, but reflecting user intent,
-// not e.g. after redirect or alias processing), or nil if unknown/not applicable.
 func (ref dummyDockerReference) DockerReference() reference.Named {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ref.ref
 }
-
-// PolicyConfigurationIdentity returns a string representation of the reference, suitable for policy lookup.
-// This MUST reflect user intent, not e.g. after processing of third-party redirects or aliases;
-// The value SHOULD be fully explicit about its semantics, with no hidden defaults, AND canonical
-// (i.e. various references with exactly the same semantics should return the same configuration identity)
-// It is fine for the return value to be equal to StringWithinTransport(), and it is desirable but
-// not required/guaranteed that it will be a valid input to Transport().ParseReference().
-// Returns "" if configuration identities for these references are not supported.
 func (ref dummyDockerReference) PolicyConfigurationIdentity() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res, err := policyconfiguration.DockerReferenceIdentity(ref.ref)
-	if res == "" || err != nil { // Coverage: Should never happen, NewReference above should refuse values which could cause a failure.
+	if res == "" || err != nil {
 		panic(fmt.Sprintf("Internal inconsistency: policyconfiguration.DockerReferenceIdentity returned %#v, %v", res, err))
 	}
 	return res
 }
-
-// PolicyConfigurationNamespaces returns a list of other policy configuration namespaces to search
-// for if explicit configuration for PolicyConfigurationIdentity() is not set.  The list will be processed
-// in order, terminating on first match, and an implicit "" is always checked at the end.
-// It is STRONGLY recommended for the first element, if any, to be a prefix of PolicyConfigurationIdentity(),
-// and each following element to be a prefix of the element preceding it.
 func (ref dummyDockerReference) PolicyConfigurationNamespaces() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return policyconfiguration.DockerReferenceNamespaces(ref.ref)
 }
-
 func (ref dummyDockerReference) NewImage(ctx *sigtypes.SystemContext) (sigtypes.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 func (ref dummyDockerReference) NewImageSource(ctx *sigtypes.SystemContext, requestedManifestMIMETypes []string) (sigtypes.ImageSource, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 func (ref dummyDockerReference) NewImageDestination(ctx *sigtypes.SystemContext) (sigtypes.ImageDestination, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 func (ref dummyDockerReference) DeleteImage(ctx *sigtypes.SystemContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 
-// unparsedImage implements sigtypes.UnparsedImage, to allow evaluating the signature policy
-// against an image without having to make it pullable by containers/image
 type unparsedImage struct {
-	ref       sigtypes.ImageReference
-	manifest  []byte
-	signature []byte
+	ref		sigtypes.ImageReference
+	manifest	[]byte
+	signature	[]byte
 }
 
 func newUnparsedImage(expectedIdentity string, signature, manifest []byte) sigtypes.UnparsedImage {
-	// We check the error in Validate()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, _ := parseDockerReference("//" + expectedIdentity)
 	return &unparsedImage{ref: ref, manifest: manifest, signature: signature}
 }
-
-// Reference returns the reference used to set up this source, _as specified by the user_
-// (not as the image itself, or its underlying storage, claims).  This can be used e.g. to determine which public keys are trusted for this image.
 func (ui *unparsedImage) Reference() sigtypes.ImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ui.ref
 }
-
-// Close removes resources associated with an initialized UnparsedImage, if any.
 func (ui *unparsedImage) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Manifest is like ImageSource.GetManifest, but the result is cached; it is OK to call this however often you need.
 func (ui *unparsedImage) Manifest() ([]byte, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ui.manifest, "", nil
 }
-
-// Signatures is like ImageSource.GetSignatures, but the result is cached; it is OK to call this however often you need.
 func (ui *unparsedImage) Signatures(context.Context) ([][]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return [][]byte{ui.signature}, nil
 }

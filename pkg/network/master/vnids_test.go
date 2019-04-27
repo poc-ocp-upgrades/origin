@@ -2,20 +2,28 @@ package master
 
 import (
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	"github.com/openshift/library-go/pkg/network/networkapihelpers"
 	"github.com/openshift/origin/pkg/network"
 )
 
 func TestMasterVNIDMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap := newMasterVNIDMap(true)
-
-	// empty vmap
 	checkCurrentVNIDs(t, vmap, 0, 0)
-
-	// assign vnids
 	_, _, err := vmap.allocateNetID(metav1.NamespaceDefault)
 	checkNoErr(t, err)
 	_, exists, err := vmap.allocateNetID("alpha")
@@ -33,8 +41,6 @@ func TestMasterVNIDMap(t *testing.T) {
 	_, _, err = vmap.allocateNetID("charlie")
 	checkNoErr(t, err)
 	checkCurrentVNIDs(t, vmap, 4, 3)
-
-	// update vnids
 	_, err = vmap.updateNetID("alpha", networkapihelpers.JoinPodNetwork, "bravo")
 	checkNoErr(t, err)
 	_, err = vmap.updateNetID("alpha", networkapihelpers.JoinPodNetwork, "bogus")
@@ -42,7 +48,6 @@ func TestMasterVNIDMap(t *testing.T) {
 	_, err = vmap.updateNetID("bogus", networkapihelpers.JoinPodNetwork, "alpha")
 	checkErr(t, err)
 	checkCurrentVNIDs(t, vmap, 4, 2)
-
 	_, err = vmap.updateNetID("alpha", networkapihelpers.GlobalPodNetwork, "")
 	checkNoErr(t, err)
 	_, err = vmap.updateNetID("charlie", networkapihelpers.GlobalPodNetwork, "")
@@ -50,7 +55,6 @@ func TestMasterVNIDMap(t *testing.T) {
 	_, err = vmap.updateNetID("bogus", networkapihelpers.GlobalPodNetwork, "")
 	checkErr(t, err)
 	checkCurrentVNIDs(t, vmap, 4, 1)
-
 	_, err = vmap.updateNetID("alpha", networkapihelpers.IsolatePodNetwork, "")
 	checkNoErr(t, err)
 	_, err = vmap.updateNetID("bravo", networkapihelpers.IsolatePodNetwork, "")
@@ -58,8 +62,6 @@ func TestMasterVNIDMap(t *testing.T) {
 	_, err = vmap.updateNetID("bogus", networkapihelpers.IsolatePodNetwork, "")
 	checkErr(t, err)
 	checkCurrentVNIDs(t, vmap, 4, 2)
-
-	// release vnids
 	checkNoErr(t, vmap.releaseNetID("alpha"))
 	checkNoErr(t, vmap.releaseNetID("bravo"))
 	checkNoErr(t, vmap.releaseNetID("charlie"))
@@ -67,25 +69,62 @@ func TestMasterVNIDMap(t *testing.T) {
 	checkErr(t, vmap.releaseNetID("bogus"))
 	checkCurrentVNIDs(t, vmap, 0, 0)
 }
-
 func checkNoErr(t *testing.T, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err != nil {
 		t.Fatal(err)
 	}
 }
-
 func checkErr(t *testing.T, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		t.Fatalf("Expected error is missing!")
 	}
 }
-
 func checkCurrentVNIDs(t *testing.T, vmap *masterVNIDMap, expectedMapCount, expectedAllocatorCount int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(vmap.ids) != expectedMapCount {
 		t.Fatalf("Wrong number of VNIDs: %d vs %d", len(vmap.ids), expectedMapCount)
 	}
-
-	// Check bitmap allocator
 	expected_free := int(network.MaxVNID-network.MinVNID) + 1 - expectedAllocatorCount
 	if vmap.netIDManager.Free() != expected_free {
 		t.Fatalf("Allocator mismatch: %d vs %d", vmap.netIDManager.Free(), expected_free)

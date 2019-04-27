@@ -5,10 +5,8 @@ import (
 	"strings"
 	"testing"
 	"time"
-
 	"github.com/prometheus/client_golang/prometheus"
 	dto "github.com/prometheus/client_model/go"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -17,11 +15,27 @@ import (
 )
 
 var (
-	timeNow          = metav1.Now()
-	defaultTimeNowFn = func() time.Time { return timeNow.Time }
+	timeNow			= metav1.Now()
+	defaultTimeNowFn	= func() time.Time {
+		return timeNow.Time
+	}
 )
 
 func mockRC(name string, version int, annotations map[string]string, generation int64, creationTime metav1.Time) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &corev1.ReplicationController{}
 	annotations[appsv1.DeploymentConfigAnnotation] = name
 	r.SetName(name + fmt.Sprintf("-%d", version))
@@ -30,177 +44,39 @@ func mockRC(name string, version int, annotations map[string]string, generation 
 	r.SetAnnotations(annotations)
 	return r
 }
-
 func TestCollect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name  string
-		count int
-		rcs   []*corev1.ReplicationController
-		// expected values
-		available     float64
-		failed        float64
-		cancelled     float64
-		timestamp     float64
-		latestVersion string
-	}{
-		{
-			name:      "no deployments",
-			count:     3,
-			available: 0,
-			failed:    0,
-			cancelled: 0,
-			rcs:       []*corev1.ReplicationController{},
-		},
-		{
-			name:      "single successful deployment",
-			count:     3,
-			available: 1,
-			failed:    0,
-			cancelled: 0,
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete),
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "single cancelled deployment",
-			count:         3,
-			available:     0,
-			failed:        0,
-			cancelled:     1,
-			latestVersion: "1",
-			timestamp:     float64(timeNow.Unix()),
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentCancelledAnnotation: "true",
-					appsv1.DeploymentStatusAnnotation:    string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation:   "1",
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "single failed deployment",
-			count:         4,
-			available:     0,
-			failed:        1,
-			cancelled:     0,
-			latestVersion: "1",
-			timestamp:     float64(timeNow.Unix()),
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "1",
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "multiple failed deployment",
-			count:         4,
-			available:     0,
-			failed:        4,
-			cancelled:     0,
-			latestVersion: "4",
-			timestamp:     float64(timeNow.Unix()),
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "1",
-				}, 0, timeNow),
-				mockRC("foo", 2, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "2",
-				}, 0, timeNow),
-				mockRC("foo", 3, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "3",
-				}, 0, timeNow),
-				mockRC("foo", 4, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "4",
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "single failed deployment within successful deployments",
-			count:         3,
-			available:     2,
-			failed:        1,
-			cancelled:     0,
-			latestVersion: "2",
-			timestamp:     float64(timeNow.Unix()),
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusComplete),
-					appsv1.DeploymentVersionAnnotation: "1",
-				}, 0, timeNow),
-				mockRC("foo", 2, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusFailed),
-					appsv1.DeploymentVersionAnnotation: "2",
-				}, 0, timeNow),
-				mockRC("foo", 3, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusComplete),
-					appsv1.DeploymentVersionAnnotation: "3",
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "single active deployment",
-			count:         4,
-			available:     0,
-			failed:        0,
-			cancelled:     0,
-			latestVersion: "1",
-			// the timestamp is duration in this case, which is 0 as the creation time
-			// and current time are the same.
-			timestamp: 0,
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusRunning),
-					appsv1.DeploymentVersionAnnotation: "1",
-				}, 0, timeNow),
-			},
-		},
-		{
-			name:          "single active deployment with history",
-			count:         4,
-			available:     2,
-			failed:        0,
-			cancelled:     0,
-			latestVersion: "3",
-			// the timestamp is duration in this case, which is 0 as the creation time
-			// and current time are the same.
-			timestamp: 0,
-			rcs: []*corev1.ReplicationController{
-				mockRC("foo", 1, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusComplete),
-					appsv1.DeploymentVersionAnnotation: "1",
-				}, 0, timeNow),
-				mockRC("foo", 2, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusComplete),
-					appsv1.DeploymentVersionAnnotation: "2",
-				}, 0, timeNow),
-				mockRC("foo", 3, map[string]string{
-					appsv1.DeploymentStatusAnnotation:  string(appsv1.DeploymentStatusRunning),
-					appsv1.DeploymentVersionAnnotation: "3",
-				}, 0, timeNow),
-			},
-		},
-	}
-
+		name		string
+		count		int
+		rcs		[]*corev1.ReplicationController
+		available	float64
+		failed		float64
+		cancelled	float64
+		timestamp	float64
+		latestVersion	string
+	}{{name: "no deployments", count: 3, available: 0, failed: 0, cancelled: 0, rcs: []*corev1.ReplicationController{}}, {name: "single successful deployment", count: 3, available: 1, failed: 0, cancelled: 0, rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete)}, 0, timeNow)}}, {name: "single cancelled deployment", count: 3, available: 0, failed: 0, cancelled: 1, latestVersion: "1", timestamp: float64(timeNow.Unix()), rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentCancelledAnnotation: "true", appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow)}}, {name: "single failed deployment", count: 4, available: 0, failed: 1, cancelled: 0, latestVersion: "1", timestamp: float64(timeNow.Unix()), rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow)}}, {name: "multiple failed deployment", count: 4, available: 0, failed: 4, cancelled: 0, latestVersion: "4", timestamp: float64(timeNow.Unix()), rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow), mockRC("foo", 2, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "2"}, 0, timeNow), mockRC("foo", 3, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "3"}, 0, timeNow), mockRC("foo", 4, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "4"}, 0, timeNow)}}, {name: "single failed deployment within successful deployments", count: 3, available: 2, failed: 1, cancelled: 0, latestVersion: "2", timestamp: float64(timeNow.Unix()), rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow), mockRC("foo", 2, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusFailed), appsv1.DeploymentVersionAnnotation: "2"}, 0, timeNow), mockRC("foo", 3, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete), appsv1.DeploymentVersionAnnotation: "3"}, 0, timeNow)}}, {name: "single active deployment", count: 4, available: 0, failed: 0, cancelled: 0, latestVersion: "1", timestamp: 0, rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusRunning), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow)}}, {name: "single active deployment with history", count: 4, available: 2, failed: 0, cancelled: 0, latestVersion: "3", timestamp: 0, rcs: []*corev1.ReplicationController{mockRC("foo", 1, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete), appsv1.DeploymentVersionAnnotation: "1"}, 0, timeNow), mockRC("foo", 2, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusComplete), appsv1.DeploymentVersionAnnotation: "2"}, 0, timeNow), mockRC("foo", 3, map[string]string{appsv1.DeploymentStatusAnnotation: string(appsv1.DeploymentStatusRunning), appsv1.DeploymentVersionAnnotation: "3"}, 0, timeNow)}}}
 	for _, c := range tests {
 		rcCache := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc})
-		fakeCollector := appsCollector{
-			lister: kcorelisters.NewReplicationControllerLister(rcCache),
-			nowFn:  defaultTimeNowFn,
-		}
-
+		fakeCollector := appsCollector{lister: kcorelisters.NewReplicationControllerLister(rcCache), nowFn: defaultTimeNowFn}
 		for _, rc := range c.rcs {
 			if err := rcCache.Add(rc); err != nil {
 				t.Fatalf("unable to add rc %s: %v", rc.Name, err)
 			}
 		}
-
 		collectedMetrics := []prometheus.Metric{}
 		collectionChan := make(chan prometheus.Metric)
 		stopChan := make(chan struct{})
@@ -209,7 +85,6 @@ func TestCollect(t *testing.T) {
 			fakeCollector.Collect(collectionChan)
 			<-stopChan
 		}()
-
 		for {
 			select {
 			case m := <-collectionChan:
@@ -222,16 +97,12 @@ func TestCollect(t *testing.T) {
 				break
 			}
 		}
-
 		if len(collectedMetrics) == 0 {
 			continue
 		}
-
 		for _, m := range collectedMetrics {
 			var out dto.Metric
 			m.Write(&out)
-
-			// last_failed_rollout_time
 			if strings.Contains(m.Desc().String(), nameToQuery(lastFailedRolloutTime)) {
 				gaugeValue := out.GetGauge().GetValue()
 				labels := out.GetLabel()
@@ -245,8 +116,6 @@ func TestCollect(t *testing.T) {
 				}
 				continue
 			}
-
-			// active_rollouts_duration_seconds
 			if strings.Contains(m.Desc().String(), nameToQuery(activeRolloutDurationSeconds)) {
 				gaugeValue := out.GetGauge().GetValue()
 				labels := out.GetLabel()
@@ -260,8 +129,6 @@ func TestCollect(t *testing.T) {
 				}
 				continue
 			}
-
-			// complete_rollouts_total
 			if strings.Contains(m.Desc().String(), nameToQuery(completeRolloutCount)) {
 				gaugeValue := out.GetGauge().GetValue()
 				switch out.GetLabel()[0].GetValue() {
@@ -280,7 +147,6 @@ func TestCollect(t *testing.T) {
 				}
 				continue
 			}
-
 			t.Errorf("[%s] unexpected metric recorded: %s", c.name, m.Desc().String())
 		}
 	}

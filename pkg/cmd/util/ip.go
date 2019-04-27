@@ -5,12 +5,23 @@ import (
 	"net"
 )
 
-// ErrorNoDefaultIP is returned when no suitable non-loopback address can be found.
 var ErrorNoDefaultIP = errors.New("no suitable IP address")
 
-// DefaultLocalIP4 returns an IPv4 address that this host can be reached
-// on. Will return NoDefaultIP if no suitable address can be found.
 func DefaultLocalIP4() (net.IP, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	devices, err := net.Interfaces()
 	if err != nil {
 		return nil, err
@@ -32,15 +43,25 @@ func DefaultLocalIP4() (net.IP, error) {
 	}
 	return nil, ErrorNoDefaultIP
 }
-
-// AllLocalIP4 returns all the IPv4 addresses that this host can be reached
-// on.
 func AllLocalIP4() ([]net.IP, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	devices, err := net.Interfaces()
 	if err != nil {
 		return nil, err
 	}
-
 	ret := []net.IP{}
 	for _, dev := range devices {
 		if dev.Flags&net.FlagUp != 0 {

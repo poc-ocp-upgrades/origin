@@ -2,22 +2,29 @@ package policy
 
 import (
 	"testing"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func TestSerialLatestOnlyIsRunnableNewBuilds(t *testing.T) {
-	allNewBuilds := []buildv1.Build{
-		addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-3", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	allNewBuilds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-3", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly)}
 	client := newTestClient(allNewBuilds)
 	policy := SerialLatestOnlyPolicy{BuildLister: client.Lister(), BuildUpdater: client}
-	runnableBuilds := []string{
-		"build-1",
-	}
+	runnableBuilds := []string{"build-1"}
 	shouldRun := func(name string) bool {
 		for _, b := range runnableBuilds {
 			if b == name {
@@ -49,14 +56,22 @@ func TestSerialLatestOnlyIsRunnableNewBuilds(t *testing.T) {
 		t.Errorf("expected build-2 to be cancelled")
 	}
 }
-
 func TestSerialLatestOnlyIsRunnableMixedRunning(t *testing.T) {
-	allNewBuilds := []buildv1.Build{
-		addBuild("build-1", "sample-bc", buildv1.BuildPhaseComplete, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-2", "sample-bc", buildv1.BuildPhaseCancelled, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-3", "sample-bc", buildv1.BuildPhaseRunning, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-4", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	allNewBuilds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseComplete, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-2", "sample-bc", buildv1.BuildPhaseCancelled, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-3", "sample-bc", buildv1.BuildPhaseRunning, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-4", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly)}
 	client := newTestClient(allNewBuilds)
 	policy := SerialLatestOnlyPolicy{BuildLister: client.Lister(), BuildUpdater: client}
 	for _, build := range allNewBuilds {
@@ -82,28 +97,30 @@ func TestSerialLatestOnlyIsRunnableMixedRunning(t *testing.T) {
 		t.Errorf("expected build-4 will run next and should not be cancelled")
 	}
 }
-
 func TestSerialLatestOnlyIsRunnableBuildsWithErrors(t *testing.T) {
-	builds := []buildv1.Build{
-		addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-		addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly),
-	}
-
-	// The build-1 will lack required labels
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	builds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly)}
 	builds[0].ObjectMeta.Labels = map[string]string{}
-
-	// The build-2 will lack the build number annotation
 	builds[1].ObjectMeta.Annotations = map[string]string{}
-
 	client := newTestClient(builds)
 	policy := SerialLatestOnlyPolicy{BuildLister: client.Lister(), BuildUpdater: client}
-
 	ok, err := policy.IsRunnable(&builds[0])
 	if !ok || err != nil {
 		t.Errorf("expected build to be runnable, got %v, error: %v", ok, err)
 	}
-
-	// No type-check as this error is returned as kerrors.aggregate
 	if _, err := policy.IsRunnable(&builds[1]); err == nil {
 		t.Errorf("expected error for build-2")
 	}

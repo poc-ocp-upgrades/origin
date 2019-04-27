@@ -4,38 +4,62 @@ import (
 	"context"
 	"net/http"
 	"testing"
-
 	"k8s.io/apiserver/pkg/authentication/authenticator"
 	"k8s.io/apiserver/pkg/authentication/user"
 )
 
 const (
-	Username          = "frightened_donut"
-	Password          = "don't eat me!"
-	ValidBase64String = "VGhpc0lzVmFsaWQK" // base64 -- ThisIsValid ctrl+d
+	Username		= "frightened_donut"
+	Password		= "don't eat me!"
+	ValidBase64String	= "VGhpc0lzVmFsaWQK"
 )
 
 type mockPasswordAuthenticator struct {
-	returnUser      user.Info
-	isAuthenticated bool
-	err             error
-	passedUser      string
-	passedPassword  string
+	returnUser	user.Info
+	isAuthenticated	bool
+	err		error
+	passedUser	string
+	passedPassword	string
 }
 
 func (mock *mockPasswordAuthenticator) AuthenticatePassword(ctx context.Context, username, password string) (*authenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mock.passedUser = username
 	mock.passedPassword = password
-
 	return &authenticator.Response{User: mock.returnUser}, mock.isAuthenticated, mock.err
 }
-
 func TestAuthenticateRequestValid(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	passwordAuthenticator := &mockPasswordAuthenticator{}
 	authRequestHandler := NewBasicAuthAuthentication("example", passwordAuthenticator, true)
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.SetBasicAuth(Username, Password)
-
 	_, _, _ = authRequestHandler.AuthenticateRequest(req)
 	if passwordAuthenticator.passedUser != Username {
 		t.Errorf("Expected %v, got %v", Username, passwordAuthenticator.passedUser)
@@ -44,8 +68,21 @@ func TestAuthenticateRequestValid(t *testing.T) {
 		t.Errorf("Expected %v, got %v", Password, passwordAuthenticator.passedPassword)
 	}
 }
-
 func TestAuthenticateRequestInvalid(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		ExpectedError = "no valid base64 data in basic auth scheme found"
 	)
@@ -53,7 +90,6 @@ func TestAuthenticateRequestInvalid(t *testing.T) {
 	authRequestHandler := NewBasicAuthAuthentication("example", passwordAuthenticator, true)
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.Header.Add("Authorization", "Basic invalid:string")
-
 	userInfo, authenticated, err := authRequestHandler.AuthenticateRequest(req)
 	if err == nil {
 		t.Errorf("Expected error: %v", ExpectedError)
@@ -68,11 +104,23 @@ func TestAuthenticateRequestInvalid(t *testing.T) {
 		t.Errorf("Unexpectedly authenticated: %v", authenticated)
 	}
 }
-
 func TestGetBasicAuthInfo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.SetBasicAuth(Username, Password)
-
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -87,10 +135,22 @@ func TestGetBasicAuthInfo(t *testing.T) {
 		t.Errorf("Expected %v, got %v", Password, password)
 	}
 }
-
 func TestGetBasicAuthInfoNoHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
-
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -105,11 +165,23 @@ func TestGetBasicAuthInfoNoHeader(t *testing.T) {
 		t.Errorf("Unexpected password: %v", password)
 	}
 }
-
 func TestGetBasicAuthInfoNotBasicHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.Header.Add("Authorization", "notbasic")
-
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -125,12 +197,25 @@ func TestGetBasicAuthInfoNotBasicHeader(t *testing.T) {
 	}
 }
 func TestGetBasicAuthInfoNotBase64Encoded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		ExpectedError = "no valid base64 data in basic auth scheme found"
 	)
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.Header.Add("Authorization", "Basic invalid:string")
-
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err == nil {
 		t.Errorf("Expected error: %v", ExpectedError)
@@ -149,12 +234,25 @@ func TestGetBasicAuthInfoNotBase64Encoded(t *testing.T) {
 	}
 }
 func TestGetBasicAuthInfoNotCredentials(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		ExpectedError = "invalid Authorization header"
 	)
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.Header.Add("Authorization", "Basic "+ValidBase64String)
-
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err == nil {
 		t.Errorf("Expected error: %v", ExpectedError)

@@ -5,24 +5,31 @@ import (
 	"fmt"
 	"io"
 	"strings"
-
 	"k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog"
 )
 
-// copyStrategies is an ordered list of copyStrategy objects that behaves as a single
-// strategy. If a strategy fails with a setup error, it continues on to the next strategy.
 type copyStrategies []CopyStrategy
 
-// ensure copyStrategies implements the copyStrategy interface
 var _ CopyStrategy = copyStrategies{}
 
-// Copy will call copy for strategies in list order. If a strategySetupError results from a copy,
-// the next strategy will be attempted. Otherwise the error is returned.
 func (ss copyStrategies) Copy(source, destination *PathSpec, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	foundStrategy := false
-
 	for _, s := range ss {
 		errBuf := &bytes.Buffer{}
 		err = s.Copy(source, destination, out, errBuf)
@@ -31,21 +38,30 @@ func (ss copyStrategies) Copy(source, destination *PathSpec, out, errOut io.Writ
 			fmt.Fprintf(errOut, "WARNING: cannot use %s: %v\n", s.String(), err.Error())
 			continue
 		}
-
 		io.Copy(errOut, errBuf)
 		foundStrategy = true
 		break
 	}
-
 	if !foundStrategy {
 		err = strategySetupError("No available strategies to copy.")
 	}
-
 	return err
 }
-
-// Validate will call Validate on all strategies and return an aggregate of their errors
 func (ss copyStrategies) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for _, s := range ss {
 		err := s.Validate()
@@ -55,9 +71,21 @@ func (ss copyStrategies) Validate() error {
 	}
 	return errors.NewAggregate(errs)
 }
-
-// String will return a comma-separated list of strategy names
 func (ss copyStrategies) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := []string{}
 	for _, s := range ss {
 		names = append(names, s.String())
@@ -65,8 +93,22 @@ func (ss copyStrategies) String() string {
 	return strings.Join(names, ",")
 }
 
-// strategySetupError is an error that occurred while setting up a strategy
-// (as opposed to actually executing a copy and getting an error from normal copy execution)
 type strategySetupError string
 
-func (e strategySetupError) Error() string { return string(e) }
+func (e strategySetupError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return string(e)
+}

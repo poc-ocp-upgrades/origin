@@ -6,46 +6,25 @@ import (
 )
 
 func TestParseAnnotationSelector(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		input         string
-		parsed        map[string]string
-		errorExpected bool
-	}{
-		{
-			input:  "",
-			parsed: nil,
-		},
-		{
-			input: "foo=bar",
-			parsed: map[string]string{
-				"foo": "bar",
-			},
-		},
-		{
-			input: "deads=deads,liggitt=liggitt",
-			parsed: map[string]string{
-				"deads":   "deads",
-				"liggitt": "liggitt",
-			},
-		},
-		{
-			input:         "liggitt=liggitt,deadliggitt",
-			errorExpected: true,
-		},
-		{
-			input: `"us=deads,liggitt,ffranz"`,
-			parsed: map[string]string{
-				"us": "deads,liggitt,ffranz",
-			},
-		},
-		{
-			input: `"us=deads,liggitt,ffranz",deadliggitt=deadliggitt`,
-			parsed: map[string]string{
-				"us":          "deads,liggitt,ffranz",
-				"deadliggitt": "deadliggitt",
-			},
-		},
-	}
+		input		string
+		parsed		map[string]string
+		errorExpected	bool
+	}{{input: "", parsed: nil}, {input: "foo=bar", parsed: map[string]string{"foo": "bar"}}, {input: "deads=deads,liggitt=liggitt", parsed: map[string]string{"deads": "deads", "liggitt": "liggitt"}}, {input: "liggitt=liggitt,deadliggitt", errorExpected: true}, {input: `"us=deads,liggitt,ffranz"`, parsed: map[string]string{"us": "deads,liggitt,ffranz"}}, {input: `"us=deads,liggitt,ffranz",deadliggitt=deadliggitt`, parsed: map[string]string{"us": "deads,liggitt,ffranz", "deadliggitt": "deadliggitt"}}}
 	for _, test := range tests {
 		parsed, err := parseAnnotationSelector(test.input)
 		if err != nil {

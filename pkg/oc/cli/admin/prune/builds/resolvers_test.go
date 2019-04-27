@@ -5,34 +5,51 @@ import (
 	"sort"
 	"testing"
 	"time"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/oc/lib/buildapihelpers"
 )
 
 type mockResolver struct {
-	builds []*buildv1.Build
-	err    error
+	builds	[]*buildv1.Build
+	err	error
 }
 
 func (m *mockResolver) Resolve() ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.builds, m.err
 }
-
 func TestMergeResolver(t *testing.T) {
-	resolverA := &mockResolver{
-		builds: []*buildv1.Build{
-			mockBuild("a", "b", nil),
-		},
-	}
-	resolverB := &mockResolver{
-		builds: []*buildv1.Build{
-			mockBuild("c", "d", nil),
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	resolverA := &mockResolver{builds: []*buildv1.Build{mockBuild("a", "b", nil)}}
+	resolverB := &mockResolver{builds: []*buildv1.Build{mockBuild("c", "d", nil)}}
 	resolver := &mergeResolver{resolvers: []Resolver{resolverA, resolverB}}
 	results, err := resolver.Resolve()
 	if err != nil {
@@ -48,35 +65,32 @@ func TestMergeResolver(t *testing.T) {
 		}
 	}
 }
-
 func TestOrphanBuildResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	activeBuildConfig := mockBuildConfig("a", "active-build-config")
 	inactiveBuildConfig := mockBuildConfig("a", "inactive-build-config")
-
 	buildConfigs := []*buildv1.BuildConfig{activeBuildConfig}
 	builds := []*buildv1.Build{}
-
 	expectedNames := sets.String{}
-	BuildPhaseOptions := []buildv1.BuildPhase{
-		buildv1.BuildPhaseCancelled,
-		buildv1.BuildPhaseComplete,
-		buildv1.BuildPhaseError,
-		buildv1.BuildPhaseFailed,
-		buildv1.BuildPhaseNew,
-		buildv1.BuildPhasePending,
-		buildv1.BuildPhaseRunning,
-	}
-	BuildPhaseFilter := []buildv1.BuildPhase{
-		buildv1.BuildPhaseCancelled,
-		buildv1.BuildPhaseComplete,
-		buildv1.BuildPhaseError,
-		buildv1.BuildPhaseFailed,
-	}
+	BuildPhaseOptions := []buildv1.BuildPhase{buildv1.BuildPhaseCancelled, buildv1.BuildPhaseComplete, buildv1.BuildPhaseError, buildv1.BuildPhaseFailed, buildv1.BuildPhaseNew, buildv1.BuildPhasePending, buildv1.BuildPhaseRunning}
+	BuildPhaseFilter := []buildv1.BuildPhase{buildv1.BuildPhaseCancelled, buildv1.BuildPhaseComplete, buildv1.BuildPhaseError, buildv1.BuildPhaseFailed}
 	BuildPhaseFilterSet := sets.String{}
 	for _, BuildPhase := range BuildPhaseFilter {
 		BuildPhaseFilterSet.Insert(string(BuildPhase))
 	}
-
 	for _, BuildPhaseOption := range BuildPhaseOptions {
 		builds = append(builds, withStatus(mockBuild("a", string(BuildPhaseOption)+"-active", activeBuildConfig), BuildPhaseOption))
 		builds = append(builds, withStatus(mockBuild("a", string(BuildPhaseOption)+"-inactive", inactiveBuildConfig), BuildPhaseOption))
@@ -86,7 +100,6 @@ func TestOrphanBuildResolver(t *testing.T) {
 			expectedNames.Insert(string(BuildPhaseOption) + "-orphan")
 		}
 	}
-
 	dataSet := NewDataSet(buildConfigs, builds)
 	resolver := NewOrphanBuildResolver(dataSet, BuildPhaseFilter)
 	results, err := resolver.Resolve()
@@ -101,21 +114,23 @@ func TestOrphanBuildResolver(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expectedNames, foundNames)
 	}
 }
-
 func TestPerBuildConfigResolver(t *testing.T) {
-	BuildPhaseOptions := []buildv1.BuildPhase{
-		buildv1.BuildPhaseCancelled,
-		buildv1.BuildPhaseComplete,
-		buildv1.BuildPhaseError,
-		buildv1.BuildPhaseFailed,
-		buildv1.BuildPhaseNew,
-		buildv1.BuildPhasePending,
-		buildv1.BuildPhaseRunning,
-	}
-	buildConfigs := []*buildv1.BuildConfig{
-		mockBuildConfig("a", "build-config-1"),
-		mockBuildConfig("b", "build-config-2"),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	BuildPhaseOptions := []buildv1.BuildPhase{buildv1.BuildPhaseCancelled, buildv1.BuildPhaseComplete, buildv1.BuildPhaseError, buildv1.BuildPhaseFailed, buildv1.BuildPhaseNew, buildv1.BuildPhasePending, buildv1.BuildPhaseRunning}
+	buildConfigs := []*buildv1.BuildConfig{mockBuildConfig("a", "build-config-1"), mockBuildConfig("b", "build-config-2")}
 	buildsPerStatus := 100
 	builds := []*buildv1.Build{}
 	for _, buildConfig := range buildConfigs {
@@ -126,21 +141,16 @@ func TestPerBuildConfigResolver(t *testing.T) {
 			}
 		}
 	}
-
 	now := metav1.Now()
 	for i := range builds {
 		creationTimestamp := metav1.NewTime(now.Time.Add(-1 * time.Duration(i) * time.Hour))
 		builds[i].CreationTimestamp = creationTimestamp
 	}
-
-	// test number to keep at varying ranges
 	for keep := 0; keep < buildsPerStatus*2; keep++ {
 		dataSet := NewDataSet(buildConfigs, builds)
-
 		expectedNames := sets.String{}
 		buildCompleteStatusFilterSet := sets.NewString(string(buildv1.BuildPhaseComplete))
 		buildFailedStatusFilterSet := sets.NewString(string(buildv1.BuildPhaseCancelled), string(buildv1.BuildPhaseError), string(buildv1.BuildPhaseFailed))
-
 		for _, buildConfig := range buildConfigs {
 			buildItems, err := dataSet.ListBuildsByBuildConfig(buildConfig)
 			if err != nil {
@@ -170,7 +180,6 @@ func TestPerBuildConfigResolver(t *testing.T) {
 				expectedNames.Insert(build.Name)
 			}
 		}
-
 		resolver := NewPerBuildConfigResolver(dataSet, keep, keep)
 		results, err := resolver.Resolve()
 		if err != nil {

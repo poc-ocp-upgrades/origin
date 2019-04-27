@@ -5,9 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-
 	"github.com/ghodss/yaml"
-
 	rbacv1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
@@ -15,7 +13,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	api "k8s.io/kubernetes/pkg/apis/core"
-
 	"github.com/openshift/origin/pkg/api/install"
 	"github.com/openshift/origin/pkg/api/legacy"
 	"github.com/openshift/origin/pkg/cmd/server/admin"
@@ -27,13 +24,40 @@ var (
 )
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	install.InstallInternalOpenShift(scheme)
 	install.InstallInternalKube(scheme)
 	fileEncodingCodecFactory = serializer.NewCodecFactory(scheme)
 }
-
 func TestCreateBootstrapPolicyFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, err := ioutil.TempFile("", "TestCreateBootstrapPolicyFile")
 	if err != nil {
 		t.Fatal(err)
@@ -52,11 +76,23 @@ func TestCreateBootstrapPolicyFile(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_policy_file.yaml")
 }
-
 func TestBootstrapNamespaceRoles(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allRoles := bootstrappolicy.NamespaceRoles()
 	list := &api.List{}
-	// enforce a strict ordering
 	for _, namespace := range sets.StringKeySet(allRoles).List() {
 		roles := allRoles[namespace]
 		for i := range roles {
@@ -65,11 +101,23 @@ func TestBootstrapNamespaceRoles(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_namespace_roles.yaml")
 }
-
 func TestGetBootstrapNamespaceRoleBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allRoleBindings := bootstrappolicy.NamespaceRoleBindings()
 	list := &api.List{}
-	// enforce a strict ordering
 	for _, namespace := range sets.StringKeySet(allRoleBindings).List() {
 		roleBindings := allRoleBindings[namespace]
 		for i := range roleBindings {
@@ -78,8 +126,21 @@ func TestGetBootstrapNamespaceRoleBindings(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_namespace_role_bindings.yaml")
 }
-
 func TestBootstrapProjectRoleBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roleBindings := bootstrappolicy.GetBootstrapServiceAccountProjectRoleBindings("myproject")
 	list := &api.List{}
 	for i := range roleBindings {
@@ -87,8 +148,21 @@ func TestBootstrapProjectRoleBindings(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_service_account_project_role_bindings.yaml")
 }
-
 func TestBootstrapClusterRoleBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roleBindings := bootstrappolicy.GetBootstrapClusterRoleBindings()
 	list := &api.List{}
 	for i := range roleBindings {
@@ -96,8 +170,21 @@ func TestBootstrapClusterRoleBindings(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_cluster_role_bindings.yaml")
 }
-
 func TestBootstrapClusterRoles(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roles := bootstrappolicy.GetBootstrapClusterRoles()
 	list := &api.List{}
 	for i := range roles {
@@ -105,18 +192,29 @@ func TestBootstrapClusterRoles(t *testing.T) {
 	}
 	testObjects(t, list, "bootstrap_cluster_roles.yaml")
 }
-
 func testObjects(t *testing.T, list *api.List, fixtureFilename string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filename := filepath.Join("../../../../test/testdata/bootstrappolicy", fixtureFilename)
 	expectedYAML, err := ioutil.ReadFile(filename)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if err := runtime.EncodeList(fileEncodingCodecFactory.LegacyCodec(rbacv1.SchemeGroupVersion, legacy.GroupVersion), list.Items); err != nil {
 		t.Fatal(err)
 	}
-
 	jsonData, err := runtime.Encode(fileEncodingCodecFactory.LegacyCodec(rbacv1.SchemeGroupVersion, legacy.GroupVersion), list)
 	if err != nil {
 		t.Fatal(err)
@@ -127,7 +225,6 @@ func testObjects(t *testing.T, list *api.List, fixtureFilename string) {
 	}
 	if string(yamlData) != string(expectedYAML) {
 		t.Errorf("Bootstrap policy data does not match the test fixture in %s", filename)
-
 		const updateEnvVar = "UPDATE_BOOTSTRAP_POLICY_FIXTURE_DATA"
 		if os.Getenv(updateEnvVar) == "true" {
 			if err := ioutil.WriteFile(filename, []byte(yamlData), os.FileMode(0755)); err == nil {

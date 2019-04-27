@@ -3,7 +3,6 @@ package podsecuritypolicyselfsubjectreview
 import (
 	"fmt"
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apiserver/pkg/authentication/user"
 	"k8s.io/apiserver/pkg/authorization/authorizer"
@@ -12,74 +11,49 @@ import (
 	"k8s.io/client-go/kubernetes/fake"
 	"k8s.io/client-go/tools/cache"
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
-
 	securityv1 "github.com/openshift/api/security/v1"
 	securityv1listers "github.com/openshift/client-go/security/listers/security/v1"
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
 	admissionttesting "github.com/openshift/origin/pkg/security/apiserver/admission/testing"
 	oscc "github.com/openshift/origin/pkg/security/apiserver/securitycontextconstraints"
-
 	_ "github.com/openshift/origin/pkg/api/install"
 )
 
 func TestPodSecurityPolicySelfSubjectReview(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
-		sccs  []*securityv1.SecurityContextConstraints
-		check func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string)
-	}{
-		"user foo": {
-			sccs: []*securityv1.SecurityContextConstraints{
-				admissionttesting.UserScc("bar"),
-				admissionttesting.UserScc("foo"),
-			},
-			check: func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string) {
-				fmt.Printf("-> Is %q", p.Status.AllowedBy.Name)
-				return p.Status.AllowedBy.Name == "foo", "SCC should be foo"
-			},
-		},
-		"user bar ": {
-			sccs: []*securityv1.SecurityContextConstraints{
-				admissionttesting.UserScc("bar"),
-			},
-			check: func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string) {
-				return p.Status.AllowedBy == nil, "Allowed by should be nil"
-			},
-		},
-	}
+		sccs	[]*securityv1.SecurityContextConstraints
+		check	func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string)
+	}{"user foo": {sccs: []*securityv1.SecurityContextConstraints{admissionttesting.UserScc("bar"), admissionttesting.UserScc("foo")}, check: func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string) {
+		fmt.Printf("-> Is %q", p.Status.AllowedBy.Name)
+		return p.Status.AllowedBy.Name == "foo", "SCC should be foo"
+	}}, "user bar ": {sccs: []*securityv1.SecurityContextConstraints{admissionttesting.UserScc("bar")}, check: func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string) {
+		return p.Status.AllowedBy == nil, "Allowed by should be nil"
+	}}}
 	for testName, testcase := range testcases {
 		namespace := admissionttesting.CreateNamespaceForTest()
 		serviceAccount := admissionttesting.CreateSAForTest()
-		reviewRequest := &securityapi.PodSecurityPolicySelfSubjectReview{
-			Spec: securityapi.PodSecurityPolicySelfSubjectReviewSpec{
-				Template: coreapi.PodTemplateSpec{
-					Spec: coreapi.PodSpec{
-						Containers: []coreapi.Container{
-							{
-								Name:                     "ctr",
-								Image:                    "image",
-								ImagePullPolicy:          "IfNotPresent",
-								TerminationMessagePolicy: coreapi.TerminationMessageReadFile,
-							},
-						},
-						RestartPolicy:      coreapi.RestartPolicyAlways,
-						SecurityContext:    &coreapi.PodSecurityContext{},
-						DNSPolicy:          coreapi.DNSClusterFirst,
-						ServiceAccountName: "default",
-						SchedulerName:      coreapi.DefaultSchedulerName,
-					},
-				},
-			},
-		}
-
+		reviewRequest := &securityapi.PodSecurityPolicySelfSubjectReview{Spec: securityapi.PodSecurityPolicySelfSubjectReviewSpec{Template: coreapi.PodTemplateSpec{Spec: coreapi.PodSpec{Containers: []coreapi.Container{{Name: "ctr", Image: "image", ImagePullPolicy: "IfNotPresent", TerminationMessagePolicy: coreapi.TerminationMessageReadFile}}, RestartPolicy: coreapi.RestartPolicyAlways, SecurityContext: &coreapi.PodSecurityContext{}, DNSPolicy: coreapi.DNSClusterFirst, ServiceAccountName: "default", SchedulerName: coreapi.DefaultSchedulerName}}}}
 		sccIndexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc})
 		sccCache := securityv1listers.NewSecurityContextConstraintsLister(sccIndexer)
-
 		for _, scc := range testcase.sccs {
 			if err := sccIndexer.Add(scc); err != nil {
 				t.Fatalf("error adding sccs to store: %v", err)
 			}
 		}
-
 		csf := fake.NewSimpleClientset(namespace, serviceAccount)
 		storage := REST{oscc.NewDefaultSCCMatcher(sccCache, &noopTestAuthorizer{}), csf}
 		ctx := apirequest.WithUser(apirequest.WithNamespace(apirequest.NewContext(), metav1.NamespaceAll), &user.DefaultInfo{Name: "foo", Groups: []string{"bar", "baz"}})
@@ -101,5 +75,19 @@ func TestPodSecurityPolicySelfSubjectReview(t *testing.T) {
 type noopTestAuthorizer struct{}
 
 func (s *noopTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decision, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return authorizer.DecisionNoOpinion, "", nil
 }

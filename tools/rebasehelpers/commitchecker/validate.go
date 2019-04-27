@@ -7,7 +7,6 @@ import (
 	"regexp"
 	"strings"
 	"text/template"
-
 	"github.com/openshift/origin/tools/rebasehelpers/util"
 )
 
@@ -36,17 +35,23 @@ Examples of valid summaries:
   UPSTREAM: revert: 12345: A kube revert
 
 `
+var AllValidators = []func([]util.Commit) error{ValidateUpstreamCommitSummaries, ValidateUpstreamCommitsWithoutGodepsChanges, ValidateUpstreamCommitModifiesOnlyGodeps, ValidateUpstreamCommitModifiesOnlyKubernetes}
 
-var AllValidators = []func([]util.Commit) error{
-	ValidateUpstreamCommitSummaries,
-	ValidateUpstreamCommitsWithoutGodepsChanges,
-	ValidateUpstreamCommitModifiesOnlyGodeps,
-	ValidateUpstreamCommitModifiesOnlyKubernetes,
-}
-
-// ValidateUpstreamCommitsWithoutGodepsChanges returns an error if any
-// upstream commits have no Godeps changes.
 func ValidateUpstreamCommitsWithoutGodepsChanges(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() && !commit.DeclaresUpstreamChange() {
@@ -60,10 +65,21 @@ func ValidateUpstreamCommitsWithoutGodepsChanges(commits []util.Commit) error {
 	}
 	return nil
 }
-
-// ValidateUpstreamCommitModifiesSingleGodepsRepo returns an error if any
-// upstream commits have changes that span more than one Godeps repo.
 func ValidateUpstreamCommitModifiesSingleGodepsRepo(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		godepsChanges, err := commit.GodepsReposChanged()
@@ -81,10 +97,21 @@ func ValidateUpstreamCommitModifiesSingleGodepsRepo(commits []util.Commit) error
 	}
 	return nil
 }
-
-// ValidateUpstreamCommitSummaries ensures that any commits which declare to
-// be upstream match the regular expressions for UPSTREAM summaries.
 func ValidateUpstreamCommitSummaries(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.DeclaresUpstreamChange() && !commit.MatchesUpstreamSummaryPattern() {
@@ -94,22 +121,30 @@ func ValidateUpstreamCommitSummaries(commits []util.Commit) error {
 	if len(problemCommits) > 0 {
 		tmpl, _ := template.New("problems").Parse(CommitSummaryErrorTemplate)
 		data := struct {
-			Pattern *regexp.Regexp
-			Commits []util.Commit
-		}{
-			Pattern: util.UpstreamSummaryPattern,
-			Commits: problemCommits,
-		}
+			Pattern	*regexp.Regexp
+			Commits	[]util.Commit
+		}{Pattern: util.UpstreamSummaryPattern, Commits: problemCommits}
 		buffer := &bytes.Buffer{}
 		tmpl.Execute(buffer, data)
 		return fmt.Errorf(buffer.String())
 	}
 	return nil
 }
-
-// ValidateUpstreamCommitModifiesOnlyGodeps ensures that any Godeps commits
-// modify ONLY Godeps files.
 func ValidateUpstreamCommitModifiesOnlyGodeps(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() && commit.HasNonVendoredCodeChanges() {
@@ -123,10 +158,21 @@ func ValidateUpstreamCommitModifiesOnlyGodeps(commits []util.Commit) error {
 	}
 	return nil
 }
-
-// ValidateUpstreamCommitModifiesOnlyKubernetes ensures that an
-// upstream commit doesn't modify any code outside of kube/kube.
 func ValidateUpstreamCommitModifiesOnlyKubernetes(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.DeclaresUpstreamChange() {
@@ -148,10 +194,21 @@ func ValidateUpstreamCommitModifiesOnlyKubernetes(commits []util.Commit) error {
 	}
 	return nil
 }
-
-// ValidateUpstreamCommitModifiesOnlyDeclaredGodepRepo ensures that an
-// upstream commit only modifies the Godep repo the summary declares.
 func ValidateUpstreamCommitModifiesOnlyDeclaredGodepRepo(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.DeclaresUpstreamChange() {
@@ -177,10 +234,21 @@ func ValidateUpstreamCommitModifiesOnlyDeclaredGodepRepo(commits []util.Commit) 
 	}
 	return nil
 }
-
-// ValidateGodeps invokes hack/godep-restore.sh whenever it finds at least one commit
-// modifying Godeps/Godeps.json file or vendor/ directory.
 func ValidateGodeps(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runGodepsRestore := false
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() || commit.HasGodepsChanges() {
@@ -205,15 +273,27 @@ func ValidateGodeps(commits []util.Commit) error {
 type CommitFilesRenderOption int
 
 const (
-	RenderNoFiles CommitFilesRenderOption = iota
+	RenderNoFiles	CommitFilesRenderOption	= iota
 	RenderOnlyGodepsFiles
 	RenderOnlyNonGodepsFiles
 	RenderAllFiles
 )
 
-// renderGodepFilesError formats commits and their file lists into readable
-// output prefixed with label.
 func renderGodepFilesError(label string, commits []util.Commit, opt CommitFilesRenderOption) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	msg := fmt.Sprintf("%s:\n\n", label)
 	for _, commit := range commits {
 		msg += fmt.Sprintf("[%s] %s\n", commit.Sha, commit.Summary)
@@ -221,9 +301,7 @@ func renderGodepFilesError(label string, commits []util.Commit, opt CommitFilesR
 			continue
 		}
 		for _, file := range commit.Files {
-			if opt == RenderAllFiles ||
-				(opt == RenderOnlyGodepsFiles && file.HasVendoredCodeChanges()) ||
-				(opt == RenderOnlyNonGodepsFiles && !file.HasVendoredCodeChanges()) {
+			if opt == RenderAllFiles || (opt == RenderOnlyGodepsFiles && file.HasVendoredCodeChanges()) || (opt == RenderOnlyNonGodepsFiles && !file.HasVendoredCodeChanges()) {
 				msg += fmt.Sprintf("  - %s\n", file)
 			}
 		}

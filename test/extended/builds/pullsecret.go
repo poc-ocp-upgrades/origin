@@ -2,25 +2,21 @@ package builds
 
 import (
 	"fmt"
-
 	g "github.com/onsi/ginkgo"
 	o "github.com/onsi/gomega"
-
 	exutil "github.com/openshift/origin/test/extended/util"
 )
 
 var _ = g.Describe("[Feature:Builds][Slow] using pull secrets in a build", func() {
 	defer g.GinkgoRecover()
 	var (
-		exampleBuild = exutil.FixturePath("testdata", "builds", "test-docker-app")
-		oc           = exutil.NewCLI("cli-pullsecret-build", exutil.KubeConfigPath())
+		exampleBuild	= exutil.FixturePath("testdata", "builds", "test-docker-app")
+		oc		= exutil.NewCLI("cli-pullsecret-build", exutil.KubeConfigPath())
 	)
-
 	g.Context("", func() {
 		g.BeforeEach(func() {
 			exutil.PreTestDump()
 		})
-
 		g.Context("start-build test context", func() {
 			g.AfterEach(func() {
 				if g.CurrentGinkgoTestDescription().Failed {
@@ -28,7 +24,6 @@ var _ = g.Describe("[Feature:Builds][Slow] using pull secrets in a build", func(
 					exutil.DumpPodLogsStartingWith("", oc)
 				}
 			})
-
 			g.Describe("binary builds", func() {
 				g.It("should be able to run a build that is implicitly pulling from the internal registry", func() {
 					g.By("creating a build")

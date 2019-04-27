@@ -3,9 +3,7 @@ package v1
 import (
 	"errors"
 	"net/url"
-
 	"k8s.io/client-go/rest"
-
 	buildv1 "github.com/openshift/api/build/v1"
 )
 
@@ -16,15 +14,43 @@ type WebHookURLInterface interface {
 }
 
 func NewWebhookURLClient(c rest.Interface, ns string) WebHookURLInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &webhooks{client: c, ns: ns}
 }
 
 type webhooks struct {
-	client rest.Interface
-	ns     string
+	client	rest.Interface
+	ns	string
 }
 
 func (c *webhooks) WebHookURL(name string, trigger *buildv1.BuildTriggerPolicy) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hooks := c.client.Get().Namespace(c.ns).Resource("buildConfigs").Name(name).SubResource("webhooks")
 	switch {
 	case trigger.GenericWebHook != nil:

@@ -4,23 +4,28 @@ import (
 	"context"
 	"net/http/httptest"
 	"testing"
-
 	"github.com/RangelReale/osin"
 )
 
 func TestAuthenticator(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[osin.AccessRequestType]struct {
-		ExpectedAuthorized bool
-		ExpectedError      bool
-	}{
-		osin.AUTHORIZATION_CODE: {true, false},
-		osin.REFRESH_TOKEN:      {true, false},
-		osin.PASSWORD:           {false, false},
-		osin.ASSERTION:          {false, false},
-		osin.CLIENT_CREDENTIALS: {false, false},
-		osin.IMPLICIT:           {false, false},
-	}
-
+		ExpectedAuthorized	bool
+		ExpectedError		bool
+	}{osin.AUTHORIZATION_CODE: {true, false}, osin.REFRESH_TOKEN: {true, false}, osin.PASSWORD: {false, false}, osin.ASSERTION: {false, false}, osin.CLIENT_CREDENTIALS: {false, false}, osin.IMPLICIT: {false, false}}
 	for requestType, testCase := range testCases {
 		req := &osin.AccessRequest{Type: requestType}
 		w := httptest.NewRecorder()
@@ -36,8 +41,21 @@ func TestAuthenticator(t *testing.T) {
 		}
 	}
 }
-
 func TestDenyPassword(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok, err := deny.AuthenticatePassword(context.TODO(), "", "")
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
@@ -49,8 +67,21 @@ func TestDenyPassword(t *testing.T) {
 		t.Fatalf("Unexpected user info: %v", user)
 	}
 }
-
 func TestDenyAssertion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok, err := deny.AuthenticateAssertion("", "")
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
@@ -62,8 +93,21 @@ func TestDenyAssertion(t *testing.T) {
 		t.Fatalf("Unexpected user info: %v", user)
 	}
 }
-
 func TestDenyClient(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok, err := deny.AuthenticateClient(nil)
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)

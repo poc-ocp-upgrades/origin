@@ -2,49 +2,31 @@ package simple
 
 import (
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/validation"
-
 	routeapi "github.com/openshift/origin/pkg/route/apis/route"
 	rac "github.com/openshift/origin/pkg/route/controller/allocation"
 )
 
 func TestNewSimpleAllocationPlugin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		Name             string
-		ErrorExpectation bool
-	}{
-		{
-			Name:             "www.example.org",
-			ErrorExpectation: false,
-		},
-		{
-			Name:             "www^acme^org",
-			ErrorExpectation: true,
-		},
-		{
-			Name:             "bad wolf.whoswho",
-			ErrorExpectation: true,
-		},
-		{
-			Name:             "tardis#1.watch",
-			ErrorExpectation: true,
-		},
-		{
-			Name:             "こんにちはopenshift.com",
-			ErrorExpectation: true,
-		},
-		{
-			Name:             "yo!yo!@#$%%$%^&*(0){[]}:;',<>?/1.test",
-			ErrorExpectation: true,
-		},
-		{
-			Name:             "",
-			ErrorExpectation: false,
-		},
-	}
-
+		Name			string
+		ErrorExpectation	bool
+	}{{Name: "www.example.org", ErrorExpectation: false}, {Name: "www^acme^org", ErrorExpectation: true}, {Name: "bad wolf.whoswho", ErrorExpectation: true}, {Name: "tardis#1.watch", ErrorExpectation: true}, {Name: "こんにちはopenshift.com", ErrorExpectation: true}, {Name: "yo!yo!@#$%%$%^&*(0){[]}:;',<>?/1.test", ErrorExpectation: true}, {Name: "", ErrorExpectation: false}}
 	for _, tc := range tests {
 		sap, err := NewSimpleAllocationPlugin(tc.Name)
 		if err != nil && !tc.ErrorExpectation {
@@ -59,88 +41,31 @@ func TestNewSimpleAllocationPlugin(t *testing.T) {
 		}
 	}
 }
-
 func TestSimpleAllocationPlugin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name  string
-		route *routeapi.Route
-		empty bool
-	}{
-		{
-			name: "No Name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "namespace",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "service",
-					},
-				},
-			},
-			empty: true,
-		},
-		{
-			name: "No namespace",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "name",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "nonamespace",
-					},
-				},
-			},
-			empty: true,
-		},
-		{
-			name: "No service name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-			},
-		},
-		{
-			name: "Valid route",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-				Spec: routeapi.RouteSpec{
-					Host: "www.example.com",
-					To: routeapi.RouteTargetReference{
-						Name: "myservice",
-					},
-				},
-			},
-		},
-		{
-			name: "No host",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-				Spec: routeapi.RouteSpec{
-					Host: "www.example.com",
-					To: routeapi.RouteTargetReference{
-						Name: "myservice",
-					},
-				},
-			},
-		},
-	}
-
+		name	string
+		route	*routeapi.Route
+		empty	bool
+	}{{name: "No Name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Namespace: "namespace"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "service"}}}, empty: true}, {name: "No namespace", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "nonamespace"}}}, empty: true}, {name: "No service name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}}}, {name: "Valid route", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}, Spec: routeapi.RouteSpec{Host: "www.example.com", To: routeapi.RouteTargetReference{Name: "myservice"}}}}, {name: "No host", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}, Spec: routeapi.RouteSpec{Host: "www.example.com", To: routeapi.RouteTargetReference{Name: "myservice"}}}}}
 	plugin, err := NewSimpleAllocationPlugin("www.example.org")
 	if err != nil {
 		t.Errorf("Error creating SimpleAllocationPlugin got %s", err)
 		return
 	}
-
 	for _, tc := range tests {
 		shard, _ := plugin.Allocate(tc.route)
 		name := plugin.GenerateHostname(tc.route, shard)
@@ -155,83 +80,29 @@ func TestSimpleAllocationPlugin(t *testing.T) {
 		}
 	}
 }
-
 func TestSimpleAllocationPluginViaController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name  string
-		route *routeapi.Route
-		empty bool
-	}{
-		{
-			name: "No Name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "namespace",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "service",
-					},
-				},
-			},
-			empty: true,
-		},
-		{
-			name: "Host but no name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "namespace",
-				},
-				Spec: routeapi.RouteSpec{
-					Host: "foo.com",
-				},
-			},
-			empty: true,
-		},
-		{
-			name: "No namespace",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "name",
-				},
-				Spec: routeapi.RouteSpec{
-					To: routeapi.RouteTargetReference{
-						Name: "nonamespace",
-					},
-				},
-			},
-			empty: true,
-		},
-		{
-			name: "No service name",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-			},
-		},
-		{
-			name: "Valid route",
-			route: &routeapi.Route{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "name",
-					Namespace: "foo",
-				},
-				Spec: routeapi.RouteSpec{
-					Host: "www.example.com",
-					To: routeapi.RouteTargetReference{
-						Name: "s3",
-					},
-				},
-			},
-		},
-	}
-
+		name	string
+		route	*routeapi.Route
+		empty	bool
+	}{{name: "No Name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Namespace: "namespace"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "service"}}}, empty: true}, {name: "Host but no name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Namespace: "namespace"}, Spec: routeapi.RouteSpec{Host: "foo.com"}}, empty: true}, {name: "No namespace", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "nonamespace"}}}, empty: true}, {name: "No service name", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}}}, {name: "Valid route", route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "name", Namespace: "foo"}, Spec: routeapi.RouteSpec{Host: "www.example.com", To: routeapi.RouteTargetReference{Name: "s3"}}}}}
 	plugin, _ := NewSimpleAllocationPlugin("www.example.org")
 	fac := &rac.RouteAllocationControllerFactory{}
 	sac := fac.Create(plugin)
-
 	for _, tc := range tests {
 		shard, err := sac.AllocateRouterShard(tc.route)
 		if err != nil {

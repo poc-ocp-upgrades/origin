@@ -8,27 +8,68 @@ import (
 	"strings"
 	"sync"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/util/diff"
 	knet "k8s.io/apimachinery/pkg/util/net"
 )
 
 type requestStats struct {
-	lock     sync.Mutex
-	requests []string
+	lock		sync.Mutex
+	requests	[]string
 }
 
 func (rs *requestStats) addRequest(r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs.lock.Lock()
 	defer rs.lock.Unlock()
 	rs.requests = append(rs.requests, r.URL.String())
 }
 func (rs *requestStats) clear() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs.lock.Lock()
 	defer rs.lock.Unlock()
 	rs.requests = rs.requests[:0]
 }
 func (rs *requestStats) getRequests() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs.lock.Lock()
 	defer rs.lock.Unlock()
 	res := make([]string, 0, len(rs.requests))
@@ -37,122 +78,37 @@ func (rs *requestStats) getRequests() []string {
 	}
 	return res
 }
-
 func TestDefaultImagePinger(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs := requestStats{requests: []string{}}
-
 	type statusForPath map[string]int
-
-	rt := knet.SetTransportDefaults(&http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	})
+	rt := knet.SetTransportDefaults(&http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}})
 	insecureClient := http.Client{Transport: rt}
 	secureClient := http.Client{}
-
 	for _, tc := range []struct {
-		name                   string
-		schemePrefix           string
-		securedRegistry        bool
-		insecure               bool
-		statusForPath          statusForPath
-		expectedErrorSubstring string
-		expectedRequests       []string
-	}{
-		{
-			name:             "tls secured registry with insecure fallback",
-			securedRegistry:  true,
-			insecure:         true,
-			statusForPath:    statusForPath{"/": http.StatusOK},
-			expectedRequests: []string{"/"},
-		},
-
-		{
-			name:             "tls secured registry prefixed by scheme with insecure fallback",
-			schemePrefix:     "https://",
-			securedRegistry:  true,
-			insecure:         true,
-			statusForPath:    statusForPath{"/": http.StatusOK},
-			expectedRequests: []string{"/"},
-		},
-
-		{
-			name:                   "tls secured registry prefixed by http scheme with insecure fallback",
-			schemePrefix:           "http://",
-			securedRegistry:        true,
-			insecure:               true,
-			statusForPath:          statusForPath{"/": http.StatusOK},
-			expectedErrorSubstring: "malformed HTTP response",
-		},
-
-		{
-			name:                   "tls secured registry with no fallback",
-			securedRegistry:        true,
-			insecure:               false,
-			statusForPath:          statusForPath{"/": http.StatusOK, "/healthz": http.StatusOK},
-			expectedErrorSubstring: "x509: certificate signed by unknown authority",
-		},
-
-		{
-			name:             "tls secured registry with old healthz endpoint",
-			securedRegistry:  true,
-			insecure:         true,
-			statusForPath:    statusForPath{"/healthz": http.StatusOK},
-			expectedRequests: []string{"/", "/healthz"},
-		},
-
-		{
-			name:             "insecure registry with insecure fallback",
-			securedRegistry:  false,
-			insecure:         true,
-			statusForPath:    statusForPath{"/": http.StatusOK},
-			expectedRequests: []string{"/"},
-		},
-
-		{
-			name:             "insecure registry prefixed by scheme with insecure fallback",
-			schemePrefix:     "http://",
-			securedRegistry:  false,
-			insecure:         true,
-			statusForPath:    statusForPath{"/": http.StatusOK},
-			expectedRequests: []string{"/"},
-		},
-
-		{
-			name:                   "insecure registry prefixed by https scheme with insecure fallback",
-			schemePrefix:           "https://",
-			securedRegistry:        false,
-			insecure:               true,
-			statusForPath:          statusForPath{"/": http.StatusOK},
-			expectedErrorSubstring: "server gave HTTP response to HTTPS client",
-		},
-
-		{
-			name:                   "insecure registry with no fallback",
-			securedRegistry:        false,
-			statusForPath:          statusForPath{"/": http.StatusOK, "/healthz": http.StatusOK},
-			expectedErrorSubstring: "server gave HTTP response to HTTPS client",
-		},
-
-		{
-			name:             "insecure registry with old healthz endpoint",
-			securedRegistry:  false,
-			insecure:         true,
-			statusForPath:    statusForPath{"/healthz": http.StatusOK},
-			expectedRequests: []string{"/", "/healthz"},
-		},
-
-		{
-			name:                   "initializing insecure registry",
-			securedRegistry:        false,
-			insecure:               true,
-			statusForPath:          statusForPath{},
-			expectedErrorSubstring: "server gave HTTP response to HTTPS client, unexpected status: 404 Not Found",
-			expectedRequests:       []string{"/", "/healthz"},
-		},
-	} {
+		name			string
+		schemePrefix		string
+		securedRegistry		bool
+		insecure		bool
+		statusForPath		statusForPath
+		expectedErrorSubstring	string
+		expectedRequests	[]string
+	}{{name: "tls secured registry with insecure fallback", securedRegistry: true, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedRequests: []string{"/"}}, {name: "tls secured registry prefixed by scheme with insecure fallback", schemePrefix: "https://", securedRegistry: true, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedRequests: []string{"/"}}, {name: "tls secured registry prefixed by http scheme with insecure fallback", schemePrefix: "http://", securedRegistry: true, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedErrorSubstring: "malformed HTTP response"}, {name: "tls secured registry with no fallback", securedRegistry: true, insecure: false, statusForPath: statusForPath{"/": http.StatusOK, "/healthz": http.StatusOK}, expectedErrorSubstring: "x509: certificate signed by unknown authority"}, {name: "tls secured registry with old healthz endpoint", securedRegistry: true, insecure: true, statusForPath: statusForPath{"/healthz": http.StatusOK}, expectedRequests: []string{"/", "/healthz"}}, {name: "insecure registry with insecure fallback", securedRegistry: false, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedRequests: []string{"/"}}, {name: "insecure registry prefixed by scheme with insecure fallback", schemePrefix: "http://", securedRegistry: false, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedRequests: []string{"/"}}, {name: "insecure registry prefixed by https scheme with insecure fallback", schemePrefix: "https://", securedRegistry: false, insecure: true, statusForPath: statusForPath{"/": http.StatusOK}, expectedErrorSubstring: "server gave HTTP response to HTTPS client"}, {name: "insecure registry with no fallback", securedRegistry: false, statusForPath: statusForPath{"/": http.StatusOK, "/healthz": http.StatusOK}, expectedErrorSubstring: "server gave HTTP response to HTTPS client"}, {name: "insecure registry with old healthz endpoint", securedRegistry: false, insecure: true, statusForPath: statusForPath{"/healthz": http.StatusOK}, expectedRequests: []string{"/", "/healthz"}}, {name: "initializing insecure registry", securedRegistry: false, insecure: true, statusForPath: statusForPath{}, expectedErrorSubstring: "server gave HTTP response to HTTPS client, unexpected status: 404 Not Found", expectedRequests: []string{"/", "/healthz"}}} {
 		func() {
 			defer rs.clear()
-
 			handler := func(w http.ResponseWriter, r *http.Request) {
 				rs.addRequest(r)
 				if s, ok := tc.statusForPath[r.URL.Path]; ok {
@@ -161,7 +117,6 @@ func TestDefaultImagePinger(t *testing.T) {
 					w.WriteHeader(http.StatusNotFound)
 				}
 			}
-
 			var server *httptest.Server
 			if tc.securedRegistry {
 				server = httptest.NewTLSServer(http.HandlerFunc(handler))
@@ -170,17 +125,11 @@ func TestDefaultImagePinger(t *testing.T) {
 			}
 			defer server.Close()
 			serverHost := strings.TrimLeft(strings.TrimLeft(server.URL, "http://"), "https://")
-
 			client := &secureClient
 			if tc.insecure {
 				client = &insecureClient
 			}
-
-			pinger := DefaultRegistryPinger{
-				Client:   client,
-				Insecure: tc.insecure,
-			}
-
+			pinger := DefaultRegistryPinger{Client: client, Insecure: tc.insecure}
 			registryURL, err := pinger.Ping(tc.schemePrefix + serverHost)
 			if err != nil {
 				if len(tc.expectedErrorSubstring) == 0 {
@@ -191,10 +140,8 @@ func TestDefaultImagePinger(t *testing.T) {
 			} else if len(tc.expectedErrorSubstring) > 0 {
 				t.Errorf("[%s] unexpected non-error", tc.name)
 			}
-
 			e := server.URL
 			if len(tc.expectedErrorSubstring) > 0 {
-				// the pinger should return unchanged input in case of error
 				e = ""
 			}
 			a := ""
@@ -204,7 +151,6 @@ func TestDefaultImagePinger(t *testing.T) {
 			if a != e {
 				t.Errorf("[%s] unexpected registry url: %q != %q", tc.name, a, e)
 			}
-
 			ers := tc.expectedRequests
 			if ers == nil {
 				ers = []string{}

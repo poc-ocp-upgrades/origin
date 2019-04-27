@@ -6,91 +6,33 @@ import (
 )
 
 type TestData struct {
-	port     string
-	ports    []string
-	err      string
-	errs     []string
-	filtered []string
+	port		string
+	ports		[]string
+	err		string
+	errs		[]string
+	filtered	[]string
 }
 
 var (
-	testData = []TestData{
-		{
-			port: "8080",
-			err:  "",
-		},
-		{
-			port: "8080/tcp",
-			err:  "",
-		},
-		{
-			port: "8080/udp",
-			err:  "",
-		},
-		{
-			port: "8080/TCP",
-			err:  "",
-		},
-		{
-			port: "8080/UDP",
-			err:  "",
-		},
-
-		{
-			port: "88080/tcp",
-			err:  "port number must be in range 0 - 65535",
-		},
-		{
-			port: "8080/xyz",
-			err:  "protocol must be tcp or udp",
-		},
-		{
-			port: "$myPort",
-			err:  "port number must be in range 0 - 65535",
-		},
-	}
-
-	testDataArray = []TestData{
-		{
-			ports:    []string{"8080", "8080/tcp", "8080/udp"},
-			filtered: []string{"8080", "8080/tcp", "8080/udp"},
-			errs:     []string{},
-		},
-		{
-			ports:    []string{"8080", "8080/TCP", "8080/UDP"},
-			filtered: []string{"8080", "8080/TCP", "8080/UDP"},
-			errs:     []string{},
-		},
-		{
-			ports:    []string{"8080", "$myPort/TCP", "8080/UDP"},
-			filtered: []string{"8080", "8080/UDP"},
-			errs:     []string{"port number must be in range 0 - 65535"},
-		},
-
-		{
-			ports:    []string{"8080", "88080/tcp", "8080/udp", "-1"},
-			filtered: []string{"8080", "8080/udp"},
-			errs:     []string{"port number must be in range 0 - 65535", "port number must be in range 0 - 65535"},
-		},
-		{
-			ports:    []string{"8080", "8080/xyz", "8080/udp"},
-			filtered: []string{"8080", "8080/udp"},
-			errs:     []string{"protocol must be tcp or udp"},
-		},
-		{
-			ports:    []string{"88080", "8080/xyz", "8080/udp"},
-			filtered: []string{"8080/udp"},
-			errs:     []string{"port number must be in range 0 - 65535", "protocol must be tcp or udp"},
-		},
-		{
-			ports:    []string{"123/tcp", "abc"},
-			filtered: []string{"123/tcp"},
-			errs:     []string{"port number must be in range 0 - 65535"},
-		},
-	}
+	testData	= []TestData{{port: "8080", err: ""}, {port: "8080/tcp", err: ""}, {port: "8080/udp", err: ""}, {port: "8080/TCP", err: ""}, {port: "8080/UDP", err: ""}, {port: "88080/tcp", err: "port number must be in range 0 - 65535"}, {port: "8080/xyz", err: "protocol must be tcp or udp"}, {port: "$myPort", err: "port number must be in range 0 - 65535"}}
+	testDataArray	= []TestData{{ports: []string{"8080", "8080/tcp", "8080/udp"}, filtered: []string{"8080", "8080/tcp", "8080/udp"}, errs: []string{}}, {ports: []string{"8080", "8080/TCP", "8080/UDP"}, filtered: []string{"8080", "8080/TCP", "8080/UDP"}, errs: []string{}}, {ports: []string{"8080", "$myPort/TCP", "8080/UDP"}, filtered: []string{"8080", "8080/UDP"}, errs: []string{"port number must be in range 0 - 65535"}}, {ports: []string{"8080", "88080/tcp", "8080/udp", "-1"}, filtered: []string{"8080", "8080/udp"}, errs: []string{"port number must be in range 0 - 65535", "port number must be in range 0 - 65535"}}, {ports: []string{"8080", "8080/xyz", "8080/udp"}, filtered: []string{"8080", "8080/udp"}, errs: []string{"protocol must be tcp or udp"}}, {ports: []string{"88080", "8080/xyz", "8080/udp"}, filtered: []string{"8080/udp"}, errs: []string{"port number must be in range 0 - 65535", "protocol must be tcp or udp"}}, {ports: []string{"123/tcp", "abc"}, filtered: []string{"123/tcp"}, errs: []string{"port number must be in range 0 - 65535"}}}
 )
 
 func TestSplitPortAndProtocol(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, data := range testData {
 		dp, err := SplitPortAndProtocol(data.port)
 		if data.err == "" && err != nil {
@@ -113,8 +55,21 @@ func TestSplitPortAndProtocol(t *testing.T) {
 		}
 	}
 }
-
 func TestFilterPortAndProtocolArray(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, data := range testDataArray {
 		dps, errs := FilterPortAndProtocolArray(data.ports)
 		if len(data.errs) == 0 && len(errs) != 0 {
@@ -145,8 +100,21 @@ func TestFilterPortAndProtocolArray(t *testing.T) {
 		}
 	}
 }
-
 func TestSplitPortAndProtocolArray(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, data := range testDataArray {
 		dps, errs := SplitPortAndProtocolArray(data.ports)
 		if len(data.errs) == 0 && len(errs) != 0 {

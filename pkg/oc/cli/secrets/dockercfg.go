@@ -5,9 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/cli-runtime/pkg/genericclioptions/printers"
@@ -21,7 +19,7 @@ import (
 const CreateDockerConfigSecretRecommendedName = "new-dockercfg"
 
 var (
-	createDockercfgLong = templates.LongDesc(`
+	createDockercfgLong	= templates.LongDesc(`
     Create a new dockercfg secret
 
     Dockercfg secrets are used to authenticate against Docker registries.
@@ -34,8 +32,7 @@ var (
     When creating applications, you may have a Docker registry that requires authentication.  In order for the
     nodes to pull images on your behalf, they have to have the credentials.  You can provide this information
     by creating a dockercfg secret and attaching it to your service account.`)
-
-	createDockercfgExample = templates.Examples(`
+	createDockercfgExample	= templates.Examples(`
     # Create a new .dockercfg secret:
     %[1]s SECRET --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
 
@@ -50,111 +47,141 @@ var (
 )
 
 type CreateDockerConfigOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	Printer printers.ResourcePrinter
-
-	SecretName       string
-	RegistryLocation string
-	Username         string
-	Password         string
-	EmailAddress     string
-
-	SecretsInterface corev1client.SecretInterface
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Printer			printers.ResourcePrinter
+	SecretName		string
+	RegistryLocation	string
+	Username		string
+	Password		string
+	EmailAddress		string
+	SecretsInterface	corev1client.SecretInterface
 	genericclioptions.IOStreams
 }
 
 func NewCreateDockerConfigOptions(streams genericclioptions.IOStreams) *CreateDockerConfigOptions {
-	return &CreateDockerConfigOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateDockerConfigOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
-
-// NewCmdCreateDockerConfigSecret creates a command object for making a dockercfg secret
 func NewCmdCreateDockerConfigSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams, newSecretFullName, ocEditFullName string) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCreateDockerConfigOptions(streams)
-
-	cmd := &cobra.Command{
-		Use:        fmt.Sprintf("%s SECRET --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL", name),
-		Short:      "Create a new dockercfg secret",
-		Long:       createDockercfgLong,
-		Example:    fmt.Sprintf(createDockercfgExample, fullName, newSecretFullName, ocEditFullName),
-		Deprecated: "use oc create secret",
-		Hidden:     true,
-		Run: func(c *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-
-		},
-	}
-
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s SECRET --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL", name), Short: "Create a new dockercfg secret", Long: createDockercfgLong, Example: fmt.Sprintf(createDockercfgExample, fullName, newSecretFullName, ocEditFullName), Deprecated: "use oc create secret", Hidden: true, Run: func(c *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	cmd.Flags().StringVar(&o.Username, "docker-username", "", "Username for Docker registry authentication")
 	cmd.Flags().StringVar(&o.Password, "docker-password", "", "Password for Docker registry authentication")
 	cmd.Flags().StringVar(&o.EmailAddress, "docker-email", "", "Email for Docker registry")
 	cmd.Flags().StringVar(&o.RegistryLocation, "docker-server", "https://index.docker.io/v1/", "Server location for Docker registry")
-
 	o.PrintFlags.AddFlags(cmd)
 	return cmd
 }
-
 func (o CreateDockerConfigOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := o.NewDockerSecret()
 	if err != nil {
 		return err
 	}
-
-	// TODO: sweep codebase removing implied --dry-run behavior when -o is specified
 	if o.PrintFlags.OutputFormat != nil && len(*o.PrintFlags.OutputFormat) == 0 {
 		persistedSecret, err := o.SecretsInterface.Create(secret)
 		if err != nil {
 			return err
 		}
-
 		return o.Printer.PrintObj(persistedSecret, o.Out)
 	}
-
 	return o.Printer.PrintObj(secret, o.Out)
 }
-
 func (o CreateDockerConfigOptions) NewDockerSecret() (*corev1.Secret, error) {
-	dockercfgAuth := credentialprovider.DockerConfigEntry{
-		Username: o.Username,
-		Password: o.Password,
-		Email:    o.EmailAddress,
-	}
-
-	dockerCfg := credentialprovider.DockerConfigJson{
-		Auths: map[string]credentialprovider.DockerConfigEntry{o.RegistryLocation: dockercfgAuth},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	dockercfgAuth := credentialprovider.DockerConfigEntry{Username: o.Username, Password: o.Password, Email: o.EmailAddress}
+	dockerCfg := credentialprovider.DockerConfigJson{Auths: map[string]credentialprovider.DockerConfigEntry{o.RegistryLocation: dockercfgAuth}}
 	dockercfgContent, err := json.Marshal(dockerCfg)
 	if err != nil {
 		return nil, err
 	}
-
 	secret := &corev1.Secret{}
 	secret.Name = o.SecretName
 	secret.Type = corev1.SecretTypeDockerConfigJson
 	secret.Data = map[string][]byte{}
 	secret.Data[corev1.DockerConfigJsonKey] = dockercfgContent
-
 	return secret, nil
 }
-
 func (o *CreateDockerConfigOptions) Complete(f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 1 {
 		return errors.New("must have exactly one argument: secret name")
 	}
 	o.SecretName = args[0]
-
 	config, err := f.ToRESTConfig()
 	if err != nil {
 		return err
 	}
-
 	client, err := corev1client.NewForConfig(config)
 	if err != nil {
 		return err
@@ -163,18 +190,28 @@ func (o *CreateDockerConfigOptions) Complete(f kcmdutil.Factory, args []string) 
 	if err != nil {
 		return err
 	}
-
 	o.SecretsInterface = client.Secrets(namespace)
-
 	o.Printer, err = o.PrintFlags.ToPrinter()
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func (o CreateDockerConfigOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.SecretName) == 0 {
 		return errors.New("secret name must be present")
 	}
@@ -193,10 +230,8 @@ func (o CreateDockerConfigOptions) Validate() error {
 	if o.SecretsInterface == nil {
 		return errors.New("secrets interface must be present")
 	}
-
 	if strings.Contains(o.Username, ":") {
 		return fmt.Errorf("username '%v' is illegal because it contains a ':'", o.Username)
 	}
-
 	return nil
 }

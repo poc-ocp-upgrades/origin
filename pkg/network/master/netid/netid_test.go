@@ -5,24 +5,29 @@ import (
 )
 
 func TestNetIDRange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
-		min      uint32
-		max      uint32
-		success  bool
-		expected string
-		included int
-		excluded int
-		usecase  string
-	}{
-		{101, 200, true, "101-200", 150, 201, "valid input"},
-		{201, 300, true, "201-300", 201, 301, "valid input, check min"},
-		{201, 300, true, "201-300", 300, 301, "valid input, check max"},
-		{10, 10, true, "10-10", 10, 11, "input with size=1"},
-		{100, 99, false, "", -1, -1, "invalid size"},
-		{1, 100, false, "", -1, -1, "invalid min"},
-		{1, (1 << 25), false, "", -1, -1, "invalid max"},
-	}
-
+		min		uint32
+		max		uint32
+		success		bool
+		expected	string
+		included	int
+		excluded	int
+		usecase		string
+	}{{101, 200, true, "101-200", 150, 201, "valid input"}, {201, 300, true, "201-300", 201, 301, "valid input, check min"}, {201, 300, true, "201-300", 300, 301, "valid input, check max"}, {10, 10, true, "10-10", 10, 11, "input with size=1"}, {100, 99, false, "", -1, -1, "invalid size"}, {1, 100, false, "", -1, -1, "invalid min"}, {1, (1 << 25), false, "", -1, -1, "invalid max"}}
 	for i := range testCases {
 		tc := &testCases[i]
 		r, err := NewNetIDRange(tc.min, tc.max)

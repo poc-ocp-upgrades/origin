@@ -6,12 +6,24 @@ import (
 )
 
 func RouteAllocator(routingSubdomain string) (*routeallocationcontroller.RouteAllocationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	factory := routeallocationcontroller.RouteAllocationControllerFactory{}
-
 	plugin, err := routeplugin.NewSimpleAllocationPlugin(routingSubdomain)
 	if err != nil {
 		return nil, err
 	}
-
 	return factory.Create(plugin), nil
 }

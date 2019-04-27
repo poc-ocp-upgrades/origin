@@ -6,10 +6,8 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	g "github.com/onsi/ginkgo"
 	o "github.com/onsi/gomega"
-
 	corev1 "k8s.io/api/core/v1"
 	extensionsv1beta1 "k8s.io/api/extensions/v1beta1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -19,7 +17,6 @@ import (
 	"k8s.io/apimachinery/pkg/util/wait"
 	clientset "k8s.io/client-go/kubernetes"
 	e2e "k8s.io/kubernetes/test/e2e/framework"
-
 	routev1 "github.com/openshift/api/route/v1"
 	routeclientset "github.com/openshift/client-go/route/clientset/versioned"
 	exutil "github.com/openshift/origin/test/extended/util"
@@ -28,13 +25,10 @@ import (
 var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 	defer g.GinkgoRecover()
 	var (
-		routerImage string
-		ns          string
-		oc          *exutil.CLI
+		routerImage	string
+		ns		string
+		oc		*exutil.CLI
 	)
-
-	// this hook must be registered before the framework namespace teardown
-	// hook
 	g.AfterEach(func() {
 		if g.CurrentGinkgoTestDescription().Failed {
 			client := routeclientset.NewForConfigOrDie(oc.AdminConfig()).RouteV1().Routes(ns)
@@ -44,69 +38,28 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 			exutil.DumpPodLogsStartingWith("router-", oc)
 		}
 	})
-
 	oc = exutil.NewCLI("router-stress", exutil.KubeConfigPath())
-
 	g.BeforeEach(func() {
 		ns = oc.Namespace()
-
 		routerImage, _ = exutil.FindRouterImage(oc)
 		routerImage = strings.Replace(routerImage, "${component}", "haproxy-router", -1)
-
-		_, err := oc.AdminKubeClient().RbacV1().RoleBindings(ns).Create(&rbacv1.RoleBinding{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "router",
-			},
-			Subjects: []rbacv1.Subject{
-				{
-					Kind: "ServiceAccount",
-					Name: "default",
-				},
-			},
-			RoleRef: rbacv1.RoleRef{
-				Kind: "ClusterRole",
-				Name: "system:router",
-			},
-		})
+		_, err := oc.AdminKubeClient().RbacV1().RoleBindings(ns).Create(&rbacv1.RoleBinding{ObjectMeta: metav1.ObjectMeta{Name: "router"}, Subjects: []rbacv1.Subject{{Kind: "ServiceAccount", Name: "default"}}, RoleRef: rbacv1.RoleRef{Kind: "ClusterRole", Name: "system:router"}})
 		o.Expect(err).NotTo(o.HaveOccurred())
 	})
-
 	g.Describe("The HAProxy router", func() {
 		g.It("converges when multiple routers are writing status", func() {
 			g.By("deploying a scaled out namespace scoped router")
-			rs, err := oc.KubeClient().ExtensionsV1beta1().ReplicaSets(ns).Create(
-				scaledRouter(
-					routerImage,
-					[]string{
-						"--loglevel=4",
-						fmt.Sprintf("--namespace=%s", ns),
-						"--resync-interval=2m",
-						"--name=namespaced",
-					},
-				),
-			)
+			rs, err := oc.KubeClient().ExtensionsV1beta1().ReplicaSets(ns).Create(scaledRouter(routerImage, []string{"--loglevel=4", fmt.Sprintf("--namespace=%s", ns), "--resync-interval=2m", "--name=namespaced"}))
 			o.Expect(err).NotTo(o.HaveOccurred())
 			err = waitForReadyReplicaSet(oc.KubeClient(), ns, rs.Name)
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("creating multiple routes")
 			client := routeclientset.NewForConfigOrDie(oc.AdminConfig()).RouteV1().Routes(ns)
 			var rv string
 			for i := 0; i < 10; i++ {
-				_, err := client.Create(&routev1.Route{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: fmt.Sprintf("%d", i),
-					},
-					Spec: routev1.RouteSpec{
-						To: routev1.RouteTargetReference{Name: "test"},
-						Port: &routev1.RoutePort{
-							TargetPort: intstr.FromInt(8080),
-						},
-					},
-				})
+				_, err := client.Create(&routev1.Route{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("%d", i)}, Spec: routev1.RouteSpec{To: routev1.RouteTargetReference{Name: "test"}, Port: &routev1.RoutePort{TargetPort: intstr.FromInt(8080)}}})
 				o.Expect(err).NotTo(o.HaveOccurred())
 			}
-
 			g.By("waiting for all routes to have a status")
 			err = wait.Poll(time.Second, 2*time.Minute, func() (bool, error) {
 				routes, err := client.List(metav1.ListOptions{})
@@ -130,7 +83,6 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 				return true, nil
 			})
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("verifying that we don't continue to write")
 			writes := 0
 			w, err := client.Watch(metav1.ListOptions{Watch: true, ResourceVersion: rv})
@@ -149,50 +101,21 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 				}
 			}
 			o.Expect(writes).To(o.BeNumerically("<=", 10))
-
 			verifyCommandEquivalent(oc.KubeClient(), rs, "md5sum /var/lib/haproxy/conf/*")
 		})
-
 		g.It("converges when multiple routers are writing conflicting status", func() {
 			g.By("deploying a scaled out namespace scoped router")
-
-			rs, err := oc.KubeClient().ExtensionsV1beta1().ReplicaSets(ns).Create(
-				scaledRouter(
-					routerImage,
-					[]string{
-						"--loglevel=4",
-						fmt.Sprintf("--namespace=%s", ns),
-						// the contention tracker is resync / 10, so this will give us 2 minutes of contention tracking
-						"--resync-interval=20m",
-						"--name=conflicting",
-						"--override-hostname",
-						// causes each pod to have a different value
-						"--hostname-template=${name}-${namespace}.$(NAME).local",
-					},
-				),
-			)
+			rs, err := oc.KubeClient().ExtensionsV1beta1().ReplicaSets(ns).Create(scaledRouter(routerImage, []string{"--loglevel=4", fmt.Sprintf("--namespace=%s", ns), "--resync-interval=20m", "--name=conflicting", "--override-hostname", "--hostname-template=${name}-${namespace}.$(NAME).local"}))
 			o.Expect(err).NotTo(o.HaveOccurred())
 			err = waitForReadyReplicaSet(oc.KubeClient(), ns, rs.Name)
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("creating multiple routes")
 			client := routeclientset.NewForConfigOrDie(oc.AdminConfig()).RouteV1().Routes(ns)
 			var rv string
 			for i := 0; i < 20; i++ {
-				_, err := client.Create(&routev1.Route{
-					ObjectMeta: metav1.ObjectMeta{
-						Name: fmt.Sprintf("%d", i),
-					},
-					Spec: routev1.RouteSpec{
-						To: routev1.RouteTargetReference{Name: "test"},
-						Port: &routev1.RoutePort{
-							TargetPort: intstr.FromInt(8080),
-						},
-					},
-				})
+				_, err := client.Create(&routev1.Route{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("%d", i)}, Spec: routev1.RouteSpec{To: routev1.RouteTargetReference{Name: "test"}, Port: &routev1.RoutePort{TargetPort: intstr.FromInt(8080)}}})
 				o.Expect(err).NotTo(o.HaveOccurred())
 			}
-
 			g.By("waiting for sufficient routes to have a status")
 			err = wait.Poll(time.Second, 2*time.Minute, func() (bool, error) {
 				routes, err := client.List(metav1.ListOptions{})
@@ -220,8 +143,6 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 					o.Expect(ingress.Conditions[0].Type).To(o.Equal(routev1.RouteAdmitted))
 					o.Expect(ingress.Conditions[0].Status).To(o.Equal(corev1.ConditionTrue))
 				}
-				// if other routers are writing status, wait until we get a complete
-				// set since we don't have a way to tell other routers to ignore us
 				if conflicting < 3 && other%20 != 0 {
 					return false, nil
 				}
@@ -230,7 +151,6 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 				return true, nil
 			})
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("verifying that we stop writing conflicts rapidly")
 			writes := 0
 			w, err := client.Watch(metav1.ListOptions{Watch: true, ResourceVersion: rv})
@@ -249,17 +169,12 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 						break Wait
 					}
 				}
-				// we expect to see no more than 10 writes per router (we should hit the hard limit) (3 replicas and 1 master)
 				o.Expect(writes).To(o.BeNumerically("<=", 40))
 			}()
-
-			// the os_http_be.map file will vary, so only check the haproxy config
 			verifyCommandEquivalent(oc.KubeClient(), rs, "md5sum /var/lib/haproxy/conf/haproxy.config")
-
 			g.By("clearing a single route's status")
 			route, err := client.Patch("9", types.MergePatchType, []byte(`{"status":{"ingress":[]}}`), "status")
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("verifying that only get a few updates")
 			writes = 0
 			w, err = client.Watch(metav1.ListOptions{Watch: true, ResourceVersion: route.ResourceVersion})
@@ -290,6 +205,20 @@ var _ = g.Describe("[Conformance][Area:Networking][Feature:Router]", func() {
 })
 
 func findIngress(route *routev1.Route, name string) *routev1.RouteIngress {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, ingress := range route.Status.Ingress {
 		if ingress.RouterName == name {
 			return &route.Status.Ingress[i]
@@ -297,42 +226,40 @@ func findIngress(route *routev1.Route, name string) *routev1.RouteIngress {
 	}
 	return nil
 }
-
 func scaledRouter(image string, args []string) *extensionsv1beta1.ReplicaSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	one := int64(1)
 	scale := int32(3)
-	return &extensionsv1beta1.ReplicaSet{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "router",
-		},
-		Spec: extensionsv1beta1.ReplicaSetSpec{
-			Replicas: &scale,
-			Selector: &metav1.LabelSelector{
-				MatchLabels: map[string]string{"app": "router"},
-			},
-			Template: corev1.PodTemplateSpec{
-				ObjectMeta: metav1.ObjectMeta{
-					Labels: map[string]string{"app": "router"},
-				},
-				Spec: corev1.PodSpec{
-					TerminationGracePeriodSeconds: &one,
-					Containers: []corev1.Container{
-						{
-							Env: []corev1.EnvVar{
-								{Name: "NAME", ValueFrom: &corev1.EnvVarSource{FieldRef: &corev1.ObjectFieldSelector{FieldPath: "metadata.name"}}},
-							},
-							Name:  "router",
-							Image: image,
-							Args:  args,
-						},
-					},
-				},
-			},
-		},
-	}
+	return &extensionsv1beta1.ReplicaSet{ObjectMeta: metav1.ObjectMeta{Name: "router"}, Spec: extensionsv1beta1.ReplicaSetSpec{Replicas: &scale, Selector: &metav1.LabelSelector{MatchLabels: map[string]string{"app": "router"}}, Template: corev1.PodTemplateSpec{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{"app": "router"}}, Spec: corev1.PodSpec{TerminationGracePeriodSeconds: &one, Containers: []corev1.Container{{Env: []corev1.EnvVar{{Name: "NAME", ValueFrom: &corev1.EnvVarSource{FieldRef: &corev1.ObjectFieldSelector{FieldPath: "metadata.name"}}}}, Name: "router", Image: image, Args: args}}}}}}
 }
-
 func outputIngress(routes ...routev1.Route) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := &bytes.Buffer{}
 	w := tabwriter.NewWriter(b, 0, 0, 2, ' ', 0)
 	fmt.Fprintf(w, "NAME\tROUTER\tHOST\tLAST TRANSITION\n")
@@ -344,13 +271,25 @@ func outputIngress(routes ...routev1.Route) {
 	w.Flush()
 	e2e.Logf("Routes:\n%s", b.String())
 }
-
 func verifyCommandEquivalent(c clientset.Interface, rs *extensionsv1beta1.ReplicaSet, cmd string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selector, err := metav1.LabelSelectorAsSelector(rs.Spec.Selector)
 	o.Expect(err).NotTo(o.HaveOccurred())
 	podList, err := c.CoreV1().Pods(rs.Namespace).List(metav1.ListOptions{LabelSelector: selector.String()})
 	o.Expect(err).NotTo(o.HaveOccurred())
-
 	var values map[string]string
 	err = wait.PollImmediate(5*time.Second, time.Minute, func() (bool, error) {
 		values = make(map[string]string)
@@ -369,10 +308,21 @@ func verifyCommandEquivalent(c clientset.Interface, rs *extensionsv1beta1.Replic
 	}
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
-
-// waitForReadyReplicaSet waits until the replicaset has all of its replicas ready.
-// Waits for longer than the standard e2e method.
 func waitForReadyReplicaSet(c clientset.Interface, ns, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.Poll(3*time.Second, 3*time.Minute, func() (bool, error) {
 		rs, err := c.ExtensionsV1beta1().ReplicaSets(ns).Get(name, metav1.GetOptions{})
 		if err != nil {

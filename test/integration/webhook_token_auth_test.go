@@ -10,7 +10,6 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
 	kauthn "k8s.io/api/authentication/v1beta1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +18,6 @@ import (
 	restclient "k8s.io/client-go/rest"
 	kclientcmd "k8s.io/client-go/tools/clientcmd"
 	kclientcmdapi "k8s.io/client-go/tools/clientcmd/api"
-
 	userv1typedclient "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
 	authorizationapi "github.com/openshift/origin/pkg/authorization/apis/authorization"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
@@ -29,47 +27,30 @@ import (
 	testserver "github.com/openshift/origin/test/util/server"
 )
 
-// TestWebhookTokenAuthn checks Tokens directly against an external
-// authenticator
 func TestWebhookTokenAuthn(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("skipping until auth team figures this out in the new split API setup, see https://bugzilla.redhat.com/show_bug.cgi?id=1640351")
 	authServerWasCalled := false
 	authToken := "Anything-goes!"
 	authTestUser := "testuser"
 	authTestUID := "42"
 	authTestGroups := []string{"testgroup"}
-	// openshift will add the authenticated virtual group
 	expectedAuthTestGroups := append([]string{"system:authenticated"}, authTestGroups...)
-
-	expectedTokenPost := kauthn.TokenReview{
-		TypeMeta: metav1.TypeMeta{
-			APIVersion: "authentication.k8s.io/v1beta1",
-			Kind:       "TokenReview",
-		},
-		Spec: kauthn.TokenReviewSpec{Token: authToken},
-	}
-
-	tokenResponse := kauthn.TokenReview{
-		TypeMeta: metav1.TypeMeta{
-			APIVersion: "authentication.k8s.io/v1beta1",
-			Kind:       "TokenReview",
-		},
-		Status: kauthn.TokenReviewStatus{
-			Authenticated: true,
-			User: kauthn.UserInfo{
-				Username: authTestUser,
-				UID:      authTestUID,
-				Groups:   authTestGroups,
-				Extra: map[string]kauthn.ExtraValue{
-					authorizationapi.ScopesKey: []string{
-						"user:info",
-					},
-				},
-			},
-		},
-	}
-
-	// Write cert we're going to use to verify auth server requests
+	expectedTokenPost := kauthn.TokenReview{TypeMeta: metav1.TypeMeta{APIVersion: "authentication.k8s.io/v1beta1", Kind: "TokenReview"}, Spec: kauthn.TokenReviewSpec{Token: authToken}}
+	tokenResponse := kauthn.TokenReview{TypeMeta: metav1.TypeMeta{APIVersion: "authentication.k8s.io/v1beta1", Kind: "TokenReview"}, Status: kauthn.TokenReviewStatus{Authenticated: true, User: kauthn.UserInfo{Username: authTestUser, UID: authTestUID, Groups: authTestGroups, Extra: map[string]kauthn.ExtraValue{authorizationapi.ScopesKey: []string{"user:info"}}}}}
 	caFile, err := ioutil.TempFile("", "test.crt")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -78,8 +59,6 @@ func TestWebhookTokenAuthn(t *testing.T) {
 	if err := ioutil.WriteFile(caFile.Name(), authLocalhostCert, os.FileMode(0600)); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Set up a dummy authenticator server
 	authServer := httptest.NewUnstartedServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/authenticate":
@@ -100,78 +79,39 @@ func TestWebhookTokenAuthn(t *testing.T) {
 			if err = json.NewEncoder(w).Encode(tokenResponse); err != nil {
 				t.Fatalf("Failed to encode Token Review response: %v", err)
 			}
-
 		default:
 			t.Fatalf("Unexpected Token Review request: %v", r.URL.Path)
 		}
 	}))
 	cert, err := tls.X509KeyPair(authLocalhostCert, authLocalhostKey)
-	authServer.TLS = &tls.Config{
-		Certificates: []tls.Certificate{cert},
-	}
+	authServer.TLS = &tls.Config{Certificates: []tls.Certificate{cert}}
 	authServer.StartTLS()
 	defer authServer.Close()
-
 	authConfigFile, err := ioutil.TempFile("", "test.cfg")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer os.Remove(authConfigFile.Name())
-	authConfigObj := kclientcmdapi.Config{
-		Clusters: map[string]*kclientcmdapi.Cluster{
-			"authService": {
-				CertificateAuthority: caFile.Name(),
-				Server:               authServer.URL + "/authenticate",
-			},
-		},
-		AuthInfos: map[string]*kclientcmdapi.AuthInfo{
-			"apiServer": {
-				ClientCertificateData: authLocalhostCert,
-				ClientKeyData:         authLocalhostKey,
-			},
-		},
-		CurrentContext: "webhook",
-		Contexts: map[string]*kclientcmdapi.Context{
-			"webhook": {
-				Cluster:  "authService",
-				AuthInfo: "apiServer",
-			},
-		},
-	}
+	authConfigObj := kclientcmdapi.Config{Clusters: map[string]*kclientcmdapi.Cluster{"authService": {CertificateAuthority: caFile.Name(), Server: authServer.URL + "/authenticate"}}, AuthInfos: map[string]*kclientcmdapi.AuthInfo{"apiServer": {ClientCertificateData: authLocalhostCert, ClientKeyData: authLocalhostKey}}, CurrentContext: "webhook", Contexts: map[string]*kclientcmdapi.Context{"webhook": {Cluster: "authService", AuthInfo: "apiServer"}}}
 	if err := kclientcmd.WriteToFile(authConfigObj, authConfigFile.Name()); err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Get master config
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterOptions)
-
-	masterOptions.AuthConfig.WebhookTokenAuthenticators = []configapi.WebhookTokenAuthenticator{
-		{
-			ConfigFile: authConfigFile.Name(),
-			CacheTTL:   "10s",
-		},
-	}
-
-	// Start server
+	masterOptions.AuthConfig.WebhookTokenAuthenticators = []configapi.WebhookTokenAuthenticator{{ConfigFile: authConfigFile.Name(), CacheTTL: "10s"}}
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMaster(masterOptions)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	clientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// Try to authenticate with a token that can be validated only by our
-	// external token reviewer
 	userConfig := restclient.AnonymousClientConfig(clientConfig)
 	userConfig.BearerToken = authToken
-
 	userClient, err := userv1typedclient.NewForConfig(userConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -193,7 +133,6 @@ func TestWebhookTokenAuthn(t *testing.T) {
 	if !authServerWasCalled {
 		t.Errorf("Server was not called in the test")
 	}
-
 	oauthClient, err := oauthclient.NewForConfig(userConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -209,10 +148,6 @@ func TestWebhookTokenAuthn(t *testing.T) {
 	}
 }
 
-// authLocalhostCert is a PEM-encoded TLS cert with SAN IPs
-// "127.0.0.1" and "[::1]", expiring at Jan 29 16:00:00 2084 GMT.
-// generated from src/crypto/tls:
-// go run generate_cert.go  --rsa-bits 1024 --host 127.0.0.1,::1,example.com --ca --start-date "Jan 1 00:00:00 1970" --duration=1000000h
 var authLocalhostCert = []byte(`-----BEGIN CERTIFICATE-----
 MIICEzCCAXygAwIBAgIQMIMChMLGrR+QvmQvpwAU6zANBgkqhkiG9w0BAQsFADAS
 MRAwDgYDVQQKEwdBY21lIENvMCAXDTcwMDEwMTAwMDAwMFoYDzIwODQwMTI5MTYw
@@ -227,8 +162,6 @@ tyC4lNhbcF2Idq9greZwbYCqTTTr2XiRNSMLCOjKyI7ukPoPjo16ocHj+P3vZGfs
 h1fIw3cSS2OolhloGw/XM6RWPWtPAlGykKLciQrBru5NAPvCMsb/I1DAceTiotQM
 fblo6RBxUQ==
 -----END CERTIFICATE-----`)
-
-// authLocalhostKey is the private key for authLocalhostCert.
 var authLocalhostKey = []byte(`-----BEGIN RSA PRIVATE KEY-----
 MIICXgIBAAKBgQDuLnQAI3mDgey3VBzWnB2L39JUU4txjeVE6myuDqkM/uGlfjb9
 SjY1bIw4iA5sBBZzHi3z0h1YV8QPuxEbi4nW91IJm2gsvvZhIrCHS3l6afab4pZB

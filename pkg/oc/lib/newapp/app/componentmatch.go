@@ -6,64 +6,111 @@ import (
 	templatev1 "github.com/openshift/api/template/v1"
 )
 
-// ComponentMatch is a match to a provided component
 type ComponentMatch struct {
-	// what this is a match for (the value that was searched on)
-	Value string
-	// the argument to use to specify this match explicitly
-	Argument string
-	// the exact name of this match
-	Name        string
-	Description string
-	Score       float32
-	Insecure    bool
-	LocalOnly   bool
-	NoTagsFound bool
-	// this match represents a scratch image, there is no
-	// actual image/pullspec.
-	Virtual bool
-
-	// The source of the match. Generally only a single source is
-	// available.
-	DockerImage *dockerv10.DockerImage
-	ImageStream *imagev1.ImageStream
-	ImageTag    string
-	Template    *templatev1.Template
-
-	// Input to generators extracted from the source
-	Builder        bool
-	GeneratorInput GeneratorInput
-
-	// TODO: remove me
-	Meta map[string]string
+	Value		string
+	Argument	string
+	Name		string
+	Description	string
+	Score		float32
+	Insecure	bool
+	LocalOnly	bool
+	NoTagsFound	bool
+	Virtual		bool
+	DockerImage	*dockerv10.DockerImage
+	ImageStream	*imagev1.ImageStream
+	ImageTag	string
+	Template	*templatev1.Template
+	Builder		bool
+	GeneratorInput	GeneratorInput
+	Meta		map[string]string
 }
 
 func (m *ComponentMatch) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Argument
 }
-
-// IsImage returns whether or not the component match is an
-// image or image stream
 func (m *ComponentMatch) IsImage() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Template == nil
 }
-
-// IsTemplate returns whether or not the component match is
-// a template
 func (m *ComponentMatch) IsTemplate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Template != nil
 }
-
-// Exact checks if the ComponentMatch is an exact match
 func (m *ComponentMatch) Exact() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Score == 0.0
 }
 
-// ComponentMatches holds multiple ComponentMatch
 type ComponentMatches []*ComponentMatch
 
-// Exact returns all ComponentMatch that are an exact match
 func (m ComponentMatches) Exact() ComponentMatches {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exact := ComponentMatches{}
 	for _, match := range m {
 		if match.Exact() {
@@ -72,9 +119,21 @@ func (m ComponentMatches) Exact() ComponentMatches {
 	}
 	return exact
 }
-
-// Inexact returns all ComponentMatch that are not an exact match
 func (m ComponentMatches) Inexact() ComponentMatches {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	inexact := ComponentMatches{}
 	for _, match := range m {
 		if !match.Exact() {
@@ -84,15 +143,74 @@ func (m ComponentMatches) Inexact() ComponentMatches {
 	return inexact
 }
 
-// ScoredComponentMatches is a set of component matches grouped by score
 type ScoredComponentMatches []*ComponentMatch
 
-func (m ScoredComponentMatches) Len() int           { return len(m) }
-func (m ScoredComponentMatches) Swap(i, j int)      { m[i], m[j] = m[j], m[i] }
-func (m ScoredComponentMatches) Less(i, j int) bool { return m[i].Score < m[j].Score }
-
-// Exact returns all the exact component matches
+func (m ScoredComponentMatches) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(m)
+}
+func (m ScoredComponentMatches) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m[i], m[j] = m[j], m[i]
+}
+func (m ScoredComponentMatches) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return m[i].Score < m[j].Score
+}
 func (m ScoredComponentMatches) Exact() []*ComponentMatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := []*ComponentMatch{}
 	for _, match := range m {
 		if match.Score == 0.0 {

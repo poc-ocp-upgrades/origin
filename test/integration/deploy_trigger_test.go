@@ -4,13 +4,11 @@ import (
 	"fmt"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/wait"
 	watchapi "k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/util/retry"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	appsclient "github.com/openshift/client-go/apps/clientset/versioned"
 	appsutil "github.com/openshift/origin/pkg/apps/util"
@@ -24,8 +22,21 @@ import (
 const maxUpdateRetries = 10
 
 func TestTriggers_manual(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const namespace = "test-triggers-manual"
-
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatal(err)
@@ -44,28 +55,19 @@ func TestTriggers_manual(t *testing.T) {
 		t.Fatal(err)
 	}
 	adminAppsClient := appsclient.NewForConfigOrDie(adminConfig).AppsV1()
-
 	config := appstest.OkDeploymentConfig(0)
 	config.Namespace = namespace
 	config.Spec.Triggers = []appsv1.DeploymentTriggerPolicy{{Type: "Manual"}}
-
 	dc, err := adminAppsClient.DeploymentConfigs(namespace).Create(config)
 	if err != nil {
 		t.Fatalf("Couldn't create DeploymentConfig: %v %#v", err, config)
 	}
-
 	rcWatch, err := kc.CoreV1().ReplicationControllers(namespace).Watch(metav1.ListOptions{ResourceVersion: dc.ResourceVersion})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to Deployments: %v", err)
 	}
 	defer rcWatch.Stop()
-
-	request := &appsv1.DeploymentRequest{
-		Name:   config.Name,
-		Latest: false,
-		Force:  true,
-	}
-
+	request := &appsv1.DeploymentRequest{Name: config.Name, Latest: false, Force: true}
 	retryErr := retry.RetryOnConflict(wait.Backoff{Steps: maxUpdateRetries}, func() error {
 		var err error
 		config, err = adminAppsClient.DeploymentConfigs(namespace).Instantiate(config.Name, request)
@@ -82,16 +84,13 @@ func TestTriggers_manual(t *testing.T) {
 	}
 	gotType := config.Status.Details.Causes[0].Type
 	if gotType != "Manual" {
-		t.Fatalf("Instantiated deployment config should have a %q cause of deployment instead of %q",
-			"Manual", gotType)
+		t.Fatalf("Instantiated deployment config should have a %q cause of deployment instead of %q", "Manual", gotType)
 	}
-
 	event := <-rcWatch.ResultChan()
 	if e, a := watchapi.Added, event.Type; e != a {
 		t.Fatalf("expected watch event type %s, got %s", e, a)
 	}
 	deployment := event.Object.(*corev1.ReplicationController)
-
 	if e, a := config.Name, appsutil.DeploymentConfigNameFor(deployment); e != a {
 		t.Fatalf("Expected deployment annotated with deploymentConfig '%s', got '%s'", e, a)
 	}
@@ -99,10 +98,21 @@ func TestTriggers_manual(t *testing.T) {
 		t.Fatalf("Deployment annotation version does not match: %#v", deployment)
 	}
 }
-
-// TestTriggers_imageChange ensures that a deployment config with an ImageChange trigger
-// will start a new deployment when an image change happens.
 func TestTriggers_imageChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:8080"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -120,48 +130,30 @@ func TestTriggers_imageChange(t *testing.T) {
 	}
 	projectAdminAppsClient := appsclient.NewForConfigOrDie(projectAdminClientConfig).AppsV1()
 	projectAdminImageClient := imageclient.NewForConfigOrDie(projectAdminClientConfig).Image()
-
 	imageStream := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: appstest.ImageStreamName}}
-
 	config := appstest.OkDeploymentConfig(0)
 	config.Namespace = testutil.Namespace()
 	config.Spec.Triggers = []appsv1.DeploymentTriggerPolicy{appstest.OkImageChangeTrigger()}
-
 	configWatch, err := projectAdminAppsClient.DeploymentConfigs(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to deploymentconfigs %v", err)
 	}
 	defer configWatch.Stop()
-
 	if imageStream, err = projectAdminImageClient.ImageStreams(testutil.Namespace()).Create(imageStream); err != nil {
 		t.Fatalf("Couldn't create imagestream: %v", err)
 	}
-
 	imageWatch, err := projectAdminImageClient.ImageStreams(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to imagestreams: %v", err)
 	}
 	defer imageWatch.Stop()
-
 	updatedImage := fmt.Sprintf("sha256:%s", appstest.ImageID)
 	updatedPullSpec := fmt.Sprintf("%s/%s/%s@%s", registryHostname, testutil.Namespace(), appstest.ImageStreamName, updatedImage)
-	// Make a function which can create a new tag event for the image stream and
-	// then wait for the stream status to be asynchronously updated.
 	createTagEvent := func() {
-		mapping := &imageapi.ImageStreamMapping{
-			ObjectMeta: metav1.ObjectMeta{Name: imageStream.Name},
-			Tag:        imageapi.DefaultImageTag,
-			Image: imageapi.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: updatedImage,
-				},
-				DockerImageReference: updatedPullSpec,
-			},
-		}
+		mapping := &imageapi.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: imageStream.Name}, Tag: imageapi.DefaultImageTag, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: updatedImage}, DockerImageReference: updatedPullSpec}}
 		if _, err := projectAdminImageClient.ImageStreamMappings(testutil.Namespace()).Create(mapping); err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
-
 		t.Log("Waiting for image stream mapping to be reflected in the image stream status...")
 	statusLoop:
 		for {
@@ -176,13 +168,10 @@ func TestTriggers_imageChange(t *testing.T) {
 			}
 		}
 	}
-
 	if config, err = projectAdminAppsClient.DeploymentConfigs(testutil.Namespace()).Create(config); err != nil {
 		t.Fatalf("Couldn't create deploymentconfig: %v", err)
 	}
-
 	createTagEvent()
-
 	var newConfig *appsv1.DeploymentConfig
 	t.Log("Waiting for a new deployment config in response to imagestream update")
 waitForNewConfig:
@@ -191,8 +180,6 @@ waitForNewConfig:
 		case event := <-configWatch.ResultChan():
 			if event.Type == watchapi.Modified {
 				newConfig = event.Object.(*appsv1.DeploymentConfig)
-				// Multiple updates to the config can be expected (e.g. status
-				// updates), so wait for a significant update (e.g. version).
 				if newConfig.Status.LatestVersion > 0 {
 					if e, a := updatedPullSpec, newConfig.Spec.Template.Spec.Containers[0].Image; e != a {
 						t.Fatalf("unexpected image for pod template container 0; expected %q, got %q", e, a)
@@ -204,10 +191,21 @@ waitForNewConfig:
 		}
 	}
 }
-
-// TestTriggers_imageChange_nonAutomatic ensures that a deployment config with a non-automatic
-// trigger will have its image updated when a deployment is started manually.
 func TestTriggers_imageChange_nonAutomatic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:8080"
 	testutil.SetAdditionalAllowedRegistries(registryHostname, "registry:5000")
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -225,43 +223,24 @@ func TestTriggers_imageChange_nonAutomatic(t *testing.T) {
 	}
 	adminAppsClient := appsclient.NewForConfigOrDie(adminConfig).AppsV1()
 	adminImageClient := imageclient.NewForConfigOrDie(adminConfig).Image()
-
 	imageStream := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: appstest.ImageStreamName}}
-
 	if imageStream, err = adminImageClient.ImageStreams(testutil.Namespace()).Create(imageStream); err != nil {
 		t.Fatalf("Couldn't create imagestream: %v", err)
 	}
-
 	imageWatch, err := adminImageClient.ImageStreams(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to imagestreams: %v", err)
 	}
 	defer imageWatch.Stop()
-
 	image := fmt.Sprintf("sha256:%s", appstest.ImageID)
 	pullSpec := fmt.Sprintf("registry:5000/%s/%s@%s", testutil.Namespace(), appstest.ImageStreamName, image)
-	// Make a function which can create a new tag event for the image stream and
-	// then wait for the stream status to be asynchronously updated.
-	mapping := &imageapi.ImageStreamMapping{
-		ObjectMeta: metav1.ObjectMeta{Name: imageStream.Name},
-		Tag:        imageapi.DefaultImageTag,
-		Image: imageapi.Image{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: image,
-			},
-			DockerImageReference: pullSpec,
-		},
-	}
-
+	mapping := &imageapi.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: imageStream.Name}, Tag: imageapi.DefaultImageTag, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: image}, DockerImageReference: pullSpec}}
 	createTagEvent := func(mapping *imageapi.ImageStreamMapping) {
 		if _, err := adminImageClient.ImageStreamMappings(testutil.Namespace()).Create(mapping); err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
-
 		t.Log("Waiting for image stream mapping to be reflected in the image stream status...")
-
 		timeout := time.After(time.Minute)
-
 		for {
 			select {
 			case event := <-imageWatch.ResultChan():
@@ -280,13 +259,11 @@ func TestTriggers_imageChange_nonAutomatic(t *testing.T) {
 			}
 		}
 	}
-
 	configWatch, err := adminAppsClient.DeploymentConfigs(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to deploymentconfigs: %v", err)
 	}
 	defer configWatch.Stop()
-
 	config := appstest.OkDeploymentConfig(0)
 	config.Namespace = testutil.Namespace()
 	config.Spec.Triggers = []appsv1.DeploymentTriggerPolicy{appstest.OkImageChangeTrigger()}
@@ -294,17 +271,10 @@ func TestTriggers_imageChange_nonAutomatic(t *testing.T) {
 	if config, err = adminAppsClient.DeploymentConfigs(testutil.Namespace()).Create(config); err != nil {
 		t.Fatalf("Couldn't create deploymentconfig: %v", err)
 	}
-
 	createTagEvent(mapping)
-
 	var newConfig *appsv1.DeploymentConfig
 	t.Log("Waiting for the first imagestream update - no deployment should run")
-
 	timeout := time.After(20 * time.Second)
-
-	// Deployment config with automatic=false in its ICT - no deployment should trigger.
-	// We don't really care about the initial update since it's not going to be deployed
-	// anyway.
 out:
 	for {
 		select {
@@ -312,27 +282,19 @@ out:
 			if event.Type != watchapi.Modified {
 				continue
 			}
-
 			newConfig = event.Object.(*appsv1.DeploymentConfig)
-
 			if newConfig.Status.LatestVersion > 0 {
 				t.Fatalf("unexpected latestVersion update - the config has no config change trigger")
 			}
-
 		case <-timeout:
 			break out
 		}
 	}
-
 	t.Log("Waiting for the second imagestream update - no deployment should run")
-
-	// Subsequent updates to the image shouldn't update the pod template image
 	mapping.Image.Name = "sha256:0000000000000000000000000000000000000000000000000000000000000321"
 	mapping.Image.DockerImageReference = fmt.Sprintf("%s/%s/%s@%s", registryHostname, testutil.Namespace(), appstest.ImageStreamName, mapping.Image.Name)
 	createTagEvent(mapping)
-
 	timeout = time.After(20 * time.Second)
-
 loop:
 	for {
 		select {
@@ -340,24 +302,16 @@ loop:
 			if event.Type != watchapi.Modified {
 				continue
 			}
-
 			newConfig = event.Object.(*appsv1.DeploymentConfig)
-
 			if newConfig.Status.LatestVersion > 0 {
 				t.Fatalf("unexpected latestVersion update - the config has no config change trigger")
 			}
-
 		case <-timeout:
 			break loop
 		}
 	}
-
 	t.Log("Instantiate the deployment config - the latest image should be picked up and a new deployment should run")
-	request := &appsv1.DeploymentRequest{
-		Name:   config.Name,
-		Latest: true,
-		Force:  true,
-	}
+	request := &appsv1.DeploymentRequest{Name: config.Name, Latest: true, Force: true}
 	retryErr := retry.RetryOnConflict(wait.Backoff{Steps: maxUpdateRetries}, func() error {
 		var err error
 		config, err = adminAppsClient.DeploymentConfigs(testutil.Namespace()).Instantiate(config.Name, request)
@@ -383,10 +337,21 @@ loop:
 		t.Fatalf("Instantiated deployment config should have a %q cause of deployment instead of %q", expectedType, gotType)
 	}
 }
-
-// TestTriggers_MultipleICTs ensures that a deployment config with more than one ImageChange trigger
-// will start a new deployment iff all images are resolved.
 func TestTriggers_MultipleICTs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:8080"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -404,10 +369,8 @@ func TestTriggers_MultipleICTs(t *testing.T) {
 	}
 	adminAppsClient := appsclient.NewForConfigOrDie(adminConfig).AppsV1()
 	adminImageClient := imageclient.NewForConfigOrDie(adminConfig).Image()
-
 	imageStream := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: appstest.ImageStreamName}}
 	secondImageStream := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "sample"}}
-
 	config := appstest.OkDeploymentConfig(0)
 	config.Namespace = testutil.Namespace()
 	firstTrigger := appstest.OkImageChangeTrigger()
@@ -415,46 +378,29 @@ func TestTriggers_MultipleICTs(t *testing.T) {
 	secondTrigger.ImageChangeParams.ContainerNames = []string{"container2"}
 	secondTrigger.ImageChangeParams.From.Name = imageapi.JoinImageStreamTag("sample", imageapi.DefaultImageTag)
 	config.Spec.Triggers = []appsv1.DeploymentTriggerPolicy{firstTrigger, secondTrigger}
-
 	configWatch, err := adminAppsClient.DeploymentConfigs(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to deploymentconfigs %v", err)
 	}
 	defer configWatch.Stop()
-
 	if imageStream, err = adminImageClient.ImageStreams(testutil.Namespace()).Create(imageStream); err != nil {
 		t.Fatalf("Couldn't create imagestream %q: %v", imageStream.Name, err)
 	}
 	if secondImageStream, err = adminImageClient.ImageStreams(testutil.Namespace()).Create(secondImageStream); err != nil {
 		t.Fatalf("Couldn't create imagestream %q: %v", secondImageStream.Name, err)
 	}
-
 	imageWatch, err := adminImageClient.ImageStreams(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to imagestreams: %v", err)
 	}
 	defer imageWatch.Stop()
-
 	updatedImage := fmt.Sprintf("sha256:%s", appstest.ImageID)
 	updatedPullSpec := fmt.Sprintf("%s/%s/%s@%s", registryHostname, testutil.Namespace(), appstest.ImageStreamName, updatedImage)
-
-	// Make a function which can create a new tag event for the image stream and
-	// then wait for the stream status to be asynchronously updated.
 	createTagEvent := func(name, tag, image, pullSpec string) {
-		mapping := &imageapi.ImageStreamMapping{
-			ObjectMeta: metav1.ObjectMeta{Name: name},
-			Tag:        tag,
-			Image: imageapi.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: image,
-				},
-				DockerImageReference: pullSpec,
-			},
-		}
+		mapping := &imageapi.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: name}, Tag: tag, Image: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: image}, DockerImageReference: pullSpec}}
 		if _, err := adminImageClient.ImageStreamMappings(testutil.Namespace()).Create(mapping); err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
-
 		t.Log("Waiting for image stream mapping to be reflected in the image stream status...")
 	statusLoop:
 		for {
@@ -472,13 +418,10 @@ func TestTriggers_MultipleICTs(t *testing.T) {
 			}
 		}
 	}
-
 	if config, err = adminAppsClient.DeploymentConfigs(testutil.Namespace()).Create(config); err != nil {
 		t.Fatalf("Couldn't create deploymentconfig: %v", err)
 	}
-
 	timeout := time.After(30 * time.Second)
-
 	t.Log("Should not trigger a new deployment in response to the first imagestream update")
 	createTagEvent(imageStream.Name, imageapi.DefaultImageTag, updatedImage, updatedPullSpec)
 out:
@@ -488,7 +431,6 @@ out:
 			if event.Type != watchapi.Modified {
 				continue
 			}
-
 			newConfig := event.Object.(*appsv1.DeploymentConfig)
 			if newConfig.Status.LatestVersion > 0 {
 				t.Fatalf("unexpected latestVersion update: %#v", newConfig)
@@ -497,14 +439,11 @@ out:
 			if e, a := updatedPullSpec, container.Image; e == a {
 				t.Fatalf("unexpected image update: %#v", newConfig)
 			}
-
 		case <-timeout:
 			break out
 		}
 	}
-
 	timeout = time.After(30 * time.Second)
-
 	t.Log("Should trigger a new deployment in response to the second imagestream update")
 	secondImage := "sampleimage"
 	secondPullSpec := "samplepullspec"
@@ -516,7 +455,6 @@ out:
 			if event.Type != watchapi.Modified {
 				continue
 			}
-
 			newConfig := event.Object.(*appsv1.DeploymentConfig)
 			switch {
 			case newConfig.Status.LatestVersion == 0:
@@ -525,32 +463,37 @@ out:
 			case newConfig.Status.LatestVersion > 1:
 				t.Fatalf("unexpected latestVersion %d for %#v", newConfig.Status.LatestVersion, newConfig)
 			default:
-				// Keep on
 			}
-
 			container := newConfig.Spec.Template.Spec.Containers[0]
 			if e, a := updatedPullSpec, container.Image; e != a {
 				t.Fatalf("unexpected image for pod template container %q; expected %q, got %q", container.Name, e, a)
 			}
-
 			container = newConfig.Spec.Template.Spec.Containers[1]
 			if e, a := secondPullSpec, container.Image; e != a {
 				t.Fatalf("unexpected image for pod template container %q; expected %q, got %q", container.Name, e, a)
 			}
-
 			return
-
 		case <-timeout:
 			t.Fatalf("timed out waiting for the second image update to happen")
 		}
 	}
 }
-
-// TestTriggers_configChange ensures that a change in the template of a deployment config with
-// a config change trigger will start a new deployment.
 func TestTriggers_configChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const namespace = "test-triggers-configchange"
-
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatal(err)
@@ -569,86 +512,61 @@ func TestTriggers_configChange(t *testing.T) {
 		t.Fatal(err)
 	}
 	adminAppsClient := appsclient.NewForConfigOrDie(adminConfig).AppsV1()
-
 	config := appstest.OkDeploymentConfig(0)
 	config.Namespace = namespace
 	config.Spec.Triggers = []appsv1.DeploymentTriggerPolicy{appstest.OkConfigChangeTrigger()}
-
 	rcWatch, err := kc.CoreV1().ReplicationControllers(namespace).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to Deployments %v", err)
 	}
 	defer rcWatch.Stop()
-
-	// submit the initial deployment config
 	config, err = adminAppsClient.DeploymentConfigs(namespace).Create(config)
 	if err != nil {
 		t.Fatalf("Couldn't create DeploymentConfig: %v", err)
 	}
-
-	// verify the initial deployment exists
 	event := <-rcWatch.ResultChan()
 	if e, a := watchapi.Added, event.Type; e != a {
 		t.Fatalf("expected watch event type %s, got %s", e, a)
 	}
-
 	deployment := event.Object.(*corev1.ReplicationController)
-
 	if e, a := config.Name, appsutil.DeploymentConfigNameFor(deployment); e != a {
 		t.Fatalf("Expected deployment annotated with deploymentConfig '%s', got '%s'", e, a)
 	}
-
-	// before we update the config, we need to update the state of the existing deployment
-	// this is required to be done manually since the deployment and deployer pod controllers are not run in this test
-	// get this live or conflicts will never end up resolved
 	retryErr := retry.RetryOnConflict(wait.Backoff{Steps: maxUpdateRetries}, func() error {
 		liveDeployment, err := kc.CoreV1().ReplicationControllers(deployment.Namespace).Get(deployment.Name, metav1.GetOptions{})
 		if err != nil {
 			return err
 		}
-
 		liveDeployment.Annotations[appsv1.DeploymentStatusAnnotation] = string(appsv1.DeploymentStatusComplete)
-
-		// update the deployment
 		_, err = kc.CoreV1().ReplicationControllers(namespace).Update(liveDeployment)
 		return err
 	})
 	if retryErr != nil {
 		t.Fatal(retryErr)
 	}
-
 	event = <-rcWatch.ResultChan()
 	if e, a := watchapi.Modified, event.Type; e != a {
 		t.Fatalf("expected watch event type %s, got %s", e, a)
 	}
-
 	assertEnvVarEquals("ENV1", "VAL1", deployment, t)
-
-	// Update the config with a new environment variable and observe a new deployment
-	// coming up.
 	retryErr = retry.RetryOnConflict(wait.Backoff{Steps: maxUpdateRetries}, func() error {
 		latest, err := adminAppsClient.DeploymentConfigs(namespace).Get(config.Name, metav1.GetOptions{})
 		if err != nil {
 			return err
 		}
-
 		for i, e := range latest.Spec.Template.Spec.Containers[0].Env {
 			if e.Name == "ENV1" {
 				latest.Spec.Template.Spec.Containers[0].Env[i].Value = "UPDATED"
 				break
 			}
 		}
-
-		// update the config
 		_, err = adminAppsClient.DeploymentConfigs(namespace).Update(latest)
 		return err
 	})
 	if retryErr != nil {
 		t.Fatal(retryErr)
 	}
-
 	if retryErr := retry.RetryOnConflict(wait.Backoff{Steps: maxUpdateRetries}, func() error {
-		// submit a new config with an updated environment variable
 		newConfig, err := adminAppsClient.DeploymentConfigs(namespace).Get(config.Name, metav1.GetOptions{})
 		if err != nil {
 			return err
@@ -659,33 +577,40 @@ func TestTriggers_configChange(t *testing.T) {
 	}); retryErr != nil {
 		t.Fatal(retryErr)
 	}
-
 	var newDeployment *corev1.ReplicationController
 	for {
 		event = <-rcWatch.ResultChan()
 		if event.Type != watchapi.Added {
-			// Discard modifications which could be applied to the original RC, etc.
 			continue
 		}
 		newDeployment = event.Object.(*corev1.ReplicationController)
 		break
 	}
-
 	assertEnvVarEquals("ENV1", "UPDATED", newDeployment, t)
-
 	if newDeployment.Name == deployment.Name {
 		t.Fatalf("expected new deployment; old=%s, new=%s", deployment.Name, newDeployment.Name)
 	}
 }
-
 func assertEnvVarEquals(name string, value string, deployment *corev1.ReplicationController, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	env := deployment.Spec.Template.Spec.Containers[0].Env
-
 	for _, e := range env {
 		if e.Name == name && e.Value == value {
 			return
 		}
 	}
-
 	t.Fatalf("Expected env var with name %s and value %s", name, value)
 }

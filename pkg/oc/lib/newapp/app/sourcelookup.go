@@ -9,16 +9,12 @@ import (
 	"runtime"
 	"strings"
 	"time"
-
 	"github.com/moby/buildkit/frontend/dockerfile/parser"
 	"k8s.io/klog"
-
 	s2iapi "github.com/openshift/source-to-image/pkg/api"
 	s2igit "github.com/openshift/source-to-image/pkg/scm/git"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/kubernetes/pkg/apis/core/validation"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/library-go/pkg/git"
 	"github.com/openshift/origin/pkg/oc/lib/newapp"
@@ -31,6 +27,20 @@ type Dockerfile interface {
 }
 
 func NewDockerfileFromFile(path string) (Dockerfile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -40,8 +50,21 @@ func NewDockerfileFromFile(path string) (Dockerfile, error) {
 	}
 	return NewDockerfile(string(data))
 }
-
 func NewDockerfile(contents string) (Dockerfile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(contents) == 0 {
 		return nil, errors.New("Dockerfile is empty")
 	}
@@ -53,20 +76,59 @@ func NewDockerfile(contents string) (Dockerfile, error) {
 }
 
 type dockerfileContents struct {
-	ast      *parser.Node
-	contents string
+	ast		*parser.Node
+	contents	string
 }
 
 func (d dockerfileContents) AST() *parser.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.ast
 }
-
 func (d dockerfileContents) Contents() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.contents
 }
-
-// IsRemoteRepository checks whether the provided string is a remote repository or not
 func IsRemoteRepository(s string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, err := s2igit.Parse(s)
 	if err != nil {
 		klog.V(5).Infof("%s is not a valid url: %v", s, err)
@@ -77,8 +139,6 @@ func IsRemoteRepository(s string) (bool, error) {
 		return false, nil
 	}
 	gitRepo := git.NewRepository()
-
-	// try up to 3 times to reach the remote git repo
 	for i := 0; i < 3; i++ {
 		_, _, err = gitRepo.ListRemote(url.StringNoFragment())
 		if err == nil {
@@ -93,48 +153,62 @@ func IsRemoteRepository(s string) (bool, error) {
 	return true, nil
 }
 
-// SourceRepository represents a code repository that may be the target of a build.
 type SourceRepository struct {
-	location        string
-	url             s2igit.URL
-	localDir        string
-	remoteURL       *s2igit.URL
-	contextDir      string
-	secrets         []buildv1.SecretBuildSource
-	configMaps      []buildv1.ConfigMapBuildSource
-	info            *SourceRepositoryInfo
-	sourceImage     ComponentReference
-	sourceImageFrom string
-	sourceImageTo   string
-
-	usedBy           []ComponentReference
-	strategy         newapp.Strategy
-	ignoreRepository bool
-	binary           bool
-
-	forceAddDockerfile bool
-
-	requiresAuth bool
+	location		string
+	url			s2igit.URL
+	localDir		string
+	remoteURL		*s2igit.URL
+	contextDir		string
+	secrets			[]buildv1.SecretBuildSource
+	configMaps		[]buildv1.ConfigMapBuildSource
+	info			*SourceRepositoryInfo
+	sourceImage		ComponentReference
+	sourceImageFrom		string
+	sourceImageTo		string
+	usedBy			[]ComponentReference
+	strategy		newapp.Strategy
+	ignoreRepository	bool
+	binary			bool
+	forceAddDockerfile	bool
+	requiresAuth		bool
 }
 
-// NewSourceRepository creates a reference to a local or remote source code repository from
-// a URL or path.
 func NewSourceRepository(s string, strategy newapp.Strategy) (*SourceRepository, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	location, err := s2igit.Parse(s)
 	if err != nil {
 		return nil, err
 	}
-
-	return &SourceRepository{
-		location: s,
-		url:      *location,
-		strategy: strategy,
-	}, nil
+	return &SourceRepository{location: s, url: *location, strategy: strategy}, nil
 }
-
-// NewSourceRepositoryWithDockerfile creates a reference to a local source code repository with
-// the provided relative Dockerfile path (defaults to "Dockerfile").
 func NewSourceRepositoryWithDockerfile(s, dockerfilePath string) (*SourceRepository, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r, err := NewSourceRepository(s, newapp.StrategyDocker)
 	if err != nil {
 		return nil, err
@@ -152,73 +226,176 @@ func NewSourceRepositoryWithDockerfile(s, dockerfilePath string) (*SourceReposit
 	r.info.Dockerfile = f
 	return r, nil
 }
-
-// NewSourceRepositoryForDockerfile creates a source repository that is set up to use
-// the contents of a Dockerfile as the input of the build.
 func NewSourceRepositoryForDockerfile(contents string) (*SourceRepository, error) {
-	s := &SourceRepository{
-		ignoreRepository: true,
-		strategy:         newapp.StrategyDocker,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	s := &SourceRepository{ignoreRepository: true, strategy: newapp.StrategyDocker}
 	err := s.AddDockerfile(contents)
 	return s, err
 }
-
-// NewBinarySourceRepository creates a source repository that is configured for binary
-// input.
 func NewBinarySourceRepository(strategy newapp.Strategy) *SourceRepository {
-	return &SourceRepository{
-		binary:           true,
-		ignoreRepository: true,
-		strategy:         strategy,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &SourceRepository{binary: true, ignoreRepository: true, strategy: strategy}
 }
-
-// TODO: this doesn't really match the others - this should likely be a different type of
-// object that is associated with a build or component.
 func NewImageSourceRepository(compRef ComponentReference, from, to string) *SourceRepository {
-	return &SourceRepository{
-		sourceImage:      compRef,
-		sourceImageFrom:  from,
-		sourceImageTo:    to,
-		ignoreRepository: true,
-		location:         compRef.Input().From,
-		strategy:         newapp.StrategySource,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &SourceRepository{sourceImage: compRef, sourceImageFrom: from, sourceImageTo: to, ignoreRepository: true, location: compRef.Input().From, strategy: newapp.StrategySource}
 }
-
-// UsedBy sets up which component uses the source repository
 func (r *SourceRepository) UsedBy(ref ComponentReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.usedBy = append(r.usedBy, ref)
 }
-
-// Remote checks whether the source repository is remote
 func (r *SourceRepository) Remote() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !r.url.IsLocal()
 }
-
-// InUse checks if the source repository is in use
 func (r *SourceRepository) InUse() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(r.usedBy) > 0
 }
-
-// SetStrategy sets the source repository strategy
 func (r *SourceRepository) SetStrategy(strategy newapp.Strategy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.strategy = strategy
 }
-
-// GetStrategy returns the source repository strategy
 func (r *SourceRepository) GetStrategy() newapp.Strategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.strategy
 }
-
 func (r *SourceRepository) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.location
 }
-
-// Detect clones source locally if not already local and runs code detection
-// with the given detector.
 func (r *SourceRepository) Detect(d Detector, dockerStrategy bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.info != nil {
 		return nil
 	}
@@ -235,19 +412,55 @@ func (r *SourceRepository) Detect(d Detector, dockerStrategy bool) error {
 	}
 	return nil
 }
-
-// SetInfo sets the source repository info. This is to facilitate certain tests.
 func (r *SourceRepository) SetInfo(info *SourceRepositoryInfo) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.info = info
 }
-
-// Info returns the source repository info generated on code detection
 func (r *SourceRepository) Info() *SourceRepositoryInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.info
 }
-
-// LocalPath returns the local path of the source repository
 func (r *SourceRepository) LocalPath() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.localDir) > 0 {
 		return r.localDir, nil
 	}
@@ -269,23 +482,27 @@ func (r *SourceRepository) LocalPath() (string, error) {
 	}
 	return r.localDir, nil
 }
-
-// DetectAuth returns an error if the source repository cannot be cloned
-// without the current user's environment. The following changes are made to the
-// environment:
-// 1) The HOME directory is set to a temporary dir to avoid loading any settings in .gitconfig
-// 2) The GIT_SSH variable is set to /dev/null so the regular SSH keys are not used
-//    (changing the HOME directory is not enough).
-// 3) GIT_CONFIG_NOSYSTEM prevents git from loading system-wide config
-// 4) GIT_ASKPASS to prevent git from prompting for a user/password
 func (r *SourceRepository) DetectAuth() error {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, ok, err := r.RemoteURL()
 	if err != nil {
 		return err
 	}
 	if !ok {
-		return nil // No auth needed, we can't find a remote URL
+		return nil
 	}
 	tempHome, err := ioutil.TempDir("", "githome")
 	if err != nil {
@@ -297,19 +514,10 @@ func (r *SourceRepository) DetectAuth() error {
 		return err
 	}
 	defer os.RemoveAll(tempSrc)
-	env := []string{
-		fmt.Sprintf("HOME=%s", tempHome),
-		"GIT_SSH=/dev/null",
-		"GIT_CONFIG_NOSYSTEM=true",
-		"GIT_ASKPASS=true",
-	}
+	env := []string{fmt.Sprintf("HOME=%s", tempHome), "GIT_SSH=/dev/null", "GIT_CONFIG_NOSYSTEM=true", "GIT_ASKPASS=true"}
 	if runtime.GOOS == "windows" {
-		env = append(env,
-			fmt.Sprintf("ProgramData=%s", os.Getenv("ProgramData")),
-			fmt.Sprintf("SystemRoot=%s", os.Getenv("SystemRoot")),
-		)
+		env = append(env, fmt.Sprintf("ProgramData=%s", os.Getenv("ProgramData")), fmt.Sprintf("SystemRoot=%s", os.Getenv("SystemRoot")))
 	}
-
 	gitRepo := git.NewRepositoryWithEnv(env)
 	klog.V(4).Infof("Checking if %v requires authentication", url.StringNoFragment())
 	_, _, err = gitRepo.TimedListRemote(10*time.Second, url.StringNoFragment(), "--heads")
@@ -319,9 +527,21 @@ func (r *SourceRepository) DetectAuth() error {
 	}
 	return nil
 }
-
-// RemoteURL returns the remote URL of the source repository
 func (r *SourceRepository) RemoteURL() (*s2igit.URL, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.remoteURL != nil {
 		return r.remoteURL, true, nil
 	}
@@ -338,7 +558,6 @@ func (r *SourceRepository) RemoteURL() (*s2igit.URL, bool, error) {
 		if len(ref) > 0 {
 			remote = fmt.Sprintf("%s#%s", remote, ref)
 		}
-
 		if r.remoteURL, err = s2igit.Parse(remote); err != nil {
 			return nil, false, err
 		}
@@ -347,42 +566,124 @@ func (r *SourceRepository) RemoteURL() (*s2igit.URL, bool, error) {
 	}
 	return r.remoteURL, true, nil
 }
-
-// SetContextDir sets the context directory to use for the source repository
 func (r *SourceRepository) SetContextDir(dir string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.contextDir = dir
 }
-
-// ContextDir returns the context directory of the source repository
 func (r *SourceRepository) ContextDir() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.contextDir
 }
-
-// ConfigMaps returns the configMap build sources
 func (r *SourceRepository) ConfigMaps() []buildv1.ConfigMapBuildSource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.configMaps
 }
-
-// Secrets returns the secret build sources
 func (r *SourceRepository) Secrets() []buildv1.SecretBuildSource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.secrets
 }
-
-// SetSourceImage sets the source(input) image for a repository
 func (r *SourceRepository) SetSourceImage(c ComponentReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.sourceImage = c
 }
-
-// SetSourceImagePath sets the source/destination to use when copying from the SourceImage
 func (r *SourceRepository) SetSourceImagePath(source, dest string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.sourceImageFrom = source
 	r.sourceImageTo = dest
 }
-
-// AddDockerfile adds the Dockerfile contents to the SourceRepository and
-// configure it to build with Docker strategy. Returns an error if the contents
-// are invalid.
 func (r *SourceRepository) AddDockerfile(contents string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dockerfile, err := NewDockerfile(contents)
 	if err != nil {
 		return err
@@ -395,11 +696,21 @@ func (r *SourceRepository) AddDockerfile(contents string) error {
 	r.forceAddDockerfile = true
 	return nil
 }
-
-// AddBuildConfigMaps adds the defined configMaps into the build. The input format for
-// the secrets is "<secretName>:<destinationDir>". The destinationDir is
-// optional and when not specified the default is the current working directory.
 func (r *SourceRepository) AddBuildConfigMaps(configMaps []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	injections := s2iapi.VolumeList{}
 	r.configMaps = []buildv1.ConfigMapBuildSource{}
 	for _, in := range configMaps {
@@ -425,18 +736,25 @@ func (r *SourceRepository) AddBuildConfigMaps(configMaps []string) error {
 		if configMapExists(in.Source) {
 			return fmt.Errorf("the %q configMap can be used just once", in.Source)
 		}
-		r.configMaps = append(r.configMaps, buildv1.ConfigMapBuildSource{
-			ConfigMap:      corev1.LocalObjectReference{Name: in.Source},
-			DestinationDir: in.Destination,
-		})
+		r.configMaps = append(r.configMaps, buildv1.ConfigMapBuildSource{ConfigMap: corev1.LocalObjectReference{Name: in.Source}, DestinationDir: in.Destination})
 	}
 	return nil
 }
-
-// AddBuildSecrets adds the defined secrets into a build. The input format for
-// the secrets is "<secretName>:<destinationDir>". The destinationDir is
-// optional and when not specified the default is the current working directory.
 func (r *SourceRepository) AddBuildSecrets(secrets []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	injections := s2iapi.VolumeList{}
 	r.secrets = []buildv1.SecretBuildSource{}
 	for _, in := range secrets {
@@ -462,27 +780,49 @@ func (r *SourceRepository) AddBuildSecrets(secrets []string) error {
 		if secretExists(in.Source) {
 			return fmt.Errorf("the %q secret can be used just once", in.Source)
 		}
-		r.secrets = append(r.secrets, buildv1.SecretBuildSource{
-			Secret:         corev1.LocalObjectReference{Name: in.Source},
-			DestinationDir: in.Destination,
-		})
+		r.secrets = append(r.secrets, buildv1.SecretBuildSource{Secret: corev1.LocalObjectReference{Name: in.Source}, DestinationDir: in.Destination})
 	}
 	return nil
 }
 
-// SourceRepositories is a list of SourceRepository objects
 type SourceRepositories []*SourceRepository
 
 func (rr SourceRepositories) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repos := []string{}
 	for _, r := range rr {
 		repos = append(repos, r.String())
 	}
 	return strings.Join(repos, ",")
 }
-
-// NotUsed returns the list of SourceRepositories that are not used
 func (rr SourceRepositories) NotUsed() SourceRepositories {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	notUsed := SourceRepositories{}
 	for _, r := range rr {
 		if !r.InUse() {
@@ -492,17 +832,28 @@ func (rr SourceRepositories) NotUsed() SourceRepositories {
 	return notUsed
 }
 
-// SourceRepositoryInfo contains info about a source repository
 type SourceRepositoryInfo struct {
-	Path        string
-	Types       []SourceLanguageType
-	Dockerfile  Dockerfile
-	Jenkinsfile bool
+	Path		string
+	Types		[]SourceLanguageType
+	Dockerfile	Dockerfile
+	Jenkinsfile	bool
 }
 
-// Terms returns which languages the source repository was
-// built with
 func (info *SourceRepositoryInfo) Terms() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	terms := []string{}
 	for i := range info.Types {
 		terms = append(terms, info.Types[i].Term())
@@ -510,50 +861,61 @@ func (info *SourceRepositoryInfo) Terms() []string {
 	return terms
 }
 
-// SourceLanguageType contains info about the type of the language
-// a source repository is built in
 type SourceLanguageType struct {
-	Platform string
-	Version  string
+	Platform	string
+	Version		string
 }
 
-// Term returns a search term for the given source language type
-// the term will be in the form of language:version
 func (t *SourceLanguageType) Term() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(t.Version) == 0 {
 		return t.Platform
 	}
 	return fmt.Sprintf("%s:%s", t.Platform, t.Version)
 }
 
-// Detector is an interface for detecting information about a
-// source repository
 type Detector interface {
 	Detect(dir string, dockerStrategy bool) (*SourceRepositoryInfo, error)
 }
-
-// SourceRepositoryEnumerator implements the Detector interface
 type SourceRepositoryEnumerator struct {
-	Detectors         source.Detectors
-	DockerfileTester  newapp.Tester
-	JenkinsfileTester newapp.Tester
+	Detectors		source.Detectors
+	DockerfileTester	newapp.Tester
+	JenkinsfileTester	newapp.Tester
 }
 
-// Detect extracts source code information about the provided source repository
 func (e SourceRepositoryEnumerator) Detect(dir string, noSourceDetection bool) (*SourceRepositoryInfo, error) {
-	info := &SourceRepositoryInfo{
-		Path: dir,
-	}
-
-	// no point in doing source-type detection if the requested build strategy
-	// is docker or pipeline
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	info := &SourceRepositoryInfo{Path: dir}
 	if !noSourceDetection {
 		for _, d := range e.Detectors {
 			if detected := d(dir); detected != nil {
-				info.Types = append(info.Types, SourceLanguageType{
-					Platform: detected.Platform,
-					Version:  detected.Version,
-				})
+				info.Types = append(info.Types, SourceLanguageType{Platform: detected.Platform, Version: detected.Version})
 			}
 		}
 	}
@@ -567,26 +929,25 @@ func (e SourceRepositoryEnumerator) Detect(dir string, noSourceDetection bool) (
 	if _, ok, err := e.JenkinsfileTester.Has(dir); err == nil && ok {
 		info.Jenkinsfile = true
 	}
-
 	return info, nil
 }
-
-// StrategyAndSourceForRepository returns the build strategy and source code reference
-// of the provided source repository
-// TODO: user should be able to choose whether to download a remote source ref for
-// more info
 func StrategyAndSourceForRepository(repo *SourceRepository, image *ImageRef) (*BuildStrategyRef, *SourceRef, error) {
-	strategy := &BuildStrategyRef{
-		Base:     image,
-		Strategy: repo.strategy,
-	}
-	source := &SourceRef{
-		Binary:       repo.binary,
-		Secrets:      repo.secrets,
-		ConfigMaps:   repo.configMaps,
-		RequiresAuth: repo.requiresAuth,
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	strategy := &BuildStrategyRef{Base: image, Strategy: repo.strategy}
+	source := &SourceRef{Binary: repo.binary, Secrets: repo.secrets, ConfigMaps: repo.configMaps, RequiresAuth: repo.requiresAuth}
 	if repo.sourceImage != nil {
 		srcImageRef, err := InputImageFromMatch(repo.sourceImage.Input().ResolvedMatch)
 		if err != nil {
@@ -596,7 +957,6 @@ func StrategyAndSourceForRepository(repo *SourceRepository, image *ImageRef) (*B
 		source.ImageSourcePath = repo.sourceImageFrom
 		source.ImageDestPath = repo.sourceImageTo
 	}
-
 	if (repo.ignoreRepository || repo.forceAddDockerfile) && repo.Info() != nil && repo.Info().Dockerfile != nil {
 		source.DockerfileContents = repo.Info().Dockerfile.Contents()
 	}
@@ -612,16 +972,23 @@ func StrategyAndSourceForRepository(repo *SourceRepository, image *ImageRef) (*B
 		}
 		source.ContextDir = repo.ContextDir()
 	}
-
 	return strategy, source, nil
 }
-
-// CloneAndCheckoutSources clones the remote repository using either regular
-// git clone operation or shallow git clone, based on the "ref" provided (you
-// cannot shallow clone using the 'ref').
-// This function will return the full path to the buildable sources, including
-// the context directory if specified.
 func CloneAndCheckoutSources(repo git.Repository, remote, ref, localDir, contextDir string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(ref) == 0 {
 		klog.V(5).Infof("No source ref specified, using shallow git clone")
 		if err := repo.CloneWithOptions(localDir, remote, git.Shallow, "--recursive"); err != nil {

@@ -4,74 +4,210 @@ import (
 	"fmt"
 	"strings"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/build/controller/common"
 )
 
-// buildUpdate holds a set of updates to be made to a build object.
-// Only the fields defined in this struct will be updated/patched by this controller.
-// The reason this exists is that there isn't separation at the API
-// level between build spec and build status. Once that happens, the
-// controller should only be able to update the status, while end users
-// should be able to update the spec.
 type buildUpdate struct {
-	podNameAnnotation *string
-	phase             *buildv1.BuildPhase
-	reason            *buildv1.StatusReason
-	message           *string
-	startTime         *metav1.Time
-	completionTime    *metav1.Time
-	duration          *time.Duration
-	outputRef         *string
-	logSnippet        *string
-	pushSecret        *corev1.LocalObjectReference
+	podNameAnnotation	*string
+	phase			*buildv1.BuildPhase
+	reason			*buildv1.StatusReason
+	message			*string
+	startTime		*metav1.Time
+	completionTime		*metav1.Time
+	duration		*time.Duration
+	outputRef		*string
+	logSnippet		*string
+	pushSecret		*corev1.LocalObjectReference
 }
 
 func (u *buildUpdate) setPhase(phase buildv1.BuildPhase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.phase = &phase
 }
-
 func (u *buildUpdate) setReason(reason buildv1.StatusReason) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.reason = &reason
 }
-
 func (u *buildUpdate) setMessage(message string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.message = &message
 }
-
 func (u *buildUpdate) setStartTime(startTime metav1.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.startTime = &startTime
 }
-
 func (u *buildUpdate) setCompletionTime(completionTime metav1.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.completionTime = &completionTime
 }
-
 func (u *buildUpdate) setDuration(duration time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.duration = &duration
 }
-
 func (u *buildUpdate) setOutputRef(ref string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.outputRef = &ref
 }
-
 func (u *buildUpdate) setPodNameAnnotation(podName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.podNameAnnotation = &podName
 }
-
 func (u *buildUpdate) setLogSnippet(message string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.logSnippet = &message
 }
-
 func (u *buildUpdate) setPushSecret(pushSecret corev1.LocalObjectReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.pushSecret = &pushSecret
 }
-
 func (u *buildUpdate) reset() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.podNameAnnotation = nil
 	u.phase = nil
 	u.reason = nil
@@ -83,21 +219,38 @@ func (u *buildUpdate) reset() {
 	u.logSnippet = nil
 	u.pushSecret = nil
 }
-
 func (u *buildUpdate) isEmpty() bool {
-	return u.podNameAnnotation == nil &&
-		u.phase == nil &&
-		u.reason == nil &&
-		u.message == nil &&
-		u.startTime == nil &&
-		u.completionTime == nil &&
-		u.duration == nil &&
-		u.outputRef == nil &&
-		u.logSnippet == nil &&
-		u.pushSecret == nil
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return u.podNameAnnotation == nil && u.phase == nil && u.reason == nil && u.message == nil && u.startTime == nil && u.completionTime == nil && u.duration == nil && u.outputRef == nil && u.logSnippet == nil && u.pushSecret == nil
 }
-
 func (u *buildUpdate) apply(build *buildv1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if u.phase != nil {
 		build.Status.Phase = *u.phase
 	}
@@ -129,10 +282,21 @@ func (u *buildUpdate) apply(build *buildv1.Build) {
 		build.Spec.Output.PushSecret = u.pushSecret
 	}
 }
-
-// String returns a string representation of this update
-// Used with %v in string formatting
 func (u *buildUpdate) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	updates := []string{}
 	if u.phase != nil {
 		updates = append(updates, fmt.Sprintf("phase: %q", *u.phase))

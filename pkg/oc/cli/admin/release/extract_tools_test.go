@@ -9,44 +9,29 @@ import (
 )
 
 func Test_copyAndReplaceReleaseImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	baseLen := len(installerReplacement)
 	tests := []struct {
-		name         string
-		r            *bytes.Buffer
-		buffer       int
-		releaseImage string
-		wantIndex    int
-		wantErr      bool
-	}{
-		{buffer: 10, wantErr: true, wantIndex: -1},
-		{buffer: baseLen, wantErr: false, wantIndex: -1},
-
-		{releaseImage: "test:latest", r: fakeInput(1024, 0), wantIndex: 1024, name: "end of file"},
-		{releaseImage: "test:latest", r: fakeInput(2*1024, 0), wantIndex: 2 * 1024},
-
-		{releaseImage: "test:latest", r: fakeInput(1024-1, 0, 1), wantIndex: 1024 - 1},
-		{releaseImage: "test:latest", r: fakeInput(0, 1), wantIndex: 0},
-
-		{releaseImage: "test:latest", r: fakeInput(baseLen, 0), wantIndex: baseLen},
-		{releaseImage: "test:latest", r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2},
-		{releaseImage: "test:latest", r: fakeInput(baseLen-1, 0), wantIndex: baseLen - 1},
-		{releaseImage: "test:latest", r: fakeInput(baseLen*2-1, 0), wantIndex: baseLen*2 - 1},
-		{releaseImage: "test:latest", r: fakeInput(baseLen+1, 0), wantIndex: baseLen + 1},
-		{releaseImage: "test:latest", r: fakeInput(baseLen*2+1, 0), wantIndex: baseLen*2 + 1},
-
-		{releaseImage: strings.Repeat("a", baseLen), wantIndex: -1, wantErr: true},
-		{releaseImage: strings.Repeat("a", baseLen+1), wantIndex: -1, wantErr: true},
-
-		{releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(baseLen, 0), wantIndex: baseLen},
-		{releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(baseLen, 0), wantIndex: baseLen},
-		{releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(1, baseLen, 0), wantIndex: 1 + baseLen},
-		{releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(1, 0, baseLen), wantIndex: 1},
-
-		{releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2},
-		{releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2},
-		{releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(1, baseLen*2, 0), wantIndex: 1 + baseLen*2},
-		{releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(1, 0, baseLen*2), wantIndex: 1},
-	}
+		name		string
+		r		*bytes.Buffer
+		buffer		int
+		releaseImage	string
+		wantIndex	int
+		wantErr		bool
+	}{{buffer: 10, wantErr: true, wantIndex: -1}, {buffer: baseLen, wantErr: false, wantIndex: -1}, {releaseImage: "test:latest", r: fakeInput(1024, 0), wantIndex: 1024, name: "end of file"}, {releaseImage: "test:latest", r: fakeInput(2*1024, 0), wantIndex: 2 * 1024}, {releaseImage: "test:latest", r: fakeInput(1024-1, 0, 1), wantIndex: 1024 - 1}, {releaseImage: "test:latest", r: fakeInput(0, 1), wantIndex: 0}, {releaseImage: "test:latest", r: fakeInput(baseLen, 0), wantIndex: baseLen}, {releaseImage: "test:latest", r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2}, {releaseImage: "test:latest", r: fakeInput(baseLen-1, 0), wantIndex: baseLen - 1}, {releaseImage: "test:latest", r: fakeInput(baseLen*2-1, 0), wantIndex: baseLen*2 - 1}, {releaseImage: "test:latest", r: fakeInput(baseLen+1, 0), wantIndex: baseLen + 1}, {releaseImage: "test:latest", r: fakeInput(baseLen*2+1, 0), wantIndex: baseLen*2 + 1}, {releaseImage: strings.Repeat("a", baseLen), wantIndex: -1, wantErr: true}, {releaseImage: strings.Repeat("a", baseLen+1), wantIndex: -1, wantErr: true}, {releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(baseLen, 0), wantIndex: baseLen}, {releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(baseLen, 0), wantIndex: baseLen}, {releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(1, baseLen, 0), wantIndex: 1 + baseLen}, {releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(1, 0, baseLen), wantIndex: 1}, {releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2}, {releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(baseLen*2, 0), wantIndex: baseLen * 2}, {releaseImage: strings.Repeat("a", baseLen-1), r: fakeInput(1, baseLen*2, 0), wantIndex: 1 + baseLen*2}, {releaseImage: strings.Repeat("a", baseLen-2), r: fakeInput(1, 0, baseLen*2), wantIndex: 1}}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			w := &bytes.Buffer{}
@@ -56,11 +41,9 @@ func Test_copyAndReplaceReleaseImage(t *testing.T) {
 			if tt.r == nil {
 				tt.r = &bytes.Buffer{}
 			}
-
 			src := tt.r.Bytes()
 			original := make([]byte, len(src))
 			copy(original, src)
-
 			got, err := copyAndReplaceReleaseImage(w, tt.r, tt.buffer, tt.releaseImage)
 			if (err != nil) != tt.wantErr {
 				t.Fatalf("copyAndReplaceReleaseImage() error = %v, wantErr %v", err, tt.wantErr)
@@ -84,8 +67,21 @@ func Test_copyAndReplaceReleaseImage(t *testing.T) {
 		})
 	}
 }
-
 func fakeInput(lengths ...int) *bytes.Buffer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := &bytes.Buffer{}
 	for _, l := range lengths {
 		if l == 0 {

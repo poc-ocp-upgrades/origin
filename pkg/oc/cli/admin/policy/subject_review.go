@@ -5,9 +5,7 @@ import (
 	"io"
 	"strings"
 	"text/tabwriter"
-
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -20,18 +18,17 @@ import (
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	securityv1 "github.com/openshift/api/security/v1"
 	securityv1typedclient "github.com/openshift/client-go/security/clientset/versioned/typed/security/v1"
 )
 
 var (
-	subjectReviewLong = templates.LongDesc(`Check whether a User, Service Account or a Group can create a Pod.
+	subjectReviewLong	= templates.LongDesc(`Check whether a User, Service Account or a Group can create a Pod.
 	It returns a list of Security Context Constraints that will admit the resource.
 	If User is specified but not Groups, it is interpreted as "What if User is not a member of any groups".
 	If User and Groups are empty, then the check is performed using the current user
 	`)
-	subjectReviewExamples = templates.Examples(`# Check whether user bob can create a pod specified in myresource.yaml
+	subjectReviewExamples	= templates.Examples(`# Check whether user bob can create a pod specified in myresource.yaml
 	$ %[1]s -u bob -f myresource.yaml
 
 	# Check whether user bob who belongs to projectAdmin group can create a pod specified in myresource.yaml
@@ -44,62 +41,88 @@ var (
 const SubjectReviewRecommendedName = "scc-subject-review"
 
 type SCCSubjectReviewOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	Printer *policyPrinter
-
-	sccSubjectReviewClient securityv1typedclient.SecurityV1Interface
-	namespace              string
-	enforceNamespace       bool
-	builder                *resource.Builder
-	RESTClientFactory      func(mapping *meta.RESTMapping) (resource.RESTClient, error)
-	FilenameOptions        resource.FilenameOptions
-	User                   string
-	Groups                 []string
-	noHeaders              bool
-	serviceAccount         string
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Printer			*policyPrinter
+	sccSubjectReviewClient	securityv1typedclient.SecurityV1Interface
+	namespace		string
+	enforceNamespace	bool
+	builder			*resource.Builder
+	RESTClientFactory	func(mapping *meta.RESTMapping) (resource.RESTClient, error)
+	FilenameOptions		resource.FilenameOptions
+	User			string
+	Groups			[]string
+	noHeaders		bool
+	serviceAccount		string
 	genericclioptions.IOStreams
 }
 
 func NewSCCSubjectReviewOptions(streams genericclioptions.IOStreams) *SCCSubjectReviewOptions {
-	return &SCCSubjectReviewOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &SCCSubjectReviewOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
-
 func NewCmdSccSubjectReview(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewSCCSubjectReviewOptions(streams)
-	cmd := &cobra.Command{
-		Use:     name,
-		Long:    subjectReviewLong,
-		Short:   "Check whether a user or a ServiceAccount can create a Pod.",
-		Example: fmt.Sprintf(subjectReviewExamples, fullName, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, args, cmd))
-			kcmdutil.CheckErr(o.Run(args))
-		},
-	}
-
+	cmd := &cobra.Command{Use: name, Long: subjectReviewLong, Short: "Check whether a user or a ServiceAccount can create a Pod.", Example: fmt.Sprintf(subjectReviewExamples, fullName, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, args, cmd))
+		kcmdutil.CheckErr(o.Run(args))
+	}}
 	cmd.Flags().StringVarP(&o.User, "user", "u", o.User, "Review will be performed on behalf of this user")
 	cmd.Flags().StringSliceVarP(&o.Groups, "groups", "g", o.Groups, "Comma separated, list of groups. Review will be performed on behalf of these groups")
 	cmd.Flags().StringVarP(&o.serviceAccount, "serviceaccount", "z", o.serviceAccount, "service account in the current namespace to use as a user")
 	cmd.Flags().BoolVar(&o.noHeaders, "no-headers", o.noHeaders, "When using the default output format, don't print headers (default print headers).")
 	kcmdutil.AddFilenameOptionFlags(cmd, &o.FilenameOptions, "Filename, directory, or URL to a file identifying the resource to get from a server.")
-
 	o.PrintFlags.AddFlags(cmd)
 	return cmd
 }
-
 func (o *SCCSubjectReviewOptions) Complete(f kcmdutil.Factory, args []string, cmd *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) == 0 && len(o.FilenameOptions.Filenames) == 0 {
 		return kcmdutil.UsageErrorf(cmd, "one or more resources must be specified")
 	}
 	if len(o.User) > 0 && len(o.serviceAccount) > 0 {
 		return kcmdutil.UsageErrorf(cmd, "--user and --serviceaccount are mutually exclusive")
 	}
-	if len(o.serviceAccount) > 0 { // check whether user supplied a list of SA
+	if len(o.serviceAccount) > 0 {
 		if len(strings.Split(o.serviceAccount, ",")) > 1 {
 			return kcmdutil.UsageErrorf(cmd, "only one Service Account is supported")
 		}
@@ -127,34 +150,33 @@ func (o *SCCSubjectReviewOptions) Complete(f kcmdutil.Factory, args []string, cm
 	o.sccSubjectReviewClient = securityClient
 	o.builder = f.NewBuilder()
 	o.RESTClientFactory = f.ClientForMapping
-
-	o.Printer = &policyPrinter{
-		printFlags:     o.PrintFlags,
-		humanPrintFunc: subjectReviewHumanPrinter,
-		noHeaders:      o.noHeaders,
-	}
-
+	o.Printer = &policyPrinter{printFlags: o.PrintFlags, humanPrintFunc: subjectReviewHumanPrinter, noHeaders: o.noHeaders}
 	return nil
 }
-
 func (o *SCCSubjectReviewOptions) Run(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userOrSA := o.User
 	if len(o.serviceAccount) > 0 {
 		userOrSA = o.serviceAccount
 	}
-	r := o.builder.
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		NamespaceParam(o.namespace).
-		FilenameParam(o.enforceNamespace, &o.FilenameOptions).
-		ResourceTypeOrNameArgs(true, args...).
-		ContinueOnError().
-		Flatten().
-		Do()
+	r := o.builder.WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).NamespaceParam(o.namespace).FilenameParam(o.enforceNamespace, &o.FilenameOptions).ResourceTypeOrNameArgs(true, args...).ContinueOnError().Flatten().Do()
 	err := r.Err()
 	if err != nil {
 		return err
 	}
-
 	allErrs := []error{}
 	err = r.Visit(func(info *resource.Info, err error) error {
 		if err != nil {
@@ -199,56 +221,91 @@ func (o *SCCSubjectReviewOptions) Run(args []string) error {
 	allErrs = append(allErrs, err)
 	return utilerrors.NewAggregate(allErrs)
 }
-
 func (o *SCCSubjectReviewOptions) pspSubjectReview(userOrSA string, podTemplateSpec *corev1.PodTemplateSpec) (*securityv1.PodSecurityPolicySubjectReview, error) {
-	podSecurityPolicySubjectReview := &securityv1.PodSecurityPolicySubjectReview{
-		Spec: securityv1.PodSecurityPolicySubjectReviewSpec{
-			Template: *podTemplateSpec,
-			User:     userOrSA,
-			Groups:   o.Groups,
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	podSecurityPolicySubjectReview := &securityv1.PodSecurityPolicySubjectReview{Spec: securityv1.PodSecurityPolicySubjectReviewSpec{Template: *podTemplateSpec, User: userOrSA, Groups: o.Groups}}
 	return o.sccSubjectReviewClient.PodSecurityPolicySubjectReviews(o.namespace).Create(podSecurityPolicySubjectReview)
 }
-
 func (o *SCCSubjectReviewOptions) pspSelfSubjectReview(podTemplateSpec *corev1.PodTemplateSpec) (*securityv1.PodSecurityPolicySelfSubjectReview, error) {
-	podSecurityPolicySelfSubjectReview := &securityv1.PodSecurityPolicySelfSubjectReview{
-		Spec: securityv1.PodSecurityPolicySelfSubjectReviewSpec{
-			Template: *podTemplateSpec,
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	podSecurityPolicySelfSubjectReview := &securityv1.PodSecurityPolicySelfSubjectReview{Spec: securityv1.PodSecurityPolicySelfSubjectReviewSpec{Template: *podTemplateSpec}}
 	return o.sccSubjectReviewClient.PodSecurityPolicySelfSubjectReviews(o.namespace).Create(podSecurityPolicySelfSubjectReview)
 }
-
 func subjectReviewHumanPrinter(info *resource.Info, obj runtime.Object, noHeaders *bool, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(out, tabWriterMinWidth, tabWriterWidth, tabWriterPadding, tabWriterPadChar, tabWriterFlags)
 	defer w.Flush()
-
 	if info == nil {
 		return fmt.Errorf("expected non-nil resource info")
 	}
-
 	noHeadersVal := *noHeaders
 	if !noHeadersVal {
 		columns := []string{"RESOURCE", "ALLOWED BY"}
 		fmt.Fprintf(w, "%s\t\n", strings.Join(columns, "\t"))
-
-		// printed only the first time if requested
 		*noHeaders = true
 	}
-
 	gk := printers.GetObjectGroupKind(info.Object)
-
 	allowedBy, err := getAllowedBy(obj)
 	if err != nil {
 		return err
 	}
-
 	_, err = fmt.Fprintf(w, "%s/%s\t%s\t\n", gk.Kind, info.Name, allowedBy)
 	return err
 }
-
 func getAllowedBy(obj runtime.Object) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value := "<none>"
 	switch review := obj.(type) {
 	case *securityv1.PodSecurityPolicySelfSubjectReview:

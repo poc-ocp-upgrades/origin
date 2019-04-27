@@ -8,9 +8,7 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	"k8s.io/klog"
-
 	units "github.com/docker/go-units"
 	corev1 "k8s.io/api/core/v1"
 	kerrs "k8s.io/apimachinery/pkg/api/errors"
@@ -26,7 +24,6 @@ import (
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/kubectl/describe"
 	"k8s.io/kubernetes/pkg/kubectl/describe/versioned"
-
 	oapps "github.com/openshift/api/apps"
 	"github.com/openshift/api/authorization"
 	"github.com/openshift/api/build"
@@ -72,8 +69,20 @@ import (
 )
 
 func describerMap(clientConfig *rest.Config, kclient kubernetes.Interface, host string) map[schema.GroupKind]describe.Describer {
-	// FIXME: This should use the client factory
-	// we can't fail and we can't log at a normal level because this is sometimes called with `nils` for help :(
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient, err := kubernetes.NewForConfig(clientConfig)
 	if err != nil {
 		klog.V(1).Info(err)
@@ -126,47 +135,27 @@ func describerMap(clientConfig *rest.Config, kclient kubernetes.Interface, host 
 	if err != nil {
 		klog.V(1).Info(err)
 	}
-
-	m := map[schema.GroupKind]describe.Describer{
-		oapps.Kind("DeploymentConfig"):               &DeploymentConfigDescriber{appsClient, kubeClient, nil},
-		build.Kind("Build"):                          &BuildDescriber{buildClient, kclient},
-		build.Kind("BuildConfig"):                    &BuildConfigDescriber{buildClient, kclient, host},
-		image.Kind("Image"):                          &ImageDescriber{imageClient},
-		image.Kind("ImageStream"):                    &ImageStreamDescriber{imageClient},
-		image.Kind("ImageStreamTag"):                 &ImageStreamTagDescriber{imageClient},
-		image.Kind("ImageStreamImage"):               &ImageStreamImageDescriber{imageClient},
-		route.Kind("Route"):                          &RouteDescriber{routeClient, kclient},
-		project.Kind("Project"):                      &ProjectDescriber{projectClient, kclient},
-		template.Kind("Template"):                    &TemplateDescriber{templateClient, meta.NewAccessor(), legacyscheme.Scheme, nil},
-		template.Kind("TemplateInstance"):            &TemplateInstanceDescriber{kclient, templateClient, nil},
-		authorization.Kind("RoleBinding"):            &RoleBindingDescriber{oauthorizationClient},
-		authorization.Kind("Role"):                   &RoleDescriber{oauthorizationClient},
-		authorization.Kind("ClusterRoleBinding"):     &ClusterRoleBindingDescriber{oauthorizationClient},
-		authorization.Kind("ClusterRole"):            &ClusterRoleDescriber{oauthorizationClient},
-		authorization.Kind("RoleBindingRestriction"): &RoleBindingRestrictionDescriber{oauthorizationClient},
-		oauth.Kind("OAuthAccessToken"):               &OAuthAccessTokenDescriber{oauthClient},
-		user.Kind("Identity"):                        &IdentityDescriber{userClient},
-		user.Kind("User"):                            &UserDescriber{userClient},
-		user.Kind("Group"):                           &GroupDescriber{userClient},
-		user.Kind("UserIdentityMapping"):             &UserIdentityMappingDescriber{userClient},
-		quota.Kind("ClusterResourceQuota"):           &ClusterQuotaDescriber{quotaClient},
-		quota.Kind("AppliedClusterResourceQuota"):    &AppliedClusterQuotaDescriber{quotaClient},
-		network.Kind("ClusterNetwork"):               &ClusterNetworkDescriber{onetworkClient},
-		network.Kind("HostSubnet"):                   &HostSubnetDescriber{onetworkClient},
-		network.Kind("NetNamespace"):                 &NetNamespaceDescriber{onetworkClient},
-		network.Kind("EgressNetworkPolicy"):          &EgressNetworkPolicyDescriber{onetworkClient},
-		security.Kind("SecurityContextConstraints"):  &SecurityContextConstraintsDescriber{securityClient},
-	}
-
-	// Register the legacy ("core") API group for all kinds as well.
+	m := map[schema.GroupKind]describe.Describer{oapps.Kind("DeploymentConfig"): &DeploymentConfigDescriber{appsClient, kubeClient, nil}, build.Kind("Build"): &BuildDescriber{buildClient, kclient}, build.Kind("BuildConfig"): &BuildConfigDescriber{buildClient, kclient, host}, image.Kind("Image"): &ImageDescriber{imageClient}, image.Kind("ImageStream"): &ImageStreamDescriber{imageClient}, image.Kind("ImageStreamTag"): &ImageStreamTagDescriber{imageClient}, image.Kind("ImageStreamImage"): &ImageStreamImageDescriber{imageClient}, route.Kind("Route"): &RouteDescriber{routeClient, kclient}, project.Kind("Project"): &ProjectDescriber{projectClient, kclient}, template.Kind("Template"): &TemplateDescriber{templateClient, meta.NewAccessor(), legacyscheme.Scheme, nil}, template.Kind("TemplateInstance"): &TemplateInstanceDescriber{kclient, templateClient, nil}, authorization.Kind("RoleBinding"): &RoleBindingDescriber{oauthorizationClient}, authorization.Kind("Role"): &RoleDescriber{oauthorizationClient}, authorization.Kind("ClusterRoleBinding"): &ClusterRoleBindingDescriber{oauthorizationClient}, authorization.Kind("ClusterRole"): &ClusterRoleDescriber{oauthorizationClient}, authorization.Kind("RoleBindingRestriction"): &RoleBindingRestrictionDescriber{oauthorizationClient}, oauth.Kind("OAuthAccessToken"): &OAuthAccessTokenDescriber{oauthClient}, user.Kind("Identity"): &IdentityDescriber{userClient}, user.Kind("User"): &UserDescriber{userClient}, user.Kind("Group"): &GroupDescriber{userClient}, user.Kind("UserIdentityMapping"): &UserIdentityMappingDescriber{userClient}, quota.Kind("ClusterResourceQuota"): &ClusterQuotaDescriber{quotaClient}, quota.Kind("AppliedClusterResourceQuota"): &AppliedClusterQuotaDescriber{quotaClient}, network.Kind("ClusterNetwork"): &ClusterNetworkDescriber{onetworkClient}, network.Kind("HostSubnet"): &HostSubnetDescriber{onetworkClient}, network.Kind("NetNamespace"): &NetNamespaceDescriber{onetworkClient}, network.Kind("EgressNetworkPolicy"): &EgressNetworkPolicyDescriber{onetworkClient}, security.Kind("SecurityContextConstraints"): &SecurityContextConstraintsDescriber{securityClient}}
 	for gk, d := range m {
 		m[legacy.Kind(gk.Kind)] = d
 	}
 	return m
 }
-
-// DescriberFor returns a describer for a given kind of resource
 func DescriberFor(kind schema.GroupKind, clientConfig *rest.Config, kubeClient kubernetes.Interface, host string) (describe.Describer, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, ok := describerMap(clientConfig, kubeClient, host)[kind]
 	if ok {
 		return f, true
@@ -174,14 +163,26 @@ func DescriberFor(kind schema.GroupKind, clientConfig *rest.Config, kubeClient k
 	return nil, false
 }
 
-// BuildDescriber generates information about a build
 type BuildDescriber struct {
-	buildClient buildv1clienttyped.BuildV1Interface
-	kubeClient  kubernetes.Interface
+	buildClient	buildv1clienttyped.BuildV1Interface
+	kubeClient	kubernetes.Interface
 }
 
-// Describe returns the description of a build
 func (d *BuildDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.buildClient.Builds(namespace)
 	buildObj, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -191,7 +192,6 @@ func (d *BuildDescriber) Describe(namespace, name string, settings describe.Desc
 	if events == nil {
 		events = &corev1.EventList{}
 	}
-	// get also pod events and merge it all into one list for describe
 	if pod, err := d.kubeClient.CoreV1().Pods(namespace).Get(buildutil.GetBuildPodName(buildObj), metav1.GetOptions{}); err == nil {
 		if podEvents, _ := d.kubeClient.CoreV1().Events(namespace).Search(legacyscheme.Scheme, pod); podEvents != nil {
 			events.Items = append(events.Items, podEvents.Items...)
@@ -199,39 +199,28 @@ func (d *BuildDescriber) Describe(namespace, name string, settings describe.Desc
 	}
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, buildObj.ObjectMeta)
-
 		fmt.Fprintln(out, "")
-
 		status := bold(buildObj.Status.Phase)
 		if buildObj.Status.Message != "" {
 			status += " (" + buildObj.Status.Message + ")"
 		}
 		formatString(out, "Status", status)
-
 		if buildObj.Status.StartTimestamp != nil && !buildObj.Status.StartTimestamp.IsZero() {
 			formatString(out, "Started", buildObj.Status.StartTimestamp.Time.Format(time.RFC1123))
 		}
-
-		// Create the time object with second-level precision so we don't get
-		// output like "duration: 1.2724395728934s"
 		formatString(out, "Duration", describeBuildDuration(buildObj))
-
 		for _, stage := range buildObj.Status.Stages {
 			duration := stage.StartTime.Time.Add(time.Duration(stage.DurationMilliseconds * int64(time.Millisecond))).Round(time.Second).Sub(stage.StartTime.Time.Round(time.Second))
 			formatString(out, fmt.Sprintf("  %v", stage.Name), fmt.Sprintf("  %v", duration))
 		}
-
 		fmt.Fprintln(out, "")
-
 		if buildObj.Status.Config != nil {
 			formatString(out, "Build Config", buildObj.Status.Config.Name)
 		}
 		formatString(out, "Build Pod", buildutil.GetBuildPodName(buildObj))
-
 		if buildObj.Status.Output.To != nil && len(buildObj.Status.Output.To.ImageDigest) > 0 {
 			formatString(out, "Image Digest", buildObj.Status.Output.To.ImageDigest)
 		}
-
 		describeCommonSpec(buildObj.Spec.CommonSpec, out)
 		describeBuildTriggerCauses(buildObj.Spec.TriggeredBy, out)
 		if len(buildObj.Status.LogSnippet) != 0 {
@@ -240,52 +229,80 @@ func (d *BuildDescriber) Describe(namespace, name string, settings describe.Desc
 		if settings.ShowEvents {
 			versioned.DescribeEvents(events, versioned.NewPrefixWriter(out))
 		}
-
 		return nil
 	})
 }
-
 func describeBuildDuration(build *buildv1.Build) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := metav1.Now().Rfc3339Copy()
-	if build.Status.StartTimestamp == nil &&
-		build.Status.CompletionTimestamp != nil &&
-		(build.Status.Phase == buildv1.BuildPhaseCancelled ||
-			build.Status.Phase == buildv1.BuildPhaseFailed ||
-			build.Status.Phase == buildv1.BuildPhaseError) {
-		// time a build waited for its pod before ultimately being cancelled before that pod was created
+	if build.Status.StartTimestamp == nil && build.Status.CompletionTimestamp != nil && (build.Status.Phase == buildv1.BuildPhaseCancelled || build.Status.Phase == buildv1.BuildPhaseFailed || build.Status.Phase == buildv1.BuildPhaseError) {
 		return fmt.Sprintf("waited for %s", build.Status.CompletionTimestamp.Rfc3339Copy().Time.Sub(build.CreationTimestamp.Rfc3339Copy().Time))
 	} else if build.Status.StartTimestamp == nil && build.Status.Phase != buildv1.BuildPhaseCancelled {
-		// time a new build has been waiting for its pod to be created so it can run
 		return fmt.Sprintf("waiting for %v", t.Sub(build.CreationTimestamp.Rfc3339Copy().Time))
 	} else if build.Status.StartTimestamp != nil && build.Status.CompletionTimestamp == nil {
-		// time a still running build has been running in a pod
 		duration := metav1.Now().Rfc3339Copy().Time.Sub(build.Status.StartTimestamp.Rfc3339Copy().Time)
 		return fmt.Sprintf("running for %v", duration)
-	} else if build.Status.CompletionTimestamp == nil &&
-		build.Status.StartTimestamp == nil &&
-		build.Status.Phase == buildv1.BuildPhaseCancelled {
+	} else if build.Status.CompletionTimestamp == nil && build.Status.StartTimestamp == nil && build.Status.Phase == buildv1.BuildPhaseCancelled {
 		return "<none>"
 	}
-
 	duration := build.Status.CompletionTimestamp.Rfc3339Copy().Time.Sub(build.Status.StartTimestamp.Rfc3339Copy().Time)
 	return fmt.Sprintf("%v", duration)
 }
 
-// BuildConfigDescriber generates information about a buildConfig
 type BuildConfigDescriber struct {
-	buildClient buildv1clienttyped.BuildV1Interface
-	kubeClient  kubernetes.Interface
-	host        string
+	buildClient	buildv1clienttyped.BuildV1Interface
+	kubeClient	kubernetes.Interface
+	host		string
 }
 
 func nameAndNamespace(ns, name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(ns) != 0 {
 		return fmt.Sprintf("%s/%s", ns, name)
 	}
 	return name
 }
-
 func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "\nStrategy", buildapihelpers.StrategyType(p.Strategy))
 	noneType := true
 	if p.Source.Git != nil {
@@ -322,11 +339,9 @@ func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
 	case p.Strategy.JenkinsPipelineStrategy != nil:
 		describeJenkinsPipelineStrategy(p.Strategy.JenkinsPipelineStrategy, out)
 	}
-
 	if p.Output.To != nil {
 		formatString(out, "Output to", fmt.Sprintf("%s %s", p.Output.To.Kind, nameAndNamespace(p.Output.To.Namespace, p.Output.To.Name)))
 	}
-
 	if p.Source.Binary != nil {
 		noneType = false
 		if len(p.Source.Binary.AsFile) > 0 {
@@ -335,7 +350,6 @@ func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
 			formatString(out, "Binary", "provided on build")
 		}
 	}
-
 	if len(p.Source.Secrets) > 0 {
 		result := []string{}
 		for _, s := range p.Source.Secrets {
@@ -350,7 +364,6 @@ func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
 		}
 		formatString(out, "Build ConfigMaps", strings.Join(result, ","))
 	}
-
 	if len(p.Source.Images) == 1 && len(p.Source.Images[0].Paths) == 1 {
 		noneType = false
 		imageObj := p.Source.Images[0]
@@ -368,28 +381,36 @@ func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
 			}
 		}
 	}
-
 	if noneType {
 		formatString(out, "Empty Source", "no input source provided")
 	}
-
 	describePostCommitHook(p.PostCommit, out)
-
 	if p.Output.PushSecret != nil {
 		formatString(out, "Push Secret", p.Output.PushSecret.Name)
 	}
-
 	if p.CompletionDeadlineSeconds != nil {
 		formatString(out, "Fail Build After", time.Duration(*p.CompletionDeadlineSeconds)*time.Second)
 	}
 }
-
 func describePostCommitHook(hook buildv1.BuildPostCommitSpec, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	command := hook.Command
 	args := hook.Args
 	script := hook.Script
 	if len(command) == 0 && len(args) == 0 && len(script) == 0 {
-		// Post commit hook is not set, nothing to do.
 		return
 	}
 	if len(script) != 0 {
@@ -409,8 +430,21 @@ func describePostCommitHook(hook buildv1.BuildPostCommitSpec, out *tabwriter.Wri
 	}
 	formatString(out, "Post Commit Hook", fmt.Sprintf("[%s]", strings.Join(all, ", ")))
 }
-
 func describeSourceStrategy(s *buildv1.SourceBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.From.Name) != 0 {
 		formatString(out, "From Image", fmt.Sprintf("%s %s", s.From.Kind, nameAndNamespace(s.From.Namespace, s.From.Name)))
 	}
@@ -427,8 +461,21 @@ func describeSourceStrategy(s *buildv1.SourceBuildStrategy, out *tabwriter.Write
 		formatString(out, "Force Pull", "yes")
 	}
 }
-
 func describeDockerStrategy(s *buildv1.DockerBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.From != nil && len(s.From.Name) != 0 {
 		formatString(out, "From Image", fmt.Sprintf("%s %s", s.From.Kind, nameAndNamespace(s.From.Namespace, s.From.Name)))
 	}
@@ -445,8 +492,21 @@ func describeDockerStrategy(s *buildv1.DockerBuildStrategy, out *tabwriter.Write
 		formatString(out, "Force Pull", "true")
 	}
 }
-
 func describeCustomStrategy(s *buildv1.CustomBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.From.Name) != 0 {
 		formatString(out, "Image Reference", fmt.Sprintf("%s %s", s.From.Kind, nameAndNamespace(s.From.Namespace, s.From.Name)))
 	}
@@ -467,8 +527,21 @@ func describeCustomStrategy(s *buildv1.CustomBuildStrategy, out *tabwriter.Write
 		}
 	}
 }
-
 func describeJenkinsPipelineStrategy(s *buildv1.JenkinsPipelineBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.JenkinsfilePath) != 0 {
 		formatString(out, "Jenkinsfile path", s.JenkinsfilePath)
 	}
@@ -482,21 +555,43 @@ func describeJenkinsPipelineStrategy(s *buildv1.JenkinsPipelineBuildStrategy, ou
 		formatString(out, "Jenkinsfile", "from source repository root")
 	}
 }
-
-// DescribeTriggers generates information about the triggers associated with a
-// buildconfig
 func (d *BuildConfigDescriber) DescribeTriggers(bc *buildv1.BuildConfig, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	describeBuildTriggers(bc.Spec.Triggers, bc.Name, bc.Namespace, out, d)
 }
-
 func describeBuildTriggers(triggers []buildv1.BuildTriggerPolicy, name, namespace string, w *tabwriter.Writer, d *BuildConfigDescriber) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(triggers) == 0 {
 		formatString(w, "Triggered by", "<none>")
 		return
 	}
-
 	labels := []string{}
-
 	for _, t := range triggers {
 		switch t.Type {
 		case buildv1.GitHubWebHookBuildTriggerType, buildv1.GenericWebHookBuildTriggerType, buildv1.GitLabWebHookBuildTriggerType, buildv1.BitbucketWebHookBuildTriggerType:
@@ -515,10 +610,8 @@ func describeBuildTriggers(triggers []buildv1.BuildTriggerPolicy, name, namespac
 			labels = append(labels, string(t.Type))
 		}
 	}
-
 	desc := strings.Join(labels, ", ")
 	formatString(w, "Triggered by", desc)
-
 	webHooks := webHooksDescribe(triggers, name, namespace, d.buildClient.RESTClient())
 	seenHookTypes := make(map[string]bool)
 	for webHookType, webHookDesc := range webHooks {
@@ -536,9 +629,21 @@ func describeBuildTriggers(triggers []buildv1.BuildTriggerPolicy, name, namespac
 		}
 	}
 }
-
-// Describe returns the description of a buildConfig
 func (d *BuildConfigDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.buildClient.BuildConfigs(namespace)
 	buildConfig, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -549,7 +654,6 @@ func (d *BuildConfigDescriber) Describe(namespace, name string, settings describ
 		return "", err
 	}
 	buildList.Items = ocbuildapihelpers.FilterBuilds(buildList.Items, ocbuildapihelpers.ByBuildConfigPredicate(name))
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, buildConfig.ObjectMeta)
 		if buildConfig.Status.LastVersion == 0 {
@@ -560,7 +664,6 @@ func (d *BuildConfigDescriber) Describe(namespace, name string, settings describ
 		describeCommonSpec(buildConfig.Spec.CommonSpec, out)
 		formatString(out, "\nBuild Run Policy", string(buildConfig.Spec.RunPolicy))
 		d.DescribeTriggers(buildConfig, out)
-
 		if buildConfig.Spec.SuccessfulBuildsHistoryLimit != nil || buildConfig.Spec.FailedBuildsHistoryLimit != nil {
 			fmt.Fprintf(out, "Builds History Limit:\n")
 			if buildConfig.Spec.SuccessfulBuildsHistoryLimit != nil {
@@ -570,26 +673,17 @@ func (d *BuildConfigDescriber) Describe(namespace, name string, settings describ
 				fmt.Fprintf(out, "\tFailed:\t%s\n", strconv.Itoa(int(*buildConfig.Spec.FailedBuildsHistoryLimit)))
 			}
 		}
-
 		if len(buildList.Items) > 0 {
 			fmt.Fprintf(out, "\nBuild\tStatus\tDuration\tCreation Time\n")
-
 			builds := buildList.Items
 			sort.Sort(sort.Reverse(buildapihelpers.BuildSliceByCreationTimestamp(builds)))
-
 			for i, build := range builds {
-				fmt.Fprintf(out, "%s \t%s \t%v \t%v\n",
-					build.Name,
-					strings.ToLower(string(build.Status.Phase)),
-					describeBuildDuration(&build),
-					build.CreationTimestamp.Rfc3339Copy().Time)
-				// only print the 10 most recent builds.
+				fmt.Fprintf(out, "%s \t%s \t%v \t%v\n", build.Name, strings.ToLower(string(build.Status.Phase)), describeBuildDuration(&build), build.CreationTimestamp.Rfc3339Copy().Time)
 				if i == 9 {
 					break
 				}
 			}
 		}
-
 		if settings.ShowEvents {
 			events, _ := d.kubeClient.CoreV1().Events(namespace).Search(legacyscheme.Scheme, buildConfig)
 			if events != nil {
@@ -601,25 +695,34 @@ func (d *BuildConfigDescriber) Describe(namespace, name string, settings describ
 	})
 }
 
-// OAuthAccessTokenDescriber generates information about an OAuth Acess Token (OAuth)
-type OAuthAccessTokenDescriber struct {
-	client oauthclient.OauthInterface
-}
+type OAuthAccessTokenDescriber struct{ client oauthclient.OauthInterface }
 
 func (d *OAuthAccessTokenDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.client.OAuthAccessTokens()
 	oAuthAccessToken, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	var timeCreated time.Time = oAuthAccessToken.ObjectMeta.CreationTimestamp.Time
 	expires := "never"
 	if oAuthAccessToken.ExpiresIn > 0 {
 		var timeExpired time.Time = timeCreated.Add(time.Duration(oAuthAccessToken.ExpiresIn) * time.Second)
 		expires = formatToHumanDuration(timeExpired.Sub(time.Now()))
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, oAuthAccessToken.ObjectMeta)
 		formatString(out, "Scopes", oAuthAccessToken.Scopes)
@@ -627,32 +730,52 @@ func (d *OAuthAccessTokenDescriber) Describe(namespace, name string, settings de
 		formatString(out, "User Name", oAuthAccessToken.UserName)
 		formatString(out, "User UID", oAuthAccessToken.UserUID)
 		formatString(out, "Client Name", oAuthAccessToken.ClientName)
-
 		return nil
 	})
 }
 
-// ImageDescriber generates information about a Image
-type ImageDescriber struct {
-	c imageclient.ImageInterface
-}
+type ImageDescriber struct{ c imageclient.ImageInterface }
 
-// Describe returns the description of an image
 func (d *ImageDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.Images()
 	image, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return DescribeImage(image, "")
 }
-
 func describeImageSignature(s imageapi.ImageSignature, out *tabwriter.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "\tName", s.Name)
 	formatString(out, "\tType", s.Type)
 	if s.IssuedBy == nil {
-		// FIXME: Make this constant
 		formatString(out, "\tStatus", "Unverified")
 	} else {
 		formatString(out, "\tStatus", "Verified")
@@ -665,8 +788,21 @@ func describeImageSignature(s imageapi.ImageSignature, out *tabwriter.Writer) er
 	}
 	return nil
 }
-
 func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tabbedString(func(out *tabwriter.Writer) error {
 		if len(imageName) > 0 {
 			formatString(out, "Image Name", imageName)
@@ -682,10 +818,8 @@ func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
 		if len(image.Annotations) > 0 {
 			formatAnnotations(out, image.ObjectMeta, "")
 		}
-
 		switch l := len(image.DockerImageLayers); l {
 		case 0:
-			// legacy case, server does not know individual layers
 			formatString(out, "Layer Size", units.HumanSize(float64(image.DockerImageMetadata.Size)))
 		case 1:
 			formatString(out, "Image Size", units.HumanSize(float64(image.DockerImageMetadata.Size)))
@@ -705,7 +839,6 @@ func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
 				}
 			}
 		}
-		//formatString(out, "Parent Image", image.DockerImageMetadata.Parent)
 		formatString(out, "Image Created", fmt.Sprintf("%s ago", formatRelativeTime(image.DockerImageMetadata.Created.Time)))
 		formatString(out, "Author", image.DockerImageMetadata.Author)
 		formatString(out, "Arch", image.DockerImageMetadata.Architecture)
@@ -713,8 +846,21 @@ func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
 		return nil
 	})
 }
-
 func describeDockerImage(out *tabwriter.Writer, image *imageapi.DockerConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image == nil {
 		return
 	}
@@ -758,53 +904,80 @@ func describeDockerImage(out *tabwriter.Writer, image *imageapi.DockerConfig) {
 	}
 }
 
-// ImageStreamTagDescriber generates information about a ImageStreamTag (Image).
-type ImageStreamTagDescriber struct {
-	c imageclient.ImageInterface
-}
+type ImageStreamTagDescriber struct{ c imageclient.ImageInterface }
 
-// Describe returns the description of an imageStreamTag
 func (d *ImageStreamTagDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ImageStreamTags(namespace)
 	repo, tag, err := imageapi.ParseImageStreamTagName(name)
 	if err != nil {
 		return "", err
 	}
 	if len(tag) == 0 {
-		// TODO use repo's preferred default, when that's coded
 		tag = imageapi.DefaultImageTag
 	}
 	imageStreamTag, err := c.Get(repo+":"+tag, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return DescribeImage(&imageStreamTag.Image, imageStreamTag.Image.Name)
 }
 
-// ImageStreamImageDescriber generates information about a ImageStreamImage (Image).
-type ImageStreamImageDescriber struct {
-	c imageclient.ImageInterface
-}
+type ImageStreamImageDescriber struct{ c imageclient.ImageInterface }
 
-// Describe returns the description of an imageStreamImage
 func (d *ImageStreamImageDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ImageStreamImages(namespace)
 	imageStreamImage, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return DescribeImage(&imageStreamImage.Image, imageStreamImage.Image.Name)
 }
 
-// ImageStreamDescriber generates information about a ImageStream (Image).
-type ImageStreamDescriber struct {
-	ImageClient imageclient.ImageInterface
-}
+type ImageStreamDescriber struct{ ImageClient imageclient.ImageInterface }
 
-// Describe returns the description of an imageStream
 func (d *ImageStreamDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.ImageClient.ImageStreams(namespace)
 	imageStream, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -812,8 +985,21 @@ func (d *ImageStreamDescriber) Describe(namespace, name string, settings describ
 	}
 	return DescribeImageStream(imageStream)
 }
-
 func DescribeImageStream(imageStream *imageapi.ImageStream) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, imageStream.ObjectMeta)
 		if len(imageStream.Status.PublicDockerImageRepository) > 0 {
@@ -827,25 +1013,35 @@ func DescribeImageStream(imageStream *imageapi.ImageStream) (string, error) {
 	})
 }
 
-// RouteDescriber generates information about a Route
 type RouteDescriber struct {
-	routeClient routeclient.RouteInterface
-	kubeClient  kubernetes.Interface
+	routeClient	routeclient.RouteInterface
+	kubeClient	kubernetes.Interface
 }
-
 type routeEndpointInfo struct {
 	*corev1.Endpoints
-	Err error
+	Err	error
 }
 
-// Describe returns the description of a route
 func (d *RouteDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.routeClient.Routes(namespace)
 	route, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	backends := append([]routeapi.RouteTargetReference{route.Spec.To}, route.Spec.AlternateBackends...)
 	totalWeight := int32(0)
 	endpoints := make(map[string]routeEndpointInfo)
@@ -856,7 +1052,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 		ep, endpointsErr := d.kubeClient.CoreV1().Endpoints(namespace).Get(backend.Name, metav1.GetOptions{})
 		endpoints[backend.Name] = routeEndpointInfo{ep, endpointsErr}
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		var hostName string
 		formatMeta(out, route.ObjectMeta)
@@ -887,7 +1082,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 		} else {
 			formatString(out, "Requested Host", "<auto>")
 		}
-
 		for _, ingress := range route.Status.Ingress {
 			if route.Spec.Host == ingress.Host {
 				continue
@@ -911,7 +1105,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 			}
 		}
 		formatString(out, "Path", route.Spec.Path)
-
 		tlsTerm := ""
 		insecurePolicy := ""
 		if route.Spec.TLS != nil {
@@ -925,7 +1118,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 		} else {
 			formatString(out, "Endpoint Port", "<all endpoint ports>")
 		}
-
 		for _, backend := range backends {
 			fmt.Fprintln(out)
 			formatString(out, "Service", backend.Name)
@@ -938,7 +1130,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 			} else {
 				formatString(out, "Weight", "0")
 			}
-
 			info := endpoints[backend.Name]
 			if info.Err != nil {
 				formatString(out, "Endpoints", fmt.Sprintf("<error: %v>", info.Err))
@@ -949,7 +1140,6 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 				formatString(out, "Endpoints", "<none>")
 				continue
 			}
-
 			list := []string{}
 			max := 3
 			count := 0
@@ -974,14 +1164,26 @@ func (d *RouteDescriber) Describe(namespace, name string, settings describe.Desc
 	})
 }
 
-// ProjectDescriber generates information about a Project
 type ProjectDescriber struct {
-	projectClient projectclient.ProjectInterface
-	kubeClient    kubernetes.Interface
+	projectClient	projectclient.ProjectInterface
+	kubeClient	kubernetes.Interface
 }
 
-// Describe returns the description of a project
 func (d *ProjectDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projectsClient := d.projectClient.Projects()
 	project, err := projectsClient.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -997,14 +1199,12 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 	if err != nil {
 		return "", err
 	}
-
 	nodeSelector := ""
 	if len(project.ObjectMeta.Annotations) > 0 {
 		if ns, ok := project.ObjectMeta.Annotations[projectapi.ProjectNodeSelector]; ok {
 			nodeSelector = ns
 		}
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, project.ObjectMeta)
 		formatString(out, "Display Name", project.Annotations[oapi.OpenShiftDisplayName])
@@ -1020,13 +1220,11 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 				fmt.Fprintf(out, "\tName:\t%s\n", resourceQuota.Name)
 				fmt.Fprintf(out, "\tResource\tUsed\tHard\n")
 				fmt.Fprintf(out, "\t--------\t----\t----\n")
-
 				resources := []corev1.ResourceName{}
 				for resource := range resourceQuota.Status.Hard {
 					resources = append(resources, resource)
 				}
 				sort.Sort(versioned.SortableResourceNames(resources))
-
 				msg := "\t%v\t%v\t%v\n"
 				for i := range resources {
 					resource := resources[i]
@@ -1052,7 +1250,6 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 					defaultLimitResources := item.Default
 					defaultRequestResources := item.DefaultRequest
 					ratio := item.MaxLimitRequestRatio
-
 					set := map[corev1.ResourceName]bool{}
 					for k := range maxResources {
 						set[k] = true
@@ -1069,40 +1266,32 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 					for k := range ratio {
 						set[k] = true
 					}
-
 					for k := range set {
-						// if no value is set, we output -
 						maxValue := "-"
 						minValue := "-"
 						defaultLimitValue := "-"
 						defaultRequestValue := "-"
 						ratioValue := "-"
-
 						maxQuantity, maxQuantityFound := maxResources[k]
 						if maxQuantityFound {
 							maxValue = maxQuantity.String()
 						}
-
 						minQuantity, minQuantityFound := minResources[k]
 						if minQuantityFound {
 							minValue = minQuantity.String()
 						}
-
 						defaultLimitQuantity, defaultLimitQuantityFound := defaultLimitResources[k]
 						if defaultLimitQuantityFound {
 							defaultLimitValue = defaultLimitQuantity.String()
 						}
-
 						defaultRequestQuantity, defaultRequestQuantityFound := defaultRequestResources[k]
 						if defaultRequestQuantityFound {
 							defaultRequestValue = defaultRequestQuantity.String()
 						}
-
 						ratioQuantity, ratioQuantityFound := ratio[k]
 						if ratioQuantityFound {
 							ratioValue = ratioQuantity.String()
 						}
-
 						msg := "\t%v\t%v\t%v\t%v\t%v\t%v\t%v\n"
 						fmt.Fprintf(out, msg, item.Type, k, minValue, maxValue, defaultRequestValue, defaultLimitValue, ratioValue)
 					}
@@ -1113,25 +1302,48 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 	})
 }
 
-// TemplateDescriber generates information about a template
 type TemplateDescriber struct {
-	templateClient templateclient.TemplateInterface
+	templateClient	templateclient.TemplateInterface
 	meta.MetadataAccessor
 	runtime.ObjectTyper
 	describe.ObjectDescriber
 }
 
-// DescribeMessage prints the message that will be parameter substituted and displayed to the
-// user when this template is processed.
 func (d *TemplateDescriber) DescribeMessage(msg string, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(msg) == 0 {
 		msg = "<none>"
 	}
 	formatString(out, "Message", msg)
 }
-
-// DescribeParameters prints out information about the parameters of a template
 func (d *TemplateDescriber) DescribeParameters(params []templateapi.Parameter, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Parameters", " ")
 	indent := "    "
 	for _, p := range params {
@@ -1159,9 +1371,21 @@ func (d *TemplateDescriber) DescribeParameters(params []templateapi.Parameter, o
 		out.Write([]byte("\n"))
 	}
 }
-
-// describeObjects prints out information about the objects of a template
 func (d *TemplateDescriber) describeObjects(objects []runtime.Object, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Objects", " ")
 	indent := "    "
 	for _, obj := range objects {
@@ -1175,7 +1399,6 @@ func (d *TemplateDescriber) describeObjects(objects []runtime.Object, out *tabwr
 			fmt.Fprint(out, "\n")
 			continue
 		}
-
 		name, _ := d.MetadataAccessor.Name(obj)
 		groupKind := "<unknown>"
 		if gvk, _, err := d.ObjectTyper.ObjectKinds(obj); err == nil {
@@ -1189,17 +1412,23 @@ func (d *TemplateDescriber) describeObjects(objects []runtime.Object, out *tabwr
 			}
 		}
 		fmt.Fprintf(out, fmt.Sprintf("%s%s\t%s\n", indent, groupKind, name))
-		//meta.Annotations, _ = d.MetadataAccessor.Annotations(obj)
-		//meta.Labels, _ = d.MetadataAccessor.Labels(obj)
-		/*if len(meta.Labels) > 0 {
-			formatString(out, indent+"Labels", formatLabels(meta.Labels))
-		}
-		formatAnnotations(out, meta, indent)*/
 	}
 }
-
-// Describe returns the description of a template
 func (d *TemplateDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.templateClient.Templates(namespace)
 	template, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1207,11 +1436,22 @@ func (d *TemplateDescriber) Describe(namespace, name string, settings describe.D
 	}
 	return d.DescribeTemplate(template)
 }
-
 func (d *TemplateDescriber) DescribeTemplate(template *templateapi.Template) (string, error) {
-	// TODO: write error?
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_ = runtime.DecodeList(template.Objects, unstructured.UnstructuredJSONScheme)
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, template.ObjectMeta)
 		out.Write([]byte("\n"))
@@ -1228,15 +1468,27 @@ func (d *TemplateDescriber) DescribeTemplate(template *templateapi.Template) (st
 	})
 }
 
-// TemplateInstanceDescriber generates information about a template instance
 type TemplateInstanceDescriber struct {
-	kubeClient     kubernetes.Interface
-	templateClient templateclient.TemplateInterface
+	kubeClient	kubernetes.Interface
+	templateClient	templateclient.TemplateInterface
 	describe.ObjectDescriber
 }
 
-// Describe returns the description of a template instance
 func (d *TemplateInstanceDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.templateClient.TemplateInstances(namespace)
 	templateInstance, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1244,9 +1496,21 @@ func (d *TemplateInstanceDescriber) Describe(namespace, name string, settings de
 	}
 	return d.DescribeTemplateInstance(templateInstance, namespace, settings)
 }
-
-// DescribeTemplateInstance prints out information about the template instance
 func (d *TemplateInstanceDescriber) DescribeTemplateInstance(templateInstance *templateapi.TemplateInstance, namespace string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, templateInstance.ObjectMeta)
 		out.Write([]byte("\n"))
@@ -1263,9 +1527,21 @@ func (d *TemplateInstanceDescriber) DescribeTemplateInstance(templateInstance *t
 		return nil
 	})
 }
-
-// DescribeConditions prints out information about the conditions of a template instance
 func (d *TemplateInstanceDescriber) DescribeConditions(conditions []templateapi.TemplateInstanceCondition, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Conditions", " ")
 	indent := "    "
 	for _, c := range conditions {
@@ -1277,24 +1553,44 @@ func (d *TemplateInstanceDescriber) DescribeConditions(conditions []templateapi.
 		out.Write([]byte("\n"))
 	}
 }
-
-// DescribeObjects prints out information about the objects that a template instance creates
 func (d *TemplateInstanceDescriber) DescribeObjects(objects []templateapi.TemplateInstanceObject, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Objects", " ")
 	indent := "    "
 	for _, o := range objects {
 		formatString(out, indent+o.Ref.Kind, fmt.Sprintf("%s/%s", o.Ref.Namespace, o.Ref.Name))
 	}
 }
-
-// DescribeParameters prints out information about the secret that holds the template instance parameters
-// kinternalprinter.SecretDescriber#Describe could have been used here, but the formatting
-// is off when it prints the information and seems to not be easily fixable
 func (d *TemplateInstanceDescriber) DescribeParameters(template templateapi.Template, namespace, name string, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := d.kubeClient.CoreV1().Secrets(namespace).Get(name, metav1.GetOptions{})
-
 	formatString(out, "Parameters", " ")
-
 	if kerrs.IsForbidden(err) || kerrs.IsUnauthorized(err) {
 		fmt.Fprintf(out, "Unable to access parameters, insufficient permissions.")
 		return
@@ -1306,7 +1602,6 @@ func (d *TemplateInstanceDescriber) DescribeParameters(template templateapi.Temp
 		klog.V(4).Infof("%v", err)
 		return
 	}
-
 	indent := "    "
 	if len(template.Parameters) == 0 {
 		fmt.Fprintf(out, indent+"No parameters found.")
@@ -1319,33 +1614,38 @@ func (d *TemplateInstanceDescriber) DescribeParameters(template templateapi.Temp
 	}
 }
 
-// IdentityDescriber generates information about a user
-type IdentityDescriber struct {
-	c userclient.UserInterface
-}
+type IdentityDescriber struct{ c userclient.UserInterface }
 
-// Describe returns the description of an identity
 func (d *IdentityDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userClient := d.c.Users()
 	identityClient := d.c.Identities()
-
 	identity, err := identityClient.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, identity.ObjectMeta)
-
 		if len(identity.User.Name) == 0 {
 			formatString(out, "User Name", identity.User.Name)
 			formatString(out, "User UID", identity.User.UID)
 		} else {
 			resolvedUser, err := userClient.Get(identity.User.Name, metav1.GetOptions{})
-
 			nameValue := identity.User.Name
 			uidValue := string(identity.User.UID)
-
 			if kerrs.IsNotFound(err) {
 				nameValue += fmt.Sprintf(" (Error: User does not exist)")
 			} else if err != nil {
@@ -1358,29 +1658,35 @@ func (d *IdentityDescriber) Describe(namespace, name string, settings describe.D
 					uidValue += fmt.Sprintf(" (Error: Actual user UID is %s)", string(resolvedUser.UID))
 				}
 			}
-
 			formatString(out, "User Name", nameValue)
 			formatString(out, "User UID", uidValue)
 		}
 		return nil
 	})
-
 }
 
-// UserIdentityMappingDescriber generates information about a user
-type UserIdentityMappingDescriber struct {
-	c userclient.UserInterface
-}
+type UserIdentityMappingDescriber struct{ c userclient.UserInterface }
 
-// Describe returns the description of a userIdentity
 func (d *UserIdentityMappingDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.UserIdentityMappings()
-
 	mapping, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, mapping.ObjectMeta)
 		formatString(out, "Identity", mapping.Identity.Name)
@@ -1390,33 +1696,39 @@ func (d *UserIdentityMappingDescriber) Describe(namespace, name string, settings
 	})
 }
 
-// UserDescriber generates information about a user
-type UserDescriber struct {
-	c userclient.UserInterface
-}
+type UserDescriber struct{ c userclient.UserInterface }
 
-// Describe returns the description of a user
 func (d *UserDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userClient := d.c.Users()
 	identityClient := d.c.Identities()
-
 	user, err := userClient.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, user.ObjectMeta)
 		if len(user.FullName) > 0 {
 			formatString(out, "Full Name", user.FullName)
 		}
-
 		if len(user.Identities) == 0 {
 			formatString(out, "Identities", "<none>")
 		} else {
 			for i, identity := range user.Identities {
 				resolvedIdentity, err := identityClient.Get(identity, metav1.GetOptions{})
-
 				value := identity
 				if kerrs.IsNotFound(err) {
 					value += fmt.Sprintf(" (Error: Identity does not exist)")
@@ -1427,7 +1739,6 @@ func (d *UserDescriber) Describe(namespace, name string, settings describe.Descr
 				} else if resolvedIdentity.User.UID != user.UID {
 					value += fmt.Sprintf(" (Error: Identity maps to user UID '%s')", resolvedIdentity.User.UID)
 				}
-
 				if i == 0 {
 					formatString(out, "Identities", value)
 				} else {
@@ -1439,21 +1750,29 @@ func (d *UserDescriber) Describe(namespace, name string, settings describe.Descr
 	})
 }
 
-// GroupDescriber generates information about a group
-type GroupDescriber struct {
-	c userclient.UserInterface
-}
+type GroupDescriber struct{ c userclient.UserInterface }
 
-// Describe returns the description of a group
 func (d *GroupDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	group, err := d.c.Groups().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, group.ObjectMeta)
-
 		if len(group.Users) == 0 {
 			formatString(out, "Users", "<none>")
 		} else {
@@ -1472,63 +1791,101 @@ func (d *GroupDescriber) Describe(namespace, name string, settings describe.Desc
 const PolicyRuleHeadings = "Verbs\tNon-Resource URLs\tResource Names\tAPI Groups\tResources"
 
 func DescribePolicyRule(out *tabwriter.Writer, rule authorizationapi.PolicyRule, indent string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rule.AttributeRestrictions != nil {
-		// We are not supporting attribute restrictions going forward
 		return
 	}
-
-	fmt.Fprintf(out, indent+"%v\t%v\t%v\t%v\t%v\n",
-		rule.Verbs.List(),
-		rule.NonResourceURLs.List(),
-		rule.ResourceNames.List(),
-		rule.APIGroups,
-		rule.Resources.List(),
-	)
+	fmt.Fprintf(out, indent+"%v\t%v\t%v\t%v\t%v\n", rule.Verbs.List(), rule.NonResourceURLs.List(), rule.ResourceNames.List(), rule.APIGroups, rule.Resources.List())
 }
 
-// RoleDescriber generates information about a Project
 type RoleDescriber struct {
 	c oauthorizationclient.AuthorizationInterface
 }
 
-// Describe returns the description of a role
 func (d *RoleDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.Roles(namespace)
 	role, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return DescribeRole(role)
 }
-
 func DescribeRole(role *authorizationapi.Role) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, role.ObjectMeta)
-
 		fmt.Fprint(out, PolicyRuleHeadings+"\n")
 		for _, rule := range role.Rules {
 			DescribePolicyRule(out, rule, "")
-
 		}
-
 		return nil
 	})
 }
 
-// RoleBindingDescriber generates information about a Project
 type RoleBindingDescriber struct {
 	c oauthorizationclient.AuthorizationInterface
 }
 
-// Describe returns the description of a roleBinding
 func (d *RoleBindingDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.RoleBindings(namespace)
 	roleBinding, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	var role *authorizationapi.Role
 	if len(roleBinding.RoleRef.Namespace) == 0 {
 		var clusterRole *authorizationapi.ClusterRole
@@ -1537,37 +1894,42 @@ func (d *RoleBindingDescriber) Describe(namespace, name string, settings describ
 	} else {
 		role, err = d.c.Roles(roleBinding.RoleRef.Namespace).Get(roleBinding.RoleRef.Name, metav1.GetOptions{})
 	}
-
 	return DescribeRoleBinding(roleBinding, role, err)
 }
-
-// DescribeRoleBinding prints out information about a role binding and its associated role
 func DescribeRoleBinding(roleBinding *authorizationapi.RoleBinding, role *authorizationapi.Role, err error) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	users, groups, sas, others := authorizationapi.SubjectsStrings(roleBinding.Namespace, roleBinding.Subjects)
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, roleBinding.ObjectMeta)
-
 		formatString(out, "Role", roleBinding.RoleRef.Namespace+"/"+roleBinding.RoleRef.Name)
 		formatString(out, "Users", strings.Join(users, ", "))
 		formatString(out, "Groups", strings.Join(groups, ", "))
 		formatString(out, "ServiceAccounts", strings.Join(sas, ", "))
 		formatString(out, "Subjects", strings.Join(others, ", "))
-
 		switch {
 		case err != nil:
 			formatString(out, "Policy Rules", fmt.Sprintf("error: %v", err))
-
 		case role != nil:
 			fmt.Fprint(out, PolicyRuleHeadings+"\n")
 			for _, rule := range role.Rules {
 				DescribePolicyRule(out, rule, "")
 			}
-
 		default:
 			formatString(out, "Policy Rules", "<none>")
 		}
-
 		return nil
 	})
 }
@@ -1576,59 +1938,89 @@ type ClusterRoleDescriber struct {
 	c oauthorizationclient.AuthorizationInterface
 }
 
-// Describe returns the description of a role
 func (d *ClusterRoleDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ClusterRoles()
 	role, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	return DescribeRole(authorizationapi.ToRole(role))
 }
 
-// ClusterRoleBindingDescriber generates information about a Project
 type ClusterRoleBindingDescriber struct {
 	c oauthorizationclient.AuthorizationInterface
 }
 
-// Describe returns the description of a roleBinding
 func (d *ClusterRoleBindingDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ClusterRoleBindings()
 	roleBinding, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
-
 	role, err := d.c.ClusterRoles().Get(roleBinding.RoleRef.Name, metav1.GetOptions{})
 	return DescribeRoleBinding(authorizationapi.ToRoleBinding(roleBinding), authorizationapi.ToRole(role), err)
 }
-
 func describeBuildTriggerCauses(causes []buildv1.BuildTriggerCause, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if causes == nil {
 		formatString(out, "\nBuild trigger cause", "<unknown>")
 	}
-
 	for _, cause := range causes {
 		formatString(out, "\nBuild trigger cause", cause.Message)
-
 		switch {
 		case cause.GitHubWebHook != nil:
 			squashGitInfo(cause.GitHubWebHook.Revision, out)
 			formatString(out, "Secret", cause.GitHubWebHook.Secret)
-
 		case cause.GitLabWebHook != nil:
 			squashGitInfo(cause.GitLabWebHook.Revision, out)
 			formatString(out, "Secret", cause.GitLabWebHook.Secret)
-
 		case cause.BitbucketWebHook != nil:
 			squashGitInfo(cause.BitbucketWebHook.Revision, out)
 			formatString(out, "Secret", cause.BitbucketWebHook.Secret)
-
 		case cause.GenericWebHook != nil:
 			squashGitInfo(cause.GenericWebHook.Revision, out)
 			formatString(out, "Secret", cause.GenericWebHook.Secret)
-
 		case cause.ImageChangeBuild != nil:
 			formatString(out, "Image ID", cause.ImageChangeBuild.ImageID)
 			formatString(out, "Image Name/Kind", fmt.Sprintf("%s / %s", cause.ImageChangeBuild.FromRef.Name, cause.ImageChangeBuild.FromRef.Kind))
@@ -1636,8 +2028,21 @@ func describeBuildTriggerCauses(causes []buildv1.BuildTriggerCause, out *tabwrit
 	}
 	fmt.Fprintf(out, "\n")
 }
-
 func squashGitInfo(sourceRevision *buildv1.SourceRevision, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if sourceRevision != nil && sourceRevision.Git != nil {
 		rev := sourceRevision.Git
 		var commit string
@@ -1663,29 +2068,52 @@ func squashGitInfo(sourceRevision *buildv1.SourceRevision, out *tabwriter.Writer
 	}
 }
 
-type ClusterQuotaDescriber struct {
-	c quotaclient.QuotaV1Interface
-}
+type ClusterQuotaDescriber struct{ c quotaclient.QuotaV1Interface }
 
 func (d *ClusterQuotaDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quota, err := d.c.ClusterResourceQuotas().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
 	return DescribeClusterQuota(quota)
 }
-
 func DescribeClusterQuota(quota *quotav1.ClusterResourceQuota) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelSelector, err := metav1.LabelSelectorAsSelector(quota.Spec.Selector.LabelSelector)
 	if err != nil {
 		return "", err
 	}
-
 	nsSelector := make([]interface{}, 0, len(quota.Status.Namespaces))
 	for _, nsQuota := range quota.Status.Namespaces {
 		nsSelector = append(nsSelector, nsQuota.Namespace)
 	}
-
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, quota.ObjectMeta)
 		fmt.Fprintf(out, "Namespace Selector: %q\n", nsSelector)
@@ -1701,13 +2129,11 @@ func DescribeClusterQuota(quota *quotav1.ClusterResourceQuota) (string, error) {
 		}
 		fmt.Fprintf(out, "Resource\tUsed\tHard\n")
 		fmt.Fprintf(out, "--------\t----\t----\n")
-
 		resources := []corev1.ResourceName{}
 		for resource := range quota.Status.Total.Hard {
 			resources = append(resources, resource)
 		}
 		sort.Sort(versioned.SortableResourceNames(resources))
-
 		msg := "%v\t%v\t%v\n"
 		for i := range resources {
 			resource := resources[i]
@@ -1719,11 +2145,23 @@ func DescribeClusterQuota(quota *quotav1.ClusterResourceQuota) (string, error) {
 	})
 }
 
-type AppliedClusterQuotaDescriber struct {
-	c quotaclient.QuotaV1Interface
-}
+type AppliedClusterQuotaDescriber struct{ c quotaclient.QuotaV1Interface }
 
 func (d *AppliedClusterQuotaDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quota, err := d.c.AppliedClusterResourceQuotas(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -1735,8 +2173,21 @@ type ClusterNetworkDescriber struct {
 	c onetworktypedclient.NetworkV1Interface
 }
 
-// Describe returns the description of a ClusterNetwork
 func (d *ClusterNetworkDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cn, err := d.c.ClusterNetworks().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -1759,8 +2210,21 @@ type HostSubnetDescriber struct {
 	c onetworktypedclient.NetworkV1Interface
 }
 
-// Describe returns the description of a HostSubnet
 func (d *HostSubnetDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hs, err := d.c.HostSubnets().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -1780,8 +2244,21 @@ type NetNamespaceDescriber struct {
 	c onetworktypedclient.NetworkV1Interface
 }
 
-// Describe returns the description of a NetNamespace
 func (d *NetNamespaceDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netns, err := d.c.NetNamespaces().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -1799,8 +2276,21 @@ type EgressNetworkPolicyDescriber struct {
 	c onetworktypedclient.NetworkV1Interface
 }
 
-// Describe returns the description of an EgressNetworkPolicy
 func (d *EgressNetworkPolicyDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.EgressNetworkPolicies(namespace)
 	policy, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1823,33 +2313,40 @@ type RoleBindingRestrictionDescriber struct {
 	c oauthorizationclient.AuthorizationInterface
 }
 
-// Describe returns the description of a RoleBindingRestriction.
 func (d *RoleBindingRestrictionDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rbr, err := d.c.RoleBindingRestrictions(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
 	return tabbedString(func(out *tabwriter.Writer) error {
 		formatMeta(out, rbr.ObjectMeta)
-
 		subjectType := roleBindingRestrictionType(rbr)
 		if subjectType == "" {
 			subjectType = "<none>"
 		}
 		formatString(out, "Subject type", subjectType)
-
 		var labelSelectors []metav1.LabelSelector
-
 		switch {
 		case rbr.Spec.UserRestriction != nil:
-			formatString(out, "Users",
-				strings.Join(rbr.Spec.UserRestriction.Users, ", "))
-			formatString(out, "Users in groups",
-				strings.Join(rbr.Spec.UserRestriction.Groups, ", "))
+			formatString(out, "Users", strings.Join(rbr.Spec.UserRestriction.Users, ", "))
+			formatString(out, "Users in groups", strings.Join(rbr.Spec.UserRestriction.Groups, ", "))
 			labelSelectors = rbr.Spec.UserRestriction.Selectors
 		case rbr.Spec.GroupRestriction != nil:
-			formatString(out, "Groups",
-				strings.Join(rbr.Spec.GroupRestriction.Groups, ", "))
+			formatString(out, "Groups", strings.Join(rbr.Spec.GroupRestriction.Groups, ", "))
 			labelSelectors = rbr.Spec.GroupRestriction.Selectors
 		case rbr.Spec.ServiceAccountRestriction != nil:
 			serviceaccounts := []string{}
@@ -1857,10 +2354,8 @@ func (d *RoleBindingRestrictionDescriber) Describe(namespace, name string, setti
 				serviceaccounts = append(serviceaccounts, sa.Name)
 			}
 			formatString(out, "ServiceAccounts", strings.Join(serviceaccounts, ", "))
-			formatString(out, "Namespaces",
-				strings.Join(rbr.Spec.ServiceAccountRestriction.Namespaces, ", "))
+			formatString(out, "Namespaces", strings.Join(rbr.Spec.ServiceAccountRestriction.Namespaces, ", "))
 		}
-
 		if rbr.Spec.UserRestriction != nil || rbr.Spec.GroupRestriction != nil {
 			if len(labelSelectors) == 0 {
 				formatString(out, "Label selectors", "")
@@ -1875,38 +2370,60 @@ func (d *RoleBindingRestrictionDescriber) Describe(namespace, name string, setti
 				}
 			}
 		}
-
 		return nil
 	})
 }
 
-// SecurityContextConstraintsDescriber generates information about an SCC
 type SecurityContextConstraintsDescriber struct {
 	c securityclient.SecurityContextConstraintsGetter
 }
 
 func (d *SecurityContextConstraintsDescriber) Describe(namespace, name string, s describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc, err := d.c.SecurityContextConstraints().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
 	}
 	return describeSecurityContextConstraints(scc)
 }
-
 func describeSecurityContextConstraints(scc *securityapi.SecurityContextConstraints) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tabbedString(func(out *tabwriter.Writer) error {
 		fmt.Fprintf(out, "Name:\t%s\n", scc.Name)
-
 		priority := ""
 		if scc.Priority != nil {
 			priority = fmt.Sprintf("%d", *scc.Priority)
 		}
 		fmt.Fprintf(out, "Priority:\t%s\n", stringOrNone(priority))
-
 		fmt.Fprintf(out, "Access:\t\n")
 		fmt.Fprintf(out, "  Users:\t%s\n", stringOrNone(strings.Join(scc.Users, ",")))
 		fmt.Fprintf(out, "  Groups:\t%s\n", stringOrNone(strings.Join(scc.Groups, ",")))
-
 		fmt.Fprintf(out, "Settings:\t\n")
 		fmt.Fprintf(out, "  Allow Privileged:\t%t\n", scc.AllowPrivilegedContainer)
 		fmt.Fprintf(out, "  Allow Privilege Escalation:\t%v\n", scc.AllowPrivilegeEscalation)
@@ -1923,26 +2440,22 @@ func describeSecurityContextConstraints(scc *securityapi.SecurityContextConstrai
 		fmt.Fprintf(out, "  Allow Host PID:\t%t\n", scc.AllowHostPID)
 		fmt.Fprintf(out, "  Allow Host IPC:\t%t\n", scc.AllowHostIPC)
 		fmt.Fprintf(out, "  Read Only Root Filesystem:\t%t\n", scc.ReadOnlyRootFilesystem)
-
 		fmt.Fprintf(out, "  Run As User Strategy: %s\t\n", string(scc.RunAsUser.Type))
 		uid := ""
 		if scc.RunAsUser.UID != nil {
 			uid = strconv.FormatInt(*scc.RunAsUser.UID, 10)
 		}
 		fmt.Fprintf(out, "    UID:\t%s\n", stringOrNone(uid))
-
 		uidRangeMin := ""
 		if scc.RunAsUser.UIDRangeMin != nil {
 			uidRangeMin = strconv.FormatInt(*scc.RunAsUser.UIDRangeMin, 10)
 		}
 		fmt.Fprintf(out, "    UID Range Min:\t%s\n", stringOrNone(uidRangeMin))
-
 		uidRangeMax := ""
 		if scc.RunAsUser.UIDRangeMax != nil {
 			uidRangeMax = strconv.FormatInt(*scc.RunAsUser.UIDRangeMax, 10)
 		}
 		fmt.Fprintf(out, "    UID Range Max:\t%s\n", stringOrNone(uidRangeMax))
-
 		fmt.Fprintf(out, "  SELinux Context Strategy: %s\t\n", string(scc.SELinuxContext.Type))
 		var user, role, seLinuxType, level string
 		if scc.SELinuxContext.SELinuxOptions != nil {
@@ -1955,49 +2468,124 @@ func describeSecurityContextConstraints(scc *securityapi.SecurityContextConstrai
 		fmt.Fprintf(out, "    Role:\t%s\n", stringOrNone(role))
 		fmt.Fprintf(out, "    Type:\t%s\n", stringOrNone(seLinuxType))
 		fmt.Fprintf(out, "    Level:\t%s\n", stringOrNone(level))
-
 		fmt.Fprintf(out, "  FSGroup Strategy: %s\t\n", string(scc.FSGroup.Type))
 		fmt.Fprintf(out, "    Ranges:\t%s\n", idRangeToString(scc.FSGroup.Ranges))
-
 		fmt.Fprintf(out, "  Supplemental Groups Strategy: %s\t\n", string(scc.SupplementalGroups.Type))
 		fmt.Fprintf(out, "    Ranges:\t%s\n", idRangeToString(scc.SupplementalGroups.Ranges))
-
 		return nil
 	})
 }
-
 func stringOrNone(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stringOrDefaultValue(s, "<none>")
 }
-
 func stringOrDefaultValue(s, defaultValue string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s) > 0 {
 		return s
 	}
 	return defaultValue
 }
-
 func fsTypeToString(volumes []securityapi.FSType) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strVolumes := []string{}
 	for _, v := range volumes {
 		strVolumes = append(strVolumes, string(v))
 	}
 	return stringOrNone(strings.Join(strVolumes, ","))
 }
-
 func flexVolumesToString(flexVolumes []securityapi.AllowedFlexVolume) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	volumes := []string{}
 	for _, flexVolume := range flexVolumes {
 		volumes = append(volumes, "driver="+flexVolume.Driver)
 	}
 	return stringOrDefaultValue(strings.Join(volumes, ","), "<all>")
 }
-
 func sysctlsToString(sysctls []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stringOrNone(strings.Join(sysctls, ","))
 }
-
 func idRangeToString(ranges []securityapi.IDRange) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formattedString := ""
 	if ranges != nil {
 		strRanges := []string{}
@@ -2008,8 +2596,21 @@ func idRangeToString(ranges []securityapi.IDRange) string {
 	}
 	return stringOrNone(formattedString)
 }
-
 func capsToString(caps []kapi.Capability) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formattedString := ""
 	if caps != nil {
 		strCaps := []string{}

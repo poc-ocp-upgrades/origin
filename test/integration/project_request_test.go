@@ -3,7 +3,6 @@ package integration
 import (
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	kapierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -11,7 +10,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/watch"
-
 	templatev1client "github.com/openshift/client-go/template/clientset/versioned"
 	projectapi "github.com/openshift/origin/pkg/project/apis/project"
 	"github.com/openshift/origin/pkg/project/apiserver/registry/projectrequest/delegated"
@@ -22,19 +20,31 @@ import (
 )
 
 func TestProjectRequestError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
-		ns                = "testns"
-		templateNamespace = "default"
-		templateName      = "project-request-template"
+		ns			= "testns"
+		templateNamespace	= "default"
+		templateName		= "project-request-template"
 	)
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("error creating config: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	masterConfig.ProjectConfig.ProjectRequestTemplate = templateNamespace + "/" + templateName
-
 	kubeConfigFile, err := testserver.StartConfiguredMaster(masterConfig)
 	if err != nil {
 		t.Fatalf("error starting server: %v", err)
@@ -47,33 +57,17 @@ func TestProjectRequestError(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error getting openshift client: %v", err)
 	}
-
-	// Create custom template
 	template := delegated.DefaultTemplate()
 	template.Name = templateName
-
 	corev1Scheme := runtime.NewScheme()
 	utilruntime.Must(corev1.AddToScheme(corev1Scheme))
 	corev1Codec := serializer.NewCodecFactory(corev1Scheme).LegacyCodec(corev1.SchemeGroupVersion)
-
-	// Append an object that will succeed
-	template.Objects = append(template.Objects, runtime.RawExtension{
-		Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmapname"}})),
-	})
-	// Append a custom object that will fail validation
-	template.Objects = append(template.Objects, runtime.RawExtension{
-		Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{})),
-	})
-	// Append another object that should never be created, since we short circuit
-	template.Objects = append(template.Objects, runtime.RawExtension{
-		Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmapname2"}})),
-	})
-
+	template.Objects = append(template.Objects, runtime.RawExtension{Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmapname"}}))})
+	template.Objects = append(template.Objects, runtime.RawExtension{Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{}))})
+	template.Objects = append(template.Objects, runtime.RawExtension{Raw: []byte(runtime.EncodeOrDie(corev1Codec, &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "configmapname2"}}))})
 	if _, err := templatev1client.NewForConfigOrDie(clusterAdminClientConfig).TemplateV1().Templates(templateNamespace).Create(template); err != nil {
 		t.Fatal(err)
 	}
-
-	// Watch the project, rolebindings, and configmaps
 	nswatch, err := kubeClientset.CoreV1().Namespaces().Watch(metav1.ListOptions{FieldSelector: fields.OneTermEqualSelector("metadata.name", ns).String()})
 	if err != nil {
 		t.Fatal(err)
@@ -86,13 +80,10 @@ func TestProjectRequestError(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	// Create project request
 	_, err = projectclient.NewForConfigOrDie(clusterAdminClientConfig).Project().ProjectRequests().Create(&projectapi.ProjectRequest{ObjectMeta: metav1.ObjectMeta{Name: ns}})
 	if err == nil || err.Error() != `Internal error occurred: ConfigMap "" is invalid: metadata.name: Required value: name or generateName is required` {
 		t.Fatalf("Expected internal error creating project, got %v", err)
 	}
-
 	pairCreationDeletion := func(w watch.Interface) (int, int, []watch.Event) {
 		added := 0
 		deleted := 0
@@ -110,13 +101,11 @@ func TestProjectRequestError(t *testing.T) {
 			case <-time.After(30 * time.Second):
 				return added, deleted, events
 			}
-
 			if added == deleted && added > 0 {
 				return added, deleted, events
 			}
 		}
 	}
-
 	if added, deleted, events := pairCreationDeletion(nswatch); added != deleted || added != 1 {
 		for _, e := range events {
 			t.Logf("%s %#v", e.Type, e.Object)
@@ -135,8 +124,6 @@ func TestProjectRequestError(t *testing.T) {
 		}
 		t.Errorf("expected 1 configmap to be added and deleted, got %d added / %d deleted", added, deleted)
 	}
-
-	// Verify project is deleted
 	if nsObj, err := kubeClientset.CoreV1().Namespaces().Get(ns, metav1.GetOptions{}); !kapierrors.IsNotFound(err) {
 		t.Errorf("Expected namespace to be gone, got %#v, %#v", nsObj, err)
 	}

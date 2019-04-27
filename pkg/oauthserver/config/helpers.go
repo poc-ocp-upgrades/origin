@@ -5,35 +5,44 @@ import (
 )
 
 func IsOAuthIdentityProvider(provider osinv1.IdentityProvider) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch provider.Provider.Object.(type) {
-	case
-		*osinv1.OpenIDIdentityProvider,
-		*osinv1.GitHubIdentityProvider,
-		*osinv1.GitLabIdentityProvider,
-		*osinv1.GoogleIdentityProvider:
-
+	case *osinv1.OpenIDIdentityProvider, *osinv1.GitHubIdentityProvider, *osinv1.GitLabIdentityProvider, *osinv1.GoogleIdentityProvider:
 		return true
 	}
-
 	return false
 }
-
 func IsPasswordAuthenticator(provider osinv1.IdentityProvider) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch provider.Provider.Object.(type) {
-	case
-		*osinv1.BasicAuthPasswordIdentityProvider,
-		*osinv1.AllowAllPasswordIdentityProvider,
-		*osinv1.DenyAllPasswordIdentityProvider,
-		*osinv1.HTPasswdPasswordIdentityProvider,
-		*osinv1.LDAPPasswordIdentityProvider,
-		*osinv1.KeystonePasswordIdentityProvider,
-		// we explicitly only include the bootstrap type in this function
-		// but not IsIdentityProviderType as this is not a real IDP
-		// it is an implementation detail that is not surfaced to users
-		*BootstrapIdentityProvider:
-
+	case *osinv1.BasicAuthPasswordIdentityProvider, *osinv1.AllowAllPasswordIdentityProvider, *osinv1.DenyAllPasswordIdentityProvider, *osinv1.HTPasswdPasswordIdentityProvider, *osinv1.LDAPPasswordIdentityProvider, *osinv1.KeystonePasswordIdentityProvider, *BootstrapIdentityProvider:
 		return true
 	}
-
 	return false
 }

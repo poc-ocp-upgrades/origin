@@ -7,13 +7,24 @@ import (
 )
 
 func TestUnmarshal(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedSubject := "12345"
 	expectedName := "My Name"
 	expectedEmail := "mylogin@example.com"
 	expectedPreferredUsername := "myusername"
-
-	// These keys are the published interface for the basicauthpassword IDP
-	// The keys for this test should not be changed unless all corresponding docs are also updated
 	data := fmt.Sprintf(`
 	{
 		"sub":"%s",
@@ -22,13 +33,11 @@ func TestUnmarshal(t *testing.T) {
 		"preferred_username": "%s",
 		"additional_field": "should be ignored"
 	}`, expectedSubject, expectedName, expectedEmail, expectedPreferredUsername)
-
 	user := &RemoteUserData{}
 	err := json.Unmarshal([]byte(data), user)
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
 	}
-
 	if user.Subject != expectedSubject {
 		t.Errorf("Expected %s, got %s", expectedSubject, user.Subject)
 	}
@@ -41,5 +50,4 @@ func TestUnmarshal(t *testing.T) {
 	if user.PreferredUsername != expectedPreferredUsername {
 		t.Errorf("Expected %s, got %s", expectedPreferredUsername, user.PreferredUsername)
 	}
-
 }

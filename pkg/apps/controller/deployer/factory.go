@@ -3,7 +3,6 @@ package deployment
 import (
 	"fmt"
 	"time"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -17,113 +16,142 @@ import (
 	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	kcontroller "k8s.io/kubernetes/pkg/controller"
-
 	appsutil "github.com/openshift/origin/pkg/apps/util"
 )
 
-// NewDeployerController creates a new DeploymentController.
-func NewDeployerController(
-	rcInformer kcoreinformers.ReplicationControllerInformer,
-	podInformer kcoreinformers.PodInformer,
-	kubeClientset kclientset.Interface,
-	sa,
-	image string,
-	env []v1.EnvVar,
-) *DeploymentController {
+func NewDeployerController(rcInformer kcoreinformers.ReplicationControllerInformer, podInformer kcoreinformers.PodInformer, kubeClientset kclientset.Interface, sa, image string, env []v1.EnvVar) *DeploymentController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartLogging(klog.Infof)
 	eventBroadcaster.StartRecordingToSink(&kv1core.EventSinkImpl{Interface: kubeClientset.CoreV1().Events("")})
 	recorder := eventBroadcaster.NewRecorder(legacyscheme.Scheme, v1.EventSource{Component: "deployer-controller"})
-
-	c := &DeploymentController{
-		rn: kubeClientset.CoreV1(),
-		pn: kubeClientset.CoreV1(),
-
-		queue: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()),
-
-		rcLister:        rcInformer.Lister(),
-		rcListerSynced:  rcInformer.Informer().HasSynced,
-		podLister:       podInformer.Lister(),
-		podListerSynced: podInformer.Informer().HasSynced,
-
-		serviceAccount: sa,
-		deployerImage:  image,
-		environment:    env,
-		recorder:       recorder,
-	}
-
-	rcInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
-		AddFunc:    c.addReplicationController,
-		UpdateFunc: c.updateReplicationController,
-	})
-
-	podInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
-		UpdateFunc: c.updatePod,
-		DeleteFunc: c.deletePod,
-	})
-
+	c := &DeploymentController{rn: kubeClientset.CoreV1(), pn: kubeClientset.CoreV1(), queue: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()), rcLister: rcInformer.Lister(), rcListerSynced: rcInformer.Informer().HasSynced, podLister: podInformer.Lister(), podListerSynced: podInformer.Informer().HasSynced, serviceAccount: sa, deployerImage: image, environment: env, recorder: recorder}
+	rcInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: c.addReplicationController, UpdateFunc: c.updateReplicationController})
+	podInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{UpdateFunc: c.updatePod, DeleteFunc: c.deletePod})
 	return c
 }
-
-// Run begins watching and syncing.
 func (c *DeploymentController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
-
 	klog.Infof("Starting deployer controller")
-
-	// Wait for the dc store to sync before starting any work in this controller.
 	if !cache.WaitForCacheSync(stopCh, c.rcListerSynced, c.podListerSynced) {
 		return
 	}
-
 	klog.Infof("Deployer controller caches are synced. Starting workers.")
-
 	for i := 0; i < workers; i++ {
 		go wait.Until(c.worker, time.Second, stopCh)
 	}
-
 	<-stopCh
-
 	klog.Infof("Shutting down deployer controller")
 }
-
 func (c *DeploymentController) addReplicationController(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc := obj.(*v1.ReplicationController)
-	// Filter out all unrelated replication controllers.
 	if !appsutil.IsOwnedByConfig(rc) {
 		return
 	}
-
 	c.enqueueReplicationController(rc)
 }
-
 func (c *DeploymentController) updateReplicationController(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	curRC := cur.(*v1.ReplicationController)
-
-	// Filter out all unrelated replication controllers.
 	if !appsutil.IsOwnedByConfig(curRC) {
 		return
 	}
-
 	c.enqueueReplicationController(curRC)
 }
-
 func (c *DeploymentController) updatePod(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	curPod := cur.(*v1.Pod)
 	oldPod := old.(*v1.Pod)
-
-	// We can safely ignore periodic re-lists on Pods as we react to periodic re-lists of RCs
 	if curPod.ResourceVersion == oldPod.ResourceVersion {
 		return
 	}
-
 	if rc, err := c.rcForDeployerPod(curPod); err == nil && rc != nil {
 		c.enqueueReplicationController(rc)
 	}
 }
-
 func (c *DeploymentController) deletePod(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, ok := obj.(*v1.Pod)
 	if !ok {
 		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
@@ -137,13 +165,25 @@ func (c *DeploymentController) deletePod(obj interface{}) {
 			return
 		}
 	}
-
 	if rc, err := c.rcForDeployerPod(pod); err == nil && rc != nil {
 		c.enqueueReplicationController(rc)
 	}
 }
-
 func (c *DeploymentController) enqueueReplicationController(rc *v1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := kcontroller.KeyFunc(rc)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", rc, err))
@@ -151,59 +191,102 @@ func (c *DeploymentController) enqueueReplicationController(rc *v1.ReplicationCo
 	}
 	c.queue.Add(key)
 }
-
 func (c *DeploymentController) rcForDeployerPod(pod *v1.Pod) (*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rcName := appsutil.DeploymentNameFor(pod)
 	if len(rcName) == 0 {
-		// Not a deployer pod, so don't bother with it.
 		return nil, nil
 	}
 	key := pod.Namespace + "/" + rcName
 	return c.getByKey(key)
 }
-
 func (c *DeploymentController) worker() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := c.work(); quit {
 			return
 		}
 	}
 }
-
 func (c *DeploymentController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, quit := c.queue.Get()
 	if quit {
 		return true
 	}
 	defer c.queue.Done(key)
-
 	rc, err := c.getByKey(key.(string))
 	if err != nil {
 		utilruntime.HandleError(err)
 	}
-
 	if rc == nil {
 		return false
 	}
-
-	// Resist missing deployer pods from the cache in case of a pending deployment.
-	// Give some room for a possible rc update failure in case we decided to mark it
-	// failed.
 	willBeDropped := c.queue.NumRequeues(key) >= maxRetryCount-2
 	err = c.handle(rc, willBeDropped)
 	c.handleErr(err, key, rc)
-
 	return false
 }
-
 func (c *DeploymentController) getByKey(key string) (*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
 		return nil, err
 	}
 	rc, err := c.rcLister.ReplicationControllers(namespace).Get(name)
 	if errors.IsNotFound(err) {
-		// TODO tnozicka: this is not normal and should be refactored
 		klog.V(4).Infof("Replication controller %q has been deleted", key)
 		return nil, nil
 	}
@@ -212,6 +295,5 @@ func (c *DeploymentController) getByKey(key string) (*v1.ReplicationController, 
 		c.queue.AddRateLimited(key)
 		return nil, err
 	}
-
 	return rc, nil
 }

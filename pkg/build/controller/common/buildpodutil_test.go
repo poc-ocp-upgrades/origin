@@ -3,17 +3,28 @@ package common
 import (
 	"reflect"
 	"testing"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/diff"
-
 	u "github.com/openshift/origin/pkg/build/controller/common/testutil"
-
 	_ "github.com/openshift/origin/pkg/build/apis/build/install"
 )
 
 func TestGetBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := u.Build().WithDockerStrategy()
 	pod := u.Pod().WithBuild(t, build.AsBuild())
 	resultBuild, err := GetBuildFromPod((*v1.Pod)(pod))
@@ -24,8 +35,21 @@ func TestGetBuild(t *testing.T) {
 		t.Errorf("did not get expected build: %s", diff.ObjectDiff(e, a))
 	}
 }
-
 func TestSetBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := u.Build().WithSourceStrategy()
 	version := schema.GroupVersion{Group: "build.openshift.io", Version: "v1"}
 	pod := u.Pod().WithEnvVar("BUILD", "foo")

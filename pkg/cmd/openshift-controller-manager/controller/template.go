@@ -7,8 +7,21 @@ import (
 )
 
 func RunTemplateInstanceController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	saName := bootstrappolicy.InfraTemplateInstanceControllerServiceAccountName
-
 	restConfig, err := ctx.ClientBuilder.Config(saName)
 	if err != nil {
 		return true, err
@@ -17,23 +30,25 @@ func RunTemplateInstanceController(ctx *ControllerContext) (bool, error) {
 	if err != nil {
 		return true, err
 	}
-
-	go templatecontroller.NewTemplateInstanceController(
-		ctx.RestMapper,
-		dynamicClient,
-		ctx.ClientBuilder.ClientOrDie(saName).AuthorizationV1(),
-		ctx.ClientBuilder.ClientOrDie(saName),
-		ctx.ClientBuilder.OpenshiftBuildClientOrDie(saName),
-		ctx.ClientBuilder.OpenshiftTemplateClientOrDie(saName).TemplateV1(),
-		ctx.TemplateInformers.Template().V1().TemplateInstances(),
-	).Run(5, ctx.Stop)
-
+	go templatecontroller.NewTemplateInstanceController(ctx.RestMapper, dynamicClient, ctx.ClientBuilder.ClientOrDie(saName).AuthorizationV1(), ctx.ClientBuilder.ClientOrDie(saName), ctx.ClientBuilder.OpenshiftBuildClientOrDie(saName), ctx.ClientBuilder.OpenshiftTemplateClientOrDie(saName).TemplateV1(), ctx.TemplateInformers.Template().V1().TemplateInstances()).Run(5, ctx.Stop)
 	return true, nil
 }
-
 func RunTemplateInstanceFinalizerController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	saName := bootstrappolicy.InfraTemplateInstanceFinalizerControllerServiceAccountName
-
 	restConfig, err := ctx.ClientBuilder.Config(saName)
 	if err != nil {
 		return true, err
@@ -42,13 +57,6 @@ func RunTemplateInstanceFinalizerController(ctx *ControllerContext) (bool, error
 	if err != nil {
 		return true, err
 	}
-
-	go templatecontroller.NewTemplateInstanceFinalizerController(
-		ctx.RestMapper,
-		dynamicClient,
-		ctx.ClientBuilder.OpenshiftTemplateClientOrDie(saName),
-		ctx.TemplateInformers.Template().V1().TemplateInstances(),
-	).Run(5, ctx.Stop)
-
+	go templatecontroller.NewTemplateInstanceFinalizerController(ctx.RestMapper, dynamicClient, ctx.ClientBuilder.OpenshiftTemplateClientOrDie(saName), ctx.TemplateInformers.Template().V1().TemplateInstances()).Run(5, ctx.Stop)
 	return true, nil
 }

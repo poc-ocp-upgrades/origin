@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"strings"
-
 	authorizationapi "k8s.io/api/authorization/v1"
 	kerrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -19,7 +18,6 @@ import (
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 	kapihelper "k8s.io/kubernetes/pkg/apis/core/helper"
-
 	authorizationutil "github.com/openshift/origin/pkg/authorization/util"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	"github.com/openshift/origin/pkg/image/apis/image/validation"
@@ -31,59 +29,88 @@ import (
 type ResourceGetter interface {
 	Get(context.Context, string, *metav1.GetOptions) (runtime.Object, error)
 }
-
-// Strategy implements behavior for ImageStreams.
 type Strategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
-	registryHostnameRetriever registryhostname.RegistryHostnameRetriever
-	tagVerifier               *TagVerifier
-	limitVerifier             imageadmission.LimitVerifier
-	registryWhitelister       whitelist.RegistryWhitelister
-	imageStreamGetter         ResourceGetter
+	registryHostnameRetriever	registryhostname.RegistryHostnameRetriever
+	tagVerifier			*TagVerifier
+	limitVerifier			imageadmission.LimitVerifier
+	registryWhitelister		whitelist.RegistryWhitelister
+	imageStreamGetter		ResourceGetter
 }
 
-// NewStrategy is the default logic that applies when creating and updating
-// ImageStream objects via the REST API.
-func NewStrategy(
-	registryHostname registryhostname.RegistryHostnameRetriever,
-	subjectAccessReviewClient authorizationclient.SubjectAccessReviewInterface,
-	limitVerifier imageadmission.LimitVerifier,
-	registryWhitelister whitelist.RegistryWhitelister,
-	imageStreamGetter ResourceGetter,
-) Strategy {
-	return Strategy{
-		ObjectTyper:               legacyscheme.Scheme,
-		NameGenerator:             names.SimpleNameGenerator,
-		registryHostnameRetriever: registryHostname,
-		tagVerifier:               &TagVerifier{subjectAccessReviewClient},
-		limitVerifier:             limitVerifier,
-		registryWhitelister:       registryWhitelister,
-		imageStreamGetter:         imageStreamGetter,
-	}
+func NewStrategy(registryHostname registryhostname.RegistryHostnameRetriever, subjectAccessReviewClient authorizationclient.SubjectAccessReviewInterface, limitVerifier imageadmission.LimitVerifier, registryWhitelister whitelist.RegistryWhitelister, imageStreamGetter ResourceGetter) Strategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return Strategy{ObjectTyper: legacyscheme.Scheme, NameGenerator: names.SimpleNameGenerator, registryHostnameRetriever: registryHostname, tagVerifier: &TagVerifier{subjectAccessReviewClient}, limitVerifier: limitVerifier, registryWhitelister: registryWhitelister, imageStreamGetter: imageStreamGetter}
 }
-
-// NamespaceScoped is true for image streams.
 func (s Strategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
-
-// collapseEmptyStatusTags removes status tags that are completely empty.
 func collapseEmptyStatusTags(stream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, ref := range stream.Status.Tags {
 		if len(ref.Items) == 0 && len(ref.Conditions) == 0 {
 			delete(stream.Status.Tags, tag)
 		}
 	}
 }
-
-// PrepareForCreate clears fields that are not allowed to be set by end users on creation.
 func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
-	stream.Status = imageapi.ImageStreamStatus{
-		DockerImageRepository: s.dockerImageRepository(stream, false),
-		Tags:                  make(map[string]imageapi.TagEventList),
-	}
+	stream.Status = imageapi.ImageStreamStatus{DockerImageRepository: s.dockerImageRepository(stream, false), Tags: make(map[string]imageapi.TagEventList)}
 	stream.Generation = 1
 	for tag, ref := range stream.Spec.Tags {
 		ref.Generation = &stream.Generation
@@ -91,10 +118,21 @@ func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
 	}
 	collapseEmptyStatusTags(stream)
 }
-
-// Validate validates a new image stream and verifies the current user is
-// authorized to access any image streams newly referenced in spec.tags.
 func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
 	var errs field.ErrorList
 	if err := s.validateTagsAndLimits(ctx, nil, stream); err != nil {
@@ -103,77 +141,134 @@ func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorL
 	errs = append(errs, validation.ValidateImageStreamWithWhitelister(s.registryWhitelister, stream)...)
 	return errs
 }
-
 func (s Strategy) validateTagsAndLimits(ctx context.Context, oldStream, newStream *imageapi.ImageStream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok := apirequest.UserFrom(ctx)
 	if !ok {
 		return kerrors.NewForbidden(schema.GroupResource{Resource: "imagestreams"}, newStream.Name, fmt.Errorf("no user context available"))
 	}
-
 	errs := s.tagVerifier.Verify(oldStream, newStream, user)
 	errs = append(errs, s.tagsChanged(oldStream, newStream)...)
 	if len(errs) > 0 {
 		return kerrors.NewInvalid(schema.GroupKind{Kind: "imagestreams"}, newStream.Name, errs)
 	}
-
 	ns, ok := apirequest.NamespaceFrom(ctx)
 	if !ok {
 		ns = newStream.Namespace
 	}
 	return s.limitVerifier.VerifyLimits(ns, newStream)
 }
-
-// AllowCreateOnUpdate is false for image streams.
 func (s Strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
 func (Strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
-
-// dockerImageRepository determines the docker image stream for stream.
-// If stream.DockerImageRepository is set, that value is returned. Otherwise,
-// if a default registry exists, the value returned is of the form
-// <default registry>/<namespace>/<stream name>.
 func (s Strategy) dockerImageRepository(stream *imageapi.ImageStream, allowNamespaceDefaulting bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	registry, ok := s.registryHostnameRetriever.InternalRegistryHostname()
 	if !ok {
 		return stream.Spec.DockerImageRepository
 	}
-
 	if len(stream.Namespace) == 0 && allowNamespaceDefaulting {
 		stream.Namespace = metav1.NamespaceDefault
 	}
-	ref := imageapi.DockerImageReference{
-		Registry:  registry,
-		Namespace: stream.Namespace,
-		Name:      stream.Name,
-	}
+	ref := imageapi.DockerImageReference{Registry: registry, Namespace: stream.Namespace, Name: stream.Name}
 	return ref.String()
 }
-
-// publicDockerImageRepository determines the public location of given image
-// stream. If the ExternalRegistryHostname is set in the master config, the
-// value of this property is used as a hostname part for the docker image
-// reference.
 func (s Strategy) publicDockerImageRepository(stream *imageapi.ImageStream) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	externalHostname, ok := s.registryHostnameRetriever.ExternalRegistryHostname()
 	if !ok {
 		return ""
 	}
-	ref := imageapi.DockerImageReference{
-		Registry:  externalHostname,
-		Namespace: stream.Namespace,
-		Name:      stream.Name,
-	}
+	ref := imageapi.DockerImageReference{Registry: externalHostname, Namespace: stream.Namespace, Name: stream.Name}
 	return ref.String()
 }
-
 func parseFromReference(stream *imageapi.ImageStream, from *kapi.ObjectReference) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	splitChar := ""
 	refType := ""
-
 	switch from.Kind {
 	case "ImageStreamTag":
 		splitChar = ":"
@@ -184,46 +279,47 @@ func parseFromReference(stream *imageapi.ImageStream, from *kapi.ObjectReference
 	default:
 		return "", "", fmt.Errorf("invalid from.kind %q - only ImageStreamTag and ImageStreamImage are allowed", from.Kind)
 	}
-
 	parts := strings.Split(from.Name, splitChar)
 	switch len(parts) {
 	case 1:
-		// <tag> or <id>
 		return stream.Name, from.Name, nil
 	case 2:
-		// <stream>:<tag> or <stream>@<id>
 		return parts[0], parts[1], nil
 	default:
 		return "", "", fmt.Errorf("invalid from.name %q - it must be of the form <%s> or <stream>%s<%s>", from.Name, refType, splitChar, refType)
 	}
 }
-
-// tagsChanged updates stream.Status.Tags based on the old and new image stream.
-// if the old stream is nil, all tags are considered additions.
 func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	internalRegistry, hasInternalRegistry := s.registryHostnameRetriever.InternalRegistryHostname()
-
 	var errs field.ErrorList
-
 	oldTags := map[string]imageapi.TagReference{}
 	if old != nil && old.Spec.Tags != nil {
 		oldTags = old.Spec.Tags
 	}
-
 	for tag, tagRef := range stream.Spec.Tags {
 		if oldRef, ok := oldTags[tag]; ok && !tagRefChanged(oldRef, tagRef, stream.Namespace) {
 			continue
 		}
-
 		if tagRef.From == nil {
 			continue
 		}
-
 		klog.V(5).Infof("Detected changed tag %s in %s/%s", tag, stream.Namespace, stream.Name)
-
 		generation := stream.Generation
 		tagRef.Generation = &generation
-
 		fromPath := field.NewPath("spec", "tags").Key(tag).Child("from")
 		if tagRef.From.Kind == "DockerImage" && len(tagRef.From.Name) > 0 {
 			if tagRef.Reference {
@@ -237,13 +333,11 @@ func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList
 			}
 			continue
 		}
-
 		tagRefStreamName, tagOrID, err := parseFromReference(stream, tagRef.From)
 		if err != nil {
 			errs = append(errs, field.Invalid(fromPath.Child("name"), tagRef.From.Name, "must be of the form <tag>, <repo>:<tag>, <id>, or <repo>@<id>"))
 			continue
 		}
-
 		streamRef := stream
 		streamRefNamespace := tagRef.From.Namespace
 		if len(streamRefNamespace) == 0 {
@@ -259,22 +353,16 @@ func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList
 				}
 				continue
 			}
-
 			streamRef = obj.(*imageapi.ImageStream)
 		}
-
 		event, err := tagReferenceToTagEvent(streamRef, tagRef, tagOrID)
 		if err != nil {
 			errs = append(errs, field.Invalid(fromPath.Child("name"), tagRef.From.Name, fmt.Sprintf("error generating tag event: %v", err)))
 			continue
 		}
 		if event == nil {
-			// referenced tag or ID doesn't exist, which is ok
 			continue
 		}
-
-		// if this is not a reference tag, and the tag points to the internal registry for the other namespace, alter it to
-		// point to this stream so that pulls happen from this stream in the future.
 		if !tagRef.Reference {
 			if ref, err := imageapi.ParseDockerImageReference(event.DockerImageReference); err == nil {
 				if hasInternalRegistry && ref.Registry == internalRegistry && ref.Namespace == streamRef.Namespace && ref.Name == streamRef.Name {
@@ -284,14 +372,10 @@ func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList
 				}
 			}
 		}
-
 		stream.Spec.Tags[tag] = tagRef
 		imageapi.AddTagEventToImageStream(stream, tag, *event)
 	}
-
 	imageapi.UpdateChangedTrackingTags(stream, old)
-
-	// use a consistent timestamp on creation
 	if old == nil && !stream.CreationTimestamp.IsZero() {
 		for tag, list := range stream.Status.Tags {
 			for _, event := range list.Items {
@@ -300,22 +384,30 @@ func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList
 			stream.Status.Tags[tag] = list
 		}
 	}
-
 	return errs
 }
-
 func tagReferenceToTagEvent(stream *imageapi.ImageStream, tagRef imageapi.TagReference, tagOrID string) (*imageapi.TagEvent, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		event *imageapi.TagEvent
-		err   error
+		event	*imageapi.TagEvent
+		err	error
 	)
 	switch tagRef.From.Kind {
 	case "DockerImage":
-		event = &imageapi.TagEvent{
-			Created:              metav1.Now(),
-			DockerImageReference: tagRef.From.Name,
-		}
-
+		event = &imageapi.TagEvent{Created: metav1.Now(), DockerImageReference: tagRef.From.Name}
 	case "ImageStreamImage":
 		event, err = imageapi.ResolveImageID(stream, tagOrID)
 	case "ImageStreamTag":
@@ -331,15 +423,25 @@ func tagReferenceToTagEvent(stream *imageapi.ImageStream, tagRef imageapi.TagRef
 	}
 	return event, nil
 }
-
-// tagRefChanged returns true if the tag ref changed between two spec updates.
 func tagRefChanged(old, next imageapi.TagReference, streamNamespace string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if next.From == nil {
-		// both fields in next are empty
 		return false
 	}
 	if len(next.From.Kind) == 0 && len(next.From.Name) == 0 {
-		// invalid
 		return false
 	}
 	oldFrom := old.From
@@ -365,10 +467,21 @@ func tagRefChanged(old, next imageapi.TagReference, streamNamespace string) bool
 	}
 	return tagRefGenerationChanged(old, next)
 }
-
-// tagRefGenerationChanged returns true if and only the values were set and the new generation
-// is at zero.
 func tagRefGenerationChanged(old, next imageapi.TagReference) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case old.Generation != nil && next.Generation != nil:
 		if *old.Generation == *next.Generation {
@@ -382,14 +495,38 @@ func tagRefGenerationChanged(old, next imageapi.TagReference) bool {
 		return false
 	}
 }
-
 func tagEventChanged(old, next imageapi.TagEvent) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return old.Image != next.Image || old.DockerImageReference != next.DockerImageReference || old.Generation > next.Generation
 }
-
-// updateSpecTagGenerationsForUpdate ensures that new spec updates always have a generation set, and that the value
-// cannot be updated by an end user (except by setting generation 0).
 func updateSpecTagGenerationsForUpdate(stream, oldStream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, ref := range stream.Spec.Tags {
 		if ref.Generation != nil && *ref.Generation == 0 {
 			continue
@@ -400,21 +537,29 @@ func updateSpecTagGenerationsForUpdate(stream, oldStream *imageapi.ImageStream) 
 		}
 	}
 }
-
-// ensureSpecTagGenerationsAreSet ensures that all spec tags have a generation set to either 0 or the
-// current stream value.
 func ensureSpecTagGenerationsAreSet(stream, oldStream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldTags := map[string]imageapi.TagReference{}
 	if oldStream != nil && oldStream.Spec.Tags != nil {
 		oldTags = oldStream.Spec.Tags
 	}
-
-	// set the generation for any spec tags that have changed, are nil, or are zero
 	for tag, ref := range stream.Spec.Tags {
 		if oldRef, ok := oldTags[tag]; !ok || tagRefChanged(oldRef, ref, stream.Namespace) {
 			ref.Generation = nil
 		}
-
 		if ref.Generation != nil && *ref.Generation != 0 {
 			continue
 		}
@@ -422,32 +567,37 @@ func ensureSpecTagGenerationsAreSet(stream, oldStream *imageapi.ImageStream) {
 		stream.Spec.Tags[tag] = ref
 	}
 }
-
-// updateObservedGenerationForStatusUpdate ensures every status item has a generation set.
 func updateObservedGenerationForStatusUpdate(stream, oldStream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, newer := range stream.Status.Tags {
 		if len(newer.Items) == 0 || newer.Items[0].Generation != 0 {
-			// generation is set, continue
 			continue
 		}
-
 		older := oldStream.Status.Tags[tag]
 		if len(older.Items) == 0 || !tagEventChanged(older.Items[0], newer.Items[0]) {
-			// if the tag wasn't changed by the status update
 			newer.Items[0].Generation = stream.Generation
 			stream.Status.Tags[tag] = newer
 			continue
 		}
-
 		spec, ok := stream.Spec.Tags[tag]
 		if !ok || spec.Generation == nil {
-			// if the spec tag has no generation
 			newer.Items[0].Generation = stream.Generation
 			stream.Status.Tags[tag] = newer
 			continue
 		}
-
-		// set the status tag from the spec tag generation
 		newer.Items[0].Generation = *spec.Generation
 		stream.Status.Tags[tag] = newer
 	}
@@ -458,6 +608,20 @@ type TagVerifier struct {
 }
 
 func (v *TagVerifier) Verify(old, stream *imageapi.ImageStream, user user.Info) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errors field.ErrorList
 	oldTags := map[string]imageapi.TagReference{}
 	if old != nil && old.Spec.Tags != nil {
@@ -476,27 +640,13 @@ func (v *TagVerifier) Verify(old, stream *imageapi.ImageStream, user user.Info) 
 		if oldRef, ok := oldTags[tag]; ok && !tagRefChanged(oldRef, tagRef, stream.Namespace) {
 			continue
 		}
-
 		streamName, _, err := parseFromReference(stream, tagRef.From)
 		fromPath := field.NewPath("spec", "tags").Key(tag).Child("from")
 		if err != nil {
 			errors = append(errors, field.Invalid(fromPath.Child("name"), tagRef.From.Name, "must be of the form <tag>, <repo>:<tag>, <id>, or <repo>@<id>"))
 			continue
 		}
-
-		// Make sure this user can pull the specified image before allowing them to tag it into another imagestream
-		subjectAccessReview := authorizationutil.AddUserToSAR(user, &authorizationapi.SubjectAccessReview{
-			Spec: authorizationapi.SubjectAccessReviewSpec{
-				ResourceAttributes: &authorizationapi.ResourceAttributes{
-					Namespace:   tagRef.From.Namespace,
-					Verb:        "get",
-					Group:       imageapi.GroupName,
-					Resource:    "imagestreams",
-					Subresource: "layers",
-					Name:        streamName,
-				},
-			},
-		})
+		subjectAccessReview := authorizationutil.AddUserToSAR(user, &authorizationapi.SubjectAccessReview{Spec: authorizationapi.SubjectAccessReviewSpec{ResourceAttributes: &authorizationapi.ResourceAttributes{Namespace: tagRef.From.Namespace, Verb: "get", Group: imageapi.GroupName, Resource: "imagestreams", Subresource: "layers", Name: streamName}}})
 		klog.V(4).Infof("Performing SubjectAccessReview for user=%s, groups=%v to %s/%s", user.GetName(), user.GetGroups(), tagRef.From.Namespace, streamName)
 		resp, err := v.subjectAccessReviewClient.Create(subjectAccessReview)
 		if err != nil || resp == nil || (resp != nil && !resp.Status.Allowed) {
@@ -513,43 +663,83 @@ func (v *TagVerifier) Verify(old, stream *imageapi.ImageStream, user user.Info) 
 	}
 	return errors
 }
-
-// Canonicalize normalizes the object after validation.
 func (Strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (s Strategy) prepareForUpdate(obj, old runtime.Object, resetStatus bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldStream := old.(*imageapi.ImageStream)
 	stream := obj.(*imageapi.ImageStream)
-
 	collapseEmptyStatusTags(stream)
 	stream.Generation = oldStream.Generation
 	if resetStatus {
 		stream.Status = oldStream.Status
 	}
 	stream.Status.DockerImageRepository = s.dockerImageRepository(stream, true)
-
-	// ensure that users cannot change spec tag generation to any value except 0
 	updateSpecTagGenerationsForUpdate(stream, oldStream)
-
-	// Any changes to the spec increment the generation number.
-	//
-	// TODO: Any changes to a part of the object that represents desired state (labels,
-	// annotations etc) should also increment the generation.
 	if !kapihelper.Semantic.DeepEqual(oldStream.Spec, stream.Spec) || stream.Generation == 0 {
 		stream.Generation = oldStream.Generation + 1
 	}
-
-	// default spec tag generations afterwards (to avoid updating the generation for legacy objects)
 	ensureSpecTagGenerationsAreSet(stream, oldStream)
 }
-
 func (s Strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.prepareForUpdate(obj, old, true)
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (s Strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
 	oldStream := old.(*imageapi.ImageStream)
 	var errs field.ErrorList
@@ -559,10 +749,21 @@ func (s Strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) f
 	errs = append(errs, validation.ValidateImageStreamUpdateWithWhitelister(s.registryWhitelister, stream, oldStream)...)
 	return errs
 }
-
-// Decorate decorates stream.Status.DockerImageRepository using the logic from
-// dockerImageRepository().
 func (s Strategy) Decorate(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *imageapi.ImageStream:
 		t.Status.DockerImageRepository = s.dockerImageRepository(t, true)
@@ -579,34 +780,79 @@ func (s Strategy) Decorate(obj runtime.Object) error {
 	return nil
 }
 
-type StatusStrategy struct {
-	Strategy
-}
+type StatusStrategy struct{ Strategy }
 
-// NewStatusStrategy creates a status update strategy around an existing stream
-// strategy.
 func NewStatusStrategy(strategy Strategy) StatusStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return StatusStrategy{strategy}
 }
-
-// Canonicalize normalizes the object after validation.
 func (StatusStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (StatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldStream := old.(*imageapi.ImageStream)
 	stream := obj.(*imageapi.ImageStream)
-
 	stream.Spec.Tags = oldStream.Spec.Tags
 	stream.Spec.DockerImageRepository = oldStream.Spec.DockerImageRepository
-
 	updateObservedGenerationForStatusUpdate(stream, oldStream)
 }
-
 func (s StatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newIS := obj.(*imageapi.ImageStream)
 	errs := field.ErrorList{}
-
 	ns, ok := apirequest.NamespaceFrom(ctx)
 	if !ok {
 		ns = newIS.Namespace
@@ -615,31 +861,61 @@ func (s StatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Obj
 	if err != nil {
 		errs = append(errs, field.Forbidden(field.NewPath("imageStream"), err.Error()))
 	}
-
-	// TODO: merge valid fields after update
 	errs = append(errs, validation.ValidateImageStreamStatusUpdateWithWhitelister(s.registryWhitelister, newIS, old.(*imageapi.ImageStream))...)
 	return errs
 }
 
-// InternalStrategy implements behavior for updating both the spec and status
-// of an image stream
-type InternalStrategy struct {
-	Strategy
-}
+type InternalStrategy struct{ Strategy }
 
-// NewInternalStrategy creates an update strategy around an existing stream
-// strategy.
 func NewInternalStrategy(strategy Strategy) InternalStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return InternalStrategy{strategy}
 }
-
-// Canonicalize normalizes the object after validation.
 func (InternalStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (s InternalStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
-
 	stream.Status.DockerImageRepository = s.dockerImageRepository(stream, false)
 	stream.Generation = 1
 	for tag, ref := range stream.Spec.Tags {
@@ -647,7 +923,20 @@ func (s InternalStrategy) PrepareForCreate(ctx context.Context, obj runtime.Obje
 		stream.Spec.Tags[tag] = ref
 	}
 }
-
 func (s InternalStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.prepareForUpdate(obj, old, false)
 }

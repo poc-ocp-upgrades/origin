@@ -3,10 +3,8 @@ package v1
 import (
 	"reflect"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
-
 	"github.com/davecgh/go-spew/spew"
 	v1 "github.com/openshift/api/route/v1"
 )
@@ -15,27 +13,44 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Install(scheme)
 }
-
 func TestDefaults(t *testing.T) {
-	obj := &v1.Route{
-		Spec: v1.RouteSpec{
-			To:  v1.RouteTargetReference{Name: "other"},
-			TLS: &v1.TLSConfig{},
-		},
-		Status: v1.RouteStatus{
-			Ingress: []v1.RouteIngress{{}},
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	obj := &v1.Route{Spec: v1.RouteSpec{To: v1.RouteTargetReference{Name: "other"}, TLS: &v1.TLSConfig{}}, Status: v1.RouteStatus{Ingress: []v1.RouteIngress{{}}}}
 	obj2 := roundTrip(t, obj)
 	out, ok := obj2.(*v1.Route)
 	if !ok {
 		t.Errorf("Unexpected object: %v", obj2)
 		t.FailNow()
 	}
-
 	if out.Spec.TLS.Termination != v1.TLSTerminationEdge {
 		t.Errorf("did not default termination: %#v", spew.Sdump(out.Spec.TLS))
 	}
@@ -49,8 +64,21 @@ func TestDefaults(t *testing.T) {
 		t.Errorf("did not default status ingress wildcard policy: %#v", out)
 	}
 }
-
 func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := runtime.Encode(codecs.LegacyCodec(v1.GroupVersion), obj)
 	if err != nil {
 		t.Errorf("%v\n %#v", err, obj)

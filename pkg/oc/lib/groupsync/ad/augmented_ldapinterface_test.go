@@ -5,90 +5,73 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-
 	"gopkg.in/ldap.v2"
-
 	"github.com/openshift/origin/pkg/oauthserver/ldaputil"
 	"github.com/openshift/origin/pkg/oauthserver/ldaputil/testclient"
 )
 
 func newTestAugmentedADLDAPInterface(client ldap.Client) *AugmentedADLDAPInterface {
-	// below are common test implementations of LDAPInterface fields
-	userQuery := ldaputil.LDAPQuery{
-		BaseDN:       "ou=users,dc=example,dc=com",
-		Scope:        ldaputil.ScopeWholeSubtree,
-		DerefAliases: ldaputil.DerefAliasesAlways,
-		TimeLimit:    0,
-		Filter:       "objectClass=inetOrgPerson",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	userQuery := ldaputil.LDAPQuery{BaseDN: "ou=users,dc=example,dc=com", Scope: ldaputil.ScopeWholeSubtree, DerefAliases: ldaputil.DerefAliasesAlways, TimeLimit: 0, Filter: "objectClass=inetOrgPerson"}
 	groupMembershipAttributes := []string{"memberOf"}
 	userNameAttributes := []string{"cn"}
-	groupQuery := ldaputil.LDAPQueryOnAttribute{
-		LDAPQuery: ldaputil.LDAPQuery{
-			BaseDN:       "ou=groups,dc=example,dc=com",
-			Scope:        ldaputil.ScopeWholeSubtree,
-			DerefAliases: ldaputil.DerefAliasesAlways,
-			TimeLimit:    0,
-			Filter:       "objectClass=groupOfNames",
-		},
-		QueryAttribute: "dn",
-	}
+	groupQuery := ldaputil.LDAPQueryOnAttribute{LDAPQuery: ldaputil.LDAPQuery{BaseDN: "ou=groups,dc=example,dc=com", Scope: ldaputil.ScopeWholeSubtree, DerefAliases: ldaputil.DerefAliasesAlways, TimeLimit: 0, Filter: "objectClass=groupOfNames"}, QueryAttribute: "dn"}
 	groupNameAttributes := []string{"cn"}
-
-	return NewAugmentedADLDAPInterface(testclient.NewConfig(client),
-		userQuery,
-		groupMembershipAttributes,
-		userNameAttributes,
-		groupQuery,
-		groupNameAttributes)
+	return NewAugmentedADLDAPInterface(testclient.NewConfig(client), userQuery, groupMembershipAttributes, userNameAttributes, groupQuery, groupNameAttributes)
 }
-
-// newDefaultTestGroup returns a new LDAP entry with the given CN
 func newTestGroup(CN string) *ldap.Entry {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ldap.NewEntry(fmt.Sprintf("cn=%s,ou=groups,dc=example,dc=com", CN), map[string][]string{"cn": {CN}})
 }
-
 func TestGroupEntryFor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
-		name           string
-		cacheSeed      map[string]*ldap.Entry
-		client         ldap.Client
-		baseDNOverride string
-		expectedError  error
-		expectedEntry  *ldap.Entry
-	}{
-		{
-			name: "cached entries",
-			cacheSeed: map[string]*ldap.Entry{
-				"cn=testGroup,ou=groups,dc=example,dc=com": newTestGroup("testGroup"),
-			},
-			expectedError: nil,
-			expectedEntry: newTestGroup("testGroup"),
-		},
-		{
-			name:           "search request error",
-			baseDNOverride: "dc=foo",
-			expectedError:  ldaputil.NewQueryOutOfBoundsError("cn=testGroup,ou=groups,dc=example,dc=com", "dc=foo"),
-			expectedEntry:  nil,
-		},
-		{
-			name:          "search error",
-			client:        testclient.NewMatchingSearchErrorClient(testclient.New(), "cn=testGroup,ou=groups,dc=example,dc=com", errors.New("generic search error")),
-			expectedError: errors.New("generic search error"),
-			expectedEntry: nil,
-		},
-		{
-			name: "no error",
-			client: testclient.NewDNMappingClient(
-				testclient.New(),
-				map[string][]*ldap.Entry{
-					"cn=testGroup,ou=groups,dc=example,dc=com": {newTestGroup("testGroup")},
-				},
-			),
-			expectedError: nil,
-			expectedEntry: newTestGroup("testGroup"),
-		},
-	}
+		name		string
+		cacheSeed	map[string]*ldap.Entry
+		client		ldap.Client
+		baseDNOverride	string
+		expectedError	error
+		expectedEntry	*ldap.Entry
+	}{{name: "cached entries", cacheSeed: map[string]*ldap.Entry{"cn=testGroup,ou=groups,dc=example,dc=com": newTestGroup("testGroup")}, expectedError: nil, expectedEntry: newTestGroup("testGroup")}, {name: "search request error", baseDNOverride: "dc=foo", expectedError: ldaputil.NewQueryOutOfBoundsError("cn=testGroup,ou=groups,dc=example,dc=com", "dc=foo"), expectedEntry: nil}, {name: "search error", client: testclient.NewMatchingSearchErrorClient(testclient.New(), "cn=testGroup,ou=groups,dc=example,dc=com", errors.New("generic search error")), expectedError: errors.New("generic search error"), expectedEntry: nil}, {name: "no error", client: testclient.NewDNMappingClient(testclient.New(), map[string][]*ldap.Entry{"cn=testGroup,ou=groups,dc=example,dc=com": {newTestGroup("testGroup")}}), expectedError: nil, expectedEntry: newTestGroup("testGroup")}}
 	for _, testCase := range testCases {
 		ldapInterface := newTestAugmentedADLDAPInterface(testCase.client)
 		if len(testCase.cacheSeed) > 0 {

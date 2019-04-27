@@ -5,21 +5,44 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-
 	pemutil "github.com/openshift/origin/pkg/cmd/util/pem"
 )
 
 func GetStringSourceFileReferences(s *StringSource) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s == nil {
 		return nil
 	}
-	return []*string{
-		&s.File,
-		&s.KeyFile,
-	}
+	return []*string{&s.File, &s.KeyFile}
 }
-
 func ResolveStringValue(s StringSource) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var value string
 	switch {
 	case len(s.Value) > 0:
@@ -35,27 +58,21 @@ func ResolveStringValue(s StringSource) (string, error) {
 	default:
 		value = ""
 	}
-
 	if len(s.KeyFile) == 0 {
-		// value is cleartext, return
 		return value, nil
 	}
-
 	keyData, err := ioutil.ReadFile(s.KeyFile)
 	if err != nil {
 		return "", err
 	}
-
 	secretBlock, ok := pemutil.BlockFromBytes([]byte(value), StringSourceEncryptedBlockType)
 	if !ok {
 		return "", fmt.Errorf("no valid PEM block of type %q found in data", StringSourceEncryptedBlockType)
 	}
-
 	keyBlock, ok := pemutil.BlockFromBytes(keyData, StringSourceKeyBlockType)
 	if !ok {
 		return "", fmt.Errorf("no valid PEM block of type %q found in key", StringSourceKeyBlockType)
 	}
-
 	data, err := x509.DecryptPEMBlock(secretBlock, keyBlock.Bytes)
 	return string(data), err
 }

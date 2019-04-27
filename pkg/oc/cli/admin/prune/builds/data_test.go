@@ -4,49 +4,103 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
-
 	buildv1 "github.com/openshift/api/build/v1"
 )
 
 func mockBuildConfig(namespace, name string) *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
-
 func withCreated(build *buildv1.Build, creationTimestamp metav1.Time) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build.CreationTimestamp = creationTimestamp
 	return build
 }
-
 func withStatus(build *buildv1.Build, status buildv1.BuildPhase) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build.Status.Phase = status
 	return build
 }
-
 func mockBuild(namespace, name string, buildConfig *buildv1.BuildConfig) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 	if buildConfig != nil {
-		build.Status.Config = &corev1.ObjectReference{
-			Name:      buildConfig.Name,
-			Namespace: buildConfig.Namespace,
-		}
+		build.Status.Config = &corev1.ObjectReference{Name: buildConfig.Name, Namespace: buildConfig.Namespace}
 	}
 	build.Status.Phase = buildv1.BuildPhaseNew
 	return build
 }
-
 func TestBuildByBuildConfigIndexFunc(t *testing.T) {
-	buildWithConfig := &buildv1.Build{
-		Status: buildv1.BuildStatus{
-			Config: &corev1.ObjectReference{
-				Name:      "buildConfigName",
-				Namespace: "buildConfigNamespace",
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildWithConfig := &buildv1.Build{Status: buildv1.BuildStatus{Config: &corev1.ObjectReference{Name: "buildConfigName", Namespace: "buildConfigNamespace"}}}
 	actualKey, err := BuildByBuildConfigIndexFunc(buildWithConfig)
 	if err != nil {
 		t.Errorf("Unexpected error %v", err)
@@ -65,28 +119,26 @@ func TestBuildByBuildConfigIndexFunc(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expectedKey, actualKey)
 	}
 }
-
 func TestFilterBeforePredicate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	youngerThan := time.Hour
 	now := metav1.Now()
 	old := metav1.NewTime(now.Time.Add(-1 * youngerThan))
-	builds := []*buildv1.Build{
-		{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:              "old",
-				CreationTimestamp: old,
-			},
-		},
-		{
-			ObjectMeta: metav1.ObjectMeta{
-				Name:              "new",
-				CreationTimestamp: now,
-			},
-		},
-	}
-	filter := &andFilter{
-		filterPredicates: []FilterPredicate{NewFilterBeforePredicate(youngerThan)},
-	}
+	builds := []*buildv1.Build{{ObjectMeta: metav1.ObjectMeta{Name: "old", CreationTimestamp: old}}, {ObjectMeta: metav1.ObjectMeta{Name: "new", CreationTimestamp: now}}}
+	filter := &andFilter{filterPredicates: []FilterPredicate{NewFilterBeforePredicate(youngerThan)}}
 	result := filter.Filter(builds)
 	if len(result) != 1 {
 		t.Errorf("Unexpected number of results")
@@ -95,8 +147,21 @@ func TestFilterBeforePredicate(t *testing.T) {
 		t.Errorf("expected %v, actual %v", expected, actual)
 	}
 }
-
 func TestEmptyDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builds := []*buildv1.Build{}
 	buildConfigs := []*buildv1.BuildConfig{}
 	dataSet := NewDataSet(buildConfigs, builds)
@@ -126,18 +191,23 @@ func TestEmptyDataSet(t *testing.T) {
 		t.Errorf("Unexpected result %v", buildResults)
 	}
 }
-
 func TestPopuldatedDataSet(t *testing.T) {
-	buildConfigs := []*buildv1.BuildConfig{
-		mockBuildConfig("a", "build-config-1"),
-		mockBuildConfig("b", "build-config-2"),
-	}
-	builds := []*buildv1.Build{
-		mockBuild("a", "build-1", buildConfigs[0]),
-		mockBuild("a", "build-2", buildConfigs[0]),
-		mockBuild("b", "build-3", buildConfigs[1]),
-		mockBuild("c", "build-4", nil),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	buildConfigs := []*buildv1.BuildConfig{mockBuildConfig("a", "build-config-1"), mockBuildConfig("b", "build-config-2")}
+	builds := []*buildv1.Build{mockBuild("a", "build-1", buildConfigs[0]), mockBuild("a", "build-2", buildConfigs[0]), mockBuild("b", "build-3", buildConfigs[1]), mockBuild("c", "build-4", nil)}
 	dataSet := NewDataSet(buildConfigs, builds)
 	for _, build := range builds {
 		buildConfig, exists, err := dataSet.GetBuildConfig(build)

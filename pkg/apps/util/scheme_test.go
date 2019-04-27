@@ -3,11 +3,8 @@ package util
 import (
 	"strings"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/runtime"
-
 	"github.com/davecgh/go-spew/spew"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 )
 
@@ -21,6 +18,20 @@ const legacyDC = `{
 `
 
 func TestLegacyDecoding(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err := runtime.Decode(annotationDecoder, []byte(legacyDC))
 	if err != nil {
 		t.Fatal(err)
@@ -28,7 +39,6 @@ func TestLegacyDecoding(t *testing.T) {
 	if result.(*appsv1.DeploymentConfig).Name != "sinatra-app-example-a" {
 		t.Fatal(spew.Sdump(result))
 	}
-
 	groupfiedBytes, err := runtime.Encode(annotationEncoder, result)
 	if err != nil {
 		t.Fatal(err)
@@ -36,7 +46,6 @@ func TestLegacyDecoding(t *testing.T) {
 	if !strings.Contains(string(groupfiedBytes), "apps.openshift.io/v1") {
 		t.Fatal(string(groupfiedBytes))
 	}
-
 	result2, err := runtime.Decode(annotationDecoder, groupfiedBytes)
 	if err != nil {
 		t.Fatal(err)

@@ -3,138 +3,74 @@ package v1
 import (
 	"reflect"
 	"testing"
-
 	v1 "github.com/openshift/api/build/v1"
-
 	kapiv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 )
 
 func TestDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
-		External runtime.Object
-		Ok       func(runtime.Object) bool
-	}{
-		{
-			External: &v1.Build{
-				Spec: v1.BuildSpec{
-					CommonSpec: v1.CommonSpec{
-						Strategy: v1.BuildStrategy{
-							Type: v1.DockerBuildStrategyType,
-						},
-					},
-				},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.Build)
-				if !ok {
-					return false
-				}
-				return obj.Spec.Strategy.DockerStrategy != nil
-			},
-		},
-		{
-			External: &v1.Build{
-				Spec: v1.BuildSpec{
-					CommonSpec: v1.CommonSpec{
-						Strategy: v1.BuildStrategy{
-							SourceStrategy: &v1.SourceBuildStrategy{},
-						},
-					},
-				},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.Build)
-				if !ok {
-					return false
-				}
-				return obj.Spec.Strategy.SourceStrategy.From.Kind == "ImageStreamTag"
-			},
-		},
-		{
-			External: &v1.Build{
-				Spec: v1.BuildSpec{
-					CommonSpec: v1.CommonSpec{
-						Strategy: v1.BuildStrategy{
-							DockerStrategy: &v1.DockerBuildStrategy{
-								From: &kapiv1.ObjectReference{},
-							},
-						},
-					},
-				},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.Build)
-				if !ok {
-					return false
-				}
-				return obj.Spec.Strategy.DockerStrategy.From.Kind == "ImageStreamTag"
-			},
-		},
-		{
-			External: &v1.Build{
-				Spec: v1.BuildSpec{
-					CommonSpec: v1.CommonSpec{
-						Strategy: v1.BuildStrategy{
-							CustomStrategy: &v1.CustomBuildStrategy{},
-						},
-					},
-				},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.Build)
-				if !ok {
-					return false
-				}
-				return obj.Spec.Strategy.CustomStrategy.From.Kind == "ImageStreamTag"
-			},
-		},
-		{
-			External: &v1.BuildConfig{
-				Spec: v1.BuildConfigSpec{Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerType}}},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.BuildConfig)
-				if !ok {
-					return false
-				}
-				// conversion drops this trigger because it has no type
-				return (len(obj.Spec.Triggers) == 0) && (obj.Spec.RunPolicy == v1.BuildRunPolicySerial)
-			},
-		},
-		{
-			External: &v1.BuildConfig{
-				Spec: v1.BuildConfigSpec{
-					CommonSpec: v1.CommonSpec{
-						Source: v1.BuildSource{
-							Type: v1.BuildSourceBinary,
-						},
-						Strategy: v1.BuildStrategy{
-							Type: v1.DockerBuildStrategyType,
-						},
-					},
-				},
-			},
-			Ok: func(out runtime.Object) bool {
-				obj, ok := out.(*v1.BuildConfig)
-				if !ok {
-					return false
-				}
-				binary := obj.Spec.Source.Binary
-				if binary == (*v1.BinaryBuildSource)(nil) || *binary != (v1.BinaryBuildSource{}) {
-					return false
-				}
-
-				dockerStrategy := obj.Spec.Strategy.DockerStrategy
-				// DeepEqual needed because DockerBuildStrategy contains slices
-				if dockerStrategy == (*v1.DockerBuildStrategy)(nil) || !reflect.DeepEqual(*dockerStrategy, v1.DockerBuildStrategy{}) {
-					return false
-				}
-				return true
-			},
-		},
-	}
-
+		External	runtime.Object
+		Ok		func(runtime.Object) bool
+	}{{External: &v1.Build{Spec: v1.BuildSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{Type: v1.DockerBuildStrategyType}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.Build)
+		if !ok {
+			return false
+		}
+		return obj.Spec.Strategy.DockerStrategy != nil
+	}}, {External: &v1.Build{Spec: v1.BuildSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{SourceStrategy: &v1.SourceBuildStrategy{}}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.Build)
+		if !ok {
+			return false
+		}
+		return obj.Spec.Strategy.SourceStrategy.From.Kind == "ImageStreamTag"
+	}}, {External: &v1.Build{Spec: v1.BuildSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{DockerStrategy: &v1.DockerBuildStrategy{From: &kapiv1.ObjectReference{}}}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.Build)
+		if !ok {
+			return false
+		}
+		return obj.Spec.Strategy.DockerStrategy.From.Kind == "ImageStreamTag"
+	}}, {External: &v1.Build{Spec: v1.BuildSpec{CommonSpec: v1.CommonSpec{Strategy: v1.BuildStrategy{CustomStrategy: &v1.CustomBuildStrategy{}}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.Build)
+		if !ok {
+			return false
+		}
+		return obj.Spec.Strategy.CustomStrategy.From.Kind == "ImageStreamTag"
+	}}, {External: &v1.BuildConfig{Spec: v1.BuildConfigSpec{Triggers: []v1.BuildTriggerPolicy{{Type: v1.ImageChangeBuildTriggerType}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.BuildConfig)
+		if !ok {
+			return false
+		}
+		return (len(obj.Spec.Triggers) == 0) && (obj.Spec.RunPolicy == v1.BuildRunPolicySerial)
+	}}, {External: &v1.BuildConfig{Spec: v1.BuildConfigSpec{CommonSpec: v1.CommonSpec{Source: v1.BuildSource{Type: v1.BuildSourceBinary}, Strategy: v1.BuildStrategy{Type: v1.DockerBuildStrategyType}}}}, Ok: func(out runtime.Object) bool {
+		obj, ok := out.(*v1.BuildConfig)
+		if !ok {
+			return false
+		}
+		binary := obj.Spec.Source.Binary
+		if binary == (*v1.BinaryBuildSource)(nil) || *binary != (v1.BinaryBuildSource{}) {
+			return false
+		}
+		dockerStrategy := obj.Spec.Strategy.DockerStrategy
+		if dockerStrategy == (*v1.DockerBuildStrategy)(nil) || !reflect.DeepEqual(*dockerStrategy, v1.DockerBuildStrategy{}) {
+			return false
+		}
+		return true
+	}}}
 	for i, test := range testCases {
 		obj := roundTrip(t, test.External)
 		if !test.Ok(obj) {
@@ -142,8 +78,21 @@ func TestDefaults(t *testing.T) {
 		}
 	}
 }
-
 func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := runtime.Encode(codecs.LegacyCodec(v1.GroupVersion), obj)
 	if err != nil {
 		t.Errorf("%v\n %#v", err, obj)

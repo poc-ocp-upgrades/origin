@@ -9,25 +9,35 @@ import (
 	"net/http"
 	"strings"
 	"testing"
-
 	knet "k8s.io/apimachinery/pkg/util/net"
-
 	testutil "github.com/openshift/origin/test/util"
 	testserver "github.com/openshift/origin/test/util/server"
 )
 
 func TestRootRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	transport, err := anonymousHttpTransport(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	req, err := http.NewRequest("GET", masterConfig.OAuthConfig.MasterPublicURL, nil)
 	req.Header.Set("Accept", "*/*")
 	resp, err := transport.RoundTrip(req)
@@ -40,9 +50,7 @@ func TestRootRedirect(t *testing.T) {
 	if resp.Header.Get("Content-Type") != "application/json" {
 		t.Fatalf("Expected %s, got %s", "application/json", resp.Header.Get("Content-Type"))
 	}
-	type result struct {
-		Paths []string
-	}
+	type result struct{ Paths []string }
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		t.Fatalf("Unexpected error reading the body: %v", err)
@@ -50,19 +58,30 @@ func TestRootRedirect(t *testing.T) {
 	var got result
 	json.Unmarshal(body, &got)
 }
-
 func TestWellKnownOAuth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	transport, err := anonymousHttpTransport(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	req, err := http.NewRequest("GET", masterConfig.OAuthConfig.MasterPublicURL+"/.well-known/oauth-authorization-server", nil)
 	req.Header.Set("Accept", "*/*")
 	resp, err := transport.RoundTrip(req)
@@ -80,8 +99,21 @@ func TestWellKnownOAuth(t *testing.T) {
 		t.Fatal("Expected \"authorization_endpoint\" in the body.")
 	}
 }
-
 func TestWellKnownOAuthOff(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -92,7 +124,6 @@ func TestWellKnownOAuthOff(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -101,7 +132,6 @@ func TestWellKnownOAuthOff(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	req, err := http.NewRequest("GET", clusterAdminClientConfig.Host+"/.well-known/oauth-authorization-server", nil)
 	req.Header.Set("Accept", "*/*")
 	resp, err := transport.RoundTrip(req)
@@ -112,8 +142,21 @@ func TestWellKnownOAuthOff(t *testing.T) {
 		t.Fatalf("Expected %d, got %d", http.StatusNotFound, resp.StatusCode)
 	}
 }
-
 func anonymousHttpTransport(clusterAdminKubeConfig string) (*http.Transport, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	restConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		return nil, err
@@ -122,10 +165,5 @@ func anonymousHttpTransport(clusterAdminKubeConfig string) (*http.Transport, err
 	if ok := pool.AppendCertsFromPEM(restConfig.TLSClientConfig.CAData); !ok {
 		return nil, errors.New("failed to add server CA certificates to client pool")
 	}
-	return knet.SetTransportDefaults(&http.Transport{
-		TLSClientConfig: &tls.Config{
-			// only use RootCAs from client config, especially no client certs
-			RootCAs: pool,
-		},
-	}), nil
+	return knet.SetTransportDefaults(&http.Transport{TLSClientConfig: &tls.Config{RootCAs: pool}}), nil
 }

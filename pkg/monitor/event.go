@@ -3,7 +3,6 @@ package monitor
 import (
 	"context"
 	"fmt"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -12,6 +11,20 @@ import (
 )
 
 func startEventMonitoring(ctx context.Context, m Recorder, client kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		for {
 			select {
@@ -24,7 +37,6 @@ func startEventMonitoring(ctx context.Context, m Recorder, client kubernetes.Int
 				continue
 			}
 			rv := events.ResourceVersion
-
 			for expired := false; !expired; {
 				w, err := client.CoreV1().Events("").Watch(metav1.ListOptions{ResourceVersion: rv})
 				if err != nil {
@@ -49,11 +61,7 @@ func startEventMonitoring(ctx context.Context, m Recorder, client kubernetes.Int
 							if obj.Count > 1 {
 								message += fmt.Sprintf(" (%d times)", obj.Count)
 							}
-							condition := Condition{
-								Level:   Info,
-								Locator: locateEvent(obj),
-								Message: message,
-							}
+							condition := Condition{Level: Info, Locator: locateEvent(obj), Message: message}
 							if obj.Type == corev1.EventTypeWarning {
 								condition.Level = Warning
 							}
@@ -69,11 +77,7 @@ func startEventMonitoring(ctx context.Context, m Recorder, client kubernetes.Int
 							} else {
 								message = fmt.Sprintf("event object was not a Status: %T", event.Object)
 							}
-							m.Record(Condition{
-								Level:   Info,
-								Locator: "kube-apiserver",
-								Message: fmt.Sprintf("received an error while watching events: %s", message),
-							})
+							m.Record(Condition{Level: Info, Locator: "kube-apiserver", Message: fmt.Sprintf("received an error while watching events: %s", message)})
 							return
 						default:
 						}

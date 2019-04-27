@@ -6,54 +6,34 @@ import (
 )
 
 func TestParseRange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		in    string
-		errFn func(error) bool
-		r     Range
-		total uint32
-	}{
-		"identity range": {
-			in: "1-1/1",
-			r: Range{
-				block: Block{1, 1},
-				size:  1,
-			},
-			total: 1,
-		},
-		"simple range": {
-			in: "1-2/1",
-			r: Range{
-				block: Block{1, 2},
-				size:  1,
-			},
-			total: 2,
-		},
-		"wide range": {
-			in: "10000-999999/1000",
-			r: Range{
-				block: Block{10000, 999999},
-				size:  1000,
-			},
-			total: 990,
-		},
-		"overflow uint": {
-			in:    "1000-100000000000000/1",
-			errFn: func(err error) bool { return strings.Contains(err.Error(), "unsigned integer overflow") },
-		},
-		"negative range": {
-			in:    "1000-999/1",
-			errFn: func(err error) bool { return strings.Contains(err.Error(), "must be less than end 999") },
-		},
-		"zero block size": {
-			in:    "1000-1000/0",
-			errFn: func(err error) bool { return strings.Contains(err.Error(), "block size must be a positive integer") },
-		},
-		"large block size": {
-			in:    "1000-1001/3",
-			errFn: func(err error) bool { return strings.Contains(err.Error(), "must be less than or equal to the range") },
-		},
-	}
-
+		in	string
+		errFn	func(error) bool
+		r	Range
+		total	uint32
+	}{"identity range": {in: "1-1/1", r: Range{block: Block{1, 1}, size: 1}, total: 1}, "simple range": {in: "1-2/1", r: Range{block: Block{1, 2}, size: 1}, total: 2}, "wide range": {in: "10000-999999/1000", r: Range{block: Block{10000, 999999}, size: 1000}, total: 990}, "overflow uint": {in: "1000-100000000000000/1", errFn: func(err error) bool {
+		return strings.Contains(err.Error(), "unsigned integer overflow")
+	}}, "negative range": {in: "1000-999/1", errFn: func(err error) bool {
+		return strings.Contains(err.Error(), "must be less than end 999")
+	}}, "zero block size": {in: "1000-1000/0", errFn: func(err error) bool {
+		return strings.Contains(err.Error(), "block size must be a positive integer")
+	}}, "large block size": {in: "1000-1001/3", errFn: func(err error) bool {
+		return strings.Contains(err.Error(), "must be less than or equal to the range")
+	}}}
 	for s, testCase := range testCases {
 		r, err := ParseRange(testCase.in)
 		if testCase.errFn != nil && !testCase.errFn(err) {
@@ -71,8 +51,21 @@ func TestParseRange(t *testing.T) {
 		}
 	}
 }
-
 func TestBlock(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := Block{Start: 100, End: 109}
 	if b.String() != "100/10" {
 		t.Errorf("unexpected block string: %s", b.String())
@@ -85,54 +78,27 @@ func TestBlock(t *testing.T) {
 		t.Errorf("unexpected block string: %s", b.String())
 	}
 }
-
 func TestOffset(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		r         Range
-		block     Block
-		contained bool
-		offset    uint32
-	}{
-		"identity range": {
-			r: Range{
-				block: Block{1, 1},
-				size:  1,
-			},
-			block:     Block{1, 1},
-			contained: true,
-		},
-		"out of identity range": {
-			r: Range{
-				block: Block{1, 1},
-				size:  1,
-			},
-			block: Block{2, 2},
-		},
-		"out of identity range expanded": {
-			r: Range{
-				block: Block{1, 1},
-				size:  1,
-			},
-			block: Block{2, 3},
-		},
-		"aligned to offset": {
-			r: Range{
-				block: Block{0, 100},
-				size:  10,
-			},
-			block:     Block{10, 19},
-			contained: true,
-			offset:    1,
-		},
-		"not aligned": {
-			r: Range{
-				block: Block{0, 100},
-				size:  10,
-			},
-			block: Block{11, 20},
-		},
-	}
-
+		r		Range
+		block		Block
+		contained	bool
+		offset		uint32
+	}{"identity range": {r: Range{block: Block{1, 1}, size: 1}, block: Block{1, 1}, contained: true}, "out of identity range": {r: Range{block: Block{1, 1}, size: 1}, block: Block{2, 2}}, "out of identity range expanded": {r: Range{block: Block{1, 1}, size: 1}, block: Block{2, 3}}, "aligned to offset": {r: Range{block: Block{0, 100}, size: 10}, block: Block{10, 19}, contained: true, offset: 1}, "not aligned": {r: Range{block: Block{0, 100}, size: 10}, block: Block{11, 20}}}
 	for s, testCase := range testCases {
 		contained, offset := testCase.r.Offset(testCase.block)
 		if contained != testCase.contained {

@@ -5,11 +5,25 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
 type AdmissionPluginTestConfig struct {
 	metav1.TypeMeta
-	Data string `json:"data"`
+	Data	string	`json:"data"`
 }
 
-func (obj *AdmissionPluginTestConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *AdmissionPluginTestConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &obj.TypeMeta
+}

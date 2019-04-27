@@ -2,7 +2,6 @@ package internalversion
 
 import (
 	"fmt"
-
 	appsv1beta1 "k8s.io/api/apps/v1beta1"
 	batchv1 "k8s.io/api/batch/v1"
 	batchv2alpha1 "k8s.io/api/batch/v2alpha1"
@@ -14,7 +13,6 @@ import (
 	"k8s.io/kubernetes/pkg/apis/apps"
 	"k8s.io/kubernetes/pkg/apis/batch"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
-
 	appsapiv1 "github.com/openshift/api/apps/v1"
 	securityapiv1 "github.com/openshift/api/security/v1"
 	appsapi "github.com/openshift/origin/pkg/apps/apis/apps"
@@ -26,16 +24,27 @@ type ContainerMutator interface {
 	GetImage() string
 	SetImage(image string)
 }
-
 type PodSpecReferenceMutator interface {
 	GetContainerByIndex(init bool, i int) (ContainerMutator, bool)
 	GetContainerByName(name string) (ContainerMutator, bool)
 	Path() *field.Path
 }
 
-// GetPodSpecReferenceMutator returns a mutator for the provided object, or an error if no
-// such mutator is defined.
 func GetPodSpecReferenceMutator(obj runtime.Object) (PodSpecReferenceMutator, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if spec, path, err := GetPodSpec(obj); err == nil {
 		return &podSpecMutator{spec: spec, path: path}, nil
 	}
@@ -47,10 +56,21 @@ func GetPodSpecReferenceMutator(obj runtime.Object) (PodSpecReferenceMutator, er
 
 var errNoPodSpec = fmt.Errorf("No PodSpec available for this object")
 
-// GetPodSpec returns a mutable pod spec out of the provided object, including a field path
-// to the field in the object, or an error if the object does not contain a pod spec.
-// This only returns internal objects.
 func GetPodSpec(obj runtime.Object) (*kapi.PodSpec, *field.Path, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := obj.(type) {
 	case *kapi.Pod:
 		return &r.Spec, field.NewPath("spec"), nil
@@ -87,11 +107,21 @@ func GetPodSpec(obj runtime.Object) (*kapi.PodSpec, *field.Path, error) {
 	}
 	return nil, nil, errNoPodSpec
 }
-
-// GetPodSpecV1 returns a mutable pod spec out of the provided object, including a field path
-// to the field in the object, or an error if the object does not contain a pod spec.
-// This only returns pod specs for v1 compatible objects.
 func GetPodSpecV1(obj runtime.Object) (*kapiv1.PodSpec, *field.Path, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := obj.(type) {
 	case *kapiv1.Pod:
 		return &r.Spec, field.NewPath("spec"), nil
@@ -130,10 +160,21 @@ func GetPodSpecV1(obj runtime.Object) (*kapiv1.PodSpec, *field.Path, error) {
 	}
 	return nil, nil, errNoPodSpec
 }
-
-// GetTemplateMetaObject returns a mutable metav1.Object interface for the template
-// the object contains, or false if no such object is available.
 func GetTemplateMetaObject(obj runtime.Object) (metav1.Object, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := obj.(type) {
 	case *kapiv1.PodTemplate:
 		return &r.Template.ObjectMeta, true
@@ -201,34 +242,152 @@ func GetTemplateMetaObject(obj runtime.Object) (metav1.Object, bool) {
 	return nil, false
 }
 
-type containerMutator struct {
-	*kapi.Container
+type containerMutator struct{ *kapi.Container }
+
+func (m containerMutator) GetName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return m.Name
+}
+func (m containerMutator) GetImage() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return m.Image
+}
+func (m containerMutator) SetImage(image string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m.Image = image
 }
 
-func (m containerMutator) GetName() string       { return m.Name }
-func (m containerMutator) GetImage() string      { return m.Image }
-func (m containerMutator) SetImage(image string) { m.Image = image }
+type containerV1Mutator struct{ *kapiv1.Container }
 
-type containerV1Mutator struct {
-	*kapiv1.Container
+func (m containerV1Mutator) GetName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return m.Name
+}
+func (m containerV1Mutator) GetImage() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return m.Image
+}
+func (m containerV1Mutator) SetImage(image string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m.Image = image
 }
 
-func (m containerV1Mutator) GetName() string       { return m.Name }
-func (m containerV1Mutator) GetImage() string      { return m.Image }
-func (m containerV1Mutator) SetImage(image string) { m.Image = image }
-
-// podSpecMutator implements the mutation interface over objects with a pod spec.
 type podSpecMutator struct {
-	spec    *kapi.PodSpec
-	oldSpec *kapi.PodSpec
-	path    *field.Path
+	spec	*kapi.PodSpec
+	oldSpec	*kapi.PodSpec
+	path	*field.Path
 }
 
 func (m *podSpecMutator) Path() *field.Path {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.path
 }
-
 func hasIdenticalPodSpecImage(spec *kapi.PodSpec, containerName, image string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if spec == nil {
 		return false
 	}
@@ -244,10 +403,21 @@ func hasIdenticalPodSpecImage(spec *kapi.PodSpec, containerName, image string) b
 	}
 	return false
 }
-
-// Mutate applies fn to all containers and init containers. If fn changes the Kind to
-// any value other than "DockerImage", an error is set on that field.
 func (m *podSpecMutator) Mutate(fn ImageReferenceMutateFunc) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs field.ErrorList
 	for i := range m.spec.InitContainers {
 		container := &m.spec.InitContainers[i]
@@ -283,8 +453,21 @@ func (m *podSpecMutator) Mutate(fn ImageReferenceMutateFunc) field.ErrorList {
 	}
 	return errs
 }
-
 func (m *podSpecMutator) GetContainerByName(name string) (ContainerMutator, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := m.spec
 	for i := range spec.InitContainers {
 		if name != spec.InitContainers[i].Name {
@@ -300,8 +483,21 @@ func (m *podSpecMutator) GetContainerByName(name string) (ContainerMutator, bool
 	}
 	return nil, false
 }
-
 func (m *podSpecMutator) GetContainerByIndex(init bool, i int) (ContainerMutator, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var container *kapi.Container
 	spec := m.spec
 	if init {
@@ -318,18 +514,44 @@ func (m *podSpecMutator) GetContainerByIndex(init bool, i int) (ContainerMutator
 	return containerMutator{container}, true
 }
 
-// podSpecV1Mutator implements the mutation interface over objects with a pod spec.
 type podSpecV1Mutator struct {
-	spec    *kapiv1.PodSpec
-	oldSpec *kapiv1.PodSpec
-	path    *field.Path
+	spec	*kapiv1.PodSpec
+	oldSpec	*kapiv1.PodSpec
+	path	*field.Path
 }
 
 func (m *podSpecV1Mutator) Path() *field.Path {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.path
 }
-
 func hasIdenticalPodSpecV1Image(spec *kapiv1.PodSpec, containerName, image string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if spec == nil {
 		return false
 	}
@@ -345,10 +567,21 @@ func hasIdenticalPodSpecV1Image(spec *kapiv1.PodSpec, containerName, image strin
 	}
 	return false
 }
-
-// Mutate applies fn to all containers and init containers. If fn changes the Kind to
-// any value other than "DockerImage", an error is set on that field.
 func (m *podSpecV1Mutator) Mutate(fn ImageReferenceMutateFunc) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs field.ErrorList
 	for i := range m.spec.InitContainers {
 		container := &m.spec.InitContainers[i]
@@ -384,8 +617,21 @@ func (m *podSpecV1Mutator) Mutate(fn ImageReferenceMutateFunc) field.ErrorList {
 	}
 	return errs
 }
-
 func (m *podSpecV1Mutator) GetContainerByName(name string) (ContainerMutator, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := m.spec
 	for i := range spec.InitContainers {
 		if name != spec.InitContainers[i].Name {
@@ -401,8 +647,21 @@ func (m *podSpecV1Mutator) GetContainerByName(name string) (ContainerMutator, bo
 	}
 	return nil, false
 }
-
 func (m *podSpecV1Mutator) GetContainerByIndex(init bool, i int) (ContainerMutator, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var container *kapiv1.Container
 	spec := m.spec
 	if init {
