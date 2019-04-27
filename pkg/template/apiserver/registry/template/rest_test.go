@@ -33,6 +33,8 @@ func TestNewRESTDefaultsName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := NewREST()
 	obj, err := storage.Create(nil, &template.Template{ObjectMeta: metav1.ObjectMeta{Name: "test"}}, rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if err != nil {
@@ -58,6 +60,8 @@ func TestNewRESTInvalidParameter(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := NewREST()
 	_, err := storage.Create(nil, &template.Template{ObjectMeta: metav1.ObjectMeta{Name: "test"}, Parameters: []template.Parameter{{Name: "TEST_PARAM", Generate: "[a-z0-Z0-9]{8}"}}, Objects: []runtime.Object{}}, rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if err == nil {
@@ -65,6 +69,8 @@ func TestNewRESTInvalidParameter(t *testing.T) {
 	}
 }
 func TestNewRESTTemplateLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +133,8 @@ func TestNewRESTTemplateLabels(t *testing.T) {
 	}
 }
 func TestNewRESTTemplateLabelsList(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

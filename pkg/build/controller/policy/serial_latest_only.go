@@ -32,6 +32,8 @@ func (s *SerialLatestOnlyPolicy) IsRunnable(build *buildv1.Build) (bool, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcName := buildutil.ConfigNameForBuild(build)
 	if len(bcName) == 0 {
 		return true, nil
@@ -60,9 +62,13 @@ func (s *SerialLatestOnlyPolicy) Handles(policy buildv1.BuildRunPolicy) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return policy == buildv1.BuildRunPolicySerialLatestOnly
 }
 func (s *SerialLatestOnlyPolicy) cancelPreviousBuilds(build *buildv1.Build) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

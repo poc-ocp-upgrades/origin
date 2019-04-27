@@ -20,6 +20,8 @@ func ExampleNewBasicAuthChallenger() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	challenger := NewBasicAuthChallenger("realm", []User{{"username", "password", "Brave Butcher", "cowardly_butcher@example.org"}}, NewIdentifyingHandler())
 	http.Handle("/", challenger)
 	log.Printf("Auth server listening on http://localhost:1234")

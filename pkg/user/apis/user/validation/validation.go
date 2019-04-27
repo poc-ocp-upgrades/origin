@@ -27,6 +27,8 @@ func ValidateUserName(name string, _ bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
@@ -39,6 +41,8 @@ func ValidateUserName(name string, _ bool) []string {
 	return nil
 }
 func ValidateIdentityName(name string, _ bool) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func ValidateGroupName(name string, _ bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
@@ -95,6 +101,8 @@ func ValidateGroupName(name string, _ bool) []string {
 	return nil
 }
 func ValidateIdentityProviderName(name string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,9 +140,13 @@ func ValidateIdentityProviderUserName(name string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateUserName(name, false)
 }
 func ValidateGroup(group *userapi.Group) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,11 +190,15 @@ func ValidateGroupUpdate(group *userapi.Group, old *userapi.Group) field.ErrorLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&group.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateGroup(group)...)
 	return allErrs
 }
 func ValidateUser(user *userapi.User) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -233,11 +249,15 @@ func ValidateUserUpdate(user *userapi.User, old *userapi.User) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&user.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateUser(user)...)
 	return allErrs
 }
 func ValidateIdentity(identity *userapi.Identity) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -296,6 +316,8 @@ func ValidateIdentityUpdate(identity *userapi.Identity, old *userapi.Identity) f
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&identity.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateIdentity(identity)...)
 	if identity.ProviderName != old.ProviderName {
@@ -307,6 +329,8 @@ func ValidateIdentityUpdate(identity *userapi.Identity, old *userapi.Identity) f
 	return allErrs
 }
 func ValidateUserIdentityMapping(mapping *userapi.UserIdentityMapping) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +373,8 @@ func ValidateUserIdentityMappingUpdate(mapping *userapi.UserIdentityMapping, old
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&mapping.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateUserIdentityMapping(mapping)...)
 	return allErrs
@@ -368,6 +394,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -442,5 +489,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

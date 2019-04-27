@@ -89,6 +89,8 @@ func (c *OpenshiftAPIExtraConfig) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []error{}
 	if c.KubeInformers == nil {
 		ret = append(ret, fmt.Errorf("KubeInformers is required"))
@@ -154,10 +156,14 @@ func (c *OpenshiftAPIConfig) Complete() completedConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := completedConfig{c.GenericConfig.Complete(), &c.ExtraConfig}
 	return cfg
 }
 func (c *completedConfig) withAppsAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +202,8 @@ func (c *completedConfig) withAuthorizationAPIServer(delegateAPIServer genericap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &authorizationapiserver.AuthorizationAPIServerConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: authorizationapiserver.ExtraConfig{KubeAPIServerClientConfig: c.ExtraConfig.KubeAPIServerClientConfig, KubeInformers: c.ExtraConfig.KubeInformers, RuleResolver: c.ExtraConfig.RuleResolver, SubjectLocator: c.ExtraConfig.SubjectLocator, Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -206,6 +214,8 @@ func (c *completedConfig) withAuthorizationAPIServer(delegateAPIServer genericap
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withBuildAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +254,8 @@ func (c *completedConfig) withImageAPIServer(delegateAPIServer genericapiserver.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &imageapiserver.ImageAPIServerConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: imageapiserver.ExtraConfig{KubeAPIServerClientConfig: c.ExtraConfig.KubeAPIServerClientConfig, RegistryHostnameRetriever: c.ExtraConfig.RegistryHostnameRetriever, AllowedRegistriesForImport: c.ExtraConfig.AllowedRegistriesForImport, MaxImagesBulkImportedPerRepository: c.ExtraConfig.MaxImagesBulkImportedPerRepository, Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme, AdditionalTrustedCA: c.ExtraConfig.AdditionalTrustedCA}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -254,6 +266,8 @@ func (c *completedConfig) withImageAPIServer(delegateAPIServer genericapiserver.
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withNetworkAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +306,8 @@ func (c *completedConfig) withOAuthAPIServer(delegateAPIServer genericapiserver.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &oauthapiserver.OAuthAPIServerConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: oauthapiserver.ExtraConfig{KubeAPIServerClientConfig: c.ExtraConfig.KubeAPIServerClientConfig, ServiceAccountMethod: c.ExtraConfig.ServiceAccountMethod, Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -302,6 +318,8 @@ func (c *completedConfig) withOAuthAPIServer(delegateAPIServer genericapiserver.
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withProjectAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +358,8 @@ func (c *completedConfig) withQuotaAPIServer(delegateAPIServer genericapiserver.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &quotaapiserver.QuotaAPIServerConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: quotaapiserver.ExtraConfig{ClusterQuotaMappingController: c.ExtraConfig.ClusterQuotaMappingController, QuotaInformers: c.ExtraConfig.QuotaInformers, Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -350,6 +370,8 @@ func (c *completedConfig) withQuotaAPIServer(delegateAPIServer genericapiserver.
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withRouteAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,6 +410,8 @@ func (c *completedConfig) withSecurityAPIServer(delegateAPIServer genericapiserv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &securityapiserver.SecurityAPIServerConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: securityapiserver.ExtraConfig{KubeAPIServerClientConfig: c.ExtraConfig.KubeAPIServerClientConfig, SecurityInformers: c.ExtraConfig.SecurityInformers, KubeInformers: c.ExtraConfig.KubeInformers, Authorizer: c.GenericConfig.Authorization.Authorizer, Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -398,6 +422,8 @@ func (c *completedConfig) withSecurityAPIServer(delegateAPIServer genericapiserv
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withTemplateAPIServer(delegateAPIServer genericapiserver.DelegationTarget) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +462,8 @@ func (c *completedConfig) withUserAPIServer(delegateAPIServer genericapiserver.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := &userapiserver.UserConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *c.GenericConfig.Config, SharedInformerFactory: c.GenericConfig.SharedInformerFactory}, ExtraConfig: userapiserver.ExtraConfig{Codecs: legacyscheme.Codecs, Scheme: legacyscheme.Scheme}}
 	config := cfg.Complete()
 	server, err := config.New(delegateAPIServer)
@@ -446,6 +474,8 @@ func (c *completedConfig) withUserAPIServer(delegateAPIServer genericapiserver.D
 	return server.GenericAPIServer, nil
 }
 func (c *completedConfig) withOpenAPIAggregationController(delegatedAPIServer *genericapiserver.GenericAPIServer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -491,6 +521,8 @@ func addAPIServerOrDie(delegateAPIServer genericapiserver.DelegationTarget, apiS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	delegateAPIServer, err := apiServerAppenderFn(delegateAPIServer)
 	if err != nil {
 		klog.Fatal(err)
@@ -498,6 +530,8 @@ func addAPIServerOrDie(delegateAPIServer genericapiserver.DelegationTarget, apiS
 	return delegateAPIServer
 }
 func (c completedConfig) New(delegationTarget genericapiserver.DelegationTarget, keepRemovedNetworkingAPIs bool) (*OpenshiftAPIServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -578,6 +612,8 @@ func addReadinessCheckRoute(mux *genericmux.PathRecorderMux, path string, readyF
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mux.HandleFunc(path, func(w http.ResponseWriter, req *http.Request) {
 		if readyFunc() {
 			w.WriteHeader(http.StatusOK)
@@ -588,6 +624,8 @@ func addReadinessCheckRoute(mux *genericmux.PathRecorderMux, path string, readyF
 	})
 }
 func AddOpenshiftVersionRoute(container *restful.Container, path string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -630,11 +668,15 @@ func writeJSON(resp *restful.Response, json []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp.ResponseWriter.Header().Set("Content-Type", "application/json")
 	resp.ResponseWriter.WriteHeader(http.StatusOK)
 	resp.ResponseWriter.Write(json)
 }
 func (c *completedConfig) startProjectCache(context genericapiserver.PostStartHookContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -668,11 +710,15 @@ func (c *completedConfig) startProjectAuthorizationCache(context genericapiserve
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	period := 1 * time.Second
 	c.ExtraConfig.ProjectAuthorizationCache.Run(period)
 	return nil
 }
 func (c *completedConfig) bootstrapSCC(context genericapiserver.PostStartHookContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -731,6 +777,8 @@ func (c *completedConfig) EnsureOpenShiftInfraNamespace(context genericapiserver
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaceName := bootstrappolicy.DefaultOpenShiftInfraNamespace
 	var coreClient coreclient.CoreInterface
 	err := wait.Poll(1*time.Second, 30*time.Second, func() (bool, error) {
@@ -758,6 +806,8 @@ func (c *completedConfig) EnsureOpenShiftInfraNamespace(context genericapiserver
 	return nil
 }
 func bootstrapData(data *bootstrappolicy.PolicyData) *rbacrest.PolicyData {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

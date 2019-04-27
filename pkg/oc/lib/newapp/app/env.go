@@ -29,6 +29,8 @@ func ParseEnvironmentAllowEmpty(vals ...string) Environment {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	env := make(Environment)
 	for _, s := range vals {
 		if i := strings.Index(s, "="); i == -1 {
@@ -40,6 +42,8 @@ func ParseEnvironmentAllowEmpty(vals ...string) Environment {
 	return env
 }
 func ParseEnvironment(vals ...string) (Environment, []string, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func NewEnvironment(envs ...map[string]string) Environment {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(envs) == 1 {
 		return envs[0]
 	}
@@ -109,6 +115,8 @@ func (e Environment) Add(envs ...map[string]string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, env := range envs {
 		for k, v := range env {
 			e[k] = v
@@ -116,6 +124,8 @@ func (e Environment) Add(envs ...map[string]string) {
 	}
 }
 func (e Environment) AddIfNotPresent(more Environment) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +165,8 @@ func (e Environment) List() []corev1.EnvVar {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	env := []corev1.EnvVar{}
 	for k, v := range e {
 		env = append(env, corev1.EnvVar{Name: k, Value: v})
@@ -166,6 +178,8 @@ func (e Environment) List() []corev1.EnvVar {
 type sortedEnvVar []corev1.EnvVar
 
 func (m sortedEnvVar) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,6 +211,8 @@ func (m sortedEnvVar) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m sortedEnvVar) Less(i, j int) bool {
@@ -214,9 +230,13 @@ func (m sortedEnvVar) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Name < m[j].Name
 }
 func JoinEnvironment(a, b []corev1.EnvVar) (out []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -262,6 +282,8 @@ func LoadEnvironmentFile(filename string, stdin io.Reader) (Environment, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errorFilename := filename
 	if filename == "-" && stdin != nil {
 		temp, err := ioutil.TempFile("", "origin-env-stdin")
@@ -293,6 +315,8 @@ func LoadEnvironmentFile(filename string, stdin io.Reader) (Environment, error) 
 	return env, nil
 }
 func ParseAndCombineEnvironment(envs []string, filenames []string, stdin io.Reader, dupfn func(string, string) error) (Environment, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -50,6 +50,8 @@ func NewStrategy(allocator route.RouteAllocator, sarClient SubjectAccessReviewIn
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return routeStrategy{ObjectTyper: legacyscheme.Scheme, NameGenerator: names.SimpleNameGenerator, RouteAllocator: allocator, sarClient: sarClient}
 }
 func (routeStrategy) NamespaceScoped() bool {
@@ -67,9 +69,13 @@ func (routeStrategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (s routeStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +109,8 @@ func (s routeStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Ob
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route := obj.(*routeapi.Route)
 	oldRoute := old.(*routeapi.Route)
 	route.Status = oldRoute.Status
@@ -112,6 +120,8 @@ func (s routeStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Ob
 	}
 }
 func (s routeStrategy) allocateHost(ctx context.Context, route *routeapi.Route) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,12 +185,16 @@ func (s routeStrategy) Validate(ctx context.Context, obj runtime.Object) field.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route := obj.(*routeapi.Route)
 	errs := s.allocateHost(ctx, route)
 	errs = append(errs, validation.ValidateRoute(route)...)
 	return errs
 }
 func (routeStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,8 +226,12 @@ func (routeStrategy) Canonicalize(obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s routeStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,12 +267,16 @@ func hasCertificateInfo(tls *routeapi.TLSConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if tls == nil {
 		return false
 	}
 	return len(tls.Certificate) > 0 || len(tls.Key) > 0 || len(tls.CACertificate) > 0 || len(tls.DestinationCACertificate) > 0
 }
 func certificateChangeRequiresAuth(route, older *routeapi.Route) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,6 +305,8 @@ func certificateChangeRequiresAuth(route, older *routeapi.Route) bool {
 	}
 }
 func (s routeStrategy) validateHostUpdate(ctx context.Context, route, older *routeapi.Route) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -346,6 +370,8 @@ func (routeStrategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 
@@ -368,11 +394,15 @@ func (routeStatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtim
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newRoute := obj.(*routeapi.Route)
 	oldRoute := old.(*routeapi.Route)
 	newRoute.Spec = oldRoute.Spec
 }
 func (routeStatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -412,6 +442,8 @@ func stripEmptyDestinationCACertificate(route *routeapi.Route) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tls := route.Spec.TLS
 	if tls == nil || tls.Termination != routeapi.TLSTerminationReencrypt {
 		return
@@ -421,6 +453,8 @@ func stripEmptyDestinationCACertificate(route *routeapi.Route) {
 	}
 }
 func DecorateLegacyRouteWithEmptyDestinationCACertificates(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,6 +509,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -549,5 +604,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -23,6 +23,8 @@ func ToServingOptions(servingInfo configv1.HTTPServingInfo) (*genericapiserverop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host, portString, err := net.SplitHostPort(servingInfo.BindAddress)
 	if err != nil {
 		return nil, err

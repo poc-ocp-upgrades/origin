@@ -22,9 +22,13 @@ func BindListenArg(args *ListenArg, flags *pflag.FlagSet, prefix string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.Var(&args.ListenAddr, prefix+"listen", "The address to listen for connections on (scheme://host:port).")
 }
 func NewDefaultListenArg() *ListenArg {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -43,6 +47,8 @@ func NewDefaultListenArg() *ListenArg {
 	return config
 }
 func (l *ListenArg) UseTLS() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

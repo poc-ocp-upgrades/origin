@@ -30,6 +30,8 @@ func TestLogsFlagParity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	streams := genericclioptions.NewTestIOStreamsDiscard()
 	kubeCmd := logs.NewCmdLogs(nil, streams)
 	originCmd := NewCmdLogs("oc", "logs", nil, streams)
@@ -62,10 +64,14 @@ func (f *fakeWriter) Write(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.data = p
 	return len(p), nil
 }
 func TestRunLogForPipelineStrategy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +101,8 @@ func TestRunLogForPipelineStrategy(t *testing.T) {
 	}
 }
 func TestIsPipelineBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

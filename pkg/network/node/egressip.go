@@ -43,6 +43,8 @@ func newEgressIPWatcher(oc *ovsController, localIP string, masqueradeBit *int32)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eip := &egressIPWatcher{oc: oc, localIP: localIP, iptablesMark: make(map[string]string)}
 	if masqueradeBit != nil {
 		eip.masqueradeBit = 1 << uint32(*masqueradeBit)
@@ -51,6 +53,8 @@ func newEgressIPWatcher(oc *ovsController, localIP string, masqueradeBit *int32)
 	return eip
 }
 func (eip *egressIPWatcher) Start(networkInformers networkinformers.SharedInformerFactory, iptables *NodeIPTables) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func getMarkForVNID(vnid, masqueradeBit uint32) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if vnid == 0 {
 		vnid = 0xff000000
 	}
@@ -100,6 +106,8 @@ func getMarkForVNID(vnid, masqueradeBit uint32) string {
 	return fmt.Sprintf("0x%08x", vnid)
 }
 func (eip *egressIPWatcher) ClaimEgressIP(vnid uint32, egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +147,8 @@ func (eip *egressIPWatcher) ReleaseEgressIP(egressIP, nodeIP string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if nodeIP == eip.localIP {
 		mark := eip.iptablesMark[egressIP]
 		delete(eip.iptablesMark, egressIP)
@@ -164,8 +174,12 @@ func (eip *egressIPWatcher) UpdateEgressCIDRs() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (eip *egressIPWatcher) SetNamespaceEgressNormal(vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,11 +213,15 @@ func (eip *egressIPWatcher) SetNamespaceEgressDropped(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := eip.oc.SetNamespaceEgressDropped(vnid); err != nil {
 		utilruntime.HandleError(fmt.Errorf("Error updating Namespace egress rules for VNID %d: %v", vnid, err))
 	}
 }
 func (eip *egressIPWatcher) SetNamespaceEgressViaEgressIP(vnid uint32, egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +242,8 @@ func (eip *egressIPWatcher) SetNamespaceEgressViaEgressIP(vnid uint32, egressIP,
 	}
 }
 func (eip *egressIPWatcher) assignEgressIP(egressIP, mark string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -291,6 +311,8 @@ func (eip *egressIPWatcher) releaseEgressIP(egressIP, mark string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if egressIP == eip.localIP {
 		return nil
 	}
@@ -318,6 +340,8 @@ func (eip *egressIPWatcher) releaseEgressIP(egressIP, mark string) error {
 	return nil
 }
 func (eip *egressIPWatcher) watchVXLAN(updates chan *egressVXLANNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

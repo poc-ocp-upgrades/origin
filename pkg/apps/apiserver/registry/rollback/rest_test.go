@@ -39,12 +39,16 @@ func (tg *terribleGenerator) GenerateRollback(from, to *appsapi.DeploymentConfig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, kerrors.NewInternalError(errors.New("something terrible happened"))
 }
 
 var _ RollbackGenerator = &terribleGenerator{}
 
 func TestCreateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func TestCreateInvalid(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rest := REST{}
 	obj, err := rest.Create(apirequest.NewDefaultContext(), &appsapi.DeploymentConfigRollback{}, apiserverrest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if err == nil {
@@ -93,6 +99,8 @@ func TestCreateInvalid(t *testing.T) {
 	}
 }
 func TestCreateOk(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +152,8 @@ func TestCreateRollbackToLatest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oc := &appsfake.Clientset{}
 	oc.AddReactor("get", "deploymentconfigs", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		config := appstest.OkDeploymentConfig(2)
@@ -158,6 +168,8 @@ func TestCreateRollbackToLatest(t *testing.T) {
 	}
 }
 func TestCreateGeneratorError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,6 +217,8 @@ func TestCreateMissingDeployment(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oc := &appsfake.Clientset{}
 	oc.AddReactor("get", "deploymentconfigs", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		config := appstest.OkDeploymentConfig(2)
@@ -224,6 +238,8 @@ func TestCreateMissingDeployment(t *testing.T) {
 	}
 }
 func TestCreateInvalidDeployment(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +276,8 @@ func TestCreateInvalidDeployment(t *testing.T) {
 	}
 }
 func TestCreateMissingDeploymentConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

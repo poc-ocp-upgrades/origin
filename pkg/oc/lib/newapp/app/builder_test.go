@@ -22,6 +22,8 @@ func TestIsBuilderImage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		image		*dockerv10.DockerImage
 		expectedReturn	bool
@@ -34,6 +36,8 @@ func TestIsBuilderImage(t *testing.T) {
 	}
 }
 func TestIsBuilderStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func TestIsBuilderMatch(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		match		*ComponentMatch
 		expectedRet	bool
@@ -86,6 +92,8 @@ func TestIsBuilderMatch(t *testing.T) {
 	}
 }
 func TestIsGeneratorJobImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +133,8 @@ func TestIsGeneratorJobImageStreamTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		stream		*imagev1.ImageStream
 		tag		string
@@ -137,6 +147,8 @@ func TestIsGeneratorJobImageStreamTag(t *testing.T) {
 	}
 }
 func TestParseGenerateTokenAs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

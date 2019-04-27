@@ -22,12 +22,16 @@ func NewUserNameMapper(nameAttributes []string) interfaces.LDAPUserNameMapper {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DefaultLDAPUserNameMapper{nameAttributes: nameAttributes}
 }
 
 type DefaultLDAPUserNameMapper struct{ nameAttributes []string }
 
 func (m *DefaultLDAPUserNameMapper) UserNameFor(ldapUser *ldap.Entry) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

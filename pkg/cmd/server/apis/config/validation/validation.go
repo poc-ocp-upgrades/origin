@@ -23,6 +23,8 @@ func ValidateHTTPServingInfo(info config.HTTPServingInfo, fldPath *field.Path) c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.Append(common.ValidateServingInfo(info.ServingInfo, true, fldPath))
 	if info.MaxRequestsInFlight < 0 {
@@ -48,11 +50,15 @@ func ValidateKubeConfig(path string, fldPath *field.Path) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, common.ValidateFile(path, fldPath)...)
 	return allErrs
 }
 func ValidateRemoteConnectionInfo(remoteConnectionInfo config.RemoteConnectionInfo, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +101,8 @@ func ValidatePodManifestConfig(podManifestConfig *config.PodManifestConfig, fldP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, common.ValidateFile(podManifestConfig.Path, fldPath.Child("path"))...)
 	if podManifestConfig.FileCheckIntervalSeconds < 1 {
@@ -103,6 +111,8 @@ func ValidatePodManifestConfig(podManifestConfig *config.PodManifestConfig, fldP
 	return allErrs
 }
 func ValidateExtendedArguments(config config.ExtendedArguments, flagSet apiserverflag.NamedFlagSets, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

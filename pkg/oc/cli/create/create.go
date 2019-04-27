@@ -33,9 +33,13 @@ func NewCreateSubcommandOptions(ioStreams genericclioptions.IOStreams) *CreateSu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateSubcommandOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: ioStreams}
 }
 func (o *CreateSubcommandOptions) Complete(f genericclioptions.RESTClientGetter, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func (o *CreateSubcommandOptions) Complete(f genericclioptions.RESTClientGetter,
 	return nil
 }
 func NameFromCommandArgs(cmd *cobra.Command, args []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

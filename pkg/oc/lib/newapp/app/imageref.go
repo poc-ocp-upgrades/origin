@@ -48,9 +48,13 @@ func NewImageRefGenerator() ImageRefGenerator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageRefGenerator{}
 }
 func (g *imageRefGenerator) FromName(name string) (*ImageRef, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func (g *imageRefGenerator) FromName(name string) (*ImageRef, error) {
 	return &ImageRef{Reference: ref, Info: &dockerv10.DockerImage{Config: &imageapi.DockerConfig{}}}, nil
 }
 func (g *imageRefGenerator) FromNameAndPorts(name string, ports []string) (*ImageRef, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +119,8 @@ func (g *imageRefGenerator) FromDockerfile(name string, dir string, context stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open(filepath.Join(dir, context, "Dockerfile"))
 	if err != nil {
 		return nil, err
@@ -126,6 +134,8 @@ func (g *imageRefGenerator) FromDockerfile(name string, dir string, context stri
 	return g.FromNameAndPorts(name, ports)
 }
 func (g *imageRefGenerator) FromStream(stream *imagev1.ImageStream, tag string) (*ImageRef, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,9 +206,13 @@ func (r *ImageRef) Exists() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Stream != nil
 }
 func (r *ImageRef) ObjectReference() corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +238,8 @@ func (r *ImageRef) ObjectReference() corev1.ObjectReference {
 	}
 }
 func (r *ImageRef) InternalTag() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,12 +281,16 @@ func (r *ImageRef) PullSpec() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.AsResolvedImage && r.ResolvedReference != nil {
 		return r.ResolvedReference.Exact()
 	}
 	return r.Reference.Exact()
 }
 func (r *ImageRef) RepoName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +313,8 @@ func (r *ImageRef) RepoName() string {
 	return name
 }
 func (r *ImageRef) SuggestName() (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +358,8 @@ func (r *ImageRef) SuggestNamespace() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r == nil {
 		return ""
 	}
@@ -348,6 +372,8 @@ func (r *ImageRef) SuggestNamespace() string {
 	return ""
 }
 func (r *ImageRef) BuildOutput() (*buildv1.BuildOutput, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -389,12 +415,16 @@ func (r *ImageRef) BuildTriggers() []buildv1.BuildTriggerPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Stream == nil && !r.AsImageStream {
 		return nil
 	}
 	return []buildv1.BuildTriggerPolicy{{Type: buildv1.ImageChangeBuildTriggerType, ImageChange: &buildv1.ImageChangeTrigger{}}}
 }
 func (r *ImageRef) ImageStream() (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -448,6 +478,8 @@ func (r *ImageRef) ImageStreamTag() (*imagev1.ImageStreamTag, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, ok := r.SuggestName()
 	if !ok {
 		return nil, fmt.Errorf("unable to suggest an ImageStream name for %q", r.Reference.String())
@@ -457,6 +489,8 @@ func (r *ImageRef) ImageStreamTag() (*imagev1.ImageStreamTag, error) {
 	return ist, nil
 }
 func (r *ImageRef) DeployableContainer() (container *corev1.Container, triggers []appsv1.DeploymentTriggerPolicy, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,6 +539,8 @@ func (r *ImageRef) DeployableContainer() (container *corev1.Container, triggers 
 	return container, triggers, nil
 }
 func (r *ImageRef) InstallablePod(generatorInput GeneratorInput, secretAccessor SecretAccessor, serviceAccountName string) (*corev1.Pod, *corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

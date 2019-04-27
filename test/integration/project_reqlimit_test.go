@@ -34,6 +34,8 @@ func setupProjectRequestLimitTest(t *testing.T, pluginConfig *requestlimit.Proje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("error creating config: %v", err)
@@ -70,6 +72,8 @@ func setupProjectRequestLimitUsers(t *testing.T, client userclient.UserInterface
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for userName, labels := range users {
 		user := &userapi.User{}
 		user.Name = userName
@@ -81,6 +85,8 @@ func setupProjectRequestLimitUsers(t *testing.T, client userclient.UserInterface
 	}
 }
 func setupProjectRequestLimitNamespaces(t *testing.T, kclient kubernetes.Interface, namespacesByRequester map[string]int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,9 +128,13 @@ func intPointer(n int) *int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &n
 }
 func projectRequestLimitEmptyConfig() *requestlimit.ProjectRequestLimitConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,9 +166,13 @@ func projectRequestLimitMultiLevelConfig() *requestlimit.ProjectRequestLimitConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &requestlimit.ProjectRequestLimitConfig{Limits: []requestlimit.ProjectLimitBySelector{{Selector: map[string]string{"level": "gold"}, MaxProjects: intPointer(3)}, {Selector: map[string]string{"level": "silver"}, MaxProjects: intPointer(2)}, {Selector: nil, MaxProjects: intPointer(1)}}}
 }
 func projectRequestLimitSingleDefaultConfig() *requestlimit.ProjectRequestLimitConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,9 +204,13 @@ func projectRequestLimitUsers() map[string]labels.Set {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]labels.Set{"regular": {"level": "none"}, "gold": {"level": "gold"}, "silver": {"level": "silver"}}
 }
 func TestProjectRequestLimitMultiLevelConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +246,8 @@ func TestProjectRequestLimitEmptyConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kclient, clientConfig, fn := setupProjectRequestLimitTest(t, projectRequestLimitEmptyConfig())
 	defer fn()
 	setupProjectRequestLimitUsers(t, userclient.NewForConfigOrDie(clientConfig), projectRequestLimitUsers())
@@ -235,6 +255,8 @@ func TestProjectRequestLimitEmptyConfig(t *testing.T) {
 	testProjectRequestLimitAdmission(t, "empty config", clientConfig, map[string]bool{"regular": true, "silver": true, "gold": true})
 }
 func TestProjectRequestLimitSingleConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,6 +292,8 @@ func TestProjectRequestLimitAsSystemAdmin(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, clientConfig, fn := setupProjectRequestLimitTest(t, projectRequestLimitSingleDefaultConfig())
 	defer fn()
 	projectClient := projectclient.NewForConfigOrDie(clientConfig).Project()
@@ -281,6 +305,8 @@ func TestProjectRequestLimitAsSystemAdmin(t *testing.T) {
 	}
 }
 func testProjectRequestLimitAdmission(t *testing.T, errorPrefix string, clientConfig *rest.Config, tests map[string]bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -37,6 +37,8 @@ func (c Commit) DeclaresUpstreamChange() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.HasPrefix(strings.ToLower(c.Summary), "upstream")
 }
 func (c Commit) MatchesUpstreamSummaryPattern() bool {
@@ -54,9 +56,13 @@ func (c Commit) MatchesUpstreamSummaryPattern() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return UpstreamSummaryPattern.MatchString(c.Summary)
 }
 func (c Commit) DeclaredUpstreamRepo() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +105,8 @@ func (c Commit) HasVendoredCodeChanges() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, file := range c.Files {
 		if file.HasVendoredCodeChanges() {
 			return true
@@ -107,6 +115,8 @@ func (c Commit) HasVendoredCodeChanges() bool {
 	return false
 }
 func (c Commit) HasGodepsChanges() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +153,8 @@ func (c Commit) HasNonVendoredCodeChanges() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, file := range c.Files {
 		if !file.HasVendoredCodeChanges() {
 			return true
@@ -151,6 +163,8 @@ func (c Commit) HasNonVendoredCodeChanges() bool {
 	return false
 }
 func (c Commit) GodepsReposChanged() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +214,8 @@ func (f File) HasVendoredCodeChanges() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.HasPrefix(string(f), "Godeps/_workspace") || strings.HasPrefix(string(f), "vendor") || strings.HasPrefix(string(f), "pkg/build/vendor")
 }
 func (f File) HasGodepsChanges() bool {
@@ -217,9 +233,13 @@ func (f File) HasGodepsChanges() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f == "Godeps/Godeps.json"
 }
 func (f File) GodepsRepoChanged() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +318,8 @@ func IsCommit(a string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, _, err := run("git", "rev-parse", a); err != nil {
 		return false
 	}
@@ -307,6 +329,8 @@ func IsCommit(a string) bool {
 var ErrNotCommit = fmt.Errorf("one or both of the provided commits was not a valid commit")
 
 func CommitsBetween(a, b string) ([]Commit, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -356,6 +380,8 @@ func NewCommitFromOnelineLog(log string) (Commit, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var commit Commit
 	var err error
 	parts := strings.Split(log, " ")
@@ -376,6 +402,8 @@ func NewCommitFromOnelineLog(log string) (Commit, error) {
 	return commit, nil
 }
 func FetchRepo(repoDir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -418,6 +446,8 @@ func IsAncestor(commit1, commit2, repoDir string) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cwd, err := os.Getwd()
 	if err != nil {
 		return false, err
@@ -432,6 +462,8 @@ func IsAncestor(commit1, commit2, repoDir string) (bool, error) {
 	return true, nil
 }
 func CommitDate(commit, repoDir string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -478,6 +510,8 @@ func Checkout(commit, repoDir string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cwd, err := os.Getwd()
 	if err != nil {
 		return err
@@ -492,6 +526,8 @@ func Checkout(commit, repoDir string) error {
 	return nil
 }
 func CurrentRev(repoDir string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -535,6 +571,8 @@ func filesInCommit(sha string) ([]File, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	files := []File{}
 	stdout, stderr, err := run("git", "diff-tree", "--no-commit-id", "--name-only", "-r", sha)
 	if err != nil {
@@ -549,6 +587,8 @@ func filesInCommit(sha string) ([]File, error) {
 	return files, nil
 }
 func descriptionInCommit(sha string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -591,6 +631,8 @@ func run(args ...string) (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command(args[0], args[1:]...)
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
@@ -614,6 +656,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -688,5 +751,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

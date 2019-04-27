@@ -17,11 +17,15 @@ func SetDefaults_RouteSpec(obj *v1.RouteSpec) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.WildcardPolicy) == 0 {
 		obj.WildcardPolicy = v1.WildcardPolicyNone
 	}
 }
 func SetDefaults_RouteTargetReference(obj *v1.RouteTargetReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,6 +63,8 @@ func SetDefaults_TLSConfig(obj *v1.TLSConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.Termination) == 0 && len(obj.DestinationCACertificate) == 0 {
 		obj.Termination = v1.TLSTerminationEdge
 	}
@@ -72,6 +78,8 @@ func SetDefaults_TLSConfig(obj *v1.TLSConfig) {
 	}
 }
 func SetDefaults_RouteIngress(obj *v1.RouteIngress) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

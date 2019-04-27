@@ -32,11 +32,15 @@ func (rs *requestStats) addRequest(r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs.lock.Lock()
 	defer rs.lock.Unlock()
 	rs.requests = append(rs.requests, r.URL.String())
 }
 func (rs *requestStats) clear() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func (rs *requestStats) getRequests() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs.lock.Lock()
 	defer rs.lock.Unlock()
 	res := make([]string, 0, len(rs.requests))
@@ -79,6 +85,8 @@ func (rs *requestStats) getRequests() []string {
 	return res
 }
 func TestDefaultImagePinger(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

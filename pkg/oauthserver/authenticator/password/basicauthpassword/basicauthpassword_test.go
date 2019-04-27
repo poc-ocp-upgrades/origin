@@ -21,6 +21,8 @@ func TestUnmarshal(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedSubject := "12345"
 	expectedName := "My Name"
 	expectedEmail := "mylogin@example.com"

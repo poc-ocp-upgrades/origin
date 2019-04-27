@@ -31,6 +31,8 @@ func TestCancelBuildDefaultFlags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCancelBuildOptions(genericclioptions.NewTestIOStreamsDiscard())
 	tests := map[string]struct {
 		flagName	string
@@ -48,6 +50,8 @@ func TestCancelBuildDefaultFlags(t *testing.T) {
 	}
 }
 func TestCancelBuildRun(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,9 +133,13 @@ func (*discardingPrinter) PrintObj(runtime.Object, io.Writer) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func genBuild(phase buildv1.BuildPhase) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -44,6 +44,8 @@ func (o *UpgradeOptions) ToEnv() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := json.Marshal(o)
 	if err != nil {
 		panic(err)
@@ -51,6 +53,8 @@ func (o *UpgradeOptions) ToEnv() string {
 	return string(out)
 }
 func initUpgrade(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func filterUpgrade(tests []upgrades.Test, match func(string) bool) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var scope []upgrades.Test
 	for _, test := range tests {
 		if match(test.Name()) {
@@ -110,6 +116,8 @@ func filterUpgrade(tests []upgrades.Test, match func(string) bool) error {
 	return nil
 }
 func bindUpgradeOptions(opt *UpgradeOptions, flags *pflag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -30,6 +30,8 @@ func testTokenWorks(t *testing.T, anonConfig *restclient.Config, token string, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userConfig := *anonConfig
 	userConfig.BearerToken = token
 	userClient, err := userclient.NewForConfig(&userConfig)
@@ -48,6 +50,8 @@ func testTokenWorks(t *testing.T, anonConfig *restclient.Config, token string, e
 	}
 }
 func testTimeoutOAuthFlows(t *testing.T, tokens oauthclient.OAuthAccessTokenInterface, oauthClient *oauthapi.OAuthClient, anonConfig *restclient.Config, expectedTimeout int32) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func testTimeoutOAuthFlows(t *testing.T, tokens oauthclient.OAuthAccessTokenInte
 	return lastToken
 }
 func TestOAuthTimeout(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +159,8 @@ func TestOAuthTimeout(t *testing.T) {
 	}
 }
 func TestOAuthTimeoutNotEnabled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

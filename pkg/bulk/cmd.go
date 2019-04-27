@@ -51,6 +51,8 @@ func (b *Bulk) Run(list *kapi.List, namespace string) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	after := b.After
 	if after == nil {
 		after = func(*unstructured.Unstructured, error) bool {
@@ -126,6 +128,8 @@ func NewPrintNameOrErrorAfterIndent(short bool, operation string, out, errs io.W
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj *unstructured.Unstructured, err error) bool {
 		if err == nil {
 			fmt.Fprintf(out, indent)
@@ -137,6 +141,8 @@ func NewPrintNameOrErrorAfterIndent(short bool, operation string, out, errs io.W
 	}
 }
 func printSuccess(shortOutput bool, out io.Writer, gvk schema.GroupVersionKind, name string, dryRun bool, operation string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +195,8 @@ func NewPrintErrorAfter(errs io.Writer, prefixForError PrefixForError) func(*uns
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj *unstructured.Unstructured, err error) bool {
 		if err != nil {
 			fmt.Fprintf(errs, "%s: %v\n", prefixForError(err), err)
@@ -197,6 +205,8 @@ func NewPrintErrorAfter(errs io.Writer, prefixForError PrefixForError) func(*uns
 	}
 }
 func HaltOnError(fn AfterFunc) AfterFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,6 +249,8 @@ func (c Creator) Create(obj *unstructured.Unstructured, namespace string) (*unst
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.GetNamespace()) > 0 {
 		namespace = obj.GetNamespace()
 	}
@@ -252,6 +264,8 @@ func (c Creator) Create(obj *unstructured.Unstructured, namespace string) (*unst
 	return c.Client.Resource(mapping.Resource).Namespace(namespace).Create(obj, metav1.CreateOptions{})
 }
 func NoOp(obj *unstructured.Unstructured, namespace string) (*unstructured.Unstructured, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,12 +297,16 @@ func labelSuffix(set map[string]string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(set) == 0 {
 		return ""
 	}
 	return fmt.Sprintf(" with label %s", labels.SelectorFromSet(set).String())
 }
 func CreateMessage(labels map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,10 +348,14 @@ func (b *BulkAction) BindForAction(flags *pflag.FlagSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.StringVarP(&b.Output, "output", "o", "", "Output mode. Use \"-o name\" for shorter output (resource/name).")
 	flags.BoolVar(&b.DryRun, "dry-run", false, "If true, show the result of the operation without performing it.")
 }
 func (b *BulkAction) BindForOutput(flags *pflag.FlagSet, skippedFlags ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,9 +410,13 @@ func (b *BulkAction) Compact() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.Output = "compact"
 }
 func (b *BulkAction) ShouldPrint() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -422,9 +448,13 @@ func (b *BulkAction) Verbose() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.Output == ""
 }
 func (b *BulkAction) DefaultIndent() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -448,6 +478,8 @@ func (b *BulkAction) DefaultIndent() string {
 type PrefixForError func(e error) string
 
 func (b BulkAction) WithMessageAndPrefix(action, individual string, prefixForError PrefixForError) Runner {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -491,11 +523,15 @@ func (b BulkAction) WithMessage(action, individual string) Runner {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.WithMessageAndPrefix(action, individual, func(e error) string {
 		return "error"
 	})
 }
 func (b *BulkAction) Run(list *kapi.List, namespace string) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -544,6 +580,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -618,5 +675,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -46,6 +46,8 @@ func (a *testAuthorizer) Authorize(passedAttributes kauthorizer.Attributes) (all
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if passedAttributes.GetResource() == "localsubjectaccessreviews" {
 		if len(a.deniedNamespaces) != 0 && a.deniedNamespaces.Has(passedAttributes.GetNamespace()) {
 			return kauthorizer.DecisionNoOpinion, "no decision on initial check", nil
@@ -73,9 +75,13 @@ func (a *testAuthorizer) GetAllowedSubjects(passedAttributes kauthorizer.Attribu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.String{}, sets.String{}, nil
 }
 func TestDeniedNamespace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,10 +114,14 @@ func TestEmptyReturn(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionNoOpinion, reason: "because reasons"}, reviewRequest: &authorizationapi.SubjectAccessReview{Action: authorizationapi.Action{Verb: "get", Resource: "pods"}, User: "foo", Groups: sets.NewString()}, expectedUserInfo: &user.DefaultInfo{Name: "foo", Groups: []string{}, Extra: map[string][]string{}}}
 	test.runTest(t)
 }
 func TestNoErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,10 +154,14 @@ func TestErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{err: "some-random-failure"}, reviewRequest: &authorizationapi.SubjectAccessReview{Action: authorizationapi.Action{Verb: "get", Resource: "pods"}, User: "foo", Groups: sets.NewString("first", "second")}, expectedUserInfo: &user.DefaultInfo{Name: "foo", Groups: []string{"first", "second"}, Extra: map[string][]string{}}}
 	test.runTest(t)
 }
 func TestRegularWithScopes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +194,8 @@ func TestSelfWithDefaultScopes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionAllow, reason: "because good things"}, reviewRequest: &authorizationapi.SubjectAccessReview{Action: authorizationapi.Action{Verb: "delete", Resource: "deploymentConfigs"}}, expectedUserInfo: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}, requestingUser: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}}
 	test.runTest(t)
 }
@@ -198,10 +214,14 @@ func TestSelfWithClearedScopes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionAllow, reason: "because good things"}, reviewRequest: &authorizationapi.SubjectAccessReview{Action: authorizationapi.Action{Verb: "delete", Resource: "deploymentConfigs"}, Scopes: []string{}}, expectedUserInfo: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{}}, requestingUser: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}}
 	test.runTest(t)
 }
 func (r *subjectAccessTest) runTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

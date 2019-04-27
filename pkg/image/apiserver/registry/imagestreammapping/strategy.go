@@ -32,6 +32,8 @@ func NewStrategy(registryHost registryhostname.RegistryHostnameRetriever) Strate
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Strategy{ObjectTyper: legacyscheme.Scheme, NameGenerator: names.SimpleNameGenerator, registryHostRetriever: registryHost}
 }
 func (s Strategy) NamespaceScoped() bool {
@@ -49,9 +51,13 @@ func (s Strategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,8 +96,12 @@ func (s Strategy) Canonicalize(obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

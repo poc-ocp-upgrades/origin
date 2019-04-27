@@ -31,9 +31,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	utilruntime.Must(Install(scheme))
 }
 func TestTriggerRoundTrip(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ func Test_convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentSt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		in	*v1.RollingDeploymentStrategyParams
 		out	*newer.RollingDeploymentStrategyParams
@@ -97,6 +103,8 @@ func Test_convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentSt
 	}
 }
 func Test_convert_api_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrategyParams(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +148,8 @@ func newInt64(val int64) *int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &val
 }
 func newInt32(val int32) *int32 {
@@ -157,9 +167,13 @@ func newInt32(val int32) *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &val
 }
 func newIntOrString(ios intstr.IntOrString) *intstr.IntOrString {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

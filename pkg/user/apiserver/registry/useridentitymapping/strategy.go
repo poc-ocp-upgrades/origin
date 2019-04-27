@@ -28,9 +28,13 @@ func (s userIdentityMappingStrategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (userIdentityMappingStrategy) GenerateName(base string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,6 +66,8 @@ func (userIdentityMappingStrategy) AllowCreateOnUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (userIdentityMappingStrategy) AllowUnconditionalUpdate() bool {
@@ -79,9 +85,13 @@ func (userIdentityMappingStrategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (s userIdentityMappingStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +134,8 @@ func (s userIdentityMappingStrategy) PrepareForUpdate(ctx context.Context, obj, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mapping := obj.(*userapi.UserIdentityMapping)
 	if len(mapping.Name) == 0 {
 		mapping.Name = mapping.Identity.Name
@@ -137,6 +149,8 @@ func (s userIdentityMappingStrategy) PrepareForUpdate(ctx context.Context, obj, 
 	mapping.User.UID = ""
 }
 func (s userIdentityMappingStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,9 +181,13 @@ func (s userIdentityMappingStrategy) Validate(ctx context.Context, obj runtime.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateUserIdentityMapping(obj.(*userapi.UserIdentityMapping))
 }
 func (s userIdentityMappingStrategy) ValidateUpdate(ctx context.Context, obj runtime.Object, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

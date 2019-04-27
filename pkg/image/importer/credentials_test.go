@@ -29,6 +29,8 @@ func TestCredentialsForSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile("../../../test/testdata/image-secrets.json")
 	if err != nil {
 		t.Fatal(err)
@@ -70,10 +72,14 @@ func (k *mockKeyring) Lookup(image string) ([]credentialprovider.LazyAuthConfigu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	k.calls = append(k.calls, image)
 	return nil, false
 }
 func TestHubFallback(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +101,8 @@ func TestHubFallback(t *testing.T) {
 	}
 }
 func Test_basicCredentialsFromKeyring(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

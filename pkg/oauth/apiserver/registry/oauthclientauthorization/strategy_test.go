@@ -23,6 +23,8 @@ func TestValidateScopeUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range []struct {
 		name		string
 		expectedCalled	bool
@@ -58,10 +60,14 @@ func (g *wasCalledClientGetter) Get(_ string, _ v1.GetOptions) (*oauth.OAuthClie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.called = true
 	return &oauth.OAuthClient{}, nil
 }
 func validClientWithScopes(scopes []string) *oauthapi.OAuthClientAuthorization {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

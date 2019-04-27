@@ -21,6 +21,8 @@ func TestTransformTemplate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	templatefoobar := &templatev1.Template{ObjectMeta: metav1.ObjectMeta{Name: "foo_bar_template_name", Namespace: "foo_bar_namespace"}, Parameters: []templatev1.Parameter{{Name: "parameter_foo_bar_exist", Value: "value_foo_bar_exist_old"}, {Name: "parameter_foo_bar_2", Value: "value_foo_bar_2"}}}
 	oldParameterNum := len(templatefoobar.Parameters)
 	testParamMap := map[string]string{}
@@ -43,6 +45,8 @@ func TestTransformTemplate(t *testing.T) {
 type fakeTemplateProcessor struct{}
 
 func (fakeTemplateProcessor) Process(in *templatev1.Template) (*templatev1.Template, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

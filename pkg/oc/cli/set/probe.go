@@ -114,9 +114,13 @@ func NewProbeOptions(streams genericclioptions.IOStreams) *ProbeOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ProbeOptions{PrintFlags: genericclioptions.NewPrintFlags("probes updated").WithTypeSetter(scheme.Scheme), IOStreams: streams, ContainerSelector: "*"}
 }
 func NewCmdProbe(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +162,8 @@ func NewCmdProbe(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	return cmd
 }
 func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,6 +261,8 @@ func (o *ProbeOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.Readiness && !o.Liveness {
 		return fmt.Errorf("you must specify one of --readiness, --liveness or both")
 	}
@@ -297,6 +305,8 @@ func (o *ProbeOptions) Validate() error {
 	return nil
 }
 func (o *ProbeOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -384,6 +394,8 @@ func (o *ProbeOptions) updateContainer(container *corev1.Container) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Remove {
 		if o.Readiness {
 			container.ReadinessProbe = nil
@@ -407,6 +419,8 @@ func (o *ProbeOptions) updateContainer(container *corev1.Container) {
 	}
 }
 func (o *ProbeOptions) updateProbe(probe *corev1.Probe) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -446,6 +460,8 @@ func (o *ProbeOptions) updateProbe(probe *corev1.Probe) {
 	}
 }
 func intOrString(s string) intstr.IntOrString {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

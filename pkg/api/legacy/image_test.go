@@ -27,6 +27,8 @@ func TestImageRoundTripVersionedObject(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	InstallInternalLegacyImage(scheme)
 	codecs := serializer.NewCodecFactory(scheme)
@@ -64,6 +66,8 @@ func TestImageFieldSelectors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install := func(scheme *runtime.Scheme) error {
 		InstallInternalLegacyImage(scheme)
 		return nil
@@ -71,6 +75,8 @@ func TestImageFieldSelectors(t *testing.T) {
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{install}, Kind: GroupVersion.WithKind("ImageStream"), AllowedExternalFieldKeys: []string{"name", "spec.dockerImageRepository", "status.dockerImageRepository"}, FieldKeyEvaluatorFn: internal.ImageStreamSelector}.Check(t)
 }
 func TestImageImportSpecDefaulting(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

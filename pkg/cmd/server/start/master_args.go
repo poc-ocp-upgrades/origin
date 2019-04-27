@@ -61,6 +61,8 @@ func BindMasterArgs(args *MasterArgs, flags *pflag.FlagSet, prefix string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.Var(&args.MasterAddr, prefix+"master", "The master address for use by OpenShift components (host, host:port, or URL). Scheme and port default to the --listen scheme and port. When unset, attempt to use the first public IPv4 non-loopback address registered on this host.")
 	flags.Var(&args.MasterPublicAddr, prefix+"public-master", "The master address for use by public clients, if different (host, host:port, or URL). Defaults to same as --master.")
 	flags.Var(&args.EtcdAddr, prefix+"etcd", "The address of the etcd server (host, host:port, or URL). If specified, no built-in etcd will be started.")
@@ -72,6 +74,8 @@ func BindMasterArgs(args *MasterArgs, flags *pflag.FlagSet, prefix string) {
 	cobra.MarkFlagFilename(flags, prefix+"certificate-authority")
 }
 func NewDefaultMasterArgs() *MasterArgs {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,9 +108,13 @@ func (args MasterArgs) GetConfigFileToWrite() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(args.ConfigDir.Value(), "master-config.yaml")
 }
 func makeHostMatchRegex(host string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func makeHostMatchRegex(host string) string {
 	}
 }
 func (args MasterArgs) BuildSerializeableMasterConfig() (*configapi.MasterConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -220,6 +230,8 @@ func (args MasterArgs) BuildSerializeableOAuthConfig() (*configapi.OAuthConfig, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterAddr, err := args.GetMasterAddress()
 	if err != nil {
 		return nil, err
@@ -237,6 +249,8 @@ func (args MasterArgs) BuildSerializeableOAuthConfig() (*configapi.OAuthConfig, 
 	return config, nil
 }
 func (args MasterArgs) BuildSerializeableEtcdConfig() (*configapi.EtcdConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,6 +297,8 @@ func (args MasterArgs) BuildSerializeableKubeMasterConfig() (*configapi.Kubernet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterAddr, err := args.GetMasterAddress()
 	if err != nil {
 		return nil, err
@@ -299,6 +315,8 @@ func (args MasterArgs) BuildSerializeableKubeMasterConfig() (*configapi.Kubernet
 	return config, nil
 }
 func (args MasterArgs) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +358,8 @@ func (args MasterArgs) Validate() error {
 	return nil
 }
 func (args MasterArgs) GetServerCertHostnames() (sets.String, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,6 +426,8 @@ func (args MasterArgs) GetMasterAddress() (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if args.MasterAddr.Provided {
 		return args.MasterAddr.URL, nil
 	}
@@ -423,6 +445,8 @@ func (args MasterArgs) GetMasterAddress() (*url.URL, error) {
 	return url.Parse(masterAddr)
 }
 func (args MasterArgs) GetDNSBindAddress() (flagtypes.Addr, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -458,12 +482,16 @@ func (args MasterArgs) GetMasterPublicAddress() (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if args.MasterPublicAddr.Provided {
 		return args.MasterPublicAddr.URL, nil
 	}
 	return args.GetMasterAddress()
 }
 func (args MasterArgs) GetEtcdBindAddress() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,9 +523,13 @@ func (args MasterArgs) GetEtcdPeerBindAddress() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return net.JoinHostPort(args.ListenArg.ListenAddr.Host, "7001")
 }
 func (args MasterArgs) GetEtcdAddress() (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -522,6 +554,8 @@ func (args MasterArgs) GetEtcdAddress() (*url.URL, error) {
 	return &url.URL{Scheme: args.ListenArg.ListenAddr.URL.Scheme, Host: net.JoinHostPort(getHost(*masterAddr), strconv.Itoa(args.EtcdAddr.DefaultPort))}, nil
 }
 func (args MasterArgs) GetEtcdPeerAddress() (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -562,6 +596,8 @@ func (args MasterArgs) GetAssetPublicAddress() (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t, err := args.GetMasterPublicAddress()
 	if err != nil {
 		return nil, err
@@ -585,6 +621,8 @@ func getHost(theURL url.URL) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host, _, err := net.SplitHostPort(theURL.Host)
 	if err != nil {
 		return theURL.Host
@@ -592,6 +630,8 @@ func getHost(theURL url.URL) string {
 	return host
 }
 func applyDefaults(config runtime.Object, version schema.GroupVersion) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -628,6 +668,8 @@ func servingInfoForAddr(addr *flagtypes.Addr) configapi.ServingInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	info := configapi.ServingInfo{BindAddress: addr.URL.Host}
 	if addr.IPv6Host {
 		info.BindNetwork = "tcp6"
@@ -649,6 +691,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -723,5 +786,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

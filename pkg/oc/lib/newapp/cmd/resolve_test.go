@@ -21,6 +21,8 @@ func TestResolveJenkinsfileAndDockerfile(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dockerfile, _ := app.NewDockerfile("FROM centos\n")
 	i := app.SourceRepositoryInfo{Dockerfile: dockerfile, Jenkinsfile: true}
 	repo := app.SourceRepository{}
@@ -45,6 +47,8 @@ func TestResolveJenkinsfileAndSource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := app.SourceRepositoryInfo{Jenkinsfile: true, Types: []app.SourceLanguageType{{Platform: "foo"}}}
 	repo := app.SourceRepository{}
 	repo.SetInfo(&i)
@@ -54,6 +58,8 @@ func TestResolveJenkinsfileAndSource(t *testing.T) {
 	checkResolveResult(t, componentrefs, err, newapp.StrategyPipeline)
 }
 func TestResolveDockerfileAndSource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +98,8 @@ func TestBinaryContentFlagGeneratesDummySource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	component := app.ComponentInput{Value: "foo", From: "--binary", Argument: "--binary"}
 	refs := app.ComponentReferences{&component}
 	input := GenerationInputs{BinaryBuild: true, ExpectToBuild: true}
@@ -107,6 +115,8 @@ func TestBinaryContentFlagGeneratesDummySource(t *testing.T) {
 	}
 }
 func checkResolveResult(t *testing.T, componentrefs app.ComponentReferences, err error, strategy newapp.Strategy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

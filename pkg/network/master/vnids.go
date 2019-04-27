@@ -40,6 +40,8 @@ func newMasterVNIDMap(allowRenumbering bool) *masterVNIDMap {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netIDRange, err := pnetid.NewNetIDRange(network.MinVNID, network.MaxVNID)
 	if err != nil {
 		panic(err)
@@ -47,6 +49,8 @@ func newMasterVNIDMap(allowRenumbering bool) *masterVNIDMap {
 	return &masterVNIDMap{netIDManager: pnetid.NewInMemory(netIDRange), adminNamespaces: sets.NewString(metav1.NamespaceDefault), ids: make(map[string]uint32), allowRenumbering: allowRenumbering}
 }
 func (vmap *masterVNIDMap) getVNID(name string) (uint32, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,9 +83,13 @@ func (vmap *masterVNIDMap) setVNID(name string, id uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.ids[name] = id
 }
 func (vmap *masterVNIDMap) unsetVNID(name string) (uint32, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +109,8 @@ func (vmap *masterVNIDMap) unsetVNID(name string) (uint32, bool) {
 	return id, found
 }
 func (vmap *masterVNIDMap) getVNIDCount(id uint32) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,12 +148,16 @@ func (vmap *masterVNIDMap) isAdminNamespace(nsName string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if vmap.adminNamespaces.Has(nsName) {
 		return true
 	}
 	return false
 }
 func (vmap *masterVNIDMap) markAllocatedNetID(netid uint32) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +184,8 @@ func (vmap *masterVNIDMap) markAllocatedNetID(netid uint32) error {
 	return nil
 }
 func (vmap *masterVNIDMap) allocateNetID(nsName string) (uint32, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +234,8 @@ func (vmap *masterVNIDMap) releaseNetID(nsName string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netid, found := vmap.unsetVNID(nsName)
 	if !found {
 		return fmt.Errorf("netid not found for namespace %q", nsName)
@@ -236,6 +254,8 @@ func (vmap *masterVNIDMap) releaseNetID(nsName string) error {
 	return nil
 }
 func (vmap *masterVNIDMap) updateNetID(nsName string, action networkapihelpers.PodNetworkAction, args string) (uint32, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -306,6 +326,8 @@ func (vmap *masterVNIDMap) assignVNID(networkClient networkclient.Interface, nsN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.lock.Lock()
 	defer vmap.lock.Unlock()
 	netid, exists, err := vmap.allocateNetID(nsName)
@@ -338,6 +360,8 @@ func (vmap *masterVNIDMap) revokeVNID(networkClient networkclient.Interface, nsN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.lock.Lock()
 	defer vmap.lock.Unlock()
 	if err := networkClient.NetworkV1().NetNamespaces().Delete(nsName, &metav1.DeleteOptions{}); err != nil {
@@ -349,6 +373,8 @@ func (vmap *masterVNIDMap) revokeVNID(networkClient networkclient.Interface, nsN
 	return nil
 }
 func (vmap *masterVNIDMap) updateVNID(networkClient networkclient.Interface, origNetns *networkv1.NetNamespace) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,6 +426,8 @@ func (master *OsdnMaster) startVNIDMaster() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := master.initNetIDAllocator(); err != nil {
 		return err
 	}
@@ -408,6 +436,8 @@ func (master *OsdnMaster) startVNIDMaster() error {
 	return nil
 }
 func (master *OsdnMaster) initNetIDAllocator() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -449,10 +479,14 @@ func (master *OsdnMaster) watchNamespaces() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&kapi.Namespace{}, master.handleAddOrUpdateNamespace, master.handleDeleteNamespace)
 	master.namespaceInformer.Informer().AddEventHandler(funcs)
 }
 func (master *OsdnMaster) handleAddOrUpdateNamespace(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -488,6 +522,8 @@ func (master *OsdnMaster) handleDeleteNamespace(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := obj.(*kapi.Namespace)
 	klog.V(5).Infof("Watch %s event for Namespace %q", watch.Deleted, ns.Name)
 	if err := master.vnids.revokeVNID(master.networkClient, ns.Name); err != nil {
@@ -509,10 +545,14 @@ func (master *OsdnMaster) watchNetNamespaces() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkv1.NetNamespace{}, master.handleAddOrUpdateNetNamespace, nil)
 	master.netNamespaceInformer.Informer().AddEventHandler(funcs)
 }
 func (master *OsdnMaster) handleAddOrUpdateNetNamespace(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

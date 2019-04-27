@@ -20,6 +20,8 @@ func TestExpand(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag := NewComponentFlag(nil, "1", "2")
 	if x := flag.Expand("1"); !x.Equal(sets.NewString("1")) {
 		t.Fatalf("unexpected: %#v", x)
@@ -42,6 +44,8 @@ func TestExpand(t *testing.T) {
 	}
 }
 func TestActual(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -111,9 +111,13 @@ func NewImageLookupOptions(streams genericclioptions.IOStreams) *ImageLookupOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ImageLookupOptions{PrintFlags: genericclioptions.NewPrintFlags("image lookup updated").WithTypeSetter(scheme.Scheme), IOStreams: streams, Enabled: true}
 }
 func NewCmdImageLookup(fullName, parentName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +150,8 @@ func NewCmdImageLookup(fullName, parentName string, f kcmdutil.Factory, streams 
 	return cmd
 }
 func (o *ImageLookupOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,12 +211,16 @@ func (o *ImageLookupOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Local && len(o.Args) > 0 {
 		return fmt.Errorf("pass files with -f when using --local")
 	}
 	return nil
 }
 func (o *ImageLookupOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +319,8 @@ func (o *ImageLookupOptions) Run() error {
 	return utilerrors.NewAggregate(allErrs)
 }
 func (o *ImageLookupOptions) printImageLookup(infos []*resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

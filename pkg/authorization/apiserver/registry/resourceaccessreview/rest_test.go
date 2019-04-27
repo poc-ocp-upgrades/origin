@@ -44,6 +44,8 @@ func (a *testAuthorizer) Authorize(attributes kauthorizer.Attributes) (allowed k
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if attributes.GetResource() == "localresourceaccessreviews" {
 		if len(a.deniedNamespaces) != 0 && a.deniedNamespaces.Has(attributes.GetNamespace()) {
 			return kauthorizer.DecisionNoOpinion, "no decision on initial check", nil
@@ -53,6 +55,8 @@ func (a *testAuthorizer) Authorize(attributes kauthorizer.Attributes) (allowed k
 	return kauthorizer.DecisionNoOpinion, "", errors.New("unsupported")
 }
 func (a *testAuthorizer) AllowedSubjects(attributes kauthorizer.Attributes) ([]rbacv1.Subject, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,10 +92,14 @@ func TestDeniedNamespace(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &resourceAccessTest{authorizer: &testAuthorizer{err: "no decision on initial check", deniedNamespaces: sets.NewString("foo")}, reviewRequest: &authorizationapi.ResourceAccessReview{Action: authorizationapi.Action{Namespace: "foo", Verb: "get", Resource: "pods"}}}
 	test.runTest(t)
 }
 func TestEmptyReturn(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,10 +132,14 @@ func TestNoErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &resourceAccessTest{authorizer: &testAuthorizer{subjects: []rbacv1.Subject{{APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "one"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.UserKind, Name: "two"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "three"}, {APIGroup: rbacv1.GroupName, Kind: rbacv1.GroupKind, Name: "four"}}}, reviewRequest: &authorizationapi.ResourceAccessReview{Action: authorizationapi.Action{Verb: "delete", Resource: "deploymentConfig"}}}
 	test.runTest(t)
 }
 func (r *resourceAccessTest) runTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

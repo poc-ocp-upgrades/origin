@@ -34,6 +34,8 @@ func TestTemplate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, path, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatal(err)
@@ -93,6 +95,8 @@ func walkJSONFiles(inDir string, fn func(name, path string, data []byte)) error 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := filepath.Walk(inDir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -118,6 +122,8 @@ func walkJSONFiles(inDir string, fn func(name, path string, data []byte)) error 
 	return err
 }
 func TestTemplateTransformationFromConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

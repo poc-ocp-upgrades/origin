@@ -20,6 +20,8 @@ func TestMarksTestBeginning(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		testLine	string
@@ -32,6 +34,8 @@ func TestMarksTestBeginning(t *testing.T) {
 	}
 }
 func TestExtractTestName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,6 +81,8 @@ func TestExtractResult(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		testLine	string
@@ -94,6 +100,8 @@ func TestExtractResult(t *testing.T) {
 	}
 }
 func TestExtractDuration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +147,8 @@ func TestExtractMessage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		testLine	string
@@ -156,6 +166,8 @@ func TestExtractMessage(t *testing.T) {
 	}
 }
 func TestMarksTestCompletion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +208,8 @@ func TestMarksSuiteBeginning(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		testLine	string
@@ -208,6 +222,8 @@ func TestMarksSuiteBeginning(t *testing.T) {
 	}
 }
 func TestExtractSuiteName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,6 +255,8 @@ func TestExtractSuiteName(t *testing.T) {
 	}
 }
 func TestMarksSuiteCompletion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

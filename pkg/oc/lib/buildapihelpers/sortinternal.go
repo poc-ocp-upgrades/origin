@@ -21,6 +21,8 @@ func (b BuildSliceByCreationTimestampInternal) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(b)
 }
 func (b BuildSliceByCreationTimestampInternal) Less(i, j int) bool {
@@ -38,9 +40,13 @@ func (b BuildSliceByCreationTimestampInternal) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b[i].CreationTimestamp.Before(&b[j].CreationTimestamp)
 }
 func (b BuildSliceByCreationTimestampInternal) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +81,8 @@ func (b BuildPtrSliceByCreationTimestampInternal) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(b)
 }
 func (b BuildPtrSliceByCreationTimestampInternal) Less(i, j int) bool {
@@ -92,9 +100,13 @@ func (b BuildPtrSliceByCreationTimestampInternal) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b[i].CreationTimestamp.Before(&b[j].CreationTimestamp)
 }
 func (b BuildPtrSliceByCreationTimestampInternal) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

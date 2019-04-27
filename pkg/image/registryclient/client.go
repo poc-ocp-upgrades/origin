@@ -47,12 +47,16 @@ func (e *ErrNotV2Registry) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("endpoint %q does not support v2 API", e.Registry)
 }
 
 type AuthHandlersFunc func(transport http.RoundTripper, registry *url.URL, repoName string) []auth.AuthenticationHandler
 
 func NewContext(transport, insecureTransport http.RoundTripper) *Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +110,8 @@ func (c *Context) Copy() *Context {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	copied := &Context{Transport: c.Transport, InsecureTransport: c.InsecureTransport, Challenges: c.Challenges, Scopes: c.Scopes, Actions: c.Actions, Retries: c.Retries, Credentials: c.Credentials, Limiter: c.Limiter, DisableDigestVerification: c.DisableDigestVerification, pings: make(map[url.URL]error), redirect: make(map[url.URL]*url.URL)}
@@ -115,6 +121,8 @@ func (c *Context) Copy() *Context {
 	return copied
 }
 func (c *Context) WithRateLimiter(limiter *rate.Limiter) *Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,10 +155,14 @@ func (c *Context) WithScopes(scopes ...auth.Scope) *Context {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Scopes = scopes
 	return c
 }
 func (c *Context) WithActions(actions ...string) *Context {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,10 +195,14 @@ func (c *Context) WithCredentials(credentials auth.CredentialStore) *Context {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Credentials = credentials
 	return c
 }
 func (c *Context) Reset() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +237,8 @@ func (c *Context) cachedPing(src url.URL) (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	err, ok := c.pings[src]
@@ -236,6 +254,8 @@ func (c *Context) cachedPing(src url.URL) (*url.URL, error) {
 	return &src, nil
 }
 func (c *Context) Ping(ctx context.Context, registry *url.URL, insecure bool) (http.RoundTripper, *url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +313,8 @@ func (c *Context) Repository(ctx context.Context, registry *url.URL, repoName st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	named, err := reference.WithName(repoName)
 	if err != nil {
 		return nil, err
@@ -316,6 +338,8 @@ func (c *Context) Repository(ctx context.Context, registry *url.URL, repoName st
 	return NewLimitedRetryRepository(repo, c.Retries, limiter), nil
 }
 func (c *Context) ping(registry url.URL, insecure bool, transport http.RoundTripper) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,6 +403,8 @@ func hasAll(a, b map[string]struct{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for key := range b {
 		if _, ok := a[key]; !ok {
 			return false
@@ -404,9 +430,13 @@ func (s stringScope) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(s)
 }
 func (c *Context) cachedTransport(rt http.RoundTripper, scopes []auth.Scope) http.RoundTripper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -460,6 +490,8 @@ func (c *Context) scopes(repoName string) []auth.Scope {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scopes := make([]auth.Scope, 0, 1+len(c.Scopes))
 	scopes = append(scopes, c.Scopes...)
 	if len(c.Actions) == 0 {
@@ -470,6 +502,8 @@ func (c *Context) scopes(repoName string) []auth.Scope {
 	return scopes
 }
 func (c *Context) repositoryTransport(t http.RoundTripper, registry *url.URL, repoName string) http.RoundTripper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -511,9 +545,13 @@ func NewLimitedRetryRepository(repo distribution.Repository, retries int, limite
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &retryRepository{Repository: repo, limiter: limiter, retries: retries, sleepFn: time.Sleep}
 }
 func isTemporaryHTTPError(err error) (time.Duration, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -542,6 +580,8 @@ func isTemporaryHTTPError(err error) (time.Duration, bool) {
 	return 0, false
 }
 func (c *retryRepository) shouldRetry(count int, err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -585,6 +625,8 @@ func (c *retryRepository) Manifests(ctx context.Context, options ...distribution
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, err := c.Repository.Manifests(ctx, options...)
 	if err != nil {
 		return nil, err
@@ -606,9 +648,13 @@ func (c *retryRepository) Blobs(ctx context.Context) distribution.BlobStore {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return retryBlobStore{BlobStore: c.Repository.Blobs(ctx), repo: c}
 }
 func (c *retryRepository) Tags(ctx context.Context) distribution.TagService {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -646,6 +692,8 @@ func (c retryManifest) Exists(ctx context.Context, dgst digest.Digest) (bool, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; ; i++ {
 		if err := c.repo.limiter.Wait(ctx); err != nil {
 			return false, err
@@ -658,6 +706,8 @@ func (c retryManifest) Exists(ctx context.Context, dgst digest.Digest) (bool, er
 	}
 }
 func (c retryManifest) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -704,6 +754,8 @@ func (c retryBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; ; i++ {
 		if err := c.repo.limiter.Wait(ctx); err != nil {
 			return distribution.Descriptor{}, err
@@ -730,6 +782,8 @@ func (c retryBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; ; i++ {
 		if err := c.repo.limiter.Wait(ctx); err != nil {
 			return err
@@ -742,6 +796,8 @@ func (c retryBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, re
 	}
 }
 func (c retryBlobStore) Open(ctx context.Context, dgst digest.Digest) (distribution.ReadSeekCloser, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -788,6 +844,8 @@ func (c *retryTags) Get(ctx context.Context, tag string) (distribution.Descripto
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; ; i++ {
 		if err := c.repo.limiter.Wait(ctx); err != nil {
 			return distribution.Descriptor{}, err
@@ -814,6 +872,8 @@ func (c *retryTags) All(ctx context.Context) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; ; i++ {
 		if err := c.repo.limiter.Wait(ctx); err != nil {
 			return nil, err
@@ -826,6 +886,8 @@ func (c *retryTags) All(ctx context.Context) ([]string, error) {
 	}
 }
 func (c *retryTags) Lookup(ctx context.Context, digest distribution.Descriptor) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -869,6 +931,8 @@ func (r repositoryVerifier) Manifests(ctx context.Context, options ...distributi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ms, err := r.Repository.Manifests(ctx, options...)
 	if err != nil {
 		return nil, err
@@ -890,12 +954,16 @@ func (r repositoryVerifier) Blobs(ctx context.Context) distribution.BlobStore {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return blobStoreVerifier{BlobStore: r.Repository.Blobs(ctx)}
 }
 
 type manifestServiceVerifier struct{ distribution.ManifestService }
 
 func (m manifestServiceVerifier) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -936,6 +1004,8 @@ func VerifyManifestIntegrity(manifest distribution.Manifest, dgst digest.Digest)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	contentDigest, err := ContentDigestForManifest(manifest, dgst.Algorithm())
 	if err != nil {
 		return err
@@ -950,6 +1020,8 @@ func VerifyManifestIntegrity(manifest distribution.Manifest, dgst digest.Digest)
 	return nil
 }
 func ContentDigestForManifest(manifest distribution.Manifest, algo digest.Algorithm) (digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -996,6 +1068,8 @@ func (b blobStoreVerifier) Get(ctx context.Context, dgst digest.Digest) ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := b.BlobStore.Get(ctx, dgst)
 	if err != nil {
 		return nil, err
@@ -1009,6 +1083,8 @@ func (b blobStoreVerifier) Get(ctx context.Context, dgst digest.Digest) ([]byte,
 	return data, nil
 }
 func (b blobStoreVerifier) Open(ctx context.Context, dgst digest.Digest) (distribution.ReadSeekCloser, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1054,6 +1130,8 @@ func (r *readSeekCloserVerifier) Read(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, err = r.rsc.Read(p)
 	if r.hash != nil {
 		if n > 0 {
@@ -1069,6 +1147,8 @@ func (r *readSeekCloserVerifier) Read(p []byte) (n int, err error) {
 	return n, err
 }
 func (r *readSeekCloserVerifier) Seek(offset int64, whence int) (int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1101,6 +1181,8 @@ func (r *readSeekCloserVerifier) Close() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.rsc.Close()
 }
 func _logClusterCodePath() {
@@ -1118,6 +1200,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1192,5 +1295,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

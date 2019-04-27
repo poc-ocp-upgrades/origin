@@ -17,11 +17,15 @@ func SetDefaults_BuildConfigSpec(config *v1.BuildConfigSpec) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(config.RunPolicy) == 0 {
 		config.RunPolicy = v1.BuildRunPolicySerial
 	}
 }
 func SetDefaults_BuildSource(source *v1.BuildSource) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -55,11 +59,15 @@ func SetDefaults_BuildStrategy(strategy *v1.BuildStrategy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if (strategy != nil) && (strategy.Type == v1.DockerBuildStrategyType) && (strategy.DockerStrategy == nil) {
 		strategy.DockerStrategy = &v1.DockerBuildStrategy{}
 	}
 }
 func SetDefaults_SourceBuildStrategy(obj *v1.SourceBuildStrategy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +101,8 @@ func SetDefaults_DockerBuildStrategy(obj *v1.DockerBuildStrategy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.From != nil && len(obj.From.Kind) == 0 {
 		obj.From.Kind = "ImageStreamTag"
 	}
@@ -112,11 +122,15 @@ func SetDefaults_CustomBuildStrategy(obj *v1.CustomBuildStrategy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.From.Kind) == 0 {
 		obj.From.Kind = "ImageStreamTag"
 	}
 }
 func SetDefaults_BuildTriggerPolicy(obj *v1.BuildTriggerPolicy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func TestBootstrappedConstraints(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedConstraintNames := []string{SecurityContextConstraintsAnyUID, SecurityContextConstraintRestricted, SecurityContextConstraintNonRoot, SecurityContextConstraintHostMountAndAnyUID, SecurityContextConstraintsHostNetwork, SecurityContextConstraintHostNS, SecurityContextConstraintPrivileged}
 	expectedGroups, expectedUsers := getExpectedAccess()
 	expectedVolumes := []securityv1.FSType{securityv1.FSTypeEmptyDir, securityv1.FSTypeSecret, securityv1.FSTypeDownwardAPI, securityv1.FSTypeConfigMap, securityv1.FSTypePersistentVolumeClaim}
@@ -78,6 +80,8 @@ func TestBootstrappedConstraintsWithAddedUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedGroups, expectedUsers := getExpectedAccess()
 	groups, users := GetBoostrapSCCAccess(DefaultOpenShiftInfraNamespace)
 	users[SecurityContextConstraintPrivileged] = append(users[SecurityContextConstraintPrivileged], "foo")
@@ -101,6 +105,8 @@ func TestBootstrappedConstraintsWithAddedUser(t *testing.T) {
 	}
 }
 func getExpectedAccess() (map[string][]string, map[string][]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

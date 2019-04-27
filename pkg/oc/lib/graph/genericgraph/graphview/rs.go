@@ -29,6 +29,8 @@ func AllReplicaSets(g osgraph.Graph, excludeNodeIDs IntSet) ([]ReplicaSet, IntSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	rsViews := []ReplicaSet{}
 	for _, uncastNode := range g.NodesByKind(kubenodes.ReplicaSetNodeKind) {
@@ -42,6 +44,8 @@ func AllReplicaSets(g osgraph.Graph, excludeNodeIDs IntSet) ([]ReplicaSet, IntSe
 	return rsViews, covered
 }
 func (rs *ReplicaSet) MaxRecentContainerRestarts() int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ func NewReplicaSet(g osgraph.Graph, rsNode *kubenodes.ReplicaSetNode) (ReplicaSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	covered.Insert(rsNode.ID())
 	rsView := ReplicaSet{}
@@ -93,6 +99,8 @@ func NewReplicaSet(g osgraph.Graph, rsNode *kubenodes.ReplicaSetNode) (ReplicaSe
 	return rsView, covered
 }
 func MaxRecentContainerRestartsForRS(g osgraph.Graph, rsNode *kubenodes.ReplicaSetNode) int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

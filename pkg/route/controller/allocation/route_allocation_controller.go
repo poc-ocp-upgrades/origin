@@ -23,6 +23,8 @@ func (c *RouteAllocationController) AllocateRouterShard(route *routeapi.Route) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Allocating router shard for Route: %s [alias=%s]", route.Name, route.Spec.Host)
 	shard, err := c.Plugin.Allocate(route)
 	if err != nil {
@@ -33,6 +35,8 @@ func (c *RouteAllocationController) AllocateRouterShard(route *routeapi.Route) (
 	return shard, err
 }
 func (c *RouteAllocationController) GenerateHostname(route *routeapi.Route, shard *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

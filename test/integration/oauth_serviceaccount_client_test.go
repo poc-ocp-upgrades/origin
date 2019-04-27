@@ -47,6 +47,8 @@ func TestOAuthServiceAccountClient(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -213,6 +215,8 @@ func deleteUser(clusterAdminUserClient userclient.UserInterface, name string) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldUser, err := clusterAdminUserClient.Users().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return err
@@ -225,6 +229,8 @@ func deleteUser(clusterAdminUserClient userclient.UserInterface, name string) er
 	return clusterAdminUserClient.Users().Delete(name, nil)
 }
 func drain(ch chan string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,12 +275,16 @@ func (b *basicAuthTransport) RoundTrip(req *http.Request) (*http.Response, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(b.username) > 0 || len(b.password) > 0 {
 		req.SetBasicAuth(b.username, b.password)
 	}
 	return b.rt.RoundTrip(req)
 }
 func runOAuthFlow(t *testing.T, clusterAdminClientConfig *restclient.Config, projectName string, oauthClientConfig *osincli.ClientConfig, inputFilter htmlutil.InputFilterFunc, authorizationCodes chan string, authorizationErrors chan string, expectGrantSuccess bool, expectBuildSuccess bool, expectOperations []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

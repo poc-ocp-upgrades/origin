@@ -21,6 +21,8 @@ func TestFakePorts(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ovsif := NewFake("br0")
 	if _, err := ovsif.AddPort("tun0", 1); err == nil {
 		t.Fatalf("unexpected lack of error adding port on non-existent bridge")
@@ -47,6 +49,8 @@ func TestFakePorts(t *testing.T) {
 	}
 }
 func TestTransaction(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +144,8 @@ func TestFakeFind(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ovsif := NewFake("br0")
 	if err := ovsif.AddBridge(); err != nil {
 		t.Fatalf("unexpected error adding bridge: %v", err)
@@ -211,6 +217,8 @@ func checkDump(ovsif Interface, filter string, cmpFlows []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dumpedFlows, err := ovsif.DumpFlows(filter)
 	if err != nil {
 		return fmt.Errorf("unexpected error from DumpFlows: %v", err)
@@ -226,6 +234,8 @@ func checkDump(ovsif Interface, filter string, cmpFlows []string) error {
 	return nil
 }
 func TestFakeDumpFlows(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -322,6 +332,8 @@ func matchActions(flows []string, actions ...string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(flows) != len(actions) {
 		return false
 	}
@@ -333,6 +345,8 @@ func matchActions(flows []string, actions ...string) bool {
 	return true
 }
 func TestFlowMatchesMasked(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

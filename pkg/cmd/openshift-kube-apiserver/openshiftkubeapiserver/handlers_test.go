@@ -63,6 +63,8 @@ func (tc versionSkewTestCase) Run(url string, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, method := range tc.methods {
 		for _, userAgent := range tc.userAgents {
 			req, err := http.NewRequest(method, url, nil)
@@ -114,6 +116,8 @@ func TestVersionSkewFilterDenyOld(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	verbs := []string{"PATCH", "POST"}
 	doNothingHandler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 	})
@@ -128,6 +132,8 @@ func TestVersionSkewFilterDenyOld(t *testing.T) {
 	}
 }
 func TestVersionSkewFilterDenySkewed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +177,8 @@ func TestVersionSkewFilterSkippedOnNonAPIRequest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	verbs := []string{"PUT", "DELETE"}
 	doNothingHandler := http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 	})
@@ -186,6 +194,8 @@ func TestVersionSkewFilterSkippedOnNonAPIRequest(t *testing.T) {
 	}
 }
 func testHandlerChain(handler http.Handler) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -54,12 +54,16 @@ func newPodTester(t *testing.T, testname string, socketPath string) *podTester {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := &http.Client{Transport: &http.Transport{Dial: func(proto, addr string) (net.Conn, error) {
 		return net.Dial("unix", socketPath)
 	}}}
 	return &podTester{t: t, testname: testname, client: client, pods: make(map[string]*expectedPod)}
 }
 func ptPodKey(namespace, name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func (pt *podTester) getExpectedPod(namespace, name string, command cniserver.CN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := pt.pods[ptPodKey(namespace, name)]
 	if pod == nil {
 		return nil, fmt.Errorf("pod not found!")
@@ -100,6 +106,8 @@ func (pt *podTester) getExpectedPod(namespace, name string, command cniserver.CN
 	return pod, nil
 }
 func (pt *podTester) addExpectedPod(t *testing.T, op *operation) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,10 +147,14 @@ func fakeRunningPod(namespace, name string, ip net.IP) *runningPod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podPortMapping := &khostport.PodPortMapping{Namespace: namespace, Name: name, IP: ip}
 	return &runningPod{podPortMapping: podPortMapping, vnid: 0}
 }
 func (pt *podTester) setup(req *cniserver.PodRequest) (cnitypes.Result, *runningPod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +195,8 @@ func (pt *podTester) update(req *cniserver.PodRequest) (uint32, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, err := pt.getExpectedPod(req.PodNamespace, req.PodName, req.Command)
 	if err != nil {
 		return 0, err
@@ -191,6 +205,8 @@ func (pt *podTester) update(req *cniserver.PodRequest) (uint32, error) {
 	return 0, nil
 }
 func (pt *podTester) teardown(req *cniserver.PodRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,6 +235,8 @@ type podcheck struct {
 }
 
 func TestPodManager(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,6 +328,8 @@ func TestPodManager(t *testing.T) {
 	}
 }
 func TestDirectPodUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

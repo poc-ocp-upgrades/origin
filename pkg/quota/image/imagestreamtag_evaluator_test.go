@@ -27,6 +27,8 @@ func TestImageStreamTagEvaluatorUsage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		iss		[]imagev1.ImageStream

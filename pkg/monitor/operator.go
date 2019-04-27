@@ -28,6 +28,8 @@ func startClusterOperatorMonitoring(ctx context.Context, m Recorder, client conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	coInformer := cache.NewSharedIndexInformer(NewErrorRecordingListWatcher(m, &cache.ListWatch{ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 		return client.ConfigV1().ClusterOperators().List(options)
 	}, WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
@@ -210,9 +212,13 @@ func locateClusterOperator(co *configv1.ClusterOperator) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("clusteroperator/%s", co.Name)
 }
 func locateClusterVersion(cv *configv1.ClusterVersion) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +250,8 @@ func findOperatorVersionChange(old, new []configv1.OperandVersion) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var changed []string
 	for i := 0; i < len(new); i++ {
 		for j := 0; j < len(old); j++ {
@@ -260,6 +268,8 @@ func findOperatorVersionChange(old, new []configv1.OperandVersion) []string {
 	return changed
 }
 func findOperatorStatusCondition(conditions []configv1.ClusterOperatorStatusCondition, conditionType configv1.ClusterStatusConditionType) *configv1.ClusterOperatorStatusCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

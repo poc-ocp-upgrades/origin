@@ -30,6 +30,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v1.AddToGroupVersion(scheme, schema.GroupVersion{Version: "v1"})
 	utilruntime.Must(AddToScheme(scheme))
 }

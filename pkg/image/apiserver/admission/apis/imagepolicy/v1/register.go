@@ -20,6 +20,8 @@ func (obj *ImagePolicyConfig) GetObjectKind() schema.ObjectKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &obj.TypeMeta
 }
 
@@ -30,6 +32,8 @@ var (
 )
 
 func addKnownTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

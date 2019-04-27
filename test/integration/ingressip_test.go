@@ -35,6 +35,8 @@ func TestIngressIPAllocation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -134,6 +136,8 @@ func generateServiceEvents(t *testing.T, kc kclientset.Interface) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	maxMillisecondInterval := 25
 	minServiceCount := 10
 	maxOperations := minServiceCount + 30
@@ -194,6 +198,8 @@ func generateServiceEvents(t *testing.T, kc kclientset.Interface) {
 	}
 }
 func createService(kc kclientset.Interface, name string, typeLoadBalancer bool) (*v1.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

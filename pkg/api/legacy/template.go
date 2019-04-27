@@ -26,11 +26,15 @@ func InstallInternalLegacyTemplate(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyTemplate(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalTemplateTypes, core.AddToScheme, corev1conversions.AddToScheme, templatev1helpers.RegisterDefaults, templatev1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func InstallExternalLegacyTemplate(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ func addUngroupifiedTemplateTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	types := []runtime.Object{&templatev1.Template{}, &templatev1.TemplateList{}}
 	scheme.AddKnownTypes(GroupVersion, types...)
 	scheme.AddKnownTypeWithName(GroupVersion.WithKind("TemplateConfig"), &templatev1.Template{})
@@ -70,6 +76,8 @@ func addUngroupifiedTemplateTypes(scheme *runtime.Scheme) error {
 	return nil
 }
 func addUngroupifiedInternalTemplateTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

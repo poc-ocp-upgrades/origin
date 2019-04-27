@@ -23,6 +23,8 @@ func WhoAmI(clientConfig *restclient.Config) (*userv1.User, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := userv1typedclient.NewForConfig(clientConfig)
 	if err != nil {
 		return nil, err

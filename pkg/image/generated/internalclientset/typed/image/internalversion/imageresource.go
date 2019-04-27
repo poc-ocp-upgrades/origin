@@ -39,9 +39,13 @@ func newImages(c *ImageClient) *images {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &images{client: c.RESTClient()}
 }
 func (c *images) Get(name string, options v1.GetOptions) (result *image.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,6 +65,8 @@ func (c *images) Get(name string, options v1.GetOptions) (result *image.Image, e
 	return
 }
 func (c *images) List(opts v1.ListOptions) (result *image.ImageList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (c *images) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -106,6 +114,8 @@ func (c *images) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Resource("images").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *images) Create(imageResource *image.Image) (result *image.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,11 +149,15 @@ func (c *images) Update(imageResource *image.Image) (result *image.Image, err er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &image.Image{}
 	err = c.client.Put().Resource("images").Name(imageResource.Name).Body(imageResource).Do().Into(result)
 	return
 }
 func (c *images) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (c *images) DeleteCollection(options *v1.DeleteOptions, listOptions v1.List
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -182,6 +198,8 @@ func (c *images) DeleteCollection(options *v1.DeleteOptions, listOptions v1.List
 	return c.client.Delete().Resource("images").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *images) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *image.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

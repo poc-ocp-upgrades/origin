@@ -49,6 +49,8 @@ func NewOAuthProvider(providerName, URL, clientID, clientSecret string, transpor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := url.Parse(URL)
 	if err != nil {
 		return nil, errors.New("Host URL is invalid")
@@ -70,9 +72,13 @@ func (p *provider) GetTransport() (http.RoundTripper, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.transport, nil
 }
 func (p *provider) NewConfig() (*osincli.ClientConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,8 +111,12 @@ func (p *provider) AddCustomParameters(req *osincli.AuthorizeRequest) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (p *provider) GetUserIdentity(data *osincli.AccessData) (authapi.UserIdentityInfo, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

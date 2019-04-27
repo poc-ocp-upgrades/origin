@@ -28,6 +28,8 @@ func readDeploymentFixture(path string) (*appsv1.Deployment, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -40,6 +42,8 @@ func readDeploymentFixture(path string) (*appsv1.Deployment, error) {
 	return deployment, err
 }
 func waitForDeploymentModification(appsClient appsv1clientset.AppsV1Interface, objMeta metav1.ObjectMeta, timeout time.Duration, condition func(deployment *appsv1.Deployment) (bool, error)) (*appsv1.Deployment, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

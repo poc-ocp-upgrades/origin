@@ -21,6 +21,8 @@ func EnvInt(key string, defaultValue int32, minValue int32) int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value, err := strconv.ParseInt(Env(key, fmt.Sprintf("%d", defaultValue)), 10, 32)
 	if err != nil || int32(value) < minValue {
 		return defaultValue
@@ -42,6 +44,8 @@ func Env(key string, defaultValue string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := os.Getenv(key)
 	if len(val) == 0 {
 		return defaultValue
@@ -49,6 +53,8 @@ func Env(key string, defaultValue string) string {
 	return val
 }
 func GetEnv(key string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

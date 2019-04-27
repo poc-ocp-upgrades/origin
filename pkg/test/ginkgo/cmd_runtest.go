@@ -28,6 +28,8 @@ func (e ExitError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("exit with code %d", e.Code)
 }
 
@@ -37,6 +39,8 @@ type TestOptions struct {
 }
 
 func (opt *TestOptions) Run(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func (opt *TestOptions) Run(args []string) error {
 	return nil
 }
 func lastFilenameSegment(filename string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

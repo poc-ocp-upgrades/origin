@@ -22,6 +22,8 @@ func TestPodSpecNode(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
 	pod := &corev1.Pod{}
 	pod.Namespace = "ns"
@@ -43,6 +45,8 @@ func TestPodSpecNode(t *testing.T) {
 	}
 }
 func TestReplicationControllerSpecNode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +106,8 @@ func TestReplicationControllerSpecNode(t *testing.T) {
 	}
 }
 func TestJobSpecNode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -40,6 +40,8 @@ func fuzzInternalObject(t *testing.T, forVersion schema.GroupVersion, item runti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := fuzzerFor(rand.NewSource(seed))
 	f.Funcs(func(obj *configapi.MasterConfig, c fuzz.Continue) {
 		c.FuzzNoCustom(obj)
@@ -342,6 +344,8 @@ func roundTrip(t *testing.T, codec runtime.Codec, originalItem runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item := originalItem.DeepCopyObject()
 	name := reflect.TypeOf(item).Elem().Name()
 	data, err := runtime.Encode(codec, item)
@@ -398,6 +402,8 @@ func TestSpecificKind(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configapi.Scheme.Log(t)
 	defer configapi.Scheme.Log(nil)
 	kind := "MasterConfig"
@@ -413,6 +419,8 @@ func TestSpecificKind(t *testing.T) {
 	}
 }
 func TestTypes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,6 +477,8 @@ func TestSpecificRoundTrips(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	boolFalse := false
 	testCases := []struct {
 		mediaType	string
@@ -503,6 +513,8 @@ func TestSpecificRoundTrips(t *testing.T) {
 	}
 }
 func fuzzerFor(src rand.Source) *fuzz.Fuzzer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

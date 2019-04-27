@@ -44,9 +44,13 @@ func NewREST(imageRegistry image.Registry, imageStreamRegistry imagestream.Regis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &REST{imageRegistry: imageRegistry, imageStreamRegistry: imageStreamRegistry, strategy: NewStrategy(registry)}
 }
 func (r *REST) New() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,9 +82,13 @@ func (s *REST) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (s *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,6 +170,8 @@ func (s *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 	return &metav1.Status{Status: metav1.StatusSuccess}, nil
 }
 func (s *REST) findStreamForMapping(ctx context.Context, mapping *imageapi.ImageStreamMapping) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

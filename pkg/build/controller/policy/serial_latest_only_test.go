@@ -21,6 +21,8 @@ func TestSerialLatestOnlyIsRunnableNewBuilds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allNewBuilds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-3", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly)}
 	client := newTestClient(allNewBuilds)
 	policy := SerialLatestOnlyPolicy{BuildLister: client.Lister(), BuildUpdater: client}
@@ -71,6 +73,8 @@ func TestSerialLatestOnlyIsRunnableMixedRunning(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allNewBuilds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseComplete, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-2", "sample-bc", buildv1.BuildPhaseCancelled, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-3", "sample-bc", buildv1.BuildPhaseRunning, buildv1.BuildRunPolicySerialLatestOnly), addBuild("build-4", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerialLatestOnly)}
 	client := newTestClient(allNewBuilds)
 	policy := SerialLatestOnlyPolicy{BuildLister: client.Lister(), BuildUpdater: client}
@@ -98,6 +102,8 @@ func TestSerialLatestOnlyIsRunnableMixedRunning(t *testing.T) {
 	}
 }
 func TestSerialLatestOnlyIsRunnableBuildsWithErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

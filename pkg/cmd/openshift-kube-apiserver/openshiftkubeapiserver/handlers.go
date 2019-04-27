@@ -43,6 +43,8 @@ func newUserAgentFilter(config kubecontrolplanev1.UserAgentMatchRule) (userAgent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	regex, err := regexp.Compile(config.Regex)
 	if err != nil {
 		return userAgentFilter{}, err
@@ -65,12 +67,16 @@ func (f *userAgentFilter) matches(verb, userAgent string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(f.verbs) > 0 && !f.verbs.Has(verb) {
 		return false
 	}
 	return f.regex.MatchString(userAgent)
 }
 func versionSkewFilter(handler http.Handler, userAgentMatchingConfig kubecontrolplanev1.UserAgentMatchingConfig) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,6 +168,8 @@ func translateLegacyScopeImpersonation(handler http.Handler) http.Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		for _, scope := range req.Header[legacyImpersonateUserScopeHeader] {
 			req.Header[authenticationv1.ImpersonateUserExtraHeaderPrefix+authorizationapi.ScopesKey] = append(req.Header[authenticationv1.ImpersonateUserExtraHeaderPrefix+authorizationapi.ScopesKey], scope)
@@ -170,6 +178,8 @@ func translateLegacyScopeImpersonation(handler http.Handler) http.Handler {
 	})
 }
 func forbidden(reason string, attributes kauthorizer.Attributes, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

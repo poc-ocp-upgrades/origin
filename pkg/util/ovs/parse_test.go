@@ -26,6 +26,8 @@ func TestParseFlows(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parseTests := []flowTest{{input: "table=0, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10", match: OvsFlow{Table: 0, Priority: 200, Fields: []OvsField{{Name: "in_port", Value: "1"}, {Name: "arp", Value: ""}, {Name: "nw_src", Value: "10.128.0.0/14"}, {Name: "nw_dst", Value: "10.128.0.0/23"}}, Actions: []OvsField{{Name: "move", Value: "NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[]"}, {Name: "goto_table", Value: "10"}}}}, {input: "table=10, priority=0, actions=drop", match: OvsFlow{Table: 10, Priority: 0, Fields: []OvsField{}, Actions: []OvsField{{Name: "drop"}}}}, {input: "table=50, priority=100, arp, nw_dst=10.128.0.0/23, actions=load:0x1234->NXM_NX_TUN_ID[0..31],set_field:172.17.0.2->tun_dst,match:1", match: OvsFlow{Table: 50, Priority: 100, Fields: []OvsField{{Name: "arp", Value: ""}, {Name: "nw_dst", Value: "10.128.0.0/23"}}, Actions: []OvsField{{Name: "load", Value: "0x1234->NXM_NX_TUN_ID[0..31]"}, {Name: "set_field", Value: "172.17.0.2->tun_dst"}, {Name: "match", Value: "1"}}}}, {input: "table=21, priority=100, ip, actions=ct(commit,table=30)", match: OvsFlow{Table: 21, Priority: 100, Fields: []OvsField{{Name: "ip", Value: ""}}, Actions: []OvsField{{Name: "ct(commit,table=30)"}}}}, {input: "table=10, priority=0, actions=drop, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23", match: OvsFlow{Table: 10, Priority: 0, Fields: []OvsField{}, Actions: []OvsField{{Name: "drop"}, {Name: "in_port=1"}, {Name: "arp"}, {Name: "nw_src=10.128.0.0/14"}, {Name: "nw_dst=10.128.0.0/23"}}}}}
 	for i, test := range parseTests {
 		parsed, err := ParseFlow(ParseForAdd, test.input)
@@ -38,6 +40,8 @@ func TestParseFlows(t *testing.T) {
 	}
 }
 func TestParseFlowsDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func TestParseFlowsBad(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parseTests := []flowTest{{input: "table=, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=foo, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=-1, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=1000, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=high, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=-1, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=200000, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=200, in_port=, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}, {input: "table=0, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions="}, {input: "table=0, priority=200, in_port=1, arp, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, actions"}, {input: "table=0, priority=200, in_port=1, nw_src=10.128.0.0/14, nw_dst=10.128.0.0/23, nw_dst=10.128.0.0/23, actions=move:NXM_NX_TUN_ID[0..31]->NXM_NX_REG0[],goto_table:10"}}
 	for i, test := range parseTests {
 		_, err := ParseFlow(ParseForAdd, test.input)
@@ -87,6 +93,8 @@ func TestParseFlowsBad(t *testing.T) {
 	}
 }
 func TestFlowMatchesBad(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +121,8 @@ func TestFlowMatchesBad(t *testing.T) {
 	}
 }
 func TestParseActions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,6 +171,8 @@ func TestMatchNote(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	noteTests := []struct {
 		input	string
 		prefix	string
@@ -182,6 +194,8 @@ func TestMatchNote(t *testing.T) {
 	}
 }
 func TestExternalIDs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

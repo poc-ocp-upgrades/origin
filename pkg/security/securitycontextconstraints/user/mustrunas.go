@@ -28,6 +28,8 @@ func NewMustRunAs(options *securityapi.RunAsUserStrategyOptions) (RunAsUserSecur
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if options == nil {
 		return nil, fmt.Errorf("MustRunAs requires run as user options")
 	}
@@ -51,9 +53,13 @@ func (s *mustRunAs) Generate(pod *api.Pod, container *api.Container) (*int64, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.opts.UID, nil
 }
 func (s *mustRunAs) Validate(fldPath *field.Path, _ *api.Pod, _ *api.Container, runAsNonRoot *bool, runAsUser *int64) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

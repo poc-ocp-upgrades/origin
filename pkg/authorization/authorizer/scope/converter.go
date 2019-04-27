@@ -38,6 +38,8 @@ func ScopesToRules(scopes []string, namespace string, clusterRoleGetter rbaclist
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rules := append([]rbacv1.PolicyRule{}, authorizationapi.DiscoveryRule)
 	errors := []error{}
 	for _, scope := range scopes {
@@ -60,6 +62,8 @@ func ScopesToRules(scopes []string, namespace string, clusterRoleGetter rbaclist
 	return rules, kutilerrors.NewAggregate(errors)
 }
 func ScopesToVisibleNamespaces(scopes []string, clusterRoleGetter rbaclisters.ClusterRoleLister, ignoreUnhandledScopes bool) (sets.String, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +144,8 @@ func DefaultSupportedScopes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.StringKeySet(defaultSupportedScopesMap).List()
 }
 func DefaultSupportedScopesMap() map[string]string {
@@ -157,9 +163,13 @@ func DefaultSupportedScopesMap() map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return defaultSupportedScopesMap
 }
 func DescribeScopes(scopes []string) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +213,8 @@ func (userEvaluator) Handles(scope string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch scope {
 	case UserFull, UserInfo, UserAccessCheck, UserListScopedProjects, UserListAllProjects:
 		return true
@@ -210,6 +222,8 @@ func (userEvaluator) Handles(scope string) bool {
 	return false
 }
 func (e userEvaluator) Validate(scope string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +258,8 @@ func (userEvaluator) Describe(scope string) (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch scope {
 	case UserInfo, UserAccessCheck, UserListScopedProjects, UserListAllProjects:
 		return defaultSupportedScopesMap[scope], "", nil
@@ -254,6 +270,8 @@ func (userEvaluator) Describe(scope string) (string, string, error) {
 	}
 }
 func (userEvaluator) ResolveRules(scope, namespace string, _ rbaclisters.ClusterRoleLister) ([]rbacv1.PolicyRule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +316,8 @@ func (userEvaluator) ResolveGettableNamespaces(scope string, _ rbaclisters.Clust
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch scope {
 	case UserFull, UserListAllProjects:
 		return []string{"*"}, nil
@@ -313,6 +333,8 @@ type clusterRoleEvaluator struct{}
 var clusterRoleEvaluatorInstance = clusterRoleEvaluator{}
 
 func (clusterRoleEvaluator) Handles(scope string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,10 +366,14 @@ func (e clusterRoleEvaluator) Validate(scope string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, _, _, err := e.parseScope(scope)
 	return err
 }
 func (e clusterRoleEvaluator) parseScope(scope string) (string, string, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,6 +408,8 @@ func ParseClusterRoleScope(scope string) (string, string, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !strings.HasPrefix(scope, ClusterRoleIndicator) {
 		return "", "", false, fmt.Errorf("bad format for scope %v", scope)
 	}
@@ -401,6 +429,8 @@ func ParseClusterRoleScope(scope string) (string, string, bool, error) {
 	return tokens[1][0:lastColonIndex], tokens[1][lastColonIndex+1:], escalating, nil
 }
 func (e clusterRoleEvaluator) Describe(scope string) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -450,6 +480,8 @@ func (e clusterRoleEvaluator) ResolveRules(scope, namespace string, clusterRoleG
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, scopeNamespace, _, err := e.parseScope(scope)
 	if err != nil {
 		return nil, err
@@ -474,6 +506,8 @@ func has(set []string, value string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, element := range set {
 		if value == element {
 			return true
@@ -482,6 +516,8 @@ func has(set []string, value string) bool {
 	return false
 }
 func (e clusterRoleEvaluator) resolveRules(scope string, clusterRoleGetter rbaclisters.ClusterRoleLister) ([]rbacv1.PolicyRule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -536,6 +572,8 @@ func (e clusterRoleEvaluator) ResolveGettableNamespaces(scope string, clusterRol
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, scopeNamespace, _, err := e.parseScope(scope)
 	if err != nil {
 		return nil, err
@@ -565,6 +603,8 @@ func remove(array []string, item string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newar := array[:0]
 	for _, element := range array {
 		if element != item {
@@ -574,6 +614,8 @@ func remove(array []string, item string) []string {
 	return newar
 }
 func removeEscalatingResources(in rbacv1.PolicyRule) rbacv1.PolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -618,6 +660,8 @@ func ValidateScopeRestrictions(client *oauthapi.OAuthClient, scopes ...string) e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(client.ScopeRestrictions) == 0 {
 		return nil
 	}
@@ -633,6 +677,8 @@ func ValidateScopeRestrictions(client *oauthapi.OAuthClient, scopes ...string) e
 	return kutilerrors.NewAggregate(errs)
 }
 func validateScopeRestrictions(client *oauthapi.OAuthClient, scope string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -690,6 +736,8 @@ func validateLiteralScopeRestrictions(scope string, literals []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, literal := range literals {
 		if literal == scope {
 			return nil
@@ -698,6 +746,8 @@ func validateLiteralScopeRestrictions(scope string, literals []string) error {
 	return fmt.Errorf("%v not found in %v", scope, literals)
 }
 func validateClusterRoleScopeRestrictions(scope string, restriction oauthapi.ClusterRoleScopeRestriction) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

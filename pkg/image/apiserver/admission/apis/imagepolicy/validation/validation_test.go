@@ -21,6 +21,8 @@ func TestValidation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if errs := Validate(&imagepolicy.ImagePolicyConfig{}); len(errs) != 0 {
 		t.Fatal(errs)
 	}

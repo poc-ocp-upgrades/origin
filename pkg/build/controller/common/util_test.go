@@ -32,12 +32,16 @@ func mockBuildConfig(name string) buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	appName := strings.Split(name, "-")
 	successfulBuildsToKeep := int32(2)
 	failedBuildsToKeep := int32(3)
 	return buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("%s-build", appName[0]), Namespace: "namespace", Labels: map[string]string{"app": appName[0]}}, Spec: buildv1.BuildConfigSpec{SuccessfulBuildsHistoryLimit: &successfulBuildsToKeep, FailedBuildsHistoryLimit: &failedBuildsToKeep}}
 }
 func mockBuild(name string, phase buildv1.BuildPhase, stamp *metav1.Time) buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func mockBuildsList(length int) (buildv1.BuildConfig, []buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var builds []buildv1.Build
 	buildPhaseList := []buildv1.BuildPhase{buildv1.BuildPhaseComplete, buildv1.BuildPhaseFailed, buildv1.BuildPhaseError, buildv1.BuildPhaseCancelled}
 	addOrSubtract := []string{"+", "-"}
@@ -87,6 +93,8 @@ func mockBuildsList(length int) (buildv1.BuildConfig, []buildv1.Build) {
 	return mockBuildConfig("myapp"), builds
 }
 func TestHandleBuildPruning(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func RemoveStatefulSets(oc *CLI, sets ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, set := range sets {
 		e2e.Logf("Removing stateful set %s/%s", oc.Namespace(), set)

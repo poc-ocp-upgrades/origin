@@ -44,9 +44,13 @@ func ErrKubeConfigNotWriteable(file string, isExplicitFile bool, err error) erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewError("KUBECONFIG is set to a file that cannot be created or modified: %s", file).WithCause(err).WithSolution(kubeConfigSolution(isExplicitFile))
 }
 func kubeConfigSolution(isExplicitFile bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func kubeConfigSolution(isExplicitFile bool) string {
 	}
 }
 func NoProjectsExistMessage(canRequestProjects bool, commandName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

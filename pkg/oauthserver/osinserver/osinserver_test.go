@@ -25,6 +25,8 @@ func TestClientCredentialFlow(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := teststorage.New()
 	storage.Clients["test"] = &osin.DefaultClient{Id: "test", Secret: "secret", RedirectUri: "http://localhost/redirect"}
 	oauthServer := New(NewDefaultServerConfig(), storage, AuthorizeHandlerFunc(func(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (bool, error) {
@@ -51,6 +53,8 @@ func TestClientCredentialFlow(t *testing.T) {
 	}
 }
 func TestAuthorizeStartFlow(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,9 +23,13 @@ func (c *FakeImage) Images() internalversion.ImageResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeImages{c}
 }
 func (c *FakeImage) ImageSignatures() internalversion.ImageSignatureInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,9 +61,13 @@ func (c *FakeImage) ImageStreams(namespace string) internalversion.ImageStreamIn
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeImageStreams{c, namespace}
 }
 func (c *FakeImage) ImageStreamImages(namespace string) internalversion.ImageStreamImageInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +99,13 @@ func (c *FakeImage) ImageStreamImports(namespace string) internalversion.ImageSt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeImageStreamImports{c, namespace}
 }
 func (c *FakeImage) ImageStreamMappings(namespace string) internalversion.ImageStreamMappingInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +137,13 @@ func (c *FakeImage) ImageStreamTags(namespace string) internalversion.ImageStrea
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeImageStreamTags{c, namespace}
 }
 func (c *FakeImage) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -32,9 +32,13 @@ func newLocalSubjectAccessReviews(c *AuthorizationClient, namespace string) *loc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &localSubjectAccessReviews{client: c.RESTClient(), ns: namespace}
 }
 func (c *localSubjectAccessReviews) Create(localSubjectAccessReview *authorization.LocalSubjectAccessReview) (result *authorization.SubjectAccessReviewResponse, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

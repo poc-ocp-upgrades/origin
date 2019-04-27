@@ -63,9 +63,13 @@ func NewCreateSSHAuthSecretOptions(streams genericclioptions.IOStreams) *CreateS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateSSHAuthSecretOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdCreateSSHAuthSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams, newSecretFullName, ocEditFullName string) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func (o *CreateSSHAuthSecretOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := o.NewSSHAuthSecret()
 	if err != nil {
 		return err
@@ -120,6 +126,8 @@ func (o *CreateSSHAuthSecretOptions) Run() error {
 	return o.Printer.PrintObj(secret, o.Out)
 }
 func (o *CreateSSHAuthSecretOptions) NewSSHAuthSecret() (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,6 +184,8 @@ func (o *CreateSSHAuthSecretOptions) Complete(f kcmdutil.Factory, args []string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.SecretName = args[0]
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
@@ -197,6 +207,8 @@ func (o *CreateSSHAuthSecretOptions) Complete(f kcmdutil.Factory, args []string)
 	return nil
 }
 func (o CreateSSHAuthSecretOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

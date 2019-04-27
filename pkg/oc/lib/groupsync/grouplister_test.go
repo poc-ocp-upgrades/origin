@@ -29,6 +29,8 @@ func TestListAllOpenShiftGroups(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		startingGroups	[]runtime.Object
 		blacklist	[]string
@@ -71,6 +73,8 @@ func TestListAllOpenShiftGroupsListErr(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listFailClient := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 	listFailClient.PrependReactor("list", "groups", func(action clienttesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.New("fail")
@@ -89,6 +93,8 @@ func TestListAllOpenShiftGroupsListErr(t *testing.T) {
 	}
 }
 func TestListWhitelistOpenShiftGroups(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +162,8 @@ func TestListOpenShiftGroupsListErr(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listFailClient := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 	listFailClient.PrependReactor("get", "groups", func(action clienttesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.New("fail")
@@ -174,6 +182,8 @@ func TestListOpenShiftGroupsListErr(t *testing.T) {
 	}
 }
 func TestLDAPBlacklistFilter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

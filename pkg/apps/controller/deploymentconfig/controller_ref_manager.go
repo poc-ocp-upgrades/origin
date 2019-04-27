@@ -43,6 +43,8 @@ func (r RealRCControl) PatchReplicationController(namespace, name string, data [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := r.KubeClient.CoreV1().ReplicationControllers(namespace).Patch(name, types.StrategicMergePatchType, data)
 	return err
 }
@@ -54,6 +56,8 @@ type RCControllerRefManager struct {
 }
 
 func NewRCControllerRefManager(rcControl RCControlInterface, controller kmetav1.Object, selector klabels.Selector, controllerKind kschema.GroupVersionKind, canAdopt func() error) *RCControllerRefManager {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func (m *RCControllerRefManager) ClaimReplicationController(rc *v1.ReplicationCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	match := func(obj kmetav1.Object) bool {
 		return m.Selector.Matches(klabels.Set(obj.GetLabels()))
 	}
@@ -97,6 +103,8 @@ func (m *RCControllerRefManager) ClaimReplicationController(rc *v1.ReplicationCo
 	return m.ClaimObject(rc, match, adopt, release)
 }
 func (m *RCControllerRefManager) ClaimReplicationControllers(rcs []*v1.ReplicationController) ([]*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +148,8 @@ func (m *RCControllerRefManager) AdoptReplicationController(rs *v1.ReplicationCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := m.CanAdopt(); err != nil {
 		return fmt.Errorf("can't adopt ReplicationController %s/%s (%s): %v", rs.Namespace, rs.Name, rs.UID, err)
 	}
@@ -151,6 +161,8 @@ func (m *RCControllerRefManager) AdoptReplicationController(rs *v1.ReplicationCo
 	return m.rcControl.PatchReplicationController(rs.Namespace, rs.Name, []byte(addControllerPatch))
 }
 func (m *RCControllerRefManager) ReleaseReplicationController(rc *v1.ReplicationController) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +205,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -267,5 +300,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -31,9 +31,13 @@ func (m *mockResolver) Resolve() ([]*buildv1.Build, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.builds, m.err
 }
 func TestMergeResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ func TestMergeResolver(t *testing.T) {
 	}
 }
 func TestOrphanBuildResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +121,8 @@ func TestOrphanBuildResolver(t *testing.T) {
 	}
 }
 func TestPerBuildConfigResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

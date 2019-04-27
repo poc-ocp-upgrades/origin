@@ -32,6 +32,8 @@ func (f file) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.name
 }
 func (f file) Size() int64 {
@@ -49,9 +51,13 @@ func (f file) Size() int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0
 }
 func (f file) Mode() os.FileMode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,9 +92,13 @@ func (f file) ModTime() time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return time.Now()
 }
 func (f file) IsDir() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,9 +130,13 @@ func (f file) Sys() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func TestFind(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,6 +180,8 @@ func TestFindError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := fmt.Errorf("File error")
 	files := []file{{name: "test", path: "test", isDir: true}, {name: "Dockerfile", path: "test/Dockerfile", isDir: false}, {name: "error", path: "error", isDir: false, err: err}}
 	f := finder{makeWalkFunc(files)}
@@ -175,6 +191,8 @@ func TestFindError(t *testing.T) {
 	}
 }
 func makeWalkFunc(files []file) func(string, filepath.WalkFunc) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

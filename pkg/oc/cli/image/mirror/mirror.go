@@ -100,9 +100,13 @@ func NewMirrorImageOptions(streams genericclioptions.IOStreams) *MirrorImageOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MirrorImageOptions{IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 6}, MaxRegistry: 4}
 }
 func NewCmdMirrorImage(name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +142,8 @@ func NewCmdMirrorImage(name string, streams genericclioptions.IOStreams) *cobra.
 	return cmd
 }
 func (o *MirrorImageOptions) Complete(cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +199,8 @@ func (o *MirrorImageOptions) Repository(ctx context.Context, context *registrycl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t {
 	case DestinationRegistry:
 		return context.Repository(ctx, ref.DockerClientDefaults().RegistryURL(), ref.RepositoryName(), o.SecurityOptions.Insecure)
@@ -219,9 +227,13 @@ func (o *MirrorImageOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.FilterOptions.Validate()
 }
 func (o *MirrorImageOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,6 +353,8 @@ func (o *MirrorImageOptions) Run() error {
 	return nil
 }
 func (o *MirrorImageOptions) plan() (*plan, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -524,6 +538,8 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !force {
 		_, err := c.to.Stat(ctx, blob.Digest)
 		if err == nil {
@@ -638,6 +654,8 @@ func copyManifestToTags(ctx context.Context, ref reference.Named, srcDigest godi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	srcManifest, ok := plan.parent.parent.parent.GetManifest(srcDigest)
 	if !ok {
@@ -663,6 +681,8 @@ func copyManifestToTags(ctx context.Context, ref reference.Named, srcDigest godi
 	return errs
 }
 func copyManifest(ctx context.Context, ref reference.Named, srcDigest godigest.Digest, plan *repositoryManifestPlan, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -715,9 +735,13 @@ func (f optionFunc) Apply(v interface{}) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(v)
 }
 func WithDescriptor(desc distribution.Descriptor) distribution.BlobCreateOption {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

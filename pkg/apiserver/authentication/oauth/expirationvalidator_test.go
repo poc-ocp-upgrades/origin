@@ -26,6 +26,8 @@ func TestAuthenticateTokenExpired(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeOAuthClient := oauthfake.NewSimpleClientset(&oauthv1.OAuthAccessToken{ObjectMeta: metav1.ObjectMeta{Name: "token1", CreationTimestamp: metav1.Time{Time: time.Now().Add(-1 * time.Hour)}}, ExpiresIn: 600, UserName: "foo"}, &oauthv1.OAuthAccessToken{ObjectMeta: metav1.ObjectMeta{Name: "token2", CreationTimestamp: metav1.Time{Time: time.Now()}, DeletionTimestamp: &metav1.Time{}}, ExpiresIn: 600, UserName: "foo"})
 	fakeUserClient := userfake.NewSimpleClientset(&userapi.User{ObjectMeta: metav1.ObjectMeta{Name: "foo", UID: "bar"}})
 	tokenAuthenticator := NewTokenAuthenticator(fakeOAuthClient.OauthV1().OAuthAccessTokens(), fakeUserClient.UserV1().Users(), NoopGroupMapper{}, NewExpirationValidator())
@@ -43,6 +45,8 @@ func TestAuthenticateTokenExpired(t *testing.T) {
 	}
 }
 func TestAuthenticateTokenValidated(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

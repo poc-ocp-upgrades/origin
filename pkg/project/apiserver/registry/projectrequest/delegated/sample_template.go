@@ -40,6 +40,8 @@ func DefaultTemplate() *templateapi.Template {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := &templateapi.Template{}
 	ret.Name = DefaultTemplateName
 	ns := "${" + ProjectNameParam + "}"

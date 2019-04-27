@@ -19,6 +19,8 @@ func TestCommandFor(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := CommandFor("unknown")
 	if cmd.Use != "openshift" {
 		t.Errorf("expected command to be openshift: %#v", cmd)

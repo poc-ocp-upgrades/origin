@@ -20,11 +20,15 @@ func makeTestNode(g MutableUniqueGraph, name string) graph.Node {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return EnsureUnique(g, UniqueName(name), func(node Node) graph.Node {
 		return node
 	})
 }
 func TestContainsNavigation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func TestContainsNavigation(t *testing.T) {
 	}
 }
 func TestOnlyOneContainseEdge(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

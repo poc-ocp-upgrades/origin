@@ -32,9 +32,13 @@ func newImageStreamImports(c *ImageClient, namespace string) *imageStreamImports
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStreamImports{client: c.RESTClient(), ns: namespace}
 }
 func (c *imageStreamImports) Create(imageStreamImport *image.ImageStreamImport) (result *image.ImageStreamImport, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

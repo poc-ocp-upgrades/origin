@@ -45,9 +45,13 @@ func NewStrategyGenerate(user userclient.UserInterface, initializer Initializer)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &StrategyGenerate{user, DefaultGenerator, initializer}
 }
 func (s *StrategyGenerate) UserForNewIdentity(ctx context.Context, preferredUserName string, identity *userapi.Identity) (*userapi.User, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

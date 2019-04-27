@@ -47,9 +47,13 @@ func newImageStreams(c *ImageClient, namespace string) *imageStreams {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStreams{client: c.RESTClient(), ns: namespace}
 }
 func (c *imageStreams) Get(name string, options v1.GetOptions) (result *image.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,6 +73,8 @@ func (c *imageStreams) Get(name string, options v1.GetOptions) (result *image.Im
 	return
 }
 func (c *imageStreams) List(opts v1.ListOptions) (result *image.ImageStreamList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +112,8 @@ func (c *imageStreams) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -114,6 +122,8 @@ func (c *imageStreams) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Namespace(c.ns).Resource("imagestreams").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *imageStreams) Create(imageStream *image.ImageStream) (result *image.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,11 +157,15 @@ func (c *imageStreams) Update(imageStream *image.ImageStream) (result *image.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &image.ImageStream{}
 	err = c.client.Put().Namespace(c.ns).Resource("imagestreams").Name(imageStream.Name).Body(imageStream).Do().Into(result)
 	return
 }
 func (c *imageStreams) UpdateStatus(imageStream *image.ImageStream) (result *image.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,9 +199,13 @@ func (c *imageStreams) Delete(name string, options *v1.DeleteOptions) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.client.Delete().Namespace(c.ns).Resource("imagestreams").Name(name).Body(options).Do().Error()
 }
 func (c *imageStreams) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -223,11 +241,15 @@ func (c *imageStreams) Patch(name string, pt types.PatchType, data []byte, subre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &image.ImageStream{}
 	err = c.client.Patch(pt).Namespace(c.ns).Resource("imagestreams").SubResource(subresources...).Name(name).Body(data).Do().Into(result)
 	return
 }
 func (c *imageStreams) Secrets(imageStreamName string, options v1.GetOptions) (result *corev1.SecretList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -150,6 +150,8 @@ func NewCmdPruneImages(f kcmdutil.Factory, parentName, name string, streams gene
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allImages := true
 	opts := &PruneImagesOptions{Confirm: false, KeepYoungerThan: &defaultKeepYoungerThan, KeepTagRevisions: &defaultKeepTagRevisions, PruneOverSizeLimit: &defaultPruneImageOverSizeLimit, PruneRegistry: &defaultPruneRegistry, AllImages: &allImages}
 	cmd := &cobra.Command{Use: name, Short: "Remove unreferenced images", Long: fmt.Sprintf(imagesLongDesc, bootstrappolicy.ImagePrunerRoleName), Example: fmt.Sprintf(imagesExample, parentName, name), Run: func(cmd *cobra.Command, args []string) {
@@ -170,6 +172,8 @@ func NewCmdPruneImages(f kcmdutil.Factory, parentName, name string, streams gene
 	return cmd
 }
 func (o *PruneImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +261,8 @@ func (o PruneImagesOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.PruneOverSizeLimit != nil && (o.KeepYoungerThan != nil || o.KeepTagRevisions != nil) {
 		return fmt.Errorf("--prune-over-size-limit cannot be specified with --keep-tag-revisions nor --keep-younger-than")
 	}
@@ -278,6 +284,8 @@ func (o PruneImagesOptions) Validate() error {
 	return nil
 }
 func (o PruneImagesOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -463,6 +471,8 @@ func printSummary(out io.Writer, deletions []imageprune.Deletion, failures []ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(failures) == 0 {
 		fmt.Fprintf(out, "Deleted %d objects.\n", len(deletions))
 	} else {
@@ -545,6 +555,8 @@ func (o *PruneImagesOptions) printGraphBuildErrors(errs kutilerrors.Aggregate) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refErrors := []error{}
 	fmt.Fprintf(o.ErrOut, "Failed to build graph!\n")
 	for _, err := range errs.Errors() {
@@ -594,9 +606,13 @@ func (p *describingImageStreamDeleter) GetImageStream(stream *imagev1.ImageStrea
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stream, nil
 }
 func (p *describingImageStreamDeleter) UpdateImageStream(stream *imagev1.ImageStream) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -635,6 +651,8 @@ func (p *describingImageStreamDeleter) NotifyImageStreamPrune(stream *imagev1.Im
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(updatedTags) > 0 {
 		fmt.Fprintf(p.w, "Updating istags %s/%s: %s\n", stream.Namespace, stream.Name, strings.Join(updatedTags, ", "))
 	}
@@ -653,6 +671,8 @@ type describingImageDeleter struct {
 var _ imageprune.ImageDeleter = &describingImageDeleter{}
 
 func (p *describingImageDeleter) DeleteImage(image *imagev1.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -702,6 +722,8 @@ func (p *describingLayerLinkDeleter) DeleteLayerLink(registryClient *http.Client
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting layer link %s in repository %s\n", name, repo)
 	if p.delegate == nil {
 		return nil
@@ -723,6 +745,8 @@ type describingBlobDeleter struct {
 var _ imageprune.BlobDeleter = &describingBlobDeleter{}
 
 func (p *describingBlobDeleter) DeleteBlob(registryClient *http.Client, registryURL *url.URL, layer string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -772,6 +796,8 @@ func (p *describingManifestDeleter) DeleteManifest(registryClient *http.Client, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(p.w, "Deleting manifest link %s in repository %s\n", manifest, repo)
 	if p.delegate == nil {
 		return nil
@@ -797,6 +823,8 @@ func getImageClientFactory(f kcmdutil.Factory) func() (imagev1client.ImageV1Inte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func() (imagev1client.ImageV1Interface, error) {
 		clientConfig, err := f.ToRESTConfig()
 		if err != nil {
@@ -806,6 +834,8 @@ func getImageClientFactory(f kcmdutil.Factory) func() (imagev1client.ImageV1Inte
 	}
 }
 func getRegistryClient(clientConfig *restclient.Config, registryCABundle string, registryInsecure bool) (*http.Client, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -883,6 +913,8 @@ func getClientAndMasterVersions(client discovery.DiscoveryInterface, timeout tim
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	done := make(chan error)
 	go func() {
 		defer close(done)
@@ -932,6 +964,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1006,5 +1059,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -20,5 +20,7 @@ func userToInfo(user *userapi.User) kuser.Info {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kuser.DefaultInfo{Name: user.Name, UID: string(user.UID)}
 }

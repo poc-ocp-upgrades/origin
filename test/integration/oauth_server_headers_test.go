@@ -27,6 +27,8 @@ func TestOAuthServerHeaders(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -58,6 +60,8 @@ func TestOAuthServerHeaders(t *testing.T) {
 	}
 }
 func checkNewReqHeaders(t *testing.T, rt http.RoundTripper, checkUrl string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

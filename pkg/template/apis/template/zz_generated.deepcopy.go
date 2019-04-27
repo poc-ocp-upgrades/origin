@@ -20,6 +20,8 @@ func (in *BrokerTemplateInstance) DeepCopyInto(out *BrokerTemplateInstance) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -27,6 +29,8 @@ func (in *BrokerTemplateInstance) DeepCopyInto(out *BrokerTemplateInstance) {
 	return
 }
 func (in *BrokerTemplateInstance) DeepCopy() *BrokerTemplateInstance {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,12 +67,16 @@ func (in *BrokerTemplateInstance) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *BrokerTemplateInstanceList) DeepCopyInto(out *BrokerTemplateInstanceList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +118,8 @@ func (in *BrokerTemplateInstanceList) DeepCopy() *BrokerTemplateInstanceList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -132,12 +142,16 @@ func (in *BrokerTemplateInstanceList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *BrokerTemplateInstanceSpec) DeepCopyInto(out *BrokerTemplateInstanceSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +191,8 @@ func (in *BrokerTemplateInstanceSpec) DeepCopy() *BrokerTemplateInstanceSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -185,6 +201,8 @@ func (in *BrokerTemplateInstanceSpec) DeepCopy() *BrokerTemplateInstanceSpec {
 	return out
 }
 func (in ExtraValue) DeepCopyInto(out *ExtraValue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +239,8 @@ func (in ExtraValue) DeepCopy() ExtraValue {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -229,6 +249,8 @@ func (in ExtraValue) DeepCopy() ExtraValue {
 	return *out
 }
 func (in *Parameter) DeepCopyInto(out *Parameter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,6 +283,8 @@ func (in *Parameter) DeepCopy() *Parameter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -269,6 +293,8 @@ func (in *Parameter) DeepCopy() *Parameter {
 	return out
 }
 func (in *Template) DeepCopyInto(out *Template) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -324,6 +350,8 @@ func (in *Template) DeepCopy() *Template {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -346,12 +374,16 @@ func (in *Template) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *TemplateInstance) DeepCopyInto(out *TemplateInstance) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,6 +420,8 @@ func (in *TemplateInstance) DeepCopy() *TemplateInstance {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -396,6 +430,8 @@ func (in *TemplateInstance) DeepCopy() *TemplateInstance {
 	return out
 }
 func (in *TemplateInstance) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -430,11 +466,15 @@ func (in *TemplateInstanceCondition) DeepCopyInto(out *TemplateInstanceCondition
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	in.LastTransitionTime.DeepCopyInto(&out.LastTransitionTime)
 	return
 }
 func (in *TemplateInstanceCondition) DeepCopy() *TemplateInstanceCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -457,6 +497,8 @@ func (in *TemplateInstanceCondition) DeepCopy() *TemplateInstanceCondition {
 	return out
 }
 func (in *TemplateInstanceList) DeepCopyInto(out *TemplateInstanceList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -498,6 +540,8 @@ func (in *TemplateInstanceList) DeepCopy() *TemplateInstanceList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -506,6 +550,8 @@ func (in *TemplateInstanceList) DeepCopy() *TemplateInstanceList {
 	return out
 }
 func (in *TemplateInstanceList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -540,11 +586,15 @@ func (in *TemplateInstanceObject) DeepCopyInto(out *TemplateInstanceObject) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.Ref = in.Ref
 	return
 }
 func (in *TemplateInstanceObject) DeepCopy() *TemplateInstanceObject {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -567,6 +617,8 @@ func (in *TemplateInstanceObject) DeepCopy() *TemplateInstanceObject {
 	return out
 }
 func (in *TemplateInstanceRequester) DeepCopyInto(out *TemplateInstanceRequester) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -619,6 +671,8 @@ func (in *TemplateInstanceRequester) DeepCopy() *TemplateInstanceRequester {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -627,6 +681,8 @@ func (in *TemplateInstanceRequester) DeepCopy() *TemplateInstanceRequester {
 	return out
 }
 func (in *TemplateInstanceSpec) DeepCopyInto(out *TemplateInstanceSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -670,6 +726,8 @@ func (in *TemplateInstanceSpec) DeepCopy() *TemplateInstanceSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -678,6 +736,8 @@ func (in *TemplateInstanceSpec) DeepCopy() *TemplateInstanceSpec {
 	return out
 }
 func (in *TemplateInstanceStatus) DeepCopyInto(out *TemplateInstanceStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -722,6 +782,8 @@ func (in *TemplateInstanceStatus) DeepCopy() *TemplateInstanceStatus {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -730,6 +792,8 @@ func (in *TemplateInstanceStatus) DeepCopy() *TemplateInstanceStatus {
 	return out
 }
 func (in *TemplateList) DeepCopyInto(out *TemplateList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -771,6 +835,8 @@ func (in *TemplateList) DeepCopy() *TemplateList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -779,6 +845,8 @@ func (in *TemplateList) DeepCopy() *TemplateList {
 	return out
 }
 func (in *TemplateList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

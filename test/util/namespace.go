@@ -21,9 +21,13 @@ func Namespace() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return util.Env("OS_TEST_NAMESPACE", "integration")
 }
 func CreateNamespace(clusterAdminKubeConfig, name string) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

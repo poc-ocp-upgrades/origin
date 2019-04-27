@@ -21,6 +21,8 @@ func TestBrowserSafeAuthorizer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for name, tc := range map[string]struct {
 		attributes		authorizer.Attributes
 		expectedVerb		string
@@ -46,6 +48,8 @@ func TestBrowserSafeAuthorizer(t *testing.T) {
 type recordingAuthorizer struct{ attributes authorizer.Attributes }
 
 func (t *recordingAuthorizer) Authorize(a authorizer.Attributes) (authorized authorizer.Decision, reason string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

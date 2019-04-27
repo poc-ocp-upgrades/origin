@@ -25,6 +25,8 @@ func GSSAPIEnabled() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 
@@ -41,6 +43,8 @@ type gssapiNegotiator struct {
 }
 
 func NewGSSAPINegotiator(principalName string) Negotiator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,10 +76,14 @@ func (g *gssapiNegotiator) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := g.loadLib()
 	return err
 }
 func (g *gssapiNegotiator) InitSecContext(requestURL string, challengeToken []byte) (tokenToSend []byte, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,9 +178,13 @@ func (g *gssapiNegotiator) IsComplete() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return g.complete
 }
 func (g *gssapiNegotiator) Release() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +229,8 @@ func (g *gssapiNegotiator) loadLib() (*gssapi.Lib, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.loadOnce.Do(func() {
 		klog.V(5).Infof("loading gssapi")
 		var libPaths []string
@@ -244,6 +258,8 @@ func (g *gssapiNegotiator) loadLib() (*gssapi.Lib, error) {
 	return g.lib, g.loadError
 }
 func convertGSSAPIError(err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

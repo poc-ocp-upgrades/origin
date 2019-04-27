@@ -21,6 +21,8 @@ func TestLogOptionsDrift(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	popts := reflect.TypeOf(kapi.PodLogOptions{})
 	bopts := reflect.TypeOf(BuildLogOptions{})
 	for i := 0; i < popts.NumField(); i++ {

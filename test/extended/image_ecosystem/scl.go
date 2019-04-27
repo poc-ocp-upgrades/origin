@@ -29,9 +29,13 @@ func getPodNameForTest(image string, t tc) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s-%s-centos7", image, t.Version)
 }
 func defineTest(image string, t tc, oc *exutil.CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

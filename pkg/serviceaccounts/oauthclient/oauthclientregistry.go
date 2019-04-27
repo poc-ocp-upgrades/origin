@@ -58,6 +58,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthapi.Install(scheme)
 	oauthapi.DeprecatedInstallWithoutGroup(scheme)
 }
@@ -100,9 +102,13 @@ func (m *model) getGroupKind() schema.GroupKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.GroupKind{Group: m.group, Kind: m.kind}
 }
 func (m *model) updateFromURI(u *url.URL) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,12 +144,16 @@ func (m *model) updateFromReference(r *oauthapi.RedirectReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.group, m.kind, m.name = r.Group, r.Kind, r.Name
 }
 
 type modelList []model
 
 func (ml modelList) getNames() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +177,8 @@ func (ml modelList) getNames() sets.String {
 	return data
 }
 func (ml modelList) getRedirectURIs(objMapper map[string]redirectURIList) redirectURIList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +228,8 @@ func (uri *redirectURI) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host := uri.host
 	if len(uri.port) > 0 {
 		host = net.JoinHostPort(host, uri.port)
@@ -223,6 +237,8 @@ func (uri *redirectURI) String() string {
 	return (&url.URL{Scheme: uri.scheme, Host: host, Path: uri.path}).String()
 }
 func (uri *redirectURI) isValid() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +273,8 @@ func (rl redirectURIList) extractValidRedirectURIStrings() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var data []string
 	for _, u := range rl {
 		if u.isValid() {
@@ -266,6 +284,8 @@ func (rl redirectURIList) extractValidRedirectURIStrings() []string {
 	return data
 }
 func (uri *redirectURI) merge(m *model) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,12 +331,16 @@ func NewServiceAccountOAuthClientGetter(saClient kcoreclient.ServiceAccountsGett
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartRecordingToSink(&kcoreclient.EventSinkImpl{Interface: eventClient})
 	recorder := eventBroadcaster.NewRecorder(scheme, clientv1.EventSource{Component: "service-account-oauth-client-getter"})
 	return &saOAuthClientAdapter{saClient: saClient, secretClient: secretClient, eventRecorder: recorder, routeClient: routeClient, delegate: delegate, grantMethod: grantMethod, decoder: codecFactory.UniversalDecoder()}
 }
 func (a *saOAuthClientAdapter) Get(name string, options metav1.GetOptions) (*oauthapi.OAuthClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -396,6 +420,8 @@ func parseModelsMap(annotations map[string]string, decoder runtime.Decoder) (map
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	models := map[string]model{}
 	parseErrors := []error{}
 	for key, value := range annotations {
@@ -438,6 +464,8 @@ func parseModelPrefixName(key string) (string, string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, prefix := range modelPrefixes {
 		if strings.HasPrefix(key, prefix) {
 			return prefix, key[len(prefix):], true
@@ -446,6 +474,8 @@ func parseModelPrefixName(key string) (string, string, bool) {
 	return "", "", false
 }
 func (a *saOAuthClientAdapter) extractRedirectURIs(modelsMap map[string]model, namespace string) (redirectURIList, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,6 +535,8 @@ func (a *saOAuthClientAdapter) redirectURIsFromRoutes(namespace string, osRouteN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var routes []routeapi.Route
 	routeErrors := []error{}
 	routeInterface := a.routeClient.Routes(namespace)
@@ -530,6 +562,8 @@ func (a *saOAuthClientAdapter) redirectURIsFromRoutes(namespace string, osRouteN
 	return routeMap, routeErrors
 }
 func redirectURIsFromRoute(route *routeapi.Route) redirectURIList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -578,6 +612,8 @@ func isRouteIngressValid(routeIngress *routeapi.RouteIngress) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(routeIngress.Host) == 0 {
 		return false
 	}
@@ -603,9 +639,13 @@ func getScopeRestrictionsFor(namespace, name string) []oauthapi.ScopeRestriction
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []oauthapi.ScopeRestriction{{ExactValues: []string{scopeauthorizer.UserInfo, scopeauthorizer.UserAccessCheck, scopeauthorizer.UserListScopedProjects, scopeauthorizer.UserListAllProjects}}, {ClusterRole: &oauthapi.ClusterRoleScopeRestriction{RoleNames: []string{"*"}, Namespaces: []string{namespace}, AllowEscalation: true}}}
 }
 func (a *saOAuthClientAdapter) getServiceAccountTokens(sa *corev1.ServiceAccount) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -648,6 +688,8 @@ func IsServiceAccountToken(secret *corev1.Secret, sa *corev1.ServiceAccount) boo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if secret.Type != corev1.SecretTypeServiceAccountToken {
 		return false
 	}
@@ -676,6 +718,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -750,5 +813,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

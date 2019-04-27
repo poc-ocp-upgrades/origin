@@ -25,9 +25,13 @@ func getClusterNicknameFromConfig(clientCfg *restclient.Config) (string, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return config.GetClusterNicknameFromURL(clientCfg.Host)
 }
 func getUserNicknameFromConfig(clientCfg *restclient.Config) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -53,6 +57,8 @@ func getUserNicknameFromConfig(clientCfg *restclient.Config) (string, error) {
 	return userPartOfNick + "/" + clusterNick, nil
 }
 func getUserPartOfNickname(clientCfg *restclient.Config) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +105,8 @@ func getContextNicknameFromConfig(namespace string, clientCfg *restclient.Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userPartOfNick, err := getUserPartOfNickname(clientCfg)
 	if err != nil {
 		return "", err
@@ -110,6 +118,8 @@ func getContextNicknameFromConfig(namespace string, clientCfg *restclient.Config
 	return namespace + "/" + clusterNick + "/" + userPartOfNick, nil
 }
 func CreateConfig(namespace string, clientCfg *restclient.Config) (*clientcmdapi.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -179,6 +189,8 @@ func MergeConfig(startingConfig, addition clientcmdapi.Config) (*clientcmdapi.Co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := startingConfig
 	for requestedKey, value := range addition.Clusters {
 		ret.Clusters[requestedKey] = value
@@ -210,6 +222,8 @@ func MergeConfig(startingConfig, addition clientcmdapi.Config) (*clientcmdapi.Co
 	return &ret, nil
 }
 func findExistingContextName(haystack clientcmdapi.Config, needle clientcmdapi.Context) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

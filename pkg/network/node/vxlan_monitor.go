@@ -51,9 +51,13 @@ func newEgressVXLANMonitor(ovsif ovs.Interface, tracker *common.EgressIPTracker,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &egressVXLANMonitor{ovsif: ovsif, tracker: tracker, updates: updates, pollInterval: defaultPollInterval, monitorNodes: make(map[string]*egressVXLANNode)}
 }
 func (evm *egressVXLANMonitor) AddNode(nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func (evm *egressVXLANMonitor) RemoveNode(nodeIP string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	evm.Lock()
 	defer evm.Unlock()
 	if evm.monitorNodes[nodeIP] == nil {
@@ -122,6 +128,8 @@ func parseNPackets(of *ovs.OvsFlow) (uint64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	str, _ := of.FindField("n_packets")
 	if str == nil {
 		return 0, fmt.Errorf("no packet count")
@@ -133,6 +141,8 @@ func parseNPackets(of *ovs.OvsFlow) (uint64, error) {
 	return nPackets, nil
 }
 func (evm *egressVXLANMonitor) check(retryOnly bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,6 +251,8 @@ func (evm *egressVXLANMonitor) check(retryOnly bool) bool {
 	return retry
 }
 func (evm *egressVXLANMonitor) poll() (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

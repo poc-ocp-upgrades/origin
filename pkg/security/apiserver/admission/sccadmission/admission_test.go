@@ -39,9 +39,13 @@ func newTestAdmission(lister securityv1listers.SecurityContextConstraintsLister,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &constraint{Handler: admission.NewHandler(admission.Create), client: kclient, sccLister: lister, authorizer: authorizer}
 }
 func TestFailClosedOnInvalidPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func TestFailClosedOnInvalidPod(t *testing.T) {
 	}
 }
 func TestAdmitCaps(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +143,8 @@ func testSCCAdmit(testCaseName string, sccs []*securityv1.SecurityContextConstra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	tc := setupClientSet()
 	lister := createSCCLister(t, sccs)
@@ -159,6 +167,8 @@ func testSCCAdmit(testCaseName string, sccs []*securityv1.SecurityContextConstra
 	}
 }
 func TestAdmitSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,6 +232,8 @@ func TestAdmitSuccess(t *testing.T) {
 	}
 }
 func TestAdmitFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +313,8 @@ func TestCreateProvidersFromConstraints(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaceValid := &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "default", Annotations: map[string]string{allocator.UIDRangeAnnotation: "1/3", allocator.MCSAnnotation: "s0:c1,c0", allocator.SupplementalGroupsAnnotation: "1/3"}}}
 	namespaceNoUID := &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "default", Annotations: map[string]string{allocator.MCSAnnotation: "s0:c1,c0", allocator.SupplementalGroupsAnnotation: "1/3"}}}
 	namespaceNoMCS := &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "default", Annotations: map[string]string{allocator.UIDRangeAnnotation: "1/3", allocator.SupplementalGroupsAnnotation: "1/3"}}}
@@ -350,6 +364,8 @@ func TestCreateProvidersFromConstraints(t *testing.T) {
 	}
 }
 func TestMatchingSecurityContextConstraints(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -421,6 +437,8 @@ func TestAdmitWithPrioritizedSCC(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	restricted := restrictiveSCC()
 	restrictedPriority := int32(100)
 	restricted.Priority = &restrictedPriority
@@ -465,6 +483,8 @@ func TestAdmitWithPrioritizedSCC(t *testing.T) {
 	testSCCAdmission(matchingPriorityAndScoreSCCOnePod, plugin, matchingPriorityAndScoreSCCOne.Name, "match matchingPriorityAndScoreSCCOne by setting RunAsUser to 6", t)
 }
 func TestAdmitSeccomp(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -544,6 +564,8 @@ func TestAdmitPreferNonmutatingWhenPossible(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mutatingSCC := restrictiveSCC()
 	mutatingSCC.Name = "mutating-scc"
 	nonMutatingSCC := laxSCC()
@@ -601,6 +623,8 @@ func testSCCAdmission(pod *coreapi.Pod, plugin admission.Interface, expectedSCC,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	attrs := admission.NewAttributesRecord(pod, nil, coreapi.Kind("Pod").WithVersion("version"), pod.Namespace, pod.Name, coreapi.Resource("pods").WithVersion("version"), "", admission.Create, false, &user.DefaultInfo{})
 	err := plugin.(admission.MutationInterface).Admit(attrs)
@@ -634,9 +658,13 @@ func laxSCC() *securityv1.SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &securityv1.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "lax"}, AllowPrivilegedContainer: true, AllowHostNetwork: true, AllowHostPorts: true, AllowHostPID: true, AllowHostIPC: true, RunAsUser: securityv1.RunAsUserStrategyOptions{Type: securityv1.RunAsUserStrategyRunAsAny}, SELinuxContext: securityv1.SELinuxContextStrategyOptions{Type: securityv1.SELinuxStrategyRunAsAny}, FSGroup: securityv1.FSGroupStrategyOptions{Type: securityv1.FSGroupStrategyRunAsAny}, SupplementalGroups: securityv1.SupplementalGroupsStrategyOptions{Type: securityv1.SupplementalGroupsStrategyRunAsAny}, Groups: []string{"system:serviceaccounts"}}
 }
 func restrictiveSCC() *securityv1.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -669,9 +697,13 @@ func saSCC() *securityv1.SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &securityv1.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "scc-sa"}, RunAsUser: securityv1.RunAsUserStrategyOptions{Type: securityv1.RunAsUserStrategyMustRunAsRange}, SELinuxContext: securityv1.SELinuxContextStrategyOptions{Type: securityv1.SELinuxStrategyMustRunAs}, FSGroup: securityv1.FSGroupStrategyOptions{Type: securityv1.FSGroupStrategyMustRunAs}, SupplementalGroups: securityv1.SupplementalGroupsStrategyOptions{Type: securityv1.SupplementalGroupsStrategyMustRunAs}, Groups: []string{"system:serviceaccounts"}}
 }
 func saExactSCC() *securityv1.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -704,9 +736,13 @@ func goodPod() *coreapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &coreapi.Pod{ObjectMeta: metav1.ObjectMeta{Namespace: "default"}, Spec: coreapi.PodSpec{ServiceAccountName: "default", SecurityContext: &coreapi.PodSecurityContext{}, Containers: []coreapi.Container{{SecurityContext: &coreapi.SecurityContext{}}}}}
 }
 func containerSC(seLinuxLevel *string, uid int64) *coreapi.SecurityContext {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -742,9 +778,13 @@ func podSC(seLinuxLevel string, fsGroup, supGroup int64) *coreapi.PodSecurityCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &coreapi.PodSecurityContext{SELinuxOptions: &coreapi.SELinuxOptions{Level: seLinuxLevel}, SupplementalGroups: []int64{supGroup}, FSGroup: &fsGroup}
 }
 func setupClientSet() *fake.Clientset {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -779,6 +819,8 @@ func createSCCListerAndIndexer(t *testing.T, sccs []*securityv1.SecurityContextC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Helper()
 	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{cache.NamespaceIndex: cache.MetaNamespaceIndexFunc})
 	lister := securityv1listers.NewSecurityContextConstraintsLister(indexer)
@@ -790,6 +832,8 @@ func createSCCListerAndIndexer(t *testing.T, sccs []*securityv1.SecurityContextC
 	return lister, indexer
 }
 func createSCCLister(t *testing.T, sccs []*securityv1.SecurityContextConstraints) securityv1listers.SecurityContextConstraintsLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -831,6 +875,8 @@ func (s *sccTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.t.Helper()
 	if !isValidSCCAttributes(a) {
 		s.t.Errorf("invalid attributes seen: %#v", a)
@@ -843,6 +889,8 @@ func (s *sccTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decis
 	return authorizer.DecisionNoOpinion, "", nil
 }
 func isValidSCCAttributes(a authorizer.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

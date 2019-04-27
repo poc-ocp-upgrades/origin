@@ -22,6 +22,8 @@ func RelevantDeployments(g osgraph.Graph, dNode *kubegraph.DeploymentNode) (*kub
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allDeployments := []*kubegraph.ReplicaSetNode{}
 	uncastDeployments := g.SuccessorNodesByEdgeKind(dNode, DeploymentEdgeKind)
 	if len(uncastDeployments) == 0 {
@@ -56,6 +58,8 @@ func (m RecentDeploymentReferences) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m RecentDeploymentReferences) Swap(i, j int) {
@@ -73,9 +77,13 @@ func (m RecentDeploymentReferences) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m RecentDeploymentReferences) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

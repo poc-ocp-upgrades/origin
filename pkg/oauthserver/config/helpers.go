@@ -19,6 +19,8 @@ func IsOAuthIdentityProvider(provider osinv1.IdentityProvider) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch provider.Provider.Object.(type) {
 	case *osinv1.OpenIDIdentityProvider, *osinv1.GitHubIdentityProvider, *osinv1.GitLabIdentityProvider, *osinv1.GoogleIdentityProvider:
 		return true
@@ -26,6 +28,8 @@ func IsOAuthIdentityProvider(provider osinv1.IdentityProvider) bool {
 	return false
 }
 func IsPasswordAuthenticator(provider osinv1.IdentityProvider) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -38,9 +38,13 @@ func newHostSubnetWatcher(oc *ovsController, localIP string, networkInfo *common
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &hostSubnetWatcher{oc: oc, localIP: localIP, networkInfo: networkInfo, hostSubnetMap: make(map[ktypes.UID]*networkapi.HostSubnet)}
 }
 func (hsw *hostSubnetWatcher) Start(networkInformers networkinformers.SharedInformerFactory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,6 +63,8 @@ func (hsw *hostSubnetWatcher) Start(networkInformers networkinformers.SharedInfo
 	networkInformers.Network().V1().HostSubnets().Informer().AddEventHandler(funcs)
 }
 func (hsw *hostSubnetWatcher) handleAddOrUpdateHostSubnet(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (hsw *hostSubnetWatcher) handleDeleteHostSubnet(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hs := obj.(*networkapi.HostSubnet)
 	klog.V(5).Infof("Watch %s event for HostSubnet %q", watch.Deleted, hs.Name)
 	if err := hsw.deleteHostSubnet(hs); err != nil {
@@ -105,6 +113,8 @@ func (hsw *hostSubnetWatcher) handleDeleteHostSubnet(obj interface{}) {
 	}
 }
 func (hsw *hostSubnetWatcher) updateHostSubnet(hs *networkapi.HostSubnet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +168,8 @@ func (hsw *hostSubnetWatcher) deleteHostSubnet(hs *networkapi.HostSubnet) error 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hs.HostIP == hsw.localIP {
 		return nil
 	}
@@ -189,6 +201,8 @@ func (hsw *hostSubnetWatcher) updateVXLANMulticastRules() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	remoteIPs := make([]string, 0, len(hsw.hostSubnetMap))
 	for _, subnet := range hsw.hostSubnetMap {
 		if subnet.HostIP != hsw.localIP {
@@ -198,6 +212,8 @@ func (hsw *hostSubnetWatcher) updateVXLANMulticastRules() error {
 	return hsw.oc.UpdateVXLANMulticastFlows(remoteIPs)
 }
 func (node *OsdnNode) getLocalSubnet() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

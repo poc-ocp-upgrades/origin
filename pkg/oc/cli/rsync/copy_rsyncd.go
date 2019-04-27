@@ -71,9 +71,13 @@ func localRsyncURL(port int, label string, path string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("rsync://127.0.0.1:%d/%s/%s", port, label, strings.TrimPrefix(path, "/"))
 }
 func getUsedPorts(data string) map[int]struct{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,9 +130,13 @@ func randomPort() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return portRangeFrom + random.Intn(portRangeTo-portRangeFrom)
 }
 func localPort() (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +181,8 @@ func (s *rsyncDaemonStrategy) getFreePort() (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := []string{"bash", "-c", "cat /proc/net/tcp && ( [ -e /proc/net/tcp6 ] && cat /proc/net/tcp6 || true)"}
 	tcpData := &bytes.Buffer{}
 	cmdErr := &bytes.Buffer{}
@@ -199,6 +209,8 @@ func (s *rsyncDaemonStrategy) getFreePort() (int, error) {
 	return 0, fmt.Errorf("could not find a free port")
 }
 func (s *rsyncDaemonStrategy) startRemoteDaemon() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,6 +276,8 @@ func (s *rsyncDaemonStrategy) killRemoteDaemon() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := []string{"sh"}
 	cmdIn := bytes.NewBufferString(fmt.Sprintf(killDaemonScript, s.daemonPIDFile))
 	cmdOut := &bytes.Buffer{}
@@ -275,6 +289,8 @@ func (s *rsyncDaemonStrategy) killRemoteDaemon() error {
 	return err
 }
 func (s *rsyncDaemonStrategy) startPortForward() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -312,9 +328,13 @@ func (s *rsyncDaemonStrategy) stopPortForward() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(s.portForwardChan)
 }
 func (s *rsyncDaemonStrategy) copyUsingDaemon(source, destination *PathSpec, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,6 +387,8 @@ func (s *rsyncDaemonStrategy) Copy(source, destination *PathSpec, out, errOut io
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := s.startRemoteDaemon()
 	if err != nil {
 		if isExitError(err) {
@@ -387,6 +409,8 @@ func (s *rsyncDaemonStrategy) Copy(source, destination *PathSpec, out, errOut io
 	return err
 }
 func (s *rsyncDaemonStrategy) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -431,6 +455,8 @@ func NewRsyncDaemonStrategy(o *RsyncOptions) CopyStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags := rsyncDefaultFlags
 	flags = append(flags, rsyncFlagsFromOptions(o)...)
 	remoteExec := newRemoteExecutor(o)
@@ -438,6 +464,8 @@ func NewRsyncDaemonStrategy(o *RsyncOptions) CopyStrategy {
 	return &rsyncDaemonStrategy{Flags: flags, RemoteExecutor: remoteExec, LocalExecutor: newLocalExecutor(), PortForwarder: forwarder}
 }
 func (s *rsyncDaemonStrategy) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

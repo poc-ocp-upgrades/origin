@@ -29,6 +29,8 @@ func waitForServiceAccountToken(client kubernetes.Interface, ns, name string, at
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i <= attempts; i++ {
 		time.Sleep(interval)
 		token, err := getServiceAccountToken(client, ns, name)
@@ -42,6 +44,8 @@ func waitForServiceAccountToken(client kubernetes.Interface, ns, name string, at
 	return "", nil
 }
 func getServiceAccountToken(client kubernetes.Interface, ns, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func getServiceAccountToken(client kubernetes.Interface, ns, name string) (strin
 	return "", nil
 }
 func TestAutomaticCreationOfPullSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +149,8 @@ func waitForServiceAccountPullSecret(client kubernetes.Interface, ns, name strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i <= attempts; i++ {
 		time.Sleep(interval)
 		secretName, dockerCfg, err := getServiceAccountPullSecret(client, ns, name)
@@ -170,6 +178,8 @@ func getServiceAccountPullSecret(client kubernetes.Interface, ns, name string) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secrets, err := client.CoreV1().Secrets(ns).List(metav1.ListOptions{})
 	if err != nil {
 		return "", "", err
@@ -182,6 +192,8 @@ func getServiceAccountPullSecret(client kubernetes.Interface, ns, name string) (
 	return "", "", nil
 }
 func TestDockercfgTokenDeletedController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +263,8 @@ func TestDockercfgTokenDeletedController(t *testing.T) {
 	waitForSecretDelete(dockercfgSecretName, secretsWatch, t)
 }
 func waitForSecretDelete(secretName string, w watch.Interface, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

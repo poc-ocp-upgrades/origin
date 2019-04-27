@@ -21,6 +21,8 @@ func RunTemplateInstanceController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	saName := bootstrappolicy.InfraTemplateInstanceControllerServiceAccountName
 	restConfig, err := ctx.ClientBuilder.Config(saName)
 	if err != nil {
@@ -34,6 +36,8 @@ func RunTemplateInstanceController(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunTemplateInstanceFinalizerController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func RunDeployerController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := ctx.ClientBuilder.Config(bootstrappolicy.InfraDeployerControllerServiceAccountName)
 	if err != nil {
 		return true, err
@@ -38,6 +40,8 @@ func RunDeployerController(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunDeploymentConfigController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

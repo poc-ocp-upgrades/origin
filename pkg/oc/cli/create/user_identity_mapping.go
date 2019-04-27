@@ -47,9 +47,13 @@ func NewCreateUserIdentityMappingOptions(streams genericclioptions.IOStreams) *C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateUserIdentityMappingOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 }
 func NewCmdCreateUserIdentityMapping(name, fullName string, f genericclioptions.RESTClientGetter, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func NewCmdCreateUserIdentityMapping(name, fullName string, f genericclioptions.
 	return cmd
 }
 func (o *CreateUserIdentityMappingOptions) Complete(cmd *cobra.Command, f genericclioptions.RESTClientGetter, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +128,8 @@ func (o *CreateUserIdentityMappingOptions) Complete(cmd *cobra.Command, f generi
 	return nil
 }
 func (o *CreateUserIdentityMappingOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -39,6 +39,8 @@ func (w walkError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var mode interface{} = "unknown"
 	if w.info != nil {
 		mode = w.info.Mode()
@@ -46,6 +48,8 @@ func (w walkError) Error() string {
 	return fmt.Sprintf("%s (%s), %s: %s", w.path, mode, w.operation, w.err)
 }
 func makeWalkError(path string, info os.FileInfo, err error, operation string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,9 +84,13 @@ func newWalker(walkFn walkFunc) *walker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &walker{walkFn: walkFn, fsuid: int64(os.Getuid()), lstat: os.Lstat, getuid: getuid, setfsuid: setfsuid, readDirNames: readDirNames}
 }
 func (w *walker) Walk(root string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +118,8 @@ func (w *walker) Walk(root string) error {
 	return w.walk(root, info)
 }
 func (w *walker) walk(path string, info os.FileInfo) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +182,8 @@ func (w *walker) becomeOwner(info os.FileInfo) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uid, err := w.getuid(info)
 	if err != nil {
 		return err
@@ -179,6 +191,8 @@ func (w *walker) becomeOwner(info os.FileInfo) error {
 	return w.becomeUid(uid)
 }
 func (w *walker) becomeUid(uid int64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +217,8 @@ func (w *walker) becomeUid(uid int64) error {
 	return nil
 }
 func readDirNames(dirname string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

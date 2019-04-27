@@ -26,6 +26,8 @@ func RunOsinServer(osinConfig *osinv1.OsinServerConfig, stopCh <-chan struct{}) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if osinConfig == nil {
 		return errors.New("osin server requires non-empty oauthConfig")
 	}
@@ -41,6 +43,8 @@ func RunOsinServer(osinConfig *osinv1.OsinServerConfig, stopCh <-chan struct{}) 
 	return oauthServer.GenericAPIServer.PrepareRun().Run(stopCh)
 }
 func newOAuthServerConfig(osinConfig *osinv1.OsinServerConfig) (*oauthserver.OAuthServerConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

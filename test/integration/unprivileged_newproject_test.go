@@ -54,6 +54,8 @@ func TestUnprivilegedNewProject(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -101,6 +103,8 @@ func TestUnprivilegedNewProject(t *testing.T) {
 	}
 }
 func TestUnprivilegedNewProjectFromTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +185,8 @@ func TestUnprivilegedNewProjectFromTemplate(t *testing.T) {
 	}
 }
 func TestUnprivilegedNewProjectDenied(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

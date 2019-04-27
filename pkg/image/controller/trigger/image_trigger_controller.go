@@ -61,9 +61,13 @@ func NewTagRetriever(lister imagev1lister.ImageStreamLister) trigger.TagRetrieve
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return tagRetriever{lister}
 }
 func (r tagRetriever) ImageStreamTag(namespace, name string) (ref string, rv int64, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +98,8 @@ func (r tagRetriever) ImageStreamTag(namespace, name string) (ref string, rv int
 	return ref, rv, ok
 }
 func defaultResourceFailureDelay(requeue int) (time.Duration, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,12 +154,16 @@ func NewTriggerEventBroadcaster(client kv1core.CoreV1Interface) record.EventBroa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartLogging(klog.Infof)
 	eventBroadcaster.StartRecordingToSink(&kv1core.EventSinkImpl{Interface: client.Events("")})
 	return eventBroadcaster
 }
 func NewTriggerController(eventBroadcaster record.EventBroadcaster, isInformer imagev1informer.ImageStreamInformer, sources ...TriggerSource) *TriggerController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,6 +194,8 @@ func NewTriggerController(eventBroadcaster record.EventBroadcaster, isInformer i
 	return c
 }
 func setupTriggerSources(triggerCache cache.ThreadSafeStore, tagRetriever trigger.TagRetriever, sources []TriggerSource, imageChangeQueue workqueue.RateLimitingInterface) (map[string]TriggerSource, []cache.InformerSynced, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,6 +242,8 @@ func (c *TriggerController) Run(workers int, stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
 	klog.Infof("Starting trigger controller")
@@ -247,6 +261,8 @@ func (c *TriggerController) Run(workers int, stopCh <-chan struct{}) {
 	klog.Infof("Shutting down trigger controller")
 }
 func (c *TriggerController) addImageStreamNotification(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -279,9 +295,13 @@ func (c *TriggerController) updateImageStreamNotification(old, cur interface{}) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueImageStreamFn(cur.(*imagev1.ImageStream))
 }
 func (c *TriggerController) enqueueImageStream(is *imagev1.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -318,11 +338,15 @@ func (c *TriggerController) imageStreamWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.processNextImageStream() {
 	}
 	klog.V(4).Infof("Image stream worker stopped")
 }
 func (c *TriggerController) processNextImageStream() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,6 +371,8 @@ func (c *TriggerController) processNextImageStream() bool {
 	return true
 }
 func (c *TriggerController) handleImageStreamErr(err error, key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -389,11 +415,15 @@ func (c *TriggerController) resourceWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.processNextResource() {
 	}
 	klog.V(4).Infof("Resource worker stopped")
 }
 func (c *TriggerController) processNextResource() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -418,6 +448,8 @@ func (c *TriggerController) processNextResource() bool {
 	return true
 }
 func (c *TriggerController) handleResourceErr(err error, key string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -460,6 +492,8 @@ func (c *TriggerController) syncImageStream(key string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if klog.V(4) {
 		startTime := time.Now()
 		klog.Infof("Started syncing image stream %q", key)
@@ -481,6 +515,8 @@ func (c *TriggerController) syncImageStream(key string) error {
 	return nil
 }
 func (c *TriggerController) syncResource(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

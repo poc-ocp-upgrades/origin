@@ -27,6 +27,8 @@ func (s *ParallelPolicy) IsRunnable(build *buildv1.Build) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcName := buildutil.ConfigNameForBuild(build)
 	if len(bcName) == 0 {
 		return true, nil
@@ -34,6 +36,8 @@ func (s *ParallelPolicy) IsRunnable(build *buildv1.Build) (bool, error) {
 	return !hasRunningSerialBuild(s.BuildLister, build.Namespace, bcName), nil
 }
 func (s *ParallelPolicy) Handles(policy buildv1.BuildRunPolicy) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

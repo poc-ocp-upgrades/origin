@@ -23,6 +23,8 @@ func TestServiceResolverCacheEmpty(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeClient := fake.NewSimpleClientset(&corev1.Service{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: metav1.NamespaceDefault}, Spec: corev1.ServiceSpec{Ports: []corev1.ServicePort{{Port: 80}}}})
 	cache := newServiceResolverCache(fakeClient.CoreV1().Services("default").Get)
 	if v, ok := cache.resolve("FOO_SERVICE_HOST"); v != "" || !ok {
@@ -61,9 +63,13 @@ func (r fakeRetriever) Get(name string, options metav1.GetOptions) (*corev1.Serv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.service, r.err
 }
 func TestServiceResolverCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

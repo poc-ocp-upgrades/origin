@@ -48,6 +48,8 @@ func (i *buildConfigInstantiator) Instantiate(namespace string, request *buildv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i.Request = request
 	if i.Build != nil {
 		return i.Build, i.Err
@@ -64,6 +66,8 @@ type plugin struct {
 }
 
 func (p *plugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.WebHookTrigger, req *http.Request) (*buildv1.SourceRevision, []corev1.EnvVar, *buildv1.DockerStrategyOptions, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,10 +100,14 @@ func (p *plugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv1.WebHo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	trigger := &buildv1.WebHookTrigger{Secret: "secret"}
 	return []*buildv1.WebHookTrigger{trigger}, nil
 }
 func newStorage() (*WebHook, *buildConfigInstantiator, *buildfake.Clientset) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +151,8 @@ func (r *fakeResponder) Object(statusCode int, obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.called {
 		panic("called twice")
 	}
@@ -165,6 +175,8 @@ func (r *fakeResponder) Error(err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.called {
 		panic("called twice")
 	}
@@ -172,6 +184,8 @@ func (r *fakeResponder) Error(err error) {
 	r.err = err
 }
 func TestConnectWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -281,12 +295,16 @@ func (*okBuildConfigInstantiator) Instantiate(namespace string, request *buildv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: request.Name}}, nil
 }
 
 type errorBuildConfigInstantiator struct{}
 
 func (*errorBuildConfigInstantiator) Instantiate(namespace string, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -321,12 +339,16 @@ func (*errorBuildConfigGetter) Get(namespace, name string) (*buildv1.BuildConfig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{}, errors.New("BuildConfig error!")
 }
 
 type errorBuildConfigUpdater struct{}
 
 func (*errorBuildConfigUpdater) Update(buildConfig *buildv1.BuildConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,9 +383,13 @@ func (p *pathPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.Web
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, []corev1.EnvVar{}, nil, true, nil
 }
 func (p *pathPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv1.WebHookTrigger, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -399,9 +425,13 @@ func (*errPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.WebHoo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, []corev1.EnvVar{}, nil, false, errors.New("Plugin error!")
 }
 func (p *errPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv1.WebHookTrigger, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -424,6 +454,8 @@ var testBuildConfig = &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Namespa
 var mockBuildStrategy = buildv1.BuildStrategy{SourceStrategy: &buildv1.SourceBuildStrategy{From: corev1.ObjectReference{Kind: "DockerImage", Name: "repository/image"}}}
 
 func TestParseUrlError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -465,6 +497,8 @@ func TestParseUrlOK(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	responder := &fakeResponder{}
 	handler, _ := newWebHookREST(buildfake.NewSimpleClientset(testBuildConfig).BuildV1(), nil, &okBuildConfigInstantiator{}, buildv1.SchemeGroupVersion, map[string]webhook.Plugin{"pathplugin": &pathPlugin{}}).Connect(apirequest.WithNamespace(apirequest.NewDefaultContext(), testBuildConfig.Namespace), "build100", &kapi.PodProxyOptions{Path: "secret101/pathplugin"}, responder)
 	server := httptest.NewServer(handler)
@@ -478,6 +512,8 @@ func TestParseUrlOK(t *testing.T) {
 	}
 }
 func TestParseUrlLong(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -520,6 +556,8 @@ func TestInvokeWebhookMissingPlugin(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	responder := &fakeResponder{}
 	handler, _ := newWebHookREST(buildfake.NewSimpleClientset(testBuildConfig).BuildV1(), nil, &okBuildConfigInstantiator{}, buildv1.SchemeGroupVersion, map[string]webhook.Plugin{"pathplugin": &pathPlugin{}}).Connect(apirequest.WithNamespace(apirequest.NewDefaultContext(), testBuildConfig.Namespace), "build100", &kapi.PodProxyOptions{Path: "secret101/missingplugin"}, responder)
 	server := httptest.NewServer(handler)
@@ -547,6 +585,8 @@ func TestInvokeWebhookErrorBuildConfigInstantiate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	responder := &fakeResponder{}
 	handler, _ := newWebHookREST(buildfake.NewSimpleClientset(testBuildConfig).BuildV1(), nil, &errorBuildConfigInstantiator{}, buildv1.SchemeGroupVersion, map[string]webhook.Plugin{"pathplugin": &pathPlugin{}}).Connect(apirequest.WithNamespace(apirequest.NewDefaultContext(), testBuildConfig.Namespace), "build100", &kapi.PodProxyOptions{Path: "secret101/pathplugin"}, responder)
 	server := httptest.NewServer(handler)
@@ -560,6 +600,8 @@ func TestInvokeWebhookErrorBuildConfigInstantiate(t *testing.T) {
 	}
 }
 func TestInvokeWebhookErrorGetConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -604,6 +646,8 @@ func TestInvokeWebhookErrorCreateBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	responder := &fakeResponder{}
 	handler, _ := newWebHookREST(buildfake.NewSimpleClientset(testBuildConfig).BuildV1(), nil, &okBuildConfigInstantiator{}, buildv1.SchemeGroupVersion, map[string]webhook.Plugin{"errPlugin": &errPlugin{}}).Connect(apirequest.WithNamespace(apirequest.NewDefaultContext(), testBuildConfig.Namespace), "build100", &kapi.PodProxyOptions{Path: "secret101/errPlugin"}, responder)
 	server := httptest.NewServer(handler)
@@ -617,6 +661,8 @@ func TestInvokeWebhookErrorCreateBuild(t *testing.T) {
 	}
 }
 func TestGeneratedBuildTriggerInfoGenericWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -665,6 +711,8 @@ func TestGeneratedBuildTriggerInfoGitHubWebHook(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	revision := &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Author: buildv1.SourceControlUser{Name: "John Doe", Email: "john.doe@test.com"}, Committer: buildv1.SourceControlUser{Name: "John Doe", Email: "john.doe@test.com"}, Message: "A random act of kindness"}}
 	externalRevision := &buildv1.SourceRevision{}
 	if err := legacyscheme.Scheme.Convert(revision, externalRevision, nil); err != nil {
@@ -699,6 +747,8 @@ func TestGeneratedBuildTriggerInfoGitLabWebHook(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	revision := &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Author: buildv1.SourceControlUser{Name: "John Doe", Email: "john.doe@test.com"}, Committer: buildv1.SourceControlUser{Name: "John Doe", Email: "john.doe@test.com"}, Message: "A random act of kindness"}}
 	externalRevision := &buildv1.SourceRevision{}
 	if err := legacyscheme.Scheme.Convert(revision, externalRevision, nil); err != nil {
@@ -719,6 +769,8 @@ func TestGeneratedBuildTriggerInfoGitLabWebHook(t *testing.T) {
 	}
 }
 func TestGeneratedBuildTriggerInfoBitbucketWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -19,6 +19,8 @@ func TestNetIDRange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		min		uint32
 		max		uint32

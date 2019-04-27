@@ -36,6 +36,8 @@ func TestUpdateQuota(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name		string
 		availableQuotas	func() []*quotav1.ClusterResourceQuota
@@ -120,9 +122,13 @@ func defaultQuota() *quotav1.ClusterResourceQuota {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &quotav1.ClusterResourceQuota{ObjectMeta: metav1.ObjectMeta{Name: "foo"}, Spec: quotav1.ClusterResourceQuotaSpec{Quota: corev1.ResourceQuotaSpec{Hard: corev1.ResourceList{corev1.ResourcePods: resource.MustParse("10"), corev1.ResourceSecrets: resource.MustParse("5")}}}}
 }
 func TestGetQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,9 +267,13 @@ func newFakeClusterQuotaMapper() *fakeClusterQuotaMapper {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeClusterQuotaMapper{quotaToSelector: map[string]quotav1.ClusterResourceQuotaSelector{}, namespaceToSelectionFields: map[string]clusterquotamapping.SelectionFields{}, quotaToNamespaces: map[string]sets.String{}, namespaceToQuota: map[string]sets.String{}}
 }
 func (m *fakeClusterQuotaMapper) GetClusterQuotasFor(namespaceName string) ([]string, clusterquotamapping.SelectionFields) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,9 +305,13 @@ func (m *fakeClusterQuotaMapper) GetNamespacesFor(quotaName string) ([]string, q
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.quotaToNamespaces[quotaName].List(), m.quotaToSelector[quotaName]
 }
 func (m *fakeClusterQuotaMapper) AddListener(listener clusterquotamapping.MappingChangeListener) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

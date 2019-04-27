@@ -26,6 +26,8 @@ func (plugin *OsdnNode) SetupEgressNetworkPolicy() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policies, err := plugin.networkClient.NetworkV1().EgressNetworkPolicies(metav1.NamespaceAll).List(metav1.ListOptions{})
 	if err != nil {
 		return fmt.Errorf("could not get EgressNetworkPolicies: %s", err)
@@ -63,10 +65,14 @@ func (plugin *OsdnNode) watchEgressNetworkPolicies() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkapi.EgressNetworkPolicy{}, plugin.handleAddOrUpdateEgressNetworkPolicy, plugin.handleDeleteEgressNetworkPolicy)
 	plugin.networkInformers.Network().V1().EgressNetworkPolicies().Informer().AddEventHandler(funcs)
 }
 func (plugin *OsdnNode) handleAddOrUpdateEgressNetworkPolicy(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,11 +106,15 @@ func (plugin *OsdnNode) handleDeleteEgressNetworkPolicy(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policy := obj.(*networkapi.EgressNetworkPolicy)
 	klog.V(5).Infof("Watch %s event for EgressNetworkPolicy %s/%s", watch.Deleted, policy.Namespace, policy.Name)
 	plugin.handleEgressNetworkPolicy(policy, watch.Deleted)
 }
 func (plugin *OsdnNode) handleEgressNetworkPolicy(policy *networkapi.EgressNetworkPolicy, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +166,8 @@ func (plugin *OsdnNode) UpdateEgressNetworkPolicyVNID(namespace string, oldVnid,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var policy *networkapi.EgressNetworkPolicy
 	plugin.egressPoliciesLock.Lock()
 	defer plugin.egressPoliciesLock.Unlock()
@@ -174,6 +186,8 @@ func (plugin *OsdnNode) UpdateEgressNetworkPolicyVNID(namespace string, oldVnid,
 	}
 }
 func (plugin *OsdnNode) syncEgressDNSPolicyRules() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

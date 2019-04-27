@@ -39,6 +39,8 @@ func (imageStrategy) DefaultGarbageCollectionPolicy(ctx context.Context) rest.Ga
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rest.Unsupported
 }
 func (imageStrategy) NamespaceScoped() bool {
@@ -56,9 +58,13 @@ func (imageStrategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (s imageStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,10 +104,14 @@ func (imageStrategy) Validate(ctx context.Context, obj runtime.Object) field.Err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image := obj.(*imageapi.Image)
 	return validation.ValidateImage(image)
 }
 func (imageStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +143,8 @@ func (imageStrategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (imageStrategy) Canonicalize(obj runtime.Object) {
@@ -150,8 +162,12 @@ func (imageStrategy) Canonicalize(obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s imageStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,9 +240,13 @@ func (imageStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateImageUpdate(obj.(*imageapi.Image), old.(*imageapi.Image))
 }
 func removeManagedSignatureAnnotation(img *imageapi.Image) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

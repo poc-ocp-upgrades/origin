@@ -24,6 +24,8 @@ func runningInUserNS() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open("/proc/self/uid_map")
 	if err != nil {
 		return false
@@ -57,6 +59,8 @@ func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if runningInUserNS() {
 		return nil
 	}
@@ -72,6 +76,8 @@ func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
 	return system.Mknod(path, mode, int(system.Mkdev(hdr.Devmajor, hdr.Devminor)))
 }
 func handleLChmod(hdr *tar.Header, path string, hdrInfo os.FileInfo) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

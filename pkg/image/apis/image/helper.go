@@ -50,6 +50,8 @@ func ParseImageStreamImageName(input string) (name string, id string, err error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	segments := strings.SplitN(input, "@", 3)
 	switch len(segments) {
 	case 2:
@@ -64,6 +66,8 @@ func ParseImageStreamImageName(input string) (name string, id string, err error)
 	return
 }
 func ParseImageStreamTagName(istag string) (name string, tag string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func ParseDockerImageReference(spec string) (reference.DockerImageReference, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := reference.Parse(spec)
 	if err != nil {
 		return ref, err
@@ -117,6 +123,8 @@ func ParseDockerImageReference(spec string) (reference.DockerImageReference, err
 	return ref, nil
 }
 func SplitImageStreamTag(nameAndTag string) (name string, tag string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +164,8 @@ func SplitImageStreamImage(nameAndID string) (name string, id string, ok bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(nameAndID, "@", 2)
 	name = parts[0]
 	if len(parts) > 1 {
@@ -164,6 +174,8 @@ func SplitImageStreamImage(nameAndID string) (name string, id string, ok bool) {
 	return name, id, len(parts) == 2
 }
 func JoinImageStreamTag(name, tag string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,9 +210,13 @@ func JoinImageStreamImage(name, id string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s@%s", name, id)
 }
 func NormalizeImageStreamTag(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -236,6 +252,8 @@ func DockerImageReferenceForStream(stream *ImageStream) (DockerImageReference, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := stream.Status.DockerImageRepository
 	if len(spec) == 0 {
 		spec = stream.Spec.DockerImageRepository
@@ -246,6 +264,8 @@ func DockerImageReferenceForStream(stream *ImageStream) (DockerImageReference, e
 	return ParseDockerImageReference(spec)
 }
 func FollowTagReference(stream *ImageStream, tag string) (finalTag string, ref *TagReference, multiple bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -306,6 +326,8 @@ func LatestImageTagEvent(stream *ImageStream, imageID string) (string, *TagEvent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		latestTagEvent	*TagEvent
 		latestTag	string
@@ -324,6 +346,8 @@ func LatestImageTagEvent(stream *ImageStream, imageID string) (string, *TagEvent
 	return latestTag, latestTagEvent
 }
 func LatestTaggedImage(stream *ImageStream, tag string) *TagEvent {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -366,6 +390,8 @@ func ResolveLatestTaggedImage(stream *ImageStream, tag string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tag) == 0 {
 		tag = DefaultImageTag
 	}
@@ -386,12 +412,16 @@ func ResolveTagReference(stream *ImageStream, tag string, latest *TagEvent) (str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if latest == nil {
 		return "", false
 	}
 	return ResolveReferenceForTagEvent(stream, tag, latest), true
 }
 func ResolveReferenceForTagEvent(stream *ImageStream, tag string, latest *TagEvent) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -442,6 +472,8 @@ func DockerImageReferenceForImage(stream *ImageStream, imageID string) (string, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tag, event := LatestImageTagEvent(stream, imageID)
 	if len(tag) == 0 {
 		return "", false
@@ -464,6 +496,8 @@ func DockerImageReferenceForImage(stream *ImageStream, imageID string) (string, 
 	}
 }
 func DifferentTagEvent(stream *ImageStream, tag string, next TagEvent) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -502,6 +536,8 @@ func DifferentTagGeneration(stream *ImageStream, tag string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	specTag, ok := stream.Spec.Tags[tag]
 	if !ok || specTag.Generation == nil {
 		return true
@@ -513,6 +549,8 @@ func DifferentTagGeneration(stream *ImageStream, tag string) bool {
 	return *specTag.Generation > statusTag.Items[0].Generation
 }
 func AddTagEventToImageStream(stream *ImageStream, tag string, next TagEvent) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -573,6 +611,8 @@ func UpdateChangedTrackingTags(new, old *ImageStream) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	changes := 0
 	for newTag, newImages := range new.Status.Tags {
 		if len(newImages.Items) == 0 {
@@ -604,6 +644,8 @@ func tagsChanged(new, old []TagEvent) (changed bool, deleted bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(old) == 0 && len(new) == 0:
 		return false, false
@@ -616,6 +658,8 @@ func tagsChanged(new, old []TagEvent) (changed bool, deleted bool) {
 	}
 }
 func UpdateTrackingTags(stream *ImageStream, updatedTag string, updatedImage TagEvent) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -694,12 +738,16 @@ func DigestOrImageMatch(image, imageID string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if d, err := digest.ParseDigest(image); err == nil {
 		return strings.HasPrefix(d.Hex(), imageID) || strings.HasPrefix(image, imageID)
 	}
 	return strings.HasPrefix(image, imageID)
 }
 func ResolveImageID(stream *ImageStream, imageID string) (*TagEvent, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -749,6 +797,8 @@ func MostAccuratePullSpec(pullSpec string, id, tag string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := reference.Parse(pullSpec)
 	if err != nil {
 		return pullSpec, false
@@ -762,6 +812,8 @@ func MostAccuratePullSpec(pullSpec string, id, tag string) (string, bool) {
 	return ref.MostSpecific().Exact(), true
 }
 func ShortDockerImageID(image *DockerImage, length int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -800,6 +852,8 @@ func HasTagCondition(stream *ImageStream, tag string, condition TagEventConditio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, existing := range stream.Status.Tags[tag].Conditions {
 		if condition.Type == existing.Type && condition.Status == existing.Status && condition.Reason == existing.Reason {
 			return true
@@ -822,6 +876,8 @@ func SetTagConditions(stream *ImageStream, tag string, conditions ...TagEventCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tagEvents := stream.Status.Tags[tag]
 	tagEvents.Conditions = conditions
 	if stream.Status.Tags == nil {
@@ -830,6 +886,8 @@ func SetTagConditions(stream *ImageStream, tag string, conditions ...TagEventCon
 	stream.Status.Tags[tag] = tagEvents
 }
 func LatestObservedTagGeneration(stream *ImageStream, tag string) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -903,6 +961,8 @@ func prioritizeTag(tag string) prioritizedTag {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if tag == DefaultImageTag {
 		return prioritizedTag{tag: tag, priority: tagPriorityLatest}
 	}
@@ -945,6 +1005,8 @@ func (t prioritizedTags) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(t)
 }
 func (t prioritizedTags) Swap(i, j int) {
@@ -962,9 +1024,13 @@ func (t prioritizedTags) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t[i], t[j] = t[j], t[i]
 }
 func (t prioritizedTags) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1006,6 +1072,8 @@ func PrioritizeTags(tags []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ptags := make(prioritizedTags, len(tags))
 	for i, tag := range tags {
 		ptags[i] = prioritizeTag(tag)
@@ -1016,6 +1084,8 @@ func PrioritizeTags(tags []string) {
 	}
 }
 func LabelForStream(stream *ImageStream) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1047,6 +1117,8 @@ func JoinImageSignatureName(imageName, signatureName string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(imageName) == 0 {
 		return "", fmt.Errorf("imageName may not be empty")
 	}
@@ -1059,6 +1131,8 @@ func JoinImageSignatureName(imageName, signatureName string) (string, error) {
 	return fmt.Sprintf("%s@%s", imageName, signatureName), nil
 }
 func SplitImageSignatureName(imageSignatureName string) (imageName, signatureName string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1101,6 +1175,8 @@ func IndexOfImageSignatureByName(signatures []ImageSignature, name string) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range signatures {
 		if signatures[i].Name == name {
 			return i
@@ -1109,6 +1185,8 @@ func IndexOfImageSignatureByName(signatures []ImageSignature, name string) int {
 	return -1
 }
 func IndexOfImageSignature(signatures []ImageSignature, sType string, sContent []byte) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1145,6 +1223,8 @@ func (tagref TagReference) HasAnnotationTag(searchTag string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tag := range strings.Split(tagref.Annotations["tags"], ",") {
 		if tag == searchTag {
 			return true
@@ -1153,6 +1233,8 @@ func (tagref TagReference) HasAnnotationTag(searchTag string) bool {
 	return false
 }
 func ValidateRegistryURL(registryURL string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

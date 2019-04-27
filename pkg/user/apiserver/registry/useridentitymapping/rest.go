@@ -43,9 +43,13 @@ func NewREST(userClient userclient.UserInterface, identityClient userclient.Iden
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &REST{userClient: userClient, identityClient: identityClient}
 }
 func (r *REST) New() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,9 +81,13 @@ func (s *REST) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (s *REST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +106,8 @@ func (s *REST) Get(ctx context.Context, name string, options *metav1.GetOptions)
 	return mapping, err
 }
 func (s *REST) Create(ctx context.Context, obj runtime.Object, _ rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +145,8 @@ func (s *REST) Update(ctx context.Context, name string, objInfo rest.UpdatedObje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := objInfo.UpdatedObject(ctx, nil)
 	if err != nil {
 		return nil, false, err
@@ -147,6 +159,8 @@ func (s *REST) Update(ctx context.Context, name string, objInfo rest.UpdatedObje
 	return s.createOrUpdate(ctx, mapping, false)
 }
 func (s *REST) createOrUpdate(ctx context.Context, obj runtime.Object, forceCreate bool) (runtime.Object, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,6 +255,8 @@ func (s *REST) Delete(ctx context.Context, name string, options *metav1.DeleteOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	identity, _, user, _, _, mappingErr := s.getRelatedObjects(ctx, name, &metav1.GetOptions{})
 	if mappingErr != nil {
 		return nil, false, mappingErr
@@ -258,6 +274,8 @@ func (s *REST) Delete(ctx context.Context, name string, options *metav1.DeleteOp
 	return &metav1.Status{Status: metav1.StatusSuccess}, true, nil
 }
 func (s *REST) getRelatedObjects(ctx context.Context, name string, options *metav1.GetOptions) (identity *userapi.Identity, identityErr error, user *userapi.User, userErr error, mapping *userinternal.UserIdentityMapping, mappingErr error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,9 +328,13 @@ func hasUserMapping(identity *userapi.Identity) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(identity.User.Name) > 0
 }
 func identityReferencesUser(identity *userapi.Identity, user *userapi.User) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,9 +366,13 @@ func userReferencesIdentity(user *userapi.User, identity *userapi.Identity) bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.NewString(user.Identities...).Has(identity.Name)
 }
 func addIdentityToUser(identity *userapi.Identity, user *userapi.User) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -384,6 +410,8 @@ func removeIdentityFromUser(identity *userapi.Identity, user *userapi.User) bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	identities := sets.NewString(user.Identities...)
 	if !identities.Has(identity.Name) {
 		return false
@@ -393,6 +421,8 @@ func removeIdentityFromUser(identity *userapi.Identity, user *userapi.User) bool
 	return true
 }
 func setIdentityUser(identity *userapi.Identity, user *userapi.User) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -428,6 +458,8 @@ func unsetIdentityUser(identity *userapi.Identity) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !hasUserMapping(identity) {
 		return false
 	}
@@ -435,6 +467,8 @@ func unsetIdentityUser(identity *userapi.Identity) bool {
 	return true
 }
 func mappingFor(user *userapi.User, identity *userapi.Identity) (*userinternal.UserIdentityMapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

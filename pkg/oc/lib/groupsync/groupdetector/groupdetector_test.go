@@ -24,6 +24,8 @@ func TestGroupBasedDetectorExists(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		groupGetter	interfaces.LDAPGroupGetter
@@ -56,6 +58,8 @@ func TestMemberBasedDetectorExists(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		memberExtractor	interfaces.LDAPMemberExtractor
@@ -74,6 +78,8 @@ func TestMemberBasedDetectorExists(t *testing.T) {
 	}
 }
 func TestCompoundDetectorExists(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,12 +131,16 @@ func (g *puppetGetterExtractor) GroupEntryFor(ldapGroupUID string) (*ldap.Entry,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(g.returnVal) > 0 {
 		return g.returnVal[0], nil
 	}
 	return nil, nil
 }
 func (g *puppetGetterExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,9 +183,13 @@ func (g *errOutOfBoundsGetterExtractor) GroupEntryFor(ldapGroupUID string) (*lda
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, outOfBoundsError
 }
 func (g *errOutOfBoundsGetterExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,9 +224,13 @@ func (g *errEntryNotFoundGetterExtractor) GroupEntryFor(ldapGroupUID string) (*l
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, entryNotFoundError
 }
 func (g *errEntryNotFoundGetterExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -247,9 +265,13 @@ func (g *errNoSuchObjectGetterExtractor) GroupEntryFor(ldapGroupUID string) (*ld
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, noSuchObjectError
 }
 func (g *errNoSuchObjectGetterExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,9 +306,13 @@ func (g *genericErrGetterExtractor) GroupEntryFor(ldapGroupUID string) (*ldap.En
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, genericError
 }
 func (g *genericErrGetterExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

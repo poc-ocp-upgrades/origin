@@ -49,6 +49,8 @@ func NewSimpleProvider(scc *securityapi.SecurityContextConstraints) (SecurityCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if scc == nil {
 		return nil, fmt.Errorf("NewSimpleProvider requires a SecurityContextConstraints")
 	}
@@ -83,6 +85,8 @@ func NewSimpleProvider(scc *securityapi.SecurityContextConstraints) (SecurityCon
 	return &simpleProvider{scc: scc, runAsUserStrategy: userStrat, seLinuxStrategy: seLinuxStrat, fsGroupStrategy: fsGroupStrat, supplementalGroupStrategy: supGroupStrat, capabilitiesStrategy: capStrat, seccompStrategy: seccompStrat, sysctlsStrategy: sysctlsStrat}, nil
 }
 func (s *simpleProvider) CreatePodSecurityContext(pod *api.Pod) (*api.PodSecurityContext, map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -150,6 +154,8 @@ func (s *simpleProvider) CreateContainerSecurityContext(pod *api.Pod, container 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sc := securitycontext.NewEffectiveContainerSecurityContextMutator(securitycontext.NewPodSecurityContextAccessor(pod.Spec.SecurityContext), securitycontext.NewContainerSecurityContextMutator(container.SecurityContext))
 	if sc.RunAsUser() == nil {
 		uid, err := s.runAsUserStrategy.Generate(pod, container)
@@ -187,6 +193,8 @@ func (s *simpleProvider) CreateContainerSecurityContext(pod *api.Pod, container 
 	return sc.ContainerSecurityContext(), nil
 }
 func (s *simpleProvider) ValidatePodSecurityContext(pod *api.Pod, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,6 +277,8 @@ func (s *simpleProvider) ValidateContainerSecurityContext(pod *api.Pod, containe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	podSC := securitycontext.NewPodSecurityContextAccessor(pod.Spec.SecurityContext)
 	sc := securitycontext.NewEffectiveContainerSecurityContextAccessor(podSC, securitycontext.NewContainerSecurityContextMutator(container.SecurityContext))
@@ -335,6 +345,8 @@ func (s *simpleProvider) hasHostPort(container *api.Container, fldPath *field.Pa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	for _, cp := range container.Ports {
 		if cp.HostPort > 0 {
@@ -344,6 +356,8 @@ func (s *simpleProvider) hasHostPort(container *api.Container, fldPath *field.Pa
 	return allErrs
 }
 func (s *simpleProvider) GetSCCName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,6 +389,8 @@ func (s *simpleProvider) GetSCCUsers() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.scc.Users
 }
 func (s *simpleProvider) GetSCCGroups() []string {
@@ -392,9 +408,13 @@ func (s *simpleProvider) GetSCCGroups() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.scc.Groups
 }
 func createUserStrategy(opts *securityapi.RunAsUserStrategyOptions) (user.RunAsUserSecurityContextConstraintsStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -437,6 +457,8 @@ func createSELinuxStrategy(opts *securityapi.SELinuxContextStrategyOptions) (sel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch opts.Type {
 	case securityapi.SELinuxStrategyMustRunAs:
 		return selinux.NewMustRunAs(opts)
@@ -447,6 +469,8 @@ func createSELinuxStrategy(opts *securityapi.SELinuxContextStrategyOptions) (sel
 	}
 }
 func createFSGroupStrategy(opts *securityapi.FSGroupStrategyOptions) (group.GroupSecurityContextConstraintsStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -485,6 +509,8 @@ func createSupplementalGroupStrategy(opts *securityapi.SupplementalGroupsStrateg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch opts.Type {
 	case securityapi.SupplementalGroupsStrategyRunAsAny:
 		return group.NewRunAsAny()
@@ -495,6 +521,8 @@ func createSupplementalGroupStrategy(opts *securityapi.SupplementalGroupsStrateg
 	}
 }
 func createCapabilitiesStrategy(defaultAddCaps, requiredDropCaps, allowedCaps []api.Capability) (capabilities.CapabilitiesSecurityContextConstraintsStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,9 +554,13 @@ func createSeccompStrategy(allowedProfiles []string) (seccomp.SeccompStrategy, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return seccomp.NewWithSeccompProfile(allowedProfiles)
 }
 func createSysctlsStrategy(safeWhitelist, allowedUnsafeSysctls, forbiddenSysctls []string) (sysctl.SysctlsStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

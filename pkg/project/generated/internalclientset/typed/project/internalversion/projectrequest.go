@@ -29,9 +29,13 @@ func newProjectRequests(c *ProjectClient) *projectRequests {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &projectRequests{client: c.RESTClient()}
 }
 func (c *projectRequests) Create(projectRequest *project.ProjectRequest) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

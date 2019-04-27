@@ -39,6 +39,8 @@ func New(providerName string, url string, transport http.RoundTripper, domainNam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if transport == nil {
 		transport = http.DefaultTransport
 	}
@@ -46,6 +48,8 @@ func New(providerName string, url string, transport http.RoundTripper, domainNam
 	return &keystonePasswordAuthenticator{providerName, url, client, domainName, identityMapper, useKeystoneIdentity}
 }
 func getUserIDv3(client *gophercloud.ProviderClient, options tokens3.AuthOptionsBuilder, eo gophercloud.EndpointOpts) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func getUserIDv3(client *gophercloud.ProviderClient, options tokens3.AuthOptions
 	return user.ID, nil
 }
 func (a keystonePasswordAuthenticator) AuthenticatePassword(ctx context.Context, username, password string) (*authenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

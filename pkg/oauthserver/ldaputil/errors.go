@@ -20,12 +20,16 @@ func NewNoSuchObjectError(baseDN string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &errNoSuchObject{baseDN: baseDN}
 }
 
 type errNoSuchObject struct{ baseDN string }
 
 func (e *errNoSuchObject) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func IsNoSuchObjectError(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return false
 	}
@@ -64,6 +70,8 @@ func IsNoSuchObjectError(err error) bool {
 	return ok || ldap.IsErrorWithCode(err, ldap.LDAPResultNoSuchObject)
 }
 func NewEntryNotFoundError(baseDN, filter string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,9 +109,13 @@ func (e *errEntryNotFound) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("search for entry with base dn=%q and filter %q did not return any results", e.baseDN, e.filter)
 }
 func IsEntryNotFoundError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +137,8 @@ func IsEntryNotFoundError(err error) bool {
 	return ok
 }
 func NewQueryOutOfBoundsError(queryDN, baseDN string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,9 +176,13 @@ func (q *errQueryOutOfBounds) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("search for entry with dn=%q would search outside of the base dn specified (dn=%q)", q.queryDN, q.baseDN)
 }
 func IsQueryOutOfBoundsError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

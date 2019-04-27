@@ -24,12 +24,16 @@ func TestRefType(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := RefType(&spec.Schema{SchemaProps: spec.SchemaProps{Ref: spec.Ref{Ref: jsonreference.MustCreateRef("#/definitions/foo")}}})
 	if s != "foo" {
 		t.Error(s)
 	}
 }
 func TestFriendlyTypeName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func TestEscapeMediaTypes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := EscapeMediaTypes([]string{"foo", "*/*"})
 	if !reflect.DeepEqual(s, []string{"foo", `\*/*`}) {
 		t.Error(s)
@@ -88,12 +94,16 @@ func TestGroupVersionKinds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := GroupVersionKinds(spec.Schema{VendorExtensible: spec.VendorExtensible{Extensions: spec.Extensions{"x-kubernetes-group-version-kind": []interface{}{map[string]interface{}{"group": "group1", "version": "version1", "kind": "kind1"}, map[string]interface{}{"group": "group2", "version": "version2", "kind": "kind2"}}}}})
 	if !reflect.DeepEqual(s, []schema.GroupVersionKind{{Group: "group1", Version: "version1", Kind: "kind1"}, {Group: "group2", Version: "version2", Kind: "kind2"}}) {
 		t.Error(s)
 	}
 }
 func TestOperations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,12 +139,16 @@ func TestEnvStyle(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := EnvStyle("foo/{bar}/baz/{qux}")
 	if s != "foo/$BAR/baz/$QUX" {
 		t.Error(s)
 	}
 }
 func TestPluralise(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +188,8 @@ func TestSortedKeys(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := map[string]struct{}{"foo": {}, "bar": {}, "baz": {}, "qux": {}}
 	s := SortedKeys(m, reflect.TypeOf(sort.StringSlice{})).(sort.StringSlice)
 	if !reflect.DeepEqual(s, sort.StringSlice{"bar", "baz", "foo", "qux"}) {
@@ -195,12 +211,16 @@ func TestToUpper(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := ToUpper("this is a test")
 	if s != "This is a test" {
 		t.Error(s)
 	}
 }
 func TestReverseStringSlice(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

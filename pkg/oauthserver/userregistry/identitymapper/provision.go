@@ -41,9 +41,13 @@ func (p *provisioningIdentityMapper) UserFor(info authapi.UserIdentityInfo) (kus
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.userForWithRetries(info, 3)
 }
 func (p *provisioningIdentityMapper) userForWithRetries(info authapi.UserIdentityInfo, allowedRetries int) (kuser.Info, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func (p *provisioningIdentityMapper) createIdentityAndMapping(ctx context.Contex
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	identity := &userapi.Identity{ObjectMeta: metav1.ObjectMeta{Name: info.GetIdentityName()}, ProviderName: info.GetProviderName(), ProviderUserName: info.GetProviderUserName(), Extra: info.GetExtra()}
 	persistedUser, err := p.provisioningStrategy.UserForNewIdentity(ctx, getPreferredUserName(identity), identity)
 	if err != nil {
@@ -99,6 +105,8 @@ func (p *provisioningIdentityMapper) createIdentityAndMapping(ctx context.Contex
 	return userToInfo(persistedUser), nil
 }
 func (p *provisioningIdentityMapper) getMapping(ctx context.Context, identity *userapi.Identity) (kuser.Info, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +139,8 @@ func (p *provisioningIdentityMapper) getMapping(ctx context.Context, identity *u
 	return userToInfo(u), nil
 }
 func getPreferredUserName(identity *userapi.Identity) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

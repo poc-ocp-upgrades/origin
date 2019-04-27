@@ -44,9 +44,13 @@ func (r DockerClientSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "local docker images"
 }
 func (r DockerClientSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,9 +165,13 @@ func (r MissingImageSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "images not found in docker registry nor locally"
 }
 func (r MissingImageSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -207,9 +215,13 @@ func (s ImageImportSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "images via the image stream import API"
 }
 func (s ImageImportSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,9 +319,13 @@ func (r DockerRegistrySearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "images in the docker registry"
 }
 func (r DockerRegistrySearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -393,6 +409,8 @@ func descriptionFor(image *dockerv10.DockerImage, value, from string, tag string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(from) == 0 {
 		from = "local"
 	}
@@ -415,6 +433,8 @@ func descriptionFor(image *dockerv10.DockerImage, value, from string, tag string
 	return strings.Join(parts, ", ")
 }
 func matchTag(image docker.APIImages, value, registry, namespace, name, tag string) []*ComponentMatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func TestMissingSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/bad_secret_refs.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -45,6 +47,8 @@ func TestMissingSecrets(t *testing.T) {
 	}
 }
 func TestUnmountableSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func TestUnmountableSecrets(t *testing.T) {
 	}
 }
 func TestMissingLivenessProbes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

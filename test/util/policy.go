@@ -28,6 +28,8 @@ func WaitForPolicyUpdate(c authorizationv1client.SelfSubjectAccessReviewsGetter,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	review := &authorizationv1.SelfSubjectAccessReview{Spec: authorizationv1.SelfSubjectAccessReviewSpec{ResourceAttributes: &authorizationv1.ResourceAttributes{Namespace: namespace, Verb: verb, Group: resource.Group, Resource: resource.Resource}}}
 	err := wait.Poll(PolicyCachePollInterval, PolicyCachePollTimeout, func() (bool, error) {
 		response, err := c.SelfSubjectAccessReviews().Create(review)
@@ -39,6 +41,8 @@ func WaitForPolicyUpdate(c authorizationv1client.SelfSubjectAccessReviewsGetter,
 	return err
 }
 func WaitForClusterPolicyUpdate(c authorizationv1client.SelfSubjectAccessReviewsGetter, verb string, resource schema.GroupResource, allowed bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

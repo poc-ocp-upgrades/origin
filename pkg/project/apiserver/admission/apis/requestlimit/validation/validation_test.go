@@ -21,6 +21,8 @@ func TestValidateProjectRequestLimitConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		config		requestlimit.ProjectRequestLimitConfig
 		errExpected	bool
@@ -50,6 +52,8 @@ func TestValidateProjectRequestLimitConfig(t *testing.T) {
 	}
 }
 func intp(n int) *int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

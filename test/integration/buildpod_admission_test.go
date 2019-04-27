@@ -41,6 +41,8 @@ func TestBuildDefaultGitHTTPProxy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	httpProxy := "http://my.test.proxy:12345"
 	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{GitHTTPProxy: httpProxy})
 	defer fn()
@@ -64,6 +66,8 @@ func TestBuildDefaultGitHTTPSProxy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	httpsProxy := "https://my.test.proxy:12345"
 	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{GitHTTPSProxy: httpsProxy})
 	defer fn()
@@ -73,6 +77,8 @@ func TestBuildDefaultGitHTTPSProxy(t *testing.T) {
 	}
 }
 func TestBuildDefaultEnvironment(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,6 +120,8 @@ func TestBuildDefaultLabels(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labels := []buildapi.ImageLabel{{Name: "KEY", Value: "VALUE"}}
 	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{ImageLabels: labels})
 	defer fn()
@@ -127,6 +135,8 @@ func TestBuildDefaultLabels(t *testing.T) {
 	}
 }
 func TestBuildDefaultNodeSelectors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -164,6 +174,8 @@ func TestBuildDefaultAnnotations(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotations := map[string]string{"KEY": "VALUE"}
 	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{Annotations: annotations})
 	defer fn()
@@ -173,6 +185,8 @@ func TestBuildDefaultAnnotations(t *testing.T) {
 	}
 }
 func TestBuildOverrideTolerations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +230,8 @@ func TestBuildOverrideForcePull(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{ForcePull: true})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
@@ -224,6 +240,8 @@ func TestBuildOverrideForcePull(t *testing.T) {
 	}
 }
 func TestBuildOverrideForcePullCustomStrategy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,6 +267,8 @@ func TestBuildOverrideForcePullCustomStrategy(t *testing.T) {
 	}
 }
 func TestBuildOverrideLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +310,8 @@ func TestBuildOverrideNodeSelectors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selectors := map[string]string{"KEY": "VALUE"}
 	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{NodeSelector: selectors})
 	defer fn()
@@ -299,6 +321,8 @@ func TestBuildOverrideNodeSelectors(t *testing.T) {
 	}
 }
 func TestBuildOverrideAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +360,8 @@ func buildPodAdmissionTestCustomBuild() *buildv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}}}
 	build.Name = "test-custom-build"
 	build.Spec.Source.Git = &buildv1.GitBuildSource{URI: "http://test/src"}
@@ -359,6 +385,8 @@ func buildPodAdmissionTestDockerBuild() *buildv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}}}
 	build.Name = "test-build"
 	build.Spec.Source.Git = &buildv1.GitBuildSource{URI: "http://test/src"}
@@ -366,6 +394,8 @@ func buildPodAdmissionTestDockerBuild() *buildv1.Build {
 	return build
 }
 func runBuildPodAdmissionTest(t *testing.T, client buildclient.Interface, kclientset kclientset.Interface, build *buildv1.Build) (*buildv1.Build, *v1.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -431,6 +461,8 @@ func setupBuildDefaultsAdmissionTest(t *testing.T, defaultsConfig *configapi.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{"BuildDefaults": {Configuration: defaultsConfig}})
 }
 func setupBuildOverridesAdmissionTest(t *testing.T, overridesConfig *configapi.BuildOverridesConfig) (buildclient.Interface, kclientset.Interface, func()) {
@@ -448,9 +480,13 @@ func setupBuildOverridesAdmissionTest(t *testing.T, overridesConfig *configapi.B
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{"BuildOverrides": {Configuration: overridesConfig}})
 }
 func setupBuildPodAdmissionTest(t *testing.T, pluginConfig map[string]*configapi.AdmissionPluginConfig) (buildclient.Interface, kclientset.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

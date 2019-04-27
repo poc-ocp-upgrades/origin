@@ -24,6 +24,8 @@ func TestBootstrapPolicySelfSubjectAccessReviews(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -44,6 +46,8 @@ func TestBootstrapPolicySelfSubjectAccessReviews(t *testing.T) {
 	subjectAccessReviewTest{description: "I shouldn't be allowed to ask whether someone else can perform an action", localInterface: valerieAuthorizationClient.LocalSubjectAccessReviews("openshift"), localReview: askCanClusterAdminsCreateProject, kubeAuthInterface: valerieKubeClient.AuthorizationV1(), kubeNamespace: "openshift", err: `localsubjectaccessreviews.authorization.openshift.io is forbidden: User "valerie" cannot create resource "localsubjectaccessreviews" in API group "authorization.openshift.io" in the namespace "openshift"`, kubeErr: `localsubjectaccessreviews.authorization.k8s.io is forbidden: User "valerie" cannot create resource "localsubjectaccessreviews" in API group "authorization.k8s.io" in the namespace "openshift"`}.run(t)
 }
 func TestSelfSubjectAccessReviewsNonExistingNamespace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

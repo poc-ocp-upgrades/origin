@@ -32,6 +32,8 @@ func NewCmdSet(fullName string, f kcmdutil.Factory, streams genericclioptions.IO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	set := &cobra.Command{Use: "set COMMAND", Short: "Commands that help set specific features on objects", Long: setLong, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	name := fmt.Sprintf("%s set", fullName)
 	groups := ktemplates.CommandGroups{{Message: "Manage workloads:", Commands: []*cobra.Command{NewCmdDeploymentHook(name, f, streams), NewCmdEnv(name, f, streams), NewCmdImage(name, f, streams), NewCmdProbe(name, f, streams), NewCmdResources(name, f, streams), NewCmdSelector(name, f, streams), NewCmdServiceAccount(name, f, streams), NewCmdVolume(name, f, streams)}}, {Message: "Manage secrets:", Commands: []*cobra.Command{NewCmdBuildSecret(name, f, streams)}}, {Message: "Manage application flows:", Commands: []*cobra.Command{NewCmdBuildHook(name, f, streams), NewCmdImageLookup(name, fullName, f, streams), NewCmdTriggers(name, f, streams)}}, {Message: "Manage load balancing:", Commands: []*cobra.Command{NewCmdRouteBackends(name, f, streams)}}, {Message: "Manage authorization policy:", Commands: []*cobra.Command{NewCmdSubject(name, f, streams)}}}
@@ -61,6 +63,8 @@ Update existing container image(s) of resources.`)
 )
 
 func NewCmdImage(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +127,8 @@ func NewCmdResources(fullName string, f kcmdutil.Factory, streams genericcliopti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := set.NewCmdResources(f, streams)
 	cmd.Long = setResourcesLong
 	cmd.Example = fmt.Sprintf(setResourcesExample, fullName)
@@ -144,6 +150,8 @@ Note: currently selectors can only be set on Service objects.`)
 )
 
 func NewCmdSelector(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +200,8 @@ func NewCmdServiceAccount(fullName string, f kcmdutil.Factory, streams genericcl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := set.NewCmdServiceAccount(f, streams)
 	cmd.Long = setServiceaccountLong
 	cmd.Example = fmt.Sprintf(setServiceaccountExample, fullName)
@@ -213,6 +223,8 @@ Update User, Group or ServiceAccount in a RoleBinding/ClusterRoleBinding.`)
 )
 
 func NewCmdSubject(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

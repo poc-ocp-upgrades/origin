@@ -70,9 +70,13 @@ func NewServiceAccountTokenOptions(streams genericclioptions.IOStreams) *Service
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ServiceAccountTokenOptions{IOStreams: streams, Labels: map[string]string{}}
 }
 func NewCommandNewServiceAccountToken(name, fullname string, f cmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +103,8 @@ func NewCommandNewServiceAccountToken(name, fullname string, f cmdutil.Factory, 
 	return newServiceAccountTokenCommand
 }
 func (o *ServiceAccountTokenOptions) Complete(args []string, requestedLabels string, f cmdutil.Factory, cmd *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +161,8 @@ func (o *ServiceAccountTokenOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.SAName == "" {
 		return errors.New("service account name cannot be empty")
 	}
@@ -170,6 +178,8 @@ func (o *ServiceAccountTokenOptions) Validate() error {
 	return nil
 }
 func (o *ServiceAccountTokenOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,6 +218,8 @@ func (o *ServiceAccountTokenOptions) Run() error {
 	return nil
 }
 func waitForToken(token *corev1.Secret, serviceAccount *corev1.ServiceAccount, timeout time.Duration, client corev1client.SecretInterface) (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -54,6 +54,8 @@ func ProxyConfigFromNodeConfig(options configapi.NodeConfig) (*kubeproxyconfig.K
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxyOptions := kubeproxyoptions.NewOptions()
 	proxyconfig := proxyOptions.GetConfig()
 	defaultedProxyConfig, err := proxyOptions.ApplyDefaults(proxyconfig)
@@ -114,11 +116,15 @@ func (sdn *OpenShiftSDN) initProxy() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	sdn.OsdnProxy, err = sdnproxy.New(sdn.NodeConfig.NetworkConfig.NetworkPluginName, sdn.informers.NetworkClient, sdn.informers.KubeClient, sdn.informers.NetworkInformers)
 	return err
 }
 func (sdn *OpenShiftSDN) runProxy() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,6 +248,8 @@ func (sdn *OpenShiftSDN) runProxy() {
 	klog.Infof("Started Kubernetes Proxy on %s", sdn.ProxyConfig.BindAddress)
 }
 func getNodeIP(client kv1core.CoreV1Interface, hostname string) (net.IP, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

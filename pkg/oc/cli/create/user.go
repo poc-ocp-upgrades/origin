@@ -49,6 +49,8 @@ func NewCmdCreateUser(name, fullName string, f genericclioptions.RESTClientGette
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateUserOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: name + " USERNAME", Short: "Manually create a user (only needed if automatic creation is disabled).", Long: userLong, Example: fmt.Sprintf(userExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		cmdutil.CheckErr(o.Complete(cmd, f, args))
@@ -74,6 +76,8 @@ func (o *CreateUserOptions) Complete(cmd *cobra.Command, f genericclioptions.RES
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -85,6 +89,8 @@ func (o *CreateUserOptions) Complete(cmd *cobra.Command, f genericclioptions.RES
 	return o.CreateSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreateUserOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

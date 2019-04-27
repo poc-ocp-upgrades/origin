@@ -22,6 +22,8 @@ func TestRouteFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install := func(scheme *runtime.Scheme) error {
 		InstallInternalLegacyRoute(scheme)
 		return nil

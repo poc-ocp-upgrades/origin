@@ -36,6 +36,8 @@ func (e *remoteExecutor) Execute(command []string, in io.Reader, out, errOut io.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(3).Infof("Remote executor running command: %s", strings.Join(command, " "))
 	execOptions := &kexec.ExecOptions{StreamOptions: kexec.StreamOptions{Namespace: e.Namespace, PodName: e.PodName, ContainerName: e.ContainerName, IOStreams: genericclioptions.IOStreams{In: in, Out: out, ErrOut: errOut}, Stdin: in != nil}, SuggestedCmdUsage: e.SuggestedCmdUsage, Executor: &kexec.DefaultRemoteExecutor{}, PodClient: e.Client.CoreV1(), Config: e.Config, Command: command}
 	err := execOptions.Validate()
@@ -50,6 +52,8 @@ func (e *remoteExecutor) Execute(command []string, in io.Reader, out, errOut io.
 	return err
 }
 func newRemoteExecutor(o *RsyncOptions) executor {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -29,6 +29,8 @@ func TestSyncStatusError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		for _, test := range []struct {
 			name	string
@@ -87,6 +89,8 @@ func fuzzall(objs ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, obj := range objs {
 		fuzzer.Fuzz(obj)
 	}
@@ -95,6 +99,8 @@ func fuzzall(objs ...interface{}) {
 const charset = " !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
 func nonEmptyQuoteSafeString(r *rand.Rand) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

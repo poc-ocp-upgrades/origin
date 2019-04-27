@@ -45,6 +45,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	utilruntime.Must(buildv1helpers.Install(webhookEncodingScheme))
 	webhookEncodingCodecFactory = serializer.NewCodecFactory(webhookEncodingScheme)
 }
@@ -58,6 +60,8 @@ type WebHook struct {
 }
 
 func NewWebHookREST(buildConfigClient buildclienttyped.BuildV1Interface, secretsClient kubetypedclient.SecretsGetter, groupVersion schema.GroupVersion, plugins map[string]webhook.Plugin) *WebHook {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,9 +93,13 @@ func newWebHookREST(buildConfigClient buildclienttyped.BuildV1Interface, secrets
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WebHook{groupVersion: groupVersion, buildConfigClient: buildConfigClient, secretsClient: secretsClient, instantiator: instantiator, plugins: plugins}
 }
 func (h *WebHook) New() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +131,8 @@ func (h *WebHook) Connect(ctx context.Context, name string, options runtime.Obje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WebHookHandler{ctx: ctx, name: name, options: options.(*kapi.PodProxyOptions), responder: responder, groupVersion: h.groupVersion, plugins: h.plugins, buildConfigClient: h.buildConfigClient, secretsClient: h.secretsClient, instantiator: h.instantiator}, nil
 }
 func (h *WebHook) NewConnectOptions() (runtime.Object, bool, string) {
@@ -140,9 +150,13 @@ func (h *WebHook) NewConnectOptions() (runtime.Object, bool, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapi.PodProxyOptions{}, true, "path"
 }
 func (h *WebHook) ConnectMethods() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,6 +201,8 @@ func (h *WebHookHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := h.ProcessWebHook(w, r, h.ctx, h.name, h.options.Path); err != nil {
 		h.responder.Error(err)
 		return
@@ -194,6 +210,8 @@ func (h *WebHookHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 func (w *WebHookHandler) ProcessWebHook(writer http.ResponseWriter, req *http.Request, ctx context.Context, name, subpath string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,11 +22,15 @@ func NewIntSet(items ...int) IntSet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ss := IntSet{}
 	ss.Insert(items...)
 	return ss
 }
 func (s IntSet) Insert(items ...int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,6 +64,8 @@ func (s IntSet) Delete(items ...int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range items {
 		delete(s, item)
 	}
@@ -79,10 +85,14 @@ func (s IntSet) Has(item int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, contained := s[item]
 	return contained
 }
 func (s IntSet) List() []int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

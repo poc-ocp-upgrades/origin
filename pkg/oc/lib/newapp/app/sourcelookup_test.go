@@ -20,6 +20,8 @@ func TestAddBuildSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type result struct{ name, dest string }
 	type tc struct {
 		in	[]string
@@ -54,6 +56,8 @@ func TestAddBuildSecrets(t *testing.T) {
 	}
 }
 func TestAddBuildConfigMaps(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

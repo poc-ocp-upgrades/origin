@@ -19,6 +19,8 @@ func (in *PodNodeConstraintsConfig) DeepCopyInto(out *PodNodeConstraintsConfig) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	if in.NodeSelectorLabelBlacklist != nil {
@@ -43,6 +45,8 @@ func (in *PodNodeConstraintsConfig) DeepCopy() *PodNodeConstraintsConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -51,6 +55,8 @@ func (in *PodNodeConstraintsConfig) DeepCopy() *PodNodeConstraintsConfig {
 	return out
 }
 func (in *PodNodeConstraintsConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

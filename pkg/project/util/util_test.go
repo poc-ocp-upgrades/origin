@@ -25,6 +25,8 @@ func TestProjectFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := fuzz.New().NilChance(0)
 	p := &projectapi.Project{}
 	for i := 0; i < 100; i++ {
@@ -38,6 +40,8 @@ func TestProjectFidelity(t *testing.T) {
 	}
 }
 func TestNamespaceFidelity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -61,6 +61,8 @@ func TestOAuthServiceAccountClientEvent(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		annotationPrefix	string
 		annotation		string
@@ -132,6 +134,8 @@ func collectEventsWithReason(eventList *corev1.EventList, reason string) []corev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var events []corev1.Event
 	for _, ev := range eventList.Items {
 		if ev.Reason != reason {
@@ -156,6 +160,8 @@ func buildRedirectObjectReferenceString(t *testing.T, kind, name, group string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := &oauthapiv1.OAuthRedirectReference{Reference: oauthapiv1.RedirectReference{Kind: kind, Name: name, Group: group}}
 	data, err := runtime.Encode(legacyscheme.Codecs.LegacyCodec(oauthapiv1.SchemeGroupVersion), ref)
 	if err != nil {
@@ -164,6 +170,8 @@ func buildRedirectObjectReferenceString(t *testing.T, kind, name, group string) 
 	return string(data)
 }
 func setupTestOAuthServer() (*testServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +235,8 @@ func setupTestSA(client kubernetes.Interface, annotationPrefix, annotation strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var serviceAccount *corev1.ServiceAccount
 	err := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		var err error
@@ -246,6 +256,8 @@ func setupTestSA(client kubernetes.Interface, annotationPrefix, annotation strin
 	return serviceAccount, nil
 }
 func setupTestSecrets(client kubernetes.Interface, sa *corev1.ServiceAccount) (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,11 +307,15 @@ func runTestOAuthFlow(t *testing.T, ts *testServer, sa *corev1.ServiceAccount, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthClientConfig := &osincli.ClientConfig{ClientId: apiserverserviceaccount.MakeUsername(sa.Namespace, sa.Name), ClientSecret: string(secret.Data[corev1.ServiceAccountTokenKey]), AuthorizeUrl: ts.clusterAdminClientConfig.Host + "/oauth/authorize", TokenUrl: ts.clusterAdminClientConfig.Host + "/oauth/token", RedirectUrl: redirectURL, Scope: scope.Join([]string{"user:info", "role:edit:" + projectName}), SendClientSecretInParams: true}
 	doOAuthFlow(t, ts.clusterAdminClientConfig, oauthClientConfig, ts.authCodes, ts.authErrors, expectBadRequest, []string{"GET /oauth/authorize", "received challenge", "GET /oauth/authorize", "redirect to /oauth/authorize/approve", "form", "POST /oauth/authorize/approve", "redirect to /oauth/authorize", "redirect to /oauthcallback", "code"})
 	ts.clusterAdminOAuthClient.Oauth().OAuthClientAuthorizations().Delete(adminUser+":"+oauthClientConfig.ClientId, nil)
 }
 func doOAuthFlow(t *testing.T, clusterAdminClientConfig *restclient.Config, oauthClientConfig *osincli.ClientConfig, authorizationCodes chan string, authorizationErrors chan string, expectBadRequest bool, expectOperations []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

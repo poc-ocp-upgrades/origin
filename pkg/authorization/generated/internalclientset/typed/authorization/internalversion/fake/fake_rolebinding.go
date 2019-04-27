@@ -33,6 +33,8 @@ func (c *FakeRoleBindings) Get(name string, options v1.GetOptions) (result *auth
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(rolebindingsResource, c.ns, name), &authorization.RoleBinding{})
 	if obj == nil {
 		return nil, err
@@ -40,6 +42,8 @@ func (c *FakeRoleBindings) Get(name string, options v1.GetOptions) (result *auth
 	return obj.(*authorization.RoleBinding), err
 }
 func (c *FakeRoleBindings) List(opts v1.ListOptions) (result *authorization.RoleBindingList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,9 +89,13 @@ func (c *FakeRoleBindings) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewWatchAction(rolebindingsResource, c.ns, opts))
 }
 func (c *FakeRoleBindings) Create(roleBinding *authorization.RoleBinding) (result *authorization.RoleBinding, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +131,8 @@ func (c *FakeRoleBindings) Update(roleBinding *authorization.RoleBinding) (resul
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewUpdateAction(rolebindingsResource, c.ns, roleBinding), &authorization.RoleBinding{})
 	if obj == nil {
 		return nil, err
@@ -130,6 +140,8 @@ func (c *FakeRoleBindings) Update(roleBinding *authorization.RoleBinding) (resul
 	return obj.(*authorization.RoleBinding), err
 }
 func (c *FakeRoleBindings) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,11 +174,15 @@ func (c *FakeRoleBindings) DeleteCollection(options *v1.DeleteOptions, listOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewDeleteCollectionAction(rolebindingsResource, c.ns, listOptions)
 	_, err := c.Fake.Invokes(action, &authorization.RoleBindingList{})
 	return err
 }
 func (c *FakeRoleBindings) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *authorization.RoleBinding, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

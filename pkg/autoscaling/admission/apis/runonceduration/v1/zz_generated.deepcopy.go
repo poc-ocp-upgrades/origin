@@ -19,6 +19,8 @@ func (in *RunOnceDurationConfig) DeepCopyInto(out *RunOnceDurationConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	if in.ActiveDeadlineSecondsOverride != nil {
@@ -43,6 +45,8 @@ func (in *RunOnceDurationConfig) DeepCopy() *RunOnceDurationConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -51,6 +55,8 @@ func (in *RunOnceDurationConfig) DeepCopy() *RunOnceDurationConfig {
 	return out
 }
 func (in *RunOnceDurationConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

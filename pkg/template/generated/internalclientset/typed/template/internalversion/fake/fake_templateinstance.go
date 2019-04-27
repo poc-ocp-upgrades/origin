@@ -33,6 +33,8 @@ func (c *FakeTemplateInstances) Get(name string, options v1.GetOptions) (result 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(templateinstancesResource, c.ns, name), &template.TemplateInstance{})
 	if obj == nil {
 		return nil, err
@@ -40,6 +42,8 @@ func (c *FakeTemplateInstances) Get(name string, options v1.GetOptions) (result 
 	return obj.(*template.TemplateInstance), err
 }
 func (c *FakeTemplateInstances) List(opts v1.ListOptions) (result *template.TemplateInstanceList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,9 +89,13 @@ func (c *FakeTemplateInstances) Watch(opts v1.ListOptions) (watch.Interface, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewWatchAction(templateinstancesResource, c.ns, opts))
 }
 func (c *FakeTemplateInstances) Create(templateInstance *template.TemplateInstance) (result *template.TemplateInstance, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +131,8 @@ func (c *FakeTemplateInstances) Update(templateInstance *template.TemplateInstan
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewUpdateAction(templateinstancesResource, c.ns, templateInstance), &template.TemplateInstance{})
 	if obj == nil {
 		return nil, err
@@ -130,6 +140,8 @@ func (c *FakeTemplateInstances) Update(templateInstance *template.TemplateInstan
 	return obj.(*template.TemplateInstance), err
 }
 func (c *FakeTemplateInstances) UpdateStatus(templateInstance *template.TemplateInstance) (*template.TemplateInstance, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,10 +177,14 @@ func (c *FakeTemplateInstances) Delete(name string, options *v1.DeleteOptions) e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := c.Fake.Invokes(testing.NewDeleteAction(templateinstancesResource, c.ns, name), &template.TemplateInstance{})
 	return err
 }
 func (c *FakeTemplateInstances) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +204,8 @@ func (c *FakeTemplateInstances) DeleteCollection(options *v1.DeleteOptions, list
 	return err
 }
 func (c *FakeTemplateInstances) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *template.TemplateInstance, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

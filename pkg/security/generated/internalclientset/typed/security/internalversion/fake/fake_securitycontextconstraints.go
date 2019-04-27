@@ -30,6 +30,8 @@ func (c *FakeSecurityContextConstraints) Get(name string, options v1.GetOptions)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(securitycontextconstraintsResource, name), &security.SecurityContextConstraints{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeSecurityContextConstraints) Get(name string, options v1.GetOptions)
 	return obj.(*security.SecurityContextConstraints), err
 }
 func (c *FakeSecurityContextConstraints) List(opts v1.ListOptions) (result *security.SecurityContextConstraintsList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeSecurityContextConstraints) Watch(opts v1.ListOptions) (watch.Inter
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(securitycontextconstraintsResource, opts))
 }
 func (c *FakeSecurityContextConstraints) Create(securityContextConstraints *security.SecurityContextConstraints) (result *security.SecurityContextConstraints, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeSecurityContextConstraints) Update(securityContextConstraints *secu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(securitycontextconstraintsResource, securityContextConstraints), &security.SecurityContextConstraints{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeSecurityContextConstraints) Update(securityContextConstraints *secu
 	return obj.(*security.SecurityContextConstraints), err
 }
 func (c *FakeSecurityContextConstraints) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeSecurityContextConstraints) DeleteCollection(options *v1.DeleteOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(securitycontextconstraintsResource, listOptions)
 	_, err := c.Fake.Invokes(action, &security.SecurityContextConstraintsList{})
 	return err
 }
 func (c *FakeSecurityContextConstraints) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *security.SecurityContextConstraints, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

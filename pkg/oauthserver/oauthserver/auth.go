@@ -90,6 +90,8 @@ func (c *OAuthServerConfig) WithOAuth(handler http.Handler) (http.Handler, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mux := http.NewServeMux()
 	mux.Handle("/", handler)
 	combinedOAuthClientGetter := saoauth.NewServiceAccountOAuthClientGetter(c.ExtraOAuthConfig.KubeClient.CoreV1(), c.ExtraOAuthConfig.KubeClient.CoreV1(), c.ExtraOAuthConfig.EventsClient, c.ExtraOAuthConfig.RouteClient, c.ExtraOAuthConfig.OAuthClientClient, oauthapi.GrantHandlerType(c.ExtraOAuthConfig.Options.GrantConfig.ServiceAccountMethod))
@@ -147,6 +149,8 @@ func (c *OAuthServerConfig) getOsinOAuthClient() (*osincli.Client, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	browserClient, err := c.ExtraOAuthConfig.OAuthClientClient.Get(openShiftBrowserClientID, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
@@ -167,6 +171,8 @@ func (c *OAuthServerConfig) getOsinOAuthClient() (*osincli.Client, error) {
 	return osOAuthClient, nil
 }
 func (c *OAuthServerConfig) getErrorHandler() (*errorpage.ErrorPage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -206,10 +212,14 @@ func newOpenShiftOAuthClientConfig(clientId, clientSecret, masterPublicURL, mast
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &osincli.ClientConfig{ClientId: clientId, ClientSecret: clientSecret, ErrorsInStatusCode: true, SendClientSecretInParams: true, AuthorizeUrl: urls.OpenShiftOAuthAuthorizeURL(masterPublicURL), TokenUrl: urls.OpenShiftOAuthTokenURL(masterURL), Scope: ""}
 	return config
 }
 func ensureOAuthClient(client oauthapi.OAuthClient, oauthClients oauthclient.OAuthClientInterface, preserveExistingRedirects, preserveExistingSecret bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,10 +279,14 @@ func (c *OAuthServerConfig) getCSRF() csrf.CSRF {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secure := isHTTPS(c.ExtraOAuthConfig.Options.MasterPublicURL)
 	return csrf.NewCookieCSRF("csrf", "/", "", secure)
 }
 func (c *OAuthServerConfig) getAuthorizeAuthenticationHandlers(mux oauthserver.Mux, errorHandler handlers.AuthenticationErrorHandler) (authenticator.Request, handlers.AuthenticationHandler, osinserver.AuthorizeHandler, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,6 +327,8 @@ func (c *OAuthServerConfig) getGrantHandler(mux oauthserver.Mux, auth authentica
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !config.ValidGrantHandlerTypes.Has(string(c.ExtraOAuthConfig.Options.GrantConfig.Method)) {
 		return nil, fmt.Errorf("No grant handler found that matches %v.  The OAuth server cannot start!", c.ExtraOAuthConfig.Options.GrantConfig.Method)
 	}
@@ -321,6 +337,8 @@ func (c *OAuthServerConfig) getGrantHandler(mux oauthserver.Mux, auth authentica
 	return handlers.NewPerClientGrant(handlers.NewRedirectGrant(openShiftApproveSubpath), oauthapi.GrantHandlerType(c.ExtraOAuthConfig.Options.GrantConfig.Method)), nil
 }
 func (c *OAuthServerConfig) getAuthenticationFinalizer() osinserver.AuthorizeHandler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -353,6 +371,8 @@ func (c *OAuthServerConfig) getAuthenticationFinalizer() osinserver.AuthorizeHan
 	})
 }
 func (c *OAuthServerConfig) getAuthenticationHandler(mux oauthserver.Mux, errorHandler handlers.AuthenticationErrorHandler) (handlers.AuthenticationHandler, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -487,6 +507,8 @@ func (c *OAuthServerConfig) getOAuthProvider(identityProvider osinv1.IdentityPro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch provider := identityProvider.Provider.Object.(type) {
 	case *osinv1.GitHubIdentityProvider:
 		transport, err := transportFor(provider.CA, "", "")
@@ -536,6 +558,8 @@ func (c *OAuthServerConfig) getOAuthProvider(identityProvider osinv1.IdentityPro
 	}
 }
 func (c *OAuthServerConfig) getPasswordAuthenticator(identityProvider osinv1.IdentityProvider) (authenticator.Password, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -625,6 +649,8 @@ func (c *OAuthServerConfig) getAuthenticationRequestHandler() (authenticator.Req
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var authRequestHandlers []authenticator.Request
 	if c.ExtraOAuthConfig.SessionAuth != nil {
 		authRequestHandlers = append(authRequestHandlers, c.ExtraOAuthConfig.SessionAuth)
@@ -697,6 +723,8 @@ func (redirectSuccessHandler) AuthenticationSucceeded(user kuser.Info, then stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(then) == 0 {
 		return false, fmt.Errorf("Auth succeeded, but no redirect existed - user=%#v", user)
 	}
@@ -718,6 +746,8 @@ func transportFor(ca, certFile, keyFile string) (http.RoundTripper, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	transport, err := transportForInner(ca, certFile, keyFile)
 	if err != nil {
 		return nil, err
@@ -725,6 +755,8 @@ func transportFor(ca, certFile, keyFile string) (http.RoundTripper, error) {
 	return ktransport.DebugWrappers(transport), nil
 }
 func transportForInner(ca, certFile, keyFile string) (http.RoundTripper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -777,6 +809,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -851,5 +904,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

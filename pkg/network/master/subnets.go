@@ -30,6 +30,8 @@ func (master *OsdnMaster) startSubnetMaster() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := master.initSubnetAllocators(); err != nil {
 		return err
 	}
@@ -52,10 +54,14 @@ func (master *OsdnMaster) watchNodes() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&kapi.Node{}, master.handleAddOrUpdateNode, master.handleDeleteNode)
 	master.nodeInformer.Informer().AddEventHandler(funcs)
 }
 func (master *OsdnMaster) handleAddOrUpdateNode(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +109,8 @@ func (master *OsdnMaster) handleDeleteNode(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	node := obj.(*kapi.Node)
 	klog.V(5).Infof("Watch %s event for Node %q", watch.Deleted, node.Name)
 	if _, exists := master.hostSubnetNodeIPs[node.UID]; !exists {
@@ -115,6 +123,8 @@ func (master *OsdnMaster) handleDeleteNode(obj interface{}) {
 	}
 }
 func (master *OsdnMaster) addNode(nodeName string, nodeUID string, nodeIP string, hsAnnotations map[string]string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,6 +195,8 @@ func (master *OsdnMaster) deleteNode(nodeName string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	subInfo := nodeName
 	if sub, err := master.hostSubnetInformer.Lister().Get(nodeName); err == nil {
 		subInfo = common.HostSubnetToString(sub)
@@ -196,6 +208,8 @@ func (master *OsdnMaster) deleteNode(nodeName string) error {
 	return nil
 }
 func (master *OsdnMaster) clearInitialNodeNetworkUnavailableCondition(origNode *kapi.Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -259,6 +273,8 @@ func getNodeInternalIP(node *kapi.Node) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var nodeIP string
 	for _, addr := range node.Status.Addresses {
 		if addr.Type == kapi.NodeInternalIP {
@@ -283,10 +299,14 @@ func (master *OsdnMaster) watchSubnets() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkapi.HostSubnet{}, master.handleAddOrUpdateSubnet, master.handleDeleteSubnet)
 	master.hostSubnetInformer.Informer().AddEventHandler(funcs)
 }
 func (master *OsdnMaster) handleAddOrUpdateSubnet(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -335,6 +355,8 @@ func (master *OsdnMaster) handleDeleteSubnet(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hs := obj.(*networkapi.HostSubnet)
 	klog.V(5).Infof("Watch %s event for HostSubnet %q", watch.Deleted, hs.Name)
 	if _, ok := hs.Annotations[networkapi.AssignHostSubnetAnnotation]; ok {
@@ -345,6 +367,8 @@ func (master *OsdnMaster) handleDeleteSubnet(obj interface{}) {
 	}
 }
 func (master *OsdnMaster) reconcileHostSubnet(subnet *networkapi.HostSubnet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,6 +421,8 @@ func (master *OsdnMaster) reconcileHostSubnet(subnet *networkapi.HostSubnet) err
 	return nil
 }
 func (master *OsdnMaster) handleAssignHostSubnetAnnotation(hs *networkapi.HostSubnet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

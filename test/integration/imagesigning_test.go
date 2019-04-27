@@ -38,6 +38,8 @@ func TestImageAddSignature(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterAdminClientConfig, userKubeClient, adminClient, userClient, image, fn := testSetupImageSignatureTest(t, testUserName)
 	defer fn()
 	if len(image.Signatures) != 0 {
@@ -95,6 +97,8 @@ func TestImageAddSignature(t *testing.T) {
 	}
 }
 func TestImageRemoveSignature(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,6 +194,8 @@ func testSetupImageSignatureTest(t *testing.T, userName string) (clusterAdminCli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -234,6 +240,8 @@ func makeUserAnImageSigner(rbacClient rbacv1client.RbacV1Interface, userClient k
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addImageSignerRole := &policy.RoleModificationOptions{RoleName: bootstrappolicy.ImageSignerRoleName, RoleKind: "ClusterRole", RbacClient: rbacClient, Users: []string{userName}, PrintFlags: genericclioptions.NewPrintFlags(""), ToPrinter: func(string) (printers.ResourcePrinter, error) {
 		return printers.NewDiscardingPrinter(), nil
 	}}
@@ -243,6 +251,8 @@ func makeUserAnImageSigner(rbacClient rbacv1client.RbacV1Interface, userClient k
 	return testutil.WaitForClusterPolicyUpdate(userClient.AuthorizationV1(), "create", corev1.Resource("imagesignatures"), true)
 }
 func compareSignatures(t *testing.T, a, b imageapi.ImageSignature) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

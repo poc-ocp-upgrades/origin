@@ -27,6 +27,8 @@ func AddRouteEdges(g osgraph.MutableUniqueGraph, node *routegraph.RouteNode) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	syntheticService := &corev1.Service{}
 	syntheticService.Namespace = node.Namespace
 	syntheticService.Name = node.Spec.To.Name
@@ -41,6 +43,8 @@ func AddRouteEdges(g osgraph.MutableUniqueGraph, node *routegraph.RouteNode) {
 	}
 }
 func AddAllRouteEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

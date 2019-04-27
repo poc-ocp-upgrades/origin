@@ -22,9 +22,13 @@ func (m mockSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (m mockSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (m mockSearcher) Search(precise bool, terms ...string) (ComponentMatches, [
 	return results, nil
 }
 func TestWeightedResolvers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -40,9 +40,13 @@ func newNodeVNIDMap(policy osdnPolicy, networkClient networkclient.Interface) *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &nodeVNIDMap{policy: policy, networkClient: networkClient, ids: make(map[string]uint32), mcEnabled: make(map[string]bool), namespaces: make(map[uint32]sets.String)}
 }
 func (vmap *nodeVNIDMap) addNamespaceToSet(name string, vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func (vmap *nodeVNIDMap) removeNamespaceFromSet(name string, vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if set, found := vmap.namespaces[vnid]; found {
 		set.Delete(name)
 		if set.Len() == 0 {
@@ -87,6 +93,8 @@ func (vmap *nodeVNIDMap) removeNamespaceFromSet(name string, vnid uint32) {
 	}
 }
 func (vmap *nodeVNIDMap) GetNamespaces(id uint32) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +132,8 @@ func (vmap *nodeVNIDMap) GetMulticastEnabled(id uint32) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.lock.Lock()
 	defer vmap.lock.Unlock()
 	set, exists := vmap.namespaces[id]
@@ -138,6 +148,8 @@ func (vmap *nodeVNIDMap) GetMulticastEnabled(id uint32) bool {
 	return true
 }
 func (vmap *nodeVNIDMap) WaitAndGetVNID(name string) (uint32, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,6 +199,8 @@ func (vmap *nodeVNIDMap) getVNID(name string) (uint32, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.lock.Lock()
 	defer vmap.lock.Unlock()
 	if id, ok := vmap.ids[name]; ok {
@@ -195,6 +209,8 @@ func (vmap *nodeVNIDMap) getVNID(name string) (uint32, error) {
 	return 0, fmt.Errorf("failed to find netid for namespace: %s in vnid map", name)
 }
 func (vmap *nodeVNIDMap) setVNID(name string, id uint32, mcEnabled bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -220,6 +236,8 @@ func (vmap *nodeVNIDMap) setVNID(name string, id uint32, mcEnabled bool) {
 	klog.Infof("Associate netid %d to namespace %q with mcEnabled %v", id, name, mcEnabled)
 }
 func (vmap *nodeVNIDMap) unsetVNID(name string) (id uint32, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,10 +279,14 @@ func netnsIsMulticastEnabled(netns *networkapi.NetNamespace) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	enabled, ok := netns.Annotations[networkapi.MulticastEnabledAnnotation]
 	return enabled == "true" && ok
 }
 func (vmap *nodeVNIDMap) populateVNIDs() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +325,8 @@ func (vmap *nodeVNIDMap) Start(networkInformers networkinformers.SharedInformerF
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap.networkInformers = networkInformers
 	err := vmap.populateVNIDs()
 	if err != nil {
@@ -312,6 +336,8 @@ func (vmap *nodeVNIDMap) Start(networkInformers networkinformers.SharedInformerF
 	return nil
 }
 func (vmap *nodeVNIDMap) watchNetNamespaces() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,6 +370,8 @@ func (vmap *nodeVNIDMap) handleAddOrUpdateNetNamespace(obj, _ interface{}, event
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netns := obj.(*networkapi.NetNamespace)
 	klog.V(5).Infof("Watch %s event for NetNamespace %q", eventType, netns.Name)
 	oldNetID, err := vmap.getVNID(netns.NetName)
@@ -360,6 +388,8 @@ func (vmap *nodeVNIDMap) handleAddOrUpdateNetNamespace(obj, _ interface{}, event
 	}
 }
 func (vmap *nodeVNIDMap) handleDeleteNetNamespace(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

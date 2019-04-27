@@ -32,9 +32,13 @@ func newPodSecurityPolicyReviews(c *SecurityClient, namespace string) *podSecuri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &podSecurityPolicyReviews{client: c.RESTClient(), ns: namespace}
 }
 func (c *podSecurityPolicyReviews) Create(podSecurityPolicyReview *security.PodSecurityPolicyReview) (result *security.PodSecurityPolicyReview, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

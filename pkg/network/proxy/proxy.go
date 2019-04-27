@@ -64,9 +64,13 @@ func New(pluginName string, networkClient networkclient.Interface, kClient kuber
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &OsdnProxy{kClient: kClient, networkClient: networkClient, networkInformers: networkInformers, ids: make(map[string]uint32), egressDNS: common.NewEgressDNS(), firewall: make(map[string]*proxyFirewallItem), allEndpoints: make(map[ktypes.UID]*proxyEndpoints)}, nil
 }
 func (proxy *OsdnProxy) Start(baseHandler pconfig.EndpointsHandler) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +122,8 @@ func (proxy *OsdnProxy) updateEgressNetworkPolicyLocked(policy networkv1.EgressN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxy.lock.Lock()
 	defer proxy.lock.Unlock()
 	proxy.updateEgressNetworkPolicy(policy)
@@ -137,10 +143,14 @@ func (proxy *OsdnProxy) watchEgressNetworkPolicies() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkv1.EgressNetworkPolicy{}, proxy.handleAddOrUpdateEgressNetworkPolicy, proxy.handleDeleteEgressNetworkPolicy)
 	proxy.networkInformers.Network().V1().EgressNetworkPolicies().Informer().AddEventHandler(funcs)
 }
 func (proxy *OsdnProxy) handleAddOrUpdateEgressNetworkPolicy(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +188,8 @@ func (proxy *OsdnProxy) handleDeleteEgressNetworkPolicy(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policy := obj.(*networkv1.EgressNetworkPolicy)
 	klog.V(5).Infof("Watch %s event for EgressNetworkPolicy %s/%s", watch.Deleted, policy.Namespace, policy.Name)
 	proxy.egressDNS.Delete(*policy)
@@ -199,10 +211,14 @@ func (proxy *OsdnProxy) watchNetNamespaces() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkv1.NetNamespace{}, proxy.handleAddOrUpdateNetNamespace, proxy.handleDeleteNetNamespace)
 	proxy.networkInformers.Network().V1().NetNamespaces().Informer().AddEventHandler(funcs)
 }
 func (proxy *OsdnProxy) handleAddOrUpdateNetNamespace(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -238,6 +254,8 @@ func (proxy *OsdnProxy) handleDeleteNetNamespace(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netns := obj.(*networkv1.NetNamespace)
 	klog.V(5).Infof("Watch %s event for NetNamespace %q", watch.Deleted, netns.Name)
 	proxy.idLock.Lock()
@@ -245,6 +263,8 @@ func (proxy *OsdnProxy) handleDeleteNetNamespace(obj interface{}) {
 	delete(proxy.ids, netns.Name)
 }
 func (proxy *OsdnProxy) isNamespaceGlobal(ns string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,6 +287,8 @@ func (proxy *OsdnProxy) isNamespaceGlobal(ns string) bool {
 	return false
 }
 func (proxy *OsdnProxy) updateEgressNetworkPolicy(policy networkv1.EgressNetworkPolicy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -362,6 +384,8 @@ func (proxy *OsdnProxy) firewallBlocksIP(namespace string, ip net.IP) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref, ok := proxy.firewall[namespace]; ok {
 		if ref.activePolicy == nil {
 			return true
@@ -375,6 +399,8 @@ func (proxy *OsdnProxy) firewallBlocksIP(namespace string, ip net.IP) bool {
 	return false
 }
 func (proxy *OsdnProxy) endpointsBlocked(ep *corev1.Endpoints) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -417,6 +443,8 @@ func (proxy *OsdnProxy) OnEndpointsAdd(ep *corev1.Endpoints) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxy.lock.Lock()
 	defer proxy.lock.Unlock()
 	pep := &proxyEndpoints{ep, proxy.endpointsBlocked(ep)}
@@ -426,6 +454,8 @@ func (proxy *OsdnProxy) OnEndpointsAdd(ep *corev1.Endpoints) {
 	}
 }
 func (proxy *OsdnProxy) OnEndpointsUpdate(old, ep *corev1.Endpoints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,6 +505,8 @@ func (proxy *OsdnProxy) OnEndpointsDelete(ep *corev1.Endpoints) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxy.lock.Lock()
 	defer proxy.lock.Unlock()
 	pep := proxy.allEndpoints[ep.UID]
@@ -502,9 +534,13 @@ func (proxy *OsdnProxy) OnEndpointsSynced() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxy.baseEndpointsHandler.OnEndpointsSynced()
 }
 func (proxy *OsdnProxy) syncEgressDNSProxyFirewall() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -545,6 +581,8 @@ func (proxy *OsdnProxy) syncEgressDNSProxyFirewall() {
 	}
 }
 func getPolicy(policyUID ktypes.UID, policies *networkv1.EgressNetworkPolicyList) (networkv1.EgressNetworkPolicy, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

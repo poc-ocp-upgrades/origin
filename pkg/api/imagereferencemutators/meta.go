@@ -31,6 +31,8 @@ func GetImageReferenceMutator(obj, old runtime.Object) (ImageReferenceMutator, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *buildv1.Build:
 		if oldT, ok := old.(*buildv1.Build); ok && oldT != nil {
@@ -93,9 +95,13 @@ func (a annotationsAccessor) Annotations() map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.object.GetAnnotations()
 }
 func (a annotationsAccessor) TemplateAnnotations() (map[string]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,9 +136,13 @@ func (a annotationsAccessor) SetAnnotations(annotations map[string]string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.object.SetAnnotations(annotations)
 }
 func (a annotationsAccessor) SetTemplateAnnotations(annotations map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -154,6 +164,8 @@ func (a annotationsAccessor) SetTemplateAnnotations(annotations map[string]strin
 	return true
 }
 func GetAnnotationAccessor(obj runtime.Object) (AnnotationAccessor, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

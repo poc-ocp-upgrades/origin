@@ -31,9 +31,13 @@ func (page Page) Title() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return page.Operations[0].gvk.Version + "." + page.Operations[0].gvk.Kind
 }
 func (page Page) Description() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func (page Page) Schema() ([]*line, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for defName, def := range page.s.Definitions {
 		for _, defgvk := range GroupVersionKinds(def) {
 			if defgvk == page.Operations[0].gvk {
@@ -82,6 +88,8 @@ func (page Page) Schema() ([]*line, error) {
 	return nil, fmt.Errorf("definition for %s not found", page.Operations[0].gvk)
 }
 func (page Page) OutputPath() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +130,8 @@ func (page Page) ParentTopicName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	gvk := page.Operations[0].gvk
 	parts := strings.Split(strings.Trim(page.Operations[0].PathName, "/"), "/")
 	dir := parts[0]
@@ -134,6 +144,8 @@ func (page Page) ParentTopicName() string {
 	return "/" + dir + "/" + gvk.Version
 }
 func BuildPages(s *spec.Swagger) (Pages, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +192,8 @@ func BuildPages(s *spec.Swagger) (Pages, error) {
 	return pages, nil
 }
 func (pages Pages) Write(root string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

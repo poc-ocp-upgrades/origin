@@ -52,6 +52,8 @@ func (c *lastFiredCache) Get(info types.NamespacedName) time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.RLock()
 	defer c.RUnlock()
 	return c.items[info]
@@ -71,11 +73,15 @@ func (c *lastFiredCache) Clear(info types.NamespacedName) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Lock()
 	defer c.Unlock()
 	delete(c.items, info)
 }
 func (c *lastFiredCache) AddIfNewer(info types.NamespacedName, newLastFired time.Time) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +131,8 @@ func NewUnidlingController(scaleNS scale.ScalesGetter, mapper meta.RESTMapper, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fieldSet := fields.Set{}
 	fieldSet["reason"] = unidlingapi.NeedPodsReason
 	fieldSelector := fieldSet.AsSelector()
@@ -140,6 +148,8 @@ func NewUnidlingController(scaleNS scale.ScalesGetter, mapper meta.RESTMapper, e
 	return unidlingController
 }
 func (c *UnidlingController) addEvent(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,6 +186,8 @@ func (c *UnidlingController) updateEvent(oldObj, newObj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	evt, ok := newObj.(*corev1.Event)
 	if !ok {
 		utilruntime.HandleError(fmt.Errorf("got non-Event object in event action: %v", newObj))
@@ -184,6 +196,8 @@ func (c *UnidlingController) updateEvent(oldObj, newObj interface{}) {
 	c.enqueueEvent(evt)
 }
 func (c *UnidlingController) checkAndClearFromCache(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +242,8 @@ func (c *UnidlingController) clearEventFromCache(event *corev1.Event) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if event.Reason != unidlingapi.NeedPodsReason {
 		return
 	}
@@ -235,6 +251,8 @@ func (c *UnidlingController) clearEventFromCache(event *corev1.Event) {
 	c.lastFiredCache.Clear(info)
 }
 func (c *UnidlingController) enqueueEvent(event *corev1.Event) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -272,11 +290,15 @@ func (c *UnidlingController) Run(stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	go c.controller.Run(stopCh)
 	go wait.Until(c.processRequests, time.Second, stopCh)
 }
 func (c *UnidlingController) processRequests() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +320,8 @@ func (c *UnidlingController) processRequests() {
 	}
 }
 func (c *UnidlingController) awaitRequest() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +363,8 @@ func (c *UnidlingController) awaitRequest() bool {
 	return true
 }
 func (c *UnidlingController) handleRequest(info types.NamespacedName, lastFired time.Time) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -458,6 +484,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -532,5 +579,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

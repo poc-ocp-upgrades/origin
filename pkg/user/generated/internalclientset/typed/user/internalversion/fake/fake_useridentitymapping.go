@@ -27,6 +27,8 @@ func (c *FakeUserIdentityMappings) Get(name string, options v1.GetOptions) (resu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(useridentitymappingsResource, name), &user.UserIdentityMapping{})
 	if obj == nil {
 		return nil, err
@@ -34,6 +36,8 @@ func (c *FakeUserIdentityMappings) Get(name string, options v1.GetOptions) (resu
 	return obj.(*user.UserIdentityMapping), err
 }
 func (c *FakeUserIdentityMappings) Create(userIdentityMapping *user.UserIdentityMapping) (result *user.UserIdentityMapping, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,6 +73,8 @@ func (c *FakeUserIdentityMappings) Update(userIdentityMapping *user.UserIdentity
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(useridentitymappingsResource, userIdentityMapping), &user.UserIdentityMapping{})
 	if obj == nil {
 		return nil, err
@@ -76,6 +82,8 @@ func (c *FakeUserIdentityMappings) Update(userIdentityMapping *user.UserIdentity
 	return obj.(*user.UserIdentityMapping), err
 }
 func (c *FakeUserIdentityMappings) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

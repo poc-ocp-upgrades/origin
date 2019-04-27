@@ -19,6 +19,8 @@ func LegacyMetaV1FieldSelectorConversionWithName(label, value string) (string, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch label {
 	case "name":
 		return "metadata.name", value, nil

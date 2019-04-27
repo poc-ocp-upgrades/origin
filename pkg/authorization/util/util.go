@@ -24,6 +24,8 @@ func AddUserToSAR(user user.Info, sar *authorizationv1.SubjectAccessReview) *aut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sar.Spec.User = user.GetName()
 	sar.Spec.Groups = make([]string, len(user.GetGroups()))
 	copy(sar.Spec.Groups, user.GetGroups())
@@ -34,6 +36,8 @@ func AddUserToSAR(user user.Info, sar *authorizationv1.SubjectAccessReview) *aut
 	return sar
 }
 func Authorize(sarClient authorizationclient.SubjectAccessReviewInterface, user user.Info, resourceAttributes *authorizationv1.ResourceAttributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

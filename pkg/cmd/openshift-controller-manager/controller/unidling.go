@@ -24,6 +24,8 @@ func RunUnidlingController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resyncPeriod := 2 * time.Hour
 	clientConfig := ctx.ClientBuilder.ConfigOrDie(bootstrappolicy.InfraUnidlingControllerServiceAccountName)
 	appsClient, err := appsclient.NewForConfig(clientConfig)

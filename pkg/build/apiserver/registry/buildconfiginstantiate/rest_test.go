@@ -31,6 +31,8 @@ func TestCreateInstantiate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream := mocks.MockImageStream("testImageStream", "registry.com/namespace/imagename", map[string]string{"test": "newImageID123"})
 	image := mocks.MockImage("testImage@id", "registry.com/namespace/imagename@id")
 	fakeSecrets := []runtime.Object{}
@@ -58,6 +60,8 @@ func TestCreateInstantiate(t *testing.T) {
 	}
 }
 func TestCreateInstantiateValidationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

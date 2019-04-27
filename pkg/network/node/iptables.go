@@ -37,9 +37,13 @@ func newNodeIPTables(clusterNetworkCIDR []string, syncPeriod time.Duration, masq
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &NodeIPTables{ipt: iptables.New(kexec.New(), utildbus.New(), iptables.ProtocolIpv4), clusterNetworkCIDR: clusterNetworkCIDR, syncPeriod: syncPeriod, masqueradeServices: masqueradeServices, vxlanPort: vxlanPort, egressIPs: make(map[string]string)}
 }
 func (n *NodeIPTables) Setup() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ func (n *NodeIPTables) Setup() error {
 	return nil
 }
 func (n *NodeIPTables) syncLoop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +121,8 @@ func (n *NodeIPTables) addChainRules(chain Chain) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allExisted := true
 	for _, rule := range chain.rules {
 		existed, err := n.ipt.EnsureRule(iptables.Append, iptables.Table(chain.table), iptables.Chain(chain.name), rule...)
@@ -128,6 +136,8 @@ func (n *NodeIPTables) addChainRules(chain Chain) (bool, error) {
 	return allExisted, nil
 }
 func (n *NodeIPTables) syncIPTableRules() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,6 +207,8 @@ func (n *NodeIPTables) getNodeIPTablesChains() []Chain {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var chainArray []Chain
 	chainArray = append(chainArray, Chain{table: "filter", name: "OPENSHIFT-FIREWALL-ALLOW", srcChain: "INPUT", srcRule: []string{"-m", "comment", "--comment", "firewall overrides"}, rules: [][]string{{"-p", "udp", "--dport", fmt.Sprintf("%d", n.vxlanPort), "-m", "comment", "--comment", "VXLAN incoming", "-j", "ACCEPT"}, {"-i", Tun0, "-m", "comment", "--comment", "from SDN to localhost", "-j", "ACCEPT"}, {"-i", "docker0", "-m", "comment", "--comment", "from docker to localhost", "-j", "ACCEPT"}}}, Chain{table: "filter", name: "OPENSHIFT-ADMIN-OUTPUT-RULES", srcChain: "FORWARD", srcRule: []string{"-i", Tun0, "!", "-o", Tun0, "-m", "comment", "--comment", "administrator overrides"}, rules: nil})
 	var masqRules [][]string
@@ -235,6 +247,8 @@ func (n *NodeIPTables) ensureEgressIPRules(egressIP, mark string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, cidr := range n.clusterNetworkCIDR {
 		_, err := n.ipt.EnsureRule(iptables.Prepend, iptables.TableNAT, iptables.Chain("OPENSHIFT-MASQUERADE"), "-s", cidr, "-m", "mark", "--mark", mark, "-j", "SNAT", "--to-source", egressIP)
 		if err != nil {
@@ -259,6 +273,8 @@ func (n *NodeIPTables) AddEgressIPRules(egressIP, mark string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n.mu.Lock()
 	defer n.mu.Unlock()
 	if err := n.ensureEgressIPRules(egressIP, mark); err != nil {
@@ -268,6 +284,8 @@ func (n *NodeIPTables) AddEgressIPRules(egressIP, mark string) error {
 	return nil
 }
 func (n *NodeIPTables) DeleteEgressIPRules(egressIP, mark string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

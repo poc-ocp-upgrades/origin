@@ -26,6 +26,8 @@ func (f fakeRegistrySearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (f fakeRegistrySearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
@@ -43,9 +45,13 @@ func (f fakeRegistrySearcher) Search(precise bool, terms ...string) (ComponentMa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.matches, f.errs
 }
 func TestDockerImageLookup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

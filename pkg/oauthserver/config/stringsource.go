@@ -33,6 +33,8 @@ func ResolveStringValue(s configv1.StringSource) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var value string
 	switch {
 	case len(s.Value) > 0:
@@ -67,6 +69,8 @@ func ResolveStringValue(s configv1.StringSource) (string, error) {
 	return string(data), err
 }
 func blockFromBytes(data []byte, blockType string) (*pem.Block, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,6 +27,8 @@ func (c *ProjectClient) Projects() ProjectResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newProjects(c)
 }
 func (c *ProjectClient) ProjectRequests() ProjectRequestInterface {
@@ -44,9 +46,13 @@ func (c *ProjectClient) ProjectRequests() ProjectRequestInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newProjectRequests(c)
 }
 func NewForConfig(c *rest.Config) (*ProjectClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +92,8 @@ func NewForConfigOrDie(c *rest.Config) *ProjectClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := NewForConfig(c)
 	if err != nil {
 		panic(err)
@@ -107,9 +115,13 @@ func New(c rest.Interface) *ProjectClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ProjectClient{c}
 }
 func setConfigDefaults(config *rest.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +154,8 @@ func setConfigDefaults(config *rest.Config) error {
 	return nil
 }
 func (c *ProjectClient) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

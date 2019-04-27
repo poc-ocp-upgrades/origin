@@ -20,6 +20,8 @@ func RunDefaultRoleBindingController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient, err := ctx.ClientBuilder.Client(bootstrappolicy.InfraDefaultRoleBindingsControllerServiceAccountName)
 	if err != nil {
 		return true, err

@@ -32,10 +32,14 @@ func (m *mockDeleteRecorder) DeleteDeployment(deployment *corev1.ReplicationCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.set.Insert(deployment.Name)
 	return m.err
 }
 func (m *mockDeleteRecorder) Verify(t *testing.T, expected sets.String) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,6 +63,8 @@ func (m *mockDeleteRecorder) Verify(t *testing.T, expected sets.String) {
 	}
 }
 func TestPruneTask(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

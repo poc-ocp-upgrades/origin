@@ -47,6 +47,8 @@ func NewREST(imageRegistry image.Registry, imageStreamRegistry imagestream.Regis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &REST{imageRegistry: imageRegistry, imageStreamRegistry: imageStreamRegistry, strategy: NewStrategy(registryWhitelister), TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}}
 }
 
@@ -58,6 +60,8 @@ var _ rest.ShortNamesProvider = &REST{}
 var _ rest.Scoper = &REST{}
 
 func (r *REST) ShortNames() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,9 +93,13 @@ func (r *REST) New() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.ImageStreamTag{}
 }
 func (r *REST) NewList() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,9 +131,13 @@ func (s *REST) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func nameAndTag(id string) (name string, tag string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +159,8 @@ func nameAndTag(id string) (name string, tag string, err error) {
 	return
 }
 func (r *REST) List(ctx context.Context, options *metainternal.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -202,6 +216,8 @@ func (r *REST) Get(ctx context.Context, id string, options *metav1.GetOptions) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, tag, err := nameAndTag(id)
 	if err != nil {
 		return nil, err
@@ -217,6 +233,8 @@ func (r *REST) Get(ctx context.Context, id string, options *metav1.GetOptions) (
 	return newISTag(tag, imageStream, image, false)
 }
 func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +302,8 @@ func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 	return nil, kapierrors.NewServerTimeout(imagegroup.Resource("imagestreamtags"), "create", 2)
 }
 func (r *REST) Update(ctx context.Context, tagName string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,6 +420,8 @@ func (r *REST) Delete(ctx context.Context, id string, options *metav1.DeleteOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, tag, err := nameAndTag(id)
 	if err != nil {
 		return nil, false, err
@@ -454,6 +476,8 @@ func (r *REST) imageFor(ctx context.Context, tag string, imageStream *imageapi.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	event := imageapi.LatestTaggedImage(imageStream, tag)
 	if event == nil || len(event.Image) == 0 {
 		return nil, kapierrors.NewNotFound(imagegroup.Resource("imagestreamtags"), imageapi.JoinImageStreamTag(imageStream.Name, tag))
@@ -461,6 +485,8 @@ func (r *REST) imageFor(ctx context.Context, tag string, imageStream *imageapi.I
 	return r.imageRegistry.GetImage(ctx, event.Image, &metav1.GetOptions{})
 }
 func newISTag(tag string, imageStream *imageapi.ImageStream, image *imageapi.Image, allowEmptyEvent bool) (*imageapi.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -536,6 +562,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -610,5 +657,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

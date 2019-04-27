@@ -25,6 +25,8 @@ func reapForClusterRole(clusterBindingClient rbacv1client.ClusterRoleBindingsGet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := []error{}
 	clusterBindings, err := clusterBindingClient.ClusterRoleBindings().List(metav1.ListOptions{})
 	if err != nil {

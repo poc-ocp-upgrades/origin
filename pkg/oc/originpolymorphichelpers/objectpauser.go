@@ -23,6 +23,8 @@ func NewObjectPauserFn(delegate polymorphichelpers.ObjectPauserFunc) polymorphic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj runtime.Object) ([]byte, error) {
 		switch t := obj.(type) {
 		case *appsv1.DeploymentConfig:

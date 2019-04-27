@@ -34,10 +34,14 @@ func (b *fakeBroker) Catalog() *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := api.Response(*b)
 	return &r
 }
 func (b *fakeBroker) Provision(u user.Info, instanceID string, preq *api.ProvisionRequest) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,10 +74,14 @@ func (b *fakeBroker) Deprovision(u user.Info, instanceID string) *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := api.Response(*b)
 	return &r
 }
 func (b *fakeBroker) Bind(u user.Info, instanceID string, bindingID string, breq *api.BindRequest) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,10 +114,14 @@ func (b *fakeBroker) Unbind(u user.Info, instanceID string, bindingID string) *a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := api.Response(*b)
 	return &r
 }
 func (b *fakeBroker) LastOperation(u user.Info, instanceID string, operation api.Operation) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,9 +164,13 @@ func newFakeResponseWriter() *fakeResponseWriter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeResponseWriter{h: make(http.Header), code: -1}
 }
 func (rw *fakeResponseWriter) Header() http.Header {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,12 +202,16 @@ func (rw *fakeResponseWriter) Write(b []byte) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rw.code == -1 {
 		rw.code = http.StatusOK
 	}
 	return rw.buf.Write(b)
 }
 func (rw *fakeResponseWriter) WriteHeader(code int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +247,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	defaultOriginatingIdentityHeader, err = client.OriginatingIdentityHeader(&user.DefaultInfo{})
 	if err != nil {
@@ -234,6 +256,8 @@ func init() {
 	}
 }
 func parseUrl(t *testing.T, s string) *url.URL {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,6 +293,8 @@ func checkResponseWriter(t *testing.T, rw *fakeResponseWriter) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedHeaders := map[string]string{restful.HEADER_ContentType: restful.MIME_JSON, api.XBrokerAPIVersion: api.APIVersion}
 	for k, v := range expectedHeaders {
 		if rw.h.Get(k) != v {
@@ -281,6 +307,8 @@ func checkResponseWriter(t *testing.T, rw *fakeResponseWriter) {
 	}
 }
 func TestRequiresXBrokerAPIVersionHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -323,6 +351,8 @@ func TestRequiresContentTypeHeader(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := restful.NewContainer()
 	fb := fakeBroker(*api.NewResponse(http.StatusOK, map[string]interface{}{}, nil))
 	Route(c, "", &fb)
@@ -337,6 +367,8 @@ func TestRequiresContentTypeHeader(t *testing.T) {
 	}
 }
 func TestInternalServerError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,6 +411,8 @@ func TestBadRequestError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := restful.NewContainer()
 	fb := fakeBroker(*api.BadRequest(errors.New("test error")))
 	Route(c, "", &fb)
@@ -393,6 +427,8 @@ func TestBadRequestError(t *testing.T) {
 	}
 }
 func TestProvision(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +502,8 @@ func TestDeprovision(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := restful.NewContainer()
 	fb := fakeBroker(*api.NewResponse(http.StatusOK, map[string]interface{}{}, nil))
 	Route(c, "", &fb)
@@ -502,6 +540,8 @@ func TestDeprovision(t *testing.T) {
 	}
 }
 func TestLastOperation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -566,6 +606,8 @@ func TestBind(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := restful.NewContainer()
 	fb := fakeBroker(*api.NewResponse(http.StatusOK, map[string]interface{}{}, nil))
 	Route(c, "", &fb)
@@ -611,6 +653,8 @@ func TestBind(t *testing.T) {
 	}
 }
 func TestUnbind(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

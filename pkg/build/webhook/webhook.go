@@ -45,6 +45,8 @@ func GitRefMatches(eventRef, configRef string, buildSource *buildv1.BuildSource)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if buildSource.Git != nil && len(buildSource.Git.Ref) != 0 {
 		configRef = buildSource.Git.Ref
 	}
@@ -67,9 +69,13 @@ func NewWarning(message string) *kerrors.StatusError {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kerrors.StatusError{ErrStatus: metav1.Status{Status: metav1.StatusSuccess, Code: http.StatusOK, Message: message}}
 }
 func CheckSecret(namespace, userSecret string, triggers []*buildv1.WebHookTrigger, secretsClient kubernetes.SecretsGetter) (*buildv1.WebHookTrigger, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +115,8 @@ func CheckSecret(namespace, userSecret string, triggers []*buildv1.WebHookTrigge
 	return nil, ErrSecretMismatch
 }
 func GenerateBuildTriggerInfo(revision *buildv1.SourceRevision, hookType string) (buildTriggerCauses []buildv1.BuildTriggerCause) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

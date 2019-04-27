@@ -24,9 +24,13 @@ func (m *testUserIdentityMapper) UserFor(identityInfo api.UserIdentityInfo) (use
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &user.DefaultInfo{Name: identityInfo.GetProviderUserName()}, nil
 }
 func TestAnyAuthPassword(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

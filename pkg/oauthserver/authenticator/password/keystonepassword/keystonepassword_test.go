@@ -29,6 +29,8 @@ func (m *TestUserIdentityMapperClaim) UserFor(identityInfo api.UserIdentityInfo)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userName := identityInfo.GetProviderUserName()
 	if login, ok := identityInfo.GetExtra()[api.IdentityPreferredUsernameKey]; ok && len(login) > 0 {
 		userName = login
@@ -44,6 +46,8 @@ func (m *TestUserIdentityMapperClaim) UserFor(identityInfo api.UserIdentityInfo)
 var keystoneID string
 
 func TestKeystoneLogin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

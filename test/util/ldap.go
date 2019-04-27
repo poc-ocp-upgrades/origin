@@ -25,6 +25,8 @@ func NewTestLDAPServer() *testLDAPServer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &testLDAPServer{}
 	routes := ldapserver.NewRouteMux()
 	routes.Bind(t.handleBind)
@@ -34,6 +36,8 @@ func NewTestLDAPServer() *testLDAPServer {
 	return t
 }
 func (t *testLDAPServer) Start(address string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,9 +69,13 @@ func (t *testLDAPServer) Stop() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.server.Stop()
 }
 func (t *testLDAPServer) ResetRequests() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +94,8 @@ func (t *testLDAPServer) ResetRequests() {
 	t.SearchRequests = []ldapserver.SearchRequest{}
 }
 func (t *testLDAPServer) AddSearchResult(dn string, attributes map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,12 +132,16 @@ func (t *testLDAPServer) SetPassword(dn string, password string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t.Passwords == nil {
 		t.Passwords = map[string]string{}
 	}
 	t.Passwords[dn] = password
 }
 func (t *testLDAPServer) handleBind(w ldapserver.ResponseWriter, m *ldapserver.Message) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +172,8 @@ func (t *testLDAPServer) handleBind(w ldapserver.ResponseWriter, m *ldapserver.M
 	w.Write(ldapserver.NewBindResponse(ldapserver.LDAPResultSuccess))
 }
 func (t *testLDAPServer) handleSearch(w ldapserver.ResponseWriter, m *ldapserver.Message) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

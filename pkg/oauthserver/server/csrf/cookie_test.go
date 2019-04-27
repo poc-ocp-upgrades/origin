@@ -21,6 +21,8 @@ func TestCookieGenerate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		Name		string
 		Path		string
@@ -62,6 +64,8 @@ func TestCookieGenerate(t *testing.T) {
 	}
 }
 func TestCookieCheck(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

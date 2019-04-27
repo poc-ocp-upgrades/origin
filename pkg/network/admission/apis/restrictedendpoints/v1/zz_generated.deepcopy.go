@@ -19,6 +19,8 @@ func (in *RestrictedEndpointsAdmissionConfig) DeepCopyInto(out *RestrictedEndpoi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	if in.RestrictedCIDRs != nil {
@@ -43,6 +45,8 @@ func (in *RestrictedEndpointsAdmissionConfig) DeepCopy() *RestrictedEndpointsAdm
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -51,6 +55,8 @@ func (in *RestrictedEndpointsAdmissionConfig) DeepCopy() *RestrictedEndpointsAdm
 	return out
 }
 func (in *RestrictedEndpointsAdmissionConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

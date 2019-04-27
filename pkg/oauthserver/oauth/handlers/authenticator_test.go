@@ -22,6 +22,8 @@ func TestAuthenticator(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[osin.AccessRequestType]struct {
 		ExpectedAuthorized	bool
 		ExpectedError		bool
@@ -42,6 +44,8 @@ func TestAuthenticator(t *testing.T) {
 	}
 }
 func TestDenyPassword(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func TestDenyAssertion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok, err := deny.AuthenticateAssertion("", "")
 	if err != nil {
 		t.Fatalf("Unexpected error: %s", err)
@@ -94,6 +100,8 @@ func TestDenyAssertion(t *testing.T) {
 	}
 }
 func TestDenyClient(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

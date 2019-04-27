@@ -29,6 +29,8 @@ func fuzzImageSignature(t *testing.T, signature *imageapi.ImageSignature, seed i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := fuzzer.FuzzerFor(kapitesting.FuzzerFuncs, rand.NewSource(seed), legacyscheme.Codecs)
 	f.Funcs(func(j *imageapi.ImageSignature, c fuzz.Continue) {
 		c.FuzzNoCustom(j)
@@ -61,6 +63,8 @@ func fuzzImageSignature(t *testing.T, signature *imageapi.ImageSignature, seed i
 	return &updated
 }
 func TestStrategyPrepareForCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

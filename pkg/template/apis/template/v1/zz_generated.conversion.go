@@ -26,9 +26,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,6 +194,8 @@ func autoConvert_v1_BrokerTemplateInstance_To_template_BrokerTemplateInstance(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	if err := Convert_v1_BrokerTemplateInstanceSpec_To_template_BrokerTemplateInstanceSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
@@ -211,9 +217,13 @@ func Convert_v1_BrokerTemplateInstance_To_template_BrokerTemplateInstance(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BrokerTemplateInstance_To_template_BrokerTemplateInstance(in, out, s)
 }
 func autoConvert_template_BrokerTemplateInstance_To_v1_BrokerTemplateInstance(in *template.BrokerTemplateInstance, out *v1.BrokerTemplateInstance, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,9 +259,13 @@ func Convert_template_BrokerTemplateInstance_To_v1_BrokerTemplateInstance(in *te
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_BrokerTemplateInstance_To_v1_BrokerTemplateInstance(in, out, s)
 }
 func autoConvert_v1_BrokerTemplateInstanceList_To_template_BrokerTemplateInstanceList(in *v1.BrokerTemplateInstanceList, out *template.BrokerTemplateInstanceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,9 +309,13 @@ func Convert_v1_BrokerTemplateInstanceList_To_template_BrokerTemplateInstanceLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BrokerTemplateInstanceList_To_template_BrokerTemplateInstanceList(in, out, s)
 }
 func autoConvert_template_BrokerTemplateInstanceList_To_v1_BrokerTemplateInstanceList(in *template.BrokerTemplateInstanceList, out *v1.BrokerTemplateInstanceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,9 +359,13 @@ func Convert_template_BrokerTemplateInstanceList_To_v1_BrokerTemplateInstanceLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_BrokerTemplateInstanceList_To_v1_BrokerTemplateInstanceList(in, out, s)
 }
 func autoConvert_v1_BrokerTemplateInstanceSpec_To_template_BrokerTemplateInstanceSpec(in *v1.BrokerTemplateInstanceSpec, out *template.BrokerTemplateInstanceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,9 +404,13 @@ func Convert_v1_BrokerTemplateInstanceSpec_To_template_BrokerTemplateInstanceSpe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BrokerTemplateInstanceSpec_To_template_BrokerTemplateInstanceSpec(in, out, s)
 }
 func autoConvert_template_BrokerTemplateInstanceSpec_To_v1_BrokerTemplateInstanceSpec(in *template.BrokerTemplateInstanceSpec, out *v1.BrokerTemplateInstanceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -423,9 +449,13 @@ func Convert_template_BrokerTemplateInstanceSpec_To_v1_BrokerTemplateInstanceSpe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_BrokerTemplateInstanceSpec_To_v1_BrokerTemplateInstanceSpec(in, out, s)
 }
 func autoConvert_v1_Parameter_To_template_Parameter(in *v1.Parameter, out *template.Parameter, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -464,9 +494,13 @@ func Convert_v1_Parameter_To_template_Parameter(in *v1.Parameter, out *template.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Parameter_To_template_Parameter(in, out, s)
 }
 func autoConvert_template_Parameter_To_v1_Parameter(in *template.Parameter, out *v1.Parameter, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,9 +539,13 @@ func Convert_template_Parameter_To_v1_Parameter(in *template.Parameter, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_Parameter_To_v1_Parameter(in, out, s)
 }
 func autoConvert_v1_Template_To_template_Template(in *v1.Template, out *template.Template, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -554,9 +592,13 @@ func Convert_v1_Template_To_template_Template(in *v1.Template, out *template.Tem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Template_To_template_Template(in, out, s)
 }
 func autoConvert_template_Template_To_v1_Template(in *template.Template, out *v1.Template, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -603,9 +645,13 @@ func Convert_template_Template_To_v1_Template(in *template.Template, out *v1.Tem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_Template_To_v1_Template(in, out, s)
 }
 func autoConvert_v1_TemplateInstance_To_template_TemplateInstance(in *v1.TemplateInstance, out *template.TemplateInstance, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -644,9 +690,13 @@ func Convert_v1_TemplateInstance_To_template_TemplateInstance(in *v1.TemplateIns
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstance_To_template_TemplateInstance(in, out, s)
 }
 func autoConvert_template_TemplateInstance_To_v1_TemplateInstance(in *template.TemplateInstance, out *v1.TemplateInstance, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -685,9 +735,13 @@ func Convert_template_TemplateInstance_To_v1_TemplateInstance(in *template.Templ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstance_To_v1_TemplateInstance(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceCondition_To_template_TemplateInstanceCondition(in *v1.TemplateInstanceCondition, out *template.TemplateInstanceCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -724,9 +778,13 @@ func Convert_v1_TemplateInstanceCondition_To_template_TemplateInstanceCondition(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceCondition_To_template_TemplateInstanceCondition(in, out, s)
 }
 func autoConvert_template_TemplateInstanceCondition_To_v1_TemplateInstanceCondition(in *template.TemplateInstanceCondition, out *v1.TemplateInstanceCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -763,9 +821,13 @@ func Convert_template_TemplateInstanceCondition_To_v1_TemplateInstanceCondition(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceCondition_To_v1_TemplateInstanceCondition(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceList_To_template_TemplateInstanceList(in *v1.TemplateInstanceList, out *template.TemplateInstanceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -809,9 +871,13 @@ func Convert_v1_TemplateInstanceList_To_template_TemplateInstanceList(in *v1.Tem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceList_To_template_TemplateInstanceList(in, out, s)
 }
 func autoConvert_template_TemplateInstanceList_To_v1_TemplateInstanceList(in *template.TemplateInstanceList, out *v1.TemplateInstanceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -855,9 +921,13 @@ func Convert_template_TemplateInstanceList_To_v1_TemplateInstanceList(in *templa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceList_To_v1_TemplateInstanceList(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceObject_To_template_TemplateInstanceObject(in *v1.TemplateInstanceObject, out *template.TemplateInstanceObject, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -892,9 +962,13 @@ func Convert_v1_TemplateInstanceObject_To_template_TemplateInstanceObject(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceObject_To_template_TemplateInstanceObject(in, out, s)
 }
 func autoConvert_template_TemplateInstanceObject_To_v1_TemplateInstanceObject(in *template.TemplateInstanceObject, out *v1.TemplateInstanceObject, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -929,9 +1003,13 @@ func Convert_template_TemplateInstanceObject_To_v1_TemplateInstanceObject(in *te
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceObject_To_v1_TemplateInstanceObject(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceRequester_To_template_TemplateInstanceRequester(in *v1.TemplateInstanceRequester, out *template.TemplateInstanceRequester, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -967,9 +1045,13 @@ func Convert_v1_TemplateInstanceRequester_To_template_TemplateInstanceRequester(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceRequester_To_template_TemplateInstanceRequester(in, out, s)
 }
 func autoConvert_template_TemplateInstanceRequester_To_v1_TemplateInstanceRequester(in *template.TemplateInstanceRequester, out *v1.TemplateInstanceRequester, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1005,9 +1087,13 @@ func Convert_template_TemplateInstanceRequester_To_v1_TemplateInstanceRequester(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceRequester_To_v1_TemplateInstanceRequester(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceSpec_To_template_TemplateInstanceSpec(in *v1.TemplateInstanceSpec, out *template.TemplateInstanceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1052,9 +1138,13 @@ func Convert_v1_TemplateInstanceSpec_To_template_TemplateInstanceSpec(in *v1.Tem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceSpec_To_template_TemplateInstanceSpec(in, out, s)
 }
 func autoConvert_template_TemplateInstanceSpec_To_v1_TemplateInstanceSpec(in *template.TemplateInstanceSpec, out *v1.TemplateInstanceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1099,9 +1189,13 @@ func Convert_template_TemplateInstanceSpec_To_v1_TemplateInstanceSpec(in *templa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceSpec_To_v1_TemplateInstanceSpec(in, out, s)
 }
 func autoConvert_v1_TemplateInstanceStatus_To_template_TemplateInstanceStatus(in *v1.TemplateInstanceStatus, out *template.TemplateInstanceStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1145,9 +1239,13 @@ func Convert_v1_TemplateInstanceStatus_To_template_TemplateInstanceStatus(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateInstanceStatus_To_template_TemplateInstanceStatus(in, out, s)
 }
 func autoConvert_template_TemplateInstanceStatus_To_v1_TemplateInstanceStatus(in *template.TemplateInstanceStatus, out *v1.TemplateInstanceStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1191,9 +1289,13 @@ func Convert_template_TemplateInstanceStatus_To_v1_TemplateInstanceStatus(in *te
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_template_TemplateInstanceStatus_To_v1_TemplateInstanceStatus(in, out, s)
 }
 func autoConvert_v1_TemplateList_To_template_TemplateList(in *v1.TemplateList, out *template.TemplateList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1237,9 +1339,13 @@ func Convert_v1_TemplateList_To_template_TemplateList(in *v1.TemplateList, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TemplateList_To_template_TemplateList(in, out, s)
 }
 func autoConvert_template_TemplateList_To_v1_TemplateList(in *template.TemplateList, out *v1.TemplateList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1269,6 +1375,8 @@ func autoConvert_template_TemplateList_To_v1_TemplateList(in *template.TemplateL
 	return nil
 }
 func Convert_template_TemplateList_To_v1_TemplateList(in *template.TemplateList, out *v1.TemplateList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

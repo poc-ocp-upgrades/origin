@@ -38,6 +38,8 @@ func newSubnetAllocator(network string, hostBits uint32) (*SubnetAllocator, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, netIP, err := net.ParseCIDR(network)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse network address: %q", network)
@@ -79,6 +81,8 @@ func (sna *SubnetAllocator) markAllocatedNetwork(ipNet *net.IPNet) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna.mutex.Lock()
 	defer sna.mutex.Unlock()
 	if !sna.network.Contains(ipNet.IP) {
@@ -90,6 +94,8 @@ func (sna *SubnetAllocator) markAllocatedNetwork(ipNet *net.IPNet) error {
 	return nil
 }
 func (sna *SubnetAllocator) allocateNetwork() (*net.IPNet, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +151,8 @@ func (sna *SubnetAllocator) releaseNetwork(ipnet *net.IPNet) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna.mutex.Lock()
 	defer sna.mutex.Unlock()
 	if !sna.network.Contains(ipnet.IP) {
@@ -159,6 +167,8 @@ func (sna *SubnetAllocator) releaseNetwork(ipnet *net.IPNet) error {
 	return nil
 }
 func IPToUint32(ip net.IP) uint32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,11 +200,15 @@ func Uint32ToIP(u uint32) net.IP {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip := make([]byte, 4)
 	binary.BigEndian.PutUint32(ip, u)
 	return net.IPv4(ip[0], ip[1], ip[2], ip[3])
 }
 func (master *OsdnMaster) initSubnetAllocators() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,6 +257,8 @@ func (master *OsdnMaster) markAllocatedNetwork(subnet string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sa, ipnet, err := master.getSubnetAllocator(subnet)
 	if err != nil {
 		return err
@@ -253,6 +269,8 @@ func (master *OsdnMaster) markAllocatedNetwork(subnet string) error {
 	return nil
 }
 func (master *OsdnMaster) allocateNetwork(nodeName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +315,8 @@ func (master *OsdnMaster) releaseNetwork(subnet string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sa, ipnet, err := master.getSubnetAllocator(subnet)
 	if err != nil {
 		return err
@@ -307,6 +327,8 @@ func (master *OsdnMaster) releaseNetwork(subnet string) error {
 	return nil
 }
 func (master *OsdnMaster) getSubnetAllocator(subnet string) (*SubnetAllocator, *net.IPNet, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,9 +27,13 @@ func (w *testClient) GetId() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Name
 }
 func (w *testClient) GetSecret() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,9 +65,13 @@ func (w *testClient) ClientSecretMatches(in string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Secret == in
 }
 func (w *testClient) GetRedirectUri() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +92,8 @@ func (w *testClient) GetRedirectUri() string {
 	return strings.Join(w.client.RedirectURIs, ",")
 }
 func (w *testClient) GetUserData() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +132,8 @@ func (h *mockChallenger) AuthenticationChallenge(req *http.Request) (http.Header
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	headers := http.Header{}
 	if len(h.headerName) > 0 {
 		headers.Add(h.headerName, h.headerValue)
@@ -129,6 +141,8 @@ func (h *mockChallenger) AuthenticationChallenge(req *http.Request) (http.Header
 	return headers, h.err
 }
 func TestNoHandlersRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +184,8 @@ func TestNoHandlersChallenge(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authHandler := NewUnionAuthenticationHandler(nil, nil, nil, nil)
 	client := &testClient{&oauthapi.OAuthClient{RespondWithChallenges: true}}
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
@@ -183,6 +199,8 @@ func TestNoHandlersChallenge(t *testing.T) {
 	}
 }
 func TestWithBadClient(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +246,8 @@ func TestWithOnlyChallengeErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedError1 := "alfa"
 	expectedError2 := "bravo"
 	failingChallengeHandler1 := &mockChallenger{err: errors.New(expectedError1)}
@@ -251,6 +271,8 @@ func TestWithOnlyChallengeErrors(t *testing.T) {
 	}
 }
 func TestWithChallengeErrorsAndMergedSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -305,6 +327,8 @@ func TestWithChallengeAndRedirect(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedError := "Location"
 	workingChallengeHandler1 := &mockChallenger{headerName: "Location", headerValue: "https://example.com"}
 	workingChallengeHandler2 := &mockChallenger{headerName: "WWW-Authenticate", headerValue: "Basic"}
@@ -323,6 +347,8 @@ func TestWithChallengeAndRedirect(t *testing.T) {
 	}
 }
 func TestWithRedirect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,9 +401,13 @@ func (w *badTestClient) GetId() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.Name
 }
 func (w *badTestClient) GetSecret() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -409,9 +439,13 @@ func (w *badTestClient) ClientSecretMatches(in string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return in == w.client.Secret
 }
 func (w *badTestClient) GetRedirectUri() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -446,9 +480,13 @@ func (w *badTestClient) GetUserData() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "w.client"
 }
 func TestWarningRegex(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

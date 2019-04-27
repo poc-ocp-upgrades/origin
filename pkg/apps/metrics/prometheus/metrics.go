@@ -51,6 +51,8 @@ func InitializeMetricsCollector(rcLister kcorelisters.ReplicationControllerListe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apps.lister = rcLister
 	apps.nowFn = time.Now
 	if !registered {
@@ -60,6 +62,8 @@ func InitializeMetricsCollector(rcLister kcorelisters.ReplicationControllerListe
 	klog.V(4).Info("apps metrics registered with prometheus")
 }
 func (c *appsCollector) Describe(ch chan<- *prometheus.Desc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ type failedRollout struct {
 }
 
 func (c *appsCollector) Collect(ch chan<- prometheus.Metric) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

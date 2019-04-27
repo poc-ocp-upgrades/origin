@@ -28,12 +28,16 @@ func newStorage(t *testing.T) (*REST, *etcdtesting.EtcdTestServer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, etcdStorage := etcdtesting.NewUnsecuredEtcd3TestClientServer(t)
 	etcdStorage.Codec = legacyscheme.Codecs.LegacyCodec(schema.GroupVersion{Group: "security.openshift.io", Version: "v1"})
 	restOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "securitycontextconstraints"}
 	return NewREST(restOptions), server
 }
 func validNewSecurityContextConstraints(name string) *securityapi.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func TestCreate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t)
 	defer server.Terminate(t)
 	test := genericregistrytest.New(t, storage.Store).ClusterScope()
@@ -73,6 +79,8 @@ func TestCreate(t *testing.T) {
 	test.TestCreate(scc, &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "name with spaces"}})
 }
 func TestUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func MakeAbs(path, base string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if filepath.IsAbs(path) {
 		return path, nil
 	}
@@ -35,6 +37,8 @@ func MakeAbs(path, base string) (string, error) {
 	return filepath.Join(base, path), nil
 }
 func ResolvePaths(refs []*string, base string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,6 +77,8 @@ func MakeRelative(path, base string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(path) > 0 {
 		rel, err := filepath.Rel(base, path)
 		if err != nil {
@@ -83,6 +89,8 @@ func MakeRelative(path, base string) (string, error) {
 	return path, nil
 }
 func RelativizePathWithNoBacksteps(refs []*string, base string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

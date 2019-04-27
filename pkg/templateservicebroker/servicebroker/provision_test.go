@@ -35,9 +35,13 @@ func (fakeTemplateLister) List(selector labels.Selector) ([]*templatev1.Template
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (fakeTemplateLister) Templates(namespace string) templatelister.TemplateNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,12 +73,16 @@ func (fakeTemplateLister) GetByUID(uid string) (*templatev1.Template, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &templatev1.Template{}, nil
 }
 
 var _ templatelister.TemplateLister = &fakeTemplateLister{}
 
 func TestProvisionConflict(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +123,8 @@ func TestProvisionConflict(t *testing.T) {
 	}
 }
 func TestEnsureSecret(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -21,6 +21,8 @@ func NewCanBeExposedFn(delegate polymorphichelpers.CanBeExposedFunc) polymorphic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(kind schema.GroupKind) error {
 		if appsv1.SchemeGroupVersion.WithKind("DeploymentConfig").GroupKind() == kind {
 			return nil

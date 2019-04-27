@@ -19,6 +19,8 @@ func (in *ClusterNetwork) DeepCopyInto(out *ClusterNetwork) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -35,6 +37,8 @@ func (in *ClusterNetwork) DeepCopyInto(out *ClusterNetwork) {
 	return
 }
 func (in *ClusterNetwork) DeepCopy() *ClusterNetwork {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,12 +75,16 @@ func (in *ClusterNetwork) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *ClusterNetworkEntry) DeepCopyInto(out *ClusterNetworkEntry) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +117,8 @@ func (in *ClusterNetworkEntry) DeepCopy() *ClusterNetworkEntry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -117,6 +127,8 @@ func (in *ClusterNetworkEntry) DeepCopy() *ClusterNetworkEntry {
 	return out
 }
 func (in *ClusterNetworkList) DeepCopyInto(out *ClusterNetworkList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +170,8 @@ func (in *ClusterNetworkList) DeepCopy() *ClusterNetworkList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -166,6 +180,8 @@ func (in *ClusterNetworkList) DeepCopy() *ClusterNetworkList {
 	return out
 }
 func (in *ClusterNetworkList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +216,8 @@ func (in *EgressNetworkPolicy) DeepCopyInto(out *EgressNetworkPolicy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -207,6 +225,8 @@ func (in *EgressNetworkPolicy) DeepCopyInto(out *EgressNetworkPolicy) {
 	return
 }
 func (in *EgressNetworkPolicy) DeepCopy() *EgressNetworkPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,12 +263,16 @@ func (in *EgressNetworkPolicy) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *EgressNetworkPolicyList) DeepCopyInto(out *EgressNetworkPolicyList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +314,8 @@ func (in *EgressNetworkPolicyList) DeepCopy() *EgressNetworkPolicyList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -298,6 +324,8 @@ func (in *EgressNetworkPolicyList) DeepCopy() *EgressNetworkPolicyList {
 	return out
 }
 func (in *EgressNetworkPolicyList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,10 +360,14 @@ func (in *EgressNetworkPolicyPeer) DeepCopyInto(out *EgressNetworkPolicyPeer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *EgressNetworkPolicyPeer) DeepCopy() *EgressNetworkPolicyPeer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -372,11 +404,15 @@ func (in *EgressNetworkPolicyRule) DeepCopyInto(out *EgressNetworkPolicyRule) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.To = in.To
 	return
 }
 func (in *EgressNetworkPolicyRule) DeepCopy() *EgressNetworkPolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -399,6 +435,8 @@ func (in *EgressNetworkPolicyRule) DeepCopy() *EgressNetworkPolicyRule {
 	return out
 }
 func (in *EgressNetworkPolicySpec) DeepCopyInto(out *EgressNetworkPolicySpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +474,8 @@ func (in *EgressNetworkPolicySpec) DeepCopy() *EgressNetworkPolicySpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -444,6 +484,8 @@ func (in *EgressNetworkPolicySpec) DeepCopy() *EgressNetworkPolicySpec {
 	return out
 }
 func (in *HostSubnet) DeepCopyInto(out *HostSubnet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -488,6 +530,8 @@ func (in *HostSubnet) DeepCopy() *HostSubnet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -510,12 +554,16 @@ func (in *HostSubnet) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *HostSubnetList) DeepCopyInto(out *HostSubnetList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -557,6 +605,8 @@ func (in *HostSubnetList) DeepCopy() *HostSubnetList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -579,12 +629,16 @@ func (in *HostSubnetList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *NetNamespace) DeepCopyInto(out *NetNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -624,6 +678,8 @@ func (in *NetNamespace) DeepCopy() *NetNamespace {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -646,12 +702,16 @@ func (in *NetNamespace) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *NetNamespaceList) DeepCopyInto(out *NetNamespaceList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -693,6 +753,8 @@ func (in *NetNamespaceList) DeepCopy() *NetNamespaceList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -701,6 +763,8 @@ func (in *NetNamespaceList) DeepCopy() *NetNamespaceList {
 	return out
 }
 func (in *NetNamespaceList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -26,6 +26,8 @@ func NewDeploymentConfigRollbacker(appsClient appsclient.Interface) kubectl.Roll
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DeploymentConfigRollbacker{dn: appsClient.AppsV1()}
 }
 
@@ -36,6 +38,8 @@ type DeploymentConfigRollbacker struct {
 var _ kubectl.Rollbacker = &DeploymentConfigRollbacker{}
 
 func (r *DeploymentConfigRollbacker) Rollback(obj runtime.Object, updatedAnnotations map[string]string, toRevision int64, dryRun bool) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

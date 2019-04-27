@@ -67,6 +67,8 @@ func FakeRegistryClientFactory() (*http.Client, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 
@@ -155,6 +157,8 @@ func NewPruner(options PrunerOptions) (Pruner, kerrors.Aggregate) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(1).Infof("Creating image pruner with keepYoungerThan=%v, keepTagRevisions=%s, pruneOverSizeLimit=%s, allImages=%s", options.KeepYoungerThan, getValue(options.KeepTagRevisions), getValue(options.PruneOverSizeLimit), getValue(options.AllImages))
 	algorithm := pruneAlgorithm{}
 	if options.KeepYoungerThan != nil {
@@ -199,6 +203,8 @@ func (p *pruner) buildGraph(options PrunerOptions) kerrors.Aggregate {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.g = genericgraph.New()
 	var errs []error
 	errs = append(errs, p.addImagesToGraph(options.Images)...)
@@ -228,12 +234,16 @@ func getValue(option interface{}) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if v := reflect.ValueOf(option); !v.IsNil() {
 		return fmt.Sprintf("%v", v.Elem())
 	}
 	return "<nil>"
 }
 func (p *pruner) addImagesToGraph(images *imagev1.ImageList) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -282,6 +292,8 @@ func (p *pruner) addImagesToGraph(images *imagev1.ImageList) []error {
 	return errs
 }
 func (p *pruner) addImageStreamsToGraph(streams *imagev1.ImageStreamList, limits map[string][]*corev1.LimitRange) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,6 +387,8 @@ func exceedsLimits(is *imagev1.ImageStream, image *imagev1.Image, limits map[str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	limitRanges, ok := limits[is.Namespace]
 	if !ok || len(limitRanges) == 0 {
 		return false
@@ -422,6 +436,8 @@ func (p *pruner) addPodsToGraph(pods *corev1.PodList) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for i := range pods.Items {
 		pod := &pods.Items[i]
@@ -440,6 +456,8 @@ func (p *pruner) addPodsToGraph(pods *corev1.PodList) []error {
 	return errs
 }
 func (p *pruner) addPodSpecToGraph(referrer *corev1.ObjectReference, spec *corev1.PodSpec, predecessor gonum.Node) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -513,6 +531,8 @@ func (p *pruner) addReplicationControllersToGraph(rcs *corev1.ReplicationControl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for i := range rcs.Items {
 		rc := &rcs.Items[i]
@@ -524,6 +544,8 @@ func (p *pruner) addReplicationControllersToGraph(rcs *corev1.ReplicationControl
 	return errs
 }
 func (p *pruner) addDaemonSetsToGraph(dss *kappsv1.DaemonSetList) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -563,6 +585,8 @@ func (p *pruner) addDeploymentsToGraph(dmnts *kappsv1.DeploymentList) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for i := range dmnts.Items {
 		d := &dmnts.Items[i]
@@ -574,6 +598,8 @@ func (p *pruner) addDeploymentsToGraph(dmnts *kappsv1.DeploymentList) []error {
 	return errs
 }
 func (p *pruner) addDeploymentConfigsToGraph(dcs *appsv1.DeploymentConfigList) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -613,6 +639,8 @@ func (p *pruner) addReplicaSetsToGraph(rss *kappsv1.ReplicaSetList) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for i := range rss.Items {
 		rs := &rss.Items[i]
@@ -624,6 +652,8 @@ func (p *pruner) addReplicaSetsToGraph(rss *kappsv1.ReplicaSetList) []error {
 	return errs
 }
 func (p *pruner) addBuildConfigsToGraph(bcs *buildv1.BuildConfigList) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -663,6 +693,8 @@ func (p *pruner) addBuildsToGraph(builds *buildv1.BuildList) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for i := range builds.Items {
 		build := &builds.Items[i]
@@ -674,6 +706,8 @@ func (p *pruner) addBuildsToGraph(builds *buildv1.BuildList) []error {
 	return errs
 }
 func (p *pruner) resolveISTagName(g genericgraph.Graph, referrer *corev1.ObjectReference, istagName string) (*imagegraph.ImageStreamTagNode, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -703,6 +737,8 @@ func (p *pruner) resolveISTagName(g genericgraph.Graph, referrer *corev1.ObjectR
 	return nil, nil
 }
 func (p *pruner) addBuildStrategyImageReferencesToGraph(referrer *corev1.ObjectReference, strategy buildv1.BuildStrategy, predecessor gonum.Node) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -800,6 +836,8 @@ func (p *pruner) handleImageStreamEvent(event watch.Event) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	getIsNode := func() (*imagev1.ImageStream, *imagegraph.ImageStreamNode) {
 		is, ok := event.Object.(*imagev1.ImageStream)
 		if !ok {
@@ -838,6 +876,8 @@ func (p *pruner) handleImageStreamEvent(event watch.Event) {
 	}
 }
 func (p *pruner) handleImageEvent(event watch.Event) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -897,6 +937,8 @@ func getImageNodes(nodes []gonum.Node) map[string]*imagegraph.ImageNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := make(map[string]*imagegraph.ImageNode)
 	for i := range nodes {
 		if node, ok := nodes[i].(*imagegraph.ImageNode); ok {
@@ -920,11 +962,15 @@ func edgeKind(g genericgraph.Graph, from, to gonum.Node, desiredKind string) boo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	edge := g.Edge(from, to)
 	kinds := g.EdgeKinds(edge)
 	return kinds.Has(desiredKind)
 }
 func imageIsPrunable(g genericgraph.Graph, imageNode *imagegraph.ImageNode, algorithm pruneAlgorithm) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -973,6 +1019,8 @@ func calculatePrunableImages(g genericgraph.Graph, imageNodes map[string]*imageg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prunable := []*imagegraph.ImageNode{}
 	for _, imageNode := range imageNodes {
 		klog.V(4).Infof("Examining image %q", imageNode.Image.Name)
@@ -984,6 +1032,8 @@ func calculatePrunableImages(g genericgraph.Graph, imageNodes map[string]*imageg
 	return prunable
 }
 func pruneStreams(g genericgraph.Graph, prunableImageNodes []*imagegraph.ImageNode, streamPruner ImageStreamDeleter, keepYoungerThan time.Time) (deletions []Deletion, failures []Failure) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1069,6 +1119,8 @@ func strengthenReferencesFromFailedImageStreams(g genericgraph.Graph, failures [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, f := range failures {
 		for _, n := range g.From(f.Node) {
 			imageNode, ok := n.(*imagegraph.ImageNode)
@@ -1089,6 +1141,8 @@ func strengthenReferencesFromFailedImageStreams(g genericgraph.Graph, failures [
 	}
 }
 func pruneISTagHistory(g genericgraph.Graph, prunableImageNodes map[string]*imagegraph.ImageNode, keepYoungerThan time.Time, streamName string, imageStream *imagev1.ImageStream, tag string) (tagUpdated, tagDeleted bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1153,6 +1207,8 @@ func tagEventIsPrunable(tagEvent imagev1.TagEvent, g genericgraph.Graph, prunabl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := prunableImageNodes[tagEvent.Image]; ok {
 		return true, fmt.Sprintf("image %q matches deleted image", tagEvent.Image)
 	}
@@ -1169,6 +1225,8 @@ func tagEventIsPrunable(tagEvent imagev1.TagEvent, g genericgraph.Graph, prunabl
 type byLayerCountAndAge []*imagegraph.ImageNode
 
 func (b byLayerCountAndAge) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1200,9 +1258,13 @@ func (b byLayerCountAndAge) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b[i], b[j] = b[j], b[i]
 }
 func (b byLayerCountAndAge) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1247,6 +1309,8 @@ func (i *nodeItem) pop() (node *imagegraph.ImageNode, next *nodeItem) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, p := i.next, i.prev
 	if p != nil {
 		p.next = n
@@ -1257,6 +1321,8 @@ func (i *nodeItem) pop() (node *imagegraph.ImageNode, next *nodeItem) {
 	return i.node, n
 }
 func insertAfter(item *nodeItem, node *imagegraph.ImageNode) *nodeItem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1296,6 +1362,8 @@ func makeQueue(nodes []*imagegraph.ImageNode) *nodeItem {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var head, tail *nodeItem
 	for i, n := range nodes {
 		tail = insertAfter(tail, n)
@@ -1306,6 +1374,8 @@ func makeQueue(nodes []*imagegraph.ImageNode) *nodeItem {
 	return head
 }
 func (p *pruner) Prune(imagePrunerFactory ImagePrunerFactoryFunc, streamPruner ImageStreamDeleter, layerLinkPruner LayerLinkDeleter, blobPruner BlobDeleter, manifestPruner ManifestDeleter) (deletions []Deletion, failures []Failure) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1349,6 +1419,8 @@ func (p *pruner) Prune(imagePrunerFactory ImagePrunerFactoryFunc, streamPruner I
 	return
 }
 func (p *pruner) runLoop(jobChan chan<- *Job, resultChan <-chan JobResult) (deletions []Deletion, failures []Failure) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1410,6 +1482,8 @@ func (p *pruner) getNextJob() (job *Job, blocked bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.queue == nil {
 		return
 	}
@@ -1436,6 +1510,8 @@ func (p *pruner) getNextJob() (job *Job, blocked bool) {
 	return
 }
 func (p *pruner) updateGraphWithResult(res *JobResult) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1480,6 +1556,8 @@ func (p *pruner) updateGraphWithResult(res *JobResult) {
 	}
 }
 func getImageComponents(g genericgraph.Graph, processedImages map[*imagegraph.ImageNode]*Job, image *imagegraph.ImageNode) (components ComponentRetentions, blocked bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1551,6 +1629,8 @@ func addComponentReferencingStreams(g genericgraph.Graph, components ComponentRe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 streamLoop:
 	for stream := range referencingStreams {
 		refCounter := 0
@@ -1603,6 +1683,8 @@ func imageComponentIsPrunable(g genericgraph.Graph, cn *imagegraph.ImageComponen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, predecessor := range g.To(cn) {
 		klog.V(4).Infof("Examining predecessor %#v of image config %v", predecessor, cn)
 		if g.Kind(predecessor) == imagegraph.ImageNodeKind {
@@ -1613,6 +1695,8 @@ func imageComponentIsPrunable(g genericgraph.Graph, cn *imagegraph.ImageComponen
 	return true
 }
 func streamsReferencingImageComponent(g genericgraph.Graph, cn *imagegraph.ImageComponentNode) []*imagegraph.ImageStreamNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1656,9 +1740,13 @@ func NewImageDeleter(images imagev1client.ImagesGetter) ImageDeleter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageDeleter{images: images}
 }
 func (p *imageDeleter) DeleteImage(image *imagev1.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1698,6 +1786,8 @@ func NewImageStreamDeleter(streams imagev1client.ImageStreamsGetter) ImageStream
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStreamDeleter{streams: streams}
 }
 func (p *imageStreamDeleter) GetImageStream(stream *imagev1.ImageStream) (*imagev1.ImageStream, error) {
@@ -1715,9 +1805,13 @@ func (p *imageStreamDeleter) GetImageStream(stream *imagev1.ImageStream) (*image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.streams.ImageStreams(stream.Namespace).Get(stream.Name, metav1.GetOptions{})
 }
 func (p *imageStreamDeleter) UpdateImageStream(stream *imagev1.ImageStream) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1754,9 +1848,13 @@ func (p *imageStreamDeleter) NotifyImageStreamPrune(stream *imagev1.ImageStream,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return
 }
 func deleteFromRegistry(registryClient *http.Client, url string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1820,9 +1918,13 @@ func NewLayerLinkDeleter() LayerLinkDeleter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &layerLinkDeleter{}
 }
 func (p *layerLinkDeleter) DeleteLayerLink(registryClient *http.Client, registryURL *url.URL, repoName, linkName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1860,9 +1962,13 @@ func NewBlobDeleter() BlobDeleter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &blobDeleter{}
 }
 func (p *blobDeleter) DeleteBlob(registryClient *http.Client, registryURL *url.URL, blob string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1900,9 +2006,13 @@ func NewManifestDeleter() ManifestDeleter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &manifestDeleter{}
 }
 func (p *manifestDeleter) DeleteManifest(registryClient *http.Client, registryURL *url.URL, repoName, manifest string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1935,9 +2045,13 @@ func makeISTag(namespace, name, tag string) *imagev1.ImageStreamTag {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: imageapi.JoinImageStreamTag(name, tag)}}
 }
 func makeISTagWithStream(is *imagev1.ImageStream, tag string) *imagev1.ImageStreamTag {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

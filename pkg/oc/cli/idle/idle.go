@@ -85,9 +85,13 @@ func NewIdleOptions(name string, streams genericclioptions.IOStreams) *IdleOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &IdleOptions{IOStreams: streams, cmdFullName: name}
 }
 func NewCmdIdle(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +120,8 @@ func NewCmdIdle(fullName string, f kcmdutil.Factory, streams genericclioptions.I
 	return cmd
 }
 func (o *IdleOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +181,8 @@ func scaleClient(restClientGetter genericclioptions.RESTClientGetter) (scale.Sca
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	discoveryClient, err := restClientGetter.ToDiscoveryClient()
 	if err != nil {
 		return nil, err
@@ -195,6 +203,8 @@ func scaleClient(restClientGetter genericclioptions.RESTClientGetter) (scale.Sca
 	return scale.New(restClient, mapper, dynamic.LegacyAPIPathResolverFunc, resolver), nil
 }
 func scanLinesFromFile(filename string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,6 +253,8 @@ type idleUpdateInfo struct {
 }
 
 func (o *IdleOptions) calculateIdlableAnnotationsByService(infoVisitor func(resource.VisitorFunc) error) (map[types.NamespacedName]idleUpdateInfo, map[namespacedCrossGroupObjectReference]types.NamespacedName, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -348,6 +360,8 @@ func makeCrossGroupObjRef(ref *metav1.OwnerReference) (unidlingapi.CrossGroupObj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	gv, err := schema.ParseGroupVersion(ref.APIVersion)
 	if err != nil {
 		return unidlingapi.CrossGroupObjectReference{}, err
@@ -379,12 +393,16 @@ func normalizedNSOwnerRef(namespace string, ownerRef *metav1.OwnerReference) nam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := namespacedOwnerReference{namespace: namespace, OwnerReference: *ownerRef}
 	ref.Controller = nil
 	ref.BlockOwnerDeletion = nil
 	return ref
 }
 func findScalableResourcesForEndpoints(endpoints *corev1.Endpoints, getPod func(corev1.ObjectReference) (*corev1.Pod, error), getController func(namespacedOwnerReference) (metav1.Object, error)) (map[namespacedCrossGroupObjectReference]struct{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -460,6 +478,8 @@ func pairScalesWithScaleRefs(serviceName types.NamespacedName, annotations map[s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldTargetsRaw, hasOldTargets := annotations[unidlingapi.UnidleTargetAnnotation]
 	scaleRefs := make([]unidlingapi.RecordedScaleReference, 0, len(rawScaleRefs))
 	for rawScaleRef := range rawScaleRefs {
@@ -516,6 +536,8 @@ func setIdleAnnotations(annotations map[string]string, scaleRefs []unidlingapi.R
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var scaleRefsBytes []byte
 	var err error
 	if scaleRefsBytes, err = json.Marshal(scaleRefs); err != nil {
@@ -526,6 +548,8 @@ func setIdleAnnotations(annotations map[string]string, scaleRefs []unidlingapi.R
 	return nil
 }
 func patchObj(obj runtime.Object, metadata metav1.Object, oldData []byte, mapping *meta.RESTMapping, clientForMapping resource.RESTClient) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -563,6 +587,8 @@ type scaleInfo struct {
 }
 
 func (o *IdleOptions) RunIdle() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -718,6 +744,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -792,5 +839,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

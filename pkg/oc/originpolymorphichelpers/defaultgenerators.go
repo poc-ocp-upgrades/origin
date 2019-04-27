@@ -22,12 +22,16 @@ func defaultGenerators(cmdName string) map[string]generate.Generator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generators := map[string]map[string]generate.Generator{}
 	generators["run"] = map[string]generate.Generator{"deploymentconfig/v1": deploymentcmd.BasicDeploymentConfigController{}, "run-controller/v1": versioned.BasicReplicationController{}}
 	generators["expose"] = map[string]generate.Generator{"route/v1": routegen.RouteGenerator{}}
 	return generators[cmdName]
 }
 func NewGeneratorsFn(delegate generate.GeneratorFunc) generate.GeneratorFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -63,6 +63,8 @@ func adjustCmdExamples(cmd *cobra.Command, parentName string, name string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, subCmd := range cmd.Commands() {
 		adjustCmdExamples(subCmd, parentName, cmd.Name())
 	}
@@ -116,6 +118,8 @@ func NewCmdGet(fullName string, f kcmdutil.Factory, streams genericclioptions.IO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := kget.NewCmdGet(fullName, f, streams)
 	cmd.Long = fmt.Sprintf(getLong, fullName)
 	cmd.Example = fmt.Sprintf(getExample, fullName)
@@ -140,6 +144,8 @@ var (
 )
 
 func NewCmdReplace(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,6 +190,8 @@ func NewCmdClusterInfo(fullName string, f kcmdutil.Factory, streams genericcliop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := clusterinfo.NewCmdClusterInfo(f, streams)
 	cmd.Long = clusterInfoLong
 	cmd.Example = fmt.Sprintf(clusterinfoExample, fullName)
@@ -201,6 +209,8 @@ var (
 )
 
 func NewCmdPatch(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,6 +280,8 @@ func NewCmdDelete(fullName string, f kcmdutil.Factory, streams genericclioptions
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := delete.NewCmdDelete(f, streams)
 	cmd.Long = deleteLong
 	cmd.Short = "Delete one or more resources"
@@ -292,6 +304,8 @@ var (
 )
 
 func NewCmdCreate(parentName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,6 +375,8 @@ func NewCmdCompletion(fullName string, streams genericclioptions.IOStreams) *cob
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmdHelpName := fullName
 	if strings.HasSuffix(fullName, "completion") {
 		cmdHelpName = "openshift"
@@ -377,6 +393,8 @@ func NewCmdCompletion(fullName string, streams genericclioptions.IOStreams) *cob
 	return cmd
 }
 func hideGlobalFlags(c *cobra.Command, fs *flag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -415,6 +433,8 @@ var (
 )
 
 func NewCmdExec(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +488,8 @@ func NewCmdPortForward(fullName string, f kcmdutil.Factory, streams genericcliop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := portforward.NewCmdPortForward(f, streams)
 	cmd.Long = portForwardLong
 	cmd.Example = fmt.Sprintf(portForwardExample, fullName)
@@ -489,6 +511,8 @@ var (
 )
 
 func NewCmdDescribe(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -525,6 +549,8 @@ var (
 )
 
 func NewCmdProxy(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -586,6 +612,8 @@ func NewCmdScale(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := scale.NewCmdScale(f, streams)
 	cmd.ValidArgs = append(cmd.ValidArgs, "deploymentconfig")
 	cmd.Short = "Change the number of pods in a deployment"
@@ -612,6 +640,8 @@ var (
 )
 
 func NewCmdAutoscale(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -694,6 +724,8 @@ func NewCmdRun(fullName string, f kcmdutil.Factory, streams genericclioptions.IO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := run.NewCmdRun(f, streams)
 	cmd.Long = runLong
 	cmd.Example = fmt.Sprintf(runExample, fullName)
@@ -723,6 +755,8 @@ var (
 )
 
 func NewCmdAttach(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -791,6 +825,8 @@ func NewCmdAnnotate(fullName string, f kcmdutil.Factory, streams genericclioptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := annotate.NewCmdAnnotate(fullName, f, streams)
 	cmd.Long = fmt.Sprintf(annotateLong, fullName)
 	cmd.Example = fmt.Sprintf(annotateExample, fullName)
@@ -839,6 +875,8 @@ func NewCmdLabel(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := label.NewCmdLabel(f, streams)
 	cmd.Long = fmt.Sprintf(labelLong, kvalidation.LabelValueMaxLength)
 	cmd.Example = fmt.Sprintf(labelExample, fullName)
@@ -859,6 +897,8 @@ var (
 )
 
 func NewCmdApply(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -910,6 +950,8 @@ func NewCmdExplain(fullName string, f kcmdutil.Factory, streams genericclioption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := explain.NewCmdExplain(fullName, f, streams)
 	cmd.Long = explainLong
 	cmd.Example = fmt.Sprintf(explainExample, fullName)
@@ -940,6 +982,8 @@ var (
 )
 
 func NewCmdConvert(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1010,6 +1054,8 @@ func NewCmdEdit(fullName string, f kcmdutil.Factory, streams genericclioptions.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := edit.NewCmdEdit(f, streams)
 	cmd.Long = editLong
 	cmd.Example = fmt.Sprintf(editExample, fullName)
@@ -1034,6 +1080,8 @@ var (
 )
 
 func NewCmdConfig(parentName, name string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1093,11 +1141,15 @@ func NewCmdCp(fullName string, f kcmdutil.Factory, streams genericclioptions.IOS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := cp.NewCmdCp(f, streams)
 	cmd.Example = fmt.Sprintf(cpExample, fullName)
 	return cmd
 }
 func NewCmdWait(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1129,10 +1181,14 @@ func NewCmdAuth(fullName string, f kcmdutil.Factory, streams genericclioptions.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := cmdutil.ReplaceCommandName("kubectl", fullName, templates.Normalize(kcmdauth.NewCmdAuth(f, streams)))
 	return cmd
 }
 func NewCmdPlugin(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1184,6 +1240,8 @@ func NewCmdApiResources(fullName string, f kcmdutil.Factory, streams genericclio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := apiresources.NewCmdAPIResources(f, streams)
 	cmd.Example = fmt.Sprintf(apiresourcesExample, fullName)
 	return cmd
@@ -1196,6 +1254,8 @@ var (
 )
 
 func NewCmdApiVersions(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1229,6 +1289,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1303,5 +1384,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

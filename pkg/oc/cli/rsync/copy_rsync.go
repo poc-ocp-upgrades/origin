@@ -39,6 +39,8 @@ func DefaultRsyncRemoteShellToUse(cmd *cobra.Command) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rshCmd := cmdutil.SiblingCommand(cmd, "rsh")
 	cmd.Flags().Visit(func(flag *pflag.Flag) {
 		if rshExcludeFlags.Has(flag.Name) {
@@ -49,6 +51,8 @@ func DefaultRsyncRemoteShellToUse(cmd *cobra.Command) string {
 	return strings.Join(rsyncEscapeCommand(rshCmd), " ")
 }
 func NewRsyncStrategy(o *RsyncOptions) CopyStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func NewRsyncStrategy(o *RsyncOptions) CopyStrategy {
 	return &rsyncStrategy{Flags: flags, RshCommand: o.RshCmd, RemoteExecutor: newRemoteExecutor(o), LocalExecutor: newLocalExecutor(), podChecker: podAPIChecker{o.Client, o.Namespace, podName}}
 }
 func (r *rsyncStrategy) Copy(source, destination *PathSpec, out, errOut io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +126,8 @@ func (r *rsyncStrategy) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	if len(r.RshCommand) == 0 {
 		errs = append(errs, errors.New("rsh command must be provided"))
@@ -150,6 +158,8 @@ func rsyncEscapeCommand(command []string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var escapedCommand []string
 	for _, val := range command {
 		needsQuoted := strings.ContainsAny(val, `'" `)
@@ -162,6 +172,8 @@ func rsyncEscapeCommand(command []string) []string {
 	return escapedCommand
 }
 func (r *rsyncStrategy) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

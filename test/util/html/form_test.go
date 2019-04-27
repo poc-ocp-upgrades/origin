@@ -59,6 +59,8 @@ func TestGetElementsByTagName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		Data		string
 		TagName		string
@@ -83,6 +85,8 @@ func TestGetElementsByTagName(t *testing.T) {
 	}
 }
 func TestNewRequestFromForm(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

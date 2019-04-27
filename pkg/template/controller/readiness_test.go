@@ -36,6 +36,8 @@ func TestCheckReadiness(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	one := int32(1)
 	zero := int64(0)
 	tests := []struct {

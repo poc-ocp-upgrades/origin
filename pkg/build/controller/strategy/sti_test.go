@@ -37,6 +37,8 @@ func newFakeSecurityClient(rootAllowed bool) securityv1typed.SecurityV1Interface
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	securityClient := &securityv1fake.FakeSecurityV1{Fake: &clienttesting.Fake{}}
 	securityClient.AddReactor("*", "*", func(clienttesting.Action) (bool, runtime.Object, error) {
 		var ref *corev1.ObjectReference
@@ -48,6 +50,8 @@ func newFakeSecurityClient(rootAllowed bool) securityv1typed.SecurityV1Interface
 	return securityClient
 }
 func TestSTICreateBuildPodRootNotAllowed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,12 +83,16 @@ func TestSTICreateBuildPodRootAllowed(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testSTICreateBuildPod(t, true)
 }
 
 var nodeSelector = map[string]string{"node": "mynode"}
 
 func testSTICreateBuildPod(t *testing.T, rootAllowed bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +225,8 @@ func TestS2IBuildLongName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := &SourceBuildStrategy{Image: "sti-test-image", SecurityClient: newFakeSecurityClient(true)}
 	build := mockSTIBuild()
 	build.Name = strings.Repeat("a", validation.DNS1123LabelMaxLength*2)
@@ -229,6 +239,8 @@ func TestS2IBuildLongName(t *testing.T) {
 	}
 }
 func mockSTIBuild() *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

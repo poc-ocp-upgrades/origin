@@ -21,6 +21,8 @@ func ArgsWithPrefix(args map[string][]string, prefix string) map[string][]string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filtered := map[string][]string{}
 	for key, slice := range args {
 		if !strings.HasPrefix(key, prefix) {
@@ -47,11 +49,15 @@ func SetIfUnset(cmdLineArgs map[string][]string, key string, value ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := cmdLineArgs[key]; !ok {
 		cmdLineArgs[key] = value
 	}
 }
 func ToFlagSlice(args map[string][]string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

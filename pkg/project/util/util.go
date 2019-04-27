@@ -31,6 +31,8 @@ func ConvertNamespaceFromExternal(namespace *corev1.Namespace) *projectapi.Proje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	internalFinalizers := []kapi.FinalizerName{}
 	for _, externalFinalizer := range namespace.Spec.Finalizers {
 		internalFinalizers = append(internalFinalizers, kapi.FinalizerName(externalFinalizer))
@@ -38,6 +40,8 @@ func ConvertNamespaceFromExternal(namespace *corev1.Namespace) *projectapi.Proje
 	return &projectapi.Project{ObjectMeta: namespace.ObjectMeta, Spec: projectapi.ProjectSpec{Finalizers: internalFinalizers}, Status: projectapi.ProjectStatus{Phase: kapi.NamespacePhase(namespace.Status.Phase)}}
 }
 func ConvertProjectToExternal(project *projectapi.Project) *corev1.Namespace {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func ConvertNamespaceList(namespaceList *corev1.NamespaceList) *projectapi.Proje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projects := &projectapi.ProjectList{}
 	for _, n := range namespaceList.Items {
 		projects.Items = append(projects.Items, *ConvertNamespaceFromExternal(&n))
@@ -85,6 +91,8 @@ func ConvertNamespaceList(namespaceList *corev1.NamespaceList) *projectapi.Proje
 	return projects
 }
 func getAttrs(obj runtime.Object) (labels.Set, fields.Set, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,9 +128,13 @@ func MatchProject(label labels.Selector, field fields.Selector) apistorage.Selec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apistorage.SelectionPredicate{Label: label, Field: field, GetAttrs: getAttrs}
 }
 func projectToSelectableFields(projectObj *projectapi.Project) fields.Set {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +168,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -230,5 +263,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -40,9 +40,13 @@ func (strategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,9 +78,13 @@ func (strategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (strategy) PrepareForCreate(_ context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,8 +115,12 @@ func (strategy) PrepareForUpdate(_ context.Context, obj, old runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +140,8 @@ func (strategy) Canonicalize(obj runtime.Object) {
 	scc.Groups = uniqueStrings(scc.Groups)
 }
 func uniqueStrings(values []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +185,8 @@ func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateSecurityContextConstraints(obj.(*securityapi.SecurityContextConstraints))
 }
 func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
@@ -188,9 +204,13 @@ func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) fie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateSecurityContextConstraintsUpdate(obj.(*securityapi.SecurityContextConstraints), old.(*securityapi.SecurityContextConstraints))
 }
 func GetAttrs(obj runtime.Object) (labels.Set, fields.Set, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +246,8 @@ func Matcher(label labels.Selector, field fields.Selector) apistorage.SelectionP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apistorage.SelectionPredicate{Label: label, Field: field, GetAttrs: func(obj runtime.Object) (labels.Set, fields.Set, bool, error) {
 		scc, ok := obj.(*securityapi.SecurityContextConstraints)
 		if !ok {
@@ -235,6 +257,8 @@ func Matcher(label labels.Selector, field fields.Selector) apistorage.SelectionP
 	}}
 }
 func SelectableFields(obj *securityapi.SecurityContextConstraints) fields.Set {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

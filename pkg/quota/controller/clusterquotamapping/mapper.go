@@ -48,9 +48,13 @@ func NewClusterQuotaMapper() *clusterQuotaMapper {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &clusterQuotaMapper{requiredQuotaToSelector: map[string]quotav1.ClusterResourceQuotaSelector{}, requiredNamespaceToLabels: map[string]SelectionFields{}, completedQuotaToSelector: map[string]quotav1.ClusterResourceQuotaSelector{}, completedNamespaceToLabels: map[string]SelectionFields{}, quotaToNamespaces: map[string]sets.String{}, namespaceToQuota: map[string]sets.String{}}
 }
 func (m *clusterQuotaMapper) GetClusterQuotasFor(namespaceName string) ([]string, SelectionFields) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,6 +92,8 @@ func (m *clusterQuotaMapper) GetNamespacesFor(quotaName string) ([]string, quota
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.RLock()
 	defer m.lock.RUnlock()
 	namespaces, ok := m.quotaToNamespaces[quotaName]
@@ -111,11 +117,15 @@ func (m *clusterQuotaMapper) AddListener(listener MappingChangeListener) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	m.listeners = append(m.listeners, listener)
 }
 func (m *clusterQuotaMapper) requireQuota(quota *quotav1.ClusterResourceQuota) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,11 +170,15 @@ func (m *clusterQuotaMapper) completeQuota(quota *quotav1.ClusterResourceQuota) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	m.completedQuotaToSelector[quota.Name] = quota.Spec.Selector
 }
 func (m *clusterQuotaMapper) removeQuota(quotaName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,6 +208,8 @@ func (m *clusterQuotaMapper) removeQuota(quotaName string) {
 	}
 }
 func (m *clusterQuotaMapper) requireNamespace(namespace metav1.Object) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -238,11 +254,15 @@ func (m *clusterQuotaMapper) completeNamespace(namespace metav1.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	m.completedNamespaceToLabels[namespace.GetName()] = GetSelectionFields(namespace)
 }
 func (m *clusterQuotaMapper) removeNamespace(namespaceName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -286,6 +306,8 @@ func selectorMatches(selector quotav1.ClusterResourceQuotaSelector, exists bool,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return exists && equality.Semantic.DeepEqual(selector, quota.Spec.Selector)
 }
 func selectionFieldsMatch(selectionFields SelectionFields, exists bool, namespace metav1.Object) bool {
@@ -303,9 +325,13 @@ func selectionFieldsMatch(selectionFields SelectionFields, exists bool, namespac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return exists && reflect.DeepEqual(selectionFields, GetSelectionFields(namespace))
 }
 func (m *clusterQuotaMapper) setMapping(quota *quotav1.ClusterResourceQuota, namespace metav1.Object, remove bool) (bool, bool, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,6 +414,8 @@ func (m *clusterQuotaMapper) setMapping(quota *quotav1.ClusterResourceQuota, nam
 	return true, true, true
 }
 func GetSelectionFields(namespace metav1.Object) SelectionFields {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

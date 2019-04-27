@@ -30,5 +30,7 @@ func IsLongRunningRequest(r *http.Request, requestInfo *apirequest.RequestInfo) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return originLongRunningRequestRE.MatchString(r.URL.Path) || kubeLongRunningFunc(r, requestInfo)
 }

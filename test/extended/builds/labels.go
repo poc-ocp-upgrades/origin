@@ -88,6 +88,8 @@ func ExpectOpenShiftLabels(labels map[string]string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ExpectedLabels := []string{"io.openshift.build.commit.author", "io.openshift.build.commit.date", "io.openshift.build.commit.id", "io.openshift.build.commit.ref", "io.openshift.build.commit.message", "io.openshift.build.source-location", "user-specified-label"}
 	for _, label := range ExpectedLabels {
 		if labels[label] == "" {

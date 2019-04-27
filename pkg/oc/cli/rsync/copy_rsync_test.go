@@ -24,6 +24,8 @@ func TestRshExcludeFlags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rsyncCmd := NewCmdRsync("rsync", "oc", nil, genericclioptions.NewTestIOStreamsDiscard())
 	rsyncCmd.Flags().VisitAll(func(flag *pflag.Flag) {
 		if !rshExcludeFlags.Has(flag.Name) && !rshAllowedFlags.Has(flag.Name) {
@@ -32,6 +34,8 @@ func TestRshExcludeFlags(t *testing.T) {
 	})
 }
 func TestRsyncEscapeCommand(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

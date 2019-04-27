@@ -46,6 +46,8 @@ func NewCmdTraceImports(parent string, out, errout io.Writer) *cobra.Command {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	traceFlags := &TraceFlags{GraphFlags: &depgraph.GraphFlags{}, OutputFormat: "dot"}
 	cmd := &cobra.Command{Use: "trace --root=github.com/openshift/origin --entry=pkg/foo/...", Short: "Creates a dependency graph for a given repository", Long: "Creates a dependency graph for a given repository, for every Go package reachable from a set of --entry points into the codebase", Example: fmt.Sprintf(traceImportsExample, parent), RunE: func(c *cobra.Command, args []string) error {
 		opts, err := traceFlags.ToOptions(out, errout)
@@ -82,9 +84,13 @@ func (o *TraceOptions) Complete() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.GraphOptions.Complete()
 }
 func (o *TraceOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +128,8 @@ func (o *TraceFlags) ToOptions(out, errout io.Writer) (*TraceOptions, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	graphOpts, err := o.GraphFlags.ToOptions(out, errout)
 	if err != nil {
 		return nil, err
@@ -143,6 +151,8 @@ func (o *TraceOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, err := o.GraphOptions.BuildGraph()
 	if err != nil {
 		return err
@@ -150,6 +160,8 @@ func (o *TraceOptions) Run() error {
 	return o.outputGraph(g)
 }
 func (o *TraceOptions) outputGraph(g graph.Directed) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func TestBuildStrategy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewDefaultContext()
 	if !Strategy.NamespaceScoped() {
 		t.Errorf("Build is namespace scoped")

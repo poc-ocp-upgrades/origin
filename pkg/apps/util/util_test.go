@@ -25,6 +25,8 @@ func TestPodName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployment := &corev1.ReplicationController{ObjectMeta: metav1.ObjectMeta{Name: "testName"}}
 	expected := "testName-deploy"
 	actual := DeployerPodNameForDeployment(deployment.Name)
@@ -33,6 +35,8 @@ func TestPodName(t *testing.T) {
 	}
 }
 func TestCanTransitionPhase(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func TestGetCondition(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exampleStatus := func() appsv1.DeploymentConfigStatus {
 		return appsv1.DeploymentConfigStatus{Conditions: []appsv1.DeploymentCondition{condProgressing(), condAvailable()}}
 	}
@@ -115,6 +121,8 @@ func TestGetCondition(t *testing.T) {
 	}
 }
 func TestSetCondition(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +166,8 @@ func TestRemoveCondition(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exampleStatus := func() *appsv1.DeploymentConfigStatus {
 		return &appsv1.DeploymentConfigStatus{Conditions: []appsv1.DeploymentCondition{condProgressing(), condAvailable()}}
 	}
@@ -175,6 +185,8 @@ func TestRemoveCondition(t *testing.T) {
 	}
 }
 func TestRolloutExceededTimeoutSeconds(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

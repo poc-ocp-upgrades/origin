@@ -43,6 +43,8 @@ func NewPruner(options PrunerOptions) Pruner {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(1).Infof("Creating deployment pruner with keepYoungerThan=%v, orphans=%v, keepComplete=%v, keepFailed=%v", options.KeepYoungerThan, options.Orphans, options.KeepComplete, options.KeepFailed)
 	filter := &andFilter{filterPredicates: []FilterPredicate{FilterDeploymentsPredicate, FilterZeroReplicaSize, NewFilterBeforePredicate(options.KeepYoungerThan)}}
 	deployments := filter.Filter(options.Deployments)
@@ -56,6 +58,8 @@ func NewPruner(options PrunerOptions) Pruner {
 	return &pruner{resolver: &mergeResolver{resolvers: resolvers}}
 }
 func (p *pruner) Prune(deleter DeploymentDeleter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,9 +107,13 @@ func NewDeploymentDeleter(deployments corev1client.ReplicationControllersGetter)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &deploymentDeleter{deployments: deployments}
 }
 func (p *deploymentDeleter) DeleteDeployment(deployment *corev1.ReplicationController) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

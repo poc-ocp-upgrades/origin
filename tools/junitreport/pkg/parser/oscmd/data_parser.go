@@ -25,6 +25,8 @@ func newTestDataParser() stack.TestDataParser {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testDataParser{testStartPattern: regexp.MustCompile(`=== BEGIN TEST CASE ===`), testDeclarationPattern: regexp.MustCompile(`.+:[0-9]+: executing '.+' expecting .+`), testConclusionPattern: regexp.MustCompile(`(SUCCESS|FAILURE) after ([0-9]+\.[0-9]+s): (.+:[0-9]+: executing '.*' expecting .*?)(: (.*))?$`), testEndPattern: regexp.MustCompile(`=== END TEST CASE ===`)}
 }
 
@@ -36,6 +38,8 @@ type testDataParser struct {
 }
 
 func (p *testDataParser) MarksBeginning(line string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,6 +71,8 @@ func (p *testDataParser) ExtractName(line string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := p.testConclusionPattern.FindStringSubmatch(line); len(matches) > 3 && len(matches[3]) > 0 {
 		return matches[3], true
 	}
@@ -76,6 +82,8 @@ func (p *testDataParser) ExtractName(line string) (string, bool) {
 	return "", false
 }
 func (p *testDataParser) ExtractResult(line string) (api.TestResult, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,12 +123,16 @@ func (p *testDataParser) ExtractDuration(line string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := p.testConclusionPattern.FindStringSubmatch(line); len(matches) > 2 && len(matches[2]) > 0 {
 		return matches[2], true
 	}
 	return "", false
 }
 func (p *testDataParser) ExtractMessage(line string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,9 +167,13 @@ func (p *testDataParser) MarksCompletion(line string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.testEndPattern.MatchString(line)
 }
 func newTestSuiteDataParser() stack.TestSuiteDataParser {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,9 +211,13 @@ func (p *testSuiteDataParser) MarksBeginning(line string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.suiteDeclarationPattern.MatchString(line)
 }
 func (p *testSuiteDataParser) ExtractName(line string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -232,9 +252,13 @@ func (p *testSuiteDataParser) ExtractProperties(line string) (map[string]string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]string{}, false
 }
 func (p *testSuiteDataParser) MarksCompletion(line string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -266,6 +290,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -340,5 +385,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

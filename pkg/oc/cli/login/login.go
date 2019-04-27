@@ -55,6 +55,8 @@ func NewCmdLogin(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewLoginOptions(streams)
 	cmds := &cobra.Command{Use: "login [URL]", Short: "Log in to a server", Long: loginLong, Example: fmt.Sprintf(loginExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args, fullName))
@@ -79,6 +81,8 @@ func NewCmdLogin(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	return cmds
 }
 func (o *LoginOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string, commandName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,6 +161,8 @@ func (o LoginOptions) Validate(cmd *cobra.Command, serverFlag string, args []str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 1 {
 		return errors.New("Only the server URL may be specified as an argument")
 	}
@@ -175,6 +181,8 @@ func (o LoginOptions) Validate(cmd *cobra.Command, serverFlag string, args []str
 	return nil
 }
 func (o LoginOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

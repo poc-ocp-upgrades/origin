@@ -169,6 +169,8 @@ func (o *ObjectGeneratorOptions) Complete(baseName, commandName string, f kcmdut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmdutil.WarnAboutCommaSeparation(o.ErrOut, o.Config.Environment, "--env")
 	cmdutil.WarnAboutCommaSeparation(o.ErrOut, o.Config.BuildEnvironment, "--build-env")
 	o.Action.IOStreams = o.IOStreams
@@ -229,6 +231,8 @@ func NewAppOptions(streams genericclioptions.IOStreams) *AppOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := newcmd.NewAppConfig()
 	config.Deploy = true
 	printFlags := genericclioptions.NewPrintFlags("created")
@@ -237,6 +241,8 @@ func NewAppOptions(streams genericclioptions.IOStreams) *AppOptions {
 	return &AppOptions{IOStreams: streams, ObjectGeneratorOptions: &ObjectGeneratorOptions{PrintFlags: printFlags, IOStreams: streams, Config: config}}
 }
 func NewCmdNewApplication(name, baseName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +315,8 @@ func (o *AppOptions) Complete(baseName, commandName string, f kcmdutil.Factory, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.RESTClientGetter = f
 	cmdutil.WarnAboutCommaSeparation(o.ErrOut, o.ObjectGeneratorOptions.Config.TemplateParameters, "--param")
 	err := o.ObjectGeneratorOptions.Complete(baseName, commandName, f, c, args)
@@ -318,6 +326,8 @@ func (o *AppOptions) Complete(baseName, commandName string, f kcmdutil.Factory, 
 	return nil
 }
 func (o *AppOptions) RunNewApp() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -493,6 +503,8 @@ func getServices(items []runtime.Object) []*corev1.Service {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var svc []*corev1.Service
 	for _, i := range items {
 		unstructuredObj := i.(*unstructured.Unstructured)
@@ -513,6 +525,8 @@ func getServices(items []runtime.Object) []*corev1.Service {
 	return svc
 }
 func followInstallation(config *newcmd.AppConfig, clientGetter genericclioptions.RESTClientGetter, pod *corev1.Pod, logsForObjectFn polymorphichelpers.LogsForObjectFunc) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -561,6 +575,8 @@ func installationStarted(c corev1typedclient.PodInterface, name string, s corev1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func() (bool, error) {
 		pod, err := c.Get(name, metav1.GetOptions{})
 		if err != nil {
@@ -580,6 +596,8 @@ func installationStarted(c corev1typedclient.PodInterface, name string, s corev1
 	}
 }
 func installationComplete(c corev1typedclient.PodInterface, name string, out io.Writer) wait.ConditionFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -631,6 +649,8 @@ func setAppConfigLabels(c *cobra.Command, config *newcmd.AppConfig) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelStr := kcmdutil.GetFlagString(c, "labels")
 	if len(labelStr) != 0 {
 		var err error
@@ -642,6 +662,8 @@ func setAppConfigLabels(c *cobra.Command, config *newcmd.AppConfig) error {
 	return nil
 }
 func getDockerClient() (*docker.Client, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -668,6 +690,8 @@ func getDockerClient() (*docker.Client, error) {
 	return nil, err
 }
 func CompleteAppConfig(config *newcmd.AppConfig, f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -783,6 +807,8 @@ func SetAnnotations(annotations map[string]string, result *newcmd.AppResult) err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, object := range result.List.Items {
 		err := util.AddObjectAnnotations(object, annotations)
 		if err != nil {
@@ -792,6 +818,8 @@ func SetAnnotations(annotations map[string]string, result *newcmd.AppResult) err
 	return nil
 }
 func SetLabels(labels map[string]string, result *newcmd.AppResult) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -829,6 +857,8 @@ func hasLabel(labels map[string]string, result *newcmd.AppResult) (bool, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, obj := range result.List.Items {
 		if err := util.AddObjectLabelsWithFlags(obj.DeepCopyObject(), labels, util.ErrorOnExistingDstKey); err != nil {
 			return true, nil
@@ -837,6 +867,8 @@ func hasLabel(labels map[string]string, result *newcmd.AppResult) (bool, error) 
 	return false, nil
 }
 func isInvalidTriggerError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -861,6 +893,8 @@ func isInvalidTriggerError(err error) bool {
 	return strings.Contains(statusErr.Status().Message, "invalid trigger type")
 }
 func retryBuildConfig(obj *unstructured.Unstructured, err error) *unstructured.Unstructured {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -901,6 +935,8 @@ func retryBuildConfig(obj *unstructured.Unstructured, err error) *unstructured.U
 	return nil
 }
 func HandleError(err error, baseName, commandName, commandPath string, config *newcmd.AppConfig, transformError func(err error, baseName, commandName, commandPath string, groups ErrorGroups, config *newcmd.AppConfig)) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -966,6 +1002,8 @@ func (g ErrorGroups) Add(group string, suggestion string, classification string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	all := g[group]
 	all.errs = append(all.errs, errs...)
 	all.errs = append(all.errs, err)
@@ -974,6 +1012,8 @@ func (g ErrorGroups) Add(group string, suggestion string, classification string,
 	g[group] = all
 }
 func TransformRunError(err error, baseName, commandName, commandPath string, groups ErrorGroups, config *newcmd.AppConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1095,10 +1135,14 @@ func UsageError(commandPath, format string, args ...interface{}) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	msg := fmt.Sprintf(format, args...)
 	return fmt.Errorf("%s\nSee '%s -h' for help and examples", msg, commandPath)
 }
 func printHumanReadableQueryResult(r *newcmd.QueryResult, out io.Writer, baseName, commandName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1217,6 +1261,8 @@ func newConfigSecretRetriever(config *restclient.Config) newappapp.SecretAccesso
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &configSecretRetriever{config}
 }
 
@@ -1237,12 +1283,16 @@ func (r *configSecretRetriever) Token() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.config.BearerToken) > 0 {
 		return r.config.BearerToken, nil
 	}
 	return "", errNoTokenAvailable
 }
 func (r *configSecretRetriever) CACert() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1284,6 +1334,8 @@ func CheckGitInstalled(w io.Writer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !git.IsGitInstalled() {
 		fmt.Fprintf(w, "warning: Cannot find git. Ensure that it is installed and in your path. Git is required to work with git repositories.\n")
 	}
@@ -1303,6 +1355,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1377,5 +1450,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -20,6 +20,8 @@ func DumpAndReturnTagging(tags []string) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hexIDs, err := GetImageIDForTags(tags)
 	if err != nil {
 		return nil, err
@@ -30,6 +32,8 @@ func DumpAndReturnTagging(tags []string) ([]string, error) {
 	return hexIDs, nil
 }
 func CreateResource(jsonFilePath string, oc *CLI) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -40,9 +40,13 @@ func nowFunc() *metav1.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &metav1.Time{Time: time.Now().Add(-5 * time.Second)}
 }
 func newTestClient(config *appsv1.DeploymentConfig) *fake.Clientset {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func TestHookExecutor_executeExecNewCreatePodFailure(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hook := &appsv1.LifecycleHook{FailurePolicy: appsv1.LifecycleHookFailurePolicyAbort, ExecNewPod: &appsv1.ExecNewPodHook{ContainerName: "container1"}}
 	dc := appstest.OkDeploymentConfig(1)
 	deployment, _ := appsutil.MakeDeployment(dc)
@@ -95,6 +101,8 @@ func TestHookExecutor_executeExecNewCreatePodFailure(t *testing.T) {
 	}
 }
 func TestHookExecutor_executeExecNewPodSucceeded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,6 +176,8 @@ func TestHookExecutor_executeExecNewPodFailed(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hook := &appsv1.LifecycleHook{FailurePolicy: appsv1.LifecycleHookFailurePolicyAbort, ExecNewPod: &appsv1.ExecNewPodHook{ContainerName: "container1"}}
 	config := appstest.OkDeploymentConfig(1)
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -214,6 +224,8 @@ func TestHookExecutor_makeHookPodInvalidContainerRef(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hook := &appsv1.LifecycleHook{FailurePolicy: appsv1.LifecycleHookFailurePolicyAbort, ExecNewPod: &appsv1.ExecNewPodHook{ContainerName: "undefined"}}
 	config := appstest.OkDeploymentConfig(1)
 	strategy := appsv1.DeploymentStrategy{Type: appsv1.DeploymentStrategyTypeRecreate, RecreateParams: &appsv1.RecreateDeploymentStrategyParams{}}
@@ -224,6 +236,8 @@ func TestHookExecutor_makeHookPodInvalidContainerRef(t *testing.T) {
 	}
 }
 func TestHookExecutor_makeHookPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,6 +301,8 @@ func TestHookExecutor_makeHookPodRestart(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hook := &appsv1.LifecycleHook{FailurePolicy: appsv1.LifecycleHookFailurePolicyRetry, ExecNewPod: &appsv1.ExecNewPodHook{ContainerName: "container1"}}
 	config := appstest.OkDeploymentConfig(1)
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -300,6 +316,8 @@ func TestHookExecutor_makeHookPodRestart(t *testing.T) {
 	}
 }
 func deployment(name, namespace string, strategyLabels, strategyAnnotations map[string]string) (*appsv1.DeploymentConfig, *corev1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +355,8 @@ func (a envByNameAsc) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(a)
 }
 func (a envByNameAsc) Swap(i, j int) {
@@ -354,9 +374,13 @@ func (a envByNameAsc) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a[i], a[j] = a[j], a[i]
 }
 func (a envByNameAsc) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

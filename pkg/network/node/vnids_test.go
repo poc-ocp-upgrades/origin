@@ -21,6 +21,8 @@ func TestNodeVNIDMap(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap := newNodeVNIDMap(nil, nil)
 	checkNotExists(t, vmap, "alpha")
 	checkNamespaces(t, vmap, 1, []string{})
@@ -135,12 +137,16 @@ func checkExists(t *testing.T, vmap *nodeVNIDMap, name string, expected uint32) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	id, err := vmap.getVNID(name)
 	if id != expected || err != nil {
 		t.Fatalf("Unexpected failure: %d, %v", id, err)
 	}
 }
 func checkNotExists(t *testing.T, vmap *nodeVNIDMap, name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +181,8 @@ func checkNamespaces(t *testing.T, vmap *nodeVNIDMap, vnid uint32, match []strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaces := vmap.GetNamespaces(vnid)
 	if len(namespaces) != len(match) {
 		t.Fatalf("Wrong number of namespaces: %v vs %v", namespaces, match)
@@ -193,6 +201,8 @@ func checkNamespaces(t *testing.T, vmap *nodeVNIDMap, vnid uint32, match []strin
 	}
 }
 func checkAllocatedVNIDs(t *testing.T, vmap *nodeVNIDMap, match []uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

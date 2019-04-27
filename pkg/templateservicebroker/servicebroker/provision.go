@@ -32,6 +32,8 @@ func (b *Broker) ensureSecret(u user.Info, namespace string, brokerTemplateInsta
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Template service broker: ensureSecret")
 	blockOwnerDeletion := true
 	secret := &kapiv1.Secret{ObjectMeta: metav1.ObjectMeta{Name: instanceID, OwnerReferences: []metav1.OwnerReference{{APIVersion: templateapiv1.SchemeGroupVersion.String(), Kind: "BrokerTemplateInstance", Name: brokerTemplateInstance.Name, UID: brokerTemplateInstance.UID, BlockOwnerDeletion: &blockOwnerDeletion}}}, Data: map[string][]byte{}}
@@ -66,6 +68,8 @@ func (b *Broker) ensureSecret(u user.Info, namespace string, brokerTemplateInsta
 	return nil, api.InternalServerError(err)
 }
 func (b *Broker) ensureTemplateInstance(u user.Info, namespace string, brokerTemplateInstance *templateapiv1.BrokerTemplateInstance, instanceID string, template *templateapiv1.Template, secret *kapiv1.Secret, didWork *bool) (*templateapiv1.TemplateInstance, *api.Response) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func (b *Broker) ensureBrokerTemplateInstanceUIDs(u user.Info, namespace string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Template service broker: ensureBrokerTemplateInstanceUIDs")
 	if err := util.Authorize(b.kc.AuthorizationV1().SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: namespace, Verb: "update", Group: templateapiv1.GroupName, Resource: "templateinstances", Name: brokerTemplateInstance.Spec.TemplateInstance.Name}); err != nil {
 		return nil, api.Forbidden(err)
@@ -169,6 +175,8 @@ func (b *Broker) ensureBrokerTemplateInstance(u user.Info, namespace, instanceID
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Template service broker: ensureBrokerTemplateInstance")
 	brokerTemplateInstance := &templateapiv1.BrokerTemplateInstance{ObjectMeta: metav1.ObjectMeta{Name: instanceID}, Spec: templateapiv1.BrokerTemplateInstanceSpec{TemplateInstance: kapiv1.ObjectReference{Kind: "TemplateInstance", Namespace: namespace, Name: instanceID}, Secret: kapiv1.ObjectReference{Kind: "Secret", Namespace: namespace, Name: instanceID}}}
 	if err := util.Authorize(b.kc.AuthorizationV1().SubjectAccessReviews(), u, &authorizationv1.ResourceAttributes{Namespace: namespace, Verb: "create", Group: templateapiv1.GroupName, Resource: "templateinstances", Name: instanceID}); err != nil {
@@ -192,6 +200,8 @@ func (b *Broker) ensureBrokerTemplateInstance(u user.Info, namespace, instanceID
 	return nil, api.InternalServerError(err)
 }
 func (b *Broker) Provision(u user.Info, instanceID string, preq *api.ProvisionRequest) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

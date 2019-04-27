@@ -29,6 +29,8 @@ func convertNetworkConfigToAdmissionConfig(masterConfig *legacyconfigv1.MasterCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if masterConfig.AdmissionConfig.PluginConfig == nil {
 		masterConfig.AdmissionConfig.PluginConfig = map[string]*legacyconfigv1.AdmissionPluginConfig{}
 	}
@@ -61,6 +63,8 @@ func convertNetworkConfigToAdmissionConfig(masterConfig *legacyconfigv1.MasterCo
 	return nil
 }
 func ConvertMasterConfigToKubeAPIServerConfig(input *legacyconfigv1.MasterConfig) (*kubecontrolplanev1.KubeAPIServerConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func ConvertMasterConfigToKubeAPIServerConfig(input *legacyconfigv1.MasterConfig
 	return ret, nil
 }
 func ConvertMasterConfigToOpenShiftAPIServerConfig(input *legacyconfigv1.MasterConfig) (*openshiftcontrolplanev1.OpenShiftAPIServerConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

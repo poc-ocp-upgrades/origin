@@ -38,6 +38,8 @@ func ParsePods(jsonFile string) (configStruct kapiv1.Pod) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configFile, err := ioutil.ReadFile(jsonFile)
 	if err != nil {
 		framework.Failf("Cant read pod config file. Error: %v", err)
@@ -50,6 +52,8 @@ func ParsePods(jsonFile string) (configStruct kapiv1.Pod) {
 	return
 }
 func SyncPods(c kclientset.Interface, ns string, selectors map[string]string, timeout time.Duration, state kapiv1.PodPhase) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +103,8 @@ func SyncRunningPods(c kclientset.Interface, ns string, selectors map[string]str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = SyncPods(c, ns, selectors, timeout, kapiv1.PodRunning)
 	if err == nil {
 		e2e.Logf("All pods running in %s with labels: %v", ns, selectors)
@@ -120,6 +126,8 @@ func SyncSucceededPods(c kclientset.Interface, ns string, selectors map[string]s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = SyncPods(c, ns, selectors, timeout, kapiv1.PodSucceeded)
 	if err == nil {
 		e2e.Logf("All pods succeeded in %s with labels: %v", ns, selectors)
@@ -127,6 +135,8 @@ func SyncSucceededPods(c kclientset.Interface, ns string, selectors map[string]s
 	return err
 }
 func CreatePods(c kclientset.Interface, appName string, ns string, labels map[string]string, spec kapiv1.PodSpec, maxCount int, tuning *TuningSetType, sync *SyncObjectType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,12 +213,16 @@ func mapToString(m map[string]string) (s string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range m {
 		s = fmt.Sprintf("%s=%s", k, v)
 	}
 	return
 }
 func GetTuningSet(tuningSets []TuningSetType, podTuning string) (tuning *TuningSetType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -235,6 +249,8 @@ func GetTuningSet(tuningSets []TuningSetType, podTuning string) (tuning *TuningS
 	return nil
 }
 func Server(c *PodCount, port int, awaitShutdown bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +304,8 @@ func handleStart(fn http.HandlerFunc, c *PodCount) http.HandlerFunc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(w http.ResponseWriter, r *http.Request) {
 		c.Started++
 		fn(w, r)
@@ -309,9 +327,13 @@ func startHandler(w http.ResponseWriter, r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintln(w, "Hello")
 }
 func handleStop(fn http.HandlerFunc, c *PodCount) http.HandlerFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -350,9 +372,13 @@ func stopHandler(w http.ResponseWriter, r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintln(w, "Goodbye")
 }
 func firstLowercase(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -372,6 +398,8 @@ func firstLowercase(s string) string {
 	return string(a)
 }
 func convertVariablesToMap(params map[string]interface{}) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -414,9 +442,13 @@ func getFromFileArg(k string, v interface{}) (arg string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("--from-file=%s=%v", k, v)
 }
 func CreateConfigmaps(oc *exutil.CLI, c kclientset.Interface, nsName string, configmaps map[string]interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -446,6 +478,8 @@ func CreateConfigmaps(oc *exutil.CLI, c kclientset.Interface, nsName string, con
 	return err
 }
 func CreateSecrets(oc *exutil.CLI, c kclientset.Interface, nsName string, secrets map[string]interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -490,6 +524,8 @@ func convertVariablesToString(params map[string]interface{}) (args []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range params {
 		k = strings.ToUpper(k)
 		if v == nil {
@@ -505,6 +541,8 @@ func convertVariablesToString(params map[string]interface{}) (args []string) {
 	return
 }
 func InjectConfigMap(c kclientset.Interface, ns string, vars map[string]interface{}, config kapiv1.Pod) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -553,6 +591,8 @@ func getClusterData(c kclientset.Interface, config map[string]string) map[string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newConfig := make(map[string]string)
 	for k, v := range config {
 		if k == "routerIP" {
@@ -579,12 +619,16 @@ func concatenateIP(endpointInfo []ServiceInfo) (ip string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range endpointInfo {
 		ip += endpointInfo[i].IP + ","
 	}
 	return
 }
 func getEndpointsWithLabel(c kclientset.Interface, label string) (endpointInfo []ServiceInfo) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -630,9 +674,13 @@ func newConfigMap(ns string, name string, vars map[string]string) *kapiv1.Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapiv1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Namespace: ns, Name: name}, Data: vars}
 }
 func CreateTemplates(oc *exutil.CLI, c kclientset.Interface, nsName string, template ClusterLoaderObjectType, tuning *TuningSetType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -730,9 +778,13 @@ func getNsCmdFlag(name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("--namespace=%v", name)
 }
 func SetNamespaceLabels(c kclientset.Interface, name string, labels map[string]string) (*kapiv1.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -772,6 +824,8 @@ func ProjectExists(oc *exutil.CLI, name string) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, err := oc.AdminProjectClient().Project().Projects().Get(name, metav1.GetOptions{})
 	if err != nil {
 		if strings.Contains(err.Error(), "not found") {
@@ -785,6 +839,8 @@ func ProjectExists(oc *exutil.CLI, name string) (bool, error) {
 	return false, nil
 }
 func DeleteProject(oc *exutil.CLI, name string, interval, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

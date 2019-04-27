@@ -23,6 +23,8 @@ func ReadFixture(path string) (runtime.Object, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file %q: %v", path, err)
@@ -34,6 +36,8 @@ func ReadFixture(path string) (runtime.Object, error) {
 	return obj, nil
 }
 func ReadFixtureOrFail(path string) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

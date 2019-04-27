@@ -23,6 +23,8 @@ func (t tester) Has(dir string) (string, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path := filepath.Join(dir, "Jenkinsfile")
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
@@ -34,6 +36,8 @@ func (t tester) Has(dir string) (string, bool, error) {
 	return path, true, nil
 }
 func NewTester() newapp.Tester {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

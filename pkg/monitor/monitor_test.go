@@ -22,6 +22,8 @@ func TestMonitor_Newlines(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	evt := &Event{Condition: Condition{Message: "a\nb\n"}}
 	expected := "Jan 01 00:00:00.000 I  a\\nb\\n"
 	if evt.String() != expected {
@@ -29,6 +31,8 @@ func TestMonitor_Newlines(t *testing.T) {
 	}
 }
 func TestMonitor_Events(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

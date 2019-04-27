@@ -54,9 +54,13 @@ func NewStrategy(registryHostname registryhostname.RegistryHostnameRetriever, su
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Strategy{ObjectTyper: legacyscheme.Scheme, NameGenerator: names.SimpleNameGenerator, registryHostnameRetriever: registryHostname, tagVerifier: &TagVerifier{subjectAccessReviewClient}, limitVerifier: limitVerifier, registryWhitelister: registryWhitelister, imageStreamGetter: imageStreamGetter}
 }
 func (s Strategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,6 +92,8 @@ func collapseEmptyStatusTags(stream *imageapi.ImageStream) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, ref := range stream.Status.Tags {
 		if len(ref.Items) == 0 && len(ref.Conditions) == 0 {
 			delete(stream.Status.Tags, tag)
@@ -95,6 +101,8 @@ func collapseEmptyStatusTags(stream *imageapi.ImageStream) {
 	}
 }
 func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +141,8 @@ func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
 	var errs field.ErrorList
 	if err := s.validateTagsAndLimits(ctx, nil, stream); err != nil {
@@ -142,6 +152,8 @@ func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorL
 	return errs
 }
 func (s Strategy) validateTagsAndLimits(ctx context.Context, oldStream, newStream *imageapi.ImageStream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,6 +198,8 @@ func (s Strategy) AllowCreateOnUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (Strategy) AllowUnconditionalUpdate() bool {
@@ -203,9 +217,13 @@ func (Strategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (s Strategy) dockerImageRepository(stream *imageapi.ImageStream, allowNamespaceDefaulting bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -245,6 +263,8 @@ func (s Strategy) publicDockerImageRepository(stream *imageapi.ImageStream) stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	externalHostname, ok := s.registryHostnameRetriever.ExternalRegistryHostname()
 	if !ok {
 		return ""
@@ -253,6 +273,8 @@ func (s Strategy) publicDockerImageRepository(stream *imageapi.ImageStream) stri
 	return ref.String()
 }
 func parseFromReference(stream *imageapi.ImageStream, from *kapi.ObjectReference) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +312,8 @@ func parseFromReference(stream *imageapi.ImageStream, from *kapi.ObjectReference
 	}
 }
 func (s Strategy) tagsChanged(old, stream *imageapi.ImageStream) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -401,6 +425,8 @@ func tagReferenceToTagEvent(stream *imageapi.ImageStream, tagRef imageapi.TagRef
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		event	*imageapi.TagEvent
 		err	error
@@ -424,6 +450,8 @@ func tagReferenceToTagEvent(stream *imageapi.ImageStream, tagRef imageapi.TagRef
 	return event, nil
 }
 func tagRefChanged(old, next imageapi.TagReference, streamNamespace string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -482,6 +510,8 @@ func tagRefGenerationChanged(old, next imageapi.TagReference) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case old.Generation != nil && next.Generation != nil:
 		if *old.Generation == *next.Generation {
@@ -496,6 +526,8 @@ func tagRefGenerationChanged(old, next imageapi.TagReference) bool {
 	}
 }
 func tagEventChanged(old, next imageapi.TagEvent) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -527,6 +559,8 @@ func updateSpecTagGenerationsForUpdate(stream, oldStream *imageapi.ImageStream) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, ref := range stream.Spec.Tags {
 		if ref.Generation != nil && *ref.Generation == 0 {
 			continue
@@ -538,6 +572,8 @@ func updateSpecTagGenerationsForUpdate(stream, oldStream *imageapi.ImageStream) 
 	}
 }
 func ensureSpecTagGenerationsAreSet(stream, oldStream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -582,6 +618,8 @@ func updateObservedGenerationForStatusUpdate(stream, oldStream *imageapi.ImageSt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for tag, newer := range stream.Status.Tags {
 		if len(newer.Items) == 0 || newer.Items[0].Generation != 0 {
 			continue
@@ -608,6 +646,8 @@ type TagVerifier struct {
 }
 
 func (v *TagVerifier) Verify(old, stream *imageapi.ImageStream, user user.Info) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -678,8 +718,12 @@ func (Strategy) Canonicalize(obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s Strategy) prepareForUpdate(obj, old runtime.Object, resetStatus bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -723,9 +767,13 @@ func (s Strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.prepareForUpdate(obj, old, true)
 }
 func (s Strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -750,6 +798,8 @@ func (s Strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) f
 	return errs
 }
 func (s Strategy) Decorate(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -797,9 +847,13 @@ func NewStatusStrategy(strategy Strategy) StatusStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return StatusStrategy{strategy}
 }
 func (StatusStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -830,6 +884,8 @@ func (StatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Obj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldStream := old.(*imageapi.ImageStream)
 	stream := obj.(*imageapi.ImageStream)
 	stream.Spec.Tags = oldStream.Spec.Tags
@@ -837,6 +893,8 @@ func (StatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Obj
 	updateObservedGenerationForStatusUpdate(stream, oldStream)
 }
 func (s StatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -882,9 +940,13 @@ func NewInternalStrategy(strategy Strategy) InternalStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return InternalStrategy{strategy}
 }
 func (InternalStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -915,6 +977,8 @@ func (s InternalStrategy) PrepareForCreate(ctx context.Context, obj runtime.Obje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imageapi.ImageStream)
 	stream.Status.DockerImageRepository = s.dockerImageRepository(stream, false)
 	stream.Generation = 1
@@ -924,6 +988,8 @@ func (s InternalStrategy) PrepareForCreate(ctx context.Context, obj runtime.Obje
 	}
 }
 func (s InternalStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -24,6 +24,8 @@ func (s ByRestrictions) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s ByRestrictions) Swap(i, j int) {
@@ -41,9 +43,13 @@ func (s ByRestrictions) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s ByRestrictions) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +91,8 @@ const (
 )
 
 func pointValue(constraint *securityv1.SecurityContextConstraints) points {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +151,8 @@ func volumePointValue(scc *securityv1.SecurityContextConstraints) points {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hasHostVolume := false
 	hasNonTrivialVolume := false
 	for _, v := range scc.Volumes {
@@ -178,6 +188,8 @@ func hasCap(needle string, haystack []corev1.Capability) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range haystack {
 		if needle == strings.ToUpper(string(c)) {
 			return true
@@ -186,6 +198,8 @@ func hasCap(needle string, haystack []corev1.Capability) bool {
 	return false
 }
 func capabilitiesPointValue(scc *securityv1.SecurityContextConstraints) points {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

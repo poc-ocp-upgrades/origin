@@ -42,6 +42,8 @@ func NewDNS(resolverConfigFile string) (*DNS, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := dns.ClientConfigFromFile(resolverConfigFile)
 	if err != nil || config == nil {
 		return nil, fmt.Errorf("cannot initialize the resolver: %v", err)
@@ -63,11 +65,15 @@ func (d *DNS) Size() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	return len(d.dnsMap)
 }
 func (d *DNS) Get(dns string) dnsValue {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,6 +114,8 @@ func (d *DNS) Add(dns string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	d.dnsMap[dns] = dnsValue{}
@@ -118,6 +126,8 @@ func (d *DNS) Add(dns string) error {
 	return err
 }
 func (d *DNS) Update() (error, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,6 +173,8 @@ func (d *DNS) updateOne(dns string) (error, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res, ok := d.dnsMap[dns]
 	if !ok {
 		return fmt.Errorf("DNS value not found in dnsMap for domain: %q", dns), false
@@ -184,6 +196,8 @@ func (d *DNS) updateOne(dns string) (error, bool) {
 	return nil, changed
 }
 func (d *DNS) getIPsAndMinTTL(domain string) ([]net.IP, time.Duration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,6 +269,8 @@ func (d *DNS) GetMinQueryTime() (time.Time, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	timeSet := false
@@ -268,6 +284,8 @@ func (d *DNS) GetMinQueryTime() (time.Time, bool) {
 	return minTime, timeSet
 }
 func ipsEqual(oldips, newips []net.IP) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,6 +332,8 @@ func filterIPv4Servers(servers []string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipv4Servers := []string{}
 	for _, server := range servers {
 		ipString := server
@@ -329,6 +349,8 @@ func filterIPv4Servers(servers []string) []string {
 	return ipv4Servers
 }
 func removeDuplicateIPs(ips []net.IP) []net.IP {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

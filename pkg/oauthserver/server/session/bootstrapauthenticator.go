@@ -23,6 +23,8 @@ func NewBootstrapAuthenticator(delegate SessionAuthenticator, getter bootstrap.B
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &bootstrapAuthenticator{delegate: delegate, getter: getter, store: store}
 }
 
@@ -33,6 +35,8 @@ type bootstrapAuthenticator struct {
 }
 
 func (b *bootstrapAuthenticator) AuthenticateRequest(req *http.Request) (*authenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,12 +79,16 @@ func (b *bootstrapAuthenticator) AuthenticationSucceeded(user user.Info, state s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if user.GetName() != bootstrap.BootstrapUser {
 		return b.delegate.AuthenticationSucceeded(user, state, w, req)
 	}
 	return false, putUser(b.store, w, user, time.Hour)
 }
 func (b *bootstrapAuthenticator) InvalidateAuthentication(w http.ResponseWriter, user user.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

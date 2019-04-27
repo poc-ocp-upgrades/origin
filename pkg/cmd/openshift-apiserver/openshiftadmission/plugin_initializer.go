@@ -53,6 +53,8 @@ func NewPluginInitializer(externalImageRegistryHostnames []string, internalImage
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient, err := kubeclientgoclient.NewForConfig(privilegedLoopbackConfig)
 	if err != nil {
 		return nil, err

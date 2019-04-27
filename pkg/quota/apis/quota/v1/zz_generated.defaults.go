@@ -21,6 +21,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.AppliedClusterResourceQuota{}, func(obj interface{}) {
 		SetObjectDefaults_AppliedClusterResourceQuota(obj.(*v1.AppliedClusterResourceQuota))
 	})
@@ -36,6 +38,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	return nil
 }
 func SetObjectDefaults_AppliedClusterResourceQuota(in *v1.AppliedClusterResourceQuota) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,12 +78,16 @@ func SetObjectDefaults_AppliedClusterResourceQuotaList(in *v1.AppliedClusterReso
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Items {
 		a := &in.Items[i]
 		SetObjectDefaults_AppliedClusterResourceQuota(a)
 	}
 }
 func SetObjectDefaults_ClusterResourceQuota(in *v1.ClusterResourceQuota) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +112,8 @@ func SetObjectDefaults_ClusterResourceQuota(in *v1.ClusterResourceQuota) {
 	}
 }
 func SetObjectDefaults_ClusterResourceQuotaList(in *v1.ClusterResourceQuotaList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

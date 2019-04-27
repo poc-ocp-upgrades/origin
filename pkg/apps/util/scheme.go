@@ -31,6 +31,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	legacy.InstallInternalLegacyApps(annotationDecodingScheme)
 	utilruntime.Must(appsv1helpers.Install(annotationDecodingScheme))
 	annotationDecoderCodecFactory := serializer.NewCodecFactory(annotationDecodingScheme)

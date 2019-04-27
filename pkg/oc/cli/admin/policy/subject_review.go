@@ -71,9 +71,13 @@ func NewSCCSubjectReviewOptions(streams genericclioptions.IOStreams) *SCCSubject
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SCCSubjectReviewOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdSccSubjectReview(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +106,8 @@ func NewCmdSccSubjectReview(name, fullName string, f kcmdutil.Factory, streams g
 	return cmd
 }
 func (o *SCCSubjectReviewOptions) Complete(f kcmdutil.Factory, args []string, cmd *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -154,6 +160,8 @@ func (o *SCCSubjectReviewOptions) Complete(f kcmdutil.Factory, args []string, cm
 	return nil
 }
 func (o *SCCSubjectReviewOptions) Run(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -236,6 +244,8 @@ func (o *SCCSubjectReviewOptions) pspSubjectReview(userOrSA string, podTemplateS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podSecurityPolicySubjectReview := &securityv1.PodSecurityPolicySubjectReview{Spec: securityv1.PodSecurityPolicySubjectReviewSpec{Template: *podTemplateSpec, User: userOrSA, Groups: o.Groups}}
 	return o.sccSubjectReviewClient.PodSecurityPolicySubjectReviews(o.namespace).Create(podSecurityPolicySubjectReview)
 }
@@ -254,10 +264,14 @@ func (o *SCCSubjectReviewOptions) pspSelfSubjectReview(podTemplateSpec *corev1.P
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podSecurityPolicySelfSubjectReview := &securityv1.PodSecurityPolicySelfSubjectReview{Spec: securityv1.PodSecurityPolicySelfSubjectReviewSpec{Template: *podTemplateSpec}}
 	return o.sccSubjectReviewClient.PodSecurityPolicySelfSubjectReviews(o.namespace).Create(podSecurityPolicySelfSubjectReview)
 }
 func subjectReviewHumanPrinter(info *resource.Info, obj runtime.Object, noHeaders *bool, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +306,8 @@ func subjectReviewHumanPrinter(info *resource.Info, obj runtime.Object, noHeader
 	return err
 }
 func getAllowedBy(obj runtime.Object) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

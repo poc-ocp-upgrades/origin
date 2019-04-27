@@ -25,9 +25,13 @@ func NewFakeDeploymentStore(deployment *v1.ReplicationController) FakeDeployment
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return FakeDeploymentStore{Deployment: deployment}
 }
 func (s FakeDeploymentStore) Add(obj interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,9 +63,13 @@ func (s FakeDeploymentStore) Update(obj interface{}) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.Err
 }
 func (s FakeDeploymentStore) Delete(obj interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,9 +101,13 @@ func (s FakeDeploymentStore) List() []interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []interface{}{s.Deployment}
 }
 func (s FakeDeploymentStore) ContainedIDs() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,9 +139,13 @@ func (s FakeDeploymentStore) Get(obj interface{}) (item interface{}, exists bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.GetByKey("")
 }
 func (s FakeDeploymentStore) GetByKey(id string) (item interface{}, exists bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +169,8 @@ func (s FakeDeploymentStore) GetByKey(id string) (item interface{}, exists bool,
 	return s.Deployment, true, nil
 }
 func (s FakeDeploymentStore) Replace(list []interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

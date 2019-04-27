@@ -25,9 +25,13 @@ func (w *testEIPWatcher) ClaimEgressIP(vnid uint32, egressIP, nodeIP string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.changes = append(w.changes, fmt.Sprintf("claim %s on %s for namespace %d", egressIP, nodeIP, vnid))
 }
 func (w *testEIPWatcher) ReleaseEgressIP(egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,9 +63,13 @@ func (w *testEIPWatcher) SetNamespaceEgressNormal(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.changes = append(w.changes, fmt.Sprintf("namespace %d normal", int(vnid)))
 }
 func (w *testEIPWatcher) SetNamespaceEgressDropped(vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +101,8 @@ func (w *testEIPWatcher) SetNamespaceEgressViaEgressIP(vnid uint32, egressIP, no
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.changes = append(w.changes, fmt.Sprintf("namespace %d via %s on %s", int(vnid), egressIP, nodeIP))
 }
 func (w *testEIPWatcher) UpdateEgressCIDRs() {
@@ -110,9 +120,13 @@ func (w *testEIPWatcher) UpdateEgressCIDRs() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.changes = append(w.changes, "update egress CIDRs")
 }
 func (w *testEIPWatcher) assertChanges(expected ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +183,8 @@ func (w *testEIPWatcher) assertNoChanges() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.assertChanges()
 }
 func (w *testEIPWatcher) flushChanges() {
@@ -186,9 +202,13 @@ func (w *testEIPWatcher) flushChanges() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.changes = []string{}
 }
 func (w *testEIPWatcher) assertUpdateEgressCIDRsNotification() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,10 +246,14 @@ func setupEgressIPTracker(t *testing.T) (*EgressIPTracker, *testEIPWatcher) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	watcher := &testEIPWatcher{}
 	return NewEgressIPTracker(watcher), watcher
 }
 func updateHostSubnetEgress(eit *EgressIPTracker, hs *networkapi.HostSubnet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -266,6 +290,8 @@ func updateNetNamespaceEgress(eit *EgressIPTracker, ns *networkapi.NetNamespace)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ns.NetName == "" {
 		ns.NetName = fmt.Sprintf("ns-%d", ns.NetID)
 	}
@@ -274,6 +300,8 @@ func updateNetNamespaceEgress(eit *EgressIPTracker, ns *networkapi.NetNamespace)
 	eit.UpdateNetNamespaceEgress(ns)
 }
 func TestEgressIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -394,6 +422,8 @@ func TestMultipleNamespaceEgressIPs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit, w := setupEgressIPTracker(t)
 	updateNetNamespaceEgress(eit, &networkapi.NetNamespace{NetID: 42, EgressIPs: []string{"172.17.0.100"}})
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{HostIP: "172.17.0.3", EgressIPs: []string{"172.17.0.100"}})
@@ -454,6 +484,8 @@ func TestMultipleNamespaceEgressIPs(t *testing.T) {
 	}
 }
 func TestDuplicateNodeEgressIPs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -537,6 +569,8 @@ func TestDuplicateNamespaceEgressIPs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit, w := setupEgressIPTracker(t)
 	updateNetNamespaceEgress(eit, &networkapi.NetNamespace{NetID: 42, EgressIPs: []string{"172.17.0.100"}})
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{HostIP: "172.17.0.3", EgressIPs: []string{"172.17.0.100"}})
@@ -606,6 +640,8 @@ func TestOfflineEgressIPs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit, w := setupEgressIPTracker(t)
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{HostIP: "172.17.0.3", EgressIPs: []string{"172.17.0.100"}})
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{HostIP: "172.17.0.4", EgressIPs: []string{"172.17.0.101"}})
@@ -655,6 +691,8 @@ func updateAllocations(eit *EgressIPTracker, allocation map[string][]string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for nodeName, egressIPs := range allocation {
 		for _, node := range eit.nodesByNodeIP {
 			if node.nodeName == nodeName {
@@ -665,6 +703,8 @@ func updateAllocations(eit *EgressIPTracker, allocation map[string][]string) {
 	}
 }
 func TestEgressCIDRAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -815,6 +855,8 @@ func TestEgressNodeRenumbering(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit, w := setupEgressIPTracker(t)
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{Host: "alpha", HostIP: "172.17.0.3", EgressIPs: []string{"172.17.0.100"}})
 	updateHostSubnetEgress(eit, &networkapi.HostSubnet{Host: "beta", HostIP: "172.17.0.4", EgressIPs: []string{"172.17.0.101"}})
@@ -832,6 +874,8 @@ func TestEgressNodeRenumbering(t *testing.T) {
 	}
 }
 func TestEgressCIDRAllocationOffline(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

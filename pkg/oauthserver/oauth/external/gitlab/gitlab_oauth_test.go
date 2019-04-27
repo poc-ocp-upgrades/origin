@@ -21,6 +21,8 @@ func TestGitLab(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, err := NewOAuthProvider("gitlab", "https://gitlab.com/", "clientid", "clientsecret", nil)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)

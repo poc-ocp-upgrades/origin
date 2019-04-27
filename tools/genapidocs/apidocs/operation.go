@@ -32,6 +32,8 @@ func (o operation) bodyParameter() *spec.Parameter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, parameter := range o.Operation.Parameters {
 		if parameter.In == "body" {
 			return &parameter
@@ -54,9 +56,13 @@ func (o operation) Description() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ToUpper(o.Operation.Description)
 }
 func (o operation) Curl() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +116,8 @@ func (o operation) HTTPReq() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := make([]string, 0, 7)
 	s = append(s, strings.ToUpper(o.OpName)+" "+EnvStyle(o.PathName)+" HTTP/1.1", "Authorization: Bearer $TOKEN", "Accept: application/json", "Connection: close")
 	if o.bodyParameter() != nil {
@@ -136,6 +144,8 @@ func getGVK(s spec.Schema, gv schema.GroupVersion) schema.GroupVersionKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, gvk := range GroupVersionKinds(s) {
 		if gvk.Group == gv.Group && gvk.Version == gv.Version {
 			return gvk
@@ -144,6 +154,8 @@ func getGVK(s spec.Schema, gv schema.GroupVersion) schema.GroupVersionKind {
 	return GroupVersionKinds(s)[0]
 }
 func (o operation) sampleRequest() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +193,8 @@ func (o operation) Parameters(t string) []spec.Parameter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parameters := make([]spec.Parameter, 0, len(o.Path.Parameters)+len(o.Operation.Parameters))
 	for _, param := range append(o.Path.Parameters, o.Operation.Parameters...) {
 		if param.In == t {
@@ -190,6 +204,8 @@ func (o operation) Parameters(t string) []spec.Parameter {
 	return parameters
 }
 func (o operation) Verb() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,9 +247,13 @@ func (o operation) Plural() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.OpName != "Post" && !strings.Contains(o.PathName, "{name}")
 }
 func (o operation) Subresource() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -268,9 +288,13 @@ func (o operation) Namespaced() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Contains(o.PathName, "/namespaces/{namespace}")
 }
 func (o operation) IsProxy() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -302,6 +326,8 @@ func (o operation) Anchor() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Map(func(r rune) rune {
 		switch r {
 		case '/':
@@ -314,6 +340,8 @@ func (o operation) Anchor() string {
 	}, o.OpName+"/"+strings.Trim(o.PathName, "/"))
 }
 func (o operation) Title() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,6 +407,8 @@ func (o operation) GVR() (gvr schema.GroupVersionResource, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(strings.Trim(o.PathName, "/"), "/")
 	if !((parts[0] == "apis" && len(parts) > 3) || (parts[0] == "api" && len(parts) > 2) || (parts[0] == "oapi" && len(parts) > 2)) {
 		err = fmt.Errorf("GVR() called on invalid path %s", o.PathName)
@@ -404,6 +434,8 @@ func (o operation) GVR() (gvr schema.GroupVersionResource, err error) {
 	return
 }
 func (o operation) GVK() (schema.GroupVersionKind, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

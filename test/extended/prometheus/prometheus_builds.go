@@ -103,6 +103,8 @@ func runQueries(metricTests map[string][]metricTest, oc *exutil.CLI, ns, execPod
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errsMap := map[string]error{}
 	for i := 0; i < waitForPrometheusStartSeconds; i++ {
 		for query, tcs := range metricTests {
@@ -155,6 +157,8 @@ func startOpenShiftBuild(oc *exutil.CLI, appTemplate string) *exutil.BuildResult
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By(fmt.Sprintf("calling oc create -f %s ", appTemplate))
 	err := oc.Run("create").Args("-f", appTemplate).Execute()
 	o.Expect(err).NotTo(o.HaveOccurred())
@@ -164,6 +168,8 @@ func startOpenShiftBuild(oc *exutil.CLI, appTemplate string) *exutil.BuildResult
 	return br
 }
 func labelsWeWant(sample *model.Sample, labels map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,6 +196,8 @@ func labelsWeWant(sample *model.Sample, labels map[string]string) bool {
 	return true
 }
 func valueWeWant(sample *model.Sample, tc metricTest) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

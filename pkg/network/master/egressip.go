@@ -45,11 +45,15 @@ func newEgressIPManager() *egressIPManager {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim := &egressIPManager{}
 	eim.tracker = common.NewEgressIPTracker(eim)
 	return eim
 }
 func (eim *egressIPManager) Start(networkClient networkclient.Interface, hostSubnetInformer networkinformers.HostSubnetInformer, netNamespaceInformer networkinformers.NetNamespaceInformer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func (eim *egressIPManager) UpdateEgressCIDRs() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim.Lock()
 	defer eim.Unlock()
 	if eim.updatePending {
@@ -93,6 +99,8 @@ func (eim *egressIPManager) UpdateEgressCIDRs() {
 	}
 }
 func (eim *egressIPManager) maybeDoUpdateEgressCIDRs() (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +183,8 @@ func (eim *egressIPManager) poll(stop chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	retry := false
 	for {
 		select {
@@ -190,6 +200,8 @@ func (eim *egressIPManager) poll(stop chan struct{}) {
 	}
 }
 func (eim *egressIPManager) check(retrying bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,8 +262,12 @@ func (eim *egressIPManager) ClaimEgressIP(vnid uint32, egressIP, nodeIP string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (eim *egressIPManager) ReleaseEgressIP(egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -282,6 +298,8 @@ func (eim *egressIPManager) SetNamespaceEgressNormal(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (eim *egressIPManager) SetNamespaceEgressDropped(vnid uint32) {
 	_logClusterCodePath()
@@ -298,8 +316,12 @@ func (eim *egressIPManager) SetNamespaceEgressDropped(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (eim *egressIPManager) SetNamespaceEgressViaEgressIP(vnid uint32, egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

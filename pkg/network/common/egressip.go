@@ -75,9 +75,13 @@ func NewEgressIPTracker(watcher EgressIPWatcher) *EgressIPTracker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &EgressIPTracker{watcher: watcher, nodes: make(map[ktypes.UID]*nodeEgress), nodesByNodeIP: make(map[string]*nodeEgress), namespacesByVNID: make(map[uint32]*namespaceEgress), egressIPs: make(map[string]*egressIPInfo), changedEgressIPs: make(map[*egressIPInfo]bool), changedNamespaces: make(map[*namespaceEgress]bool)}
 }
 func (eit *EgressIPTracker) Start(hostSubnetInformer networkinformers.HostSubnetInformer, netNamespaceInformer networkinformers.NetNamespaceInformer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func (eit *EgressIPTracker) Start(hostSubnetInformer networkinformers.HostSubnet
 	eit.watchNetNamespaces(netNamespaceInformer)
 }
 func (eit *EgressIPTracker) ensureEgressIPInfo(egressIP string) *egressIPInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +138,8 @@ func (eit *EgressIPTracker) egressIPChanged(eg *egressIPInfo) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit.changedEgressIPs[eg] = true
 	for _, ns := range eg.namespaces {
 		eit.changedNamespaces[ns] = true
@@ -152,11 +160,15 @@ func (eit *EgressIPTracker) addNodeEgressIP(node *nodeEgress, egressIP string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eg := eit.ensureEgressIPInfo(egressIP)
 	eg.nodes = append(eg.nodes, node)
 	eit.egressIPChanged(eg)
 }
 func (eit *EgressIPTracker) deleteNodeEgressIP(node *nodeEgress, egressIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,11 +210,15 @@ func (eit *EgressIPTracker) addNamespaceEgressIP(ns *namespaceEgress, egressIP s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eg := eit.ensureEgressIPInfo(egressIP)
 	eg.namespaces = append(eg.namespaces, ns)
 	eit.egressIPChanged(eg)
 }
 func (eit *EgressIPTracker) deleteNamespaceEgressIP(ns *namespaceEgress, egressIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,10 +260,14 @@ func (eit *EgressIPTracker) watchHostSubnets(hostSubnetInformer networkinformers
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := InformerFuncs(&networkapi.HostSubnet{}, eit.handleAddOrUpdateHostSubnet, eit.handleDeleteHostSubnet)
 	hostSubnetInformer.Informer().AddEventHandler(funcs)
 }
 func (eit *EgressIPTracker) handleAddOrUpdateHostSubnet(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -281,6 +301,8 @@ func (eit *EgressIPTracker) handleDeleteHostSubnet(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hs := obj.(*networkapi.HostSubnet)
 	klog.V(5).Infof("Watch %s event for HostSubnet %q", watch.Deleted, hs.Name)
 	hs = hs.DeepCopy()
@@ -289,6 +311,8 @@ func (eit *EgressIPTracker) handleDeleteHostSubnet(obj interface{}) {
 	eit.UpdateHostSubnetEgress(hs)
 }
 func (eit *EgressIPTracker) UpdateHostSubnetEgress(hs *networkapi.HostSubnet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,10 +406,14 @@ func (eit *EgressIPTracker) watchNetNamespaces(netNamespaceInformer networkinfor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := InformerFuncs(&networkapi.NetNamespace{}, eit.handleAddOrUpdateNetNamespace, eit.handleDeleteNetNamespace)
 	netNamespaceInformer.Informer().AddEventHandler(funcs)
 }
 func (eit *EgressIPTracker) handleAddOrUpdateNetNamespace(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -419,11 +447,15 @@ func (eit *EgressIPTracker) handleDeleteNetNamespace(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	netns := obj.(*networkapi.NetNamespace)
 	klog.V(5).Infof("Watch %s event for NetNamespace %q", watch.Deleted, netns.Name)
 	eit.DeleteNetNamespaceEgress(netns.NetID)
 }
 func (eit *EgressIPTracker) UpdateNetNamespaceEgress(netns *networkapi.NetNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -481,9 +513,13 @@ func (eit *EgressIPTracker) DeleteNetNamespaceEgress(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit.UpdateNetNamespaceEgress(&networkapi.NetNamespace{NetID: vnid})
 }
 func (eit *EgressIPTracker) egressIPActive(eg *egressIPInfo) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -516,6 +552,8 @@ func (eit *EgressIPTracker) egressIPActive(eg *egressIPInfo) (bool, error) {
 	return true, nil
 }
 func (eit *EgressIPTracker) syncEgressIPs() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -571,6 +609,8 @@ func (eit *EgressIPTracker) syncEgressNodeState(eg *egressIPInfo, active bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if active && eg.assignedNodeIP != eg.nodes[0].nodeIP {
 		klog.V(4).Infof("Assigning egress IP %s to node %s", eg.ip, eg.nodes[0].nodeIP)
 		eg.assignedNodeIP = eg.nodes[0].nodeIP
@@ -585,6 +625,8 @@ func (eit *EgressIPTracker) syncEgressNodeState(eg *egressIPInfo, active bool) {
 	}
 }
 func (eit *EgressIPTracker) syncEgressNamespaceState(ns *namespaceEgress) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -654,6 +696,8 @@ func (eit *EgressIPTracker) SetNodeOffline(nodeIP string, offline bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eit.Lock()
 	defer eit.Unlock()
 	node := eit.nodesByNodeIP[nodeIP]
@@ -673,6 +717,8 @@ func (eit *EgressIPTracker) SetNodeOffline(nodeIP string, offline bool) {
 	eit.syncEgressIPs()
 }
 func (eit *EgressIPTracker) lookupNodeIP(ip string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -709,6 +755,8 @@ func (eit *EgressIPTracker) Ping(ip string, timeout time.Duration) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip = eit.lookupNodeIP(ip)
 	conn, err := net.DialTimeout("tcp", ip+":9", timeout)
 	if conn != nil {
@@ -725,6 +773,8 @@ func (eit *EgressIPTracker) Ping(ip string, timeout time.Duration) bool {
 	return true
 }
 func (eit *EgressIPTracker) findEgressIPAllocation(ip net.IP, allocation map[string][]string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -776,6 +826,8 @@ func (eit *EgressIPTracker) makeEmptyAllocation() (map[string][]string, map[stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allocation := make(map[string][]string)
 	alreadyAllocated := make(map[string]bool)
 	for egressIP, eip := range eit.egressIPs {
@@ -790,6 +842,8 @@ func (eit *EgressIPTracker) makeEmptyAllocation() (map[string][]string, map[stri
 	return allocation, alreadyAllocated
 }
 func (eit *EgressIPTracker) allocateExistingEgressIPs(allocation map[string][]string, alreadyAllocated map[string]bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -846,6 +900,8 @@ func (eit *EgressIPTracker) allocateNewEgressIPs(allocation map[string][]string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for egressIP, eip := range eit.egressIPs {
 		if alreadyAllocated[egressIP] {
 			continue
@@ -867,6 +923,8 @@ func (eit *EgressIPTracker) allocateNewEgressIPs(allocation map[string][]string,
 	}
 }
 func (eit *EgressIPTracker) ReallocateEgressIPs() map[string][]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

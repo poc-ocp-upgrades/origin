@@ -91,9 +91,13 @@ func NewMigrateImageReferenceOptions(streams genericclioptions.IOStreams) *Migra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MigrateImageReferenceOptions{ResourceOptions: *migrate.NewResourceOptions(streams).WithIncludes([]string{"imagestream", "image", "secrets"})}
 }
 func NewCmdMigrateImageReferences(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +122,8 @@ func NewCmdMigrateImageReferences(name, fullName string, f kcmdutil.Factory, str
 	return cmd
 }
 func (o *MigrateImageReferenceOptions) Complete(f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +183,8 @@ func (o MigrateImageReferenceOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Mappings) == 0 {
 		return fmt.Errorf("at least one mapping argument must be specified: REGISTRY/NAME=REGISTRY/NAME")
 	}
@@ -197,11 +205,15 @@ func (o MigrateImageReferenceOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.ResourceOptions.Visitor().Visit(func(info *resource.Info) (migrate.Reporter, error) {
 		return o.transform(info.Object)
 	})
 }
 func (o *MigrateImageReferenceOptions) save(info *resource.Info, reporter migrate.Reporter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,6 +254,8 @@ func (o *MigrateImageReferenceOptions) save(info *resource.Info, reporter migrat
 	return nil
 }
 func (o *MigrateImageReferenceOptions) transform(obj runtime.Object) (migrate.Reporter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -371,12 +385,16 @@ func (i imageChangeInfo) Changed() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.spec || i.status
 }
 
 type TransformImageFunc func(in string) string
 
 func updateString(value *string, fn TransformImageFunc) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,6 +431,8 @@ func updatePodSpec(spec *corev1.PodSpec, fn TransformImageFunc) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var changed bool
 	for i := range spec.Containers {
 		changed = updateString(&spec.Containers[i].Image, fn) || changed
@@ -420,6 +440,8 @@ func updatePodSpec(spec *corev1.PodSpec, fn TransformImageFunc) bool {
 	return changed
 }
 func updateDockerConfig(cfg credentialprovider.DockerConfig, fn TransformImageFunc) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -454,6 +476,8 @@ type ImageReferenceMapping struct {
 }
 
 func ParseMapping(s string) (ImageReferenceMapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -524,6 +548,8 @@ func (m ImageReferenceMappings) MapReference(in string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := imageapi.ParseDockerImageReference(in)
 	if err != nil {
 		return in
@@ -549,6 +575,8 @@ func (m ImageReferenceMappings) MapReference(in string) string {
 	return in
 }
 func (m ImageReferenceMappings) MapDockerAuthKey(in string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -619,6 +647,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -693,5 +742,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -25,6 +25,8 @@ func TestScheduler(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keys := []string{}
 	s := newScheduler(2, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {
 		keys = append(keys, key.(string))
@@ -66,6 +68,8 @@ func TestScheduler(t *testing.T) {
 	}
 }
 func TestSchedulerAddAndDelay(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +139,8 @@ func TestSchedulerRemove(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := newScheduler(2, flowcontrol.NewFakeAlwaysRateLimiter(), func(key, value interface{}) {
 	})
 	s.Add("test", "other")
@@ -179,9 +185,13 @@ func (h int64Heap) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(h)
 }
 func (h int64Heap) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -213,6 +223,8 @@ func (h int64Heap) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h[i], h[j] = h[j], h[i]
 }
 func (h *int64Heap) Push(x interface{}) {
@@ -230,9 +242,13 @@ func (h *int64Heap) Push(x interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*h = append(*h, x.(int64))
 }
 func (h *int64Heap) Pop() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,9 +287,13 @@ func (c wallClock) Now() time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return time.Now()
 }
 func (c wallClock) Sleep(d time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,9 +335,13 @@ func newFakeClock(threads int) flowcontrol.Clock {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeClock{threads: threads, c: sync.Cond{L: &sync.Mutex{}}}
 }
 func (c *fakeClock) Now() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -351,6 +375,8 @@ func (c *fakeClock) Sleep(d time.Duration) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.c.L.Lock()
 	defer c.c.L.Unlock()
 	wake := c.now + int64(d)
@@ -367,6 +393,8 @@ func (c *fakeClock) Sleep(d time.Duration) {
 	}
 }
 func TestSchedulerSanity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

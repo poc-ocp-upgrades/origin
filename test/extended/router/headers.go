@@ -100,10 +100,14 @@ func dumpRouterHeadersLogs(oc *exutil.CLI, name string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	log, _ := e2e.GetPodLogs(oc.AdminKubeClient(), oc.KubeFramework().Namespace.Name, "router-headers", "router")
 	e2e.Logf("Weighted Router test %s logs:\n %s", name, log)
 }
 func getRoutePayloadExec(ns, execPodName, url, host string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

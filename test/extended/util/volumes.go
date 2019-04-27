@@ -22,6 +22,8 @@ func DeletePVCsForDeployment(client clientset.Interface, oc *CLI, deploymentPref
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pvclist, err := client.CoreV1().PersistentVolumeClaims(oc.Namespace()).List(metav1.ListOptions{})
 	if err != nil {
 		e2e.Logf("pvc list error %#v\n", err)
@@ -39,6 +41,8 @@ func DeletePVCsForDeployment(client clientset.Interface, oc *CLI, deploymentPref
 	}
 }
 func DumpPersistentVolumeInfo(oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

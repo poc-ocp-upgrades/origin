@@ -40,6 +40,8 @@ func NewClusterQuotaMappingController(namespaceInformer corev1informers.Namespac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := newClusterQuotaMappingController(namespaceInformer.Informer(), quotaInformer)
 	c.namespaceLister = v1NamespaceLister{lister: namespaceInformer.Lister()}
 	return c
@@ -52,6 +54,8 @@ type namespaceLister interface {
 type v1NamespaceLister struct{ lister corev1listers.NamespaceLister }
 
 func (l v1NamespaceLister) Each(label labels.Selector, fn func(metav1.Object) bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,9 +96,13 @@ func (l v1NamespaceLister) Get(name string) (metav1.Object, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.lister.Get(name)
 }
 func newClusterQuotaMappingController(namespaceInformer cache.SharedIndexInformer, quotaInformer quotainformer.ClusterResourceQuotaInformer) *ClusterQuotaMappingController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,9 +151,13 @@ func (c *ClusterQuotaMappingController) GetClusterQuotaMapper() ClusterQuotaMapp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.clusterQuotaMapper
 }
 func (c *ClusterQuotaMappingController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +189,8 @@ func (c *ClusterQuotaMappingController) Run(workers int, stopCh <-chan struct{})
 	<-stopCh
 }
 func (c *ClusterQuotaMappingController) syncQuota(quota *quotav1.ClusterResourceQuota) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +241,8 @@ func (c *ClusterQuotaMappingController) syncQuota(quota *quotav1.ClusterResource
 	return nil
 }
 func (c *ClusterQuotaMappingController) syncNamespace(namespace metav1.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +309,8 @@ func (c *ClusterQuotaMappingController) quotaWork() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, quit := c.quotaQueue.Get()
 	if quit {
 		return true
@@ -335,6 +353,8 @@ func (c *ClusterQuotaMappingController) quotaWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := c.quotaWork(); quit {
 			return
@@ -342,6 +362,8 @@ func (c *ClusterQuotaMappingController) quotaWorker() {
 	}
 }
 func (c *ClusterQuotaMappingController) namespaceWork() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -398,6 +420,8 @@ func (c *ClusterQuotaMappingController) namespaceWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := c.namespaceWork(); quit {
 			return
@@ -405,6 +429,8 @@ func (c *ClusterQuotaMappingController) namespaceWorker() {
 	}
 }
 func (c *ClusterQuotaMappingController) deleteNamespace(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -452,6 +478,8 @@ func (c *ClusterQuotaMappingController) addNamespace(cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueNamespace(cur)
 }
 func (c *ClusterQuotaMappingController) updateNamespace(old, cur interface{}) {
@@ -469,9 +497,13 @@ func (c *ClusterQuotaMappingController) updateNamespace(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueNamespace(cur)
 }
 func (c *ClusterQuotaMappingController) enqueueNamespace(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -517,6 +549,8 @@ func (c *ClusterQuotaMappingController) deleteQuota(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quota, ok1 := obj.(*quotav1.ClusterResourceQuota)
 	if !ok1 {
 		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
@@ -533,6 +567,8 @@ func (c *ClusterQuotaMappingController) deleteQuota(obj interface{}) {
 	c.clusterQuotaMapper.removeQuota(quota.Name)
 }
 func (c *ClusterQuotaMappingController) addQuota(cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -564,9 +600,13 @@ func (c *ClusterQuotaMappingController) updateQuota(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueQuota(cur)
 }
 func (c *ClusterQuotaMappingController) enqueueQuota(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -611,6 +651,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -685,5 +746,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

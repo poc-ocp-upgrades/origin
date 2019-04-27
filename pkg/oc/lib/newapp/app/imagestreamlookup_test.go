@@ -30,6 +30,8 @@ func testImageStreamClient(imageStreams *imagev1.ImageStreamList, images map[str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fake := &imagefake.Clientset{}
 	fake.AddReactor("list", "imagestreams", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, imageStreams, nil
@@ -40,6 +42,8 @@ func testImageStreamClient(imageStreams *imagev1.ImageStreamList, images map[str
 	return fake.ImageV1()
 }
 func TestImageStreamByAnnotationSearcherAndResolver(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ func TestImageStreamByAnnotationSearcherAndResolver(t *testing.T) {
 	}
 }
 func TestImageStreamSearcher(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +152,8 @@ func TestMatchSupportsAnnotation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name, value, annotation	string
 		expectedMatch		bool
@@ -163,6 +171,8 @@ func TestMatchSupportsAnnotation(t *testing.T) {
 	}
 }
 func TestAnnotationMatches(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -223,6 +233,8 @@ func fakeImageStreams(descs ...*fakeImageStreamDesc) (*imagev1.ImageStreamList, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	streams := &imagev1.ImageStreamList{Items: []imagev1.ImageStream{}}
 	allImages := map[string]*imagev1.ImageStreamImage{}
 	for _, desc := range descs {
@@ -235,6 +247,8 @@ func fakeImageStreams(descs ...*fakeImageStreamDesc) (*imagev1.ImageStreamList, 
 	return streams, allImages
 }
 func fakeImageStream(desc *fakeImageStreamDesc) (*imagev1.ImageStream, map[string]*imagev1.ImageStreamImage) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,6 +279,8 @@ func fakeImageStream(desc *fakeImageStreamDesc) (*imagev1.ImageStream, map[strin
 	return stream, images
 }
 func TestInputImageFromMatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

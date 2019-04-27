@@ -21,6 +21,8 @@ func TestRun(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := int32(0)
 	errs := Run(func() error {
 		atomic.AddInt32(&i, 1)

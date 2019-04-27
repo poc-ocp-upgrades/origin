@@ -26,10 +26,14 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(GroupVersion, &ClusterResourceOverrideConfig{})
 	return nil
 }
 func (obj *ClusterResourceOverrideConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

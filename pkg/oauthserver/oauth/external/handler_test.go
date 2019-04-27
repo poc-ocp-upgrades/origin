@@ -26,11 +26,15 @@ func TestHandler(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	redirectors := new(handlers.AuthenticationRedirectors)
 	redirectors.Add("handler", &Handler{})
 	_ = handlers.NewUnionAuthenticationHandler(nil, redirectors, nil, nil)
 }
 func TestRedirectingStateValidCSRF(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func TestRedirectingStateInvalidCSRF(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeCSRF := &csrf.FakeCSRF{Token: "xyz"}
 	redirectingState := CSRFRedirectingState(fakeCSRF)
 	req, _ := http.NewRequest("GET", "http://www.example.com", nil)
@@ -93,6 +99,8 @@ func TestRedirectingStateInvalidCSRF(t *testing.T) {
 	}
 }
 func TestRedirectingStateSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +152,8 @@ func TestRedirectingStateOAuthError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	originalURL := "http://www.example.com"
 	expectedURL := "http://www.example.com?error=access_denied"
 	fakeCSRF := &csrf.FakeCSRF{Token: "xyz"}
@@ -168,6 +178,8 @@ func TestRedirectingStateOAuthError(t *testing.T) {
 	}
 }
 func TestRedirectingStateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

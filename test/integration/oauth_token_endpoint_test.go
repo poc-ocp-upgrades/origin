@@ -29,6 +29,8 @@ func TestOAuthRequestTokenEndpoint(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -95,6 +97,8 @@ func getTokenFromDisplay(t *testing.T, body []byte) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tokenizer := html.NewTokenizer(bytes.NewReader(body))
 	var seenCode bool
 	for tokenType := tokenizer.Next(); tokenType != html.ErrorToken; tokenType = tokenizer.Next() {
@@ -110,6 +114,8 @@ func getTokenFromDisplay(t *testing.T, body []byte) string {
 	return ""
 }
 func checkNewReqAndRoundTrip(t *testing.T, rt http.RoundTripper, url string, doBasicAuth bool, expectedCode int) ([]byte, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

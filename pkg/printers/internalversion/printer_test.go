@@ -39,6 +39,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install.InstallInternalOpenShift(legacyscheme.Scheme)
 }
 
@@ -46,6 +48,8 @@ var PrinterCoverageExceptions = []reflect.Type{reflect.TypeOf(&imageapi.DockerIm
 var MissingPrinterCoverageExceptions = []reflect.Type{reflect.TypeOf(&appsapi.DeploymentConfigRollback{}), reflect.TypeOf(&imageapi.ImageStreamMapping{}), reflect.TypeOf(&imageapi.ImageStreamLayers{}), reflect.TypeOf(&projectapi.ProjectRequest{})}
 
 func TestPrinterCoverage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +107,8 @@ func TestFormatResourceName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		kind	schema.GroupKind
 		name	string
@@ -129,9 +135,13 @@ func mockRoleBindingRestriction() []*authorizationapi.RoleBindingRestriction {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*authorizationapi.RoleBindingRestriction{{ObjectMeta: metav1.ObjectMeta{Name: "match-serviceaccount"}, Spec: authorizationapi.RoleBindingRestrictionSpec{ServiceAccountRestriction: &authorizationapi.ServiceAccountRestriction{Namespaces: []string{""}}}}}
 }
 func TestPrintRoleBindingRestriction(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +192,8 @@ func TestPrintImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := bytes.NewBuffer([]byte{})
 	streams := mockStreams()
 	tests := []struct {
@@ -218,9 +230,13 @@ func mockStreams() []*imageapi.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*imageapi.ImageStream{{ObjectMeta: metav1.ObjectMeta{Name: "less-than-three-tags"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"other": {Items: []imageapi.TagEvent{{DockerImageReference: "other-ref", Created: metav1.Date(2015, 9, 4, 13, 52, 0, 0, time.UTC), Image: "other-image"}}}, "latest": {Items: []imageapi.TagEvent{{DockerImageReference: "latest-ref", Created: metav1.Date(2015, 9, 4, 13, 53, 0, 0, time.UTC), Image: "latest-image"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "three-tags"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"other": {Items: []imageapi.TagEvent{{DockerImageReference: "other-ref", Created: metav1.Date(2015, 9, 4, 13, 52, 0, 0, time.UTC), Image: "other-image"}}}, "latest": {Items: []imageapi.TagEvent{{DockerImageReference: "latest-ref", Created: metav1.Date(2015, 9, 4, 13, 53, 0, 0, time.UTC), Image: "latest-image"}}}, "third": {Items: []imageapi.TagEvent{{DockerImageReference: "third-ref", Created: metav1.Date(2015, 9, 4, 13, 54, 0, 0, time.UTC), Image: "third-image"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "more-than-three-tags"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"other": {Items: []imageapi.TagEvent{{DockerImageReference: "other-ref", Created: metav1.Date(2015, 9, 4, 13, 52, 0, 0, time.UTC), Image: "other-image"}}}, "latest": {Items: []imageapi.TagEvent{{DockerImageReference: "latest-ref", Created: metav1.Date(2015, 9, 4, 13, 53, 0, 0, time.UTC), Image: "latest-image"}}}, "third": {Items: []imageapi.TagEvent{{DockerImageReference: "third-ref", Created: metav1.Date(2015, 9, 4, 13, 54, 0, 0, time.UTC), Image: "third-image"}}}, "another": {Items: []imageapi.TagEvent{{DockerImageReference: "another-ref", Created: metav1.Date(2015, 9, 4, 13, 54, 0, 0, time.UTC), Image: "another-image"}}}}}}}
 }
 func TestPrintTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -254,6 +270,8 @@ func TestPrintTemplate(t *testing.T) {
 	}
 }
 func Test_printTagsUpToWidth(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

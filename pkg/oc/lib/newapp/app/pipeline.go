@@ -51,6 +51,8 @@ func NewPipelineBuilder(name string, environment Environment, dockerStrategyOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &pipelineBuilder{nameGenerator: NewUniqueNameGenerator(name), environment: environment, outputDocker: outputDocker, dockerStrategyOptions: dockerStrategyOptions}
 }
 
@@ -77,10 +79,14 @@ func (pb *pipelineBuilder) To(name string) PipelineBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pb.to = name
 	return pb
 }
 func (pb *pipelineBuilder) NewBuildPipeline(from string, input *ImageRef, sourceRepository *SourceRepository, binary bool) (*Pipeline, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +159,8 @@ func (pb *pipelineBuilder) NewImagePipeline(from string, input *ImageRef) (*Pipe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, err := pb.nameGenerator.Generate(input)
 	if err != nil {
 		return nil, err
@@ -186,6 +194,8 @@ func (p *Pipeline) NeedsDeployment(env Environment, labels map[string]string, as
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.Deployment != nil {
 		return nil
 	}
@@ -193,6 +203,8 @@ func (p *Pipeline) NeedsDeployment(env Environment, labels map[string]string, as
 	return nil
 }
 func (p *Pipeline) Objects(accept, objectAccept Acceptor) (Objects, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +301,8 @@ func (g PipelineGroup) Reduce() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var deployment *DeploymentConfigRef
 	for _, p := range g {
 		if p.Deployment == nil || p.Deployment == deployment {
@@ -319,6 +333,8 @@ func (g PipelineGroup) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := []string{}
 	for _, p := range g {
 		s = append(s, p.From)
@@ -326,6 +342,8 @@ func (g PipelineGroup) String() string {
 	return strings.Join(s, "+")
 }
 func MakeSimpleName(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -368,6 +386,8 @@ func makeValidServiceName(name string) (string, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(validation.ValidateServiceName(name, false)) == 0 {
 		return name, ""
 	}
@@ -381,6 +401,8 @@ func makeValidServiceName(name string) (string, string) {
 type sortablePorts []corev1.ContainerPort
 
 func (s sortablePorts) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -412,6 +434,8 @@ func (s sortablePorts) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s sortablePorts) Less(i, j int) bool {
@@ -429,9 +453,13 @@ func (s sortablePorts) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s[i].ContainerPort < s[j].ContainerPort
 }
 func portName(port int, protocol corev1.Protocol) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,11 +494,15 @@ func GenerateService(meta metav1.ObjectMeta, selector map[string]string) *corev1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, generateName := makeValidServiceName(meta.Name)
 	svc := &corev1.Service{TypeMeta: metav1.TypeMeta{APIVersion: corev1.SchemeGroupVersion.String(), Kind: "Service"}, ObjectMeta: metav1.ObjectMeta{Name: name, GenerateName: generateName, Labels: meta.Labels}, Spec: corev1.ServiceSpec{Selector: selector}}
 	return svc
 }
 func AllContainerPorts(containers ...corev1.Container) []corev1.ContainerPort {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -507,6 +539,8 @@ func UniqueContainerToServicePorts(ports []corev1.ContainerPort) []corev1.Servic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []corev1.ServicePort
 	svcPorts := map[string]struct{}{}
 	for _, p := range ports {
@@ -521,6 +555,8 @@ func UniqueContainerToServicePorts(ports []corev1.ContainerPort) []corev1.Servic
 	return result
 }
 func AddServices(objects Objects, firstPortOnly bool) Objects {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -577,6 +613,8 @@ func addService(containers []corev1.Container, objectMeta metav1.ObjectMeta, sel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ports := UniqueContainerToServicePorts(AllContainerPorts(containers...))
 	if len(ports) == 0 {
 		return nil
@@ -589,6 +627,8 @@ func addService(containers []corev1.Container, objectMeta metav1.ObjectMeta, sel
 	return svc
 }
 func AddRoutes(objects Objects) Objects {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -632,6 +672,8 @@ func (acceptNew) Accept(from interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, meta, err := objectMetaData(from)
 	if err != nil {
 		return false
@@ -648,6 +690,8 @@ type acceptUnique struct {
 }
 
 func (a *acceptUnique) Accept(from interface{}) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -693,6 +737,8 @@ func NewAcceptUnique(typer runtime.ObjectTyper) Acceptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &acceptUnique{typer: typer, objects: map[string]struct{}{}}
 }
 
@@ -703,6 +749,8 @@ type acceptNonExistentImageStream struct {
 }
 
 func (a *acceptNonExistentImageStream) Accept(from interface{}) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -760,6 +808,8 @@ func NewAcceptNonExistentImageStream(typer runtime.ObjectTyper, getter imagev1ty
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &acceptNonExistentImageStream{typer: typer, getter: getter, namespace: namespace}
 }
 
@@ -770,6 +820,8 @@ type acceptNonExistentImageStreamTag struct {
 }
 
 func (a *acceptNonExistentImageStreamTag) Accept(from interface{}) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -827,9 +879,13 @@ func NewAcceptNonExistentImageStreamTag(typer runtime.ObjectTyper, getter imagev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &acceptNonExistentImageStreamTag{typer: typer, getter: getter, namespace: namespace}
 }
 func objectMetaData(raw interface{}) (runtime.Object, metav1.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -872,6 +928,8 @@ func (a *acceptBuildConfigs) Accept(from interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, _, err := objectMetaData(from)
 	if err != nil {
 		return false
@@ -898,12 +956,16 @@ func NewAcceptBuildConfigs(typer runtime.ObjectTyper) Acceptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &acceptBuildConfigs{typer: typer}
 }
 
 type Acceptors []Acceptor
 
 func (aa Acceptors) Accept(from interface{}) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -945,6 +1007,8 @@ func (acceptAll) Accept(_ interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 
@@ -967,9 +1031,13 @@ func NewAcceptFirst() Acceptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &acceptFirst{make(map[interface{}]struct{})}
 }
 func (s *acceptFirst) Accept(from interface{}) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

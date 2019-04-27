@@ -28,10 +28,14 @@ func GivenRequest(method string) *http.Request {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest(method, "http://someurl.com", nil)
 	return req
 }
 func TestVerifyRequestForMethod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func TestMissingEvent(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequest("POST")
 	req.Header.Add("Content-Type", "application/json")
 	plugin := New()
@@ -89,6 +95,8 @@ func TestMissingEvent(t *testing.T) {
 	}
 }
 func TestWrongGitLabEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +141,8 @@ func TestJsonPushEventError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := post("X-Gitlab-Event", "Push Hook", []byte{}, "http://some.url", http.StatusBadRequest, t)
 	plugin := New()
 	revision, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].GitLabWebHook, req)
@@ -147,6 +157,8 @@ func TestJsonPushEventError(t *testing.T) {
 	}
 }
 func TestJsonGitLabPushEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,6 +198,8 @@ func TestJsonGitLabPushEventWithCharset(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := postFileWithCharset("X-Gitlab-Event", "Push Hook", "pushevent.json", "http://some.url", "application/json; charset=utf-8", http.StatusOK, t)
 	plugin := New()
 	_, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].GitLabWebHook, req)
@@ -211,9 +225,13 @@ func postFile(eventHeader, eventName, filename, url string, expStatusCode int, t
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return postFileWithCharset(eventHeader, eventName, filename, url, "application/json", expStatusCode, t)
 }
 func postFileWithCharset(eventHeader, eventName, filename, url, charset string, expStatusCode int, t *testing.T) *http.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,9 +267,13 @@ func post(eventHeader, eventName string, data []byte, url string, expStatusCode 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return postWithCharset(eventHeader, eventName, data, url, "application/json", expStatusCode, t)
 }
 func postWithCharset(eventHeader, eventName string, data []byte, url, charset string, expStatusCode int, t *testing.T) *http.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +319,8 @@ func setup(t *testing.T, filename, eventType, ref string) *testContext {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	context := testContext{plugin: WebHookPlugin{}, buildCfg: &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret101"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret102"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "git://github.com/my/repo.git", Ref: ref}}, Strategy: mockBuildStrategy}}}, path: "/foobar"}
 	event, err := ioutil.ReadFile("testdata/" + filename)
 	if err != nil {
@@ -312,6 +336,8 @@ func setup(t *testing.T, filename, eventType, ref string) *testContext {
 	return &context
 }
 func TestExtractProvidesValidBuildForAPushEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -356,6 +382,8 @@ func TestExtractProvidesValidBuildForAPushEventOtherThanMaster(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	context := setup(t, "pushevent-not-master-branch.json", "Push Hook", "my_other_branch")
 	revision, _, _, proceed, err := context.plugin.Extract(context.buildCfg, buildConfig.Spec.Triggers[0].GitLabWebHook, context.req)
 	if err != nil {
@@ -372,6 +400,8 @@ func TestExtractProvidesValidBuildForAPushEventOtherThanMaster(t *testing.T) {
 	}
 }
 func TestExtractSkipsBuildForUnmatchedBranches(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -26,6 +26,8 @@ func TestKubectlCompatibility(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oc := NewOcCommand("oc", "oc", &bytes.Buffer{}, ioutil.Discard, ioutil.Discard)
 	kubectl := kcmd.NewKubectlCommand(nil, ioutil.Discard, ioutil.Discard)
 kubectlLoop:
@@ -50,6 +52,8 @@ kubectlLoop:
 	}
 }
 func TestValidateDisabled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

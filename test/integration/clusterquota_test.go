@@ -34,6 +34,8 @@ func TestClusterQuota(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -169,6 +171,8 @@ func waitForQuotaLabeling(clusterAdminClient quotaclient.Interface, namespaceNam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return utilwait.PollImmediate(100*time.Millisecond, 10*time.Second, func() (done bool, err error) {
 		list, err := clusterAdminClient.QuotaV1().AppliedClusterResourceQuotas(namespaceName).List(metav1.ListOptions{})
 		if err != nil {
@@ -181,6 +185,8 @@ func waitForQuotaLabeling(clusterAdminClient quotaclient.Interface, namespaceNam
 	})
 }
 func labelNamespace(clusterAdminKubeClient corev1client.NamespacesGetter, namespaceName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +215,8 @@ func labelNamespace(clusterAdminKubeClient corev1client.NamespacesGetter, namesp
 	return nil
 }
 func waitForQuotaStatus(clusterAdminClient quotaclient.Interface, name string, conditionFn func(*quotav1.ClusterResourceQuota) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

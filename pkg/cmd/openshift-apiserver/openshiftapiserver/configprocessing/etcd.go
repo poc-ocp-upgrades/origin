@@ -25,6 +25,8 @@ func GetEtcdOptions(startingFlags map[string][]string, serializedConfig configv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storageConfig := storagebackend.NewDefaultConfig(serializedConfig.StoragePrefix, nil)
 	storageConfig.Type = "etcd3"
 	storageConfig.ServerList = serializedConfig.URLs

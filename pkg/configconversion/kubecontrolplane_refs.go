@@ -20,6 +20,8 @@ func GetKubeAPIServerConfigFileReferences(config *kubecontrolplanev1.KubeAPIServ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == nil {
 		return []*string{}
 	}
@@ -48,6 +50,8 @@ func GetKubeAPIServerConfigFileReferences(config *kubecontrolplanev1.KubeAPIServ
 	return refs
 }
 func GetKubeletConnectionInfoFileReferences(config *kubecontrolplanev1.KubeletConnectionInfo) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

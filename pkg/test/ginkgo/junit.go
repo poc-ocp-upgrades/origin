@@ -72,6 +72,8 @@ func writeJUnitReport(name string, tests []*testCase, dir string, duration time.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &JUnitTestSuite{Name: name, Duration: duration.Seconds()}
 	for _, test := range tests {
 		switch {
@@ -121,6 +123,8 @@ func lastLinesUntil(output string, max int, until ...string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	output = strings.TrimSpace(output)
 	index := len(output) - 1
 	if index < 0 || max == 0 {
@@ -143,6 +147,8 @@ func lastLinesUntil(output string, max int, until ...string) string {
 	return strings.TrimSpace(output[index:])
 }
 func stringStartsWithAny(s string, contains []string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

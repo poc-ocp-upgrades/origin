@@ -58,6 +58,8 @@ func NewImageStreamImporter(retriever RepositoryRetriever, maximumTagsPerRepo in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if limiter == nil {
 		limiter = flowcontrol.NewFakeAlwaysRateLimiter()
 	}
@@ -67,6 +69,8 @@ func NewImageStreamImporter(retriever RepositoryRetriever, maximumTagsPerRepo in
 	return &ImageStreamImporter{maximumTagsPerRepo: maximumTagsPerRepo, retriever: retriever, limiter: limiter, digestToRepositoryCache: make(map[gocontext.Context]map[manifestKey]*imageapi.Image), digestToLayerSizeCache: cache}
 }
 func (i *ImageStreamImporter) Import(ctx gocontext.Context, isi *imageapi.ImageStreamImport, stream *imageapi.ImageStream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func (i *ImageStreamImporter) Import(ctx gocontext.Context, isi *imageapi.ImageS
 	return nil
 }
 func (i *ImageStreamImporter) importImages(ctx gocontext.Context, retriever RepositoryRetriever, isi *imageapi.ImageStreamImport, stream *imageapi.ImageStream, limiter flowcontrol.RateLimiter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +234,8 @@ func (i *ImageStreamImporter) importFromRepository(ctx gocontext.Context, retrie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if isi.Spec.Repository == nil {
 		return
 	}
@@ -315,6 +323,8 @@ func applyErrorToRepository(repository *importRepository, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repository.Err = err
 	for i := range repository.Tags {
 		repository.Tags[i].Err = err
@@ -324,6 +334,8 @@ func applyErrorToRepository(repository *importRepository, err error) {
 	}
 }
 func formatRepositoryError(ref imageapi.DockerImageReference, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -351,6 +363,8 @@ func formatRepositoryError(ref imageapi.DockerImageReference, err error) error {
 	return err
 }
 func (isi *ImageStreamImporter) calculateImageSize(ctx gocontext.Context, bs distribution.BlobStore, image *imageapi.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -409,6 +423,8 @@ func manifestFromManifestList(ctx gocontext.Context, manifestList *manifestlist.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(manifestList.Manifests) == 0 {
 		return nil, fmt.Errorf("no manifests in manifest list %s", ref.Exact())
 	}
@@ -437,6 +453,8 @@ func manifestFromManifestList(ctx gocontext.Context, manifestList *manifestlist.
 	return manifest, err
 }
 func (isi *ImageStreamImporter) importManifest(ctx gocontext.Context, manifest distribution.Manifest, ref imageapi.DockerImageReference, d godigest.Digest, s distribution.ManifestService, b distribution.BlobStore, preferArch, preferOS string) (image *imageapi.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -484,6 +502,8 @@ func (isi *ImageStreamImporter) importManifest(ctx gocontext.Context, manifest d
 	return
 }
 func (isi *ImageStreamImporter) importRepositoryFromDocker(ctx gocontext.Context, retriever RepositoryRetriever, repository *importRepository, limiter flowcontrol.RateLimiter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -605,6 +625,8 @@ func (isi *ImageStreamImporter) importRepositoryFromDocker(ctx gocontext.Context
 	}
 }
 func importRepositoryFromDockerV1(ctx gocontext.Context, repository *importRepository, limiter flowcontrol.RateLimiter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -748,6 +770,8 @@ func imageImportStatus(err error, kind, position string) metav1.Status {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := err.(type) {
 	case kapierrors.APIStatus:
 		return t.Status()
@@ -772,10 +796,14 @@ func setImageImportStatus(images *imageapi.ImageStreamImport, i int, tag string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	images.Status.Images[i].Tag = tag
 	images.Status.Images[i].Status = imageImportStatus(err, "", "")
 }
 func invalidStatus(position string, errs ...*field.Error) metav1.Status {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

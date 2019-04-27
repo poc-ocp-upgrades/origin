@@ -30,6 +30,8 @@ func FindUnmountableSecrets(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for _, uncastPodSpecNode := range g.NodesByKind(kubegraph.PodSpecNodeKind) {
 		podSpecNode := uncastPodSpecNode.(*kubegraph.PodSpecNode)
@@ -62,6 +64,8 @@ func FindMissingSecrets(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for _, uncastPodSpecNode := range g.NodesByKind(kubegraph.PodSpecNodeKind) {
 		podSpecNode := uncastPodSpecNode.(*kubegraph.PodSpecNode)
@@ -75,6 +79,8 @@ func FindMissingSecrets(g osgraph.Graph, f osgraph.Namer) []osgraph.Marker {
 	return markers
 }
 func FindMissingLivenessProbes(g osgraph.Graph, f osgraph.Namer, setProbeCommand string) []osgraph.Marker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +128,8 @@ func hasLivenessProbe(podSpecNode *kubegraph.PodSpecNode) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, container := range podSpecNode.PodSpec.Containers {
 		if container.LivenessProbe != nil {
 			return true
@@ -130,6 +138,8 @@ func hasLivenessProbe(podSpecNode *kubegraph.PodSpecNode) bool {
 	return false
 }
 func hasControllerOwnerReference(node graph.Node) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,10 +180,14 @@ func hasControllerRefEdge(g osgraph.Graph, node graph.Node) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	managedEdges := g.OutboundEdges(node, appsgraph.ManagedByControllerEdgeKind)
 	return len(managedEdges) > 0
 }
 func CheckForUnmountableSecrets(g osgraph.Graph, podSpecNode *kubegraph.PodSpecNode) []*kubegraph.SecretNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +228,8 @@ func CheckForUnmountableSecrets(g osgraph.Graph, podSpecNode *kubegraph.PodSpecN
 	return unmountableSecrets
 }
 func CheckMissingMountedSecrets(g osgraph.Graph, podSpecNode *kubegraph.PodSpecNode) []*kubegraph.SecretNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

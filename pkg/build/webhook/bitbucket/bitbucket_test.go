@@ -28,9 +28,13 @@ func postFile(eventHeader, eventName, filename, url string, expStatusCode int, t
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return postFileWithCharset(eventHeader, eventName, filename, url, "application/json", expStatusCode, t)
 }
 func postFileWithCharset(eventHeader, eventName, filename, url, charset string, expStatusCode int, t *testing.T) *http.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,9 +70,13 @@ func post(eventHeader, eventName string, data []byte, url string, expStatusCode 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return postWithCharset(eventHeader, eventName, data, url, "application/json", expStatusCode, t)
 }
 func postWithCharset(eventHeader, eventName string, data []byte, url, charset string, expStatusCode int, t *testing.T) *http.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +114,8 @@ func GivenRequest(method string) *http.Request {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest(method, "http://someurl.com", nil)
 	return req
 }
@@ -118,6 +128,8 @@ type testContext struct {
 }
 
 func setup(t *testing.T, filename, eventType, ref string) *testContext {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,6 +173,8 @@ func TestVerifyRequestForMethod(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequest("GET")
 	plugin := New()
 	revision, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].BitbucketWebHook, req)
@@ -175,6 +189,8 @@ func TestVerifyRequestForMethod(t *testing.T) {
 	}
 }
 func TestMissingEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,6 +220,8 @@ func TestMissingEvent(t *testing.T) {
 	}
 }
 func TestWrongEventKey(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,6 +266,8 @@ func TestJsonPushEventError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := post("X-Event-Key", "repo:push", []byte{}, "http://some.url", http.StatusBadRequest, t)
 	plugin := New()
 	revision, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].BitbucketWebHook, req)
@@ -262,6 +282,8 @@ func TestJsonPushEventError(t *testing.T) {
 	}
 }
 func TestJsonBitbucketPushEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +323,8 @@ func TestJsonBitbucketPushEvent54(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := postFile("X-Event-Key", "repo:refs_changed", "pushevent54.json", "http://some.url", http.StatusOK, t)
 	plugin := New()
 	_, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].BitbucketWebHook, req)
@@ -312,6 +336,8 @@ func TestJsonBitbucketPushEvent54(t *testing.T) {
 	}
 }
 func TestJsonGitHubPushEventWithCharset(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -351,6 +377,8 @@ func TestJsonGitHubPushEventWithCharset54(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := postFileWithCharset("X-Event-Key", "repo:refs_changed", "pushevent54.json", "http://some.url", "application/json; charset=utf-8", http.StatusOK, t)
 	plugin := New()
 	_, _, _, proceed, err := plugin.Extract(buildConfig, buildConfig.Spec.Triggers[0].BitbucketWebHook, req)
@@ -362,6 +390,8 @@ func TestJsonGitHubPushEventWithCharset54(t *testing.T) {
 	}
 }
 func TestExtractProvidesValidBuildForAPushEvent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,6 +436,8 @@ func TestExtractProvidesValidBuildForAPushEvent54(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	context := setup(t, "pushevent54.json", "repo:refs_changed", "")
 	revision, _, _, proceed, err := context.plugin.Extract(context.buildCfg, buildConfig.Spec.Triggers[0].BitbucketWebHook, context.req)
 	if err != nil {
@@ -422,6 +454,8 @@ func TestExtractProvidesValidBuildForAPushEvent54(t *testing.T) {
 	}
 }
 func TestExtractProvidesValidBuildForAPushEventOtherThanMaster(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +500,8 @@ func TestExtractProvidesValidBuildForAPushEventOtherThanMaster54(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	context := setup(t, "pushevent54-not-master.json", "repo:refs_changed", "other")
 	revision, _, _, proceed, err := context.plugin.Extract(context.buildCfg, buildConfig.Spec.Triggers[0].BitbucketWebHook, context.req)
 	if err != nil {
@@ -482,6 +518,8 @@ func TestExtractProvidesValidBuildForAPushEventOtherThanMaster54(t *testing.T) {
 	}
 }
 func TestExtractSkipsBuildForUnmatchedBranches(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -520,6 +558,8 @@ func TestExtractSkipsBuildForUnmatchedBranches54(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	context := setup(t, "pushevent54.json", "repo:refs_changed", "wrongref")
 	_, _, _, proceed, err := context.plugin.Extract(context.buildCfg, buildConfig.Spec.Triggers[0].BitbucketWebHook, context.req)
 	if err != nil {
@@ -530,6 +570,8 @@ func TestExtractSkipsBuildForUnmatchedBranches54(t *testing.T) {
 	}
 }
 func TestExtractErrorForWrongEventPayload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -560,6 +602,8 @@ func TestExtractErrorForWrongEventPayload(t *testing.T) {
 	}
 }
 func TestExtractErrorForWrongEventPayload54(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

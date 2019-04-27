@@ -26,6 +26,8 @@ func TestUnpushableBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/unpushable-build.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -81,6 +83,8 @@ func TestPushableBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/pushable-build.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -107,6 +111,8 @@ func TestImageStreamPresent(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/prereq-image-present.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -119,6 +125,8 @@ func TestImageStreamPresent(t *testing.T) {
 	}
 }
 func TestImageStreamTagMissing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +196,8 @@ func TestImageStreamMissing(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/prereq-image-not-present.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -215,6 +225,8 @@ func TestBuildConfigNoOutput(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/bc-missing-output.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -222,6 +234,8 @@ func TestBuildConfigNoOutput(t *testing.T) {
 	buildedges.AddAllInputOutputEdges(g)
 }
 func TestCircularDeps(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -268,6 +282,8 @@ func TestPendingImageStreamTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/unpushable-build.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -288,6 +304,8 @@ func TestPendingImageStreamTag(t *testing.T) {
 	}
 }
 func TestLatestBuildFailed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

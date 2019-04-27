@@ -30,9 +30,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configinstall.InstallLegacyInternal(configapi.Scheme)
 }
 func TestClusterResourceOverridePluginWithNoLimits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,6 +73,8 @@ func TestClusterResourceOverridePluginWithNoLimits(t *testing.T) {
 	}
 }
 func TestClusterResourceOverridePluginWithLimits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +148,8 @@ func setupClusterResourceOverrideTest(t *testing.T, pluginConfig *overrideapi.Cl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -191,12 +199,16 @@ func testClusterResourceOverridePod(name string, memory string, cpu string) *cor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resources := corev1.ResourceRequirements{Limits: testResourceList(memory, cpu), Requests: corev1.ResourceList{}}
 	container := corev1.Container{Name: name, Image: "scratch", Resources: resources}
 	pod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: name}, Spec: corev1.PodSpec{Containers: []corev1.Container{container}}}
 	return pod
 }
 func testResourceList(memory string, cpu string) corev1.ResourceList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

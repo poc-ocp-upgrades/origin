@@ -46,6 +46,8 @@ func NewInformers(kubeInformers kexternalinformers.SharedInformerFactory, kubeCl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizationClient, err := authorizationv1client.NewForConfig(loopbackClientConfig)
 	if err != nil {
 		return nil, err
@@ -92,12 +94,16 @@ func nonProtobufConfig(inConfig *rest.Config) *rest.Config {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	npConfig := rest.CopyConfig(inConfig)
 	npConfig.ContentConfig.AcceptContentTypes = "application/json"
 	npConfig.ContentConfig.ContentType = "application/json"
 	return npConfig
 }
 func (i *InformerHolder) GetKubernetesInformers() kexternalinformers.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,9 +135,13 @@ func (i *InformerHolder) GetOpenshiftAuthorizationInformers() authorizationv1inf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.authorizationInformers
 }
 func (i *InformerHolder) GetOpenshiftImageInformers() imagev1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,9 +173,13 @@ func (i *InformerHolder) GetOpenshiftOauthInformers() oauthv1informer.SharedInfo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.oauthInformers
 }
 func (i *InformerHolder) GetOpenshiftQuotaInformers() quotainformer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,9 +211,13 @@ func (i *InformerHolder) GetOpenshiftRouteInformers() routev1informer.SharedInfo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.routeInformers
 }
 func (i *InformerHolder) GetOpenshiftSecurityInformers() securityv1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,9 +249,13 @@ func (i *InformerHolder) GetOpenshiftUserInformers() userv1informer.SharedInform
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.userInformers
 }
 func (i *InformerHolder) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

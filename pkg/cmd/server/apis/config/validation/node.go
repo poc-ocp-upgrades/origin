@@ -26,6 +26,8 @@ func ValidateNodeConfig(config *configapi.NodeConfig, fldPath *field.Path) commo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := ValidateInClusterNodeConfig(config, fldPath)
 	if bootstrap := config.KubeletArguments["bootstrap-kubeconfig"]; len(bootstrap) > 0 {
 		validationResults.AddErrors(ValidateKubeConfig(bootstrap[0], fldPath.Child("kubeletArguments", "bootstrap-kubeconfig"))...)
@@ -35,6 +37,8 @@ func ValidateNodeConfig(config *configapi.NodeConfig, fldPath *field.Path) commo
 	return validationResults
 }
 func ValidateInClusterNodeConfig(config *configapi.NodeConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +107,8 @@ func ValidateNodeAuthConfig(config configapi.NodeAuthConfig, fldPath *field.Path
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	authenticationCacheTTLPath := fldPath.Child("authenticationCacheTTL")
 	if len(config.AuthenticationCacheTTL) == 0 {
@@ -143,6 +149,8 @@ func ValidateNetworkConfig(config configapi.NodeNetworkConfig, fldPath *field.Pa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if config.MTU == 0 {
 		allErrs = append(allErrs, field.Invalid(fldPath.Child("mtu"), config.MTU, fmt.Sprintf("must be greater than zero")))
@@ -150,6 +158,8 @@ func ValidateNetworkConfig(config configapi.NodeNetworkConfig, fldPath *field.Pa
 	return allErrs
 }
 func ValidateDockerConfig(config configapi.DockerConfig, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,12 +198,16 @@ func ValidateKubeletExtendedArguments(config configapi.ExtendedArguments, fldPat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, _ := kubeletoptions.NewKubeletServer()
 	fss := apiserverflag.NamedFlagSets{}
 	server.AddFlags(fss.FlagSet("kubelet"))
 	return ValidateExtendedArguments(config, fss, fldPath)
 }
 func ValidateVolumeConfig(config configapi.NodeVolumeConfig, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

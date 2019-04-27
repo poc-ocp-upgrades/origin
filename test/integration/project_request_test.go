@@ -34,6 +34,8 @@ func TestProjectRequestError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		ns			= "testns"
 		templateNamespace	= "default"

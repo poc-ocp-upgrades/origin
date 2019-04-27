@@ -23,6 +23,8 @@ func Test_copyAndReplaceReleaseImage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	baseLen := len(installerReplacement)
 	tests := []struct {
 		name		string
@@ -68,6 +70,8 @@ func Test_copyAndReplaceReleaseImage(t *testing.T) {
 	}
 }
 func fakeInput(lengths ...int) *bytes.Buffer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

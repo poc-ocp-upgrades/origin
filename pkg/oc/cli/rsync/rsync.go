@@ -97,9 +97,13 @@ func NewRsyncOptions(streams genericclioptions.IOStreams) *RsyncOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RsyncOptions{IOStreams: streams}
 }
 func NewCmdRsync(name, parent string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +151,8 @@ func warnNoRsync(out io.Writer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if isWindows() {
 		fmt.Fprintf(out, noRsyncWindowsWarning)
 		return
@@ -154,6 +160,8 @@ func warnNoRsync(out io.Writer) {
 	fmt.Fprintf(out, noRsyncUnixWarning)
 }
 func (o *RsyncOptions) GetCopyStrategy(name string) (CopyStrategy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +190,8 @@ func (o *RsyncOptions) GetCopyStrategy(name string) (CopyStrategy, error) {
 	}
 }
 func (o *RsyncOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -263,6 +273,8 @@ func (o *RsyncOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Out == nil || o.ErrOut == nil {
 		return errors.New("output and error streams must be specified")
 	}
@@ -301,6 +313,8 @@ func (o *RsyncOptions) RunRsync() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.Strategy.Copy(o.Source, o.Destination, o.Out, o.ErrOut); err != nil {
 		return err
 	}
@@ -310,6 +324,8 @@ func (o *RsyncOptions) RunRsync() error {
 	return o.WatchAndSync()
 }
 func (o *RsyncOptions) WatchAndSync() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -386,6 +402,8 @@ func (o *RsyncOptions) WatchAndSync() error {
 	}
 }
 func (o *RsyncOptions) PodName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

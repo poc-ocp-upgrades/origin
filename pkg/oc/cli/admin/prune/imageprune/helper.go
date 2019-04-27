@@ -37,6 +37,8 @@ func (ba imgByAge) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ba)
 }
 func (ba imgByAge) Swap(i, j int) {
@@ -54,9 +56,13 @@ func (ba imgByAge) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ba[i], ba[j] = ba[j], ba[i]
 }
 func (ba imgByAge) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +97,13 @@ func (ba isByAge) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ba)
 }
 func (ba isByAge) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +135,13 @@ func (ba isByAge) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ba[i].CreationTimestamp.After(ba[j].CreationTimestamp.Time)
 }
 func DetermineRegistryHost(images *imagev1.ImageList, imageStreams *imagev1.ImageStreamList) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,6 +213,8 @@ func (drp *DefaultRegistryPinger) Ping(registry string) (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		registryURL	*url.URL
 		err		error
@@ -250,9 +266,13 @@ func (*DryRunRegistryPinger) Ping(registry string) (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return url.Parse("https://" + registry)
 }
 func TryProtocolsWithRegistryURL(registry string, allowInsecure bool, action func(registryURL url.URL) error) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -325,6 +345,8 @@ func (rp *retryPath) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rp.err.Error()
 }
 
@@ -338,6 +360,8 @@ type ErrBadReference struct {
 }
 
 func newErrBadReferenceToImage(reference string, obj *corev1.ObjectReference, reason string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -377,9 +401,13 @@ func newErrBadReferenceTo(targetKind, reference string, obj *corev1.ObjectRefere
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ErrBadReference{kind: obj.Kind, namespace: obj.Namespace, name: obj.Name, targetKind: targetKind, reference: reference, reason: reason}
 }
 func (e *ErrBadReference) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -411,6 +439,8 @@ func (e *ErrBadReference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := e.name
 	if len(e.namespace) > 0 {
 		name = e.namespace + "/" + name
@@ -422,6 +452,8 @@ func (e *ErrBadReference) String() string {
 	return fmt.Sprintf("%s[%s]: invalid %s reference %q: %s", e.kind, name, targetKind, e.reference, e.reason)
 }
 func getName(obj runtime.Object) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -462,6 +494,8 @@ func getKindName(obj *corev1.ObjectReference) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return "unknown object"
 	}
@@ -472,6 +506,8 @@ func getKindName(obj *corev1.ObjectReference) string {
 	return fmt.Sprintf("%s[%s]", obj.Kind, name)
 }
 func getRef(obj runtime.Object) *corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

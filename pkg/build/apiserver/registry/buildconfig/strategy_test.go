@@ -23,6 +23,8 @@ func TestBuildConfigGroupStrategy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewDefaultContext()
 	if !GroupStrategy.NamespaceScoped() {
 		t.Errorf("BuildConfig is namespace scoped")
@@ -71,6 +73,8 @@ func TestBuildConfigGroupStrategy(t *testing.T) {
 	}
 }
 func TestBuildConfigLegacyStrategy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

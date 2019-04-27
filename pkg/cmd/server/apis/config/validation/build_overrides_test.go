@@ -22,6 +22,8 @@ func TestValidateBuildOverridesConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		config		*configapi.BuildOverridesConfig
 		errExpected	bool

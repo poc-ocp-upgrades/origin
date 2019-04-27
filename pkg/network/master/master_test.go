@@ -22,6 +22,8 @@ func Test_clusterNetworkChanged(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	origCN := networkapi.ClusterNetwork{ObjectMeta: metav1.ObjectMeta{Name: "not-default"}, ClusterNetworks: []networkapi.ClusterNetworkEntry{{CIDR: "10.128.0.0/14", HostSubnetLength: 10}}, ServiceNetwork: "172.30.0.0/16", PluginName: "redhat/openshift-ovs-subnet"}
 	tests := []struct {
 		name		string

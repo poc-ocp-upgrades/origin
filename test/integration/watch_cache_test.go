@@ -32,6 +32,8 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMasterAPI(master)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -121,6 +123,8 @@ func TestDefaultWatchCacheSize(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -138,6 +142,8 @@ func TestDefaultWatchCacheSize(t *testing.T) {
 	testWatchCacheWithConfig(t, master, 100, 0)
 }
 func TestWatchCacheSizeWithFlag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

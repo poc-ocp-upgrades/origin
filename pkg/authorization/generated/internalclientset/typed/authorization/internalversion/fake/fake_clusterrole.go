@@ -30,6 +30,8 @@ func (c *FakeClusterRoles) Get(name string, options v1.GetOptions) (result *auth
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(clusterrolesResource, name), &authorization.ClusterRole{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeClusterRoles) Get(name string, options v1.GetOptions) (result *auth
 	return obj.(*authorization.ClusterRole), err
 }
 func (c *FakeClusterRoles) List(opts v1.ListOptions) (result *authorization.ClusterRoleList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeClusterRoles) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(clusterrolesResource, opts))
 }
 func (c *FakeClusterRoles) Create(clusterRole *authorization.ClusterRole) (result *authorization.ClusterRole, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeClusterRoles) Update(clusterRole *authorization.ClusterRole) (resul
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(clusterrolesResource, clusterRole), &authorization.ClusterRole{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeClusterRoles) Update(clusterRole *authorization.ClusterRole) (resul
 	return obj.(*authorization.ClusterRole), err
 }
 func (c *FakeClusterRoles) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeClusterRoles) DeleteCollection(options *v1.DeleteOptions, listOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(clusterrolesResource, listOptions)
 	_, err := c.Fake.Invokes(action, &authorization.ClusterRoleList{})
 	return err
 }
 func (c *FakeClusterRoles) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *authorization.ClusterRole, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

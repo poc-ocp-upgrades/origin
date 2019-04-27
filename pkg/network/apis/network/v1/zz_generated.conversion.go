@@ -23,9 +23,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +181,8 @@ func autoConvert_v1_ClusterNetwork_To_network_ClusterNetwork(in *v1.ClusterNetwo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Network = in.Network
 	out.HostSubnetLength = in.HostSubnetLength
@@ -201,9 +207,13 @@ func Convert_v1_ClusterNetwork_To_network_ClusterNetwork(in *v1.ClusterNetwork, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterNetwork_To_network_ClusterNetwork(in, out, s)
 }
 func autoConvert_network_ClusterNetwork_To_v1_ClusterNetwork(in *network.ClusterNetwork, out *v1.ClusterNetwork, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,9 +252,13 @@ func Convert_network_ClusterNetwork_To_v1_ClusterNetwork(in *network.ClusterNetw
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_ClusterNetwork_To_v1_ClusterNetwork(in, out, s)
 }
 func autoConvert_v1_ClusterNetworkEntry_To_network_ClusterNetworkEntry(in *v1.ClusterNetworkEntry, out *network.ClusterNetworkEntry, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,9 +292,13 @@ func Convert_v1_ClusterNetworkEntry_To_network_ClusterNetworkEntry(in *v1.Cluste
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterNetworkEntry_To_network_ClusterNetworkEntry(in, out, s)
 }
 func autoConvert_network_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in *network.ClusterNetworkEntry, out *v1.ClusterNetworkEntry, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,9 +332,13 @@ func Convert_network_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in *network.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in, out, s)
 }
 func autoConvert_v1_ClusterNetworkList_To_network_ClusterNetworkList(in *v1.ClusterNetworkList, out *network.ClusterNetworkList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -360,9 +382,13 @@ func Convert_v1_ClusterNetworkList_To_network_ClusterNetworkList(in *v1.ClusterN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterNetworkList_To_network_ClusterNetworkList(in, out, s)
 }
 func autoConvert_network_ClusterNetworkList_To_v1_ClusterNetworkList(in *network.ClusterNetworkList, out *v1.ClusterNetworkList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,9 +432,13 @@ func Convert_network_ClusterNetworkList_To_v1_ClusterNetworkList(in *network.Clu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_ClusterNetworkList_To_v1_ClusterNetworkList(in, out, s)
 }
 func autoConvert_v1_EgressNetworkPolicy_To_network_EgressNetworkPolicy(in *v1.EgressNetworkPolicy, out *network.EgressNetworkPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -444,9 +474,13 @@ func Convert_v1_EgressNetworkPolicy_To_network_EgressNetworkPolicy(in *v1.Egress
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EgressNetworkPolicy_To_network_EgressNetworkPolicy(in, out, s)
 }
 func autoConvert_network_EgressNetworkPolicy_To_v1_EgressNetworkPolicy(in *network.EgressNetworkPolicy, out *v1.EgressNetworkPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -482,9 +516,13 @@ func Convert_network_EgressNetworkPolicy_To_v1_EgressNetworkPolicy(in *network.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_EgressNetworkPolicy_To_v1_EgressNetworkPolicy(in, out, s)
 }
 func autoConvert_v1_EgressNetworkPolicyList_To_network_EgressNetworkPolicyList(in *v1.EgressNetworkPolicyList, out *network.EgressNetworkPolicyList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -518,9 +556,13 @@ func Convert_v1_EgressNetworkPolicyList_To_network_EgressNetworkPolicyList(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EgressNetworkPolicyList_To_network_EgressNetworkPolicyList(in, out, s)
 }
 func autoConvert_network_EgressNetworkPolicyList_To_v1_EgressNetworkPolicyList(in *network.EgressNetworkPolicyList, out *v1.EgressNetworkPolicyList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -554,9 +596,13 @@ func Convert_network_EgressNetworkPolicyList_To_v1_EgressNetworkPolicyList(in *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_EgressNetworkPolicyList_To_v1_EgressNetworkPolicyList(in, out, s)
 }
 func autoConvert_v1_EgressNetworkPolicyPeer_To_network_EgressNetworkPolicyPeer(in *v1.EgressNetworkPolicyPeer, out *network.EgressNetworkPolicyPeer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -590,9 +636,13 @@ func Convert_v1_EgressNetworkPolicyPeer_To_network_EgressNetworkPolicyPeer(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EgressNetworkPolicyPeer_To_network_EgressNetworkPolicyPeer(in, out, s)
 }
 func autoConvert_network_EgressNetworkPolicyPeer_To_v1_EgressNetworkPolicyPeer(in *network.EgressNetworkPolicyPeer, out *v1.EgressNetworkPolicyPeer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -626,9 +676,13 @@ func Convert_network_EgressNetworkPolicyPeer_To_v1_EgressNetworkPolicyPeer(in *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_EgressNetworkPolicyPeer_To_v1_EgressNetworkPolicyPeer(in, out, s)
 }
 func autoConvert_v1_EgressNetworkPolicyRule_To_network_EgressNetworkPolicyRule(in *v1.EgressNetworkPolicyRule, out *network.EgressNetworkPolicyRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -664,9 +718,13 @@ func Convert_v1_EgressNetworkPolicyRule_To_network_EgressNetworkPolicyRule(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EgressNetworkPolicyRule_To_network_EgressNetworkPolicyRule(in, out, s)
 }
 func autoConvert_network_EgressNetworkPolicyRule_To_v1_EgressNetworkPolicyRule(in *network.EgressNetworkPolicyRule, out *v1.EgressNetworkPolicyRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -702,9 +760,13 @@ func Convert_network_EgressNetworkPolicyRule_To_v1_EgressNetworkPolicyRule(in *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_EgressNetworkPolicyRule_To_v1_EgressNetworkPolicyRule(in, out, s)
 }
 func autoConvert_v1_EgressNetworkPolicySpec_To_network_EgressNetworkPolicySpec(in *v1.EgressNetworkPolicySpec, out *network.EgressNetworkPolicySpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -737,9 +799,13 @@ func Convert_v1_EgressNetworkPolicySpec_To_network_EgressNetworkPolicySpec(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EgressNetworkPolicySpec_To_network_EgressNetworkPolicySpec(in, out, s)
 }
 func autoConvert_network_EgressNetworkPolicySpec_To_v1_EgressNetworkPolicySpec(in *network.EgressNetworkPolicySpec, out *v1.EgressNetworkPolicySpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -772,9 +838,13 @@ func Convert_network_EgressNetworkPolicySpec_To_v1_EgressNetworkPolicySpec(in *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_EgressNetworkPolicySpec_To_v1_EgressNetworkPolicySpec(in, out, s)
 }
 func autoConvert_v1_HostSubnet_To_network_HostSubnet(in *v1.HostSubnet, out *network.HostSubnet, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -812,9 +882,13 @@ func Convert_v1_HostSubnet_To_network_HostSubnet(in *v1.HostSubnet, out *network
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_HostSubnet_To_network_HostSubnet(in, out, s)
 }
 func autoConvert_network_HostSubnet_To_v1_HostSubnet(in *network.HostSubnet, out *v1.HostSubnet, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -852,9 +926,13 @@ func Convert_network_HostSubnet_To_v1_HostSubnet(in *network.HostSubnet, out *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_HostSubnet_To_v1_HostSubnet(in, out, s)
 }
 func autoConvert_v1_HostSubnetList_To_network_HostSubnetList(in *v1.HostSubnetList, out *network.HostSubnetList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -888,9 +966,13 @@ func Convert_v1_HostSubnetList_To_network_HostSubnetList(in *v1.HostSubnetList, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_HostSubnetList_To_network_HostSubnetList(in, out, s)
 }
 func autoConvert_network_HostSubnetList_To_v1_HostSubnetList(in *network.HostSubnetList, out *v1.HostSubnetList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -924,9 +1006,13 @@ func Convert_network_HostSubnetList_To_v1_HostSubnetList(in *network.HostSubnetL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_HostSubnetList_To_v1_HostSubnetList(in, out, s)
 }
 func autoConvert_v1_NetNamespace_To_network_NetNamespace(in *v1.NetNamespace, out *network.NetNamespace, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -962,9 +1048,13 @@ func Convert_v1_NetNamespace_To_network_NetNamespace(in *v1.NetNamespace, out *n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NetNamespace_To_network_NetNamespace(in, out, s)
 }
 func autoConvert_network_NetNamespace_To_v1_NetNamespace(in *network.NetNamespace, out *v1.NetNamespace, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1000,9 +1090,13 @@ func Convert_network_NetNamespace_To_v1_NetNamespace(in *network.NetNamespace, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_network_NetNamespace_To_v1_NetNamespace(in, out, s)
 }
 func autoConvert_v1_NetNamespaceList_To_network_NetNamespaceList(in *v1.NetNamespaceList, out *network.NetNamespaceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1036,9 +1130,13 @@ func Convert_v1_NetNamespaceList_To_network_NetNamespaceList(in *v1.NetNamespace
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NetNamespaceList_To_network_NetNamespaceList(in, out, s)
 }
 func autoConvert_network_NetNamespaceList_To_v1_NetNamespaceList(in *network.NetNamespaceList, out *v1.NetNamespaceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1058,6 +1156,8 @@ func autoConvert_network_NetNamespaceList_To_v1_NetNamespaceList(in *network.Net
 	return nil
 }
 func Convert_network_NetNamespaceList_To_v1_NetNamespaceList(in *network.NetNamespaceList, out *v1.NetNamespaceList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

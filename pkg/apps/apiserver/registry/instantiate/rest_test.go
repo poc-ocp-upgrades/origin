@@ -36,6 +36,8 @@ func TestProcess_changeForNonAutomaticTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		force		bool
@@ -89,6 +91,8 @@ func TestProcess_changeForUnregisteredTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := appstest.OkDeploymentConfig(0)
 	stream := appstest.OkStreamForConfig(config)
 	config.Spec.Triggers[0].ImageChangeParams.From.Name = imageapi.JoinImageStreamTag(stream.Name, "unrelatedtag")
@@ -111,6 +115,8 @@ func TestProcess_changeForUnregisteredTag(t *testing.T) {
 	}
 }
 func TestProcess_matchScenarios(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,9 +193,13 @@ func fakeStream(name, tag, dir, image string) *imageapi.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: metav1.NamespaceDefault}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{tag: {Items: []imageapi.TagEvent{{DockerImageReference: dir, Image: image}}}}}}
 }
 func TestCanTrigger(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +254,8 @@ func TestCanTrigger(t *testing.T) {
 	}
 }
 func makeDeployment(config *appsapi.DeploymentConfig) (*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

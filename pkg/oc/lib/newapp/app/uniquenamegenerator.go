@@ -31,6 +31,8 @@ func NewUniqueNameGenerator(name string) UniqueNameGenerator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &uniqueNameGenerator{name, map[string]int{}}
 }
 
@@ -40,6 +42,8 @@ type uniqueNameGenerator struct {
 }
 
 func (ung *uniqueNameGenerator) Generate(suggester NameSuggester) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func (ung *uniqueNameGenerator) Generate(suggester NameSuggester) (string, error
 	return ung.ensureValidName(name)
 }
 func (ung *uniqueNameGenerator) ensureValidName(name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,11 +22,15 @@ func Convert_legacyconfigv1_JenkinsPipelineConfig_to_kubecontrolplanev1_JenkinsP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
 }
 func Convert_legacyconfigv1_RegistryLocation_to_kubecontrolplanev1_RegistryLocation(in *legacyconfigv1.RegistryLocation, out *openshiftcontrolplanev1.RegistryLocation, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

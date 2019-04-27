@@ -22,6 +22,8 @@ func TestMustRunAsOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 1
 	tests := map[string]struct {
 		opts	*securityapi.RunAsUserStrategyOptions
@@ -52,6 +54,8 @@ func TestMustRunAsGenerate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 1
 	opts := &securityapi.RunAsUserStrategyOptions{UID: &uid}
 	mustRunAs, err := NewMustRunAs(opts)
@@ -67,6 +71,8 @@ func TestMustRunAsGenerate(t *testing.T) {
 	}
 }
 func TestMustRunAsValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

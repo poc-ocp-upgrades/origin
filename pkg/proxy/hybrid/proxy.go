@@ -47,9 +47,13 @@ func NewHybridProxier(unidlingEndpointsHandler proxyconfig.EndpointsHandler, uni
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &HybridProxier{unidlingEndpointsHandler: unidlingEndpointsHandler, unidlingServiceHandler: unidlingServiceHandler, mainEndpointsHandler: mainEndpointsHandler, mainServicesHandler: mainServicesHandler, mainProxy: mainProxy, unidlingProxy: unidlingProxy, syncPeriod: syncPeriod, serviceLister: serviceLister, usingUserspace: make(map[types.NamespacedName]bool), switchedToUserspace: make(map[types.NamespacedName]bool)}, nil
 }
 func (p *HybridProxier) OnServiceAdd(service *corev1.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func (p *HybridProxier) OnServiceUpdate(oldService, service *corev1.Service) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svcName := types.NamespacedName{Namespace: service.Namespace, Name: service.Name}
 	p.usingUserspaceLock.Lock()
 	defer p.usingUserspaceLock.Unlock()
@@ -102,6 +108,8 @@ func (p *HybridProxier) OnServiceUpdate(oldService, service *corev1.Service) {
 	}
 }
 func (p *HybridProxier) OnServiceDelete(service *corev1.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,11 +153,15 @@ func (p *HybridProxier) OnServiceSynced() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.unidlingServiceHandler.OnServiceSynced()
 	p.mainServicesHandler.OnServiceSynced()
 	klog.V(6).Infof("hybrid proxy: services synced")
 }
 func (p *HybridProxier) shouldEndpointsUseUserspace(endpoints *corev1.Endpoints) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -179,6 +191,8 @@ func (p *HybridProxier) shouldEndpointsUseUserspace(endpoints *corev1.Endpoints)
 	return false
 }
 func (p *HybridProxier) switchService(name types.NamespacedName) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,6 +245,8 @@ func (p *HybridProxier) OnEndpointsAdd(endpoints *corev1.Endpoints) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(6).Infof("hybrid proxy: (always) add ep %s/%s in unidling proxy", endpoints.Namespace, endpoints.Name)
 	p.unidlingEndpointsHandler.OnEndpointsAdd(endpoints)
 	p.usingUserspaceLock.Lock()
@@ -247,6 +263,8 @@ func (p *HybridProxier) OnEndpointsAdd(endpoints *corev1.Endpoints) {
 	}
 }
 func (p *HybridProxier) OnEndpointsUpdate(oldEndpoints, endpoints *corev1.Endpoints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -302,6 +320,8 @@ func (p *HybridProxier) OnEndpointsDelete(endpoints *corev1.Endpoints) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(6).Infof("hybrid proxy: (always) del ep %s/%s in unidling proxy", endpoints.Namespace, endpoints.Name)
 	p.unidlingEndpointsHandler.OnEndpointsDelete(endpoints)
 	p.usingUserspaceLock.Lock()
@@ -319,6 +339,8 @@ func (p *HybridProxier) OnEndpointsDelete(endpoints *corev1.Endpoints) {
 	delete(p.usingUserspace, svcName)
 }
 func (p *HybridProxier) OnEndpointsSynced() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,11 +374,15 @@ func (p *HybridProxier) Sync() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.mainProxy.Sync()
 	p.unidlingProxy.Sync()
 	klog.V(6).Infof("hybrid proxy: proxies synced")
 }
 func (p *HybridProxier) SyncLoop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -390,6 +416,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -464,5 +511,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

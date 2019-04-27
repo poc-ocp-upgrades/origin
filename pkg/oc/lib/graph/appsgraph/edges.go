@@ -35,6 +35,8 @@ func AddTriggerDeploymentConfigsEdges(g osgraph.MutableUniqueGraph, node *appsgr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podTemplate := node.DeploymentConfig.Spec.Template
 	if podTemplate == nil {
 		return node
@@ -74,6 +76,8 @@ func AddAllTriggerDeploymentConfigsEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if dcNode, ok := node.(*appsgraph.DeploymentConfigNode); ok {
 			AddTriggerDeploymentConfigsEdges(g, dcNode)
@@ -81,6 +85,8 @@ func AddAllTriggerDeploymentConfigsEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddDeploymentConfigsDeploymentEdges(g osgraph.MutableUniqueGraph, node *appsgraph.DeploymentConfigNode) *appsgraph.DeploymentConfigNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +129,8 @@ func AddAllDeploymentConfigsDeploymentEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if dcNode, ok := node.(*appsgraph.DeploymentConfigNode); ok {
 			AddDeploymentConfigsDeploymentEdges(g, dcNode)
@@ -130,6 +138,8 @@ func AddAllDeploymentConfigsDeploymentEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddVolumeClaimEdges(g osgraph.Graph, dcNode *appsgraph.DeploymentConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,6 +170,8 @@ func AddVolumeClaimEdges(g osgraph.Graph, dcNode *appsgraph.DeploymentConfigNode
 	}
 }
 func AddAllVolumeClaimEdges(g osgraph.Graph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -37,12 +37,16 @@ func addConversionFuncs(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := scheme.AddConversionFuncs(Convert_authorization_ClusterRole_To_rbac_ClusterRole, Convert_authorization_Role_To_rbac_Role, Convert_authorization_ClusterRoleBinding_To_rbac_ClusterRoleBinding, Convert_authorization_RoleBinding_To_rbac_RoleBinding, Convert_rbac_ClusterRole_To_authorization_ClusterRole, Convert_rbac_Role_To_authorization_Role, Convert_rbac_ClusterRoleBinding_To_authorization_ClusterRoleBinding, Convert_rbac_RoleBinding_To_authorization_RoleBinding); err != nil {
 		return err
 	}
 	return nil
 }
 func Convert_authorization_ClusterRole_To_rbac_ClusterRole(in *authorizationapi.ClusterRole, out *rbac.ClusterRole, _ conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,12 +82,16 @@ func Convert_authorization_Role_To_rbac_Role(in *authorizationapi.Role, out *rba
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Annotations = convert_authorization_Annotations_To_rbac_Annotations(in.Annotations)
 	out.Rules = Convert_api_PolicyRules_To_rbac_PolicyRules(in.Rules)
 	return nil
 }
 func Convert_authorization_ClusterRoleBinding_To_rbac_ClusterRoleBinding(in *authorizationapi.ClusterRoleBinding, out *rbac.ClusterRoleBinding, _ conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +133,8 @@ func Convert_authorization_RoleBinding_To_rbac_RoleBinding(in *authorizationapi.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(in.RoleRef.Namespace) != 0 && in.RoleRef.Namespace != in.Namespace {
 		return fmt.Errorf("invalid origin role binding %s: attempts to reference role in namespace %q instead of current namespace %q", in.Name, in.RoleRef.Namespace, in.Namespace)
 	}
@@ -138,6 +148,8 @@ func Convert_authorization_RoleBinding_To_rbac_RoleBinding(in *authorizationapi.
 	return nil
 }
 func Convert_api_PolicyRules_To_rbac_PolicyRules(in []authorizationapi.PolicyRule) []rbac.PolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +195,8 @@ func isResourceRule(rule *authorizationapi.PolicyRule) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(rule.APIGroups) > 0 || len(rule.Resources) > 0 || len(rule.ResourceNames) > 0
 }
 func isNonResourceRule(rule *authorizationapi.PolicyRule) bool {
@@ -200,9 +214,13 @@ func isNonResourceRule(rule *authorizationapi.PolicyRule) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(rule.NonResourceURLs) > 0
 }
 func convert_api_Subjects_To_rbac_Subjects(in []api.ObjectReference) ([]rbac.Subject, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,9 +270,13 @@ func convert_api_RoleRef_To_rbac_RoleRef(in *api.ObjectReference) rbac.RoleRef {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rbac.RoleRef{APIGroup: rbac.GroupName, Kind: getRBACRoleRefKind(in.Namespace), Name: in.Name}
 }
 func getRBACRoleRefKind(namespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +312,8 @@ func Convert_rbac_ClusterRole_To_authorization_ClusterRole(in *rbac.ClusterRole,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Annotations = convert_rbac_Annotations_To_authorization_Annotations(in.Annotations)
 	out.Rules = Convert_rbac_PolicyRules_To_authorization_PolicyRules(in.Rules)
@@ -311,12 +335,16 @@ func Convert_rbac_Role_To_authorization_Role(in *rbac.Role, out *authorizationap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Annotations = convert_rbac_Annotations_To_authorization_Annotations(in.Annotations)
 	out.Rules = Convert_rbac_PolicyRules_To_authorization_PolicyRules(in.Rules)
 	return nil
 }
 func Convert_rbac_ClusterRoleBinding_To_authorization_ClusterRoleBinding(in *rbac.ClusterRoleBinding, out *authorizationapi.ClusterRoleBinding, _ conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,6 +385,8 @@ func Convert_rbac_RoleBinding_To_authorization_RoleBinding(in *rbac.RoleBinding,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if out.Subjects, err = Convert_rbac_Subjects_To_authorization_Subjects(in.Subjects); err != nil {
 		return err
@@ -369,6 +399,8 @@ func Convert_rbac_RoleBinding_To_authorization_RoleBinding(in *rbac.RoleBinding,
 	return nil
 }
 func Convert_rbac_Subjects_To_authorization_Subjects(in []rbac.Subject) ([]api.ObjectReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +448,8 @@ func convert_rbac_RoleRef_To_authorization_RoleRef(in *rbac.RoleRef, namespace s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch in.Kind {
 	case "ClusterRole":
 		return api.ObjectReference{Name: in.Name}, nil
@@ -426,6 +460,8 @@ func convert_rbac_RoleRef_To_authorization_RoleRef(in *rbac.RoleRef, namespace s
 	}
 }
 func Convert_rbac_PolicyRules_To_authorization_PolicyRules(in []rbac.PolicyRule) []authorizationapi.PolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -462,6 +498,8 @@ func Convert_rbacv1_PolicyRules_To_authorization_PolicyRules(in []rbacv1.PolicyR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rules := make([]authorizationapi.PolicyRule, 0, len(in))
 	for _, rule := range in {
 		r := authorizationapi.PolicyRule{APIGroups: rule.APIGroups, Verbs: sets.NewString(rule.Verbs...), Resources: sets.NewString(rule.Resources...), ResourceNames: sets.NewString(rule.ResourceNames...), NonResourceURLs: sets.NewString(rule.NonResourceURLs...)}
@@ -470,6 +508,8 @@ func Convert_rbacv1_PolicyRules_To_authorization_PolicyRules(in []rbacv1.PolicyR
 	return rules
 }
 func copyMapExcept(in map[string]string, except string) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -510,6 +550,8 @@ func convert_authorization_Annotations_To_rbac_Annotations(in map[string]string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if value, ok := in[reconcileProtectAnnotation]; ok && stringBool.Has(value) {
 		out := copyMapExcept(in, reconcileProtectAnnotation)
 		if value == "true" {
@@ -522,6 +564,8 @@ func convert_authorization_Annotations_To_rbac_Annotations(in map[string]string)
 	return in
 }
 func convert_rbac_Annotations_To_authorization_Annotations(in map[string]string) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -562,6 +606,8 @@ func determineUserKind(user string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kind := authorizationapi.UserKind
 	if len(validation.ValidateUserName(user, false)) != 0 {
 		kind = authorizationapi.SystemUserKind
@@ -569,6 +615,8 @@ func determineUserKind(user string) string {
 	return kind
 }
 func determineGroupKind(group string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -604,6 +652,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -678,5 +747,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

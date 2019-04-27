@@ -25,6 +25,8 @@ func TestSyncNamespaceThatIsTerminating(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mockKubeClient := &fake.Clientset{}
 	nm := &ProjectFinalizerController{client: mockKubeClient}
 	now := metav1.Now()
@@ -43,6 +45,8 @@ func TestSyncNamespaceThatIsTerminating(t *testing.T) {
 	}
 }
 func TestSyncNamespaceThatIsActive(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func NewImpersonatingRBACFromContext(ctx context.Context, restclient rest.Interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, ok := request.UserFrom(ctx)
 	if !ok {
 		return nil, apierrors.NewBadRequest("user missing from context")

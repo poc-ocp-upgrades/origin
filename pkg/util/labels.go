@@ -31,6 +31,8 @@ func AddObjectLabelsWithFlags(obj runtime.Object, labels labels.Set, flags int) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if labels == nil {
 		return nil
 	}
@@ -101,9 +103,13 @@ func AddObjectLabels(obj runtime.Object, labels labels.Set) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AddObjectLabelsWithFlags(obj, labels, OverwriteExistingDstKey)
 }
 func AddObjectAnnotations(obj runtime.Object, annotations map[string]string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,6 +192,8 @@ func addDeploymentConfigNestedLabels(obj *appsv1.DeploymentConfig, labels labels
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.Spec.Template == nil {
 		return nil
 	}
@@ -212,6 +220,8 @@ func addDeploymentConfigNestedAnnotations(obj *appsv1.DeploymentConfig, annotati
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.Spec.Template == nil {
 		return nil
 	}
@@ -224,6 +234,8 @@ func addDeploymentConfigNestedAnnotations(obj *appsv1.DeploymentConfig, annotati
 	return nil
 }
 func interfaceToStringMap(obj interface{}) (map[string]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,6 +281,8 @@ func mapToGeneric(obj map[string]string) map[string]interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return nil
 	}
@@ -279,6 +293,8 @@ func mapToGeneric(obj map[string]string) map[string]interface{} {
 	return res
 }
 func MergeInto(dst, src interface{}, flags int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

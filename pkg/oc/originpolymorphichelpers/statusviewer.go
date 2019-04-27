@@ -23,6 +23,8 @@ func NewStatusViewerFn(delegate polymorphichelpers.StatusViewerFunc) polymorphic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(mapping *meta.RESTMapping) (kubectl.StatusViewer, error) {
 		if appsv1.SchemeGroupVersion.WithKind("DeploymentConfig").GroupKind() == mapping.GroupVersionKind.GroupKind() {
 			return deploymentcmd.NewDeploymentConfigStatusViewer(), nil

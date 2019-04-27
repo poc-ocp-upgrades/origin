@@ -32,6 +32,8 @@ func Route(container *restful.Container, path string, b api.Broker) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	shim := func(f func(api.Broker, *restful.Request) *api.Response) func(*restful.Request, *restful.Response) {
 		return func(req *restful.Request, resp *restful.Response) {
 			response := f(b, req)
@@ -70,6 +72,8 @@ func atoi(s string) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rv, err := strconv.Atoi(s)
 	if err != nil {
 		rv = 0
@@ -77,6 +81,8 @@ func atoi(s string) int {
 	return rv
 }
 func apiVersion(req *restful.Request, resp *restful.Response, chain *restful.FilterChain) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,6 +120,8 @@ func contentType(req *restful.Request, resp *restful.Response, chain *restful.Fi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp.AddHeader(restful.HEADER_ContentType, restful.MIME_JSON)
 	if req.Request.Method == http.MethodPut && req.HeaderParameter(restful.HEADER_ContentType) != restful.MIME_JSON {
 		resp.WriteHeaderAndJson(http.StatusUnsupportedMediaType, &api.ErrorResponse{Description: fmt.Sprintf("%s header must == %s", restful.HEADER_ContentType, restful.MIME_JSON)}, restful.MIME_JSON)
@@ -122,6 +130,8 @@ func contentType(req *restful.Request, resp *restful.Response, chain *restful.Fi
 	chain.ProcessFilter(req, resp)
 }
 func getUser(req *restful.Request) (user.Info, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,9 +178,13 @@ func catalog(b api.Broker, req *restful.Request) *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.Catalog()
 }
 func provision(b api.Broker, req *restful.Request) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +235,8 @@ func deprovision(b api.Broker, req *restful.Request) *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	instanceID := req.PathParameter("instance_id")
 	if errors := api.ValidateUUID(field.NewPath("instance_id"), instanceID); errors != nil {
 		return api.BadRequest(errors.ToAggregate())
@@ -235,6 +251,8 @@ func deprovision(b api.Broker, req *restful.Request) *api.Response {
 	return b.Deprovision(u, instanceID)
 }
 func lastOperation(b api.Broker, req *restful.Request) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,6 +296,8 @@ func bind(b api.Broker, req *restful.Request) *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	instanceID := req.PathParameter("instance_id")
 	errors := api.ValidateUUID(field.NewPath("instance_id"), instanceID)
 	bindingID := req.PathParameter("binding_id")
@@ -300,6 +320,8 @@ func bind(b api.Broker, req *restful.Request) *api.Response {
 	return b.Bind(u, instanceID, bindingID, &breq)
 }
 func unbind(b api.Broker, req *restful.Request) *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

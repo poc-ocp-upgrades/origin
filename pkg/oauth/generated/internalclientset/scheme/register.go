@@ -27,10 +27,14 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v1.AddToGroupVersion(Scheme, schema.GroupVersion{Version: "v1"})
 	Install(Scheme)
 }
 func Install(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

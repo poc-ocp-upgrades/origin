@@ -30,6 +30,8 @@ func (c *FakeImageStreamMappings) Create(imageStreamMapping *image.ImageStreamMa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewCreateAction(imagestreammappingsResource, c.ns, imageStreamMapping), &v1.Status{})
 	if obj == nil {
 		return nil, err

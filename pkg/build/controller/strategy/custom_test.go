@@ -33,6 +33,8 @@ func TestCustomCreateBuildPod(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := CustomBuildStrategy{}
 	expectedBad := mockCustomBuild(false, false)
 	expectedBad.Spec.Strategy.CustomStrategy.From = corev1.ObjectReference{Kind: "DockerImage", Name: ""}
@@ -122,6 +124,8 @@ func TestCustomCreateBuildPodExpectedForcePull(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := CustomBuildStrategy{}
 	expected := mockCustomBuild(true, false)
 	actual, fperr := strategy.CreateBuildPod(expected, nil, testInternalRegistryHost)
@@ -148,6 +152,8 @@ func TestEmptySource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := CustomBuildStrategy{}
 	expected := mockCustomBuild(false, true)
 	_, fperr := strategy.CreateBuildPod(expected, nil, testInternalRegistryHost)
@@ -156,6 +162,8 @@ func TestEmptySource(t *testing.T) {
 	}
 }
 func TestCustomCreateBuildPodWithCustomCodec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,6 +216,8 @@ func TestCustomBuildLongName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := CustomBuildStrategy{}
 	build := mockCustomBuild(false, false)
 	build.Name = strings.Repeat("a", validation.DNS1123LabelMaxLength*2)
@@ -220,6 +230,8 @@ func TestCustomBuildLongName(t *testing.T) {
 	}
 }
 func mockCustomBuild(forcePull, emptySource bool) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

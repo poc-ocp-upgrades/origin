@@ -37,11 +37,15 @@ func (mock *mockPasswordAuthenticator) AuthenticatePassword(ctx context.Context,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mock.passedUser = username
 	mock.passedPassword = password
 	return &authenticator.Response{User: mock.returnUser}, mock.isAuthenticated, mock.err
 }
 func TestAuthenticateRequestValid(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,6 +73,8 @@ func TestAuthenticateRequestValid(t *testing.T) {
 	}
 }
 func TestAuthenticateRequestInvalid(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -119,6 +125,8 @@ func TestGetBasicAuthInfo(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	req.SetBasicAuth(Username, Password)
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
@@ -150,6 +158,8 @@ func TestGetBasicAuthInfoNoHeader(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("GET", "http://example.org", nil)
 	username, password, hasBasicAuth, err := getBasicAuthInfo(req)
 	if err != nil {
@@ -166,6 +176,8 @@ func TestGetBasicAuthInfoNoHeader(t *testing.T) {
 	}
 }
 func TestGetBasicAuthInfoNotBasicHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -211,6 +223,8 @@ func TestGetBasicAuthInfoNotBase64Encoded(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		ExpectedError = "no valid base64 data in basic auth scheme found"
 	)
@@ -234,6 +248,8 @@ func TestGetBasicAuthInfoNotBase64Encoded(t *testing.T) {
 	}
 }
 func TestGetBasicAuthInfoNotCredentials(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

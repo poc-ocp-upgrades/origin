@@ -32,6 +32,8 @@ func ParseNamespaceAndName(in string) (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(in) == 0 {
 		return "", "", nil
 	}
@@ -42,6 +44,8 @@ func ParseNamespaceAndName(in string) (string, string, error) {
 	return tokens[0], tokens[1], nil
 }
 func RelativizeMasterConfigPaths(config *MasterConfig, base string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,9 +77,13 @@ func ResolveMasterConfigPaths(config *MasterConfig, base string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cmdutil.ResolvePaths(GetMasterFileReferences(config), base)
 }
 func GetMasterFileReferences(config *MasterConfig) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +222,8 @@ func appendFlagsWithFileExtensions(refs []*string, args ExtendedArguments) []*st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for key, s := range args {
 		if len(s) == 0 {
 			continue
@@ -228,6 +238,8 @@ func appendFlagsWithFileExtensions(refs []*string, args ExtendedArguments) []*st
 	return refs
 }
 func RelativizeNodeConfigPaths(config *NodeConfig, base string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -259,9 +271,13 @@ func ResolveNodeConfigPaths(config *NodeConfig, base string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cmdutil.ResolvePaths(GetNodeFileReferences(config), base)
 }
 func GetNodeFileReferences(config *NodeConfig) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,12 +324,16 @@ func SetProtobufClientDefaults(overrides *ClientConnectionOverrides) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	overrides.AcceptContentTypes = "application/vnd.kubernetes.protobuf,application/json"
 	overrides.ContentType = "application/vnd.kubernetes.protobuf"
 	overrides.QPS *= 2
 	overrides.Burst *= 2
 }
 func GetKubeConfigOrInClusterConfig(kubeConfigFile string, overrides *ClientConnectionOverrides) (*restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +360,8 @@ func GetKubeConfigOrInClusterConfig(kubeConfigFile string, overrides *ClientConn
 	return clientConfig, nil
 }
 func GetClientConfig(kubeConfigFile string, overrides *ClientConnectionOverrides) (*restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -385,6 +407,8 @@ func applyClientConnectionOverrides(overrides *ClientConnectionOverrides, kubeCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if overrides == nil {
 		return
 	}
@@ -394,6 +418,8 @@ func applyClientConnectionOverrides(overrides *ClientConnectionOverrides, kubeCo
 	kubeConfig.ContentConfig.ContentType = overrides.ContentType
 }
 func DefaultClientTransport(rt http.RoundTripper) http.RoundTripper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -418,6 +444,8 @@ func DefaultClientTransport(rt http.RoundTripper) http.RoundTripper {
 	return transport
 }
 func GetOAuthClientCertCAs(options MasterConfig) ([]*x509.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +494,8 @@ func IsPasswordAuthenticator(provider IdentityProvider) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch provider.Provider.(type) {
 	case *BasicAuthPasswordIdentityProvider, *AllowAllPasswordIdentityProvider, *DenyAllPasswordIdentityProvider, *HTPasswdPasswordIdentityProvider, *LDAPPasswordIdentityProvider, *KeystonePasswordIdentityProvider:
 		return true
@@ -473,6 +503,8 @@ func IsPasswordAuthenticator(provider IdentityProvider) bool {
 	return false
 }
 func IsIdentityProviderType(provider runtime.Object) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -511,6 +543,8 @@ func GetKubeAPIServerFlagAPIEnablement(flagValue []string) map[schema.GroupVersi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	versions := map[schema.GroupVersion]bool{}
 	for _, val := range flagValue {
 		if strings.HasPrefix(val, "api/") {
@@ -531,6 +565,8 @@ func GetKubeAPIServerFlagAPIEnablement(flagValue []string) map[schema.GroupVersi
 	return versions
 }
 func GetEnabledAPIVersionsForGroup(config KubernetesMasterConfig, apiGroup string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -591,6 +627,8 @@ func GetDisabledAPIVersionsForGroup(config KubernetesMasterConfig, apiGroup stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allowedVersions := sets.NewString(KubeAPIGroupsToAllowedVersions[apiGroup]...)
 	enabledVersions := sets.NewString(GetEnabledAPIVersionsForGroup(config, apiGroup)...)
 	disabledVersions := allowedVersions.Difference(enabledVersions)
@@ -611,6 +649,8 @@ func GetDisabledAPIVersionsForGroup(config KubernetesMasterConfig, apiGroup stri
 	return disabledVersions.List()
 }
 func CIDRsOverlap(cidr1, cidr2 string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

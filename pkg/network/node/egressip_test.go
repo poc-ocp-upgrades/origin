@@ -26,6 +26,8 @@ func assertNetlinkChange(eip *egressIPWatcher, expected ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	actual := []string{}
 	for range expected {
 		select {
@@ -43,6 +45,8 @@ func assertNetlinkChange(eip *egressIPWatcher, expected ...string) error {
 	return fmt.Errorf("Unexpected netlink changes: expected %#v, got %#v", expected, actual)
 }
 func assertNoNetlinkChanges(eip *egressIPWatcher) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ type egressOVSChange struct {
 }
 
 func assertOVSChanges(eip *egressIPWatcher, flows *[]string, changes ...egressOVSChange) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,9 +147,13 @@ func assertNoOVSChanges(eip *egressIPWatcher, flows *[]string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return assertOVSChanges(eip, flows)
 }
 func setupEgressIPWatcher(t *testing.T) (*egressIPWatcher, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,10 +196,14 @@ func updateNodeEgress(eip *egressIPWatcher, nodeIP string, egressIPs []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := "node-" + nodeIP[strings.LastIndex(nodeIP, ".")+1:]
 	eip.tracker.UpdateHostSubnetEgress(&networkapi.HostSubnet{ObjectMeta: metav1.ObjectMeta{Name: name, UID: ktypes.UID(name)}, Host: name, HostIP: nodeIP, EgressIPs: egressIPs})
 }
 func updateNamespaceEgress(eip *egressIPWatcher, vnid uint32, egressIPs []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,9 +236,13 @@ func deleteNamespaceEgress(eip *egressIPWatcher, vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eip.tracker.DeleteNetNamespaceEgress(vnid)
 }
 func TestEgressIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,6 +431,8 @@ func TestMultipleNamespaceEgressIPs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eip, flows := setupEgressIPWatcher(t)
 	updateNamespaceEgress(eip, 42, []string{"172.17.0.100"})
 	updateNodeEgress(eip, "172.17.0.3", []string{"172.17.0.100"})
@@ -523,6 +543,8 @@ func TestNodeIPAsEgressIP(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eip, flows := setupEgressIPWatcher(t)
 	updateNodeEgress(eip, "172.17.0.4", []string{"172.17.0.4", "172.17.0.102"})
 	err := assertNoNetlinkChanges(eip)
@@ -535,6 +557,8 @@ func TestNodeIPAsEgressIP(t *testing.T) {
 	}
 }
 func TestDuplicateNodeEgressIPs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -610,6 +634,8 @@ func TestDuplicateNamespaceEgressIPs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eip, flows := setupEgressIPWatcher(t)
 	updateNamespaceEgress(eip, 42, []string{"172.17.0.100"})
 	updateNodeEgress(eip, "172.17.0.3", []string{"172.17.0.100"})
@@ -663,6 +689,8 @@ func TestMarkForVNID(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := []struct {
 		description	string
 		vnid		uint32
@@ -677,6 +705,8 @@ func TestMarkForVNID(t *testing.T) {
 	}
 }
 func TestEgressNodeRenumbering(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

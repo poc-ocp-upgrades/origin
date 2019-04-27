@@ -60,6 +60,8 @@ func WaitForOpenShiftNamespaceImageStreams(oc *CLI) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	langs := []string{"ruby", "nodejs", "perl", "php", "python", "mysql", "postgresql", "mongodb", "jenkins"}
 	scan := func() bool {
 		for _, lang := range langs {
@@ -112,6 +114,8 @@ func DumpImageStreams(oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := oc.AsAdmin().Run("get").Args("is", "-n", "openshift", "-o", "yaml", "--config", KubeConfigPath()).Output()
 	if err == nil {
 		e2e.Logf("\n  imagestreams in openshift namespace: \n%s\n", out)
@@ -148,6 +152,8 @@ func DumpSampleOperator(oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := oc.AsAdmin().Run("get").Args("configs.samples.operator.openshift.io", "instance", "-n", "openshift-cluster-samples-operator", "-o", "yaml", "--config", KubeConfigPath()).Output()
 	if err == nil {
 		e2e.Logf("\n  samples operator CR: \n%s\n", out)
@@ -157,6 +163,8 @@ func DumpSampleOperator(oc *CLI) {
 	DumpPodLogsStartingWithInNamespace("cluster-samples-operator", "openshift-cluster-samples-operator", oc)
 }
 func DumpBuildLogs(bc string, oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +203,8 @@ func DumpBuilds(oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildOutput, err := oc.AsAdmin().Run("get").Args("builds", "-o", "yaml").Output()
 	if err == nil {
 		e2e.Logf("\n\n builds yaml:\n%s\n\n", buildOutput)
@@ -203,6 +213,8 @@ func DumpBuilds(oc *CLI) {
 	}
 }
 func GetDeploymentConfigPods(oc *CLI, dcName string, version int64) (*kapiv1.PodList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +246,8 @@ func GetApplicationPods(oc *CLI, dcName string) (*kapiv1.PodList, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oc.AdminKubeClient().CoreV1().Pods(oc.Namespace()).List(metav1.ListOptions{LabelSelector: ParseLabelsOrDie(fmt.Sprintf("deploymentconfig=%s", dcName)).String()})
 }
 func GetStatefulSetPods(oc *CLI, setName string) (*kapiv1.PodList, error) {
@@ -251,9 +265,13 @@ func GetStatefulSetPods(oc *CLI, setName string) (*kapiv1.PodList, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oc.AdminKubeClient().CoreV1().Pods(oc.Namespace()).List(metav1.ListOptions{LabelSelector: ParseLabelsOrDie(fmt.Sprintf("name=%s", setName)).String()})
 }
 func DumpDeploymentLogs(dcName string, version int64, oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -291,6 +309,8 @@ func DumpApplicationPodLogs(dcName string, oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Dumping application logs for deploymentconfig %q\n", dcName)
 	pods, err := GetApplicationPods(oc, dcName)
 	if err != nil {
@@ -300,6 +320,8 @@ func DumpApplicationPodLogs(dcName string, oc *CLI) {
 	DumpPodLogs(pods.Items, oc)
 }
 func DumpPodStates(oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +359,8 @@ func DumpPodStatesInNamespace(namespace string, oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Dumping pod state for namespace %s", namespace)
 	out, err := oc.AsAdmin().Run("get").Args("pods", "-n", namespace, "-o", "yaml").Output()
 	if err != nil {
@@ -346,6 +370,8 @@ func DumpPodStatesInNamespace(namespace string, oc *CLI) {
 	e2e.Logf(out)
 }
 func DumpPodLogsStartingWith(prefix string, oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -390,6 +416,8 @@ func DumpPodLogsStartingWithInNamespace(prefix, namespace string, oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podsToDump := []kapiv1.Pod{}
 	podList, err := oc.AdminKubeClient().CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -406,6 +434,8 @@ func DumpPodLogsStartingWithInNamespace(prefix, namespace string, oc *CLI) {
 	}
 }
 func DumpPodLogs(pods []kapiv1.Pod, oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -458,6 +488,8 @@ func DumpPodsCommand(c kubernetes.Interface, ns string, selector labels.Selector
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podList, err := c.CoreV1().Pods(ns).List(metav1.ListOptions{LabelSelector: selector.String()})
 	o.Expect(err).NotTo(o.HaveOccurred())
 	values := make(map[string]string)
@@ -472,6 +504,8 @@ func DumpPodsCommand(c kubernetes.Interface, ns string, selector labels.Selector
 	}
 }
 func DumpConfigMapStates(oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -509,6 +543,8 @@ func GetMasterThreadDump(oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := oc.AsAdmin().Run("get").Args("--raw", "/debug/pprof/goroutine?debug=2").Output()
 	if err == nil {
 		e2e.Logf("\n\n Master thread stack dump:\n\n%s\n\n", string(out))
@@ -531,8 +567,12 @@ func PreTestDump() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func ExamineDiskUsage() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -564,9 +604,13 @@ func ExaminePodDiskUsage(oc *CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return
 }
 func VarSubOnFile(srcFile string, destFile string, vars map[string]string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -607,6 +651,8 @@ func StartBuild(oc *CLI, args ...string) (stdout, stderr string, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stdout, stderr, err = oc.Run("start-build").Args(args...).Outputs()
 	e2e.Logf("\n\nstart-build output with args %v:\nError>%v\nStdOut>\n%s\nStdErr>\n%s\n\n", args, err, stdout, stderr)
 	return stdout, stderr, err
@@ -617,6 +663,8 @@ var buildPathPattern = regexp.MustCompile(`^build\.build\.openshift\.io/([\w\-\.
 type LogDumperFunc func(oc *CLI, br *BuildResult) (string, error)
 
 func NewBuildResult(oc *CLI, build *buildv1.Build) *BuildResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -666,6 +714,8 @@ func (t *BuildResult) DumpLogs() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("\n\n*****************************************\n")
 	e2e.Logf("Dumping Build Result: %#v\n", *t)
 	if t == nil {
@@ -690,6 +740,8 @@ func (t *BuildResult) DumpLogs() {
 	t.dumpRegistryLogs()
 }
 func (t *BuildResult) dumpRegistryLogs() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -755,6 +807,8 @@ func (t *BuildResult) Logs() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if t == nil || t.BuildPath == "" {
 		return "", fmt.Errorf("Not enough information to retrieve logs for %#v", *t)
 	}
@@ -768,6 +822,8 @@ func (t *BuildResult) Logs() (string, error) {
 	return buildOuput, nil
 }
 func (t *BuildResult) LogsNoTimestamp() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -809,6 +865,8 @@ func (t *BuildResult) AssertSuccess() *BuildResult {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !t.BuildSuccess {
 		t.DumpLogs()
 	}
@@ -830,6 +888,8 @@ func (t *BuildResult) AssertFailure() *BuildResult {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !t.BuildFailure {
 		t.DumpLogs()
 	}
@@ -837,6 +897,8 @@ func (t *BuildResult) AssertFailure() *BuildResult {
 	return t
 }
 func StartBuildResult(oc *CLI, args ...string) (result *BuildResult, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -878,6 +940,8 @@ func StartBuildAndWait(oc *CLI, args ...string) (result *BuildResult, err error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err = StartBuildResult(oc, args...)
 	if err != nil {
 		return result, err
@@ -885,6 +949,8 @@ func StartBuildAndWait(oc *CLI, args ...string) (result *BuildResult, err error)
 	return result, WaitForBuildResult(oc.BuildClient().BuildV1().Builds(oc.Namespace()), result)
 }
 func WaitForBuildResult(c buildv1clienttyped.BuildInterface, result *BuildResult) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -922,6 +988,8 @@ func WaitForBuildResult(c buildv1clienttyped.BuildInterface, result *BuildResult
 	return nil
 }
 func WaitForABuild(c buildv1clienttyped.BuildInterface, name string, isOK, isFailed, isCanceled func(*buildv1.Build) bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -999,9 +1067,13 @@ func CheckBuildSuccess(b *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.Status.Phase == buildv1.BuildPhaseComplete
 }
 func CheckBuildFailed(b *buildv1.Build) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1033,9 +1105,13 @@ func CheckBuildCancelled(b *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.Status.Phase == buildv1.BuildPhaseCancelled
 }
 func WaitForServiceAccount(c corev1client.ServiceAccountInterface, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1068,6 +1144,8 @@ func WaitForServiceAccount(c corev1client.ServiceAccountInterface, name string) 
 	return wait.Poll(time.Duration(100*time.Millisecond), 3*time.Minute, waitFn)
 }
 func WaitForAnImageStream(client imagetypeclientset.ImageStreamInterface, name string, isOK, isFailed func(*imageapi.ImageStream) bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1132,9 +1210,13 @@ func WaitForAnImageStreamTag(oc *CLI, namespace, name, tag string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return TimedWaitForAnImageStreamTag(oc, namespace, name, tag, time.Second*300)
 }
 func TimedWaitForAnImageStreamTag(oc *CLI, namespace, name, tag string, waitTimeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1185,6 +1267,8 @@ func CheckImageStreamLatestTagPopulated(i *imageapi.ImageStream) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ok := i.Status.Tags["latest"]
 	return ok
 }
@@ -1203,9 +1287,13 @@ func CheckImageStreamTagNotFound(i *imageapi.ImageStream) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Contains(i.Annotations[imageapi.DockerImageRepositoryCheckAnnotation], "not") || strings.Contains(i.Annotations[imageapi.DockerImageRepositoryCheckAnnotation], "error")
 }
 func WaitForDeploymentConfig(kc kubernetes.Interface, dcClient appsv1clienttyped.DeploymentConfigsGetter, namespace, name string, version int64, enforceNotProgressing bool, cli *CLI) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1285,6 +1373,8 @@ func isUsageSynced(received, expected corev1.ResourceList, expectedIsUpperLimit 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resourceNames := quota.ResourceNames(expected)
 	masked := quota.Mask(received, resourceNames)
 	if len(masked) != len(expected) {
@@ -1302,6 +1392,8 @@ func isUsageSynced(received, expected corev1.ResourceList, expectedIsUpperLimit 
 	return true
 }
 func WaitForResourceQuotaSync(client corev1client.ResourceQuotaInterface, name string, expectedUsage corev1.ResourceList, expectedIsUpperLimit bool, timeout time.Duration) (corev1.ResourceList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1368,6 +1460,8 @@ func GetPodNamesByFilter(c corev1client.PodInterface, label labels.Selector, pre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podList, err := c.List(metav1.ListOptions{LabelSelector: label.String()})
 	if err != nil {
 		return nil, err
@@ -1380,6 +1474,8 @@ func GetPodNamesByFilter(c corev1client.PodInterface, label labels.Selector, pre
 	return podNames, nil
 }
 func WaitForAJob(c batchv1client.JobInterface, name string, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1408,6 +1504,8 @@ func WaitForAJob(c batchv1client.JobInterface, name string, timeout time.Duratio
 	})
 }
 func WaitForPods(c corev1client.PodInterface, label labels.Selector, predicate func(kapiv1.Pod) bool, count int, timeout time.Duration) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1451,6 +1549,8 @@ func CheckPodIsRunning(pod kapiv1.Pod) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return pod.Status.Phase == kapiv1.PodRunning
 }
 func CheckPodIsSucceeded(pod kapiv1.Pod) bool {
@@ -1468,9 +1568,13 @@ func CheckPodIsSucceeded(pod kapiv1.Pod) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return pod.Status.Phase == kapiv1.PodSucceeded
 }
 func CheckPodIsReady(pod kapiv1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1511,9 +1615,13 @@ func CheckPodNoOp(pod kapiv1.Pod) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func WaitUntilPodIsGone(c corev1client.PodInterface, podName string, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1540,6 +1648,8 @@ func WaitUntilPodIsGone(c corev1client.PodInterface, podName string, timeout tim
 	})
 }
 func GetDockerImageReference(c imagetypeclientset.ImageStreamInterface, name, tag string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1582,6 +1692,8 @@ func GetPodForContainer(container kapiv1.Container) *kapiv1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := apihelpers.GetPodName("test-pod", string(uuid.NewUUID()))
 	return &kapiv1.Pod{TypeMeta: metav1.TypeMeta{Kind: "Pod", APIVersion: "v1"}, ObjectMeta: metav1.ObjectMeta{Name: name, Labels: map[string]string{"name": name}}, Spec: kapiv1.PodSpec{Containers: []kapiv1.Container{container}, RestartPolicy: kapiv1.RestartPolicyNever}}
 }
@@ -1600,9 +1712,13 @@ func KubeConfigPath() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return os.Getenv("KUBECONFIG")
 }
 func ArtifactDirPath() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1637,6 +1753,8 @@ func ArtifactPath(elem ...string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return filepath.Join(append([]string{ArtifactDirPath()}, elem...)...)
 }
 
@@ -1646,6 +1764,8 @@ var (
 )
 
 func FixturePath(elem ...string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1724,6 +1844,8 @@ func FetchURL(oc *CLI, url string, retryTimeout time.Duration) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := oc.KubeFramework().Namespace.Name
 	execPodName := CreateExecPodOrFail(oc.AdminKubeClient().CoreV1(), ns, string(uuid.NewUUID()))
 	defer func() {
@@ -1772,6 +1894,8 @@ func ParseLabelsOrDie(str string) labels.Selector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret, err := labels.Parse(str)
 	if err != nil {
 		panic(fmt.Sprintf("cannot parse '%v': %v", str, err))
@@ -1779,6 +1903,8 @@ func ParseLabelsOrDie(str string) labels.Selector {
 	return ret
 }
 func GetEndpointAddress(oc *CLI, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1818,6 +1944,8 @@ func CreateExecPodOrFail(client corev1client.CoreV1Interface, ns, name string) s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Creating new exec pod")
 	execPod := e2e.NewHostExecPodSpec(ns, name)
 	created, err := client.Pods(ns).Create(execPod)
@@ -1833,6 +1961,8 @@ func CreateExecPodOrFail(client corev1client.CoreV1Interface, ns, name string) s
 	return created.Name
 }
 func CheckForBuildEvent(client corev1client.CoreV1Interface, build *buildv1.Build, reason, message string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1887,6 +2017,8 @@ func NewPodExecutor(oc *CLI, name, image string) (*podExecutor, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := oc.Run("run").Args(name, "--labels", "name="+name, "--image", image, "--restart", "Never", "--command", "--", "/bin/bash", "-c", "sleep infinity").Output()
 	if err != nil {
 		return nil, fmt.Errorf("error: %v\n(%s)", err, out)
@@ -1898,6 +2030,8 @@ func NewPodExecutor(oc *CLI, name, image string) (*podExecutor, error) {
 	return &podExecutor{client: oc, podName: name}, nil
 }
 func (r *podExecutor) Exec(script string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1935,6 +2069,8 @@ func (r *podExecutor) CopyFromHost(local, remote string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := r.client.Run("cp").Args(local, fmt.Sprintf("%s:%s", r.podName, remote)).Output()
 	return err
 }
@@ -1948,6 +2084,8 @@ type GitRepo struct {
 }
 
 func (r GitRepo) AddAndCommit(file, content string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1992,11 +2130,15 @@ func (r GitRepo) Remove() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.baseTempDir != "" {
 		os.RemoveAll(r.baseTempDir)
 	}
 }
 func NewGitRepo(repoName string) (GitRepo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2042,6 +2184,8 @@ func WaitForUserBeAuthorized(oc *CLI, user, verb, resource string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sar := &authorization.SubjectAccessReview{Spec: authorization.SubjectAccessReviewSpec{ResourceAttributes: &authorization.ResourceAttributes{Namespace: oc.Namespace(), Verb: verb, Resource: resource}, User: user}}
 	return wait.PollImmediate(1*time.Second, 1*time.Minute, func() (bool, error) {
 		resp, err := oc.InternalAdminKubeClient().Authorization().SubjectAccessReviews().Create(sar)
@@ -2052,6 +2196,8 @@ func WaitForUserBeAuthorized(oc *CLI, user, verb, resource string) error {
 	})
 }
 func GetRouterPodTemplate(oc *CLI) (*corev1.PodTemplateSpec, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2108,6 +2254,8 @@ func FindImageFormatString(oc *CLI) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	template, _, err := GetRouterPodTemplate(oc)
 	if err == nil {
 		if strings.Contains(template.Spec.Containers[0].Image, "haproxy-router") {
@@ -2117,6 +2265,8 @@ func FindImageFormatString(oc *CLI) (string, bool) {
 	return "openshift/origin-${component}:latest", false
 }
 func FindCLIImage(oc *CLI) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2157,10 +2307,14 @@ func FindRouterImage(oc *CLI) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	format, ok := FindImageFormatString(oc)
 	return strings.Replace(format, "${component}", "haproxy-router", -1), ok
 }
 func IsClusterOperated(oc *CLI) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -28,6 +28,8 @@ func RunResourceQuotaManager(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	concurrentResourceQuotaSyncs := int(ctx.OpenshiftControllerConfig.ResourceQuota.ConcurrentSyncs)
 	resourceQuotaSyncPeriod := ctx.OpenshiftControllerConfig.ResourceQuota.SyncPeriod.Duration
 	replenishmentSyncPeriodFunc := calculateResyncPeriod(ctx.OpenshiftControllerConfig.ResourceQuota.MinResyncPeriod.Duration)
@@ -45,6 +47,8 @@ func RunResourceQuotaManager(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunClusterQuotaReconciliationController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func RunClusterQuotaReconciliationController(ctx *ControllerContext) (bool, erro
 	return true, nil
 }
 func calculateResyncPeriod(period time.Duration) func() time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

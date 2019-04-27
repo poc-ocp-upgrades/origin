@@ -23,6 +23,8 @@ func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme, codecs := apitesting.SchemeForOrDie(Install)
 	data, err := runtime.Encode(codecs.LegacyCodec(GroupVersion), obj)
 	if err != nil {
@@ -43,6 +45,8 @@ func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
 	return obj3
 }
 func TestDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

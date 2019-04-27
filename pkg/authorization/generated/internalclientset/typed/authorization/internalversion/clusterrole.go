@@ -39,9 +39,13 @@ func newClusterRoles(c *AuthorizationClient) *clusterRoles {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &clusterRoles{client: c.RESTClient()}
 }
 func (c *clusterRoles) Get(name string, options v1.GetOptions) (result *authorization.ClusterRole, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,6 +65,8 @@ func (c *clusterRoles) Get(name string, options v1.GetOptions) (result *authoriz
 	return
 }
 func (c *clusterRoles) List(opts v1.ListOptions) (result *authorization.ClusterRoleList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (c *clusterRoles) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -106,6 +114,8 @@ func (c *clusterRoles) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Resource("clusterroles").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *clusterRoles) Create(clusterRole *authorization.ClusterRole) (result *authorization.ClusterRole, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,11 +149,15 @@ func (c *clusterRoles) Update(clusterRole *authorization.ClusterRole) (result *a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &authorization.ClusterRole{}
 	err = c.client.Put().Resource("clusterroles").Name(clusterRole.Name).Body(clusterRole).Do().Into(result)
 	return
 }
 func (c *clusterRoles) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (c *clusterRoles) DeleteCollection(options *v1.DeleteOptions, listOptions v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -182,6 +198,8 @@ func (c *clusterRoles) DeleteCollection(options *v1.DeleteOptions, listOptions v
 	return c.client.Delete().Resource("clusterroles").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *clusterRoles) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *authorization.ClusterRole, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

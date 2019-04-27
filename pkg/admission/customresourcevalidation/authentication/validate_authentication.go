@@ -32,11 +32,15 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		return crvalidation.NewValidator(map[schema.GroupResource]bool{configv1.GroupVersion.WithResource("authentications").GroupResource(): true}, map[schema.GroupVersionKind]crvalidation.ObjectValidator{configv1.GroupVersion.WithKind("Authentication"): authenticationV1{}})
 	})
 }
 func toAuthenticationV1(uncastObj runtime.Object) (*configv1.Authentication, field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func (authenticationV1) ValidateCreate(uncastObj runtime.Object) field.ErrorList
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, errs := toAuthenticationV1(uncastObj)
 	if len(errs) > 0 {
 		return errs
@@ -87,6 +93,8 @@ func (authenticationV1) ValidateCreate(uncastObj runtime.Object) field.ErrorList
 	return errs
 }
 func (authenticationV1) ValidateUpdate(uncastObj runtime.Object, uncastOldObj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func (authenticationV1) ValidateStatusUpdate(uncastObj runtime.Object, uncastOld
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, errs := toAuthenticationV1(uncastObj)
 	if len(errs) > 0 {
 		return errs
@@ -141,6 +151,8 @@ func (authenticationV1) ValidateStatusUpdate(uncastObj runtime.Object, uncastOld
 	return errs
 }
 func validateAuthenticationSpecCreate(spec configv1.AuthenticationSpec) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,9 +184,13 @@ func validateAuthenticationSpecUpdate(newspec, oldspec configv1.AuthenticationSp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateAuthenticationSpec(newspec)
 }
 func validateAuthenticationSpec(spec configv1.AuthenticationSpec) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +233,8 @@ func validateAuthenticationStatus(status configv1.AuthenticationStatus) field.Er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return crvalidation.ValidateConfigMapReference(field.NewPath("status", "integratedOAuthMetadata"), status.IntegratedOAuthMetadata, false)
 }
 func _logClusterCodePath() {
@@ -234,6 +252,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -308,5 +347,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

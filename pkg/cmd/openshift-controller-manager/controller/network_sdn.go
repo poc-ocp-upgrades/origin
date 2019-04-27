@@ -22,6 +22,8 @@ func RunSDNController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !network.IsOpenShiftNetworkPlugin(ctx.OpenshiftControllerConfig.Network.NetworkPluginName) {
 		return false, nil
 	}

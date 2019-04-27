@@ -32,6 +32,8 @@ func ConvertMasterConfigToOpenshiftControllerConfig(input *legacyconfigv1.Master
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flagOptions, err := kcmoptions.NewKubeControllerManagerOptions()
 	if err != nil {
 		panic(err)
@@ -89,6 +91,8 @@ func getBuildDefaults(pluginConfig map[string]*legacyconfigv1.AdmissionPluginCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const buildDefaultsPlugin = "BuildDefaults"
 	uncastConfig, err := getPluginConfigObj(pluginConfig, buildDefaultsPlugin, &openshiftcontrolplanev1.BuildDefaultsConfig{})
 	if err != nil {
@@ -104,6 +108,8 @@ func getBuildDefaults(pluginConfig map[string]*legacyconfigv1.AdmissionPluginCon
 	return config, nil
 }
 func getBuildOverrides(pluginConfig map[string]*legacyconfigv1.AdmissionPluginConfig) (*openshiftcontrolplanev1.BuildOverridesConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +153,8 @@ func getPluginConfigObj(pluginConfig map[string]*legacyconfigv1.AdmissionPluginC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	yamlContent, err := getPluginConfigYAML(pluginConfig, pluginName)
 	if err != nil {
 		return nil, err
@@ -169,6 +177,8 @@ func getPluginConfigObj(pluginConfig map[string]*legacyconfigv1.AdmissionPluginC
 	return target, nil
 }
 func getPluginConfigYAML(pluginConfig map[string]*legacyconfigv1.AdmissionPluginConfig, pluginName string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -43,9 +43,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	legacy.InstallInternalLegacyAll(legacyscheme.Scheme)
 }
 func walkJSONFiles(inDir string, fn func(name, path string, data []byte)) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +110,8 @@ func TestExampleObjectSchemas(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	capabilities.Setup(true, capabilities.PrivilegedSources{}, 0)
 	cases := map[string]map[string]runtime.Object{"../examples/sample-app": {"github-webhook-example": nil, "application-template-stibuild": &templateapi.Template{}, "application-template-dockerbuild": &templateapi.Template{}, "application-template-pullspecbuild": &templateapi.Template{}}, "../examples/jenkins": {"jenkins-ephemeral-template": &templateapi.Template{}, "jenkins-persistent-template": &templateapi.Template{}, "application-template": &templateapi.Template{}}, "../examples/image-streams": {"image-streams-centos7": &imageapi.ImageStreamList{}, "image-streams-rhel7": &imageapi.ImageStreamList{}}, "../examples/db-templates": {"mysql-persistent-template": &templateapi.Template{}, "postgresql-persistent-template": &templateapi.Template{}, "mongodb-persistent-template": &templateapi.Template{}, "mariadb-persistent-template": &templateapi.Template{}, "redis-persistent-template": &templateapi.Template{}, "mysql-ephemeral-template": &templateapi.Template{}, "postgresql-ephemeral-template": &templateapi.Template{}, "mongodb-ephemeral-template": &templateapi.Template{}, "mariadb-ephemeral-template": &templateapi.Template{}, "redis-ephemeral-template": &templateapi.Template{}}, "../test/extended/testdata/ldap": {"ldapserver-buildconfig": &buildapi.BuildConfig{}, "ldapserver-deploymentconfig": &appsapi.DeploymentConfig{}, "ldapserver-imagestream": &imageapi.ImageStream{}, "ldapserver-imagestream-testenv": &imageapi.ImageStream{}, "ldapserver-service": &kapi.Service{}}, "../test/integration/testdata": {"project-request-template-with-quota": nil, "test-replication-controller": nil, "test-deployment-config": &appsapi.DeploymentConfig{}, "test-image": &imageapi.Image{}, "test-image-stream": &imageapi.ImageStream{}, "test-image-stream-mapping": nil, "test-route": &routeapi.Route{}, "test-service": &kapi.Service{}, "test-service-with-finalizer": &kapi.Service{}, "test-buildcli": &kapi.List{}, "test-buildcli-beta2": &kapi.List{}, "test-egress-network-policy": &networkapi.EgressNetworkPolicy{}}, "../test/templates/testdata": {"crunchydata-pod": nil, "guestbook_list": &templateapi.Template{}, "guestbook": &templateapi.Template{}}}
 	for path, expected := range cases {
@@ -136,6 +142,8 @@ func TestExampleObjectSchemas(t *testing.T) {
 	}
 }
 func validateObject(path string, obj runtime.Object, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +200,8 @@ func validateObject(path string, obj runtime.Object, t *testing.T) {
 	}
 }
 func TestReadme(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

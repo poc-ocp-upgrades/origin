@@ -23,6 +23,8 @@ func ClusterRoleToRBAC(obj *authorizationapi.ClusterRole) (*rbacv1.ClusterRole, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objCopy := obj.DeepCopy()
 	convertedObjInternal := &rbac.ClusterRole{}
 	if err := rbacconversion.Convert_authorization_ClusterRole_To_rbac_ClusterRole(objCopy, convertedObjInternal, nil); err != nil {
@@ -35,6 +37,8 @@ func ClusterRoleToRBAC(obj *authorizationapi.ClusterRole) (*rbacv1.ClusterRole, 
 	return convertedObj, nil
 }
 func ClusterRoleBindingToRBAC(obj *authorizationapi.ClusterRoleBinding) (*rbacv1.ClusterRoleBinding, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func RoleToRBAC(obj *authorizationapi.Role) (*rbacv1.Role, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objCopy := obj.DeepCopy()
 	convertedObjInternal := &rbac.Role{}
 	if err := rbacconversion.Convert_authorization_Role_To_rbac_Role(objCopy, convertedObjInternal, nil); err != nil {
@@ -87,6 +93,8 @@ func RoleToRBAC(obj *authorizationapi.Role) (*rbacv1.Role, error) {
 	return convertedObj, nil
 }
 func RoleBindingToRBAC(obj *authorizationapi.RoleBinding) (*rbacv1.RoleBinding, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +135,8 @@ func ClusterRoleFromRBAC(obj *rbacv1.ClusterRole) (*authorizationapi.ClusterRole
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objCopy := obj.DeepCopy()
 	convertedObjInternal := &rbac.ClusterRole{}
 	if err := rbacv1helpers.Convert_v1_ClusterRole_To_rbac_ClusterRole(objCopy, convertedObjInternal, nil); err != nil {
@@ -139,6 +149,8 @@ func ClusterRoleFromRBAC(obj *rbacv1.ClusterRole) (*authorizationapi.ClusterRole
 	return convertedObj, nil
 }
 func ClusterRoleBindingFromRBAC(obj *rbacv1.ClusterRoleBinding) (*authorizationapi.ClusterRoleBinding, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -179,6 +191,8 @@ func RoleFromRBAC(obj *rbacv1.Role) (*authorizationapi.Role, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objCopy := obj.DeepCopy()
 	convertedObjInternal := &rbac.Role{}
 	if err := rbacv1helpers.Convert_v1_Role_To_rbac_Role(objCopy, convertedObjInternal, nil); err != nil {
@@ -191,6 +205,8 @@ func RoleFromRBAC(obj *rbacv1.Role) (*authorizationapi.Role, error) {
 	return convertedObj, nil
 }
 func RoleBindingFromRBAC(obj *rbacv1.RoleBinding) (*authorizationapi.RoleBinding, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

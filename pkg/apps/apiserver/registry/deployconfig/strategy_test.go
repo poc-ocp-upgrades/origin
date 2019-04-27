@@ -31,9 +31,13 @@ func int32ptr(v int32) *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v
 }
 func TestDeploymentConfigStrategy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func TestPrepareForUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewDefaultContext()
 	tests := []struct {
 		name		string
@@ -122,9 +128,13 @@ func prevDeployment() *appsapi.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "default", Generation: 4, Annotations: make(map[string]string)}, Spec: appstest.OkDeploymentConfigSpec(), Status: appstest.OkDeploymentConfigStatus(1)}
 }
 func afterDeployment() *appsapi.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,11 +168,15 @@ func expectedAfterDeployment() *appsapi.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc := afterDeployment()
 	dc.Generation++
 	return dc
 }
 func afterDeploymentVersionBump() *appsapi.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,11 +210,15 @@ func expectedAfterVersionBump() *appsapi.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc := afterDeploymentVersionBump()
 	dc.Generation++
 	return dc
 }
 func setRevisionHistoryLimit(v *int32, dc *appsapi.DeploymentConfig) *appsapi.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -233,11 +251,15 @@ func okDeploymentConfig(generation int64) *appsapi.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc := appstest.OkDeploymentConfig(0)
 	dc.ObjectMeta.Generation = generation
 	return dc
 }
 func TestLegacyStrategy_PrepareForCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -286,6 +308,8 @@ func TestLegacyStrategy_DefaultGarbageCollectionPolicy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expected := rest.OrphanDependents
 	got := LegacyStrategy.DefaultGarbageCollectionPolicy(nil)
 	if got != expected {
@@ -293,6 +317,8 @@ func TestLegacyStrategy_DefaultGarbageCollectionPolicy(t *testing.T) {
 	}
 }
 func TestGroupStrategy_PrepareForCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -26,6 +26,8 @@ func (c *FakeProjectRequests) Create(projectRequest *project.ProjectRequest) (re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootCreateAction(projectrequestsResource, projectRequest), &project.Project{})
 	if obj == nil {
 		return nil, err

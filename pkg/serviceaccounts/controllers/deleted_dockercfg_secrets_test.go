@@ -29,6 +29,8 @@ func TestDockercfgDeletion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		ClientObjects	[]runtime.Object
 		DeletedSecret	*v1.Secret

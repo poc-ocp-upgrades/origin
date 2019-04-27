@@ -22,6 +22,8 @@ func TestDuelingRC(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/dueling-rcs.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)

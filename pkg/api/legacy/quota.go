@@ -23,11 +23,15 @@ func InstallInternalLegacyQuota(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyQuota(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalQuotaTypes, quotav1helpers.RegisterDefaults, quotav1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func InstallExternalLegacyQuota(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,11 +64,15 @@ func addUngroupifiedQuotaTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	types := []runtime.Object{&quotav1.ClusterResourceQuota{}, &quotav1.ClusterResourceQuotaList{}, &quotav1.AppliedClusterResourceQuota{}, &quotav1.AppliedClusterResourceQuotaList{}}
 	scheme.AddKnownTypes(GroupVersion, types...)
 	return nil
 }
 func addUngroupifiedInternalQuotaTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

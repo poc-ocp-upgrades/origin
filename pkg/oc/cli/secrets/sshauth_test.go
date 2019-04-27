@@ -21,6 +21,8 @@ func TestValidateSSHAuth(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName	string
 		args		[]string

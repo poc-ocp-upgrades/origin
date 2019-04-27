@@ -28,6 +28,8 @@ func TestBuildConfigOutput(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, err := git.Parse("https://github.com/openshift/origin.git")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -85,6 +87,8 @@ func TestSimpleDeploymentConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image := &ImageRef{Reference: imageapi.DockerImageReference{Registry: "myregistry", Namespace: "openshift", Name: "origin"}, Info: testImageInfo(), AsImageStream: true}
 	deploy := &DeploymentConfigRef{Images: []*ImageRef{image}}
 	config, err := deploy.DeploymentConfig()
@@ -107,6 +111,8 @@ func TestSimpleDeploymentConfig(t *testing.T) {
 	}
 }
 func TestImageRefDeployableContainerPorts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +183,8 @@ func TestFromName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
 	imageRef, err := g.FromName("some.registry.com:1234/namespace1/name:tag1234")
 	if err != nil {
@@ -197,6 +205,8 @@ func TestFromName(t *testing.T) {
 	}
 }
 func TestFromStream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,6 +253,8 @@ func TestFromNameAndPorts(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
 	ports := []string{"8080"}
 	imageRef, err := g.FromNameAndPorts("some.registry.com:1234/namespace1/name:tag1234", ports)
@@ -267,6 +279,8 @@ func TestFromNameAndPorts(t *testing.T) {
 	}
 }
 func TestFromDockerfile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

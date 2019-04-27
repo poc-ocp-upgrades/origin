@@ -137,6 +137,8 @@ func (w *ArgumentClassificationWinner) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w.Name) == 0 || len(w.Suffix) == 0 {
 		return ""
 	}
@@ -149,6 +151,8 @@ type ErrRequiresExplicitAccess struct {
 }
 
 func (e ErrRequiresExplicitAccess) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,9 +199,13 @@ func NewAppConfig() *AppConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &AppConfig{Resolvers: Resolvers{Detector: app.SourceRepositoryEnumerator{Detectors: source.DefaultDetectors, DockerfileTester: dockerfile.NewTester(), JenkinsfileTester: jenkinsfile.NewTester()}}, EnvironmentClassificationErrors: map[string]ArgumentClassificationError{}, SourceClassificationErrors: map[string]ArgumentClassificationError{}, TemplateClassificationErrors: map[string]ArgumentClassificationError{}, ComponentClassificationErrors: map[string]ArgumentClassificationError{}, ClassificationWinners: map[string]ArgumentClassificationWinner{}}
 }
 func (c *AppConfig) DockerRegistrySearcher() app.Searcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,11 +237,15 @@ func (c *AppConfig) ensureDockerSearch() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.DockerSearcher == nil {
 		c.DockerSearcher = c.DockerRegistrySearcher()
 	}
 }
 func (c *AppConfig) SetOpenShiftClient(imageClient imagev1typedclient.ImageV1Interface, templateClient templatev1typedclient.TemplateV1Interface, routeClient routev1typedclient.RouteV1Interface, OriginNamespace string, dockerclient *docker.Client) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -277,6 +289,8 @@ func (c *AppConfig) tryToAddEnvironmentArguments(s string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc := env.IsEnvironmentArgument(s)
 	if rc {
 		klog.V(2).Infof("treating %s as possible environment argument\n", s)
@@ -287,6 +301,8 @@ func (c *AppConfig) tryToAddEnvironmentArguments(s string) bool {
 	return rc
 }
 func (c *AppConfig) tryToAddSourceArguments(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +352,8 @@ func (c *AppConfig) tryToAddComponentArguments(s string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := app.IsComponentReference(s)
 	if err == nil {
 		klog.V(2).Infof("treating %s as a component ref\n", s)
@@ -346,6 +364,8 @@ func (c *AppConfig) tryToAddComponentArguments(s string) bool {
 	return false
 }
 func (c *AppConfig) tryToAddTemplateArguments(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -372,6 +392,8 @@ func (c *AppConfig) tryToAddTemplateArguments(s string) bool {
 	return false
 }
 func (c *AppConfig) AddArguments(args []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -427,6 +449,8 @@ func (c *AppConfig) validateBuilders(components app.ComponentReferences) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.Strategy != newapp.StrategyUnspecified {
 		return nil
 	}
@@ -441,6 +465,8 @@ func (c *AppConfig) validateBuilders(components app.ComponentReferences) error {
 	return kutilerrors.NewAggregate(errs)
 }
 func validateEnforcedName(name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,12 +501,16 @@ func validateOutputImageReference(ref string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := reference.Parse(ref); err != nil {
 		return fmt.Errorf("invalid output image reference: %s", ref)
 	}
 	return nil
 }
 func (c *AppConfig) buildPipelines(components app.ComponentReferences, environment app.Environment, buildEnvironment app.Environment) (app.PipelineGroup, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -606,6 +636,8 @@ func (c *AppConfig) buildTemplates(components app.ComponentReferences, parameter
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objects := []runtime.Object{}
 	name := ""
 	for _, ref := range components {
@@ -667,6 +699,8 @@ func (a *fakeSecretAccessor) Token() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.token, nil
 }
 func (a *fakeSecretAccessor) CACert() (string, error) {
@@ -684,9 +718,13 @@ func (a *fakeSecretAccessor) CACert() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", nil
 }
 func (c *AppConfig) installComponents(components app.ComponentReferences, env app.Environment) ([]runtime.Object, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -767,6 +805,8 @@ func (c *AppConfig) installComponents(components app.ComponentReferences, env ap
 	return objects, name, nil
 }
 func (c *AppConfig) RunQuery() (*QueryResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -862,6 +902,8 @@ func (c *AppConfig) validate() (app.Environment, app.Environment, app.Environmen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	env, err := app.ParseAndCombineEnvironment(c.Environment, c.EnvironmentFiles, c.In, func(key, file string) error {
 		if file == "" {
 			fmt.Fprintf(c.ErrOut, "warning: Environment variable %q was overwritten\n", key)
@@ -912,6 +954,8 @@ func templateObjectsToAppObjects(objs []runtime.RawExtension) (app.Objects, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converted := []runtime.Object{}
 	for _, raw := range objs {
 		if raw.Object != nil {
@@ -926,6 +970,8 @@ func templateObjectsToAppObjects(objs []runtime.RawExtension) (app.Objects, erro
 	return converted, nil
 }
 func (c *AppConfig) Run() (*AppResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1096,6 +1142,8 @@ func (c *AppConfig) findImageStreamInObjectList(objects app.Objects, name, names
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, check := range objects {
 		if is, ok := check.(*imagev1.ImageStream); ok {
 			nsToCompare := is.Namespace
@@ -1110,6 +1158,8 @@ func (c *AppConfig) findImageStreamInObjectList(objects app.Objects, name, names
 	return nil
 }
 func (c *AppConfig) crossStreamCircularTagReference(stream *imagev1.ImageStream, tag string, objects app.Objects) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1175,6 +1225,8 @@ func (c *AppConfig) crossStreamInputToOutputTagReference(instream, outstream *im
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if instream == nil || outstream == nil {
 		return false
 	}
@@ -1210,6 +1262,8 @@ func (c *AppConfig) crossStreamInputToOutputTagReference(instream, outstream *im
 	}
 }
 func (c *AppConfig) followRefToDockerImage(ref *corev1.ObjectReference, isContext *imagev1.ImageStream, objects app.Objects) (*corev1.ObjectReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1298,6 +1352,8 @@ func (c *AppConfig) removeRedundantTags(objects app.Objects) (app.Objects, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objectsToRemove := map[string]struct{}{}
 	for _, obj := range objects {
 		if ist, ok := obj.(*imagev1.ImageStreamTag); ok {
@@ -1335,6 +1391,8 @@ func (c *AppConfig) removeRedundantTags(objects app.Objects) (app.Objects, error
 	return objectsToKeep, nil
 }
 func (c *AppConfig) checkCircularReferences(objects app.Objects) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1443,9 +1501,13 @@ func (c *AppConfig) Querying() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.AsList || c.AsSearch
 }
 func (c *AppConfig) HasArguments() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1477,6 +1539,8 @@ func getBuildConfigEnv(buildConfig *buildv1.BuildConfig) []corev1.EnvVar {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case buildConfig.Spec.Strategy.SourceStrategy != nil:
 		return buildConfig.Spec.Strategy.SourceStrategy.Env
@@ -1491,6 +1555,8 @@ func getBuildConfigEnv(buildConfig *buildv1.BuildConfig) []corev1.EnvVar {
 	}
 }
 func setBuildConfigEnv(buildConfig *buildv1.BuildConfig, env []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

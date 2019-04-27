@@ -39,6 +39,8 @@ func fakeDeploymentConfig(name string, containers ...containerDesc) *appsv1.Depl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	specContainers := []corev1.Container{}
 	for _, c := range containers {
 		container := corev1.Container{Name: c.name}
@@ -65,6 +67,8 @@ func expectedService(name string, ports ...portDesc) *corev1.Service {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	servicePorts := []corev1.ServicePort{}
 	for _, p := range ports {
 		servicePorts = append(servicePorts, corev1.ServicePort{Name: fmt.Sprintf("%d-%s", p.port, p.protocol), Port: int32(p.port), Protocol: corev1.Protocol(p.protocol), TargetPort: intstr.FromInt(p.port)})
@@ -72,6 +76,8 @@ func expectedService(name string, ports ...portDesc) *corev1.Service {
 	return &corev1.Service{TypeMeta: metav1.TypeMeta{APIVersion: corev1.SchemeGroupVersion.String(), Kind: "Service"}, ObjectMeta: metav1.ObjectMeta{Name: name}, Spec: corev1.ServiceSpec{Selector: map[string]string{"name": "test"}, Ports: servicePorts}}
 }
 func getServices(objects Objects) Objects {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +115,8 @@ func objsToString(objs Objects) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := "Objects{"
 	for _, obj := range objs {
 		result += fmt.Sprintf("\t%#v\n", obj)
@@ -117,6 +125,8 @@ func objsToString(objs Objects) string {
 	return result
 }
 func TestAcceptUnique(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,6 +175,8 @@ func TestAcceptUnique(t *testing.T) {
 	}
 }
 func TestAddServices(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

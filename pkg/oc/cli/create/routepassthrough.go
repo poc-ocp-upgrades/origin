@@ -49,6 +49,8 @@ func NewCmdCreatePassthroughRoute(fullName string, f kcmdutil.Factory, streams g
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreatePassthroughRouteOptions{CreateRouteSubcommandOptions: NewCreateRouteSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: "passthrough [NAME] --service=SERVICE", Short: "Create a route that uses passthrough TLS termination", Long: passthroughRouteLong, Example: fmt.Sprintf(passthroughRouteExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args))
@@ -80,9 +82,13 @@ func (o *CreatePassthroughRouteOptions) Complete(f kcmdutil.Factory, cmd *cobra.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.CreateRouteSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreatePassthroughRouteOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

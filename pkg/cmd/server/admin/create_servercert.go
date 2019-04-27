@@ -56,9 +56,13 @@ func NewCreateServerCertOptions(streams genericclioptions.IOStreams) *CreateServ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateServerCertOptions{SignerCertOptions: NewDefaultSignerCertOptions(), ExpireDays: crypto.DefaultCertificateLifetimeInDays, Overwrite: true, IOStreams: streams}
 }
 func NewCommandCreateServerCert(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,6 +109,8 @@ func (o CreateServerCertOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -129,6 +135,8 @@ func (o CreateServerCertOptions) Validate(args []string) error {
 	return nil
 }
 func (o CreateServerCertOptions) CreateServerCert() (*crypto.TLSCertificateConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

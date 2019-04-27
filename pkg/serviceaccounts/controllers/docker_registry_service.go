@@ -50,6 +50,8 @@ func NewDockerRegistryServiceController(secrets informers.SecretInformer, servic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &DockerRegistryServiceController{client: cl, additionalRegistryURLs: options.AdditionalRegistryURLs, clusterDNSSuffix: options.ClusterDNSSuffix, dockercfgController: options.DockercfgController, registryLocationQueue: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()), secretsToUpdate: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()), dockerURLsInitialized: options.DockerURLsInitialized}
 	serviceInformer.Informer().AddEventHandler(cache.FilteringResourceEventHandler{FilterFunc: func(obj interface{}) bool {
 		switch t := obj.(type) {
@@ -111,6 +113,8 @@ func (e *DockerRegistryServiceController) Run(workers int, stopCh <-chan struct{
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer e.registryLocationQueue.ShutDown()
 	klog.Infof("Starting DockerRegistryServiceController controller")
@@ -144,9 +148,13 @@ func (e *DockerRegistryServiceController) enqueueRegistryLocationQueue() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.registryLocationQueue.Add("check")
 }
 func (e *DockerRegistryServiceController) waitForDockerURLs(ready chan<- struct{}, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,6 +195,8 @@ func (e *DockerRegistryServiceController) setRegistryURLs(registryURLs ...string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.registryURLLock.Lock()
 	defer e.registryURLLock.Unlock()
 	e.registryURLs = sets.NewString(registryURLs...)
@@ -206,11 +216,15 @@ func (e *DockerRegistryServiceController) getRegistryURLs() sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.registryURLLock.RLock()
 	defer e.registryURLLock.RUnlock()
 	return sets.NewString(e.registryURLs.List()...)
 }
 func (e *DockerRegistryServiceController) watchForDockerURLChanges() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +274,8 @@ func (e *DockerRegistryServiceController) getDockerRegistryLocations() []string 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := append([]string{}, e.additionalRegistryURLs...)
 	for _, location := range serviceLocations {
 		ret = append(ret, getDockerRegistryLocations(e.serviceLister, location, e.clusterDNSSuffix)...)
@@ -268,6 +284,8 @@ func (e *DockerRegistryServiceController) getDockerRegistryLocations() []string 
 	return ret
 }
 func getDockerRegistryLocations(lister listers.ServiceLister, location serviceLocation, clusterDNSSuffix string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +315,8 @@ func getDockerRegistryLocations(lister listers.ServiceLister, location serviceLo
 	return []string{}
 }
 func (e *DockerRegistryServiceController) syncRegistryLocationChange() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -362,6 +382,8 @@ func (e *DockerRegistryServiceController) watchForDockercfgSecretUpdates() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	workFn := func() bool {
 		key, quit := e.secretsToUpdate.Get()
 		if quit {
@@ -383,6 +405,8 @@ func (e *DockerRegistryServiceController) watchForDockercfgSecretUpdates() {
 	}
 }
 func (e *DockerRegistryServiceController) syncSecretUpdate(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

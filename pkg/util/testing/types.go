@@ -25,5 +25,7 @@ func (obj *FakeLabelsResource) GetObjectKind() schema.ObjectKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &obj.TypeMeta
 }

@@ -54,9 +54,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	utilruntime.Must(osinv1.Install(scheme))
 }
 func NewOAuthServerConfig(oauthConfig osinv1.OAuthConfig, userClientConfig *rest.Config) (*OAuthServerConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +141,8 @@ func buildSessionAuth(secure bool, config *osinv1.SessionConfig, getter bootstra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secrets, err := getSessionSecrets(config.SessionSecretsFile)
 	if err != nil {
 		return nil, err
@@ -146,6 +152,8 @@ func buildSessionAuth(secure bool, config *osinv1.SessionConfig, getter bootstra
 	return session.NewBootstrapAuthenticator(sessionAuthenticator, getter, sessionStore), nil
 }
 func getSessionSecrets(filename string) ([][]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,6 +192,8 @@ func getSessionSecrets(filename string) ([][]byte, error) {
 	return secrets, nil
 }
 func isHTTPS(u string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,10 +256,14 @@ func (c *OAuthServerConfig) Complete() completedOAuthConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := completedOAuthConfig{c.GenericConfig.Complete(), &c.ExtraOAuthConfig}
 	return cfg
 }
 func (c completedOAuthConfig) New(delegationTarget genericapiserver.DelegationTarget) (*OAuthServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -286,6 +300,8 @@ func (c *OAuthServerConfig) buildHandlerChainForOAuth(startingHandler http.Handl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	handler, err := c.WithOAuth(startingHandler)
 	if err != nil {
 		panic(err)
@@ -302,6 +318,8 @@ func (c *OAuthServerConfig) buildHandlerChainForOAuth(startingHandler http.Handl
 	return handler
 }
 func (c *OAuthServerConfig) StartOAuthClientsBootstrapping(context genericapiserver.PostStartHookContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

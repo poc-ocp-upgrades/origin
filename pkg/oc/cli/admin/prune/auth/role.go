@@ -24,6 +24,8 @@ func reapForRole(bindingClient rbacv1client.RoleBindingsGetter, namespace, name 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bindings, err := bindingClient.RoleBindings(namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err

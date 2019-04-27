@@ -35,6 +35,8 @@ func (t *testNewIdentityGetter) UserForNewIdentity(ctx context.Context, preferre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.called++
 	if len(t.responses) < t.called {
 		return nil, fmt.Errorf("Called at least %d times, only %d responses registered", t.called, len(t.responses))
@@ -63,6 +65,8 @@ func TestGetPreferredUsername(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	identity := &userapi.Identity{}
 	identity.ProviderUserName = "foo"
 	if preferred := getPreferredUserName(identity); preferred != "foo" {
@@ -74,6 +78,8 @@ func TestGetPreferredUsername(t *testing.T) {
 	}
 }
 func TestProvision(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

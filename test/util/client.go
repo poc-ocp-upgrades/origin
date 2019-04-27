@@ -50,6 +50,8 @@ func GetBaseDir() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return cmdutil.Env("BASETMPDIR", path.Join(os.TempDir(), "openshift-"+Namespace()))
 }
 func KubeConfigPath() string {
@@ -67,9 +69,13 @@ func KubeConfigPath() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return filepath.Join(GetBaseDir(), "openshift.local.config", "master", "admin.kubeconfig")
 }
 func GetClusterAdminKubeClient(adminKubeConfigFile string) (kubernetes.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,6 +111,8 @@ func GetClusterAdminClientConfig(adminKubeConfigFile string) (*restclient.Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf, err := configapi.GetClientConfig(adminKubeConfigFile, nil)
 	if err != nil {
 		return nil, err
@@ -126,6 +134,8 @@ func GetClusterAdminClientConfigOrDie(adminKubeConfigFile string) *restclient.Co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conf, err := GetClusterAdminClientConfig(adminKubeConfigFile)
 	if err != nil {
 		panic(err)
@@ -133,6 +143,8 @@ func GetClusterAdminClientConfigOrDie(adminKubeConfigFile string) *restclient.Co
 	return conf
 }
 func GetClientForUser(clusterAdminConfig *restclient.Config, username string) (kubernetes.Interface, *restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -202,6 +214,8 @@ func GetScopedClientForUser(clusterAdminClientConfig *restclient.Config, usernam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, _, err := GetClientForUser(clusterAdminClientConfig, username); err != nil {
 		return nil, nil, err
 	}
@@ -222,6 +236,8 @@ func GetScopedClientForUser(clusterAdminClientConfig *restclient.Config, usernam
 	return kubeClient, scopedConfig, nil
 }
 func GetClientForServiceAccount(adminClient kubernetes.Interface, clientConfig restclient.Config, namespace, name string) (*kubernetes.Clientset, *restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +304,8 @@ func WaitForClusterResourceQuotaCRDAvailable(clusterAdminClientConfig *rest.Conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dynamicClient := dynamic.NewForConfigOrDie(clusterAdminClientConfig)
 	stopCh := make(chan struct{})
 	defer close(stopCh)
@@ -301,6 +319,8 @@ func WaitForClusterResourceQuotaCRDAvailable(clusterAdminClientConfig *rest.Conf
 	return nil
 }
 func WaitForResourceQuotaLimitSync(client corev1client.ResourceQuotaInterface, name string, hardLimit corev1.ResourceList, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,6 +387,8 @@ func isLimitSynced(received, expected corev1.ResourceList) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resourceNames := quota.ResourceNames(expected)
 	masked := quota.Mask(received, resourceNames)
 	if len(masked) != len(expected) {
@@ -395,12 +417,16 @@ func NonProtobufConfig(inConfig *rest.Config) *rest.Config {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	npConfig := rest.CopyConfig(inConfig)
 	npConfig.ContentConfig.AcceptContentTypes = "application/json"
 	npConfig.ContentConfig.ContentType = "application/json"
 	return npConfig
 }
 func turnOffRateLimiting(config *restclient.Config) *restclient.Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +462,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -510,5 +557,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

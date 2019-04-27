@@ -29,9 +29,13 @@ func NewWithSeccompProfile(allowedProfiles []string) (SeccompStrategy, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &withSeccompProfile{allowedProfiles}, nil
 }
 func (s *withSeccompProfile) Generate(pod *api.Pod) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -54,6 +58,8 @@ func (s *withSeccompProfile) Generate(pod *api.Pod) (string, error) {
 	return "", nil
 }
 func (s *withSeccompProfile) ValidatePod(pod *api.Pod) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +102,8 @@ func (s *withSeccompProfile) ValidateContainer(pod *api.Pod, container *api.Cont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	fieldPath := field.NewPath("pod", "metadata", "annotations", api.SeccompContainerAnnotationKeyPrefix+container.Name)
 	containerProfile := profileForContainer(pod, container)
@@ -124,6 +132,8 @@ func isProfileAllowed(profile string, allowedProfiles []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(allowedProfiles) == 0 && profile == "" {
 		return true
 	}
@@ -135,6 +145,8 @@ func isProfileAllowed(profile string, allowedProfiles []string) bool {
 	return false
 }
 func profileForContainer(pod *api.Pod, container *api.Container) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

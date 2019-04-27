@@ -25,6 +25,8 @@ func NewRunAsAny(options *securityapi.RunAsUserStrategyOptions) (RunAsUserSecuri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &runAsAny{}, nil
 }
 func (s *runAsAny) Generate(pod *api.Pod, container *api.Container) (*int64, error) {
@@ -42,9 +44,13 @@ func (s *runAsAny) Generate(pod *api.Pod, container *api.Container) (*int64, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *runAsAny) Validate(fldPath *field.Path, _ *api.Pod, _ *api.Container, runAsNonRoot *bool, runAsUser *int64) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

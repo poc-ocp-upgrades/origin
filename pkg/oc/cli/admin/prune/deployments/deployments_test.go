@@ -23,6 +23,8 @@ func TestDeploymentPruneNamespaced(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	osFake := &fakeappsv1client.FakeAppsV1{Fake: &clienttesting.Fake{}}
 	coreFake := &fakecorev1client.FakeCoreV1{Fake: &clienttesting.Fake{}}
 	opts := &PruneDeploymentsOptions{Namespace: "foo", AppsClient: osFake, KubeClient: coreFake, IOStreams: genericclioptions.NewTestIOStreamsDiscard()}

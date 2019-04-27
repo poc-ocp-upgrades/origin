@@ -25,9 +25,13 @@ func mockBuildConfig(namespace, name string) *buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
 func withCreated(build *buildv1.Build, creationTimestamp metav1.Time) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,10 +64,14 @@ func withStatus(build *buildv1.Build, status buildv1.BuildPhase) *buildv1.Build 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build.Status.Phase = status
 	return build
 }
 func mockBuild(namespace, name string, buildConfig *buildv1.BuildConfig) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +94,8 @@ func mockBuild(namespace, name string, buildConfig *buildv1.BuildConfig) *buildv
 	return build
 }
 func TestBuildByBuildConfigIndexFunc(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +144,8 @@ func TestFilterBeforePredicate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	youngerThan := time.Hour
 	now := metav1.Now()
 	old := metav1.NewTime(now.Time.Add(-1 * youngerThan))
@@ -148,6 +160,8 @@ func TestFilterBeforePredicate(t *testing.T) {
 	}
 }
 func TestEmptyDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +206,8 @@ func TestEmptyDataSet(t *testing.T) {
 	}
 }
 func TestPopuldatedDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

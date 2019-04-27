@@ -34,6 +34,8 @@ func NewDeployerController(rcInformer kcoreinformers.ReplicationControllerInform
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartLogging(klog.Infof)
 	eventBroadcaster.StartRecordingToSink(&kv1core.EventSinkImpl{Interface: kubeClientset.CoreV1().Events("")})
@@ -44,6 +46,8 @@ func NewDeployerController(rcInformer kcoreinformers.ReplicationControllerInform
 	return c
 }
 func (c *DeploymentController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func (c *DeploymentController) addReplicationController(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc := obj.(*v1.ReplicationController)
 	if !appsutil.IsOwnedByConfig(rc) {
 		return
@@ -93,6 +99,8 @@ func (c *DeploymentController) addReplicationController(obj interface{}) {
 	c.enqueueReplicationController(rc)
 }
 func (c *DeploymentController) updateReplicationController(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func (c *DeploymentController) updatePod(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	curPod := cur.(*v1.Pod)
 	oldPod := old.(*v1.Pod)
 	if curPod.ResourceVersion == oldPod.ResourceVersion {
@@ -138,6 +148,8 @@ func (c *DeploymentController) updatePod(old, cur interface{}) {
 	}
 }
 func (c *DeploymentController) deletePod(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,6 +196,8 @@ func (c *DeploymentController) enqueueReplicationController(rc *v1.ReplicationCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := kcontroller.KeyFunc(rc)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", rc, err))
@@ -192,6 +206,8 @@ func (c *DeploymentController) enqueueReplicationController(rc *v1.ReplicationCo
 	c.queue.Add(key)
 }
 func (c *DeploymentController) rcForDeployerPod(pod *v1.Pod) (*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +244,8 @@ func (c *DeploymentController) worker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := c.work(); quit {
 			return
@@ -235,6 +253,8 @@ func (c *DeploymentController) worker() {
 	}
 }
 func (c *DeploymentController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,6 +287,8 @@ func (c *DeploymentController) work() bool {
 	return false
 }
 func (c *DeploymentController) getByKey(key string) (*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

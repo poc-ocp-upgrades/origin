@@ -29,6 +29,8 @@ func ValidateServingInfo(info config.ServingInfo, certificatesRequired bool, fld
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := ValidationResults{}
 	validationResults.AddErrors(ValidateHostPort(info.BindAddress, fldPath.Child("bindAddress"))...)
 	validationResults.AddErrors(ValidateCertInfo(info.ServerCert, certificatesRequired, fldPath)...)
@@ -61,6 +63,8 @@ func ValidateServingInfo(info config.ServingInfo, certificatesRequired bool, fld
 	return validationResults
 }
 func ValidateNamedCertificates(fldPath *field.Path, namedCertificates []config.NamedCertificate) ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -150,6 +154,8 @@ func ValidateHostPort(value string, fldPath *field.Path) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(value) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath, ""))
@@ -159,6 +165,8 @@ func ValidateHostPort(value string, fldPath *field.Path) field.ErrorList {
 	return allErrs
 }
 func ValidateCertInfo(certInfo config.CertInfo, required bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

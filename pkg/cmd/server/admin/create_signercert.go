@@ -40,9 +40,13 @@ func NewCreateSignerCertOptions(streams genericclioptions.IOStreams) *CreateSign
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateSignerCertOptions{ExpireDays: crypto.DefaultCACertificateLifetimeInDays, Overwrite: true, CertFile: "openshift.local.config/master/ca.crt", KeyFile: "openshift.local.config/master/ca.key", SerialFile: "openshift.local.config/master/ca.serial.txt", Name: DefaultSignerName(), IOStreams: streams}
 }
 func NewCommandCreateSignerCert(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func (o CreateSignerCertOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -110,6 +116,8 @@ func (o CreateSignerCertOptions) Validate(args []string) error {
 	return nil
 }
 func (o CreateSignerCertOptions) CreateSignerCert() (*crypto.CA, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

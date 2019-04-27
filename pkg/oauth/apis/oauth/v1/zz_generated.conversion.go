@@ -23,9 +23,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +181,8 @@ func autoConvert_v1_ClusterRoleScopeRestriction_To_oauth_ClusterRoleScopeRestric
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.RoleNames = *(*[]string)(unsafe.Pointer(&in.RoleNames))
 	out.Namespaces = *(*[]string)(unsafe.Pointer(&in.Namespaces))
 	out.AllowEscalation = in.AllowEscalation
@@ -197,9 +203,13 @@ func Convert_v1_ClusterRoleScopeRestriction_To_oauth_ClusterRoleScopeRestriction
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterRoleScopeRestriction_To_oauth_ClusterRoleScopeRestriction(in, out, s)
 }
 func autoConvert_oauth_ClusterRoleScopeRestriction_To_v1_ClusterRoleScopeRestriction(in *oauth.ClusterRoleScopeRestriction, out *v1.ClusterRoleScopeRestriction, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,9 +244,13 @@ func Convert_oauth_ClusterRoleScopeRestriction_To_v1_ClusterRoleScopeRestriction
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_ClusterRoleScopeRestriction_To_v1_ClusterRoleScopeRestriction(in, out, s)
 }
 func autoConvert_v1_OAuthAccessToken_To_oauth_OAuthAccessToken(in *v1.OAuthAccessToken, out *oauth.OAuthAccessToken, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,9 +292,13 @@ func Convert_v1_OAuthAccessToken_To_oauth_OAuthAccessToken(in *v1.OAuthAccessTok
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthAccessToken_To_oauth_OAuthAccessToken(in, out, s)
 }
 func autoConvert_oauth_OAuthAccessToken_To_v1_OAuthAccessToken(in *oauth.OAuthAccessToken, out *v1.OAuthAccessToken, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -322,9 +340,13 @@ func Convert_oauth_OAuthAccessToken_To_v1_OAuthAccessToken(in *oauth.OAuthAccess
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthAccessToken_To_v1_OAuthAccessToken(in, out, s)
 }
 func autoConvert_v1_OAuthAccessTokenList_To_oauth_OAuthAccessTokenList(in *v1.OAuthAccessTokenList, out *oauth.OAuthAccessTokenList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -358,9 +380,13 @@ func Convert_v1_OAuthAccessTokenList_To_oauth_OAuthAccessTokenList(in *v1.OAuthA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthAccessTokenList_To_oauth_OAuthAccessTokenList(in, out, s)
 }
 func autoConvert_oauth_OAuthAccessTokenList_To_v1_OAuthAccessTokenList(in *oauth.OAuthAccessTokenList, out *v1.OAuthAccessTokenList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -394,9 +420,13 @@ func Convert_oauth_OAuthAccessTokenList_To_v1_OAuthAccessTokenList(in *oauth.OAu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthAccessTokenList_To_v1_OAuthAccessTokenList(in, out, s)
 }
 func autoConvert_v1_OAuthAuthorizeToken_To_oauth_OAuthAuthorizeToken(in *v1.OAuthAuthorizeToken, out *oauth.OAuthAuthorizeToken, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -438,9 +468,13 @@ func Convert_v1_OAuthAuthorizeToken_To_oauth_OAuthAuthorizeToken(in *v1.OAuthAut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthAuthorizeToken_To_oauth_OAuthAuthorizeToken(in, out, s)
 }
 func autoConvert_oauth_OAuthAuthorizeToken_To_v1_OAuthAuthorizeToken(in *oauth.OAuthAuthorizeToken, out *v1.OAuthAuthorizeToken, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -482,9 +516,13 @@ func Convert_oauth_OAuthAuthorizeToken_To_v1_OAuthAuthorizeToken(in *oauth.OAuth
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthAuthorizeToken_To_v1_OAuthAuthorizeToken(in, out, s)
 }
 func autoConvert_v1_OAuthAuthorizeTokenList_To_oauth_OAuthAuthorizeTokenList(in *v1.OAuthAuthorizeTokenList, out *oauth.OAuthAuthorizeTokenList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -518,9 +556,13 @@ func Convert_v1_OAuthAuthorizeTokenList_To_oauth_OAuthAuthorizeTokenList(in *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthAuthorizeTokenList_To_oauth_OAuthAuthorizeTokenList(in, out, s)
 }
 func autoConvert_oauth_OAuthAuthorizeTokenList_To_v1_OAuthAuthorizeTokenList(in *oauth.OAuthAuthorizeTokenList, out *v1.OAuthAuthorizeTokenList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -554,9 +596,13 @@ func Convert_oauth_OAuthAuthorizeTokenList_To_v1_OAuthAuthorizeTokenList(in *oau
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthAuthorizeTokenList_To_v1_OAuthAuthorizeTokenList(in, out, s)
 }
 func autoConvert_v1_OAuthClient_To_oauth_OAuthClient(in *v1.OAuthClient, out *oauth.OAuthClient, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -597,9 +643,13 @@ func Convert_v1_OAuthClient_To_oauth_OAuthClient(in *v1.OAuthClient, out *oauth.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthClient_To_oauth_OAuthClient(in, out, s)
 }
 func autoConvert_oauth_OAuthClient_To_v1_OAuthClient(in *oauth.OAuthClient, out *v1.OAuthClient, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -640,9 +690,13 @@ func Convert_oauth_OAuthClient_To_v1_OAuthClient(in *oauth.OAuthClient, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthClient_To_v1_OAuthClient(in, out, s)
 }
 func autoConvert_v1_OAuthClientAuthorization_To_oauth_OAuthClientAuthorization(in *v1.OAuthClientAuthorization, out *oauth.OAuthClientAuthorization, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -679,9 +733,13 @@ func Convert_v1_OAuthClientAuthorization_To_oauth_OAuthClientAuthorization(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthClientAuthorization_To_oauth_OAuthClientAuthorization(in, out, s)
 }
 func autoConvert_oauth_OAuthClientAuthorization_To_v1_OAuthClientAuthorization(in *oauth.OAuthClientAuthorization, out *v1.OAuthClientAuthorization, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -718,9 +776,13 @@ func Convert_oauth_OAuthClientAuthorization_To_v1_OAuthClientAuthorization(in *o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthClientAuthorization_To_v1_OAuthClientAuthorization(in, out, s)
 }
 func autoConvert_v1_OAuthClientAuthorizationList_To_oauth_OAuthClientAuthorizationList(in *v1.OAuthClientAuthorizationList, out *oauth.OAuthClientAuthorizationList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -754,9 +816,13 @@ func Convert_v1_OAuthClientAuthorizationList_To_oauth_OAuthClientAuthorizationLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthClientAuthorizationList_To_oauth_OAuthClientAuthorizationList(in, out, s)
 }
 func autoConvert_oauth_OAuthClientAuthorizationList_To_v1_OAuthClientAuthorizationList(in *oauth.OAuthClientAuthorizationList, out *v1.OAuthClientAuthorizationList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -790,9 +856,13 @@ func Convert_oauth_OAuthClientAuthorizationList_To_v1_OAuthClientAuthorizationLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthClientAuthorizationList_To_v1_OAuthClientAuthorizationList(in, out, s)
 }
 func autoConvert_v1_OAuthClientList_To_oauth_OAuthClientList(in *v1.OAuthClientList, out *oauth.OAuthClientList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -826,9 +896,13 @@ func Convert_v1_OAuthClientList_To_oauth_OAuthClientList(in *v1.OAuthClientList,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthClientList_To_oauth_OAuthClientList(in, out, s)
 }
 func autoConvert_oauth_OAuthClientList_To_v1_OAuthClientList(in *oauth.OAuthClientList, out *v1.OAuthClientList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -862,9 +936,13 @@ func Convert_oauth_OAuthClientList_To_v1_OAuthClientList(in *oauth.OAuthClientLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthClientList_To_v1_OAuthClientList(in, out, s)
 }
 func autoConvert_v1_OAuthRedirectReference_To_oauth_OAuthRedirectReference(in *v1.OAuthRedirectReference, out *oauth.OAuthRedirectReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -900,9 +978,13 @@ func Convert_v1_OAuthRedirectReference_To_oauth_OAuthRedirectReference(in *v1.OA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthRedirectReference_To_oauth_OAuthRedirectReference(in, out, s)
 }
 func autoConvert_oauth_OAuthRedirectReference_To_v1_OAuthRedirectReference(in *oauth.OAuthRedirectReference, out *v1.OAuthRedirectReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -938,9 +1020,13 @@ func Convert_oauth_OAuthRedirectReference_To_v1_OAuthRedirectReference(in *oauth
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_OAuthRedirectReference_To_v1_OAuthRedirectReference(in, out, s)
 }
 func autoConvert_v1_RedirectReference_To_oauth_RedirectReference(in *v1.RedirectReference, out *oauth.RedirectReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -975,9 +1061,13 @@ func Convert_v1_RedirectReference_To_oauth_RedirectReference(in *v1.RedirectRefe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RedirectReference_To_oauth_RedirectReference(in, out, s)
 }
 func autoConvert_oauth_RedirectReference_To_v1_RedirectReference(in *oauth.RedirectReference, out *v1.RedirectReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1012,9 +1102,13 @@ func Convert_oauth_RedirectReference_To_v1_RedirectReference(in *oauth.RedirectR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_oauth_RedirectReference_To_v1_RedirectReference(in, out, s)
 }
 func autoConvert_v1_ScopeRestriction_To_oauth_ScopeRestriction(in *v1.ScopeRestriction, out *oauth.ScopeRestriction, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1048,9 +1142,13 @@ func Convert_v1_ScopeRestriction_To_oauth_ScopeRestriction(in *v1.ScopeRestricti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ScopeRestriction_To_oauth_ScopeRestriction(in, out, s)
 }
 func autoConvert_oauth_ScopeRestriction_To_v1_ScopeRestriction(in *oauth.ScopeRestriction, out *v1.ScopeRestriction, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1070,6 +1168,8 @@ func autoConvert_oauth_ScopeRestriction_To_v1_ScopeRestriction(in *oauth.ScopeRe
 	return nil
 }
 func Convert_oauth_ScopeRestriction_To_v1_ScopeRestriction(in *oauth.ScopeRestriction, out *v1.ScopeRestriction, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

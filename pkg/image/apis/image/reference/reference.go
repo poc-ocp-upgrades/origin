@@ -41,6 +41,8 @@ func Parse(spec string) (DockerImageReference, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var ref DockerImageReference
 	namedRef, err := reference.ParseNamed(spec)
 	if err != nil {
@@ -79,11 +81,15 @@ func (r DockerImageReference) Equal(other DockerImageReference) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defaultedRef := r.DockerClientDefaults()
 	otherDefaultedRef := other.DockerClientDefaults()
 	return defaultedRef == otherDefaultedRef
 }
 func (r DockerImageReference) DockerClientDefaults() DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,12 +130,16 @@ func (r DockerImageReference) Minimal() DockerImageReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.Tag == "latest" {
 		r.Tag = ""
 	}
 	return r
 }
 func (r DockerImageReference) AsRepository() DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,12 +173,16 @@ func (r DockerImageReference) RepositoryName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Tag = ""
 	r.ID = ""
 	r.Registry = ""
 	return r.Exact()
 }
 func (r DockerImageReference) RegistryHostPort(insecure bool) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,9 +222,13 @@ func (r DockerImageReference) RegistryURL() *url.URL {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &url.URL{Scheme: "https", Host: r.AsV2().Registry}
 }
 func (r DockerImageReference) DaemonMinimal() DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,6 +267,8 @@ func (r DockerImageReference) AsV2() DockerImageReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r.Registry {
 	case DockerDefaultV1Registry, DockerDefaultRegistry:
 		r.Registry = DockerDefaultV2Registry
@@ -256,6 +276,8 @@ func (r DockerImageReference) AsV2() DockerImageReference {
 	return r
 }
 func (r DockerImageReference) MostSpecific() DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +306,8 @@ func (r DockerImageReference) MostSpecific() DockerImageReference {
 	return r
 }
 func (r DockerImageReference) NameString() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,6 +354,8 @@ func (r DockerImageReference) Exact() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := r.NameString()
 	if len(name) == 0 {
 		return name
@@ -358,12 +384,16 @@ func (r DockerImageReference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Namespace) == 0 && IsRegistryDockerHub(r.Registry) {
 		r.Namespace = "library"
 	}
 	return r.Exact()
 }
 func IsRegistryDockerHub(registry string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,10 +430,14 @@ func (in *DockerImageReference) DeepCopyInto(out *DockerImageReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *DockerImageReference) DeepCopy() *DockerImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -440,6 +474,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -514,5 +569,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

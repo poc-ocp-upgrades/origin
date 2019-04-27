@@ -40,9 +40,13 @@ func (m *ComponentMatch) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Argument
 }
 func (m *ComponentMatch) IsImage() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,9 +78,13 @@ func (m *ComponentMatch) IsTemplate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.Template != nil
 }
 func (m *ComponentMatch) Exact() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,6 +119,8 @@ func (m ComponentMatches) Exact() ComponentMatches {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exact := ComponentMatches{}
 	for _, match := range m {
 		if match.Exact() {
@@ -120,6 +130,8 @@ func (m ComponentMatches) Exact() ComponentMatches {
 	return exact
 }
 func (m ComponentMatches) Inexact() ComponentMatches {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,9 +172,13 @@ func (m ScoredComponentMatches) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m ScoredComponentMatches) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,9 +210,13 @@ func (m ScoredComponentMatches) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Score < m[j].Score
 }
 func (m ScoredComponentMatches) Exact() []*ComponentMatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

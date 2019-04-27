@@ -21,6 +21,8 @@ func TestMustRunAsOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		ranges	[]securityapi.IDRange
 		pass	bool
@@ -36,6 +38,8 @@ func TestMustRunAsOptions(t *testing.T) {
 	}
 }
 func TestGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func TestGenerate(t *testing.T) {
 	}
 }
 func TestValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

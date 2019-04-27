@@ -20,6 +20,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.ImageStream{}, func(obj interface{}) {
 		SetObjectDefaults_ImageStream(obj.(*v1.ImageStream))
 	})
@@ -52,12 +54,16 @@ func SetObjectDefaults_ImageStream(in *v1.ImageStream) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Spec.Tags {
 		a := &in.Spec.Tags[i]
 		SetDefaults_TagReferencePolicy(&a.ReferencePolicy)
 	}
 }
 func SetObjectDefaults_ImageStreamImport(in *v1.ImageStreamImport) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +105,8 @@ func SetObjectDefaults_ImageStreamList(in *v1.ImageStreamList) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Items {
 		a := &in.Items[i]
 		SetObjectDefaults_ImageStream(a)
@@ -119,11 +127,15 @@ func SetObjectDefaults_ImageStreamTag(in *v1.ImageStreamTag) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in.Tag != nil {
 		SetDefaults_TagReferencePolicy(&in.Tag.ReferencePolicy)
 	}
 }
 func SetObjectDefaults_ImageStreamTagList(in *v1.ImageStreamTagList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

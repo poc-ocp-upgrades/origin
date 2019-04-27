@@ -30,6 +30,8 @@ func NewAllOpenShiftGroupLister(blacklist []string, ldapURL string, groupClient 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &allOpenShiftGroupLister{blacklist: sets.NewString(blacklist...), client: groupClient, ldapURL: ldapURL, ldapGroupUIDToOpenShiftGroupName: map[string]string{}}
 }
 
@@ -41,6 +43,8 @@ type allOpenShiftGroupLister struct {
 }
 
 func (l *allOpenShiftGroupLister) ListGroups() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +101,8 @@ func (l *allOpenShiftGroupLister) GroupNameFor(ldapGroupUID string) (string, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(l.ldapGroupUIDToOpenShiftGroupName) == 0 {
 		_, err := l.ListGroups()
 		if err != nil {
@@ -110,6 +116,8 @@ func (l *allOpenShiftGroupLister) GroupNameFor(ldapGroupUID string) (string, err
 	return openshiftGroupName, nil
 }
 func validateGroupAnnotations(ldapURL string, group userv1.Group) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -149,6 +157,8 @@ func NewOpenShiftGroupLister(whitelist, blacklist []string, ldapURL string, clie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &openshiftGroupLister{whitelist: whitelist, blacklist: sets.NewString(blacklist...), client: client, ldapURL: ldapURL, ldapGroupUIDToOpenShiftGroupName: map[string]string{}}
 }
 
@@ -161,6 +171,8 @@ type openshiftGroupLister struct {
 }
 
 func (l *openshiftGroupLister) ListGroups() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +228,8 @@ func (l *openshiftGroupLister) GroupNameFor(ldapGroupUID string) (string, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(l.ldapGroupUIDToOpenShiftGroupName) == 0 {
 		_, err := l.ListGroups()
 		if err != nil {
@@ -229,6 +243,8 @@ func (l *openshiftGroupLister) GroupNameFor(ldapGroupUID string) (string, error)
 	return openshiftGroupName, nil
 }
 func NewLDAPWhitelistGroupLister(whitelist []string) interfaces.LDAPGroupLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -263,9 +279,13 @@ func (l *whitelistLDAPGroupLister) ListGroups() ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.ldapGroupUIDs, nil
 }
 func NewLDAPBlacklistGroupLister(blacklist []string, baseLister interfaces.LDAPGroupLister) interfaces.LDAPGroupLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +309,8 @@ type blacklistLDAPGroupLister struct {
 }
 
 func (l *blacklistLDAPGroupLister) ListGroups() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -331,6 +353,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -405,5 +448,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

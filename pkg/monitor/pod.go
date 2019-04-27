@@ -27,6 +27,8 @@ func startPodMonitoring(ctx context.Context, m Recorder, client kubernetes.Inter
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podInformer := cache.NewSharedIndexInformer(NewErrorRecordingListWatcher(m, &cache.ListWatch{ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 		items, err := client.CoreV1().Pods("").List(options)
 		if err == nil {

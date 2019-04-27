@@ -24,9 +24,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +132,8 @@ func autoConvert_v1_Group_To_user_Group(in *v1.Group, out *user.Group, s convers
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Users = *(*[]string)(unsafe.Pointer(&in.Users))
 	return nil
@@ -147,9 +153,13 @@ func Convert_v1_Group_To_user_Group(in *v1.Group, out *user.Group, s conversion.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Group_To_user_Group(in, out, s)
 }
 func autoConvert_user_Group_To_v1_Group(in *user.Group, out *v1.Group, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,9 +193,13 @@ func Convert_user_Group_To_v1_Group(in *user.Group, out *v1.Group, s conversion.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_Group_To_v1_Group(in, out, s)
 }
 func autoConvert_v1_GroupList_To_user_GroupList(in *v1.GroupList, out *user.GroupList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,9 +233,13 @@ func Convert_v1_GroupList_To_user_GroupList(in *v1.GroupList, out *user.GroupLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GroupList_To_user_GroupList(in, out, s)
 }
 func autoConvert_user_GroupList_To_v1_GroupList(in *user.GroupList, out *v1.GroupList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,9 +273,13 @@ func Convert_user_GroupList_To_v1_GroupList(in *user.GroupList, out *v1.GroupLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_GroupList_To_v1_GroupList(in, out, s)
 }
 func autoConvert_v1_Identity_To_user_Identity(in *v1.Identity, out *user.Identity, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -296,9 +318,13 @@ func Convert_v1_Identity_To_user_Identity(in *v1.Identity, out *user.Identity, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Identity_To_user_Identity(in, out, s)
 }
 func autoConvert_user_Identity_To_v1_Identity(in *user.Identity, out *v1.Identity, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,9 +363,13 @@ func Convert_user_Identity_To_v1_Identity(in *user.Identity, out *v1.Identity, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_Identity_To_v1_Identity(in, out, s)
 }
 func autoConvert_v1_IdentityList_To_user_IdentityList(in *v1.IdentityList, out *user.IdentityList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,9 +413,13 @@ func Convert_v1_IdentityList_To_user_IdentityList(in *v1.IdentityList, out *user
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_IdentityList_To_user_IdentityList(in, out, s)
 }
 func autoConvert_user_IdentityList_To_v1_IdentityList(in *user.IdentityList, out *v1.IdentityList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -429,9 +463,13 @@ func Convert_user_IdentityList_To_v1_IdentityList(in *user.IdentityList, out *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_IdentityList_To_v1_IdentityList(in, out, s)
 }
 func autoConvert_v1_User_To_user_User(in *v1.User, out *user.User, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -467,9 +505,13 @@ func Convert_v1_User_To_user_User(in *v1.User, out *user.User, s conversion.Scop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_User_To_user_User(in, out, s)
 }
 func autoConvert_user_User_To_v1_User(in *user.User, out *v1.User, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,9 +547,13 @@ func Convert_user_User_To_v1_User(in *user.User, out *v1.User, s conversion.Scop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_User_To_v1_User(in, out, s)
 }
 func autoConvert_v1_UserIdentityMapping_To_user_UserIdentityMapping(in *v1.UserIdentityMapping, out *user.UserIdentityMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -546,9 +592,13 @@ func Convert_v1_UserIdentityMapping_To_user_UserIdentityMapping(in *v1.UserIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_UserIdentityMapping_To_user_UserIdentityMapping(in, out, s)
 }
 func autoConvert_user_UserIdentityMapping_To_v1_UserIdentityMapping(in *user.UserIdentityMapping, out *v1.UserIdentityMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -587,9 +637,13 @@ func Convert_user_UserIdentityMapping_To_v1_UserIdentityMapping(in *user.UserIde
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_user_UserIdentityMapping_To_v1_UserIdentityMapping(in, out, s)
 }
 func autoConvert_v1_UserList_To_user_UserList(in *v1.UserList, out *user.UserList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -623,9 +677,13 @@ func Convert_v1_UserList_To_user_UserList(in *v1.UserList, out *user.UserList, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_UserList_To_user_UserList(in, out, s)
 }
 func autoConvert_user_UserList_To_v1_UserList(in *user.UserList, out *v1.UserList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -645,6 +703,8 @@ func autoConvert_user_UserList_To_v1_UserList(in *user.UserList, out *v1.UserLis
 	return nil
 }
 func Convert_user_UserList_To_v1_UserList(in *user.UserList, out *v1.UserList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

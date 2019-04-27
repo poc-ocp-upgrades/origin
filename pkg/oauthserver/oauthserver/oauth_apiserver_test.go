@@ -25,6 +25,8 @@ func TestGetDefaultSessionSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secrets, err := getSessionSecrets("")
 	if err != nil {
 		t.Errorf("Unexpected error: %v", err)
@@ -48,12 +50,16 @@ func TestGetMissingSessionSecretsFile(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := getSessionSecrets("missing")
 	if err == nil {
 		t.Errorf("Expected error, got none")
 	}
 }
 func TestGetInvalidSessionSecretsFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +100,8 @@ func TestGetEmptySessionSecretsFile(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tmpfile, err := ioutil.TempFile("", "empty.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -111,6 +119,8 @@ func TestGetEmptySessionSecretsFile(t *testing.T) {
 	}
 }
 func TestGetValidSessionSecretsFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

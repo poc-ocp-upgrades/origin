@@ -36,6 +36,8 @@ func mockRC(name string, version int, annotations map[string]string, generation 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &corev1.ReplicationController{}
 	annotations[appsv1.DeploymentConfigAnnotation] = name
 	r.SetName(name + fmt.Sprintf("-%d", version))
@@ -45,6 +47,8 @@ func mockRC(name string, version int, annotations map[string]string, generation 
 	return r
 }
 func TestCollect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

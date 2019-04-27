@@ -31,9 +31,13 @@ func getOpenShiftExcludes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return openshiftDefaultExcludes
 }
 func getOpenShiftFilters() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func getOpenShiftFilters() ([]string, error) {
 	return originFilters, nil
 }
 func listDirsN(dirs []string, N int, root, prefix string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

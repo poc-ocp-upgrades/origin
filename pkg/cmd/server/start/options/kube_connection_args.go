@@ -30,10 +30,14 @@ func BindKubeConnectionArgs(args *KubeConnectionArgs, flags *pflag.FlagSet, pref
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.Var(&args.KubernetesAddr, prefix+"kubernetes", "removed in favor of --"+prefix+"kubeconfig")
 	flags.StringVar(&args.ClientConfigLoadingRules.ExplicitPath, prefix+"kubeconfig", "", "Path to the kubeconfig file to use for requests to the Kubernetes API.")
 }
 func NewDefaultKubeConnectionArgs() *KubeConnectionArgs {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,12 +72,16 @@ func (args KubeConnectionArgs) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if args.KubernetesAddr.Provided {
 		return errors.New("--kubernetes is no longer allowed, try using --kubeconfig")
 	}
 	return nil
 }
 func (args KubeConnectionArgs) GetExternalKubernetesClientConfig() (*restclient.Config, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +106,8 @@ func (args KubeConnectionArgs) GetExternalKubernetesClientConfig() (*restclient.
 	return clientConfig, true, nil
 }
 func (args KubeConnectionArgs) GetKubernetesAddress(defaultAddress *url.URL) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

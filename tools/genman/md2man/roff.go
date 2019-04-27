@@ -25,6 +25,8 @@ func RoffRenderer(flags int) blackfriday.Renderer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &roffRenderer{}
 }
 func (r *roffRenderer) GetFlags() int {
@@ -42,9 +44,13 @@ func (r *roffRenderer) GetFlags() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0
 }
 func (r *roffRenderer) TitleBlock(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,11 +94,15 @@ func (r *roffRenderer) BlockCode(out *bytes.Buffer, text []byte, lang string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString("\n.PP\n.RS\n\n.nf\n")
 	escapeSpecialChars(out, text)
 	out.WriteString("\n.fi\n.RE\n")
 }
 func (r *roffRenderer) BlockQuote(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,9 +136,13 @@ func (r *roffRenderer) BlockHtml(out *bytes.Buffer, text []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Write(text)
 }
 func (r *roffRenderer) Header(out *bytes.Buffer, text func() bool, level int, id string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,9 +188,13 @@ func (r *roffRenderer) HRule(out *bytes.Buffer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString("\n.ti 0\n\\l'\\n(.lu'\n")
 }
 func (r *roffRenderer) List(out *bytes.Buffer, text func() bool, flags int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,10 +235,14 @@ func (r *roffRenderer) ListItem(out *bytes.Buffer, text []byte, flags int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString("\n.IP\n\\(bu ")
 	out.Write(text)
 }
 func (r *roffRenderer) Paragraph(out *bytes.Buffer, text func() bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,12 +282,16 @@ func (r *roffRenderer) Table(out *bytes.Buffer, header []byte, body []byte, colu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString(".TS\nallbox;\n")
 	out.Write(header)
 	out.Write(body)
 	out.WriteString("\n.TE\n")
 }
 func (r *roffRenderer) TableRow(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +327,8 @@ func (r *roffRenderer) TableHeaderCell(out *bytes.Buffer, text []byte, align int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if out.Len() > 0 {
 		out.WriteString(" ")
 	}
@@ -308,6 +336,8 @@ func (r *roffRenderer) TableHeaderCell(out *bytes.Buffer, text []byte, align int
 	out.WriteString(" ")
 }
 func (r *roffRenderer) TableCell(out *bytes.Buffer, text []byte, align int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -343,6 +373,8 @@ func (r *roffRenderer) Footnotes(out *bytes.Buffer, text func() bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *roffRenderer) FootnoteItem(out *bytes.Buffer, name, text []byte, flags int) {
 	_logClusterCodePath()
@@ -359,8 +391,12 @@ func (r *roffRenderer) FootnoteItem(out *bytes.Buffer, name, text []byte, flags 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *roffRenderer) AutoLink(out *bytes.Buffer, link []byte, kind int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -394,11 +430,15 @@ func (r *roffRenderer) CodeSpan(out *bytes.Buffer, text []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString("\\fB\\fC")
 	escapeSpecialChars(out, text)
 	out.WriteString("\\fR")
 }
 func (r *roffRenderer) DoubleEmphasis(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -432,6 +472,8 @@ func (r *roffRenderer) Emphasis(out *bytes.Buffer, text []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString("\\fI")
 	out.Write(text)
 	out.WriteString("\\fP")
@@ -451,8 +493,12 @@ func (r *roffRenderer) Image(out *bytes.Buffer, link []byte, title []byte, alt [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *roffRenderer) LineBreak(out *bytes.Buffer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -484,6 +530,8 @@ func (r *roffRenderer) Link(out *bytes.Buffer, link []byte, title []byte, conten
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.AutoLink(out, link, 0)
 }
 func (r *roffRenderer) RawHtmlTag(out *bytes.Buffer, tag []byte) {
@@ -501,9 +549,13 @@ func (r *roffRenderer) RawHtmlTag(out *bytes.Buffer, tag []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Write(tag)
 }
 func (r *roffRenderer) TripleEmphasis(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -537,8 +589,12 @@ func (r *roffRenderer) StrikeThrough(out *bytes.Buffer, text []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *roffRenderer) FootnoteRef(out *bytes.Buffer, ref []byte, id int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -569,9 +625,13 @@ func (r *roffRenderer) Entity(out *bytes.Buffer, entity []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.WriteString(html.UnescapeString(string(entity)))
 }
 func processFooterText(text []byte) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -616,9 +676,13 @@ func (r *roffRenderer) NormalText(out *bytes.Buffer, text []byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	escapeSpecialChars(out, text)
 }
 func (r *roffRenderer) DocumentHeader(out *bytes.Buffer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -649,8 +713,12 @@ func (r *roffRenderer) DocumentFooter(out *bytes.Buffer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func needsBackslash(c byte) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -673,6 +741,8 @@ func needsBackslash(c byte) bool {
 	return false
 }
 func escapeSpecialChars(out *bytes.Buffer, text []byte) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

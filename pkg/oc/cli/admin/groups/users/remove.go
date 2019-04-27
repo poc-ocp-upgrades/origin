@@ -39,6 +39,8 @@ func NewCmdRemoveUsers(name, fullName string, f kcmdutil.Factory, streams generi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &RemoveUsersOptions{GroupModificationOptions: NewGroupModificationOptions(streams)}
 	cmd := &cobra.Command{Use: name + " GROUP USER [USER ...]", Short: "Remove users from a group", Long: removeLong, Example: fmt.Sprintf(removeExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args))
@@ -63,9 +65,13 @@ func (o *RemoveUsersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, ar
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.GroupModificationOptions.Complete(f, cmd, args)
 }
 func (o *RemoveUsersOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

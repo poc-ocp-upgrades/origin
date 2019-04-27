@@ -21,5 +21,7 @@ func NewParser(builder builder.TestSuitesBuilder, stream bool) parser.TestOutput
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stack.NewParser(builder, newTestDataParser(), newTestSuiteDataParser(), stream)
 }

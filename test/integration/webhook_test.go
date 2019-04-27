@@ -34,6 +34,8 @@ func TestWebhook(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unable to start master: %v", err)
@@ -88,6 +90,8 @@ func TestWebhook(t *testing.T) {
 	}
 }
 func TestWebhookGitHubPushWithImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +185,8 @@ func TestWebhookGitHubPushWithImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:3000"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -259,6 +265,8 @@ func TestWebhookGitHubPing(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unable to start master: %v", err)
@@ -313,6 +321,8 @@ func postFile(client rest.Interface, headerFunc func(*http.Header), filename, ur
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile("../../pkg/build/webhook/" + filename)
 	if err != nil {
 		t.Fatalf("Failed to open %s: %v", filename, err)
@@ -347,9 +357,13 @@ func mockBuildConfigImageParms(imageName, imageStream, imageTag string) *buildv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "pushbuild"}, Spec: buildv1.BuildConfigSpec{RunPolicy: buildv1.BuildRunPolicyParallel, Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret101"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret102"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret202"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret201"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret200"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret301"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret300"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret302"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret401"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret400"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret402"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.docker/build"}, ContextDir: "context"}, Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "DockerImage", Name: imageName}}}, Output: buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: "namespace/builtimage"}}}}}
 }
 func mockBuildConfigImageStreamParms(imageName, imageStream, imageTag string) *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -381,9 +395,13 @@ func genericHeaderFunc(header *http.Header) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 }
 func githubHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -417,6 +435,8 @@ func githubHeaderFuncPing(header *http.Header) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("User-Agent", "GitHub-Hookshot/github")
 	header.Add("X-Github-Event", "ping")
@@ -436,10 +456,14 @@ func gitlabHeaderFunc(header *http.Header) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("X-Gitlab-Event", "Push Hook")
 }
 func bitbucketHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

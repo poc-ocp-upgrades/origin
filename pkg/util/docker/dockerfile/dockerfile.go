@@ -28,6 +28,8 @@ func FindAll(node *parser.Node, cmd string) []int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node == nil {
 		return nil
 	}
@@ -40,6 +42,8 @@ func FindAll(node *parser.Node, cmd string) []int {
 	return indices
 }
 func InsertInstructions(node *parser.Node, pos int, instructions string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func LastBaseImage(node *parser.Node) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	baseImages := baseImages(node)
 	if len(baseImages) == 0 {
 		return ""
@@ -89,6 +95,8 @@ func LastBaseImage(node *parser.Node) string {
 	return baseImages[len(baseImages)-1]
 }
 func baseImages(node *parser.Node) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +132,8 @@ func evalRange(port string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, match := match(portRangeRegexp, port)
 	if !match {
 		return port
@@ -135,6 +145,8 @@ func evalRange(port string) string {
 	return m[1]
 }
 func evalPorts(exposedPorts []string, node *parser.Node, from, to int) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +193,8 @@ func LastExposedPorts(node *parser.Node) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exposedPorts, exposeIndices := exposedPorts(node)
 	if len(exposedPorts) == 0 || len(exposeIndices) == 0 {
 		return nil
@@ -192,6 +206,8 @@ func LastExposedPorts(node *parser.Node) []string {
 	return evalPorts(lastExposed, node, from, to)
 }
 func exposedPorts(node *parser.Node) ([][]string, []int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +250,8 @@ func nextValues(node *parser.Node) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node == nil {
 		return nil
 	}
@@ -244,6 +262,8 @@ func nextValues(node *parser.Node) []string {
 	return values
 }
 func match(r *regexp.Regexp, str string) ([]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -276,6 +296,8 @@ func containsVars(ports []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, p := range ports {
 		if strings.Contains(p, `$`) {
 			return true
@@ -284,6 +306,8 @@ func containsVars(ports []string) bool {
 	return false
 }
 func evalVars(n *parser.Node, from, to int, ports []string, shlex *ShellLex) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

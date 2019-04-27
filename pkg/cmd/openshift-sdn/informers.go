@@ -31,6 +31,8 @@ func (sdn *OpenShiftSDN) buildInformers() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeConfig, err := configapi.GetKubeConfigOrInClusterConfig(sdn.NodeConfig.MasterKubeConfig, sdn.NodeConfig.MasterClientConnectionOverrides)
 	if err != nil {
 		return err
@@ -49,6 +51,8 @@ func (sdn *OpenShiftSDN) buildInformers() error {
 	return nil
 }
 func (i *informers) start(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

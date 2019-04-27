@@ -30,11 +30,15 @@ func makePod(name string, rc metav1.Object, namespace string, t *testing.T) core
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace}}
 	pod.OwnerReferences = append(pod.OwnerReferences, *metav1.NewControllerRef(rc, corev1.SchemeGroupVersion.WithKind("ReplicationController")))
 	return pod
 }
 func makeRC(name string, dc metav1.Object, namespace string, t *testing.T) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func makePodRef(name, namespace string) *corev1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &corev1.ObjectReference{Kind: "Pod", Name: name, Namespace: namespace}
 }
 func makeRCRef(name string) *metav1.OwnerReference {
@@ -87,9 +93,13 @@ func makeRCRef(name string) *metav1.OwnerReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return metav1.NewControllerRef(&metav1.ObjectMeta{Name: name}, corev1.SchemeGroupVersion.WithKind("ReplicationController"))
 }
 func TestFindIdlablesForEndpoints(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +144,8 @@ func TestFindIdlablesForEndpoints(t *testing.T) {
 	}
 }
 func TestPairScalesWithIdlables(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

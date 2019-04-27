@@ -31,6 +31,8 @@ func TestRepair(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	securityclient := securityv1fakeclient.NewSimpleClientset()
 	indexer := cache.NewIndexer(controller.KeyFunc, cache.Indexers{})
 	indexer.Add(&corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "default"}})
@@ -75,6 +77,8 @@ func TestRepairIgnoresMismatch(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	securityclient := securityv1fakeclient.NewSimpleClientset()
 	indexer := cache.NewIndexer(controller.KeyFunc, cache.Indexers{})
 	indexer.Add(&corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "default", Annotations: map[string]string{security.UIDRangeAnnotation: "1/5"}}})
@@ -105,6 +109,8 @@ func TestRepairIgnoresMismatch(t *testing.T) {
 	}
 }
 func TestRepairTable(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

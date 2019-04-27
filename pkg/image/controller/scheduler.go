@@ -30,6 +30,8 @@ func newScheduler(bucketCount int, bucketLimiter flowcontrol.RateLimiter, fn fun
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bucketCount++
 	buckets := make([]bucket, bucketCount)
 	for i := range buckets {
@@ -52,9 +54,13 @@ func (s *scheduler) RunUntil(ch <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go utilwait.Until(s.RunOnce, 0, ch)
 }
 func (s *scheduler) RunOnce() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +97,13 @@ func (s *scheduler) at(inc int) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return (s.position + inc + len(s.buckets)) % len(s.buckets)
 }
 func (s *scheduler) next() (interface{}, interface{}, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +130,8 @@ func (s *scheduler) next() (interface{}, interface{}, bool) {
 	return nil, nil, true
 }
 func (s *scheduler) Add(key, value interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +183,8 @@ func (s *scheduler) Remove(key, value interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	match := true
@@ -186,6 +200,8 @@ func (s *scheduler) Remove(key, value interface{}) bool {
 	return match
 }
 func (s *scheduler) Delay(key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +244,8 @@ func (s *scheduler) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.mu.Lock()
 	defer s.mu.Unlock()
 	count := 0
@@ -237,6 +255,8 @@ func (s *scheduler) Len() int {
 	return count
 }
 func (s *scheduler) Map() map[interface{}]interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

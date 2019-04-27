@@ -64,9 +64,13 @@ func NewTopImagesOptions(streams genericclioptions.IOStreams) *TopImagesOptions 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TopImagesOptions{IOStreams: streams}
 }
 func NewCmdTopImages(f kcmdutil.Factory, parentName, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func NewCmdTopImages(f kcmdutil.Factory, parentName, name string, streams generi
 	return cmd
 }
 func (o *TopImagesOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,9 +158,13 @@ func (o TopImagesOptions) Validate(cmd *cobra.Command) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (o TopImagesOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -202,6 +212,8 @@ func (i imageInfo) PrintLine(out io.Writer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	printValue(out, i.Image)
 	printArray(out, i.ImageStreamTags)
 	shortParents := make([]string, len(i.Parents))
@@ -218,6 +230,8 @@ func (i imageInfo) PrintLine(out io.Writer) {
 	printValue(out, units.BytesSize(float64(i.Storage)))
 }
 func (o TopImagesOptions) imagesTop() []Info {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -275,6 +289,8 @@ func getStorage(image *imagev1.Image) int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := int64(0)
 	blobSet := sets.NewString()
 	for _, layer := range image.DockerImageLayers {
@@ -298,6 +314,8 @@ func getStorage(image *imagev1.Image) int64 {
 	return storage
 }
 func getImageStreamTags(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +357,8 @@ func getTags(stream *imagev1.ImageStream, image *imagev1.Image) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tags := []string{}
 	for _, tag := range stream.Status.Tags {
 		if len(tag.Items) > 0 && tag.Items[0].Image == image.Name {
@@ -349,6 +369,8 @@ func getTags(stream *imagev1.ImageStream, image *imagev1.Image) []string {
 	return tags
 }
 func getImageParents(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -388,6 +410,8 @@ func getImageUsage(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	usage := []string{}
 	for _, e := range g.InboundEdges(node, PodImageEdgeKind) {
 		podNode, ok := e.From().(*kubegraph.PodNode)
@@ -399,6 +423,8 @@ func getImageUsage(g genericgraph.Graph, node *imagegraph.ImageNode) []string {
 	return usage
 }
 func getController(pod *corev1.Pod) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

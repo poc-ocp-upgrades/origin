@@ -25,9 +25,13 @@ func mockDeploymentConfig(namespace, name string) *appsv1.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsv1.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
 func withSize(item *corev1.ReplicationController, replicas int32) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,10 +65,14 @@ func withCreated(item *corev1.ReplicationController, creationTimestamp metav1.Ti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	item.CreationTimestamp = creationTimestamp
 	return item
 }
 func withStatus(item *corev1.ReplicationController, status appsv1.DeploymentStatus) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +105,8 @@ func mockDeployment(namespace, name string, deploymentConfig *appsv1.DeploymentC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zero := int32(0)
 	item := &corev1.ReplicationController{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name, Annotations: map[string]string{}}, Spec: corev1.ReplicationControllerSpec{Replicas: &zero}}
 	if deploymentConfig != nil {
@@ -106,6 +116,8 @@ func mockDeployment(namespace, name string, deploymentConfig *appsv1.DeploymentC
 	return item
 }
 func TestDeploymentByDeploymentConfigIndexFunc(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +167,8 @@ func TestFilterBeforePredicate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	youngerThan := time.Hour
 	now := metav1.Now()
 	old := metav1.NewTime(now.Time.Add(-1 * youngerThan))
@@ -171,6 +185,8 @@ func TestFilterBeforePredicate(t *testing.T) {
 	}
 }
 func TestEmptyDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -215,6 +231,8 @@ func TestEmptyDataSet(t *testing.T) {
 	}
 }
 func TestPopulatedDataSet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

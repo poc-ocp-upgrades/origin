@@ -32,9 +32,13 @@ func emptySecretReferences() []v1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []v1.ObjectReference{}
 }
 func emptyImagePullSecretReferences() []v1.LocalObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,9 +70,13 @@ func missingSecretReferences() []v1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []v1.ObjectReference{{Name: "missing-secret-1"}}
 }
 func regularSecretReferences() []v1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,9 +108,13 @@ func tokenSecretReferences() []v1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []v1.ObjectReference{{Name: "token-secret-1"}}
 }
 func addTokenSecretReference(refs []v1.ObjectReference) []v1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,9 +146,13 @@ func imagePullSecretReferences() []v1.LocalObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []v1.LocalObjectReference{{Name: "default-dockercfg-fplln"}}
 }
 func serviceAccount(secretRefs []v1.ObjectReference, imagePullSecretRefs []v1.LocalObjectReference) *v1.ServiceAccount {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,9 +184,13 @@ func createdDockercfgSecret() *v1.Secret {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1.Secret{ObjectMeta: metav1.ObjectMeta{Name: "default-dockercfg-fplln", Namespace: "default", Annotations: map[string]string{v1.ServiceAccountNameKey: "default", v1.ServiceAccountUIDKey: "12345", ServiceAccountTokenSecretNameKey: "token-secret-1"}}, Type: v1.SecretTypeDockercfg, Data: map[string][]byte{v1.DockerConfigKey: []byte(`{"docker-registry.default.svc.cluster.local":{"Username":"serviceaccount","Password":"ABC","Email":"serviceaccount@example.org"}}`)}}
 }
 func opaqueSecret() *v1.Secret {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -202,9 +222,13 @@ func serviceAccountTokenSecret() *v1.Secret {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v1.Secret{ObjectMeta: metav1.ObjectMeta{Name: "token-secret-1", Namespace: "default", UID: "23456", ResourceVersion: "1", Annotations: map[string]string{v1.ServiceAccountNameKey: "default", v1.ServiceAccountUIDKey: "12345"}}, Type: v1.SecretTypeServiceAccountToken, Data: map[string][]byte{"token": []byte("ABC")}}
 }
 func serviceAccountTokenSecretWithoutTokenData() *v1.Secret {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +248,8 @@ func serviceAccountTokenSecretWithoutTokenData() *v1.Secret {
 	return secret
 }
 func TestTokenDeletion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

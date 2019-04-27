@@ -51,6 +51,8 @@ func NewCmdCreateIdentity(name, fullName string, f genericclioptions.RESTClientG
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateIdentityOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: name + " <PROVIDER_NAME>:<PROVIDER_USER_NAME>", Short: "Manually create an identity (only needed if automatic creation is disabled).", Long: identityLong, Example: fmt.Sprintf(identityExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		cmdutil.CheckErr(o.Complete(cmd, f, args))
@@ -61,6 +63,8 @@ func NewCmdCreateIdentity(name, fullName string, f genericclioptions.RESTClientG
 	return cmd
 }
 func (o *CreateIdentityOptions) Complete(cmd *cobra.Command, f genericclioptions.RESTClientGetter, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func (o *CreateIdentityOptions) Complete(cmd *cobra.Command, f genericclioptions
 	return nil
 }
 func (o *CreateIdentityOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

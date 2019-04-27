@@ -40,6 +40,8 @@ func SSPIEnabled() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 
@@ -71,9 +73,13 @@ func NewSSPINegotiator(principalName, password, host string, reader io.Reader) N
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &sspiNegotiator{principalName: principalName, password: password, reader: reader, writer: os.Stdout, host: host, desiredFlags: desiredFlags, requiredFlags: requiredFlags}
 }
 func (s *sspiNegotiator) Load() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +98,8 @@ func (s *sspiNegotiator) Load() error {
 	return nil
 }
 func (s *sspiNegotiator) InitSecContext(requestURL string, challengeToken []byte) (tokenToSend []byte, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,9 +137,13 @@ func (s *sspiNegotiator) IsComplete() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.complete
 }
 func (s *sspiNegotiator) Release() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +186,8 @@ func (s *sspiNegotiator) initContext(requestURL string) (outputToken []byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cred, err := s.getUserCredentials()
 	if err != nil {
 		logSSPI("getUserCredentials failed: %v", err)
@@ -196,6 +210,8 @@ func (s *sspiNegotiator) initContext(requestURL string) (outputToken []byte, err
 	return outputToken, nil
 }
 func (s *sspiNegotiator) getUserCredentials() (*sspi.Credentials, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,6 +265,8 @@ func (s *sspiNegotiator) getDomainAndUsername() (domain, username string, err er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case strings.Contains(s.principalName, domainSeparator):
 		data := strings.Split(s.principalName, domainSeparator)
@@ -269,6 +287,8 @@ func (s *sspiNegotiator) getDomainAndUsername() (domain, username string, err er
 	return domain, username, nil
 }
 func (s *sspiNegotiator) getPassword(domain, username string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,6 +333,8 @@ func (s *sspiNegotiator) updateContext(challengeToken []byte) (outputToken []byt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authCompleted, outputToken, err := s.ctx.Update(challengeToken)
 	if err != nil {
 		logSSPI("ClientContext.Update failed: %v", err)
@@ -333,6 +355,8 @@ func (s *sspiNegotiator) updateContext(challengeToken []byte) (outputToken []byt
 	return outputToken, nil
 }
 func logSSPI(format string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

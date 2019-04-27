@@ -21,12 +21,16 @@ func TolerateNotFoundError(err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if kapierrors.IsNotFound(err) {
 		return nil
 	}
 	return err
 }
 func ErrorToSentence(err error) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -52,6 +56,8 @@ func ErrorToSentence(err error) string {
 	return msg
 }
 func IsTimeoutErr(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

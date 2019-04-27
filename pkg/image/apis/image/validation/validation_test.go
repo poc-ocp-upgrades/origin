@@ -30,12 +30,16 @@ func TestValidateImageOK(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := ValidateImage(&imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "foo"}, DockerImageReference: "openshift/ruby-19-centos"})
 	if len(errs) > 0 {
 		t.Errorf("Unexpected non-empty error list: %#v", errs)
 	}
 }
 func TestValidateImageMissingFields(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,6 +92,8 @@ func TestValidateImageSignature(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		signature	imageapi.ImageSignature
@@ -100,6 +106,8 @@ func TestValidateImageSignature(t *testing.T) {
 	}
 }
 func TestValidateImageStreamMappingNotOK(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +160,8 @@ func TestValidateImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace63Char := strings.Repeat("a", 63)
 	name191Char := strings.Repeat("b", 191)
 	name192Char := "x" + name191Char
@@ -175,6 +185,8 @@ func TestValidateImageStream(t *testing.T) {
 	}
 }
 func TestValidateImageStreamWithWhitelister(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,6 +234,8 @@ func TestValidateImageStreamUpdateWithWhitelister(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name				string
 		whitelist			openshiftcontrolplanev1.AllowedRegistries
@@ -246,6 +260,8 @@ func TestValidateImageStreamUpdateWithWhitelister(t *testing.T) {
 	}
 }
 func TestValidateISTUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +317,8 @@ func TestValidateISTUpdateWithWhitelister(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		whitelist	openshiftcontrolplanev1.AllowedRegistries
@@ -342,6 +360,8 @@ func (r *simpleHostnameRetriever) InternalRegistryHostname() (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.registryURL, len(r.registryURL) > 0
 }
 func (r *simpleHostnameRetriever) ExternalRegistryHostname() (string, bool) {
@@ -359,9 +379,13 @@ func (r *simpleHostnameRetriever) ExternalRegistryHostname() (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", false
 }
 func TestValidateRegistryAllowedForImport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,6 +421,8 @@ func TestValidateRegistryAllowedForImport(t *testing.T) {
 	}
 }
 func TestValidateImageStreamImport(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -455,6 +481,8 @@ func mkAllowed(insecure bool, regs ...string) openshiftcontrolplanev1.AllowedReg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := make(openshiftcontrolplanev1.AllowedRegistries, 0, len(regs))
 	for _, reg := range regs {
 		ret = append(ret, openshiftcontrolplanev1.RegistryLocation{DomainName: reg, Insecure: insecure})
@@ -462,6 +490,8 @@ func mkAllowed(insecure bool, regs ...string) openshiftcontrolplanev1.AllowedReg
 	return ret
 }
 func mkWhitelister(t *testing.T, wl openshiftcontrolplanev1.AllowedRegistries) whitelist.RegistryWhitelister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

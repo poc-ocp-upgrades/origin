@@ -26,6 +26,8 @@ func (*localExecutor) Execute(command []string, in io.Reader, out, errOut io.Wri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(3).Infof("Local executor running command: %s", strings.Join(command, " "))
 	cmd := exec.Command(command[0], command[1:]...)
 	cmd.Stdout = out
@@ -38,6 +40,8 @@ func (*localExecutor) Execute(command []string, in io.Reader, out, errOut io.Wri
 	return err
 }
 func newLocalExecutor() executor {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

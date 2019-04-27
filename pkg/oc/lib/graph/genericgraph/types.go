@@ -31,6 +31,8 @@ func GetUniqueRuntimeObjectNodeName(nodeKind string, obj runtime.Object) UniqueN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	meta, err := meta.Accessor(obj)
 	if err != nil {
 		panic(err)
@@ -38,6 +40,8 @@ func GetUniqueRuntimeObjectNodeName(nodeKind string, obj runtime.Object) UniqueN
 	return UniqueName(fmt.Sprintf("%s|%s/%s", nodeKind, meta.GetNamespace(), meta.GetName()))
 }
 func GetTopLevelContainerNode(g Graph, containedNode graph.Node) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,6 +71,8 @@ func GetTopLevelContainerNode(g Graph, containedNode graph.Node) graph.Node {
 	}
 }
 func GetContainingNode(g Graph, containedNode graph.Node) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

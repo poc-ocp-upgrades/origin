@@ -35,9 +35,13 @@ func NewTokenAuthenticator(tokens oauthclient.OAuthAccessTokenInterface, users u
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &tokenAuthenticator{tokens: tokens, users: users, groupMapper: groupMapper, validators: OAuthTokenValidators(validators)}
 }
 func (a *tokenAuthenticator) AuthenticateToken(ctx context.Context, name string) (*kauthenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

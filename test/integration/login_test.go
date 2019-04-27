@@ -33,6 +33,8 @@ func TestLogin(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -110,6 +112,8 @@ func newLoginOptions(server string, username string, password string, insecure b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flagset := pflag.NewFlagSet("test-flags", pflag.ContinueOnError)
 	flags := []string{}
 	clientConfig := defaultClientConfig(flagset)
@@ -119,6 +123,8 @@ func newLoginOptions(server string, username string, password string, insecure b
 	return loginOptions
 }
 func defaultClientConfig(flags *pflag.FlagSet) clientcmd.ClientConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

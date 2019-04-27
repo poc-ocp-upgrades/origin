@@ -28,9 +28,13 @@ func Get() version.Info {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return version.Info{Major: majorFromGit, Minor: minorFromGit, GitCommit: commitFromGit, GitVersion: versionFromGit, BuildDate: buildDate}
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

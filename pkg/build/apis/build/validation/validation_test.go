@@ -27,12 +27,16 @@ func TestBuildValidationSuccess(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildapi.Build{ObjectMeta: metav1.ObjectMeta{Name: "buildid", Namespace: "default"}, Spec: buildapi.BuildSpec{CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, Status: buildapi.BuildStatus{Phase: buildapi.BuildPhaseNew}}
 	if result := ValidateBuild(build); len(result) > 0 {
 		t.Errorf("Unexpected validation error returned %v", result)
 	}
 }
 func checkDockerStrategyEmptySourceError(result field.ErrorList) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -55,6 +59,8 @@ func checkDockerStrategyEmptySourceError(result field.ErrorList) bool {
 	return false
 }
 func TestBuildEmptySource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +105,8 @@ func TestBuildConfigEmptySource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfigs := []buildapi.BuildConfig{{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: buildapi.BuildConfigSpec{RunPolicy: buildapi.BuildRunPolicySerial, CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{}, Strategy: buildapi.BuildStrategy{SourceStrategy: &buildapi.SourceBuildStrategy{From: kapi.ObjectReference{Kind: "DockerImage", Name: "myimage:tag"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: buildapi.BuildConfigSpec{RunPolicy: buildapi.BuildRunPolicySerial, CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{}, Strategy: buildapi.BuildStrategy{CustomStrategy: &buildapi.CustomBuildStrategy{From: kapi.ObjectReference{Kind: "DockerImage", Name: "myimage:tag"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}}}
 	for _, buildConfig := range buildConfigs {
 		if result := ValidateBuildConfig(&buildConfig); len(result) > 0 {
@@ -115,6 +123,8 @@ func TestBuildConfigEmptySource(t *testing.T) {
 	}
 }
 func TestBuildValidationFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -149,9 +159,13 @@ func newDefaultParameters() buildapi.BuildSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildapi.BuildSpec{CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}
 }
 func newNonDefaultParameters() buildapi.BuildSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +185,8 @@ func newNonDefaultParameters() buildapi.BuildSpec {
 	return o
 }
 func TestValidateBuildUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +243,8 @@ func TestBuildConfigDockerStrategyImageChangeTrigger(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfig := &buildapi.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: buildapi.BuildConfigSpec{RunPolicy: buildapi.BuildRunPolicySerial, CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}, Triggers: []buildapi.BuildTriggerPolicy{{Type: buildapi.ImageChangeBuildTriggerType, ImageChange: &buildapi.ImageChangeTrigger{}}}}}
 	errors := ValidateBuildConfig(buildConfig)
 	switch len(errors) {
@@ -256,6 +274,8 @@ func TestBuildConfigValidationFailureRequiredName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfig := &buildapi.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "", Namespace: "foo"}, Spec: buildapi.BuildConfigSpec{RunPolicy: buildapi.BuildRunPolicySerial, CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}}
 	errors := ValidateBuildConfig(buildConfig)
 	if len(errors) != 1 {
@@ -270,6 +290,8 @@ func TestBuildConfigValidationFailureRequiredName(t *testing.T) {
 	}
 }
 func TestBuildConfigImageChangeTriggers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,6 +342,8 @@ func TestBuildConfigValidationOutputFailure(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfig := &buildapi.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: ""}, Spec: buildapi.BuildConfigSpec{RunPolicy: buildapi.BuildRunPolicySerial, CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}, ContextDir: "context"}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Name: "other"}}}}}
 	if result := ValidateBuildConfig(buildConfig); len(result) != 3 {
 		for _, e := range result {
@@ -328,6 +352,8 @@ func TestBuildConfigValidationOutputFailure(t *testing.T) {
 	}
 }
 func TestValidateBuildRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,6 +387,8 @@ func TestValidateBuildRequest(t *testing.T) {
 	}
 }
 func TestValidateSource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -435,6 +463,8 @@ func TestValidateStrategy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	badPolicy := buildapi.ImageOptimizationPolicy("Unknown")
 	goodPolicy := buildapi.ImageOptimizationNone
 	errorCases := []struct {
@@ -487,6 +517,8 @@ func TestValidateCommonSpec(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	zero := int64(0)
 	longString := strings.Repeat("1234567890", 100*61)
 	errorCases := []struct {
@@ -521,6 +553,8 @@ func TestValidateCommonSpecSuccess(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	shortString := "FROM foo"
 	testCases := []struct{ buildapi.CommonSpec }{{CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{SourceStrategy: &buildapi.SourceBuildStrategy{From: kapi.ObjectReference{Kind: "DockerImage", Name: "reponame"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{CustomStrategy: &buildapi.CustomBuildStrategy{From: kapi.ObjectReference{Kind: "ImageStreamTag", Name: "imagestreamname:tag"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{From: &kapi.ObjectReference{Kind: "ImageStreamImage", Name: "imagestreamimage"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Dockerfile: &shortString, Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{From: &kapi.ObjectReference{Kind: "ImageStreamImage", Name: "imagestreamimage"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{From: &kapi.ObjectReference{Kind: "ImageStreamImage", Name: "imagestreamimage"}, DockerfilePath: "dockerfiles/firstDockerfile"}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{SourceStrategy: &buildapi.SourceBuildStrategy{From: kapi.ObjectReference{Kind: "DockerImage", Name: "reponame"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "registry/project/repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{SourceStrategy: &buildapi.SourceBuildStrategy{From: kapi.ObjectReference{Kind: "DockerImage", Name: "registry/project/repository/data"}}}, Output: buildapi.BuildOutput{To: &kapi.ObjectReference{Kind: "DockerImage", Name: "repository/data"}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{ImageLabels: nil}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{ImageLabels: []buildapi.ImageLabel{}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{ImageLabels: []buildapi.ImageLabel{{Name: "key"}}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, Output: buildapi.BuildOutput{ImageLabels: []buildapi.ImageLabel{{Name: "key", Value: "value )(*&"}}}}}, {CommonSpec: buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{DockerStrategy: &buildapi.DockerBuildStrategy{}}, NodeSelector: map[string]string{"A": "B", "C": "D"}}}, {buildapi.CommonSpec{Source: buildapi.BuildSource{Git: &buildapi.GitBuildSource{URI: "http://github.com/my/repository"}}, Strategy: buildapi.BuildStrategy{JenkinsPipelineStrategy: &buildapi.JenkinsPipelineBuildStrategy{JenkinsfilePath: "myJenkinsfile", Env: []kapi.EnvVar{{Name: "key", Value: "value"}}}}}}}
 	for count, config := range testCases {
@@ -531,6 +565,8 @@ func TestValidateCommonSpecSuccess(t *testing.T) {
 	}
 }
 func TestValidateDockerfilePath(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -574,6 +610,8 @@ func TestValidateJenkinsfilePath(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		strategy		*buildapi.JenkinsPipelineBuildStrategy
 		expectedJenkinsfilePath	string
@@ -589,6 +627,8 @@ func TestValidateJenkinsfilePath(t *testing.T) {
 	}
 }
 func TestValidateTrigger(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -648,6 +688,8 @@ func TestValidateToImageReference(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &kapi.ObjectReference{Name: "somename", Namespace: "somenamespace", Kind: "DockerImage"}
 	errs := validateToImageReference(o, nil)
 	if len(errs) != 1 {
@@ -662,6 +704,8 @@ func TestValidateToImageReference(t *testing.T) {
 	}
 }
 func TestValidateStrategyEnvVars(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -718,6 +762,8 @@ func TestValidatePostCommit(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path := field.NewPath("postCommit")
 	invalidSpec := buildapi.BuildPostCommitSpec{Command: []string{"rake", "test"}, Script: "rake test"}
 	tests := []struct {
@@ -731,6 +777,8 @@ func TestValidatePostCommit(t *testing.T) {
 	}
 }
 func TestDiffBuildSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -776,6 +824,8 @@ func TestValidateBuildImageRefs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		build		buildapi.Build
@@ -800,6 +850,8 @@ func TestValidateBuildImageRefs(t *testing.T) {
 	}
 }
 func TestValidateBuildUpdateImageReferences(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -37,6 +37,8 @@ func TestOAuthLDAP(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		randomSuffix	= string(uuid.NewUUID())
 		providerName	= "myldapprovider"

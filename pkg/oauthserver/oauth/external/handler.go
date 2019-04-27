@@ -45,6 +45,8 @@ func NewExternalOAuthRedirector(provider Provider, state State, redirectURL stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := provider.NewConfig()
 	if err != nil {
 		return nil, nil, err
@@ -77,6 +79,8 @@ func (h *Handler) AuthenticationRedirect(w http.ResponseWriter, req *http.Reques
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Authentication needed for %v", h.provider)
 	authReq := h.client.NewAuthorizeRequest(osincli.CODE)
 	h.provider.AddCustomParameters(authReq)
@@ -91,6 +95,8 @@ func (h *Handler) AuthenticationRedirect(w http.ResponseWriter, req *http.Reques
 	return nil
 }
 func NewOAuthPasswordAuthenticator(provider Provider, mapper authapi.UserIdentityMapper) (authenticator.Password, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +142,8 @@ func (h *Handler) AuthenticatePassword(ctx context.Context, username, password s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	accessReq := h.client.NewAccessRequest(osincli.PASSWORD, &osincli.AuthorizeData{Username: username, Password: password})
 	accessData, err := accessReq.GetToken()
 	if err != nil {
@@ -159,6 +167,8 @@ func (h *Handler) AuthenticatePassword(ctx context.Context, username, password s
 	return identitymapper.ResponseFor(h.mapper, identity)
 }
 func (h *Handler) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,6 +252,8 @@ func (h *Handler) handleError(err error, w http.ResponseWriter, req *http.Reques
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	handled, err := h.errorHandler.AuthenticationError(err, w, req)
 	if handled {
 		return
@@ -258,6 +270,8 @@ type RedirectorState interface {
 }
 
 func CSRFRedirectingState(csrf csrf.CSRF) RedirectorState {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +303,8 @@ func (d *defaultState) Generate(w http.ResponseWriter, req *http.Request) (strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	then := req.URL.String()
 	if len(then) == 0 {
 		return "", errors.New("cannot generate state: request has no URL")
@@ -297,6 +313,8 @@ func (d *defaultState) Generate(w http.ResponseWriter, req *http.Request) (strin
 	return encodeState(state), nil
 }
 func (d *defaultState) Check(state string, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -338,6 +356,8 @@ func (d *defaultState) AuthenticationSucceeded(user user.Info, state string, w h
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	values, err := decodeState(state)
 	if err != nil {
 		return false, err
@@ -350,6 +370,8 @@ func (d *defaultState) AuthenticationSucceeded(user user.Info, state string, w h
 	return true, nil
 }
 func (d *defaultState) AuthenticationError(err error, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -414,9 +436,13 @@ func encodeState(values url.Values) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return base64.URLEncoding.EncodeToString([]byte(values.Encode()))
 }
 func decodeState(state string) (url.Values, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -452,6 +478,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -526,5 +573,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

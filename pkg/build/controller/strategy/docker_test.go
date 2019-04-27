@@ -32,6 +32,8 @@ func TestDockerCreateBuildPod(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := DockerBuildStrategy{Image: "docker-test-image"}
 	build := mockDockerBuild()
 	actual, err := strategy.CreateBuildPod(build, nil, testInternalRegistryHost)
@@ -126,6 +128,8 @@ func TestDockerBuildLongName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := DockerBuildStrategy{Image: "docker-test-image"}
 	build := mockDockerBuild()
 	build.Name = strings.Repeat("a", validation.DNS1123LabelMaxLength*2)
@@ -138,6 +142,8 @@ func TestDockerBuildLongName(t *testing.T) {
 	}
 }
 func mockDockerBuild() *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -26,9 +26,13 @@ func (r *UserIdentityMappingRegistry) GetUserIdentityMapping(name string) (*user
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.UserIdentityMapping, r.Err
 }
 func (r *UserIdentityMappingRegistry) CreateOrUpdateUserIdentityMapping(mapping *userapi.UserIdentityMapping) (*userapi.UserIdentityMapping, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

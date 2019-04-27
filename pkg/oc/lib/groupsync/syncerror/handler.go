@@ -25,12 +25,16 @@ func NewCompoundHandler(handlers ...Handler) Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &compoundHandler{handlers: handlers}
 }
 
 type compoundHandler struct{ handlers []Handler }
 
 func (h *compoundHandler) HandleError(err error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,12 +72,16 @@ func NewMemberLookupOutOfBoundsSuppressor(err io.Writer) Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &memberLookupOutOfBoundsSuppressor{err: err}
 }
 
 type memberLookupOutOfBoundsSuppressor struct{ err io.Writer }
 
 func (h *memberLookupOutOfBoundsSuppressor) HandleError(err error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,12 +121,16 @@ func NewMemberLookupMemberNotFoundSuppressor(err io.Writer) Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &memberLookupMemberNotFoundSuppressor{err: err}
 }
 
 type memberLookupMemberNotFoundSuppressor struct{ err io.Writer }
 
 func (h *memberLookupMemberNotFoundSuppressor) HandleError(err error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

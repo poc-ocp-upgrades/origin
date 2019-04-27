@@ -22,6 +22,8 @@ func RunIngressToRouteController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig := ctx.ClientBuilder.ConfigOrDie(bootstrappolicy.InfraIngressToRouteControllerServiceAccountName)
 	coreClient, err := coreclient.NewForConfig(clientConfig)
 	if err != nil {

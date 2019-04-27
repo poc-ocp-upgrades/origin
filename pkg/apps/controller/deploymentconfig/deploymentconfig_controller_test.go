@@ -40,6 +40,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	appsv1.Install(legacyscheme.Scheme)
 }
 func alwaysReady() bool {
@@ -57,9 +59,13 @@ func alwaysReady() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func TestHandleScenarios(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,9 +211,13 @@ func (f *fakeDeploymentConfigInformer) Informer() cache.SharedIndexInformer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.informer
 }
 func (f *fakeDeploymentConfigInformer) Lister() appslisters.DeploymentConfigLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,9 +249,13 @@ func newInt32(i int32) *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &i
 }
 func newDC(version, replicas, maxUnavailable int, cond appsv1.DeploymentCondition) *appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -281,11 +295,15 @@ func newRC(version, desired, current, ready, available int32) *corev1.Replicatio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc := &corev1.ReplicationController{ObjectMeta: metav1.ObjectMeta{}, Spec: corev1.ReplicationControllerSpec{Replicas: &desired}, Status: corev1.ReplicationControllerStatus{Replicas: current, ReadyReplicas: ready, AvailableReplicas: available}}
 	appsutil.SetDeploymentLatestVersionAnnotation(rc, strconv.Itoa(int(version)))
 	return rc
 }
 func TestCalculateStatus(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

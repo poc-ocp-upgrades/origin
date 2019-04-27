@@ -20,6 +20,8 @@ func (in *AppliedClusterResourceQuota) DeepCopyInto(out *AppliedClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -28,6 +30,8 @@ func (in *AppliedClusterResourceQuota) DeepCopyInto(out *AppliedClusterResourceQ
 	return
 }
 func (in *AppliedClusterResourceQuota) DeepCopy() *AppliedClusterResourceQuota {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,12 +68,16 @@ func (in *AppliedClusterResourceQuota) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *AppliedClusterResourceQuotaList) DeepCopyInto(out *AppliedClusterResourceQuotaList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,6 +119,8 @@ func (in *AppliedClusterResourceQuotaList) DeepCopy() *AppliedClusterResourceQuo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -133,12 +143,16 @@ func (in *AppliedClusterResourceQuotaList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *ClusterResourceQuota) DeepCopyInto(out *ClusterResourceQuota) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (in *ClusterResourceQuota) DeepCopy() *ClusterResourceQuota {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -197,12 +213,16 @@ func (in *ClusterResourceQuota) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *ClusterResourceQuotaList) DeepCopyInto(out *ClusterResourceQuotaList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +264,8 @@ func (in *ClusterResourceQuotaList) DeepCopy() *ClusterResourceQuotaList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -266,12 +288,16 @@ func (in *ClusterResourceQuotaList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *ClusterResourceQuotaSelector) DeepCopyInto(out *ClusterResourceQuotaSelector) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -316,6 +342,8 @@ func (in *ClusterResourceQuotaSelector) DeepCopy() *ClusterResourceQuotaSelector
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -338,12 +366,16 @@ func (in *ClusterResourceQuotaSpec) DeepCopyInto(out *ClusterResourceQuotaSpec) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	in.Selector.DeepCopyInto(&out.Selector)
 	in.Quota.DeepCopyInto(&out.Quota)
 	return
 }
 func (in *ClusterResourceQuotaSpec) DeepCopy() *ClusterResourceQuotaSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -380,12 +412,16 @@ func (in *ClusterResourceQuotaStatus) DeepCopyInto(out *ClusterResourceQuotaStat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	in.Total.DeepCopyInto(&out.Total)
 	out.Namespaces = in.Namespaces.DeepCopy()
 	return
 }
 func (in *ClusterResourceQuotaStatus) DeepCopy() *ClusterResourceQuotaStatus {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -408,6 +444,8 @@ func (in *ClusterResourceQuotaStatus) DeepCopy() *ClusterResourceQuotaStatus {
 	return out
 }
 func (in *ResourceQuotasStatusByNamespace) DeepCopyInto(out *ResourceQuotasStatusByNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

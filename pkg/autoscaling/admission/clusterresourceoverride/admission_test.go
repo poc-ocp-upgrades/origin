@@ -60,6 +60,8 @@ func TestConfigReader(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	initialConfig := testConfig(10, 20, 30)
 	serializedConfig, serializationErr := configapilatest.WriteYAML(initialConfig)
 	if serializationErr != nil {
@@ -100,6 +102,8 @@ func TestConfigReader(t *testing.T) {
 	}
 }
 func TestLimitRequestAdmission(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,9 +188,13 @@ func testBestEffortPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapi.Pod{Spec: kapi.PodSpec{InitContainers: []kapi.Container{{Resources: kapi.ResourceRequirements{}}}, Containers: []kapi.Container{{Resources: kapi.ResourceRequirements{}}}}}
 }
 func testPod(memLimit string, memRequest string, cpuLimit string, cpuRequest string) *kapi.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,12 +226,16 @@ func fakeUser() user.Info {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &user.DefaultInfo{Name: "testuser"}
 }
 
 var nsIndex = 0
 
 func fakeNamespace(pluginEnabled bool) *corev1.Namespace {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +272,8 @@ func fakeNamespaceLister(ns *corev1.Namespace) corev1listers.NamespaceLister {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{})
 	indexer.Add(ns)
 	return corev1listers.NewNamespaceLister(indexer)
@@ -279,9 +293,13 @@ func testConfig(lc2mr int64, cr2lr int64, mr2lr int64) *clusterresourceoverride.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &clusterresourceoverride.ClusterResourceOverrideConfig{LimitCPUToMemoryPercent: lc2mr, CPURequestToLimitPercent: cr2lr, MemoryRequestToLimitPercent: mr2lr}
 }
 func fakeMinLimitRange(limitType corev1.LimitType, resourceType corev1.ResourceName, limits ...string) *corev1.LimitRange {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,6 +337,8 @@ func fakeMinMemoryLimitRange(limits ...string) *corev1.LimitRange {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeMinLimitRange(corev1.LimitTypeContainer, corev1.ResourceMemory, limits...)
 }
 func fakeMinCPULimitRange(limits ...string) *corev1.LimitRange {
@@ -336,9 +356,13 @@ func fakeMinCPULimitRange(limits ...string) *corev1.LimitRange {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeMinLimitRange(corev1.LimitTypeContainer, corev1.ResourceCPU, limits...)
 }
 func fakeMinStorageLimitRange(limits ...string) *corev1.LimitRange {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -380,9 +404,13 @@ func (f fakeLimitRangeLister) LimitRanges(namespace string) corev1listers.LimitR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.namespaceLister
 }
 func (f fakeLimitRangeNamespaceLister) List(selector labels.Selector) ([]*corev1.LimitRange, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

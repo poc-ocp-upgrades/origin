@@ -36,6 +36,8 @@ func NewPayload(path string) *Payload {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Payload{path: path}
 }
 func (p *Payload) Path() string {
@@ -53,9 +55,13 @@ func (p *Payload) Path() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.path
 }
 func (p *Payload) Rewrite(allowTags bool, fn func(component string) imagereference.DockerImageReference) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +133,8 @@ func (p *Payload) References() (*imageapi.ImageStream, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.references != nil {
 		return p.references, nil
 	}
@@ -138,6 +146,8 @@ func (p *Payload) References() (*imageapi.ImageStream, error) {
 	return is, nil
 }
 func parseImageStream(path string) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,6 +186,8 @@ func readReleaseImageReferences(data []byte) (*imageapi.ImageStream, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is := &imageapi.ImageStream{}
 	if err := yaml.Unmarshal(data, &is); err != nil {
 		return nil, fmt.Errorf("unable to load release image-references: %v", err)
@@ -189,6 +201,8 @@ func readReleaseImageReferences(data []byte) (*imageapi.ImageStream, error) {
 type ManifestMapper func(data []byte) ([]byte, error)
 
 func NewTransformFromImageStreamFile(path string, input *imageapi.ImageStream, allowMissingImages bool) (ManifestMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -302,12 +316,16 @@ func NopManifestMapper(data []byte) ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return data, nil
 }
 
 const patternImageFormat = `([\W]|^)(%s)(:[\w][\w.-]{0,127}|@[A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][[:xdigit:]]{2,})?([\s"']|$)`
 
 func NewImageMapper(images map[string]ImageReference) (ManifestMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,6 +400,8 @@ func NewExactMapper(mappings map[string]string) (ManifestMapper, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	patterns := make(map[string]*regexp.Regexp)
 	for from, to := range mappings {
 		pattern := fmt.Sprintf(exactImageFormat, regexp.QuoteMeta(from))
@@ -399,6 +419,8 @@ func NewExactMapper(mappings map[string]string) (ManifestMapper, error) {
 	}, nil
 }
 func ComponentReferencesForImageStream(is *imageapi.ImageStream) (func(string) imagereference.DockerImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -438,6 +460,8 @@ const (
 )
 
 func NewComponentVersionsMapper(releaseName string, versions map[string]string, tagsByName map[string][]string) ManifestMapper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -538,6 +562,8 @@ func (v ComponentVersions) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var keys []string
 	for k := range v {
 		keys = append(keys, k)
@@ -553,6 +579,8 @@ func (v ComponentVersions) String() string {
 	return buf.String()
 }
 func parseComponentVersionsLabel(label string) (ComponentVersions, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -591,6 +619,8 @@ func parseComponentVersionsLabel(label string) (ComponentVersions, error) {
 	return labels, nil
 }
 func ReplacementsForImageStream(is *imageapi.ImageStream, allowTags bool, fn func(component string) imagereference.DockerImageReference) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

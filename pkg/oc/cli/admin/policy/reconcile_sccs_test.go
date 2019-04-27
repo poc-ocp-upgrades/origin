@@ -24,6 +24,8 @@ func TestComputeDefinitions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	diffPriv := goodSCC()
 	diffPriv.AllowPrivilegedContainer = true
 	diffCaps := goodSCC()
@@ -90,6 +92,8 @@ func TestComputeMetadata(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		union		bool
 		desired		metav1.ObjectMeta
@@ -116,6 +120,8 @@ func TestComputeMetadata(t *testing.T) {
 	}
 }
 func TestComputeUnioningUsersAndGroups(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +189,8 @@ func TestComputeUnioningPriorities(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	priorityOne := int32(1)
 	priorityTwo := int32(2)
 	tests := map[string]struct {
@@ -230,11 +238,15 @@ func goodSCCWithPriority(priority int32) securityv1.SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc := goodSCC()
 	scc.Priority = &priority
 	return scc
 }
 func goodSCC() securityv1.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

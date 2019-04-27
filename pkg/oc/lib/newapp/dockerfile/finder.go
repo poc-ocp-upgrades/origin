@@ -24,6 +24,8 @@ func (t StatFunc) Has(dir string) (string, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path := filepath.Join(dir, "Dockerfile")
 	_, err := t(path)
 	if os.IsNotExist(err) {
@@ -35,6 +37,8 @@ func (t StatFunc) Has(dir string) (string, bool, error) {
 	return path, true, nil
 }
 func NewTester() newapp.Tester {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,9 +78,13 @@ func NewFinder() Finder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &finder{fsWalk: filepath.Walk}
 }
 func (f *finder) Find(dir string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,6 +119,8 @@ func (f *finder) Find(dir string) ([]string, error) {
 	return dockerfiles, err
 }
 func isDockerfile(info os.FileInfo) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

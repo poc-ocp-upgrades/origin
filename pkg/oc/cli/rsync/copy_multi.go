@@ -28,6 +28,8 @@ func (ss copyStrategies) Copy(source, destination *PathSpec, out, errOut io.Writ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	foundStrategy := false
 	for _, s := range ss {
@@ -48,6 +50,8 @@ func (ss copyStrategies) Copy(source, destination *PathSpec, out, errOut io.Writ
 	return err
 }
 func (ss copyStrategies) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func (ss copyStrategies) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := []string{}
 	for _, s := range ss {
 		names = append(names, s.String())
@@ -96,6 +102,8 @@ func (ss copyStrategies) String() string {
 type strategySetupError string
 
 func (e strategySetupError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

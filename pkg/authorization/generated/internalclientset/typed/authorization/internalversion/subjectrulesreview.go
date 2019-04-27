@@ -32,9 +32,13 @@ func newSubjectRulesReviews(c *AuthorizationClient, namespace string) *subjectRu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &subjectRulesReviews{client: c.RESTClient(), ns: namespace}
 }
 func (c *subjectRulesReviews) Create(subjectRulesReview *authorization.SubjectRulesReview) (result *authorization.SubjectRulesReview, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

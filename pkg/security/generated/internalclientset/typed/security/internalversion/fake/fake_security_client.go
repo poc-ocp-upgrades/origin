@@ -23,9 +23,13 @@ func (c *FakeSecurity) PodSecurityPolicyReviews(namespace string) internalversio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakePodSecurityPolicyReviews{c, namespace}
 }
 func (c *FakeSecurity) PodSecurityPolicySelfSubjectReviews(namespace string) internalversion.PodSecurityPolicySelfSubjectReviewInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (c *FakeSecurity) PodSecurityPolicySubjectReviews(namespace string) interna
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakePodSecurityPolicySubjectReviews{c, namespace}
 }
 func (c *FakeSecurity) SecurityContextConstraints() internalversion.SecurityContextConstraintsInterface {
@@ -74,9 +80,13 @@ func (c *FakeSecurity) SecurityContextConstraints() internalversion.SecurityCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeSecurityContextConstraints{c}
 }
 func (c *FakeSecurity) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

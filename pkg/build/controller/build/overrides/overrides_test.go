@@ -25,6 +25,8 @@ func TestBuildOverrideForcePull(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name	string
 		build	*buildv1.Build
@@ -78,6 +80,8 @@ func TestLabelOverrides(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		buildLabels	[]buildv1.ImageLabel
 		overrideLabels	[]buildv1.ImageLabel
@@ -99,6 +103,8 @@ func TestLabelOverrides(t *testing.T) {
 	}
 }
 func TestBuildOverrideNodeSelector(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +144,8 @@ func TestBuildOverrideNodeSelector(t *testing.T) {
 	}
 }
 func TestBuildOverrideAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

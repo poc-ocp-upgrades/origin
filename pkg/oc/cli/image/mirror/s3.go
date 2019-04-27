@@ -53,9 +53,13 @@ func (s *s3CredentialStore) IsExpired() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !s.retrieved
 }
 func (s *s3CredentialStore) Retrieve() (credentials.Value, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,6 +84,8 @@ func (s *s3CredentialStore) Retrieve() (credentials.Value, error) {
 	return credentials.Value{AccessKeyID: accessKeyID, SecretAccessKey: secretAccessKey, ProviderName: "DockerCfg"}, nil
 }
 func (d *s3Driver) newObject(server *url.URL, region string, insecure bool, securityDomain *url.URL) (*s3.S3, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +145,8 @@ func (d *s3Driver) Repository(ctx context.Context, server *url.URL, repoName str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(repoName, "/", 3)
 	if len(parts) < 3 {
 		return nil, fmt.Errorf("you must pass a three segment repository name for s3 uploads, where the first segment is the region and the second segment is the bucket")
@@ -180,9 +188,13 @@ func (r *s3Repository) Named() reference.Named {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.repoName
 }
 func (r *s3Repository) Manifests(ctx context.Context, options ...distribution.ManifestServiceOption) (distribution.ManifestService, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +226,8 @@ func (r *s3Repository) Blobs(ctx context.Context) distribution.BlobStore {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &s3BlobStore{r: r}
 }
 func (r *s3Repository) Tags(ctx context.Context) distribution.TagService {
@@ -231,9 +245,13 @@ func (r *s3Repository) Tags(ctx context.Context) distribution.TagService {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (r *s3Repository) attemptCopy(id string, bucket, key string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,6 +313,8 @@ func (r *s3Repository) conditionalUpload(input *s3manager.UploadInput, id string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.attemptCopy(id, *input.Bucket, *input.Key) {
 		return nil
 	}
@@ -302,6 +322,8 @@ func (r *s3Repository) conditionalUpload(input *s3manager.UploadInput, id string
 	return err
 }
 func (r *s3Repository) init() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,12 +363,16 @@ func (noSeekReader) Seek(offset int64, whence int) (int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, fmt.Errorf("unable to seek to %d via %d", offset, whence)
 }
 
 type s3ManifestService struct{ r *s3Repository }
 
 func (s *s3ManifestService) Exists(ctx context.Context, dgst godigest.Digest) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,9 +404,13 @@ func (s *s3ManifestService) Get(ctx context.Context, dgst godigest.Digest, optio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("unimplemented")
 }
 func (s *s3ManifestService) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (godigest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -435,12 +465,16 @@ func (s *s3ManifestService) Delete(ctx context.Context, dgst godigest.Digest) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("unimplemented")
 }
 
 type s3BlobStore struct{ r *s3Repository }
 
 func (s *s3BlobStore) Stat(ctx context.Context, dgst godigest.Digest) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -472,9 +506,13 @@ func (s *s3BlobStore) Delete(ctx context.Context, dgst godigest.Digest) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("unimplemented")
 }
 func (s *s3BlobStore) Get(ctx context.Context, dgst godigest.Digest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -506,9 +544,13 @@ func (s *s3BlobStore) Open(ctx context.Context, dgst godigest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("unimplemented")
 }
 func (s *s3BlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, r *http.Request, dgst godigest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -540,6 +582,8 @@ func (s *s3BlobStore) Put(ctx context.Context, mediaType string, p []byte) (dist
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := s.r.init(); err != nil {
 		return distribution.Descriptor{}, err
 	}
@@ -550,6 +594,8 @@ func (s *s3BlobStore) Put(ctx context.Context, mediaType string, p []byte) (dist
 	return distribution.Descriptor{MediaType: mediaType, Size: int64(len(p)), Digest: d}, nil
 }
 func (s *s3BlobStore) Create(ctx context.Context, options ...distribution.BlobCreateOption) (distribution.BlobWriter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -596,6 +642,8 @@ func (s *s3BlobStore) Resume(ctx context.Context, id string) (distribution.BlobW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("unimplemented")
 }
 
@@ -611,6 +659,8 @@ type writer struct {
 }
 
 func (d *s3Repository) newWriter(key, uploadID string, size int64) distribution.BlobWriter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -642,6 +692,8 @@ func (w *writer) ID() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.uploadID
 }
 func (w *writer) StartedAt() time.Time {
@@ -659,9 +711,13 @@ func (w *writer) StartedAt() time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.startedAt
 }
 func (w *writer) ReadFrom(r io.Reader) (int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -708,6 +764,8 @@ func (w *writer) Write(p []byte) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, fmt.Errorf("already closed")
 }
 func (w *writer) Size() int64 {
@@ -725,9 +783,13 @@ func (w *writer) Size() int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.size
 }
 func (w *writer) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -764,6 +826,8 @@ func (w *writer) Cancel(ctx context.Context) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case w.closed:
 		return fmt.Errorf("already closed")
@@ -774,6 +838,8 @@ func (w *writer) Cancel(ctx context.Context) error {
 	return nil
 }
 func (w *writer) Commit(ctx context.Context, descriptor distribution.Descriptor) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

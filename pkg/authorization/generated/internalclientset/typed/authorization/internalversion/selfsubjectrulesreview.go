@@ -32,9 +32,13 @@ func newSelfSubjectRulesReviews(c *AuthorizationClient, namespace string) *selfS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &selfSubjectRulesReviews{client: c.RESTClient(), ns: namespace}
 }
 func (c *selfSubjectRulesReviews) Create(selfSubjectRulesReview *authorization.SelfSubjectRulesReview) (result *authorization.SelfSubjectRulesReview, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

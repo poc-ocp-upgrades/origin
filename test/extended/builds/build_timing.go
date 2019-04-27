@@ -24,6 +24,8 @@ func verifyStages(stages []buildv1.StageInfo, expectedStages map[string][]string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, stage := range stages {
 		expectedDurations, ok := expectedStages[string(stage.Name)]
 		if !ok {

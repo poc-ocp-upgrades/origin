@@ -30,6 +30,8 @@ func (c *FakeProjects) Get(name string, options v1.GetOptions) (result *project.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(projectsResource, name), &project.Project{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeProjects) Get(name string, options v1.GetOptions) (result *project.
 	return obj.(*project.Project), err
 }
 func (c *FakeProjects) List(opts v1.ListOptions) (result *project.ProjectList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeProjects) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(projectsResource, opts))
 }
 func (c *FakeProjects) Create(projectResource *project.Project) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeProjects) Update(projectResource *project.Project) (result *project
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(projectsResource, projectResource), &project.Project{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeProjects) Update(projectResource *project.Project) (result *project
 	return obj.(*project.Project), err
 }
 func (c *FakeProjects) UpdateStatus(projectResource *project.Project) (*project.Project, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,10 +174,14 @@ func (c *FakeProjects) Delete(name string, options *v1.DeleteOptions) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := c.Fake.Invokes(testing.NewRootDeleteAction(projectsResource, name), &project.Project{})
 	return err
 }
 func (c *FakeProjects) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,6 +201,8 @@ func (c *FakeProjects) DeleteCollection(options *v1.DeleteOptions, listOptions v
 	return err
 }
 func (c *FakeProjects) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

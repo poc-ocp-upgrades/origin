@@ -38,6 +38,8 @@ func newController(t *testing.T, client *fake.Clientset, stopCh <-chan struct{})
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ipNet, err := net.ParseCIDR("172.16.0.12/28")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -68,6 +70,8 @@ func newService(name, ip string, typeLoadBalancer bool) *v1.Service {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceType := v1.ServiceTypeClusterIP
 	if typeLoadBalancer {
 		serviceType = v1.ServiceTypeLoadBalancer
@@ -79,6 +83,8 @@ func newService(name, ip string, typeLoadBalancer bool) *v1.Service {
 	return service
 }
 func TestProcessInitialSync(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +144,8 @@ func TestWorkRequeuesWhenFull(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName	string
 		requeuedChange	bool
@@ -165,6 +173,8 @@ func TestWorkRequeuesWhenFull(t *testing.T) {
 	}
 }
 func TestProcessChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +247,8 @@ func TestClearOldAllocation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName	string
 		oldIP		string
@@ -255,6 +267,8 @@ func TestClearOldAllocation(t *testing.T) {
 	}
 }
 func TestRecordAllocationReallocates(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,6 +322,8 @@ func TestAllocateReleasesOnPersistenceFailure(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
@@ -327,6 +343,8 @@ func TestAllocateReleasesOnPersistenceFailure(t *testing.T) {
 	}
 }
 func TestClearLocalAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,6 +401,8 @@ func TestEnsureExternalIPRespectsNonIngress(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	c := newController(t, nil, stopCh)
@@ -401,6 +421,8 @@ func TestEnsureExternalIPRespectsNonIngress(t *testing.T) {
 	}
 }
 func TestAllocateIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -442,6 +464,8 @@ func TestAllocateIP(t *testing.T) {
 	}
 }
 func TestRecordLocalAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -512,6 +536,8 @@ func TestClearPersistedAllocation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName		string
 		persistenceError	error
@@ -543,6 +569,8 @@ func TestClearPersistedAllocation(t *testing.T) {
 	}
 }
 func TestBasicControllerFlow(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

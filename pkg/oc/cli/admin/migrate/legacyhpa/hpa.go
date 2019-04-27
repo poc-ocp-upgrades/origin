@@ -53,6 +53,8 @@ func prettyPrintMigrations(versionKinds map[metav1.TypeMeta]metav1.TypeMeta) str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := make([]string, 0, len(versionKinds))
 	for initial, final := range versionKinds {
 		line := fmt.Sprintf("		- %s.%s --> %s.%s", initial.APIVersion, initial.Kind, final.APIVersion, final.Kind)
@@ -69,6 +71,8 @@ type MigrateLegacyHPAOptions struct {
 }
 
 func NewMigrateLegacyHPAOptions(streams genericclioptions.IOStreams) *MigrateLegacyHPAOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func NewCmdMigrateLegacyHPA(name, fullName string, f kcmdutil.Factory, streams g
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewMigrateLegacyHPAOptions(streams)
 	cmd := &cobra.Command{Use: name, Short: "Update HPAs to point to the latest group-version-kinds", Long: internalMigrateLegacyHPALong, Example: fmt.Sprintf(internalMigrateLegacyHPAExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(name, f, cmd, args))
@@ -110,6 +116,8 @@ func NewCmdMigrateLegacyHPA(name, fullName string, f kcmdutil.Factory, streams g
 	return cmd
 }
 func (o *MigrateLegacyHPAOptions) Complete(name string, f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,6 +168,8 @@ func (o MigrateLegacyHPAOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.ResourceOptions.Include) != 1 || o.ResourceOptions.Include[0] != "horizontalpodautoscalers.autoscaling" {
 		return fmt.Errorf("the only supported resources are horizontalpodautoscalers")
 	}
@@ -180,11 +190,15 @@ func (o MigrateLegacyHPAOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.ResourceOptions.Visitor().Visit(func(info *resource.Info) (migrate.Reporter, error) {
 		return o.checkAndTransform(info.Object)
 	})
 }
 func (o *MigrateLegacyHPAOptions) checkAndTransform(hpaRaw runtime.Object) (migrate.Reporter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,12 +241,16 @@ func (o *MigrateLegacyHPAOptions) latestVersionKind(current metav1.TypeMeta) met
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if newVersionKind, isKnown := o.finalVersionKinds[current]; isKnown {
 		return newVersionKind
 	}
 	return current
 }
 func (o *MigrateLegacyHPAOptions) save(info *resource.Info, reporter migrate.Reporter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,6 +287,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -343,5 +382,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

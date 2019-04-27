@@ -50,6 +50,8 @@ func AddExposedPodTemplateSpecEdges(g osgraph.MutableUniqueGraph, node *kubegrap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node.Service.Spec.Selector == nil {
 		return
 	}
@@ -81,6 +83,8 @@ func AddAllExposedPodTemplateSpecEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if serviceNode, ok := node.(*kubegraph.ServiceNode); ok {
 			AddExposedPodTemplateSpecEdges(g, serviceNode)
@@ -88,6 +92,8 @@ func AddAllExposedPodTemplateSpecEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddExposedPodEdges(g osgraph.MutableUniqueGraph, node *kubegraph.ServiceNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +139,8 @@ func AddAllExposedPodEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if serviceNode, ok := node.(*kubegraph.ServiceNode); ok {
 			AddExposedPodEdges(g, serviceNode)
@@ -140,6 +148,8 @@ func AddAllExposedPodEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddManagedByControllerPodEdges(g osgraph.MutableUniqueGraph, to graph.Node, namespace string, selector map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +181,8 @@ func AddManagedByControllerPodEdges(g osgraph.MutableUniqueGraph, to graph.Node,
 	}
 }
 func AddAllManagedByControllerPodEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,6 +243,8 @@ func AddMountedSecretEdges(g osgraph.Graph, podSpec *kubegraph.PodSpecNode) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	containerNode := osgraph.GetTopLevelContainerNode(g, podSpec)
 	containerObj := g.GraphDescriber.Object(containerNode)
 	meta, err := meta.Accessor(containerObj.(runtime.Object))
@@ -264,6 +278,8 @@ func AddAllMountedSecretEdges(g osgraph.Graph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.Nodes() {
 		if podSpecNode, ok := node.(*kubegraph.PodSpecNode); ok {
 			AddMountedSecretEdges(g, podSpecNode)
@@ -271,6 +287,8 @@ func AddAllMountedSecretEdges(g osgraph.Graph) {
 	}
 }
 func AddMountableSecretEdges(g osgraph.Graph, saNode *kubegraph.ServiceAccountNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,6 +326,8 @@ func AddAllMountableSecretEdges(g osgraph.Graph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.Nodes() {
 		if saNode, ok := node.(*kubegraph.ServiceAccountNode); ok {
 			AddMountableSecretEdges(g, saNode)
@@ -315,6 +335,8 @@ func AddAllMountableSecretEdges(g osgraph.Graph) {
 	}
 }
 func AddRequestedServiceAccountEdges(g osgraph.Graph, podSpecNode *kubegraph.PodSpecNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -360,6 +382,8 @@ func AddAllRequestedServiceAccountEdges(g osgraph.Graph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.Nodes() {
 		if podSpecNode, ok := node.(*kubegraph.PodSpecNode); ok {
 			AddRequestedServiceAccountEdges(g, podSpecNode)
@@ -367,6 +391,8 @@ func AddAllRequestedServiceAccountEdges(g osgraph.Graph) {
 	}
 }
 func AddHPAScaleRefEdges(g osgraph.Graph, restMapper meta.RESTMapper) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,6 +439,8 @@ func AddHPAScaleRefEdges(g osgraph.Graph, restMapper meta.RESTMapper) {
 	}
 }
 func addTriggerEdges(obj runtime.Object, podTemplate corev1.PodTemplateSpec, addEdgeFn func(image appsgraph.TemplateImage, err error)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -476,6 +504,8 @@ func AddTriggerJobsEdges(g osgraph.MutableUniqueGraph, node *kubegraph.JobNode) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	addTriggerEdges(node.Job, node.Job.Spec.Template, func(image appsgraph.TemplateImage, err error) {
 		if err != nil {
 			return
@@ -511,6 +541,8 @@ func AddAllTriggerJobsEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if sNode, ok := node.(*kubegraph.JobNode); ok {
 			AddTriggerJobsEdges(g, sNode)
@@ -518,6 +550,8 @@ func AddAllTriggerJobsEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddTriggerStatefulSetsEdges(g osgraph.MutableUniqueGraph, node *kubegraph.StatefulSetNode) *kubegraph.StatefulSetNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -567,6 +601,8 @@ func AddAllTriggerStatefulSetsEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if sNode, ok := node.(*kubegraph.StatefulSetNode); ok {
 			AddTriggerStatefulSetsEdges(g, sNode)
@@ -574,6 +610,8 @@ func AddAllTriggerStatefulSetsEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddTriggerDeploymentsEdges(g osgraph.MutableUniqueGraph, node *kubegraph.DeploymentNode) *kubegraph.DeploymentNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -623,6 +661,8 @@ func AddAllTriggerDeploymentsEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if dNode, ok := node.(*kubegraph.DeploymentNode); ok {
 			AddTriggerDeploymentsEdges(g, dNode)
@@ -630,6 +670,8 @@ func AddAllTriggerDeploymentsEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func AddDeploymentEdges(g osgraph.MutableUniqueGraph, node *kubegraph.DeploymentNode) *kubegraph.DeploymentNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -672,6 +714,8 @@ func BelongsToDeployment(config *kappsv1.Deployment, b *kappsv1.ReplicaSet) bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.OwnerReferences == nil {
 		return false
 	}
@@ -683,6 +727,8 @@ func BelongsToDeployment(config *kappsv1.Deployment, b *kappsv1.ReplicaSet) bool
 	return false
 }
 func AddAllDeploymentEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

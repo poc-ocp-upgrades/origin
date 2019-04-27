@@ -23,6 +23,8 @@ func RunNamespaceSecurityAllocationController(ctx *ControllerContext) (bool, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uidRange, err := uid.ParseRange(ctx.OpenshiftControllerConfig.SecurityAllocator.UIDAllocatorRange)
 	if err != nil {
 		return true, fmt.Errorf("unable to describe UID range: %v", err)

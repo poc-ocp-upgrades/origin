@@ -38,9 +38,13 @@ func (u *buildUpdate) setPhase(phase buildv1.BuildPhase) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.phase = &phase
 }
 func (u *buildUpdate) setReason(reason buildv1.StatusReason) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,9 +76,13 @@ func (u *buildUpdate) setMessage(message string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.message = &message
 }
 func (u *buildUpdate) setStartTime(startTime metav1.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,9 +114,13 @@ func (u *buildUpdate) setCompletionTime(completionTime metav1.Time) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.completionTime = &completionTime
 }
 func (u *buildUpdate) setDuration(duration time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,9 +152,13 @@ func (u *buildUpdate) setOutputRef(ref string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.outputRef = &ref
 }
 func (u *buildUpdate) setPodNameAnnotation(podName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +190,8 @@ func (u *buildUpdate) setLogSnippet(message string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.logSnippet = &message
 }
 func (u *buildUpdate) setPushSecret(pushSecret corev1.LocalObjectReference) {
@@ -191,9 +209,13 @@ func (u *buildUpdate) setPushSecret(pushSecret corev1.LocalObjectReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.pushSecret = &pushSecret
 }
 func (u *buildUpdate) reset() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,9 +256,13 @@ func (u *buildUpdate) isEmpty() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return u.podNameAnnotation == nil && u.phase == nil && u.reason == nil && u.message == nil && u.startTime == nil && u.completionTime == nil && u.duration == nil && u.outputRef == nil && u.logSnippet == nil && u.pushSecret == nil
 }
 func (u *buildUpdate) apply(build *buildv1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,6 +309,8 @@ func (u *buildUpdate) apply(build *buildv1.Build) {
 	}
 }
 func (u *buildUpdate) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func TestValidateGitHubIdentityProvider(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type args struct {
 		provider	*configapi.GitHubIdentityProvider
 		challenge	bool

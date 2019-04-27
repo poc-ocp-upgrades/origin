@@ -19,6 +19,8 @@ func (in *ProjectLimitBySelector) DeepCopyInto(out *ProjectLimitBySelector) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	if in.Selector != nil {
 		in, out := &in.Selector, &out.Selector
@@ -49,6 +51,8 @@ func (in *ProjectLimitBySelector) DeepCopy() *ProjectLimitBySelector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -57,6 +61,8 @@ func (in *ProjectLimitBySelector) DeepCopy() *ProjectLimitBySelector {
 	return out
 }
 func (in *ProjectRequestLimitConfig) DeepCopyInto(out *ProjectRequestLimitConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +113,8 @@ func (in *ProjectRequestLimitConfig) DeepCopy() *ProjectRequestLimitConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -115,6 +123,8 @@ func (in *ProjectRequestLimitConfig) DeepCopy() *ProjectRequestLimitConfig {
 	return out
 }
 func (in *ProjectRequestLimitConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

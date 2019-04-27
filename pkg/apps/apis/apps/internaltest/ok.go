@@ -39,9 +39,13 @@ func OkDeploymentConfig(version int64) *appsapi.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "config", Namespace: kapi.NamespaceDefault}, Spec: OkDeploymentConfigSpec(), Status: OkDeploymentConfigStatus(version)}
 }
 func OkDeploymentConfigSpec() appsapi.DeploymentConfigSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,9 +77,13 @@ func OkDeploymentConfigStatus(version int64) appsapi.DeploymentConfigStatus {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentConfigStatus{LatestVersion: version}
 }
 func OkImageChangeDetails() *appsapi.DeploymentDetails {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,9 +115,13 @@ func OkConfigChangeDetails() *appsapi.DeploymentDetails {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentDetails{Causes: []appsapi.DeploymentCause{{Type: appsapi.DeploymentTriggerOnConfigChange}}}
 }
 func OkStrategy() appsapi.DeploymentStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,6 +153,8 @@ func OkCustomStrategy() appsapi.DeploymentStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentStrategy{Type: appsapi.DeploymentStrategyTypeCustom, CustomParams: OkCustomParams(), Resources: kapi.ResourceRequirements{Limits: kapi.ResourceList{kapi.ResourceName(kapi.ResourceCPU): resource.MustParse("10"), kapi.ResourceName(kapi.ResourceMemory): resource.MustParse("10G")}}}
 }
 func OkCustomParams() *appsapi.CustomDeploymentStrategyParams {
@@ -158,9 +172,13 @@ func OkCustomParams() *appsapi.CustomDeploymentStrategyParams {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.CustomDeploymentStrategyParams{Image: "openshift/origin-deployer", Environment: []kapi.EnvVar{{Name: "ENV1", Value: "VAL1"}}, Command: []string{"/bin/echo", "hello", "world"}}
 }
 func mkintp(i int) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +211,8 @@ func OkRollingStrategy() appsapi.DeploymentStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentStrategy{Type: appsapi.DeploymentStrategyTypeRolling, RollingParams: &appsapi.RollingDeploymentStrategyParams{UpdatePeriodSeconds: mkintp(1), IntervalSeconds: mkintp(1), TimeoutSeconds: mkintp(20)}, Resources: kapi.ResourceRequirements{Limits: kapi.ResourceList{kapi.ResourceName(kapi.ResourceCPU): resource.MustParse("10"), kapi.ResourceName(kapi.ResourceMemory): resource.MustParse("10G")}}}
 }
 func OkSelector() map[string]string {
@@ -210,9 +230,13 @@ func OkSelector() map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]string{"a": "b"}
 }
 func OkPodTemplate() *kapi.PodTemplateSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -245,11 +269,15 @@ func OkPodTemplateChanged() *kapi.PodTemplateSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	template := OkPodTemplate()
 	template.Spec.Containers[0].Image = DockerImageReference
 	return template
 }
 func OkPodTemplateMissingImage(missing ...string) *kapi.PodTemplateSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +316,8 @@ func OkConfigChangeTrigger() appsapi.DeploymentTriggerPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentTriggerPolicy{Type: appsapi.DeploymentTriggerOnConfigChange}
 }
 func OkImageChangeTrigger() appsapi.DeploymentTriggerPolicy {
@@ -305,9 +335,13 @@ func OkImageChangeTrigger() appsapi.DeploymentTriggerPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentTriggerPolicy{Type: appsapi.DeploymentTriggerOnImageChange, ImageChangeParams: &appsapi.DeploymentTriggerImageChangeParams{Automatic: true, ContainerNames: []string{"container1"}, From: kapi.ObjectReference{Kind: "ImageStreamTag", Name: imageapi.JoinImageStreamTag(ImageStreamName, imageapi.DefaultImageTag)}}}
 }
 func OkTriggeredImageChange() appsapi.DeploymentTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,11 +375,15 @@ func OkNonAutomaticICT() appsapi.DeploymentTriggerPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ict := OkImageChangeTrigger()
 	ict.ImageChangeParams.Automatic = false
 	return ict
 }
 func OkTriggeredNonAutomatic() appsapi.DeploymentTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,10 +417,14 @@ func TestDeploymentConfig(config *appsapi.DeploymentConfig) *appsapi.DeploymentC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config.Spec.Test = true
 	return config
 }
 func OkHPAForDeploymentConfig(config *appsapi.DeploymentConfig, min, max int) *autoscaling.HorizontalPodAutoscaler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -415,6 +457,8 @@ func OkStreamForConfig(config *appsapi.DeploymentConfig) *imageapi.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range config.Spec.Triggers {
 		if t.Type != appsapi.DeploymentTriggerOnImageChange {
 			continue
@@ -426,6 +470,8 @@ func OkStreamForConfig(config *appsapi.DeploymentConfig) *imageapi.ImageStream {
 	return nil
 }
 func RoundTripConfig(t *testing.T, config *appsapi.DeploymentConfig) *appsapi.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,6 +515,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -543,5 +610,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

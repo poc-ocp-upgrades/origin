@@ -42,6 +42,8 @@ func ValidateTokenName(name string, prefix bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reasons := path.ValidatePathSegmentName(name, prefix); len(reasons) != 0 {
 		return reasons
 	}
@@ -51,6 +53,8 @@ func ValidateTokenName(name string, prefix bool) []string {
 	return nil
 }
 func ValidateRedirectURI(redirect string) (bool, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func ValidateAccessToken(accessToken *oauthapi.OAuthAccessToken) field.ErrorList
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMeta(&accessToken.ObjectMeta, false, ValidateTokenName, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateClientNameField(accessToken.ClientName, field.NewPath("clientName"))...)
 	allErrs = append(allErrs, ValidateUserNameField(accessToken.UserName, field.NewPath("userName"))...)
@@ -133,6 +139,8 @@ func ValidateAccessTokenUpdate(newToken, oldToken *oauthapi.OAuthAccessToken) fi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&newToken.ObjectMeta, &oldToken.ObjectMeta, field.NewPath("metadata"))
 	if newToken.InactivityTimeoutSeconds > 0 && newToken.InactivityTimeoutSeconds < oldToken.InactivityTimeoutSeconds {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("inactivityTimeoutSeconds"), newToken.InactivityTimeoutSeconds, fmt.Sprintf("cannot be less than the current value=%d", oldToken.InactivityTimeoutSeconds)))
@@ -152,6 +160,8 @@ func ValidateAccessTokenUpdate(newToken, oldToken *oauthapi.OAuthAccessToken) fi
 var codeChallengeRegex = regexp.MustCompile("^[a-zA-Z0-9._~-]{43,128}$")
 
 func ValidateAuthorizeToken(authorizeToken *oauthapi.OAuthAuthorizeToken) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -211,12 +221,16 @@ func ValidateAuthorizeTokenUpdate(newToken, oldToken *oauthapi.OAuthAuthorizeTok
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&newToken.ObjectMeta, &oldToken.ObjectMeta, field.NewPath("metadata"))
 	copied := *oldToken
 	copied.ObjectMeta = newToken.ObjectMeta
 	return append(allErrs, validation.ValidateImmutableField(newToken, &copied, field.NewPath(""))...)
 }
 func ValidateClient(client *oauthapi.OAuthClient) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,6 +266,8 @@ func ValidateClient(client *oauthapi.OAuthClient) field.ErrorList {
 	return allErrs
 }
 func ValidateScopeRestriction(restriction oauthapi.ScopeRestriction, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,12 +326,16 @@ func ValidateClientUpdate(client *oauthapi.OAuthClient, oldClient *oauthapi.OAut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, ValidateClient(client)...)
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&client.ObjectMeta, &oldClient.ObjectMeta, field.NewPath("metadata"))...)
 	return allErrs
 }
 func ValidateClientAuthorizationName(name string, prefix bool) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +360,8 @@ func ValidateClientAuthorizationName(name string, prefix bool) []string {
 	return nil
 }
 func ValidateClientAuthorization(clientAuthorization *oauthapi.OAuthClientAuthorization) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -385,6 +407,8 @@ func ValidateClientAuthorizationUpdate(newAuth *oauthapi.OAuthClientAuthorizatio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := ValidateClientAuthorization(newAuth)
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&newAuth.ObjectMeta, &oldAuth.ObjectMeta, field.NewPath("metadata"))...)
 	if oldAuth.ClientName != newAuth.ClientName {
@@ -399,6 +423,8 @@ func ValidateClientAuthorizationUpdate(newAuth *oauthapi.OAuthClientAuthorizatio
 	return allErrs
 }
 func ValidateClientNameField(value string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -439,6 +465,8 @@ func ValidateUserNameField(value string, fldPath *field.Path) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(value) == 0 {
 		return field.ErrorList{field.Required(fldPath, "")}
 	}
@@ -451,6 +479,8 @@ func ValidateUserNameField(value string, fldPath *field.Path) field.ErrorList {
 	return field.ErrorList{}
 }
 func ValidateScopes(scopes []string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -513,10 +543,14 @@ func ValidateOAuthRedirectReference(sref *oauthapi.OAuthRedirectReference) field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMeta(&sref.ObjectMeta, true, path.ValidatePathSegmentName, field.NewPath("metadata"))
 	return append(allErrs, validateRedirectReference(&sref.Reference)...)
 }
 func validateRedirectReference(ref *oauthapi.RedirectReference) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

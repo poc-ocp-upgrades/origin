@@ -20,6 +20,8 @@ func TestPrivateKeysFromPEM(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile("../../../test/testdata/router/default_pub_keys.pem")
 	if err != nil {
 		t.Fatal(err)

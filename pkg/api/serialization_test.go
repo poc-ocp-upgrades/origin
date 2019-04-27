@@ -53,6 +53,8 @@ func originFuzzer(t *testing.T, seed int64) *fuzz.Fuzzer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := fuzzer.FuzzerFor(kapitesting.FuzzerFuncs, rand.NewSource(seed), legacyscheme.Codecs)
 	f.Funcs(func(j *authorizationapi.RoleBinding, c fuzz.Continue) {
 		c.FuzzNoCustom(j)
@@ -404,6 +406,8 @@ func defaultHookContainerName(hook *oapps.LifecycleHook, containerName string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hook == nil {
 		return
 	}
@@ -422,6 +426,8 @@ func defaultHookContainerName(hook *oapps.LifecycleHook, containerName string) {
 const fuzzIters = 20
 
 func TestSpecificKind(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -464,11 +470,15 @@ func TestRoundTripTypes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	seed := rand.Int63()
 	fuzzer := originFuzzer(t, seed)
 	roundtrip.RoundTripTypes(t, legacyscheme.Scheme, legacyscheme.Codecs, fuzzer, dockerImageTypes)
 }
 func TestRoundTripDockerImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -491,6 +501,8 @@ func TestRoundTripDockerImage(t *testing.T) {
 	}
 }
 func mergeGvks(a, b map[schema.GroupVersionKind]bool) map[schema.GroupVersionKind]bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

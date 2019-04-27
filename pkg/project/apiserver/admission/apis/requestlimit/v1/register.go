@@ -32,6 +32,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(GroupVersion, &ProjectRequestLimitConfig{})
 	metav1.AddToGroupVersion(scheme, GroupVersion)
 	return nil

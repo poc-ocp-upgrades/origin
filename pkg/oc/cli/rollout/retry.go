@@ -67,9 +67,13 @@ func NewRolloutRetryOptions(streams genericclioptions.IOStreams) *RetryOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RetryOptions{PrintFlags: genericclioptions.NewPrintFlags("already retried").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdRolloutRetry(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func NewCmdRolloutRetry(fullName string, f kcmdutil.Factory, streams genericclio
 	return cmd
 }
 func (o *RetryOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +144,8 @@ func (o *RetryOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	return err
 }
 func (o RetryOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

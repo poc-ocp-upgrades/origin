@@ -29,6 +29,8 @@ func TestChainDescriber(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName		string
 		namespaces		sets.String
@@ -105,6 +107,8 @@ func lenReadable(value map[string]int) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	length := 0
 	for _, cnt := range value {
 		length += cnt
@@ -112,6 +116,8 @@ func lenReadable(value map[string]int) int {
 	return length
 }
 func filterByScheme(scheme *runtime.Scheme, in ...runtime.Object) []runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,6 +147,8 @@ func filterByScheme(scheme *runtime.Scheme, in ...runtime.Object) []runtime.Obje
 	return out
 }
 func TestDepthFirst(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

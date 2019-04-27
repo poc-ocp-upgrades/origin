@@ -24,6 +24,8 @@ func Test_podSpecMutator_Mutate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageRef := func(name string) *kapi.ObjectReference {
 		ref := imageRefValue(name)
 		return &ref
@@ -78,6 +80,8 @@ func Test_podSpecMutator_Mutate(t *testing.T) {
 	}
 }
 func Test_podSpecV1Mutator_Mutate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

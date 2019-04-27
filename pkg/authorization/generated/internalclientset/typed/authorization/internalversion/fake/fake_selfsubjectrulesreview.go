@@ -29,6 +29,8 @@ func (c *FakeSelfSubjectRulesReviews) Create(selfSubjectRulesReview *authorizati
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewCreateAction(selfsubjectrulesreviewsResource, c.ns, selfSubjectRulesReview), &authorization.SelfSubjectRulesReview{})
 	if obj == nil {
 		return nil, err

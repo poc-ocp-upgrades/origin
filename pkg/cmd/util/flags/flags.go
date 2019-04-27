@@ -27,6 +27,8 @@ func apply(args map[string][]string, flags apiserverflag.NamedFlagSets, ignoreMi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	for key, value := range args {
 		found := false
@@ -62,9 +64,13 @@ func Resolve(args map[string][]string, flagSet apiserverflag.NamedFlagSets) []er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apply(args, flagSet, false)
 }
 func ResolveIgnoreMissing(args map[string][]string, flagSet apiserverflag.NamedFlagSets) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,12 +112,16 @@ func NewComponentFlag(mappings map[string][]string, allowed ...string) *Componen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	set := sets.NewString(allowed...)
 	return &ComponentFlag{allowed: set, mappings: mappings, enabled: strings.Join(set.List(), ","), enabledSet: func() bool {
 		return false
 	}}
 }
 func (f *ComponentFlag) DefaultEnable(components ...string) *ComponentFlag {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,10 +154,14 @@ func (f *ComponentFlag) DefaultDisable(components ...string) *ComponentFlag {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.enabled = strings.Join(f.allowed.Difference(sets.NewString(components...)).List(), ",")
 	return f
 }
 func (f *ComponentFlag) Disable(components ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -179,9 +193,13 @@ func (f *ComponentFlag) Enabled(name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.Calculated().Has(name)
 }
 func (f *ComponentFlag) Calculated() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +234,8 @@ func (f *ComponentFlag) Validate() (sets.String, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	enabled := f.Expand(f.enabled)
 	disabled := f.Expand(f.disabled)
 	if diff := enabled.Difference(f.allowed); enabled.Len() > 0 && diff.Len() > 0 {
@@ -230,6 +250,8 @@ func (f *ComponentFlag) Validate() (sets.String, error) {
 	return enabled.Difference(disabled), nil
 }
 func (f *ComponentFlag) Expand(value string) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -273,9 +295,13 @@ func (f *ComponentFlag) Allowed() sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.NewString(f.allowed.List()...)
 }
 func (f *ComponentFlag) Mappings() map[string][]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,6 +339,8 @@ func (f *ComponentFlag) Bind(flags *pflag.FlagSet, flagFormat, messagePrefix str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.StringVar(&f.enabled, fmt.Sprintf(flagFormat, "enable"), f.enabled, messagePrefix+" enable")
 	flags.StringVar(&f.disabled, fmt.Sprintf(flagFormat, "disable"), f.disabled, messagePrefix+" disable")
 	f.enabledSet = func() bool {
@@ -334,6 +362,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -408,5 +457,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

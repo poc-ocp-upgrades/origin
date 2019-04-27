@@ -36,6 +36,8 @@ func TestNormalizeServerURL(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		originalServerURL	string
 		normalizedServerURL	string
@@ -52,6 +54,8 @@ func TestNormalizeServerURL(t *testing.T) {
 	}
 }
 func TestTLSWithCertificateNotMatchingHostname(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func TestTLSWithCertificateNotMatchingHostname(t *testing.T) {
 	}
 }
 func TestTLSWithExpiredCertificate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -213,6 +219,8 @@ func TestDialToHTTPServer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	invoked := make(chan struct{}, 1)
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		invoked <- struct{}{}
@@ -257,6 +265,8 @@ func (r *oauthMetadataResponse) Serialize() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, err := json.Marshal(r.metadata)
 	if err != nil {
 		return []byte{}, err
@@ -264,6 +274,8 @@ func (r *oauthMetadataResponse) Serialize() ([]byte, error) {
 	return b, nil
 }
 func TestPreserveErrTypeAuthInfo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -325,6 +337,8 @@ func TestDialToHTTPSServer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	invoked := make(chan struct{}, 1)
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		invoked <- struct{}{}
@@ -351,6 +365,8 @@ func TestDialToHTTPSServer(t *testing.T) {
 	}
 }
 func newTLSServer(certString, keyString string) (*httptest.Server, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

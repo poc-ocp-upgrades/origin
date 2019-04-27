@@ -28,9 +28,13 @@ func TestingRegistryHostnameRetriever(deprecatedDefaultRegistryEnvFn func() (str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &defaultRegistryHostnameRetriever{deprecatedDefaultFn: deprecatedDefaultRegistryEnvFn, externalHostname: external, internalHostname: internal}
 }
 func DefaultRegistryHostnameRetriever(clientConfig *rest.Config, external, internal string) (RegistryHostnameRetriever, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -58,6 +62,8 @@ func DefaultRegistryHostnameRetriever(clientConfig *rest.Config, external, inter
 	return &defaultRegistryHostnameRetriever{deprecatedDefaultFn: defaultRegistryFunc, externalHostname: external, internalHostname: internal}, nil
 }
 func env(key string, defaultValue string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +106,8 @@ func (r *defaultRegistryHostnameRetriever) InternalRegistryHostname() (string, b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.internalHostname) > 0 {
 		return r.internalHostname, true
 	}
@@ -109,6 +117,8 @@ func (r *defaultRegistryHostnameRetriever) InternalRegistryHostname() (string, b
 	return "", false
 }
 func (r *defaultRegistryHostnameRetriever) ExternalRegistryHostname() (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

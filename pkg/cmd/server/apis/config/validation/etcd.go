@@ -24,6 +24,8 @@ func ValidateEtcdConnectionInfo(config config.EtcdConnectionInfo, server *config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(config.URLs) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("urls"), ""))
@@ -53,6 +55,8 @@ func ValidateEtcdConnectionInfo(config config.EtcdConnectionInfo, server *config
 	return allErrs
 }
 func ValidateEtcdConfig(config *config.EtcdConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

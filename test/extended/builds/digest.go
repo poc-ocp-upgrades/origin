@@ -64,6 +64,8 @@ func testBuildDigest(oc *exutil.CLI, buildFixture string, buildLogLevel uint) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.It(fmt.Sprintf("should save the image digest when finished"), func() {
 		g.By("creating test build")
 		err := oc.Run("create").Args("-f", buildFixture).Execute()

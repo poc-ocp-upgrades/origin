@@ -35,6 +35,8 @@ func (e *PackageError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.Err
 }
 
@@ -62,9 +64,13 @@ func (p *PackageList) Add(pkg Package) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.Packages = append(p.Packages, pkg)
 }
 func getPackageMetadata(entrypoints, ignoredPaths, buildTags []string) (*PackageList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +145,8 @@ func containsPrefix(needle string, prefixes []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, prefix := range prefixes {
 		if strings.HasPrefix(needle, prefix) {
 			return true
@@ -147,6 +155,8 @@ func containsPrefix(needle string, prefixes []string) bool {
 	return false
 }
 func isValidPackagePath(path string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

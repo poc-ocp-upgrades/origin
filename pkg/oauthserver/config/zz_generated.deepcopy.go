@@ -19,11 +19,15 @@ func (in *BootstrapIdentityProvider) DeepCopyInto(out *BootstrapIdentityProvider
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *BootstrapIdentityProvider) DeepCopy() *BootstrapIdentityProvider {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (in *BootstrapIdentityProvider) DeepCopy() *BootstrapIdentityProvider {
 	return out
 }
 func (in *BootstrapIdentityProvider) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

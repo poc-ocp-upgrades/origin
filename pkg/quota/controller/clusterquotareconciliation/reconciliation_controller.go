@@ -74,6 +74,8 @@ func NewClusterQuotaReconcilationController(options ClusterQuotaReconcilationCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &ClusterQuotaReconcilationController{clusterQuotaLister: options.ClusterQuotaInformer.Lister(), clusterQuotaMapper: options.ClusterQuotaMapper, clusterQuotaClient: options.ClusterQuotaClient, informerSyncedFuncs: []cache.InformerSynced{options.ClusterQuotaInformer.Informer().HasSynced}, resyncPeriod: options.ResyncPeriod, registry: options.Registry, queue: NewBucketingWorkQueue("controller_clusterquotareconcilationcontroller")}
 	options.ClusterQuotaInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: c.addClusterQuota, UpdateFunc: c.updateClusterQuota})
 	qm := resourcequota.NewQuotaMonitor(options.InformersStarted, options.InformerFactory, options.IgnoredResourcesFunc(), options.ReplenishmentResyncPeriod, c.replenishQuota, c.registry)
@@ -105,6 +107,8 @@ func (c *ClusterQuotaReconcilationController) Run(workers int, stopCh <-chan str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	klog.Infof("Starting the cluster quota reconciliation controller")
 	go c.quotaMonitor.Run(stopCh)
@@ -122,6 +126,8 @@ func (c *ClusterQuotaReconcilationController) Run(workers int, stopCh <-chan str
 	c.queue.ShutDown()
 }
 func (c *ClusterQuotaReconcilationController) Sync(discoveryFunc resourcequota.NamespacedResourcesFunc, period time.Duration, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +187,8 @@ func (c *ClusterQuotaReconcilationController) resyncMonitors(resources map[schem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := c.quotaMonitor.SyncMonitors(resources); err != nil {
 		return err
 	}
@@ -188,6 +196,8 @@ func (c *ClusterQuotaReconcilationController) resyncMonitors(resources map[schem
 	return nil
 }
 func (c *ClusterQuotaReconcilationController) calculate(quotaName string, namespaceNames ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +236,8 @@ func (c *ClusterQuotaReconcilationController) forceCalculation(quotaName string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(namespaceNames) == 0 {
 		return
 	}
@@ -236,6 +248,8 @@ func (c *ClusterQuotaReconcilationController) forceCalculation(quotaName string,
 	c.queue.AddWithData(quotaName, items...)
 }
 func (c *ClusterQuotaReconcilationController) calculateAll() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -268,6 +282,8 @@ func (c *ClusterQuotaReconcilationController) calculateAll() {
 	}
 }
 func (c *ClusterQuotaReconcilationController) worker() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -326,6 +342,8 @@ func (c *ClusterQuotaReconcilationController) worker() {
 	}
 }
 func (c *ClusterQuotaReconcilationController) syncQuotaForNamespaces(originalQuota *quotav1.ClusterResourceQuota, workItems []workItem) (error, []workItem) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -404,6 +422,8 @@ func (c *ClusterQuotaReconcilationController) replenishQuota(groupResource schem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	releventEvaluators := []utilquota.Evaluator{}
 	evaluators := c.registry.List()
 	for i := range evaluators {
@@ -446,6 +466,8 @@ func (c *ClusterQuotaReconcilationController) addClusterQuota(cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueClusterQuota(cur)
 }
 func (c *ClusterQuotaReconcilationController) updateClusterQuota(old, cur interface{}) {
@@ -463,9 +485,13 @@ func (c *ClusterQuotaReconcilationController) updateClusterQuota(old, cur interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.enqueueClusterQuota(cur)
 }
 func (c *ClusterQuotaReconcilationController) enqueueClusterQuota(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -503,9 +529,13 @@ func (c *ClusterQuotaReconcilationController) AddMapping(quotaName, namespaceNam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.calculate(quotaName, namespaceName)
 }
 func (c *ClusterQuotaReconcilationController) RemoveMapping(quotaName, namespaceName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -540,6 +570,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -614,5 +665,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

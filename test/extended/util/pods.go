@@ -24,6 +24,8 @@ func WaitForNoPodsAvailable(oc *CLI) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return wait.Poll(200*time.Millisecond, 3*time.Minute, func() (bool, error) {
 		pods, err := oc.KubeClient().CoreV1().Pods(oc.Namespace()).List(metav1.ListOptions{})
 		if err != nil {
@@ -33,6 +35,8 @@ func WaitForNoPodsAvailable(oc *CLI) error {
 	})
 }
 func RemovePodsWithPrefixes(oc *CLI, prefixes ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

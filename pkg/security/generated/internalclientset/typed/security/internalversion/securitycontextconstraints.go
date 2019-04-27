@@ -41,9 +41,13 @@ func newSecurityContextConstraints(c *SecurityClient) *securityContextConstraint
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &securityContextConstraints{client: c.RESTClient()}
 }
 func (c *securityContextConstraints) Get(name string, options v1.GetOptions) (result *security.SecurityContextConstraints, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ func (c *securityContextConstraints) Get(name string, options v1.GetOptions) (re
 	return
 }
 func (c *securityContextConstraints) List(opts v1.ListOptions) (result *security.SecurityContextConstraintsList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +106,8 @@ func (c *securityContextConstraints) Watch(opts v1.ListOptions) (watch.Interface
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -108,6 +116,8 @@ func (c *securityContextConstraints) Watch(opts v1.ListOptions) (watch.Interface
 	return c.client.Get().Resource("securitycontextconstraints").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *securityContextConstraints) Create(securityContextConstraints *security.SecurityContextConstraints) (result *security.SecurityContextConstraints, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,11 +151,15 @@ func (c *securityContextConstraints) Update(securityContextConstraints *security
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &security.SecurityContextConstraints{}
 	err = c.client.Put().Resource("securitycontextconstraints").Name(securityContextConstraints.Name).Body(securityContextConstraints).Do().Into(result)
 	return
 }
 func (c *securityContextConstraints) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +191,8 @@ func (c *securityContextConstraints) DeleteCollection(options *v1.DeleteOptions,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -184,6 +200,8 @@ func (c *securityContextConstraints) DeleteCollection(options *v1.DeleteOptions,
 	return c.client.Delete().Resource("securitycontextconstraints").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *securityContextConstraints) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *security.SecurityContextConstraints, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

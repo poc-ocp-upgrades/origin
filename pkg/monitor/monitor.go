@@ -31,12 +31,16 @@ func NewMonitor() *Monitor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Monitor{interval: 15 * time.Second}
 }
 
 var _ Interface = &Monitor{}
 
 func (m *Monitor) StartSampling(ctx context.Context) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,11 +87,15 @@ func (m *Monitor) AddSampler(fn SamplerFunc) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	m.samplers = append(m.samplers, fn)
 }
 func (m *Monitor) Record(conditions ...Condition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +121,8 @@ func (m *Monitor) Record(conditions ...Condition) {
 	}
 }
 func (m *Monitor) sample() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,11 +168,15 @@ func (m *Monitor) snapshot() ([]*sample, []*Event) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	return m.samples, m.events
 }
 func (m *Monitor) Conditions(from, to time.Time) EventIntervals {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +209,8 @@ func (m *Monitor) Events(from, to time.Time) EventIntervals {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	samples, events := m.snapshot()
 	intervals := filterSamples(samples, from, to)
 	events = filterEvents(events, from, to)
@@ -213,6 +229,8 @@ func (m *Monitor) Events(from, to time.Time) EventIntervals {
 	return intervals
 }
 func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -272,6 +290,8 @@ func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
 	return intervals
 }
 func filterEvents(events []*Event, from, to time.Time) []*Event {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

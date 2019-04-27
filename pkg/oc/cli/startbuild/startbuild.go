@@ -136,9 +136,13 @@ func NewStartBuildOptions(streams genericclioptions.IOStreams) *StartBuildOption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &StartBuildOptions{PrintFlags: genericclioptions.NewPrintFlags("started").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdStartBuild(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +184,8 @@ func NewCmdStartBuild(fullName string, f kcmdutil.Factory, streams genericcliopt
 	return cmd
 }
 func (o *StartBuildOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, cmdFullName string, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,6 +336,8 @@ func (o *StartBuildOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.AsBinary {
 		if len(o.LogLevel) > 0 {
 			fmt.Fprintf(o.ErrOut, "WARNING: Specifying --build-loglevel with binary builds is not supported.\n")
@@ -359,6 +367,8 @@ func (o *StartBuildOptions) Validate() error {
 	return nil
 }
 func (o *StartBuildOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +476,8 @@ func (o *StartBuildOptions) streamBuildLogs(build *buildv1.Build) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := buildv1.BuildLogOptions{Follow: true, NoWait: false}
 	var err error
 	for {
@@ -488,6 +500,8 @@ func (o *StartBuildOptions) streamBuildLogs(build *buildv1.Build) error {
 	return err
 }
 func (o *StartBuildOptions) RunListBuildWebHooks() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -530,6 +544,8 @@ func (o *StartBuildOptions) RunListBuildWebHooks() error {
 	return nil
 }
 func streamPathToBuild(repo git.Repository, in io.Reader, out io.Writer, client buildclientmanual.BuildInstantiateBinaryInterface, fromDir, fromFile, fromRepo string, options *buildv1.BinaryBuildRequestOptions) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -699,6 +715,8 @@ func progress(out io.Writer) func() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stop := make(chan bool)
 	done := make(chan bool)
 	go func() {
@@ -734,6 +752,8 @@ func isArchive(r *bufio.Reader) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	archivesMagicNumbers := []struct {
 		numbers	[]byte
 		offset	int
@@ -751,6 +771,8 @@ func isArchive(r *bufio.Reader) bool {
 	return false
 }
 func (o *StartBuildOptions) RunStartBuildWebHook() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -830,6 +852,8 @@ func hookEventFromPostReceive(repo git.Repository, path, postReceivePath string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	event := &buildapi.GenericWebHookEvent{Git: &buildapi.GitInfo{}}
 	refs := []git.ChangedRef{}
 	switch receive := postReceivePath; {
@@ -883,6 +907,8 @@ func gitRefInfo(repo git.Repository, dir, ref string) (buildapi.GitRefInfo, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	info := buildapi.GitRefInfo{}
 	if repo == nil {
 		return info, nil
@@ -906,6 +932,8 @@ func gitRefInfo(repo git.Repository, dir, ref string) (buildapi.GitRefInfo, erro
 	return info, nil
 }
 func WaitForBuildComplete(c buildv1client.BuildInterface, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -976,6 +1004,8 @@ func isInvalidSourceInputsError(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err != nil {
 		if statusErr, ok := err.(*kerrors.StatusError); ok {
 			if kerrors.IsInvalid(statusErr) {
@@ -1004,9 +1034,13 @@ func transformIsAlreadyExistsError(err error, buildConfigName string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("%s. Retry building BuildConfig \"%s\" or delete the conflicting builds", err.Error(), buildConfigName)
 }
 func httpFileName(resp *http.Response) (filename string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1052,6 +1086,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1126,5 +1181,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

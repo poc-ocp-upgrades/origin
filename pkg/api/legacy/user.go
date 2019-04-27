@@ -26,6 +26,8 @@ func InstallInternalLegacyUser(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyUser(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalUserTypes, core.AddToScheme, corev1conversions.AddToScheme, addLegacyUserFieldSelectorKeyConversions, userv1helpers.RegisterDefaults, userv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
@@ -45,10 +47,14 @@ func InstallExternalLegacyUser(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedUserTypes, corev1.AddToScheme)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func addUngroupifiedUserTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,10 +88,14 @@ func addUngroupifiedInternalUserTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(InternalGroupVersion, &user.User{}, &user.UserList{}, &user.Identity{}, &user.IdentityList{}, &user.UserIdentityMapping{}, &user.Group{}, &user.GroupList{})
 	return nil
 }
 func addLegacyUserFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +116,8 @@ func addLegacyUserFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	return nil
 }
 func legacyIdentityFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

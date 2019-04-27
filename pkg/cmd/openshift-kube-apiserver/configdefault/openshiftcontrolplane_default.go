@@ -20,6 +20,8 @@ func SetRecommendedOpenShiftAPIServerConfigDefaults(config *openshiftcontrolplan
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configdefaults.DefaultString(&config.GenericAPIServerConfig.StorageConfig.StoragePrefix, "openshift.io")
 	configdefaults.SetRecommendedGenericAPIServerConfigDefaults(&config.GenericAPIServerConfig)
 	configdefaults.DefaultString(&config.RoutingConfig.Subdomain, "router.default.svc.cluster.local")

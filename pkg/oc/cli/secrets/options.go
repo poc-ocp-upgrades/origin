@@ -39,6 +39,8 @@ func (o *SecretOptions) Complete(f kcmdutil.Factory, args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) < 2 {
 		return errors.New("must have service account name and at least one secret name")
 	}
@@ -61,6 +63,8 @@ func (o *SecretOptions) Complete(f kcmdutil.Factory, args []string) error {
 	return nil
 }
 func (o SecretOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,6 +112,8 @@ func (o SecretOptions) GetServiceAccount() (*corev1.ServiceAccount, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := o.BuilderFunc().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).NamespaceParam(o.Namespace).ResourceNames("serviceaccounts", o.TargetName).SingleResourceType().Do()
 	if r.Err() != nil {
 		return nil, r.Err()
@@ -124,6 +130,8 @@ func (o SecretOptions) GetServiceAccount() (*corev1.ServiceAccount, error) {
 	}
 }
 func (o SecretOptions) GetSecretNames(secrets []*corev1.Secret) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,6 +167,8 @@ func parseSecretName(name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	segs := strings.Split(name, "/")
 	if len(segs) < 2 {
 		return name
@@ -166,6 +176,8 @@ func parseSecretName(name string) string {
 	return segs[1]
 }
 func (o SecretOptions) GetMountSecretNames(serviceaccount *corev1.ServiceAccount) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -201,6 +213,8 @@ func (o SecretOptions) GetPullSecretNames(serviceaccount *corev1.ServiceAccount)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := sets.String{}
 	for _, secret := range serviceaccount.ImagePullSecrets {
 		names.Insert(secret.Name)
@@ -208,6 +222,8 @@ func (o SecretOptions) GetPullSecretNames(serviceaccount *corev1.ServiceAccount)
 	return names
 }
 func (o SecretOptions) GetSecrets(allowNonExisting bool) ([]*corev1.Secret, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

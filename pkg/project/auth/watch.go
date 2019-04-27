@@ -58,6 +58,8 @@ func NewUserProjectWatcher(user user.Info, visibleNamespaces sets.String, projec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaces, _ := authCache.List(user, labels.Everything())
 	knownProjects := map[string]string{}
 	for _, namespace := range namespaces.Items {
@@ -82,6 +84,8 @@ func NewUserProjectWatcher(user user.Info, visibleNamespaces sets.String, projec
 	return w
 }
 func (w *userProjectWatcher) GroupMembershipChanged(namespaceName string, users, groups sets.String) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +151,8 @@ func (w *userProjectWatcher) Watch() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer close(w.outgoing)
 	defer func() {
 		w.authCache.RemoveWatcher(w)
@@ -191,6 +197,8 @@ func makeErrorEvent(err error) watch.Event {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return watch.Event{Type: watch.Error, Object: &metav1.Status{Status: metav1.StatusFailure, Message: err.Error()}}
 }
 func (w *userProjectWatcher) ResultChan() <-chan watch.Event {
@@ -208,9 +216,13 @@ func (w *userProjectWatcher) ResultChan() <-chan watch.Event {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.outgoing
 }
 func (w *userProjectWatcher) Stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

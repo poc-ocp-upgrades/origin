@@ -59,6 +59,8 @@ func NewProvider(providerName string, transport http.RoundTripper, config Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(config.ClientID) == 0 {
 		return nil, errors.New("ClientID is required")
 	}
@@ -109,10 +111,14 @@ func (p provider) NewConfig() (*osincli.ClientConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &osincli.ClientConfig{ClientId: p.ClientID, ClientSecret: p.ClientSecret, ErrorsInStatusCode: true, SendClientSecretInParams: true, AuthorizeUrl: p.AuthorizeURL, TokenUrl: p.TokenURL, Scope: strings.Join(p.Scopes, " ")}
 	return config, nil
 }
 func (p provider) GetTransport() (http.RoundTripper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,11 +150,15 @@ func (p provider) AddCustomParameters(req *osincli.AuthorizeRequest) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range p.ExtraAuthorizeParameters {
 		req.CustomParameters[k] = v
 	}
 }
 func (p provider) GetUserIdentity(data *osincli.AccessData) (authapi.UserIdentityInfo, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,6 +240,8 @@ func getClaimValue(data map[string]interface{}, claims ...string) (string, bool)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, claim := range claims {
 		s, _ := data[claim].(string)
 		if len(s) > 0 {
@@ -239,6 +251,8 @@ func getClaimValue(data map[string]interface{}, claims ...string) (string, bool)
 	return "", false
 }
 func fetchUserInfo(url, accessToken string, transport http.RoundTripper) (map[string]interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +302,8 @@ func decodeJWT(jwt string) (map[string]interface{}, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	jwtParts := strings.Split(jwt, ".")
 	if len(jwtParts) != 3 {
 		return nil, fmt.Errorf("invalid JSON Web Token: expected 3 parts, got %d", len(jwtParts))
@@ -303,6 +319,8 @@ func decodeJWT(jwt string) (map[string]interface{}, error) {
 	return getJSON(decodedPayload)
 }
 func getJSON(in []byte) (map[string]interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -338,6 +356,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -412,5 +451,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

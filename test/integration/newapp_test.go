@@ -71,11 +71,15 @@ func skipExternalGit(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(os.Getenv("SKIP_EXTERNAL_GIT")) > 0 {
 		t.Skip("external Git tests are disabled")
 	}
 }
 func TestNewAppAddArguments(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +149,8 @@ func TestNewAppResolve(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		cfg		cmd.AppConfig
@@ -163,6 +169,8 @@ func TestNewAppResolve(t *testing.T) {
 	}
 }
 func TestNewAppDetectSource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +236,8 @@ func mapContains(a, b map[string]string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, v := range a {
 		if v2, exists := b[k]; !exists || v != v2 {
 			return false
@@ -253,9 +263,13 @@ func (r *ExactMatchDockerSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (r *ExactMatchDockerSearcher) Search(precise bool, terms ...string) (app.ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -294,9 +308,13 @@ func (r *ExactMatchDirectTagDockerSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (r *ExactMatchDirectTagDockerSearcher) Search(precise bool, terms ...string) (app.ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -318,6 +336,8 @@ func (r *ExactMatchDirectTagDockerSearcher) Search(precise bool, terms ...string
 	return matches, r.Errs
 }
 func TestNewAppRunAll(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -485,6 +505,8 @@ func TestNewAppRunAll(t *testing.T) {
 	}
 }
 func TestNewAppRunBuilds(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -739,6 +761,8 @@ func TestNewAppBuildOutputCycleDetection(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skipExternalGit(t)
 	tests := []struct {
 		name		string
@@ -862,6 +886,8 @@ func TestNewAppNewBuildEnvVars(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skipExternalGit(t)
 	dockerSearcher := app.DockerRegistrySearcher{Client: dockerregistry.NewClient(10*time.Second, true)}
 	okTemplateClient := faketemplatev1client.NewSimpleClientset()
@@ -896,6 +922,8 @@ func TestNewAppNewBuildEnvVars(t *testing.T) {
 	}
 }
 func TestNewAppBuildConfigEnvVarsAndSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -990,6 +1018,8 @@ func TestNewAppSourceAuthRequired(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name			string
 		passwordProtected	bool
@@ -1031,6 +1061,8 @@ func TestNewAppListAndSearch(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		options		newappapp.AppOptions
@@ -1054,6 +1086,8 @@ func TestNewAppListAndSearch(t *testing.T) {
 	}
 }
 func setupLocalGitRepo(t *testing.T, passwordProtected bool, requireProxy bool) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1181,9 +1215,13 @@ func builderImageStream() *imagev1.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "ruby", Namespace: "default", ResourceVersion: "1"}, Spec: imagev1.ImageStreamSpec{Tags: []imagev1.TagReference{{Name: "oldversion", Annotations: map[string]string{"tags": "hidden"}}}}, Status: imagev1.ImageStreamStatus{Tags: []imagev1.NamedTagEventList{{Tag: "latest", Items: []imagev1.TagEvent{{Image: "the-image-id"}}}, {Tag: "oldversion", Items: []imagev1.TagEvent{{Image: "the-image-id"}}}}, DockerImageRepository: "example/ruby:latest"}}
 }
 func builderImageStreams() *imagev1.ImageStreamList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1215,6 +1253,8 @@ func builderImage() *imagev1.ImageStreamImage {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamImage{Image: imagev1.Image{DockerImageReference: "example/ruby:latest", DockerImageMetadata: runtime.RawExtension{Object: &dockerv10.DockerImage{Config: &dockerv10.DockerConfig{Env: []string{"STI_SCRIPTS_URL=http://repo/git/ruby"}, ExposedPorts: map[string]struct{}{"8080/tcp": {}}}}}}}
 }
 func dockerBuilderImage() *docker.Image {
@@ -1232,9 +1272,13 @@ func dockerBuilderImage() *docker.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &docker.Image{ID: "ruby", Config: &docker.Config{Env: []string{"STI_SCRIPTS_URL=http://repo/git/ruby"}, ExposedPorts: map[docker.Port]struct{}{"8080/tcp": {}}}}
 }
 func fakeImageStreamSearcher() app.Searcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1276,6 +1320,8 @@ func fakeTemplateSearcher() app.Searcher {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := faketemplatev1client.NewSimpleClientset()
 	client.AddReactor("list", "templates", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, templateList(), nil
@@ -1283,6 +1329,8 @@ func fakeTemplateSearcher() app.Searcher {
 	return app.TemplateSearcher{Client: client.TemplateV1(), Namespaces: []string{"default"}}
 }
 func templateList() *templateapi.TemplateList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1314,9 +1362,13 @@ func fakeDockerSearcher() app.Searcher {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return app.DockerClientSearcher{Client: &apptest.FakeDockerClient{Images: []docker.APIImages{{RepoTags: []string{"library/ruby:latest"}}}, Image: dockerBuilderImage()}, Insecure: true, RegistrySearcher: &ExactMatchDockerSearcher{}}
 }
 func fakeSimpleDockerSearcher() app.Searcher {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1348,6 +1400,8 @@ func MockSourceRepositories(t *testing.T, file string) []*app.SourceRepository {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var b []*app.SourceRepository
 	for _, location := range []string{"https://github.com/openshift/ruby-hello-world.git", file} {
 		s, err := app.NewSourceRepository(location, newapp.StrategySource)
@@ -1359,6 +1413,8 @@ func MockSourceRepositories(t *testing.T, file string) []*app.SourceRepository {
 	return b
 }
 func PrepareAppConfig(config *cmd.AppConfig) (stdout, stderr *bytes.Buffer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1413,9 +1469,13 @@ func (c *NewAppFakeImageClient) Images() imagev1typedclient.ImageInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.Images()
 }
 func (c *NewAppFakeImageClient) ImageSignatures() imagev1typedclient.ImageSignatureInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1447,9 +1507,13 @@ func (c *NewAppFakeImageClient) ImageStreams(namespace string) imagev1typedclien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &NewAppFakeImageStreams{proxy: c.proxy.ImageStreams(namespace)}
 }
 func (c *NewAppFakeImageClient) ImageStreamImages(namespace string) imagev1typedclient.ImageStreamImageInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1481,9 +1545,13 @@ func (c *NewAppFakeImageClient) ImageStreamImports(namespace string) imagev1type
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.ImageStreamImports(namespace)
 }
 func (c *NewAppFakeImageClient) ImageStreamMappings(namespace string) imagev1typedclient.ImageStreamMappingInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1515,9 +1583,13 @@ func (c *NewAppFakeImageClient) ImageStreamTags(namespace string) imagev1typedcl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.ImageStreamTags(namespace)
 }
 func (c *NewAppFakeImageClient) RESTClient() krest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1540,6 +1612,8 @@ type NewAppFakeImageStreams struct {
 }
 
 func (c *NewAppFakeImageStreams) Get(name string, options metav1.GetOptions) (result *imagev1.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1578,9 +1652,13 @@ func (c *NewAppFakeImageStreams) List(opts metav1.ListOptions) (result *imagev1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.List(opts)
 }
 func (c *NewAppFakeImageStreams) Watch(opts metav1.ListOptions) (kwatch.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1612,9 +1690,13 @@ func (c *NewAppFakeImageStreams) Create(imageStream *imagev1.ImageStream) (resul
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.Create(imageStream)
 }
 func (c *NewAppFakeImageStreams) Update(imageStream *imagev1.ImageStream) (result *imagev1.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1646,9 +1728,13 @@ func (c *NewAppFakeImageStreams) UpdateStatus(imageStream *imagev1.ImageStream) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.UpdateStatus(imageStream)
 }
 func (c *NewAppFakeImageStreams) Delete(name string, options *metav1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1680,9 +1766,13 @@ func (c *NewAppFakeImageStreams) DeleteCollection(options *metav1.DeleteOptions,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.DeleteCollection(options, listOptions)
 }
 func (c *NewAppFakeImageStreams) Patch(name string, pt ktypes.PatchType, data []byte, subresources ...string) (result *imagev1.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1714,9 +1804,13 @@ func (c *NewAppFakeImageStreams) Secrets(imageStreamName string, opts metav1.Get
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.proxy.Secrets(imageStreamName, opts)
 }
 func (c *NewAppFakeImageStreams) Layers(imageStreamName string, opts metav1.GetOptions) (result *imagev1.ImageStreamLayers, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

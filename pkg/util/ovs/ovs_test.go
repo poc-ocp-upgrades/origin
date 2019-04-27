@@ -25,6 +25,8 @@ func normalSetup() *fakeexec.FakeExec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeexec.FakeExec{LookPathFunc: func(prog string) (string, error) {
 		if prog == "ovs-ofctl" || prog == "ovs-vsctl" {
 			return "/sbin/" + prog, nil
@@ -48,11 +50,15 @@ func missingSetup() *fakeexec.FakeExec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeexec.FakeExec{LookPathFunc: func(prog string) (string, error) {
 		return "", fmt.Errorf("%s not found", prog)
 	}}
 }
 func addTestResult(t *testing.T, fexec *fakeexec.FakeExec, command string, output string, err error) *fakeexec.FakeCmd {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,11 +100,15 @@ func ensureTestResults(t *testing.T, fexec *fakeexec.FakeExec) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fexec.CommandCalls != len(fexec.CommandScript) {
 		t.Fatalf("Only used %d of %d expected commands", fexec.CommandCalls, len(fexec.CommandScript))
 	}
 }
 func ensureInputFlows(t *testing.T, fakeCmd *fakeexec.FakeCmd, flows []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +137,8 @@ func ensureInputFlows(t *testing.T, fakeCmd *fakeexec.FakeCmd, flows []string) {
 	}
 }
 func TestTransactionSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +204,8 @@ func TestDumpFlows(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fexec := normalSetup()
 	addTestResult(t, fexec, "ovs-ofctl -O OpenFlow13 dump-flows br0 ", `OFPST_FLOW reply (OF1.3) (xid=0x2):
  cookie=0x0, duration=13271.779s, table=0, n_packets=0, n_bytes=0, priority=100,ip,nw_dst=192.168.1.0/24 actions=set_field:0a:7b:e6:19:11:cf->eth_dst,output:2
@@ -233,6 +247,8 @@ func TestOVSMissing(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fexec := missingSetup()
 	ovsif, err := New(fexec, "br0", "")
 	if err == nil || ovsif != nil {
@@ -243,6 +259,8 @@ func TestOVSMissing(t *testing.T) {
 	}
 }
 func TestAddPort(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +357,8 @@ func TestOVSVersion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fexec := normalSetup()
 	defer ensureTestResults(t, fexec)
 	addTestResult(t, fexec, "ovs-vsctl --timeout=30 --version", "2.5.0", nil)
@@ -355,6 +375,8 @@ func TestOVSVersion(t *testing.T) {
 	}
 }
 func TestFind(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

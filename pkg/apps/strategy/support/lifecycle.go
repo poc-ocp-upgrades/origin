@@ -64,6 +64,8 @@ func NewHookExecutor(kubeClient kubernetes.Interface, imageClient imageclienttyp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	executor := &hookExecutor{tags: imageClient, pods: kubeClient.CoreV1(), events: kubeClient.CoreV1(), out: out}
 	executor.getPodLogs = func(pod *corev1.Pod) (io.ReadCloser, error) {
 		opts := &corev1.PodLogOptions{Container: hookContainerName, Follow: true, Timestamps: false}
@@ -72,6 +74,8 @@ func NewHookExecutor(kubeClient kubernetes.Interface, imageClient imageclienttyp
 	return executor
 }
 func (e *hookExecutor) Execute(hook *appsv1.LifecycleHook, rc *corev1.ReplicationController, suffix, label string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +136,8 @@ func findContainerImage(rc *corev1.ReplicationController, containerName string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rc.Spec.Template == nil {
 		return "", false
 	}
@@ -143,6 +149,8 @@ func findContainerImage(rc *corev1.ReplicationController, containerName string) 
 	return "", false
 }
 func (e *hookExecutor) tagImages(hook *appsv1.LifecycleHook, rc *corev1.ReplicationController, suffix, label string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +185,8 @@ func (e *hookExecutor) tagImages(hook *appsv1.LifecycleHook, rc *corev1.Replicat
 	return utilerrors.NewAggregate(errs)
 }
 func (e *hookExecutor) executeExecNewPod(hook *appsv1.LifecycleHook, rc *corev1.ReplicationController, suffix, label string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -317,6 +327,8 @@ func (e *hookExecutor) readPodLogs(pod *corev1.Pod, wg *sync.WaitGroup) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer wg.Done()
 	logStream, err := e.getPodLogs(pod)
 	if err != nil || logStream == nil {
@@ -329,6 +341,8 @@ func (e *hookExecutor) readPodLogs(pod *corev1.Pod, wg *sync.WaitGroup) {
 	}
 }
 func createHookPodManifest(hook *appsv1.LifecycleHook, rc *corev1.ReplicationController, strategy *appsv1.DeploymentStrategy, hookType string, startTime time.Time) (*corev1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +419,8 @@ func createHookPodManifest(hook *appsv1.LifecycleHook, rc *corev1.ReplicationCon
 	return pod, nil
 }
 func canRetryReading(pod *corev1.Pod, restarts int32) (bool, int32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

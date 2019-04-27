@@ -40,6 +40,8 @@ func ImageStreamNodeName(o *imagev1.ImageStream) osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.GetUniqueRuntimeObjectNodeName(ImageStreamNodeKind, o)
 }
 
@@ -50,6 +52,8 @@ type ImageStreamNode struct {
 }
 
 func (n ImageStreamNode) Found() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,9 +85,13 @@ func (n ImageStreamNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.ImageStream
 }
 func (n ImageStreamNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +123,8 @@ func (n ImageStreamNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageStreamNodeName(n.ImageStream)
 }
 func (*ImageStreamNode) Kind() string {
@@ -132,9 +142,13 @@ func (*ImageStreamNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageStreamNodeKind
 }
 func ImageStreamTagNodeName(o *imagev1.ImageStreamTag) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,9 +187,13 @@ func (n ImageStreamTagNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n ImageStreamTagNode) ImageSpec() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,10 +226,14 @@ func (n ImageStreamTagNode) ImageTag() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, tag, _ := imageapi.SplitImageStreamTag(n.ImageStreamTag.Name)
 	return tag
 }
 func (n ImageStreamTagNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,9 +265,13 @@ func (n ImageStreamTagNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(ImageStreamTagNodeName(n.ImageStreamTag))
 }
 func (n ImageStreamTagNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -277,9 +303,13 @@ func (*ImageStreamTagNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageStreamTagNodeKind
 }
 func ImageStreamImageNodeName(o *imagev1.ImageStreamImage) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -318,9 +348,13 @@ func (n ImageStreamImageNode) ImageSpec() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.ImageStreamImage.Namespace + "/" + n.ImageStreamImage.Name
 }
 func (n ImageStreamImageNode) ImageTag() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -353,9 +387,13 @@ func (n ImageStreamImageNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.ImageStreamImage
 }
 func (n ImageStreamImageNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -387,9 +425,13 @@ func (n ImageStreamImageNode) ResourceString() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "isimage/" + n.Name
 }
 func (n ImageStreamImageNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -421,9 +463,13 @@ func (*ImageStreamImageNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageStreamImageNodeKind
 }
 func DockerImageRepositoryNodeName(o imageapi.DockerImageReference) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -461,9 +507,13 @@ func (n DockerImageRepositoryNode) ImageSpec() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Ref.String()
 }
 func (n DockerImageRepositoryNode) ImageTag() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,9 +545,13 @@ func (n DockerImageRepositoryNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(DockerImageRepositoryNodeName(n.Ref))
 }
 func (*DockerImageRepositoryNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -529,9 +583,13 @@ func (n DockerImageRepositoryNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DockerImageRepositoryNodeName(n.Ref)
 }
 func ImageNodeName(o *imagev1.Image) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -569,9 +627,13 @@ func (n ImageNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Image
 }
 func (n ImageNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -603,6 +665,8 @@ func (n ImageNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageNodeName(n.Image)
 }
 func (*ImageNode) Kind() string {
@@ -620,9 +684,13 @@ func (*ImageNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ImageNodeKind
 }
 func ImageComponentNodeName(name string) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -661,9 +729,13 @@ func (n ImageComponentNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Component
 }
 func (n ImageComponentNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -695,9 +767,13 @@ func (n *ImageComponentNode) Describe() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("Image%s|%s", n.Type, n.Component)
 }
 func (*ImageComponentNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -30,6 +30,8 @@ func TestScheduledImport(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	one := int64(1)
 	stream := &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "test", Namespace: "other", UID: "1", ResourceVersion: "1", Annotations: map[string]string{imageapi.DockerImageRepositoryCheckAnnotation: "done"}, Generation: 1}, Spec: imagev1.ImageStreamSpec{Tags: []imagev1.TagReference{{Name: "default", From: &corev1.ObjectReference{Kind: "DockerImage", Name: "mysql:latest"}, Generation: &one, ImportPolicy: imagev1.TagImportPolicy{Scheduled: true}}}}, Status: imagev1.ImageStreamStatus{Tags: []imagev1.NamedTagEventList{{Tag: "default", Items: []imagev1.TagEvent{{Generation: 1}}}}}}
 	imageInformers := imagev1informer.NewSharedInformerFactory(fakeimagev1client.NewSimpleClientset(), 0)

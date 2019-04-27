@@ -20,6 +20,8 @@ func TestValidateUpstreamCommitsWithoutGodepsChanges(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		commits		[]util.Commit
@@ -43,6 +45,8 @@ func TestValidateUpstreamCommitsWithoutGodepsChanges(t *testing.T) {
 	}
 }
 func TestValidateUpstreamCommitModifiesSingleGodepsRepo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +98,8 @@ func TestValidateUpstreamCommitModifiesOnlyGodeps(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		commits		[]util.Commit
@@ -131,6 +137,8 @@ func TestValidateUpstreamCommitSummaries(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		summary	string
 		valid	bool
@@ -154,6 +162,8 @@ func TestValidateUpstreamCommitSummaries(t *testing.T) {
 	}
 }
 func TestValidateUpstreamCommitModifiesOnlyDeclaredGodepRepo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

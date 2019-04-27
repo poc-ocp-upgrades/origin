@@ -30,6 +30,8 @@ func (c *FakeImageStreamTags) Get(name string, options v1.GetOptions) (result *i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(imagestreamtagsResource, c.ns, name), &image.ImageStreamTag{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeImageStreamTags) Get(name string, options v1.GetOptions) (result *i
 	return obj.(*image.ImageStreamTag), err
 }
 func (c *FakeImageStreamTags) Create(imageStreamTag *image.ImageStreamTag) (result *image.ImageStreamTag, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func (c *FakeImageStreamTags) Update(imageStreamTag *image.ImageStreamTag) (resu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewUpdateAction(imagestreamtagsResource, c.ns, imageStreamTag), &image.ImageStreamTag{})
 	if obj == nil {
 		return nil, err
@@ -79,6 +85,8 @@ func (c *FakeImageStreamTags) Update(imageStreamTag *image.ImageStreamTag) (resu
 	return obj.(*image.ImageStreamTag), err
 }
 func (c *FakeImageStreamTags) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

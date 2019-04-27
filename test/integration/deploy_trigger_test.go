@@ -36,6 +36,8 @@ func TestTriggers_manual(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const namespace = "test-triggers-manual"
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
@@ -99,6 +101,8 @@ func TestTriggers_manual(t *testing.T) {
 	}
 }
 func TestTriggers_imageChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +196,8 @@ waitForNewConfig:
 	}
 }
 func TestTriggers_imageChange_nonAutomatic(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,6 +358,8 @@ func TestTriggers_MultipleICTs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:8080"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -493,6 +501,8 @@ func TestTriggers_configChange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const namespace = "test-triggers-configchange"
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
@@ -592,6 +602,8 @@ func TestTriggers_configChange(t *testing.T) {
 	}
 }
 func assertEnvVarEquals(name string, value string, deployment *corev1.ReplicationController, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

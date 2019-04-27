@@ -20,6 +20,8 @@ func packetsIn(ovsif ovs.Interface, counts map[string]int, nodeIP string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	counts[nodeIP] += 1
 	otx := ovsif.NewTransaction()
 	otx.DeleteFlows("table=10, tun_src=%s", nodeIP)
@@ -30,6 +32,8 @@ func packetsIn(ovsif ovs.Interface, counts map[string]int, nodeIP string) {
 	}
 }
 func packetsOut(ovsif ovs.Interface, counts map[uint32]int, nodeIP string, vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func peekUpdate(updates chan *egressVXLANNode) *egressVXLANNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case update := <-updates:
 		return update
@@ -76,6 +82,8 @@ func peekUpdate(updates chan *egressVXLANNode) *egressVXLANNode {
 	}
 }
 func TestEgressVXLANMonitor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

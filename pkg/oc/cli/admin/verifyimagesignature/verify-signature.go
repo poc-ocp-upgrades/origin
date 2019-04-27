@@ -101,9 +101,13 @@ func NewVerifyImageSignatureOptions(streams genericclioptions.IOStreams) *Verify
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &VerifyImageSignatureOptions{PublicKeyFilename: filepath.Join(os.Getenv("GNUPGHOME"), "pubring.gpg"), IOStreams: streams}
 }
 func NewCmdVerifyImageSignature(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +151,8 @@ func (o *VerifyImageSignatureOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.RemoveAll {
 		if len(o.ExpectedIdentity) == 0 {
 			return errors.New("the --expected-identity is required")
@@ -161,6 +167,8 @@ func (o *VerifyImageSignatureOptions) Validate() error {
 	return nil
 }
 func (o *VerifyImageSignatureOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +220,8 @@ func (o *VerifyImageSignatureOptions) Complete(f kcmdutil.Factory, cmd *cobra.Co
 	return nil
 }
 func (o VerifyImageSignatureOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,6 +293,8 @@ func (o *VerifyImageSignatureOptions) getImageManifest(img *imagev1.Image) ([]by
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsed, err := imageapi.ParseDockerImageReference(img.DockerImageReference)
 	if err != nil {
 		return nil, err
@@ -297,6 +309,8 @@ func (o *VerifyImageSignatureOptions) getImageManifest(img *imagev1.Image) ([]by
 	return getImageManifestByIDFromRegistry(registryURL, parsed.RepositoryName(), img.Name, o.CurrentUser, o.CurrentUserToken, o.Insecure)
 }
 func (o *VerifyImageSignatureOptions) verifySignature(pc *signature.PolicyContext, img *imagev1.Image, sigBlob []byte) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -348,9 +362,13 @@ func (t dockerTransport) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "docker"
 }
 func (t dockerTransport) ParseReference(reference string) (sigtypes.ImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,12 +400,16 @@ func (t dockerTransport) ValidatePolicyConfigurationScope(scope string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 
 type dummyDockerReference struct{ ref reference.Named }
 
 func parseDockerReference(refString string) (sigtypes.ImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -435,9 +457,13 @@ func (ref dummyDockerReference) Transport() sigtypes.ImageTransport {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dummyDockerTransport
 }
 func (ref dummyDockerReference) StringWithinTransport() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,9 +495,13 @@ func (ref dummyDockerReference) DockerReference() reference.Named {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ref.ref
 }
 func (ref dummyDockerReference) PolicyConfigurationIdentity() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -507,9 +537,13 @@ func (ref dummyDockerReference) PolicyConfigurationNamespaces() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return policyconfiguration.DockerReferenceNamespaces(ref.ref)
 }
 func (ref dummyDockerReference) NewImage(ctx *sigtypes.SystemContext) (sigtypes.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -541,6 +575,8 @@ func (ref dummyDockerReference) NewImageSource(ctx *sigtypes.SystemContext, requ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 func (ref dummyDockerReference) NewImageDestination(ctx *sigtypes.SystemContext) (sigtypes.ImageDestination, error) {
@@ -558,9 +594,13 @@ func (ref dummyDockerReference) NewImageDestination(ctx *sigtypes.SystemContext)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("Unimplemented")
 }
 func (ref dummyDockerReference) DeleteImage(ctx *sigtypes.SystemContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -599,10 +639,14 @@ func newUnparsedImage(expectedIdentity string, signature, manifest []byte) sigty
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, _ := parseDockerReference("//" + expectedIdentity)
 	return &unparsedImage{ref: ref, manifest: manifest, signature: signature}
 }
 func (ui *unparsedImage) Reference() sigtypes.ImageReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -634,6 +678,8 @@ func (ui *unparsedImage) Close() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (ui *unparsedImage) Manifest() ([]byte, string, error) {
@@ -651,9 +697,13 @@ func (ui *unparsedImage) Manifest() ([]byte, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ui.manifest, "", nil
 }
 func (ui *unparsedImage) Signatures(context.Context) ([][]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

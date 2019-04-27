@@ -33,6 +33,8 @@ func NewUnionAuthenticationHandler(passedChallengers map[string]AuthenticationCh
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	challengers := passedChallengers
 	if challengers == nil {
 		challengers = make(map[string]AuthenticationChallenger, 1)
@@ -59,6 +61,8 @@ var (
 )
 
 func (authHandler *unionAuthenticationHandler) AuthenticationNeeded(apiClient authapi.Client, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +200,8 @@ func mergeHeaders(dest http.Header, toAdd http.Header) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for key, values := range toAdd {
 		for _, value := range values {
 			dest.Add(key, value)
@@ -203,6 +209,8 @@ func mergeHeaders(dest http.Header, toAdd http.Header) {
 	}
 }
 func getAuthMethods(req *http.Request) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

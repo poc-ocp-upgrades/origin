@@ -40,11 +40,15 @@ func (t *testAuth) AuthenticatePassword(ctx context.Context, user, password stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Username = user
 	t.Password = password
 	return &authenticator.Response{User: t.User}, t.Success, t.Err
 }
 func (t *testAuth) AuthenticationSucceeded(user user.Info, then string, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func (t *testAuth) AuthenticationSucceeded(user user.Info, then string, w http.R
 	return false, nil
 }
 func TestLogin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +149,8 @@ func TestLogin(t *testing.T) {
 	}
 }
 func TestValidateLoginTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

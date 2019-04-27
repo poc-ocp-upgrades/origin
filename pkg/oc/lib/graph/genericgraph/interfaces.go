@@ -38,6 +38,8 @@ func (m Markers) BySeverity(severity Severity) []Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []Marker{}
 	for i := range m {
 		if m[i].Severity == severity {
@@ -47,6 +49,8 @@ func (m Markers) BySeverity(severity Severity) []Marker {
 	return ret
 }
 func (m Markers) FilterByNamespace(namespace string) Markers {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +101,8 @@ func (m BySeverity) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m BySeverity) Swap(i, j int) {
@@ -114,9 +120,13 @@ func (m BySeverity) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m BySeverity) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +180,8 @@ func (m ByNodeID) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m ByNodeID) Swap(i, j int) {
@@ -187,9 +199,13 @@ func (m ByNodeID) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m ByNodeID) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,9 +246,13 @@ func (m ByKey) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m ByKey) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,12 +284,16 @@ func (m ByKey) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Key < m[j].Key
 }
 
 type Suggestion string
 
 func (s Suggestion) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

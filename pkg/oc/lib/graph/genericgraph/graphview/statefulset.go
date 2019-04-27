@@ -29,6 +29,8 @@ func AllStatefulSets(g osgraph.Graph, excludeNodeIDs IntSet) ([]StatefulSet, Int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	views := []StatefulSet{}
 	for _, uncastNode := range g.NodesByKind(kubenodes.StatefulSetNodeKind) {
@@ -42,6 +44,8 @@ func AllStatefulSets(g osgraph.Graph, excludeNodeIDs IntSet) ([]StatefulSet, Int
 	return views, covered
 }
 func NewStatefulSet(g osgraph.Graph, node *kubenodes.StatefulSetNode) (StatefulSet, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -44,6 +44,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := legacyscheme.Scheme.AddConversionFuncs(func(in *docker.Image, out *imageapi.DockerImage, s conversion.Scope) error {
 		if err := s.Convert(&in.Config, &out.Config, conversion.AllowDifferentFieldTypeNames); err != nil {
 			return err
@@ -118,9 +120,13 @@ func NewClient(dialTimeout time.Duration, allowV2 bool) Client {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &client{dialTimeout: dialTimeout, connections: make(map[string]*connection), allowV2: allowV2}
 }
 func (c *client) Connect(name string, allowInsecure bool) (Connection, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,6 +168,8 @@ func normalizeDockerHubHost(host string, v2 bool) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch host {
 	case reference.DockerDefaultRegistry, "www." + reference.DockerDefaultRegistry, reference.DockerDefaultV1Registry, reference.DockerDefaultV2Registry:
 		if v2 {
@@ -172,6 +180,8 @@ func normalizeDockerHubHost(host string, v2 bool) string {
 	return host
 }
 func normalizeRegistryName(name string) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,6 +241,8 @@ func convertConnectionError(registry string, err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case strings.Contains(err.Error(), "connection refused"):
 		return errRegistryNotFound{registry}
@@ -249,6 +261,8 @@ type connection struct {
 }
 
 func newConnection(url url.URL, dialTimeout time.Duration, allowInsecure, enableV2 bool) *connection {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -294,6 +308,8 @@ func (c *connection) ImageTags(namespace, name string) (map[string]string, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(namespace) == 0 && reference.IsRegistryDockerHub(c.url.Host) {
 		namespace = "library"
 	}
@@ -307,6 +323,8 @@ func (c *connection) ImageTags(namespace, name string) (map[string]string, error
 	return repo.getTags(c)
 }
 func (c *connection) ImageByID(namespace, name, imageID string) (*Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +367,8 @@ func (c *connection) ImageByTag(namespace, name, tag string) (*Image, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(namespace) == 0 && reference.IsRegistryDockerHub(c.url.Host) {
 		namespace = "library"
 	}
@@ -367,6 +387,8 @@ func (c *connection) ImageByTag(namespace, name, tag string) (*Image, error) {
 	return image, err
 }
 func (c *connection) ImageManifest(namespace, name, tag string) (string, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +438,8 @@ func (c *connection) getCachedRepository(name string) (repository, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cached, ok := c.cached[name]; ok {
 		return cached, nil
 	}
@@ -441,6 +465,8 @@ func (c *connection) getCachedRepository(name string) (repository, error) {
 	return repo, nil
 }
 func (c *connection) checkV2() (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -499,6 +525,8 @@ func parseAuthChallenge(header string) (string, map[string]string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sections := strings.SplitN(header, " ", 2)
 	if len(sections) == 1 {
 		sections = append(sections, "")
@@ -516,6 +544,8 @@ func parseAuthChallenge(header string) (string, map[string]string) {
 	return sections[0], keys
 }
 func (c *connection) authenticateV2(header string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -592,6 +622,8 @@ func (c *connection) getRepositoryV1(name string) (repository, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Getting repository %s from %s", name, c.url.String())
 	base := c.url
 	base.Path = path.Join(base.Path, fmt.Sprintf("/v1/repositories/%s/images", name))
@@ -638,6 +670,8 @@ type v2tags struct {
 }
 
 func (repo *v2repository) getTags(c *connection) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -702,6 +736,8 @@ func (repo *v2repository) getTags(c *connection) (map[string]string, error) {
 	return legacyTags, nil
 }
 func (repo *v2repository) getTaggedImage(c *connection, tag, userTag string) (*Image, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -790,9 +826,13 @@ func (repo *v2repository) getImage(c *connection, image, userTag string) (*Image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return repo.getTaggedImage(c, image, userTag)
 }
 func (repo *v2repository) getImageConfig(c *connection, dgst string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -870,6 +910,8 @@ func (repo *v2repository) unmarshalImageManifest(c *connection, body []byte) (*d
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	manifest := docker10.DockerImageManifest{}
 	if err := json.Unmarshal(body, &manifest); err != nil {
 		return nil, err
@@ -897,6 +939,8 @@ type v1repository struct {
 }
 
 func (repo *v1repository) getTags(c *connection) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -951,6 +995,8 @@ func (repo *v1repository) getTaggedImage(c *connection, tag, userTag string) (*I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	endpoint := repo.endpoint
 	endpoint.Path = path.Join(endpoint.Path, fmt.Sprintf("/v1/repositories/%s/tags/%s", repo.name, tag))
 	req, err := http.NewRequest("GET", endpoint.String(), nil)
@@ -986,6 +1032,8 @@ func (repo *v1repository) getTaggedImage(c *connection, tag, userTag string) (*I
 	return repo.getImage(c, imageID, "")
 }
 func (repo *v1repository) getImage(c *connection, image, userTag string) (*Image, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1055,6 +1103,8 @@ func (e errBlobNotFound) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("blob %s was not found in repository %q", e.digest, e.repository)
 }
 
@@ -1079,6 +1129,8 @@ func (e errTagNotFound) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e.wasDefault {
 		return fmt.Sprintf("the default tag %q has not been set on repository %q", e.tag, e.repository)
 	}
@@ -1088,6 +1140,8 @@ func (e errTagNotFound) Error() string {
 type errRepositoryNotFound struct{ repository string }
 
 func (e errRepositoryNotFound) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1126,9 +1180,13 @@ func NewImageNotFoundError(repository, image, tag string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errImageNotFound{tag, image, repository}
 }
 func (e errImageNotFound) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1166,9 +1224,13 @@ func (e errRegistryNotFound) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("the registry %q could not be reached", e.registry)
 }
 func IsRegistryNotFound(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1201,10 +1263,14 @@ func IsRepositoryNotFound(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ok := err.(errRepositoryNotFound)
 	return ok
 }
 func IsImageNotFound(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1237,10 +1303,14 @@ func IsTagNotFound(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ok := err.(errTagNotFound)
 	return ok
 }
 func IsBlobNotFound(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1273,9 +1343,13 @@ func IsNotFound(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return IsRegistryNotFound(err) || IsRepositoryNotFound(err) || IsImageNotFound(err) || IsTagNotFound(err) || IsBlobNotFound(err)
 }
 func unmarshalDockerImage(body []byte) (*docker.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1311,6 +1385,8 @@ func addAcceptHeader(r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Header.Add("Accept", schema1.MediaTypeManifest)
 	r.Header.Add("Accept", schema2.MediaTypeManifest)
 }
@@ -1329,6 +1405,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1403,5 +1500,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

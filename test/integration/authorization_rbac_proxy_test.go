@@ -40,12 +40,16 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizationV1Scheme := runtime.NewScheme()
 	utilruntime.Must(authorizationv1.Install(authorizationV1Scheme))
 	authorizationV1Codecs := serializer.NewCodecFactory(authorizationV1Scheme)
 	authorizationV1Encoder = authorizationV1Codecs.LegacyCodec(authorizationv1.GroupVersion)
 }
 func TestLegacyLocalRoleBindingEndpoint(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +173,8 @@ func TestLegacyClusterRoleBindingEndpoint(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatal(err)
@@ -251,6 +257,8 @@ func TestLegacyClusterRoleBindingEndpoint(t *testing.T) {
 	}
 }
 func TestLegacyClusterRoleEndpoint(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -360,6 +368,8 @@ func TestLegacyLocalRoleEndpoint(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatal(err)
@@ -446,6 +456,8 @@ func TestLegacyLocalRoleEndpoint(t *testing.T) {
 	}
 }
 func TestLegacyEndpointConfirmNoEscalation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

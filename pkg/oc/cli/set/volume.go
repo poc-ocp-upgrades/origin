@@ -152,9 +152,13 @@ func NewVolumeOptions(streams genericclioptions.IOStreams) *VolumeOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &VolumeOptions{PrintFlags: genericclioptions.NewPrintFlags("volume updated").WithTypeSetter(scheme.Scheme), Containers: "*", AddOpts: &AddVolumeOptions{ClaimMode: "ReadWriteOnce"}, IOStreams: streams}
 }
 func NewCmdVolume(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -220,6 +224,8 @@ func (o *VolumeOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Selector) > 0 {
 		if _, err := labels.Parse(o.Selector); err != nil {
 			return errors.New("--selector=<selector> must be a valid label selector")
@@ -248,6 +254,8 @@ func (o *VolumeOptions) Validate() error {
 	return nil
 }
 func (a *AddVolumeOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +347,8 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -392,6 +402,8 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	return nil
 }
 func (a *AddVolumeOptions) Complete() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -461,6 +473,8 @@ func (a *AddVolumeOptions) Complete() error {
 	return nil
 }
 func (o *VolumeOptions) RunVolume() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -569,6 +583,8 @@ func (o *VolumeOptions) getVolumeUpdatePatches(infos []*resource.Info, singleIte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skipped := 0
 	patches := CalculatePatches(infos, scheme.DefaultJSONEncoder(), func(info *resource.Info) (bool, error) {
 		transformed := false
@@ -596,6 +612,8 @@ func (o *VolumeOptions) getVolumeUpdatePatches(infos []*resource.Info, singleIte
 	return patches, nil
 }
 func setVolumeSourceByType(kv *corev1.Volume, opts *AddVolumeOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -651,6 +669,8 @@ func (o *VolumeOptions) printVolumes(infos []*resource.Info) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listingErrors := []error{}
 	for _, info := range infos {
 		_, err := o.UpdatePodSpecForObject(info.Object, func(spec *corev1.PodSpec) error {
@@ -664,6 +684,8 @@ func (o *VolumeOptions) printVolumes(infos []*resource.Info) []error {
 	return listingErrors
 }
 func (a *AddVolumeOptions) createClaim() *corev1.PersistentVolumeClaim {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -699,6 +721,8 @@ func (o *VolumeOptions) setVolumeSource(kv *corev1.Volume) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	opts := o.AddOpts
 	if len(opts.Type) > 0 {
@@ -709,6 +733,8 @@ func (o *VolumeOptions) setVolumeSource(kv *corev1.Volume) error {
 	return err
 }
 func (o *VolumeOptions) setVolumeMount(spec *corev1.PodSpec, info *resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -750,6 +776,8 @@ func (o *VolumeOptions) setVolumeMount(spec *corev1.PodSpec, info *resource.Info
 	return nil
 }
 func (o *VolumeOptions) getVolumeName(spec *corev1.PodSpec, singleResource bool) (string, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -818,6 +846,8 @@ func (o *VolumeOptions) checkForExistingClaim(spec *corev1.PodSpec) (string, boo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, vol := range spec.Volumes {
 		oldSource := vol.VolumeSource.PersistentVolumeClaim
 		if oldSource != nil && o.AddOpts.ClaimName == oldSource.ClaimName {
@@ -827,6 +857,8 @@ func (o *VolumeOptions) checkForExistingClaim(spec *corev1.PodSpec) (string, boo
 	return "", false
 }
 func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Info, singleResource bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -902,6 +934,8 @@ func (o *VolumeOptions) removeSpecificVolume(spec *corev1.PodSpec, containers, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range containers {
 		newMounts := c.VolumeMounts[:0]
 		for _, m := range c.VolumeMounts {
@@ -953,6 +987,8 @@ func (o *VolumeOptions) removeVolumeFromSpec(spec *corev1.PodSpec, info *resourc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	containers, skippedContainers := selectContainers(spec.Containers, o.Containers)
 	if len(containers) == 0 && o.Containers != "*" {
 		fmt.Fprintf(o.ErrOut, "warning: %s/%s does not have any containers matching %q\n", info.Mapping.Resource.Resource, info.Name, o.Containers)
@@ -972,6 +1008,8 @@ func (o *VolumeOptions) removeVolumeFromSpec(spec *corev1.PodSpec, info *resourc
 	return nil
 }
 func sourceAccessMode(readOnly bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1006,6 +1044,8 @@ func describePersistentVolumeClaim(claim *corev1.PersistentVolumeClaim) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(claim.Spec.VolumeName) == 0 {
 		if val, ok := claim.Spec.Resources.Requests[corev1.ResourceStorage]; ok {
 			return fmt.Sprintf("waiting for %sB allocation", val.String())
@@ -1018,6 +1058,8 @@ func describePersistentVolumeClaim(claim *corev1.PersistentVolumeClaim) string {
 	return "allocated unknown size"
 }
 func describeVolumeSource(source *corev1.VolumeSource) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1065,6 +1107,8 @@ func describeVolumeSource(source *corev1.VolumeSource) string {
 	}
 }
 func (o *VolumeOptions) listVolumeForSpec(spec *corev1.PodSpec, info *resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

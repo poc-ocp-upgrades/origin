@@ -22,6 +22,8 @@ func TestMasterVNIDMap(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vmap := newMasterVNIDMap(true)
 	checkCurrentVNIDs(t, vmap, 0, 0)
 	_, _, err := vmap.allocateNetID(metav1.NamespaceDefault)
@@ -84,6 +86,8 @@ func checkNoErr(t *testing.T, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -103,11 +107,15 @@ func checkErr(t *testing.T, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		t.Fatalf("Expected error is missing!")
 	}
 }
 func checkCurrentVNIDs(t *testing.T, vmap *masterVNIDMap, expectedMapCount, expectedAllocatorCount int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

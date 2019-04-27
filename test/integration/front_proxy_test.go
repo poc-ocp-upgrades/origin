@@ -44,6 +44,8 @@ func TestFrontProxy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("skipping until auth team figures this out in the new split API setup, see https://bugzilla.redhat.com/show_bug.cgi?id=1640351")
 	masterConfig, err := testserver.DefaultMasterOptions()
 	if err != nil {
@@ -171,6 +173,8 @@ func (handler *frontProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Header.Del(handler.userHeader)
 	r.Header.Del(handler.groupHeader)
 	if handler.user != nil {
@@ -198,11 +202,15 @@ func (handler *frontProxyHandler) setUser(user user.Info) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	handler.lock.Lock()
 	defer handler.lock.Unlock()
 	handler.user = user
 }
 func newFrontProxyHandler(rawURL, clientCA, userHeader, groupHeader string, proxyCert *tls.Certificate) (*frontProxyHandler, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +252,8 @@ func mutualAuthRoundTripper(ca string, cert *tls.Certificate) (http.RoundTripper
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	caBundleBytes, err := ioutil.ReadFile(ca)
 	if err != nil {
 		return nil, err
@@ -255,6 +265,8 @@ func mutualAuthRoundTripper(ca string, cert *tls.Certificate) (http.RoundTripper
 	return &http.Transport{TLSClientConfig: tlsConfig}, nil
 }
 func createClientCert(commonName, certDir, caPrefix string) (*tls.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +315,8 @@ func createCA(certDir, caPrefix string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	createSignerCertOptions := admin.CreateSignerCertOptions{CertFile: admin.DefaultCertFilename(certDir, caPrefix), KeyFile: admin.DefaultKeyFilename(certDir, caPrefix), SerialFile: admin.DefaultSerialFilename(certDir, caPrefix), ExpireDays: crypto.DefaultCACertificateLifetimeInDays, Name: caPrefix, Overwrite: true}
 	if err := createSignerCertOptions.Validate(nil); err != nil {
 		return "", err
@@ -313,6 +327,8 @@ func createCA(certDir, caPrefix string) (string, error) {
 	return createSignerCertOptions.CertFile, nil
 }
 func createServerCert(hostnames []string, commonName, certDir, caPrefix string) (*tls.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

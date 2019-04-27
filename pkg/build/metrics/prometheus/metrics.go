@@ -50,6 +50,8 @@ func IntializeMetricsCollector(buildLister buildlister.BuildLister) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.lister = buildLister
 	if !registered {
 		prometheus.MustRegister(&bc)
@@ -58,6 +60,8 @@ func IntializeMetricsCollector(buildLister buildlister.BuildLister) {
 	klog.V(4).Info("build metrics registered with prometheus")
 }
 func (bc *buildCollector) Describe(ch chan<- *prometheus.Desc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ type collectKey struct {
 }
 
 func (bc *buildCollector) Collect(ch chan<- prometheus.Metric) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,10 +132,14 @@ func addCountGauge(ch chan<- prometheus.Metric, desc *prometheus.Desc, phase, re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lv := []string{phase, reason, strategy}
 	ch <- prometheus.MustNewConstMetric(desc, prometheus.GaugeValue, v, lv...)
 }
 func addTimeGauge(ch chan<- prometheus.Metric, b *buildv1.Build, time *metav1.Time, desc *prometheus.Desc, phase string, reason string, strategy string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -150,6 +160,8 @@ func addTimeGauge(ch chan<- prometheus.Metric, b *buildv1.Build, time *metav1.Ti
 	}
 }
 func (bc *buildCollector) collectBuild(ch chan<- prometheus.Metric, b *buildv1.Build) (key collectKey) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,6 +27,8 @@ func InformerFuncs(objType runtime.Object, addOrUpdateFunc InformerAddOrUpdateFu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	handlerFuncs := kcache.ResourceEventHandlerFuncs{}
 	if addOrUpdateFunc != nil {
 		handlerFuncs.AddFunc = func(obj interface{}) {

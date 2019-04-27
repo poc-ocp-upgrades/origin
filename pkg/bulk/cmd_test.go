@@ -36,9 +36,13 @@ func (bt *bulkTester) ResourceSingularizer(resource string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return resource, nil
 }
 func (bt *bulkTester) Record(obj *unstructured.Unstructured, namespace string) (*unstructured.Unstructured, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (bt *bulkTester) Record(obj *unstructured.Unstructured, namespace string) (
 	return obj, bt.opErr
 }
 func TestBulk(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +102,8 @@ func TestBulkOpError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bt := &bulkTester{mapping: &meta.RESTMapping{}, opErr: fmt.Errorf("error1")}
 	b := Bulk{Scheme: legacyscheme.Scheme, Op: bt.Record}
 	in := &kapi.Pod{}
@@ -107,6 +115,8 @@ func TestBulkOpError(t *testing.T) {
 	}
 }
 func TestBulkAction(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +154,8 @@ func TestBulkAction(t *testing.T) {
 	}
 }
 func TestBulkActionCompact(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

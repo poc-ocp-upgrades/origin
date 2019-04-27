@@ -24,6 +24,8 @@ func TestValidateSecurityContextConstraints(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var invalidUID int64 = -1
 	var invalidPriority int32 = -1
 	var validPriority int32 = 1
@@ -152,6 +154,8 @@ func validPodSpec() kapi.PodSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	activeDeadlineSeconds := int64(1)
 	return kapi.PodSpec{Volumes: []kapi.Volume{{Name: "vol", VolumeSource: kapi.VolumeSource{EmptyDir: &kapi.EmptyDirVolumeSource{}}}}, Containers: []kapi.Container{{Name: "ctr", Image: "image", ImagePullPolicy: "IfNotPresent", TerminationMessagePolicy: kapi.TerminationMessageReadFile}}, RestartPolicy: kapi.RestartPolicyAlways, NodeSelector: map[string]string{"key": "value"}, NodeName: "foobar", DNSPolicy: kapi.DNSClusterFirst, ActiveDeadlineSeconds: &activeDeadlineSeconds, ServiceAccountName: "acct", SchedulerName: kapi.DefaultSchedulerName}
 }
@@ -170,9 +174,13 @@ func invalidPodSpec() kapi.PodSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kapi.PodSpec{Containers: []kapi.Container{{TerminationMessagePolicy: kapi.TerminationMessageReadFile}}, RestartPolicy: kapi.RestartPolicyAlways, DNSPolicy: kapi.DNSClusterFirst}
 }
 func TestValidatePodSecurityPolicySelfSubjectReview(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +229,8 @@ func TestValidatePodSecurityPolicySubjectReview(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	okCases := map[string]securityapi.PodSecurityPolicySubjectReview{"good case": {Spec: securityapi.PodSecurityPolicySubjectReviewSpec{Template: kapi.PodTemplateSpec{Spec: validPodSpec()}}}}
 	for k, v := range okCases {
 		errs := ValidatePodSecurityPolicySubjectReview(&v)
@@ -241,6 +251,8 @@ func TestValidatePodSecurityPolicySubjectReview(t *testing.T) {
 	}
 }
 func TestValidatePodSecurityPolicyReview(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

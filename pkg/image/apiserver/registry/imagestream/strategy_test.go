@@ -50,9 +50,13 @@ func (u *fakeUser) GetName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "user"
 }
 func (u *fakeUser) GetUID() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,9 +88,13 @@ func (u *fakeUser) GetGroups() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{"group1"}
 }
 func (u *fakeUser) GetExtra() map[string][]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +115,8 @@ func (u *fakeUser) GetExtra() map[string][]string {
 type fakeDefaultRegistry struct{ registry string }
 
 func (f *fakeDefaultRegistry) DefaultRegistry() (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,11 +156,15 @@ func (f *fakeSubjectAccessReviewRegistry) Create(subjectAccessReview *authorizat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.request = subjectAccessReview
 	f.requestNamespace = subjectAccessReview.Spec.ResourceAttributes.Namespace
 	return &authorizationv1.SubjectAccessReview{Status: authorizationv1.SubjectAccessReviewStatus{Allowed: f.allow}}, f.err
 }
 func TestPublicDockerImageRepository(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +207,8 @@ func TestDockerImageRepository(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		stream		*imageapi.ImageStream
 		expected	string
@@ -208,6 +224,8 @@ func TestDockerImageRepository(t *testing.T) {
 	}
 }
 func TestTagVerifier(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,6 +273,8 @@ func TestTagVerifier(t *testing.T) {
 	}
 }
 func TestLimitVerifier(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -333,9 +353,13 @@ func (f *fakeImageStreamGetter) Get(ctx context.Context, name string, opts *meta
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.stream, nil
 }
 func TestTagsChanged(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,6 +430,8 @@ func TestTagsChanged(t *testing.T) {
 	}
 }
 func TestTagRefChanged(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

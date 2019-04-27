@@ -43,9 +43,13 @@ func (e *GeneratorFatalError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("fatal error generating Build from BuildConfig: %s", e.Reason)
 }
 func IsFatalGeneratorError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func GetBuildPodName(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetPodName(build.Name, buildPodSuffix)
 }
 func IsBuildComplete(build *buildv1.Build) bool {
@@ -95,9 +101,13 @@ func IsBuildComplete(build *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return IsTerminalPhase(build.Status.Phase)
 }
 func IsTerminalPhase(phase buildv1.BuildPhase) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,9 +143,13 @@ func BuildNameForConfigVersion(name string, version int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s-%d", name, version)
 }
 func BuildConfigSelector(name string) labels.Selector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +170,8 @@ func BuildConfigSelector(name string) labels.Selector {
 type buildFilter func(*buildv1.Build) bool
 
 func BuildConfigBuilds(c buildlister.BuildLister, namespace, name string, filterFunc buildFilter) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +216,8 @@ func ConfigNameForBuild(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if build == nil {
 		return ""
 	}
@@ -228,9 +246,13 @@ func MergeTrustedEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	MergeEnvWithoutDuplicates(source, output, sourcePrecedence, WhitelistEnvVarNames)
 }
 func MergeEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, sourcePrecedence bool, whitelist []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +315,8 @@ func GetBuildEnv(build *buildv1.Build) []corev1.EnvVar {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case build.Spec.Strategy.SourceStrategy != nil:
 		return build.Spec.Strategy.SourceStrategy.Env
@@ -307,6 +331,8 @@ func GetBuildEnv(build *buildv1.Build) []corev1.EnvVar {
 	}
 }
 func SetBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +363,8 @@ func SetBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
 	*oldEnv = env
 }
 func UpdateBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,6 +411,8 @@ func FindDockerSecretAsReference(secrets []corev1.Secret, image string) *corev1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	emptyKeyring := credentialprovider.BasicDockerKeyring{}
 	for _, secret := range secrets {
 		secretList := []corev1.Secret{secret}
@@ -412,6 +442,8 @@ func FetchServiceAccountSecrets(client ktypedclient.CoreV1Interface, namespace, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []corev1.Secret
 	sa, err := client.ServiceAccounts(namespace).Get(serviceAccount, metav1.GetOptions{})
 	if err != nil {
@@ -427,6 +459,8 @@ func FetchServiceAccountSecrets(client ktypedclient.CoreV1Interface, namespace, 
 	return result, nil
 }
 func UpdateCustomImageEnv(strategy *buildv1.CustomBuildStrategy, newImage string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,6 +509,8 @@ func ParseProxyURL(proxy string) (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxyURL, err := url.Parse(proxy)
 	if err != nil || !strings.HasPrefix(proxyURL.Scheme, "http") {
 		if proxyURL, err := url.Parse("http://" + proxy); err == nil {
@@ -484,6 +520,8 @@ func ParseProxyURL(proxy string) (*url.URL, error) {
 	return proxyURL, err
 }
 func GetInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

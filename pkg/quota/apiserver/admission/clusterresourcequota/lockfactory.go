@@ -25,9 +25,13 @@ func NewDefaultLockFactory() *DefaultLockFactory {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DefaultLockFactory{locks: map[string]sync.Locker{}}
 }
 func (f *DefaultLockFactory) GetLock(key string) sync.Locker {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -53,6 +57,8 @@ func (f *DefaultLockFactory) GetLock(key string) sync.Locker {
 	return lock
 }
 func (f *DefaultLockFactory) getExistingLock(key string) (sync.Locker, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

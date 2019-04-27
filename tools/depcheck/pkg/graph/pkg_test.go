@@ -21,6 +21,8 @@ func (p *TestPackageList) ImportPaths() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	importPaths := []string{}
 	for _, pkg := range p.PackageList.Packages {
 		importPaths = append(importPaths, pkg.ImportPath)
@@ -46,10 +48,14 @@ func shouldHaveNode(name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, exists := pkgsWithNoNodes[name]
 	return !exists
 }
 func TestBuildGraphCreatesExpectedNodesAndEdges(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +119,8 @@ func TestBuildGraphExcludesNodes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	excludes := []string{"github.com/test/repo/pkg/three", "github.com/test/repo/pkg/depends_on_fmt"}
 	opts := GraphOptions{Packages: pkgs.PackageList, Roots: pkgs.ImportPaths(), Excludes: excludes}
 	g, err := opts.BuildGraph()
@@ -146,6 +154,8 @@ func TestPackagesWithInvalidPathsAreOmitted(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pkgList := &TestPackageList{&PackageList{Packages: []Package{{Dir: "/path/to/github.com/test/repo/invalid", ImportPath: "invalid/import/path1", Imports: []string{"fmt", "invalid.import.path2", "invalid.import.path3"}}, {Dir: "/path/to/github.com/test/repo/invalid", ImportPath: "invalid.import.path2", Imports: []string{"net", "encoding/json"}}, {Dir: "/path/to/github.com/test/repo/invalid", ImportPath: "invalid3"}}}}
 	opts := GraphOptions{Packages: pkgList.PackageList, Roots: pkgList.ImportPaths()}
 	g, err := opts.BuildGraph()
@@ -157,6 +167,8 @@ func TestPackagesWithInvalidPathsAreOmitted(t *testing.T) {
 	}
 }
 func TestLabelNamesForVendoredNodes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

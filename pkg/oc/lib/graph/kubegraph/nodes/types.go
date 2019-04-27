@@ -47,6 +47,8 @@ func ServiceNodeName(o *corev1.Service) osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.GetUniqueRuntimeObjectNodeName(ServiceNodeKind, o)
 }
 
@@ -57,6 +59,8 @@ type ServiceNode struct {
 }
 
 func (n ServiceNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,9 +92,13 @@ func (n ServiceNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(ServiceNodeName(n.Service))
 }
 func (*ServiceNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,9 +130,13 @@ func (n ServiceNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func PodNodeName(o *corev1.Pod) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,9 +174,13 @@ func (n PodNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Pod
 }
 func (n PodNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +212,8 @@ func (n PodNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodNodeName(n.Pod)
 }
 func (*PodNode) Kind() string {
@@ -213,9 +231,13 @@ func (*PodNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodNodeKind
 }
 func PodSpecNodeName(o *corev1.PodSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,9 +277,13 @@ func (n PodSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.PodSpec
 }
 func (n PodSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +315,8 @@ func (n PodSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodSpecNodeName(n.PodSpec, n.OwnerName)
 }
 func (*PodSpecNode) Kind() string {
@@ -306,9 +334,13 @@ func (*PodSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodSpecNodeKind
 }
 func ReplicaSetNodeName(o *kappsv1.ReplicaSet) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,9 +379,13 @@ func (n ReplicaSetNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n ReplicaSetNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -381,9 +417,13 @@ func (n ReplicaSetNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(ReplicaSetNodeName(n.ReplicaSet))
 }
 func (n ReplicaSetNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -415,9 +455,13 @@ func (*ReplicaSetNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicaSetNodeKind
 }
 func ReplicaSetSpecNodeName(o *kappsv1.ReplicaSetSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -457,9 +501,13 @@ func (n ReplicaSetSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.ReplicaSetSpec
 }
 func (n ReplicaSetSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -491,6 +539,8 @@ func (n ReplicaSetSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicaSetSpecNodeName(n.ReplicaSetSpec, n.OwnerName)
 }
 func (*ReplicaSetSpecNode) Kind() string {
@@ -508,9 +558,13 @@ func (*ReplicaSetSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicaSetSpecNodeKind
 }
 func ReplicationControllerNodeName(o *corev1.ReplicationController) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -549,9 +603,13 @@ func (n ReplicationControllerNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n ReplicationControllerNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -583,9 +641,13 @@ func (n ReplicationControllerNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(ReplicationControllerNodeName(n.ReplicationController))
 }
 func (n ReplicationControllerNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -617,9 +679,13 @@ func (*ReplicationControllerNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicationControllerNodeKind
 }
 func ReplicationControllerSpecNodeName(o *corev1.ReplicationControllerSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -659,9 +725,13 @@ func (n ReplicationControllerSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.ReplicationControllerSpec
 }
 func (n ReplicationControllerSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -693,6 +763,8 @@ func (n ReplicationControllerSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicationControllerSpecNodeName(n.ReplicationControllerSpec, n.OwnerName)
 }
 func (*ReplicationControllerSpecNode) Kind() string {
@@ -710,9 +782,13 @@ func (*ReplicationControllerSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReplicationControllerSpecNodeKind
 }
 func PodTemplateSpecNodeName(o *corev1.PodTemplateSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -752,9 +828,13 @@ func (n PodTemplateSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.PodTemplateSpec
 }
 func (n PodTemplateSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -786,6 +866,8 @@ func (n PodTemplateSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodTemplateSpecNodeName(n.PodTemplateSpec, n.OwnerName)
 }
 func (*PodTemplateSpecNode) Kind() string {
@@ -803,9 +885,13 @@ func (*PodTemplateSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PodTemplateSpecNodeKind
 }
 func ServiceAccountNodeName(o *corev1.ServiceAccount) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -844,9 +930,13 @@ func (n ServiceAccountNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n ServiceAccountNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -878,6 +968,8 @@ func (n ServiceAccountNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(ServiceAccountNodeName(n.ServiceAccount))
 }
 func (*ServiceAccountNode) Kind() string {
@@ -895,9 +987,13 @@ func (*ServiceAccountNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ServiceAccountNodeKind
 }
 func SecretNodeName(o *corev1.Secret) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -936,9 +1032,13 @@ func (n SecretNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n SecretNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -970,6 +1070,8 @@ func (n SecretNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(SecretNodeName(n.Secret))
 }
 func (*SecretNode) Kind() string {
@@ -987,9 +1089,13 @@ func (*SecretNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SecretNodeKind
 }
 func PersistentVolumeClaimNodeName(o *corev1.PersistentVolumeClaim) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1028,9 +1134,13 @@ func (n PersistentVolumeClaimNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n PersistentVolumeClaimNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1062,9 +1172,13 @@ func (n PersistentVolumeClaimNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(n.UniqueName())
 }
 func (*PersistentVolumeClaimNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1096,9 +1210,13 @@ func (n PersistentVolumeClaimNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return PersistentVolumeClaimNodeName(n.PersistentVolumeClaim)
 }
 func JobNodeName(o *batchv1.Job) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1137,9 +1255,13 @@ func (n JobNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n JobNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1171,9 +1293,13 @@ func (n JobNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(JobNodeName(n.Job))
 }
 func (n JobNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1205,9 +1331,13 @@ func (*JobNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return JobNodeKind
 }
 func JobSpecNodeName(o *batchv1.JobSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1247,9 +1377,13 @@ func (n JobSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.JobSpec
 }
 func (n JobSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1281,6 +1415,8 @@ func (n JobSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return JobSpecNodeName(n.JobSpec, n.OwnerName)
 }
 func (*JobSpecNode) Kind() string {
@@ -1298,9 +1434,13 @@ func (*JobSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return JobSpecNodeKind
 }
 func HorizontalPodAutoscalerNodeName(o *autoscalingv1.HorizontalPodAutoscaler) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1338,9 +1478,13 @@ func (n HorizontalPodAutoscalerNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.HorizontalPodAutoscaler
 }
 func (n HorizontalPodAutoscalerNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1372,6 +1516,8 @@ func (*HorizontalPodAutoscalerNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return HorizontalPodAutoscalerNodeKind
 }
 func (n HorizontalPodAutoscalerNode) UniqueName() osgraph.UniqueName {
@@ -1389,9 +1535,13 @@ func (n HorizontalPodAutoscalerNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return HorizontalPodAutoscalerNodeName(n.HorizontalPodAutoscaler)
 }
 func DeploymentNodeName(o *kappsv1.Deployment) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1430,9 +1580,13 @@ func (n DeploymentNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n DeploymentNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1464,9 +1618,13 @@ func (n DeploymentNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(n.UniqueName())
 }
 func (n DeploymentNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1498,9 +1656,13 @@ func (*DeploymentNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DeploymentNodeKind
 }
 func DeploymentSpecNodeName(o *kappsv1.DeploymentSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1540,9 +1702,13 @@ func (n DeploymentSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.DeploymentSpec
 }
 func (n DeploymentSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1574,6 +1740,8 @@ func (n DeploymentSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DeploymentSpecNodeName(n.DeploymentSpec, n.OwnerName)
 }
 func (*DeploymentSpecNode) Kind() string {
@@ -1591,9 +1759,13 @@ func (*DeploymentSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DeploymentSpecNodeKind
 }
 func StatefulSetNodeName(o *kappsv1.StatefulSet) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1632,9 +1804,13 @@ func (n StatefulSetNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n StatefulSetNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1666,9 +1842,13 @@ func (n StatefulSetNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(n.UniqueName())
 }
 func (n StatefulSetNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1700,9 +1880,13 @@ func (*StatefulSetNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return StatefulSetNodeKind
 }
 func StatefulSetSpecNodeName(o *kappsv1.StatefulSetSpec, ownerName osgraph.UniqueName) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1742,9 +1926,13 @@ func (n StatefulSetSpecNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.StatefulSetSpec
 }
 func (n StatefulSetSpecNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1776,6 +1964,8 @@ func (n StatefulSetSpecNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return StatefulSetSpecNodeName(n.StatefulSetSpec, n.OwnerName)
 }
 func (*StatefulSetSpecNode) Kind() string {
@@ -1793,9 +1983,13 @@ func (*StatefulSetSpecNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return StatefulSetSpecNodeKind
 }
 func DaemonSetNodeName(o *kappsv1.DaemonSet) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1834,9 +2028,13 @@ func (n DaemonSetNode) Found() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.IsFound
 }
 func (n DaemonSetNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1868,9 +2066,13 @@ func (n DaemonSetNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(DaemonSetNodeName(n.DaemonSet))
 }
 func (*DaemonSetNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

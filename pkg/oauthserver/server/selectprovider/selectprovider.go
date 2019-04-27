@@ -34,12 +34,16 @@ func NewSelectProvider(render SelectProviderRenderer, forceInterstitial bool) ha
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &selectProvider{render: render, forceInterstitial: forceInterstitial}
 }
 
 type ProviderData struct{ Providers []api.ProviderInfo }
 
 func NewSelectProviderRenderer(customSelectProviderTemplateFile string) (*selectProviderTemplateRenderer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ func (s *selectProvider) SelectAuthentication(providers []api.ProviderInfo, w ht
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(providers) == 0 {
 		return nil, false, nil
 	}
@@ -91,6 +97,8 @@ func (s *selectProvider) SelectAuthentication(providers []api.ProviderInfo, w ht
 	return nil, true, nil
 }
 func ValidateSelectProviderTemplate(templateContent []byte) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,6 +134,8 @@ func ValidateSelectProviderTemplate(templateContent []byte) []error {
 type selectProviderTemplateRenderer struct{ selectProviderTemplate *template.Template }
 
 func (r selectProviderTemplateRenderer) Render(providers []api.ProviderInfo, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

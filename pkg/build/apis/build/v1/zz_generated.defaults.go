@@ -21,6 +21,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.Build{}, func(obj interface{}) {
 		SetObjectDefaults_Build(obj.(*v1.Build))
 	})
@@ -39,6 +41,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	return nil
 }
 func SetObjectDefaults_Build(in *v1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func SetObjectDefaults_Build(in *v1.Build) {
 	corev1.SetDefaults_ResourceList(&in.Spec.CommonSpec.Resources.Requests)
 }
 func SetObjectDefaults_BuildConfig(in *v1.BuildConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +206,8 @@ func SetObjectDefaults_BuildConfigList(in *v1.BuildConfigList) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Items {
 		a := &in.Items[i]
 		SetObjectDefaults_BuildConfig(a)
@@ -220,12 +228,16 @@ func SetObjectDefaults_BuildList(in *v1.BuildList) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Items {
 		a := &in.Items[i]
 		SetObjectDefaults_Build(a)
 	}
 }
 func SetObjectDefaults_BuildRequest(in *v1.BuildRequest) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

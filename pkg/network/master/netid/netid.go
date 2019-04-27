@@ -25,6 +25,8 @@ func (r *NetIDRange) Contains(netid uint32) (bool, uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if (netid >= r.Base) && ((netid - r.Base) < r.Size) {
 		offset := netid - r.Base
 		return true, offset
@@ -32,6 +34,8 @@ func (r *NetIDRange) Contains(netid uint32) (bool, uint32) {
 	return false, 0
 }
 func (r *NetIDRange) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ func (r *NetIDRange) Set(base, size uint32) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if base < network.MinVNID {
 		return fmt.Errorf("invalid netid base, must be greater than %d", network.MinVNID)
 	}
@@ -80,6 +86,8 @@ func (r *NetIDRange) Set(base, size uint32) error {
 	return nil
 }
 func NewNetIDRange(min, max uint32) (*NetIDRange, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

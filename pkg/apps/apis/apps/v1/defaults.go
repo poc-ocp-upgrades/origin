@@ -21,6 +21,8 @@ func defaultHookContainerName(hook *v1.LifecycleHook, containerName string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hook == nil {
 		return
 	}
@@ -36,6 +38,8 @@ func defaultHookContainerName(hook *v1.LifecycleHook, containerName string) {
 	}
 }
 func SetDefaults_DeploymentConfigSpec(obj *v1.DeploymentConfigSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ func SetDefaults_DeploymentStrategy(obj *v1.DeploymentStrategy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.Type) == 0 {
 		obj.Type = v1.DeploymentStrategyTypeRolling
 	}
@@ -112,11 +118,15 @@ func SetDefaults_RecreateDeploymentStrategyParams(obj *v1.RecreateDeploymentStra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.TimeoutSeconds == nil {
 		obj.TimeoutSeconds = mkintp(appsapi.DefaultRecreateTimeoutSeconds)
 	}
 }
 func SetDefaults_RollingDeploymentStrategyParams(obj *v1.RollingDeploymentStrategyParams) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +180,8 @@ func SetDefaults_DeploymentConfig(obj *v1.DeploymentConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range obj.Spec.Triggers {
 		if t.ImageChangeParams != nil {
 			if len(t.ImageChangeParams.From.Kind) == 0 {
@@ -182,6 +194,8 @@ func SetDefaults_DeploymentConfig(obj *v1.DeploymentConfig) {
 	}
 }
 func mkintp(i int64) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

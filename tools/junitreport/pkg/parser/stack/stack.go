@@ -27,6 +27,8 @@ func NewTestSuiteStack() TestSuiteStack {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testSuiteStack{head: nil}
 }
 
@@ -47,10 +49,14 @@ func (s *testSuiteStack) Push(data *api.TestSuite) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newNode := &testSuiteNode{Member: data, Next: s.head}
 	s.head = newNode
 }
 func (s *testSuiteStack) Pop() *api.TestSuite {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,12 +93,16 @@ func (s *testSuiteStack) Peek() *api.TestSuite {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.IsEmpty() {
 		return nil
 	}
 	return s.head.Member
 }
 func (s *testSuiteStack) IsEmpty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +126,8 @@ type testSuiteNode struct {
 }
 
 func (n *testSuiteNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

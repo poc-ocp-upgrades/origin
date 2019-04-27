@@ -35,6 +35,8 @@ func (r PerfectMatchWeightedResolver) Resolve(value string) (*ComponentMatch, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	types := []string{}
 	candidates := ScoredComponentMatches{}
@@ -106,6 +108,8 @@ func (r FirstMatchResolver) Resolve(value string) (*ComponentMatch, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matches, err := r.Searcher.Search(true, value)
 	if len(matches) == 0 {
 		return nil, ErrNoMatch{Value: value, Errs: err, Type: r.Searcher.Type()}
@@ -116,6 +120,8 @@ func (r FirstMatchResolver) Resolve(value string) (*ComponentMatch, error) {
 type HighestScoreResolver struct{ Searcher Searcher }
 
 func (r HighestScoreResolver) Resolve(value string) (*ComponentMatch, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,6 +147,8 @@ func (r HighestScoreResolver) Resolve(value string) (*ComponentMatch, error) {
 type HighestUniqueScoreResolver struct{ Searcher Searcher }
 
 func (r HighestUniqueScoreResolver) Resolve(value string) (*ComponentMatch, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,6 +202,8 @@ func (r UniqueExactOrInexactMatchResolver) Resolve(value string) (*ComponentMatc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matches, err := r.Searcher.Search(true, value)
 	sort.Sort(ScoredComponentMatches(matches))
 	exact := matches.Exact()
@@ -232,12 +242,16 @@ func (r PipelineResolver) Resolve(value string) (*ComponentMatch, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ComponentMatch{Value: value, LocalOnly: true}, nil
 }
 
 type MultiSimpleSearcher []Searcher
 
 func (s MultiSimpleSearcher) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -259,6 +273,8 @@ func (s MultiSimpleSearcher) Type() string {
 	return strings.Join(t, ", ")
 }
 func (s MultiSimpleSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,6 +324,8 @@ func (s MultiWeightedSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := []string{}
 	for _, searcher := range s {
 		t = append(t, searcher.Type())
@@ -315,6 +333,8 @@ func (s MultiWeightedSearcher) Type() string {
 	return strings.Join(t, ", ")
 }
 func (s MultiWeightedSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

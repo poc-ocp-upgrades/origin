@@ -23,6 +23,8 @@ func InstallInternalLegacyOAuth(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyOAuth(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalOAuthTypes, addLegacyOAuthFieldSelectorKeyConversions, oauthv1helpers.RegisterDefaults, oauthv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
@@ -42,10 +44,14 @@ func InstallExternalLegacyOAuth(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedOAuthTypes)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func addUngroupifiedOAuthTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,10 +85,14 @@ func addUngroupifiedInternalOAuthTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(InternalGroupVersion, &oauth.OAuthAccessToken{}, &oauth.OAuthAccessTokenList{}, &oauth.OAuthAuthorizeToken{}, &oauth.OAuthAuthorizeTokenList{}, &oauth.OAuthClient{}, &oauth.OAuthClientList{}, &oauth.OAuthClientAuthorization{}, &oauth.OAuthClientAuthorizationList{}, &oauth.OAuthRedirectReference{})
 	return nil
 }
 func addLegacyOAuthFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +133,8 @@ func legacyOAuthAccessTokenFieldSelectorKeyConversionFunc(label, value string) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch label {
 	case "clientName", "userName", "userUID", "authorizeToken":
 		return label, value, nil
@@ -145,6 +157,8 @@ func legacyOAuthAuthorizeTokenFieldSelectorKeyConversionFunc(label, value string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch label {
 	case "clientName", "userName", "userUID":
 		return label, value, nil
@@ -153,6 +167,8 @@ func legacyOAuthAuthorizeTokenFieldSelectorKeyConversionFunc(label, value string
 	}
 }
 func legacyOAuthClientAuthorizationFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

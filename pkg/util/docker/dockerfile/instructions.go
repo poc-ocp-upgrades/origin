@@ -27,9 +27,13 @@ func Env(m []KeyValue) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return keyValueInstruction(command.Env, m)
 }
 func From(image string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,9 +65,13 @@ func Label(m []KeyValue) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return keyValueInstruction(command.Label, m)
 }
 func keyValueInstruction(cmd string, m []KeyValue) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +101,8 @@ func keyValueInstruction(cmd string, m []KeyValue) (string, error) {
 	return strings.Join(s, " "), nil
 }
 func unquotedArgsInstruction(cmd string, args ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -44,6 +44,8 @@ func NewCmdRollout(fullName string, f kcmdutil.Factory, streams genericclioption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := &cobra.Command{Use: "rollout SUBCOMMAND", Short: "Manage a Kubernetes deployment or OpenShift deployment config", Long: rolloutLong, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmd.AddCommand(NewCmdRolloutHistory(fullName, f, streams))
 	cmd.AddCommand(NewCmdRolloutPause(fullName, f, streams))
@@ -71,6 +73,8 @@ var (
 )
 
 func NewCmdRolloutHistory(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +124,8 @@ func NewCmdRolloutPause(fullName string, f kcmdutil.Factory, streams genericclio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutPause(f, streams)
 	cmd.Long = rolloutPauseLong
 	cmd.Example = fmt.Sprintf(rolloutPauseExample, fullName)
@@ -139,6 +145,8 @@ var (
 )
 
 func NewCmdRolloutResume(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +211,8 @@ func NewCmdRolloutUndo(fullName string, f kcmdutil.Factory, streams genericcliop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := rollout.NewCmdRolloutUndo(f, streams)
 	cmd.Long = rolloutUndoLong
 	cmd.Example = fmt.Sprintf(rolloutUndoExample, fullName)
@@ -219,6 +229,8 @@ var (
 )
 
 func NewCmdRolloutStatus(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

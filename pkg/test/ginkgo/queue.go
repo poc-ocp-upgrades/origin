@@ -30,8 +30,12 @@ func (nopLock) Lock() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (nopLock) Unlock() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func newParallelTestQueue(tests []*testCase) *parallelByFileTestQueue {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := ring.New(len(tests))
 	for _, test := range tests {
 		r.Value = test
@@ -74,6 +80,8 @@ func newParallelTestQueue(tests []*testCase) *parallelByFileTestQueue {
 	return q
 }
 func (q *parallelByFileTestQueue) pop() (*testCase, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,12 +138,16 @@ func (q *parallelByFileTestQueue) done(t *testCase) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	delete(q.active, t.testExclusion)
 	q.cond.Broadcast()
 }
 func (q *parallelByFileTestQueue) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +183,8 @@ func (q *parallelByFileTestQueue) Take(ctx context.Context, fn TestFunc) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		test, ok := q.pop()
 		if !ok {
@@ -186,6 +200,8 @@ func (q *parallelByFileTestQueue) Take(ctx context.Context, fn TestFunc) bool {
 	}
 }
 func (q *parallelByFileTestQueue) Execute(parentCtx context.Context, parallelism int, fn TestFunc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,6 +264,8 @@ func setTestExclusion(tests []*testCase, fn func(suitePath string, t *testCase) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range tests {
 		summary := test.spec.Summary("")
 		var suitePath string
@@ -264,6 +282,8 @@ func setTestExclusion(tests []*testCase, fn func(suitePath string, t *testCase) 
 	}
 }
 func splitTests(tests []*testCase, fn func(*testCase) bool) (a, b []*testCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

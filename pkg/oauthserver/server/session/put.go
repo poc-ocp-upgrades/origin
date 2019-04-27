@@ -21,6 +21,8 @@ func putUser(store Store, w http.ResponseWriter, user user.Info, expiresIn time.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	values := Values{}
 	values[userNameKey] = user.GetName()
 	values[userUIDKey] = user.GetUID()

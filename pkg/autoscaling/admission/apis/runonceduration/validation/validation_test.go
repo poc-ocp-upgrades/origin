@@ -20,6 +20,8 @@ func TestRunOnceDurationConfigValidation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var invalidSecs int64 = -1
 	invalidConfig := &runonceduration.RunOnceDurationConfig{ActiveDeadlineSecondsLimit: &invalidSecs}
 	errs := ValidateRunOnceDurationConfig(invalidConfig)

@@ -26,6 +26,8 @@ func ImageLimitVerifier(limitRangeInformer corev1informers.LimitRangeInformer) i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	limitRangeInformer.Informer()
 	return imageadmission.NewLimitVerifier(imageadmission.LimitRangesForNamespaceFunc(func(ns string) ([]*corev1.LimitRange, error) {
 		list, err := limitRangeInformer.Lister().LimitRanges(ns).List(labels.Everything())

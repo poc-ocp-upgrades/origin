@@ -74,6 +74,8 @@ func NewTemplateInstanceController(dynamicRestMapper meta.RESTMapper, dynamicCli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &TemplateInstanceController{dynamicRestMapper: dynamicRestMapper, dynamicClient: dynamicClient, sarClient: sarClient, kc: kc, templateClient: templateClient, buildClient: buildClient, lister: informer.Lister(), informer: informer.Informer(), queue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "openshift_template_instance_controller"), readinessLimiter: workqueue.NewItemFastSlowRateLimiter(5*time.Second, 20*time.Second, 200), clock: clock.RealClock{}}
 	c.informer.AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: func(obj interface{}) {
 		c.enqueue(obj.(*templatev1.TemplateInstance))
@@ -99,6 +101,8 @@ func (c *TemplateInstanceController) getTemplateInstance(key string) (*templatev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
 		return nil, err
@@ -106,6 +110,8 @@ func (c *TemplateInstanceController) getTemplateInstance(key string) (*templatev
 	return c.lister.TemplateInstances(namespace).Get(name)
 }
 func (c *TemplateInstanceController) sync(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +187,8 @@ func (c *TemplateInstanceController) checkReadiness(templateInstance *templatev1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.clock.Now().After(templateInstance.CreationTimestamp.Add(readinessTimeout)) {
 		return false, TimeoutErr
 	}
@@ -238,6 +246,8 @@ func (c *TemplateInstanceController) Run(workers int, stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
 	if !cache.WaitForCacheSync(stopCh, c.informer.HasSynced) {
@@ -264,10 +274,14 @@ func (c *TemplateInstanceController) runWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.processNextWorkItem() {
 	}
 }
 func (c *TemplateInstanceController) processNextWorkItem() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +325,8 @@ func (c *TemplateInstanceController) enqueue(templateInstance *templatev1.Templa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(templateInstance)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", templateInstance, err))
@@ -333,6 +349,8 @@ func (c *TemplateInstanceController) enqueueAfter(templateInstance *templatev1.T
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(templateInstance)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("couldn't get key for object %#v: %v", templateInstance, err))
@@ -341,6 +359,8 @@ func (c *TemplateInstanceController) enqueueAfter(templateInstance *templatev1.T
 	c.queue.AddAfter(key, duration)
 }
 func (c *TemplateInstanceController) instantiate(templateInstance *templatev1.TemplateInstance) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -496,6 +516,8 @@ func formatError(err error) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err, ok := err.(kerrs.Aggregate); ok {
 		var errorStrings []string
 		for _, err := range err.Errors() {
@@ -520,6 +542,8 @@ func TemplateInstanceHasCondition(templateInstance *templatev1.TemplateInstance,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range templateInstance.Status.Conditions {
 		if c.Type == typ && c.Status == status {
 			return true
@@ -528,6 +552,8 @@ func TemplateInstanceHasCondition(templateInstance *templatev1.TemplateInstance,
 	return false
 }
 func templateInstanceSetCondition(templateInstance *templatev1.TemplateInstance, condition templatev1.TemplateInstanceCondition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

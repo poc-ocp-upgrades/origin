@@ -84,9 +84,13 @@ func NewBuildSecretOptions(streams genericclioptions.IOStreams) *BuildSecretOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &BuildSecretOptions{PrintFlags: genericclioptions.NewPrintFlags("secret updated").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdBuildSecret(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +142,8 @@ func (o *BuildSecretOptions) secretFromArg(arg string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builder := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).LocalParam(o.Local).NamespaceParam(o.Namespace).DefaultNamespace().RequireObject(false).ContinueOnError().ResourceNames("secrets", arg).Flatten()
 	var secretName string
 	err := builder.Do().Visit(func(info *resource.Info, err error) error {
@@ -156,6 +162,8 @@ func (o *BuildSecretOptions) secretFromArg(arg string) (string, error) {
 	return secretName, nil
 }
 func (o *BuildSecretOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +232,8 @@ func (o *BuildSecretOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.Pull && !o.Push && !o.Source {
 		return fmt.Errorf("specify the type of secret to set (--push, --pull, or --source)")
 	}
@@ -236,6 +246,8 @@ func (o *BuildSecretOptions) Validate() error {
 	return nil
 }
 func (o *BuildSecretOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,6 +325,8 @@ func (o *BuildSecretOptions) Run() error {
 	return errors.NewAggregate(allErrs)
 }
 func (o *BuildSecretOptions) updateBuildConfig(bc *buildv1.BuildConfig, secret string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

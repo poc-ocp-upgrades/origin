@@ -43,6 +43,8 @@ func (rcMapper) ResourceFor(gvr schema.GroupVersionResource) (schema.GroupVersio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if gvr.Group == "" && gvr.Resource == "replicationcontrollers" {
 		return kapiv1.SchemeGroupVersion.WithResource("replicationcontrollers"), nil
 	}
@@ -63,12 +65,16 @@ func (rcMapper) ScaleForResource(gvr schema.GroupVersionResource) (schema.GroupV
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if gvr == kapiv1.SchemeGroupVersion.WithResource("replicationcontrollers") {
 		return autoscalingv1.SchemeGroupVersion.WithKind("Scale"), nil
 	}
 	return schema.GroupVersionKind{}, fmt.Errorf("unknown replication controller resource: %#v", gvr)
 }
 func DecodeDeploymentConfig(controller metav1.ObjectMetaAccessor) (*appsv1.DeploymentConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +118,8 @@ func RolloutExceededTimeoutSeconds(config *appsv1.DeploymentConfig, latestRC *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeoutSeconds := GetTimeoutSecondsForStrategy(config)
 	if timeoutSeconds <= 0 {
 		return false
@@ -119,6 +127,8 @@ func RolloutExceededTimeoutSeconds(config *appsv1.DeploymentConfig, latestRC *v1
 	return int64(time.Since(latestRC.CreationTimestamp.Time).Seconds()) > timeoutSeconds
 }
 func GetTimeoutSecondsForStrategy(config *appsv1.DeploymentConfig) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,9 +175,13 @@ func NewReplicationControllerScaler(client kubernetes.Interface) kubectl.Scaler 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kubectl.NewScaler(NewReplicationControllerScaleClient(client))
 }
 func NewReplicationControllerScaleClient(client kubernetes.Interface) scaleclient.ScalesGetter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,6 +213,8 @@ func DeployerPodNameForDeployment(deployment string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetPodName(deployment, "deploy")
 }
 func NewDeploymentCondition(condType appsv1.DeploymentConditionType, status v1.ConditionStatus, reason string, message string) *appsv1.DeploymentCondition {
@@ -216,9 +232,13 @@ func NewDeploymentCondition(condType appsv1.DeploymentConditionType, status v1.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsv1.DeploymentCondition{Type: condType, Status: status, LastUpdateTime: metav1.Now(), LastTransitionTime: metav1.Now(), Reason: reason, Message: message}
 }
 func SetDeploymentCondition(status *appsv1.DeploymentConfigStatus, condition appsv1.DeploymentCondition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -258,9 +278,13 @@ func RemoveDeploymentCondition(status *appsv1.DeploymentConfigStatus, condType a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	status.Conditions = filterOutCondition(status.Conditions, condType)
 }
 func filterOutCondition(conditions []appsv1.DeploymentCondition, condType appsv1.DeploymentConditionType) []appsv1.DeploymentCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -299,10 +323,14 @@ func IsOwnedByConfig(obj metav1.Object) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ok := obj.GetAnnotations()[appsv1.DeploymentConfigAnnotation]
 	return ok
 }
 func DeploymentsForCleanup(configuration *appsv1.DeploymentConfig, deployments []*v1.ReplicationController) []v1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,9 +380,13 @@ func RecordConfigChangeCause(config *appsv1.DeploymentConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config.Status.Details = &appsv1.DeploymentDetails{Causes: []appsv1.DeploymentCause{{Type: appsv1.DeploymentTriggerOnConfigChange}}, Message: "config change"}
 }
 func RecordImageChangeCauses(config *appsv1.DeploymentConfig, imageNames []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,6 +407,8 @@ func RecordImageChangeCauses(config *appsv1.DeploymentConfig, imageNames []strin
 	}
 }
 func HasUpdatedImages(dc *appsv1.DeploymentConfig, rc *v1.ReplicationController) (bool, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -419,6 +453,8 @@ func HasLatestPodTemplate(currentConfig *appsv1.DeploymentConfig, rc *v1.Replica
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	latestConfig, err := DecodeDeploymentConfig(rc)
 	if err != nil {
 		return true, "", err
@@ -429,6 +465,8 @@ func HasLatestPodTemplate(currentConfig *appsv1.DeploymentConfig, rc *v1.Replica
 	return false, diff.ObjectReflectDiff(currentConfig.Spec.Template, latestConfig.Spec.Template), nil
 }
 func IsProgressing(config *appsv1.DeploymentConfig, newStatus *appsv1.DeploymentConfigStatus) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -462,9 +500,13 @@ func LabelForDeployment(deployment *v1.ReplicationController) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s", deployment.Namespace, deployment.Name)
 }
 func LabelForDeploymentConfig(config runtime.Object) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -497,9 +539,13 @@ func DeploymentDesiredReplicas(obj runtime.Object) (int32, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return int32AnnotationFor(obj, appsv1.DesiredReplicasAnnotation)
 }
 func LatestDeploymentNameForConfig(config *appsv1.DeploymentConfig) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -531,9 +577,13 @@ func DeploymentNameForConfigVersion(name string, version int64) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s-%d", name, version)
 }
 func LatestDeploymentNameForConfigAndVersion(name string, version int64) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -565,9 +615,13 @@ func DeployerPodNameFor(obj runtime.Object) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AnnotationFor(obj, appsv1.DeploymentPodAnnotation)
 }
 func DeploymentConfigNameFor(obj runtime.Object) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -599,9 +653,13 @@ func DeploymentStatusReasonFor(obj runtime.Object) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AnnotationFor(obj, appsv1.DeploymentStatusReasonAnnotation)
 }
 func DeleteStatusReasons(rc *v1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -634,10 +692,14 @@ func SetCancelledByUserReason(rc *v1.ReplicationController) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc.Annotations[appsv1.DeploymentCancelledAnnotation] = "true"
 	rc.Annotations[appsv1.DeploymentStatusReasonAnnotation] = deploymentCancelledByUser
 }
 func SetCancelledByNewerDeployment(rc *v1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -670,9 +732,13 @@ func HasSynced(dc *appsv1.DeploymentConfig, generation int64) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dc.Status.ObservedGeneration >= generation
 }
 func HasChangeTrigger(config *appsv1.DeploymentConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -709,9 +775,13 @@ func HasTrigger(config *appsv1.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return HasChangeTrigger(config) || HasImageChangeTrigger(config)
 }
 func HasLastTriggeredImage(config *appsv1.DeploymentConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -752,6 +822,8 @@ func IsInitialDeployment(config *appsv1.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return config.Status.LatestVersion == 0
 }
 func IsRollingConfig(config *appsv1.DeploymentConfig) bool {
@@ -769,9 +841,13 @@ func IsRollingConfig(config *appsv1.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return config.Spec.Strategy.Type == appsv1.DeploymentStrategyTypeRolling
 }
 func ResolveFenceposts(maxSurge, maxUnavailable *intstrutil.IntOrString, desired int32) (int32, int32, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -814,6 +890,8 @@ func MaxUnavailable(config *appsv1.DeploymentConfig) int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !IsRollingConfig(config) {
 		return int32(0)
 	}
@@ -821,6 +899,8 @@ func MaxUnavailable(config *appsv1.DeploymentConfig) int32 {
 	return maxUnavailable
 }
 func MaxSurge(config appsv1.DeploymentConfig) int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -856,6 +936,8 @@ func AnnotationFor(obj runtime.Object, key string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objectMeta, err := meta.Accessor(obj)
 	if err != nil {
 		return ""
@@ -866,6 +948,8 @@ func AnnotationFor(obj runtime.Object, key string) string {
 	return objectMeta.GetAnnotations()[key]
 }
 func ActiveDeployment(input []*v1.ReplicationController) *v1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -907,9 +991,13 @@ func ConfigSelector(name string) labels.Selector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labels.SelectorFromValidatedSet(labels.Set{appsv1.DeploymentConfigAnnotation: name})
 }
 func IsCompleteDeployment(deployment runtime.Object) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -941,6 +1029,8 @@ func IsFailedDeployment(deployment runtime.Object) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DeploymentStatusFor(deployment) == appsv1.DeploymentStatusFailed
 }
 func IsTerminatedDeployment(deployment runtime.Object) bool {
@@ -958,9 +1048,13 @@ func IsTerminatedDeployment(deployment runtime.Object) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return IsCompleteDeployment(deployment) || IsFailedDeployment(deployment)
 }
 func IsDeploymentCancelled(deployment runtime.Object) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -993,9 +1087,13 @@ func DeployerPodSelector(name string) labels.Selector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labels.SelectorFromValidatedSet(labels.Set{appsv1.DeployerPodForDeploymentLabel: name})
 }
 func DeploymentStatusFor(deployment runtime.Object) appsv1.DeploymentStatus {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1027,12 +1125,16 @@ func SetDeploymentLatestVersionAnnotation(rc *v1.ReplicationController, version 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rc.Annotations == nil {
 		rc.Annotations = map[string]string{}
 	}
 	rc.Annotations[appsv1.DeploymentVersionAnnotation] = version
 }
 func DeploymentVersionFor(obj runtime.Object) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1068,9 +1170,13 @@ func DeploymentNameFor(obj runtime.Object) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AnnotationFor(obj, appsv1.DeploymentAnnotation)
 }
 func deploymentVersionFor(obj runtime.Object) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1092,6 +1198,8 @@ func deploymentVersionFor(obj runtime.Object) int64 {
 	return v
 }
 func LatestDeploymentInfo(config *appsv1.DeploymentConfig, deployments []*v1.ReplicationController) (bool, *v1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1128,6 +1236,8 @@ func GetDeploymentCondition(status appsv1.DeploymentConfigStatus, condType appsv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range status.Conditions {
 		c := status.Conditions[i]
 		if c.Type == condType {
@@ -1137,6 +1247,8 @@ func GetDeploymentCondition(status appsv1.DeploymentConfigStatus, condType appsv
 	return nil
 }
 func GetReplicaCountForDeployments(deployments []*v1.ReplicationController) int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1176,6 +1288,8 @@ func GetStatusReplicaCountForDeployments(deployments []*v1.ReplicationController
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	totalReplicaCount := int32(0)
 	for _, deployment := range deployments {
 		totalReplicaCount += deployment.Status.Replicas
@@ -1183,6 +1297,8 @@ func GetStatusReplicaCountForDeployments(deployments []*v1.ReplicationController
 	return totalReplicaCount
 }
 func GetReadyReplicaCountForReplicationControllers(replicationControllers []*v1.ReplicationController) int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1220,6 +1336,8 @@ func GetAvailableReplicaCountForReplicationControllers(replicationControllers []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	totalAvailableReplicas := int32(0)
 	for _, rc := range replicationControllers {
 		if rc != nil {
@@ -1243,6 +1361,8 @@ func HasImageChangeTrigger(config *appsv1.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, trigger := range config.Spec.Triggers {
 		if trigger.Type == appsv1.DeploymentTriggerOnImageChange {
 			return true
@@ -1251,6 +1371,8 @@ func HasImageChangeTrigger(config *appsv1.DeploymentConfig) bool {
 	return false
 }
 func CanTransitionPhase(current, next appsv1.DeploymentStatus) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1299,6 +1421,8 @@ func int32AnnotationFor(obj runtime.Object, key string) (int32, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := AnnotationFor(obj, key)
 	if len(s) == 0 {
 		return 0, false
@@ -1313,6 +1437,8 @@ func int32AnnotationFor(obj runtime.Object, key string) (int32, bool) {
 type ByLatestVersionAsc []*v1.ReplicationController
 
 func (d ByLatestVersionAsc) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1344,9 +1470,13 @@ func (d ByLatestVersionAsc) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d[i], d[j] = d[j], d[i]
 }
 func (d ByLatestVersionAsc) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1381,6 +1511,8 @@ func (d ByLatestVersionDesc) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(d)
 }
 func (d ByLatestVersionDesc) Swap(i, j int) {
@@ -1398,9 +1530,13 @@ func (d ByLatestVersionDesc) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d[i], d[j] = d[j], d[i]
 }
 func (d ByLatestVersionDesc) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

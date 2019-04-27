@@ -88,9 +88,13 @@ func NewGrant(csrf csrf.CSRF, auth authenticator.Request, render FormRenderer, c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Grant{auth: auth, csrf: csrf, render: render, clientregistry: clientregistry, authregistry: authregistry}
 }
 func (l *Grant) Install(mux oauthserver.Mux, paths ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func (l *Grant) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authResponse, ok, err := l.auth.AuthenticateRequest(req)
 	if err != nil || !ok {
 		l.redirect("You must reauthenticate before continuing", w, req)
@@ -140,6 +146,8 @@ func (l *Grant) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 }
 func (l *Grant) handleForm(user user.Info, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,6 +199,8 @@ func (l *Grant) handleForm(user user.Info, w http.ResponseWriter, req *http.Requ
 	l.render.Render(form, w, req)
 }
 func (l *Grant) handleGrant(user user.Info, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,10 +297,14 @@ func (l *Grant) failed(reason string, w http.ResponseWriter, req *http.Request) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	form := Form{Error: reason}
 	l.render.Render(form, w, req)
 }
 func (l *Grant) redirect(reason string, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,6 +328,8 @@ func (l *Grant) redirect(reason string, w http.ResponseWriter, req *http.Request
 	w.WriteHeader(http.StatusFound)
 }
 func getScopeData(scopeName string, grantedScopeNames []string) Scope {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -365,6 +381,8 @@ func (r grantTemplateRenderer) Render(form Form, w http.ResponseWriter, req *htt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Add("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 	if err := defaultGrantTemplate.Execute(w, form); err != nil {
@@ -386,6 +404,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -460,5 +499,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

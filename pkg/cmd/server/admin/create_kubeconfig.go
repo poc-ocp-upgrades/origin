@@ -78,9 +78,13 @@ func NewCreateKubeConfigOptions(streams genericclioptions.IOStreams) *CreateKube
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateKubeConfigOptions{APIServerURL: "https://localhost:8443", APIServerCAFiles: []string{"openshift.local.config/master/ca.crt"}, ContextNamespace: metav1.NamespaceDefault, KubeConfigFile: ".kubeconfig", IOStreams: streams}
 }
 func NewCommandCreateKubeConfig(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +134,8 @@ func (o CreateKubeConfigOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -160,6 +166,8 @@ func (o CreateKubeConfigOptions) Validate(args []string) error {
 	return nil
 }
 func (o CreateKubeConfigOptions) CreateKubeConfig() (*clientcmdapi.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

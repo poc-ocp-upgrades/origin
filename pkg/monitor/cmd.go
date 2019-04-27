@@ -27,6 +27,8 @@ func (opt *Options) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx, cancelFn := context.WithCancel(context.Background())
 	defer cancelFn()
 	abortCh := make(chan os.Signal)

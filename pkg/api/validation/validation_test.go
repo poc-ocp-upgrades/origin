@@ -29,6 +29,8 @@ func TestNilPath(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var nilPath *field.Path = nil
 	if s := nilPath.String(); s != "" {
 		t.Errorf("Unexpected nil path: %q", s)
@@ -47,6 +49,8 @@ func TestNilPath(t *testing.T) {
 	}
 }
 func TestNameFunc(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +146,8 @@ func TestObjectMeta(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for apiType, validationInfo := range Validator.typeToValidator {
 		if !validationInfo.HasObjectMeta {
 			continue
@@ -189,6 +195,8 @@ func getValidName(apiType reflect.Type) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apiValue := reflect.New(apiType.Elem())
 	obj := apiValue.Interface().(runtime.Object)
 	switch obj.(type) {
@@ -197,6 +205,8 @@ func getValidName(apiType reflect.Type) string {
 	}
 }
 func TestObjectMetaUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,6 +260,8 @@ func TestObjectMetaUpdate(t *testing.T) {
 	}
 }
 func TestPodSpecNodeSelectorUpdateDisallowed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

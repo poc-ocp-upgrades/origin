@@ -29,9 +29,13 @@ func (c *SecurityClient) PodSecurityPolicyReviews(namespace string) PodSecurityP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newPodSecurityPolicyReviews(c, namespace)
 }
 func (c *SecurityClient) PodSecurityPolicySelfSubjectReviews(namespace string) PodSecurityPolicySelfSubjectReviewInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ func (c *SecurityClient) PodSecurityPolicySubjectReviews(namespace string) PodSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newPodSecurityPolicySubjectReviews(c, namespace)
 }
 func (c *SecurityClient) SecurityContextConstraints() SecurityContextConstraintsInterface {
@@ -80,9 +86,13 @@ func (c *SecurityClient) SecurityContextConstraints() SecurityContextConstraints
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newSecurityContextConstraints(c)
 }
 func NewForConfig(c *rest.Config) (*SecurityClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +132,8 @@ func NewForConfigOrDie(c *rest.Config) *SecurityClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := NewForConfig(c)
 	if err != nil {
 		panic(err)
@@ -143,9 +155,13 @@ func New(c rest.Interface) *SecurityClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SecurityClient{c}
 }
 func setConfigDefaults(config *rest.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +194,8 @@ func setConfigDefaults(config *rest.Config) error {
 	return nil
 }
 func (c *SecurityClient) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

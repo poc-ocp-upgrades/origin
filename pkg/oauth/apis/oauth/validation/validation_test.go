@@ -22,6 +22,8 @@ func TestValidateRedirectURI(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allowed := []string{"", "server", "//server", "HTTP://server", "HTTPS://server", "https://server", "https://server", "https://server:", "https://server:port", "https://server:port/", "https://server:port/path-segment", "https://server:port/path-segment/", "https://server:port/...", "https://server:port/.../", "https://server:port/path-segment/...", "https://server:port/path-segment/path.", "https://server:port/path-segment/path./", "https://server:port/path-segment//path", "http://server/path?", "http://server/path?query", "http://server/path?query=value", "http://server/path?query=value#"}
 	for i, u := range allowed {
 		ok, msg := ValidateRedirectURI(u)
@@ -38,6 +40,8 @@ func TestValidateRedirectURI(t *testing.T) {
 	}
 }
 func TestValidateClientAuthorization(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func TestValidateClientAuthorization(t *testing.T) {
 	}
 }
 func TestValidateClient(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +140,8 @@ func TestValidateAccessTokens(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := ValidateAccessToken(&oauthapi.OAuthAccessToken{ObjectMeta: metav1.ObjectMeta{Name: "accessTokenNameWithMinimumLength"}, ClientName: "myclient", UserName: "myusername", UserUID: "myuseruid"})
 	if len(errs) != 0 {
 		t.Errorf("expected success: %v", errs)
@@ -174,6 +182,8 @@ func TestValidateAuthorizeTokens(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := ValidateAuthorizeToken(&oauthapi.OAuthAuthorizeToken{ObjectMeta: metav1.ObjectMeta{Name: "authorizeTokenNameWithMinimumLength"}, ClientName: "myclient", ExpiresIn: 86400, UserName: "myusername", UserUID: "myuseruid", Scopes: []string{`user:info`}})
 	if len(errs) != 0 {
 		t.Errorf("expected success: %v", errs)
@@ -200,6 +210,8 @@ func TestValidateAuthorizeTokens(t *testing.T) {
 	}
 }
 func TestValidateAccessTokensUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -259,6 +271,8 @@ func TestValidateAccessTokensUpdate(t *testing.T) {
 	}
 }
 func TestValidateAuthorizeTokensUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

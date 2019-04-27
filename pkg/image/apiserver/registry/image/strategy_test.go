@@ -30,6 +30,8 @@ func fuzzImage(t *testing.T, image *imageapi.Image, seed int64) *imageapi.Image 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f := fuzzer.FuzzerFor(kapitesting.FuzzerFuncs, rand.NewSource(seed), legacyscheme.Codecs)
 	f.Funcs(func(j *imageapi.Image, c fuzz.Continue) {
 		c.FuzzNoCustom(j)
@@ -77,6 +79,8 @@ func TestStrategyPrepareForCreate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewDefaultContext()
 	original := imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "image"}}
 	seed := int64(2703387474910584091)
@@ -89,6 +93,8 @@ func TestStrategyPrepareForCreate(t *testing.T) {
 	testVerifySignatures(t, fuzzed, image)
 }
 func testVerifySignatures(t *testing.T, orig, new *imageapi.Image) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +130,8 @@ func testVerifySignatures(t *testing.T, orig, new *imageapi.Image) {
 	}
 }
 func TestStrategyPrepareForCreateSignature(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -62,9 +62,13 @@ func NewSCCModificationOptions(streams genericclioptions.IOStreams) *SCCModifica
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SCCModificationOptions{PrintFlags: genericclioptions.NewPrintFlags("added to").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdAddSCCToGroup(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +93,8 @@ func NewCmdAddSCCToGroup(name, fullName string, f kcmdutil.Factory, streams gene
 	return cmd
 }
 func NewCmdAddSCCToUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +135,8 @@ func NewCmdRemoveSCCFromGroup(name, fullName string, f kcmdutil.Factory, streams
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewSCCModificationOptions(streams)
 	cmd := &cobra.Command{Use: name + " SCC GROUP [GROUP ...]", Short: "Remove group from scc", Long: `Remove group from scc`, Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.CompleteGroups(f, cmd, args))
@@ -139,6 +147,8 @@ func NewCmdRemoveSCCFromGroup(name, fullName string, f kcmdutil.Factory, streams
 	return cmd
 }
 func NewCmdRemoveSCCFromUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,6 +175,8 @@ func NewCmdRemoveSCCFromUser(name, fullName string, f kcmdutil.Factory, streams 
 	return cmd
 }
 func (o *SCCModificationOptions) CompleteUsers(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,6 +241,8 @@ func (o *SCCModificationOptions) CompleteGroups(f kcmdutil.Factory, cmd *cobra.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) < 2 {
 		return errors.New("you must specify at least two arguments: <scc> <group> [group]...")
 	}
@@ -260,6 +274,8 @@ func (o *SCCModificationOptions) CompleteGroups(f kcmdutil.Factory, cmd *cobra.C
 	return nil
 }
 func (o *SCCModificationOptions) AddSCC() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -312,6 +328,8 @@ func (o *SCCModificationOptions) RemoveSCC() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc, err := o.SCCInterface.Get(o.SCCName, metav1.GetOptions{})
 	if err != nil {
 		return err
@@ -350,9 +368,13 @@ func diff(lhsSlice, rhsSlice []string) (lhsOnly []string, rhsOnly []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return singleDiff(lhsSlice, rhsSlice), singleDiff(rhsSlice, lhsSlice)
 }
 func singleDiff(lhsSlice, rhsSlice []string) (lhsOnly []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,6 +404,8 @@ func singleDiff(lhsSlice, rhsSlice []string) (lhsOnly []string) {
 	return lhsOnly
 }
 func successMessage(didAdd bool, isGroup bool, usersToAdd, groupsToAdd []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

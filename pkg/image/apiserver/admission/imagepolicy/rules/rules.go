@@ -35,6 +35,8 @@ func (m RegistryNameMatcher) Matches(name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	current, ok := m()
 	if !ok {
 		return false
@@ -45,6 +47,8 @@ func (m RegistryNameMatcher) Matches(name string) bool {
 type nameSet []string
 
 func (m nameSet) Matches(name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,12 +85,16 @@ func NewRegistryMatcher(names []string) RegistryMatcher {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nameSet(names)
 }
 
 type resourceSet map[metav1.GroupResource]struct{}
 
 func imageConditionInfo(rule *imagepolicy.ImageCondition) (covers resourceSet, selectors []labels.Selector, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +137,8 @@ func requiresImage(rule *imagepolicy.ImageCondition) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(rule.MatchImageLabels) > 0, len(rule.MatchImageAnnotations) > 0, len(rule.MatchDockerImageLabels) > 0:
 		return true
@@ -136,6 +146,8 @@ func requiresImage(rule *imagepolicy.ImageCondition) bool {
 	return false
 }
 func matchImageCondition(condition *imagepolicy.ImageCondition, integrated RegistryMatcher, attrs *ImagePolicyAttributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +170,8 @@ func matchImageCondition(condition *imagepolicy.ImageCondition, integrated Regis
 	return result
 }
 func matchImageConditionValues(rule *imagepolicy.ImageCondition, integrated RegistryMatcher, attrs *ImagePolicyAttributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +241,8 @@ func matchKeyValue(all map[string]string, conditions []imagepolicy.ValueConditio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, condition := range conditions {
 		switch {
 		case condition.Set:
@@ -242,6 +258,8 @@ func matchKeyValue(all map[string]string, conditions []imagepolicy.ValueConditio
 	return true
 }
 func hasAnyMatch(name string, all []string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

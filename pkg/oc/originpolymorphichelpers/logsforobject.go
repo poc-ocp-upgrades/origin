@@ -34,6 +34,8 @@ func NewLogsForObjectFn(delegate polymorphichelpers.LogsForObjectFunc) polymorph
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(restClientGetter genericclioptions.RESTClientGetter, object, options runtime.Object, timeout time.Duration, allContainers bool) ([]*rest.Request, error) {
 		clientConfig, err := restClientGetter.ToRESTConfig()
 		if err != nil {

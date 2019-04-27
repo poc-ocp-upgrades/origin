@@ -29,9 +29,13 @@ func (a *fakeAuthorizer) Authorize(authorizer.Attributes) (authorizer.Decision, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.allow, "", a.err
 }
 func TestAdmission(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func emptyConfig() *ingressadmission.IngressAdmissionConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ingressadmission.IngressAdmissionConfig{}
 }
 func testConfigUpdateAllow() *ingressadmission.IngressAdmissionConfig {
@@ -109,9 +115,13 @@ func testConfigUpdateAllow() *ingressadmission.IngressAdmissionConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ingressadmission.IngressAdmissionConfig{AllowHostnameChanges: true}
 }
 func testConfigUpdateDeny() *ingressadmission.IngressAdmissionConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

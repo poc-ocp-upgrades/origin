@@ -42,11 +42,15 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quotaExceededBackoff = retry.DefaultBackoff
 	quotaExceededBackoff.Duration = time.Millisecond * 250
 	quotaExceededBackoff.Steps = 3
 }
 func TestImageStreamTagsAdmission(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,6 +166,8 @@ func TestImageStreamAdmitSpecUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kClient, client, fn := setupImageStreamAdmissionTest(t)
 	defer fn()
 	for i, name := range []string{imagetest.BaseImageWith1LayerDigest, imagetest.BaseImageWith2LayersDigest} {
@@ -232,6 +238,8 @@ func TestImageStreamAdmitSpecUpdate(t *testing.T) {
 	}
 }
 func TestImageStreamAdmitStatusUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -335,6 +343,8 @@ func setupImageStreamAdmissionTest(t *testing.T) (kubernetes.Interface, imagecli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -383,6 +393,8 @@ func errForbiddenWithRetry(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil || !apierrors.IsForbidden(err) {
 		return false
 	}
@@ -407,6 +419,8 @@ func createLimitRangeOfType(t *testing.T, lrClient corev1client.LimitRangeInterf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lr := &corev1.LimitRange{ObjectMeta: metav1.ObjectMeta{Name: limitRangeName}, Spec: corev1.LimitRangeSpec{Limits: []corev1.LimitRangeItem{{Type: limitType, Max: maxLimits}}}}
 	t.Logf("creating limit range object %q with %s limited to: %v", limitRangeName, limitType, maxLimits)
 	lr, err := lrClient.Create(lr)
@@ -416,6 +430,8 @@ func createLimitRangeOfType(t *testing.T, lrClient corev1client.LimitRangeInterf
 	return lr
 }
 func bumpLimit(t *testing.T, lrClient corev1client.LimitRangeInterface, limitRangeName string, resourceName corev1.ResourceName, limit string) corev1.ResourceList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -460,6 +476,8 @@ func bumpLimit(t *testing.T, lrClient corev1client.LimitRangeInterface, limitRan
 	return res
 }
 func newImageStreamWithSpecTags(name string, tags map[string]kapi.ObjectReference) *imageapi.ImageStream {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -20,6 +20,8 @@ func TestExpressionValueGenerator(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		Expression	string
 		ExpectedValue	string
@@ -50,6 +52,8 @@ func TestRemoveDuplicatedCharacters(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		Expression	string
 		ExpectedValue	string
@@ -62,6 +66,8 @@ func TestRemoveDuplicatedCharacters(t *testing.T) {
 	}
 }
 func TestExpressionValueGeneratorErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

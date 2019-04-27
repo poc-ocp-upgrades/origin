@@ -21,6 +21,8 @@ func TestAdmissionPluginNames(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	originAdmissionPlugins := admission.NewPlugins()
 	RegisterOpenshiftAdmissionPlugins(originAdmissionPlugins)
 	for _, plugin := range originAdmissionPlugins.Registered() {

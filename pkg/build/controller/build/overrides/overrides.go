@@ -30,6 +30,8 @@ func (b BuildOverrides) ApplyOverrides(pod *corev1.Pod) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.Config == nil {
 		return nil
 	}
@@ -105,6 +107,8 @@ func applyForcePullToPod(pod *corev1.Pod) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range pod.Spec.InitContainers {
 		klog.V(5).Infof("Setting ImagePullPolicy to PullAlways on init container %s of pod %s/%s", pod.Spec.InitContainers[i].Name, pod.Namespace, pod.Name)
 		pod.Spec.InitContainers[i].ImagePullPolicy = corev1.PullAlways
@@ -116,6 +120,8 @@ func applyForcePullToPod(pod *corev1.Pod) error {
 	return nil
 }
 func overrideLabel(overridingLabel buildv1.ImageLabel, buildLabels *[]buildv1.ImageLabel) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

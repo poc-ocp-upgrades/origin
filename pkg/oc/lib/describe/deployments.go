@@ -56,9 +56,13 @@ func NewDeploymentConfigDescriber(client appstypedclient.AppsV1Interface, kclien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DeploymentConfigDescriber{appsClient: client, kubeClient: kclient, config: config}
 }
 func (d *DeploymentConfigDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +178,8 @@ func (o OverlappingControllers) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(o)
 }
 func (o OverlappingControllers) Swap(i, j int) {
@@ -191,9 +197,13 @@ func (o OverlappingControllers) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o[i], o[j] = o[j], o[i]
 }
 func (o OverlappingControllers) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +238,8 @@ func multilineStringArray(sep, indent string, args ...string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, s := range args {
 		if strings.HasSuffix(s, "\n") {
 			s = strings.TrimSuffix(s, "\n")
@@ -241,6 +253,8 @@ func multilineStringArray(sep, indent string, args ...string) string {
 	return strings.Join(args, " ")
 }
 func printStrategy(strategy appsv1.DeploymentStrategy, indent string, w *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,6 +322,8 @@ func printHook(prefix string, hook *appsv1.LifecycleHook, indent string, w io.Wr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hook.ExecNewPod != nil {
 		fmt.Fprintf(w, "%s%s hook (pod type, failure policy: %s):\n", indent, prefix, hook.FailurePolicy)
 		fmt.Fprintf(w, "%s  Container:\t%s\n", indent, hook.ExecNewPod.ContainerName)
@@ -324,6 +340,8 @@ func printHook(prefix string, hook *appsv1.LifecycleHook, indent string, w io.Wr
 	}
 }
 func printTriggers(triggers []appsv1.DeploymentTriggerPolicy, w *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -372,6 +390,8 @@ func printDeploymentConfigSpec(kc kubernetes.Interface, dc appsv1.DeploymentConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := dc.Spec
 	formatString(w, "Selector", formatLabels(spec.Selector))
 	test := ""
@@ -394,6 +414,8 @@ func printDeploymentConfigSpec(kc kubernetes.Interface, dc appsv1.DeploymentConf
 	return nil
 }
 func printAutoscalingInfo(res []schema.GroupResource, namespace, name string, kclient kubernetes.Interface, w *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -453,6 +475,8 @@ func formatHPATargets(hpa *autoscaling.HorizontalPodAutoscaler) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	descriptions := make([]string, len(hpa.Spec.Metrics))
 	for i, metricSpec := range hpa.Spec.Metrics {
 		switch metricSpec.Type {
@@ -476,6 +500,8 @@ func formatHPATargets(hpa *autoscaling.HorizontalPodAutoscaler) []string {
 	return descriptions
 }
 func printDeploymentRc(deployment *corev1.ReplicationController, kubeClient kubernetes.Interface, w io.Writer, header string, verbose bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -514,6 +540,8 @@ func printDeploymentRc(deployment *corev1.ReplicationController, kubeClient kube
 	return nil
 }
 func getPodStatusForDeployment(deployment *corev1.ReplicationController, kubeClient kubernetes.Interface) (running, waiting, succeeded, failed int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -568,9 +596,13 @@ func NewLatestDeploymentsDescriber(client appstypedclient.AppsV1Interface, kclie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &LatestDeploymentsDescriber{count: count, appsClient: client, kubeClient: kclient}
 }
 func (d *LatestDeploymentsDescriber) Describe(namespace, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

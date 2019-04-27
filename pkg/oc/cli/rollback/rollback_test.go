@@ -24,6 +24,8 @@ func TestRollbackOptions_findTargetDeployment(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type existingDeployment struct {
 		version	int64
 		status	appsv1.DeploymentStatus

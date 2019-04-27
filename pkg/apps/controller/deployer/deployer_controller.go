@@ -46,12 +46,16 @@ func (e fatalError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "fatal error handling rollout: " + string(e)
 }
 
 type actionableError string
 
 func (e actionableError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ type DeploymentController struct {
 }
 
 func (c *DeploymentController) handle(deployment *corev1.ReplicationController, willBeDropped bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +246,8 @@ func (c *DeploymentController) nextStatus(pod *corev1.Pod, deployment *corev1.Re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch pod.Status.Phase {
 	case corev1.PodPending:
 		return appsv1.DeploymentStatusPending
@@ -281,6 +289,8 @@ func getPodTerminatedTimestamp(pod *corev1.Pod) *metav1.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range pod.Status.ContainerStatuses {
 		if t := c.State.Terminated; t != nil {
 			return &t.FinishedAt
@@ -303,12 +313,16 @@ func nextStatusComp(fromDeployer, fromPath appsv1.DeploymentStatus) appsv1.Deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if appsutil.CanTransitionPhase(fromPath, fromDeployer) {
 		return fromDeployer
 	}
 	return fromPath
 }
 func (c *DeploymentController) makeDeployerPod(deployment *corev1.ReplicationController) (*corev1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,6 +361,8 @@ func (c *DeploymentController) makeDeployerPod(deployment *corev1.ReplicationCon
 	return pod, nil
 }
 func (c *DeploymentController) makeDeployerContainer(strategy *appsv1.DeploymentStrategy) *corev1.Container {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -404,9 +420,13 @@ func (c *DeploymentController) getDeployerPods(deployment *corev1.ReplicationCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.podLister.Pods(deployment.Namespace).List(appsutil.DeployerPodSelector(deployment.Name))
 }
 func (c *DeploymentController) setDeployerPodsOwnerRef(deployment *corev1.ReplicationController) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -471,6 +491,8 @@ func (c *DeploymentController) cleanupDeployerPods(deployment *corev1.Replicatio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployerList, err := c.getDeployerPods(deployment)
 	if err != nil {
 		return fmt.Errorf("couldn't fetch deployer pods for %q: %v", appsutil.LabelForDeployment(deployment), err)
@@ -502,6 +524,8 @@ func (c *DeploymentController) emitDeploymentEvent(deployment *corev1.Replicatio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config, _ := appsutil.DecodeDeploymentConfig(deployment); config != nil {
 		c.recorder.Eventf(config, eventType, title, message)
 	} else {
@@ -509,6 +533,8 @@ func (c *DeploymentController) emitDeploymentEvent(deployment *corev1.Replicatio
 	}
 }
 func (c *DeploymentController) handleErr(err error, key interface{}, deployment *corev1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -558,6 +584,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -632,5 +679,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

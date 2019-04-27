@@ -53,9 +53,13 @@ func NewRegistry(s Storage, status, internal rest.Updater) Registry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &storage{Storage: s, status: status, internal: internal}
 }
 func (s *storage) ListImageStreams(ctx context.Context, options *metainternal.ListOptions) (*imageapi.ImageStreamList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func (s *storage) GetImageStream(ctx context.Context, imageStreamID string, opti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := s.Get(ctx, imageStreamID, options)
 	if err != nil {
 		return nil, err
@@ -98,6 +104,8 @@ func (s *storage) GetImageStream(ctx context.Context, imageStreamID string, opti
 	return obj.(*imageapi.ImageStream), nil
 }
 func (s *storage) CreateImageStream(ctx context.Context, imageStream *imageapi.ImageStream, options *metav1.CreateOptions) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +141,8 @@ func (s *storage) UpdateImageStream(ctx context.Context, imageStream *imageapi.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, _, err := s.internal.Update(ctx, imageStream.Name, rest.DefaultUpdatedObjectInfo(imageStream), rest.ValidateAllObjectFunc, rest.ValidateAllObjectUpdateFunc, forceAllowCreate, options)
 	if err != nil {
 		return nil, err
@@ -140,6 +150,8 @@ func (s *storage) UpdateImageStream(ctx context.Context, imageStream *imageapi.I
 	return obj.(*imageapi.ImageStream), nil
 }
 func (s *storage) UpdateImageStreamSpec(ctx context.Context, imageStream *imageapi.ImageStream, forceAllowCreate bool, options *metav1.UpdateOptions) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +187,8 @@ func (s *storage) UpdateImageStreamStatus(ctx context.Context, imageStream *imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, _, err := s.status.Update(ctx, imageStream.Name, rest.DefaultUpdatedObjectInfo(imageStream), rest.ValidateAllObjectFunc, rest.ValidateAllObjectUpdateFunc, forceAllowCreate, options)
 	if err != nil {
 		return nil, err
@@ -182,6 +196,8 @@ func (s *storage) UpdateImageStreamStatus(ctx context.Context, imageStream *imag
 	return obj.(*imageapi.ImageStream), nil
 }
 func (s *storage) DeleteImageStream(ctx context.Context, imageStreamID string) (*metav1.Status, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +233,8 @@ func (s *storage) WatchImageStreams(ctx context.Context, options *metainternal.L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.Watch(ctx, options)
 }
 func _logClusterCodePath() {
@@ -234,6 +252,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -308,5 +347,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

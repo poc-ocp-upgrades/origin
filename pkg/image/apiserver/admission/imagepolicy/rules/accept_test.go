@@ -23,6 +23,8 @@ func imageref(name string) imageapi.DockerImageReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := imageapi.ParseDockerImageReference(name)
 	if err != nil {
 		panic(err)
@@ -36,6 +38,8 @@ type acceptResult struct {
 }
 
 func TestAccept(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

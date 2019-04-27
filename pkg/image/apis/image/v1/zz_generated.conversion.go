@@ -27,9 +27,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -411,6 +415,8 @@ func autoConvert_v1_Image_To_image_Image(in *v1.Image, out *image.Image, s conve
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.DockerImageReference = in.DockerImageReference
 	if err := s.Convert(&in.DockerImageMetadata, &out.DockerImageMetadata, 0); err != nil {
@@ -426,6 +432,8 @@ func autoConvert_v1_Image_To_image_Image(in *v1.Image, out *image.Image, s conve
 	return nil
 }
 func autoConvert_image_Image_To_v1_Image(in *image.Image, out *v1.Image, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,6 +477,8 @@ func autoConvert_v1_ImageBlobReferences_To_image_ImageBlobReferences(in *v1.Imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ImageMissing = in.ImageMissing
 	out.Layers = *(*[]string)(unsafe.Pointer(&in.Layers))
 	out.Config = (*string)(unsafe.Pointer(in.Config))
@@ -489,9 +499,13 @@ func Convert_v1_ImageBlobReferences_To_image_ImageBlobReferences(in *v1.ImageBlo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageBlobReferences_To_image_ImageBlobReferences(in, out, s)
 }
 func autoConvert_image_ImageBlobReferences_To_v1_ImageBlobReferences(in *image.ImageBlobReferences, out *v1.ImageBlobReferences, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,9 +540,13 @@ func Convert_image_ImageBlobReferences_To_v1_ImageBlobReferences(in *image.Image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageBlobReferences_To_v1_ImageBlobReferences(in, out, s)
 }
 func autoConvert_v1_ImageImportSpec_To_image_ImageImportSpec(in *v1.ImageImportSpec, out *image.ImageImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -579,9 +597,13 @@ func Convert_v1_ImageImportSpec_To_image_ImageImportSpec(in *v1.ImageImportSpec,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageImportSpec_To_image_ImageImportSpec(in, out, s)
 }
 func autoConvert_image_ImageImportSpec_To_v1_ImageImportSpec(in *image.ImageImportSpec, out *v1.ImageImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -632,9 +654,13 @@ func Convert_image_ImageImportSpec_To_v1_ImageImportSpec(in *image.ImageImportSp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageImportSpec_To_v1_ImageImportSpec(in, out, s)
 }
 func autoConvert_v1_ImageImportStatus_To_image_ImageImportStatus(in *v1.ImageImportStatus, out *image.ImageImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -677,9 +703,13 @@ func Convert_v1_ImageImportStatus_To_image_ImageImportStatus(in *v1.ImageImportS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageImportStatus_To_image_ImageImportStatus(in, out, s)
 }
 func autoConvert_image_ImageImportStatus_To_v1_ImageImportStatus(in *image.ImageImportStatus, out *v1.ImageImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -722,9 +752,13 @@ func Convert_image_ImageImportStatus_To_v1_ImageImportStatus(in *image.ImageImpo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageImportStatus_To_v1_ImageImportStatus(in, out, s)
 }
 func autoConvert_v1_ImageLayer_To_image_ImageLayer(in *v1.ImageLayer, out *image.ImageLayer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -759,9 +793,13 @@ func Convert_v1_ImageLayer_To_image_ImageLayer(in *v1.ImageLayer, out *image.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageLayer_To_image_ImageLayer(in, out, s)
 }
 func autoConvert_image_ImageLayer_To_v1_ImageLayer(in *image.ImageLayer, out *v1.ImageLayer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -796,9 +834,13 @@ func Convert_image_ImageLayer_To_v1_ImageLayer(in *image.ImageLayer, out *v1.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageLayer_To_v1_ImageLayer(in, out, s)
 }
 func autoConvert_v1_ImageLayerData_To_image_ImageLayerData(in *v1.ImageLayerData, out *image.ImageLayerData, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -832,9 +874,13 @@ func Convert_v1_ImageLayerData_To_image_ImageLayerData(in *v1.ImageLayerData, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageLayerData_To_image_ImageLayerData(in, out, s)
 }
 func autoConvert_image_ImageLayerData_To_v1_ImageLayerData(in *image.ImageLayerData, out *v1.ImageLayerData, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -868,9 +914,13 @@ func Convert_image_ImageLayerData_To_v1_ImageLayerData(in *image.ImageLayerData,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageLayerData_To_v1_ImageLayerData(in, out, s)
 }
 func autoConvert_v1_ImageList_To_image_ImageList(in *v1.ImageList, out *image.ImageList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -914,9 +964,13 @@ func Convert_v1_ImageList_To_image_ImageList(in *v1.ImageList, out *image.ImageL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageList_To_image_ImageList(in, out, s)
 }
 func autoConvert_image_ImageList_To_v1_ImageList(in *image.ImageList, out *v1.ImageList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -960,9 +1014,13 @@ func Convert_image_ImageList_To_v1_ImageList(in *image.ImageList, out *v1.ImageL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageList_To_v1_ImageList(in, out, s)
 }
 func autoConvert_v1_ImageLookupPolicy_To_image_ImageLookupPolicy(in *v1.ImageLookupPolicy, out *image.ImageLookupPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -995,9 +1053,13 @@ func Convert_v1_ImageLookupPolicy_To_image_ImageLookupPolicy(in *v1.ImageLookupP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageLookupPolicy_To_image_ImageLookupPolicy(in, out, s)
 }
 func autoConvert_image_ImageLookupPolicy_To_v1_ImageLookupPolicy(in *image.ImageLookupPolicy, out *v1.ImageLookupPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1030,9 +1092,13 @@ func Convert_image_ImageLookupPolicy_To_v1_ImageLookupPolicy(in *image.ImageLook
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageLookupPolicy_To_v1_ImageLookupPolicy(in, out, s)
 }
 func autoConvert_v1_ImageSignature_To_image_ImageSignature(in *v1.ImageSignature, out *image.ImageSignature, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1073,9 +1139,13 @@ func Convert_v1_ImageSignature_To_image_ImageSignature(in *v1.ImageSignature, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageSignature_To_image_ImageSignature(in, out, s)
 }
 func autoConvert_image_ImageSignature_To_v1_ImageSignature(in *image.ImageSignature, out *v1.ImageSignature, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1116,9 +1186,13 @@ func Convert_image_ImageSignature_To_v1_ImageSignature(in *image.ImageSignature,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageSignature_To_v1_ImageSignature(in, out, s)
 }
 func autoConvert_v1_ImageStream_To_image_ImageStream(in *v1.ImageStream, out *image.ImageStream, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1157,9 +1231,13 @@ func Convert_v1_ImageStream_To_image_ImageStream(in *v1.ImageStream, out *image.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStream_To_image_ImageStream(in, out, s)
 }
 func autoConvert_image_ImageStream_To_v1_ImageStream(in *image.ImageStream, out *v1.ImageStream, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1198,9 +1276,13 @@ func Convert_image_ImageStream_To_v1_ImageStream(in *image.ImageStream, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStream_To_v1_ImageStream(in, out, s)
 }
 func autoConvert_v1_ImageStreamImage_To_image_ImageStreamImage(in *v1.ImageStreamImage, out *image.ImageStreamImage, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1236,9 +1318,13 @@ func Convert_v1_ImageStreamImage_To_image_ImageStreamImage(in *v1.ImageStreamIma
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamImage_To_image_ImageStreamImage(in, out, s)
 }
 func autoConvert_image_ImageStreamImage_To_v1_ImageStreamImage(in *image.ImageStreamImage, out *v1.ImageStreamImage, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1274,9 +1360,13 @@ func Convert_image_ImageStreamImage_To_v1_ImageStreamImage(in *image.ImageStream
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamImage_To_v1_ImageStreamImage(in, out, s)
 }
 func autoConvert_v1_ImageStreamImport_To_image_ImageStreamImport(in *v1.ImageStreamImport, out *image.ImageStreamImport, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1315,9 +1405,13 @@ func Convert_v1_ImageStreamImport_To_image_ImageStreamImport(in *v1.ImageStreamI
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamImport_To_image_ImageStreamImport(in, out, s)
 }
 func autoConvert_image_ImageStreamImport_To_v1_ImageStreamImport(in *image.ImageStreamImport, out *v1.ImageStreamImport, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1356,9 +1450,13 @@ func Convert_image_ImageStreamImport_To_v1_ImageStreamImport(in *image.ImageStre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamImport_To_v1_ImageStreamImport(in, out, s)
 }
 func autoConvert_v1_ImageStreamImportSpec_To_image_ImageStreamImportSpec(in *v1.ImageStreamImportSpec, out *image.ImageStreamImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1411,9 +1509,13 @@ func Convert_v1_ImageStreamImportSpec_To_image_ImageStreamImportSpec(in *v1.Imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamImportSpec_To_image_ImageStreamImportSpec(in, out, s)
 }
 func autoConvert_image_ImageStreamImportSpec_To_v1_ImageStreamImportSpec(in *image.ImageStreamImportSpec, out *v1.ImageStreamImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1466,9 +1568,13 @@ func Convert_image_ImageStreamImportSpec_To_v1_ImageStreamImportSpec(in *image.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamImportSpec_To_v1_ImageStreamImportSpec(in, out, s)
 }
 func autoConvert_v1_ImageStreamImportStatus_To_image_ImageStreamImportStatus(in *v1.ImageStreamImportStatus, out *image.ImageStreamImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1529,9 +1635,13 @@ func Convert_v1_ImageStreamImportStatus_To_image_ImageStreamImportStatus(in *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamImportStatus_To_image_ImageStreamImportStatus(in, out, s)
 }
 func autoConvert_image_ImageStreamImportStatus_To_v1_ImageStreamImportStatus(in *image.ImageStreamImportStatus, out *v1.ImageStreamImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1592,9 +1702,13 @@ func Convert_image_ImageStreamImportStatus_To_v1_ImageStreamImportStatus(in *ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamImportStatus_To_v1_ImageStreamImportStatus(in, out, s)
 }
 func autoConvert_v1_ImageStreamLayers_To_image_ImageStreamLayers(in *v1.ImageStreamLayers, out *image.ImageStreamLayers, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1629,9 +1743,13 @@ func Convert_v1_ImageStreamLayers_To_image_ImageStreamLayers(in *v1.ImageStreamL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamLayers_To_image_ImageStreamLayers(in, out, s)
 }
 func autoConvert_image_ImageStreamLayers_To_v1_ImageStreamLayers(in *image.ImageStreamLayers, out *v1.ImageStreamLayers, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1666,9 +1784,13 @@ func Convert_image_ImageStreamLayers_To_v1_ImageStreamLayers(in *image.ImageStre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamLayers_To_v1_ImageStreamLayers(in, out, s)
 }
 func autoConvert_v1_ImageStreamList_To_image_ImageStreamList(in *v1.ImageStreamList, out *image.ImageStreamList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1712,9 +1834,13 @@ func Convert_v1_ImageStreamList_To_image_ImageStreamList(in *v1.ImageStreamList,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamList_To_image_ImageStreamList(in, out, s)
 }
 func autoConvert_image_ImageStreamList_To_v1_ImageStreamList(in *image.ImageStreamList, out *v1.ImageStreamList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1758,9 +1884,13 @@ func Convert_image_ImageStreamList_To_v1_ImageStreamList(in *image.ImageStreamLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamList_To_v1_ImageStreamList(in, out, s)
 }
 func autoConvert_v1_ImageStreamMapping_To_image_ImageStreamMapping(in *v1.ImageStreamMapping, out *image.ImageStreamMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1797,9 +1927,13 @@ func Convert_v1_ImageStreamMapping_To_image_ImageStreamMapping(in *v1.ImageStrea
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamMapping_To_image_ImageStreamMapping(in, out, s)
 }
 func autoConvert_image_ImageStreamMapping_To_v1_ImageStreamMapping(in *image.ImageStreamMapping, out *v1.ImageStreamMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1836,9 +1970,13 @@ func Convert_image_ImageStreamMapping_To_v1_ImageStreamMapping(in *image.ImageSt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamMapping_To_v1_ImageStreamMapping(in, out, s)
 }
 func autoConvert_v1_ImageStreamSpec_To_image_ImageStreamSpec(in *v1.ImageStreamSpec, out *image.ImageStreamSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1874,6 +2012,8 @@ func autoConvert_image_ImageStreamSpec_To_v1_ImageStreamSpec(in *image.ImageStre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := Convert_image_ImageLookupPolicy_To_v1_ImageLookupPolicy(&in.LookupPolicy, &out.LookupPolicy, s); err != nil {
 		return err
 	}
@@ -1881,6 +2021,8 @@ func autoConvert_image_ImageStreamSpec_To_v1_ImageStreamSpec(in *image.ImageStre
 	return nil
 }
 func autoConvert_v1_ImageStreamStatus_To_image_ImageStreamStatus(in *v1.ImageStreamStatus, out *image.ImageStreamStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1914,11 +2056,15 @@ func autoConvert_image_ImageStreamStatus_To_v1_ImageStreamStatus(in *image.Image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.DockerImageRepository = in.DockerImageRepository
 	out.PublicDockerImageRepository = in.PublicDockerImageRepository
 	return nil
 }
 func autoConvert_v1_ImageStreamTag_To_image_ImageStreamTag(in *v1.ImageStreamTag, out *image.ImageStreamTag, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1968,9 +2114,13 @@ func Convert_v1_ImageStreamTag_To_image_ImageStreamTag(in *v1.ImageStreamTag, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamTag_To_image_ImageStreamTag(in, out, s)
 }
 func autoConvert_image_ImageStreamTag_To_v1_ImageStreamTag(in *image.ImageStreamTag, out *v1.ImageStreamTag, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2020,9 +2170,13 @@ func Convert_image_ImageStreamTag_To_v1_ImageStreamTag(in *image.ImageStreamTag,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamTag_To_v1_ImageStreamTag(in, out, s)
 }
 func autoConvert_v1_ImageStreamTagList_To_image_ImageStreamTagList(in *v1.ImageStreamTagList, out *image.ImageStreamTagList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2066,9 +2220,13 @@ func Convert_v1_ImageStreamTagList_To_image_ImageStreamTagList(in *v1.ImageStrea
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageStreamTagList_To_image_ImageStreamTagList(in, out, s)
 }
 func autoConvert_image_ImageStreamTagList_To_v1_ImageStreamTagList(in *image.ImageStreamTagList, out *v1.ImageStreamTagList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2112,9 +2270,13 @@ func Convert_image_ImageStreamTagList_To_v1_ImageStreamTagList(in *image.ImageSt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_ImageStreamTagList_To_v1_ImageStreamTagList(in, out, s)
 }
 func autoConvert_v1_RepositoryImportSpec_To_image_RepositoryImportSpec(in *v1.RepositoryImportSpec, out *image.RepositoryImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2156,9 +2318,13 @@ func Convert_v1_RepositoryImportSpec_To_image_RepositoryImportSpec(in *v1.Reposi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RepositoryImportSpec_To_image_RepositoryImportSpec(in, out, s)
 }
 func autoConvert_image_RepositoryImportSpec_To_v1_RepositoryImportSpec(in *image.RepositoryImportSpec, out *v1.RepositoryImportSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2200,9 +2366,13 @@ func Convert_image_RepositoryImportSpec_To_v1_RepositoryImportSpec(in *image.Rep
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_RepositoryImportSpec_To_v1_RepositoryImportSpec(in, out, s)
 }
 func autoConvert_v1_RepositoryImportStatus_To_image_RepositoryImportStatus(in *v1.RepositoryImportStatus, out *image.RepositoryImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2247,9 +2417,13 @@ func Convert_v1_RepositoryImportStatus_To_image_RepositoryImportStatus(in *v1.Re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RepositoryImportStatus_To_image_RepositoryImportStatus(in, out, s)
 }
 func autoConvert_image_RepositoryImportStatus_To_v1_RepositoryImportStatus(in *image.RepositoryImportStatus, out *v1.RepositoryImportStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2294,9 +2468,13 @@ func Convert_image_RepositoryImportStatus_To_v1_RepositoryImportStatus(in *image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_RepositoryImportStatus_To_v1_RepositoryImportStatus(in, out, s)
 }
 func autoConvert_v1_SignatureCondition_To_image_SignatureCondition(in *v1.SignatureCondition, out *image.SignatureCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2334,9 +2512,13 @@ func Convert_v1_SignatureCondition_To_image_SignatureCondition(in *v1.SignatureC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SignatureCondition_To_image_SignatureCondition(in, out, s)
 }
 func autoConvert_image_SignatureCondition_To_v1_SignatureCondition(in *image.SignatureCondition, out *v1.SignatureCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2374,9 +2556,13 @@ func Convert_image_SignatureCondition_To_v1_SignatureCondition(in *image.Signatu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_SignatureCondition_To_v1_SignatureCondition(in, out, s)
 }
 func autoConvert_v1_SignatureGenericEntity_To_image_SignatureGenericEntity(in *v1.SignatureGenericEntity, out *image.SignatureGenericEntity, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2410,9 +2596,13 @@ func Convert_v1_SignatureGenericEntity_To_image_SignatureGenericEntity(in *v1.Si
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SignatureGenericEntity_To_image_SignatureGenericEntity(in, out, s)
 }
 func autoConvert_image_SignatureGenericEntity_To_v1_SignatureGenericEntity(in *image.SignatureGenericEntity, out *v1.SignatureGenericEntity, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2446,9 +2636,13 @@ func Convert_image_SignatureGenericEntity_To_v1_SignatureGenericEntity(in *image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_SignatureGenericEntity_To_v1_SignatureGenericEntity(in, out, s)
 }
 func autoConvert_v1_SignatureIssuer_To_image_SignatureIssuer(in *v1.SignatureIssuer, out *image.SignatureIssuer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2483,9 +2677,13 @@ func Convert_v1_SignatureIssuer_To_image_SignatureIssuer(in *v1.SignatureIssuer,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SignatureIssuer_To_image_SignatureIssuer(in, out, s)
 }
 func autoConvert_image_SignatureIssuer_To_v1_SignatureIssuer(in *image.SignatureIssuer, out *v1.SignatureIssuer, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2520,9 +2718,13 @@ func Convert_image_SignatureIssuer_To_v1_SignatureIssuer(in *image.SignatureIssu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_SignatureIssuer_To_v1_SignatureIssuer(in, out, s)
 }
 func autoConvert_v1_SignatureSubject_To_image_SignatureSubject(in *v1.SignatureSubject, out *image.SignatureSubject, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2558,9 +2760,13 @@ func Convert_v1_SignatureSubject_To_image_SignatureSubject(in *v1.SignatureSubje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SignatureSubject_To_image_SignatureSubject(in, out, s)
 }
 func autoConvert_image_SignatureSubject_To_v1_SignatureSubject(in *image.SignatureSubject, out *v1.SignatureSubject, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2596,9 +2802,13 @@ func Convert_image_SignatureSubject_To_v1_SignatureSubject(in *image.SignatureSu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_SignatureSubject_To_v1_SignatureSubject(in, out, s)
 }
 func autoConvert_v1_TagEvent_To_image_TagEvent(in *v1.TagEvent, out *image.TagEvent, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2634,9 +2844,13 @@ func Convert_v1_TagEvent_To_image_TagEvent(in *v1.TagEvent, out *image.TagEvent,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TagEvent_To_image_TagEvent(in, out, s)
 }
 func autoConvert_image_TagEvent_To_v1_TagEvent(in *image.TagEvent, out *v1.TagEvent, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2672,9 +2886,13 @@ func Convert_image_TagEvent_To_v1_TagEvent(in *image.TagEvent, out *v1.TagEvent,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_TagEvent_To_v1_TagEvent(in, out, s)
 }
 func autoConvert_v1_TagEventCondition_To_image_TagEventCondition(in *v1.TagEventCondition, out *image.TagEventCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2712,9 +2930,13 @@ func Convert_v1_TagEventCondition_To_image_TagEventCondition(in *v1.TagEventCond
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TagEventCondition_To_image_TagEventCondition(in, out, s)
 }
 func autoConvert_image_TagEventCondition_To_v1_TagEventCondition(in *image.TagEventCondition, out *v1.TagEventCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2752,9 +2974,13 @@ func Convert_image_TagEventCondition_To_v1_TagEventCondition(in *image.TagEventC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_TagEventCondition_To_v1_TagEventCondition(in, out, s)
 }
 func autoConvert_v1_TagImportPolicy_To_image_TagImportPolicy(in *v1.TagImportPolicy, out *image.TagImportPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2788,9 +3014,13 @@ func Convert_v1_TagImportPolicy_To_image_TagImportPolicy(in *v1.TagImportPolicy,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TagImportPolicy_To_image_TagImportPolicy(in, out, s)
 }
 func autoConvert_image_TagImportPolicy_To_v1_TagImportPolicy(in *image.TagImportPolicy, out *v1.TagImportPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2824,9 +3054,13 @@ func Convert_image_TagImportPolicy_To_v1_TagImportPolicy(in *image.TagImportPoli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_TagImportPolicy_To_v1_TagImportPolicy(in, out, s)
 }
 func autoConvert_v1_TagReference_To_image_TagReference(in *v1.TagReference, out *image.TagReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2877,9 +3111,13 @@ func Convert_v1_TagReference_To_image_TagReference(in *v1.TagReference, out *ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TagReference_To_image_TagReference(in, out, s)
 }
 func autoConvert_image_TagReference_To_v1_TagReference(in *image.TagReference, out *v1.TagReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2930,9 +3168,13 @@ func Convert_image_TagReference_To_v1_TagReference(in *image.TagReference, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_image_TagReference_To_v1_TagReference(in, out, s)
 }
 func autoConvert_v1_TagReferencePolicy_To_image_TagReferencePolicy(in *v1.TagReferencePolicy, out *image.TagReferencePolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2965,9 +3207,13 @@ func Convert_v1_TagReferencePolicy_To_image_TagReferencePolicy(in *v1.TagReferen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TagReferencePolicy_To_image_TagReferencePolicy(in, out, s)
 }
 func autoConvert_image_TagReferencePolicy_To_v1_TagReferencePolicy(in *image.TagReferencePolicy, out *v1.TagReferencePolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2986,6 +3232,8 @@ func autoConvert_image_TagReferencePolicy_To_v1_TagReferencePolicy(in *image.Tag
 	return nil
 }
 func Convert_image_TagReferencePolicy_To_v1_TagReferencePolicy(in *image.TagReferencePolicy, out *v1.TagReferencePolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

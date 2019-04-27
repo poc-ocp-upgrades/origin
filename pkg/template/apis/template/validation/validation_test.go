@@ -29,9 +29,13 @@ func makeParameter(name, value string) *templateapi.Parameter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &templateapi.Parameter{Name: name, Value: value}
 }
 func TestValidateParameter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func TestValidateProcessTemplate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		template	*templateapi.Template
 		isValidExpected	bool
@@ -90,6 +96,8 @@ func TestValidateProcessTemplate(t *testing.T) {
 	}
 }
 func TestValidateTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +141,8 @@ func TestValidateTemplateInstance(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		templateInstance	templateapi.TemplateInstance
 		expectedErrorType	field.ErrorType
@@ -157,6 +167,8 @@ func TestValidateTemplateInstance(t *testing.T) {
 	}
 }
 func TestValidateTemplateInstanceUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,6 +253,8 @@ func TestValidateBrokerTemplateInstance(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var tests = []struct {
 		brokerTemplateInstance	templateapi.BrokerTemplateInstance
 		expectedErrorType	field.ErrorType
@@ -265,6 +279,8 @@ func TestValidateBrokerTemplateInstance(t *testing.T) {
 	}
 }
 func TestValidateBrokerTemplateInstanceUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -21,6 +21,8 @@ func ImageStreamSelector(obj runtime.Object, fieldSet fields.Set) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream, ok := obj.(*ImageStream)
 	if !ok {
 		return fmt.Errorf("%T not an ImageStream", obj)

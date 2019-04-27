@@ -35,10 +35,14 @@ func makeUser() *userapi.User {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sequence++
 	return makeUserFromSequence(sequence)
 }
 func makeUserFromSequence(sequence int) *userapi.User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,10 +77,14 @@ func makeIdentity() *userapi.Identity {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sequence++
 	return makeIdentityFromSequence(sequence)
 }
 func makeIdentityFromSequence(sequence int) *userapi.Identity {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +121,8 @@ func makeAssociated() (*userapi.User, *userapi.Identity) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sequence++
 	return associate(makeUserFromSequence(sequence), makeIdentityFromSequence(sequence))
 }
@@ -131,10 +141,14 @@ func makeUnassociated() (*userapi.User, *userapi.Identity) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sequence++
 	return makeUserFromSequence(sequence), makeIdentityFromSequence(sequence)
 }
 func associate(user *userapi.User, identity *userapi.Identity) (*userapi.User, *userapi.Identity) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +184,8 @@ func disassociate(user *userapi.User, identity *userapi.Identity) (*userapi.User
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userCopy := *user
 	identityCopy := *identity
 	removeIdentityFromUser(&identityCopy, &userCopy)
@@ -177,6 +193,8 @@ func disassociate(user *userapi.User, identity *userapi.Identity) (*userapi.User
 	return &userCopy, &identityCopy
 }
 func setupRegistries(identity *userapi.Identity, users ...*userapi.User) (*[]Action, *UserRegistry, *IdentityRegistry, *REST) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +236,8 @@ func verifyActions(expectedActions []Action, actualActions []Action, t *testing.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, actualAction := range actualActions {
 		if len(expectedActions) <= i {
 			t.Errorf("Expected %d actions, got extras: %#v", len(expectedActions), actualActions[i:])
@@ -233,6 +253,8 @@ func verifyActions(expectedActions []Action, actualActions []Action, t *testing.
 	}
 }
 func verifyMapping(object runtime.Object, user *userapi.User, identity *userapi.Identity, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -277,6 +299,8 @@ func TestGet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeAssociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}, {Name: "GetUser", Object: user.Name}}
 	actions, _, _, rest := setupRegistries(identity, user)
@@ -302,6 +326,8 @@ func TestGetMissingIdentity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeAssociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}}
 	actions, _, _, rest := setupRegistries(nil, user)
@@ -312,6 +338,8 @@ func TestGetMissingIdentity(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestGetIdentityWithoutUser(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -353,6 +381,8 @@ func TestGetMissingUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeAssociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}, {Name: "GetUser", Object: user.Name}}
 	actions, _, _, rest := setupRegistries(identity)
@@ -366,6 +396,8 @@ func TestGetMissingUser(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestGetUserWithoutIdentity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -408,6 +440,8 @@ func TestCreate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser, associatedIdentity := makeAssociated()
 	unassociatedUser, unassociatedIdentity := disassociate(associatedUser, associatedIdentity)
 	expectedActions := []Action{{Name: "GetIdentity", Object: unassociatedIdentity.Name}, {Name: "GetUser", Object: unassociatedUser.Name}, {Name: "UpdateUser", Object: associatedUser}, {Name: "UpdateIdentity", Object: associatedIdentity}}
@@ -421,6 +455,8 @@ func TestCreate(t *testing.T) {
 	verifyMapping(createdMapping, associatedUser, associatedIdentity, t)
 }
 func TestCreateExists(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -463,6 +499,8 @@ func TestCreateMissingIdentity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeUnassociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}}
 	mapping := &userapiinternal.UserIdentityMapping{Identity: kapi.ObjectReference{Name: identity.Name}, User: kapi.ObjectReference{Name: user.Name}}
@@ -491,6 +529,8 @@ func TestCreateMissingUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeUnassociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}, {Name: "GetUser", Object: user.Name}}
 	mapping := &userapiinternal.UserIdentityMapping{Identity: kapi.ObjectReference{Name: identity.Name}, User: kapi.ObjectReference{Name: user.Name}}
@@ -505,6 +545,8 @@ func TestCreateMissingUser(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestCreateUserUpdateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -550,6 +592,8 @@ func TestCreateIdentityUpdateError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser, associatedIdentity := makeAssociated()
 	unassociatedUser, unassociatedIdentity := disassociate(associatedUser, associatedIdentity)
 	expectedActions := []Action{{Name: "GetIdentity", Object: unassociatedIdentity.Name}, {Name: "GetUser", Object: unassociatedUser.Name}, {Name: "UpdateUser", Object: associatedUser}, {Name: "UpdateIdentity", Object: associatedIdentity}}
@@ -566,6 +610,8 @@ func TestCreateIdentityUpdateError(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -612,6 +658,8 @@ func TestUpdateMissingIdentity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser1, associatedIdentity1User1 := makeAssociated()
 	unassociatedUser2 := makeUser()
 	_, unassociatedIdentity1 := disassociate(associatedUser1, associatedIdentity1User1)
@@ -628,6 +676,8 @@ func TestUpdateMissingIdentity(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestUpdateMissingUser(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -672,6 +722,8 @@ func TestUpdateOldUserMatches(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, identity := makeAssociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: identity.Name}, {Name: "GetUser", Object: user.Name}}
 	mapping := &userapiinternal.UserIdentityMapping{ObjectMeta: metav1.ObjectMeta{ResourceVersion: identity.ResourceVersion}, Identity: kapi.ObjectReference{Name: identity.Name}, User: kapi.ObjectReference{Name: user.Name}}
@@ -687,6 +739,8 @@ func TestUpdateOldUserMatches(t *testing.T) {
 	verifyMapping(createdMapping, user, identity, t)
 }
 func TestUpdateWithEmptyResourceVersion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -731,6 +785,8 @@ func TestUpdateWithMismatchedResourceVersion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser1, associatedIdentity1User1 := makeAssociated()
 	unassociatedUser2 := makeUser()
 	_, unassociatedIdentity1 := disassociate(associatedUser1, associatedIdentity1User1)
@@ -747,6 +803,8 @@ func TestUpdateWithMismatchedResourceVersion(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestUpdateOldUserUpdateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -795,6 +853,8 @@ func TestUpdateUserUpdateError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser1, associatedIdentity1User1 := makeAssociated()
 	unassociatedUser2 := makeUser()
 	_, unassociatedIdentity1 := disassociate(associatedUser1, associatedIdentity1User1)
@@ -814,6 +874,8 @@ func TestUpdateUserUpdateError(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestUpdateIdentityUpdateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -861,6 +923,8 @@ func TestDelete(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser, associatedIdentity := makeAssociated()
 	unassociatedUser, unassociatedIdentity := disassociate(associatedUser, associatedIdentity)
 	expectedActions := []Action{{Name: "GetIdentity", Object: associatedIdentity.Name}, {Name: "GetUser", Object: associatedUser.Name}, {Name: "UpdateUser", Object: unassociatedUser}, {Name: "UpdateIdentity", Object: unassociatedIdentity}}
@@ -872,6 +936,8 @@ func TestDelete(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestDeleteMissingIdentity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -913,6 +979,8 @@ func TestDeleteMissingUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	associatedUser, associatedIdentity := makeAssociated()
 	expectedActions := []Action{{Name: "GetIdentity", Object: associatedIdentity.Name}, {Name: "GetUser", Object: associatedUser.Name}}
 	actions, _, _, rest := setupRegistries(associatedIdentity)
@@ -926,6 +994,8 @@ func TestDeleteMissingUser(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestDeleteUserUpdateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -956,6 +1026,8 @@ func TestDeleteUserUpdateError(t *testing.T) {
 	verifyActions(expectedActions, *actions, t)
 }
 func TestDeleteIdentityUpdateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

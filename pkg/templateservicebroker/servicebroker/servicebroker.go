@@ -46,6 +46,8 @@ func NewBroker(saKubeClientConfig *restclient.Config, informer templateinformer.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	templateNamespaces := map[string]struct{}{}
 	for _, namespace := range namespaces {
 		templateNamespaces[namespace] = struct{}{}

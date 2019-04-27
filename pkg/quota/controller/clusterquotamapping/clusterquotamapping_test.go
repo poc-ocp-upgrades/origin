@@ -47,12 +47,16 @@ func TestClusterQuotaFuzzer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for j := 0; j < 100; j++ {
 		t.Logf("attempt %d", (j + 1))
 		runFuzzer(t)
 	}
 }
 func runFuzzer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +197,8 @@ func checkState(controller *ClusterQuotaMappingController, finalNamespaces map[s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failures := []string{}
 	quotaToNamespaces := map[string]sets.String{}
 	for _, quotaName := range quotaNames {
@@ -253,6 +259,8 @@ func CreateStartingQuotas() []runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := rand.Intn(len(quotaNames))
 	used := sets.String{}
 	ret := []runtime.Object{}
@@ -266,6 +274,8 @@ func CreateStartingQuotas() []runtime.Object {
 	return ret
 }
 func CreateStartingNamespaces() []runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +317,8 @@ func NewQuota(name string) *quotav1.ClusterResourceQuota {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := &quotav1.ClusterResourceQuota{}
 	ret.Name = name
 	numSelectorKeys := rand.Intn(maxSelectorKeys) + 1
@@ -328,6 +340,8 @@ func NewQuota(name string) *quotav1.ClusterResourceQuota {
 	return ret
 }
 func NewNamespace(name string) *corev1.Namespace {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

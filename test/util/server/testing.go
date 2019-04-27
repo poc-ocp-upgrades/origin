@@ -21,12 +21,16 @@ func StartConfiguredMaster(masterConfig *configapi.MasterConfig) (string, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if v := flag.Lookup("test.v"); v == nil {
 		panic("cannot be used outside of test code")
 	}
 	return StartConfiguredMasterWithOptions(masterConfig, wait.NeverStop)
 }
 func StartConfiguredMasterAPI(masterConfig *configapi.MasterConfig) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func StartTestMaster() (*configapi.MasterConfig, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := DefaultMasterOptions()
 	if err != nil {
 		return nil, "", err
@@ -73,6 +79,8 @@ func StartTestMaster() (*configapi.MasterConfig, string, error) {
 	return master, adminKubeConfigFile, err
 }
 func StartTestMasterAPI() (*configapi.MasterConfig, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

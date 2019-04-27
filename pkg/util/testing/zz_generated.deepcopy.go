@@ -19,12 +19,16 @@ func (in *FakeLabelsResource) DeepCopyInto(out *FakeLabelsResource) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
 	return
 }
 func (in *FakeLabelsResource) DeepCopy() *FakeLabelsResource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -47,6 +51,8 @@ func (in *FakeLabelsResource) DeepCopy() *FakeLabelsResource {
 	return out
 }
 func (in *FakeLabelsResource) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

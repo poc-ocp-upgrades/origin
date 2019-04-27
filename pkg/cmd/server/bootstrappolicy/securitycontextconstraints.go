@@ -45,9 +45,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	securityapiinstall.Install(bootstrapSCCScheme)
 }
 func GetBootstrapSecurityContextConstraints(sccNameToAdditionalGroups map[string][]string, sccNameToAdditionalUsers map[string][]string) []*securityapi.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func GetBootstrapSecurityContextConstraints(sccNameToAdditionalGroups map[string
 	return constraints
 }
 func GetBoostrapSCCAccess(infraNamespace string) (map[string][]string, map[string][]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -72,9 +72,13 @@ func NewCreateSecretOptions(streams genericclioptions.IOStreams) *CreateSecretOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateSecretOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdCreateSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +106,8 @@ func NewCmdCreateSecret(name, fullName string, f kcmdutil.Factory, streams gener
 	return cmd
 }
 func (o *CreateSecretOptions) Complete(args []string, f kcmdutil.Factory) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +162,8 @@ func (o *CreateSecretOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Name) == 0 {
 		return errors.New("secret name is required")
 	}
@@ -195,6 +203,8 @@ func (o *CreateSecretOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := o.BundleSecret()
 	if err != nil {
 		return err
@@ -209,6 +219,8 @@ func (o *CreateSecretOptions) Run() error {
 	return o.Printer.PrintObj(secret, o.Out)
 }
 func (o *CreateSecretOptions) BundleSecret() (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +309,8 @@ func addKeyToSecret(keyName, filePath string, secretData map[string][]byte) erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if errors := kvalidation.IsConfigMapKey(keyName); len(errors) > 0 {
 		return fmt.Errorf("%v is not a valid key name for a secret: %s", keyName, strings.Join(errors, ", "))
 	}
@@ -311,6 +325,8 @@ func addKeyToSecret(keyName, filePath string, secretData map[string][]byte) erro
 	return nil
 }
 func parseSource(source string) (keyName, filePath string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -200,9 +200,13 @@ func newProject(nsName string) *projectapi.Project {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &projectapi.Project{ObjectMeta: metav1.ObjectMeta{Name: nsName, Annotations: map[string]string{oapi.OpenShiftDisplayName: nsName}}}
 }
 func mkPath(file string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +230,8 @@ func mkPath(file string) string {
 	return filepath.Join(rootDir+"/", file)
 }
 func appendIntToString(s string, i int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

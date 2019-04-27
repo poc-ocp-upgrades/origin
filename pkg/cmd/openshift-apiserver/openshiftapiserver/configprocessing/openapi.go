@@ -31,6 +31,8 @@ func DefaultOpenAPIConfig(oauthMetadata *oauthutil.OauthAuthorizationServerMetad
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	securityDefinitions := spec.SecurityDefinitions{}
 	securityDefinitions["BearerToken"] = &spec.SecurityScheme{SecuritySchemeProps: spec.SecuritySchemeProps{Type: "apiKey", Name: "authorization", In: "header", Description: "Bearer Token authentication"}}
 	if oauthMetadata != nil {

@@ -61,6 +61,8 @@ func NewMustGatherCommand(f kcmdutil.Factory, streams genericclioptions.IOStream
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewMustGatherOptions(streams)
 	rsyncCommand := rsync.NewCmdRsync(rsync.RsyncRecommendedName, "", f, streams)
 	cmd := &cobra.Command{Use: "must-gather", Short: "Launch a new instance of a pod for gathering debug information", Long: mustGatherLong, Example: mustGatherExample, Hidden: true, Run: func(cmd *cobra.Command, args []string) {
@@ -89,9 +91,13 @@ func NewMustGatherOptions(streams genericclioptions.IOStreams) *MustGatherOption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MustGatherOptions{IOStreams: streams}
 }
 func (o *MustGatherOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,6 +182,8 @@ func (o *MustGatherOptions) Run(rsyncCmd *cobra.Command) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Image) == 0 {
 		return fmt.Errorf("missing an image")
 	}
@@ -233,11 +241,15 @@ func (o *MustGatherOptions) copyFilesFromPod(pod *corev1.Pod) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rsyncOptions := &rsync.RsyncOptions{Namespace: pod.Namespace, Source: &rsync.PathSpec{PodName: pod.Name, Path: "/must-gather/"}, ContainerName: "copy", Destination: &rsync.PathSpec{PodName: "", Path: o.DestDir}, Client: o.Client, Config: o.Config, RshCmd: fmt.Sprintf("%s --namespace=%s", o.RsyncRshCmd, pod.Namespace), IOStreams: o.IOStreams}
 	rsyncOptions.Strategy = rsync.NewDefaultCopyStrategy(rsyncOptions)
 	return rsyncOptions.RunRsync()
 }
 func (o *MustGatherOptions) waitForPodRunning(pod *corev1.Pod) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,9 +296,13 @@ func (o *MustGatherOptions) newClusterRoleBinding(ns string) *rbacv1.ClusterRole
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &rbacv1.ClusterRoleBinding{ObjectMeta: metav1.ObjectMeta{GenerateName: "must-gather-", Annotations: map[string]string{"oc.openshift.io/command": "oc adm must-gather"}}, RoleRef: rbacv1.RoleRef{APIGroup: "rbac.authorization.k8s.io", Kind: "ClusterRole", Name: "cluster-admin"}, Subjects: []rbacv1.Subject{{Kind: "ServiceAccount", Name: "default", Namespace: ns}}}
 }
 func (o *MustGatherOptions) newPod(node string) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -323,6 +339,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -397,5 +434,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

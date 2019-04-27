@@ -31,9 +31,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	RegisterAllAdmissionPlugins(OriginAdmissionPlugins)
 }
 func RegisterAllAdmissionPlugins(plugins *admission.Plugins) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -54,6 +58,8 @@ func RegisterAllAdmissionPlugins(plugins *admission.Plugins) {
 	RegisterOpenshiftAdmissionPlugins(plugins)
 }
 func RegisterOpenshiftAdmissionPlugins(plugins *admission.Plugins) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

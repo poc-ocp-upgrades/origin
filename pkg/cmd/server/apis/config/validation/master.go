@@ -45,6 +45,8 @@ func ValidateMasterConfig(config *configapi.MasterConfig, fldPath *field.Path) c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	if _, urlErrs := common.ValidateURL(config.MasterPublicURL, fldPath.Child("masterPublicURL")); len(urlErrs) > 0 {
 		validationResults.AddErrors(urlErrs...)
@@ -131,6 +133,8 @@ func ValidateMasterAuthConfig(config configapi.MasterAuthConfig, fldPath *field.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	if len(config.OAuthMetadataFile) > 0 {
 		if _, _, err := oauthutil.LoadOAuthMetadataFile(config.OAuthMetadataFile); err != nil {
@@ -188,6 +192,8 @@ func ValidateAggregatorConfig(config configapi.AggregatorConfig, fldPath *field.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.AddErrors(common.ValidateCertInfo(config.ProxyClientInfo, false, fldPath.Child("proxyClientInfo"))...)
 	if len(config.ProxyClientInfo.CertFile) == 0 && len(config.ProxyClientInfo.KeyFile) == 0 {
@@ -196,6 +202,8 @@ func ValidateAggregatorConfig(config configapi.AggregatorConfig, fldPath *field.
 	return validationResults
 }
 func ValidateAuditConfig(config configapi.AuditConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -294,6 +302,8 @@ func ValidateControllerConfig(config configapi.ControllerConfig, fldPath *field.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	if election := config.Election; election != nil {
 		if len(election.LockName) == 0 {
@@ -320,6 +330,8 @@ func ValidateControllerConfig(config configapi.ControllerConfig, fldPath *field.
 	return validationResults
 }
 func ValidateAPILevels(apiLevels []string, knownAPILevels, deadAPILevels []string, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -366,6 +378,8 @@ func ValidateEtcdStorageConfig(config configapi.EtcdStorageConfig, fldPath *fiel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, ValidateStorageVersionLevel(config.KubernetesStorageVersion, configapi.KnownKubernetesStorageVersionLevels, configapi.DeadKubernetesStorageVersionLevels, fldPath.Child("kubernetesStorageVersion"))...)
 	allErrs = append(allErrs, ValidateStorageVersionLevel(config.OpenShiftStorageVersion, configapi.KnownOpenShiftStorageVersionLevels, configapi.DeadOpenShiftStorageVersionLevels, fldPath.Child("openShiftStorageVersion"))...)
@@ -378,6 +392,8 @@ func ValidateEtcdStorageConfig(config configapi.EtcdStorageConfig, fldPath *fiel
 	return allErrs
 }
 func ValidateStorageVersionLevel(level string, knownAPILevels, deadAPILevels []string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +421,8 @@ func ValidateStorageVersionLevel(level string, knownAPILevels, deadAPILevels []s
 	return allErrs
 }
 func ValidateServiceAccountConfig(config configapi.ServiceAccountConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -482,6 +500,8 @@ func ValidateImageConfig(config configapi.ImageConfig, fldPath *field.Path) fiel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(config.Format) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("format"), ""))
@@ -489,6 +509,8 @@ func ValidateImageConfig(config configapi.ImageConfig, fldPath *field.Path) fiel
 	return allErrs
 }
 func ValidateImagePolicyConfig(config configapi.ImagePolicyConfig, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -552,6 +574,8 @@ func ValidateKubeletConnectionInfo(config configapi.KubeletConnectionInfo, fldPa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if config.Port == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("port"), ""))
@@ -563,6 +587,8 @@ func ValidateKubeletConnectionInfo(config configapi.KubeletConnectionInfo, fldPa
 	return allErrs
 }
 func ValidateKubernetesMasterConfig(config configapi.KubernetesMasterConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -638,6 +664,8 @@ func ValidatePolicyConfig(config configapi.PolicyConfig, fldPath *field.Path) fi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	for i, matchingRule := range config.UserAgentMatchingConfig.DeniedClients {
 		_, err := regexp.Compile(matchingRule.Regex)
@@ -654,6 +682,8 @@ func ValidatePolicyConfig(config configapi.PolicyConfig, fldPath *field.Path) fi
 	return allErrs
 }
 func ValidateProjectConfig(config configapi.ProjectConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -709,6 +739,8 @@ func ValidateRoutingConfig(config configapi.RoutingConfig, fldPath *field.Path) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(config.Subdomain) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("subdomain"), ""))
@@ -718,6 +750,8 @@ func ValidateRoutingConfig(config configapi.RoutingConfig, fldPath *field.Path) 
 	return allErrs
 }
 func ValidateAPIServerExtendedArguments(config configapi.ExtendedArguments, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -762,6 +796,8 @@ func ValidateControllerExtendedArguments(config configapi.ExtendedArguments, fld
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defaultOptions, err := kcmoptions.NewKubeControllerManagerOptions()
 	if err != nil {
 		panic(err)
@@ -783,9 +819,13 @@ func deprecatedAdmissionPluginNames() sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.NewString("openshift.io/OriginResourceQuota")
 }
 func ValidateAdmissionPluginConfig(pluginConfig map[string]*configapi.AdmissionPluginConfig, fieldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -830,6 +870,8 @@ func ValidateIngressIPNetworkCIDR(config *configapi.MasterConfig, fldPath *field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cidr := config.NetworkConfig.IngressIPNetworkCIDR
 	if len(cidr) == 0 {
 		return
@@ -859,6 +901,8 @@ func ValidateIngressIPNetworkCIDR(config *configapi.MasterConfig, fldPath *field
 	return
 }
 func ValidateDeprecatedClusterNetworkConfig(config *configapi.MasterConfig, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

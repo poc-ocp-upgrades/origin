@@ -66,9 +66,13 @@ func NewLoginOptions(streams genericclioptions.IOStreams) *LoginOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &LoginOptions{IOStreams: streams}
 }
 func (o *LoginOptions) GatherInfo() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func (o *LoginOptions) GatherInfo() error {
 	return nil
 }
 func (o *LoginOptions) getClientConfig() (*restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +178,8 @@ func (o *LoginOptions) gatherAuthInfo() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	directClientConfig, err := o.getClientConfig()
 	if err != nil {
 		return err
@@ -233,6 +241,8 @@ func (o *LoginOptions) gatherAuthInfo() error {
 	return nil
 }
 func (o *LoginOptions) gatherProjectInfo() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +347,8 @@ func (o *LoginOptions) SaveConfig() (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Username) == 0 {
 		return false, fmt.Errorf("Insufficient data to merge configuration.")
 	}
@@ -392,9 +404,13 @@ func (o LoginOptions) whoAmI() (*userv1.User, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return project.WhoAmI(o.Config)
 }
 func (o *LoginOptions) usernameProvided() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -426,6 +442,8 @@ func (o *LoginOptions) passwordProvided() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(o.Password) > 0
 }
 func (o *LoginOptions) serverProvided() bool {
@@ -443,9 +461,13 @@ func (o *LoginOptions) serverProvided() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return (len(o.Server) > 0)
 }
 func (o *LoginOptions) tokenProvided() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

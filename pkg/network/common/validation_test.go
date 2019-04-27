@@ -21,6 +21,8 @@ func TestValidateClusterNetwork(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		cn		*networkapi.ClusterNetwork
@@ -36,6 +38,8 @@ func TestValidateClusterNetwork(t *testing.T) {
 	}
 }
 func TestValidateHostSubnet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

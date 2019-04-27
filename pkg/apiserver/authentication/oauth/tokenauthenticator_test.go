@@ -33,6 +33,8 @@ func TestAuthenticateTokenInvalidUID(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeOAuthClient := oauthfake.NewSimpleClientset(&oauthv1.OAuthAccessToken{ObjectMeta: metav1.ObjectMeta{Name: "token", CreationTimestamp: metav1.Time{Time: time.Now()}}, ExpiresIn: 600, UserName: "foo", UserUID: string("bar1")})
 	fakeUserClient := userfake.NewSimpleClientset(&userapi.User{ObjectMeta: metav1.ObjectMeta{Name: "foo", UID: "bar2"}})
 	tokenAuthenticator := NewTokenAuthenticator(fakeOAuthClient.OauthV1().OAuthAccessTokens(), fakeUserClient.UserV1().Users(), NoopGroupMapper{}, NewUIDValidator())
@@ -48,6 +50,8 @@ func TestAuthenticateTokenInvalidUID(t *testing.T) {
 	}
 }
 func TestAuthenticateTokenNotFoundSuppressed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func TestAuthenticateTokenOtherGetErrorSuppressed(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeOAuthClient := oauthfake.NewSimpleClientset()
 	fakeOAuthClient.PrependReactor("get", "oauthaccesstokens", func(action clienttesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, nil, errors.New("get error")
@@ -109,6 +115,8 @@ func TestAuthenticateTokenOtherGetErrorSuppressed(t *testing.T) {
 	}
 }
 func TestAuthenticateTokenTimeout(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,6 +258,8 @@ func (f fakeOAuthClientLister) Get(name string) (*oauthv1.OAuthClient, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.clients.Get(name, metav1.GetOptions{})
 }
 func (f fakeOAuthClientLister) List(selector labels.Selector) ([]*oauthv1.OAuthClient, error) {
@@ -267,9 +277,13 @@ func (f fakeOAuthClientLister) List(selector labels.Selector) ([]*oauthv1.OAuthC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not used")
 }
 func checkToken(t *testing.T, name string, authf authenticator.Token, tokens oauthclient.OAuthAccessTokenInterface, current clock.Clock, present bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,6 +327,8 @@ func checkToken(t *testing.T, name string, authf authenticator.Token, tokens oau
 	}
 }
 func wait(t *testing.T, c chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

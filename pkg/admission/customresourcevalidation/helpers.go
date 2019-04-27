@@ -22,9 +22,13 @@ func ValidateConfigMapReference(path *field.Path, configMap configv1.ConfigMapNa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateConfigMapSecret(path.Child("name"), configMap.Name, required, validation.ValidateConfigMapName)
 }
 func ValidateSecretReference(path *field.Path, secret configv1.SecretNameReference, required bool) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -56,6 +60,8 @@ func validateConfigMapSecret(path *field.Path, name string, required bool, valid
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(name) == 0 {
 		if required {
 			return field.ErrorList{field.Required(path, "")}
@@ -68,6 +74,8 @@ func validateConfigMapSecret(path *field.Path, name string, required bool, valid
 	return nil
 }
 func RequireNameCluster(name string, prefix bool) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

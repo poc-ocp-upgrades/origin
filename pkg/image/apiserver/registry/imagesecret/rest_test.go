@@ -25,6 +25,8 @@ func TestGetSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fake := fake.NewSimpleClientset(&corev1.SecretList{Items: []corev1.Secret{{ObjectMeta: metav1.ObjectMeta{Name: "secret-1", Namespace: "default"}, Type: corev1.SecretTypeDockercfg}, {ObjectMeta: metav1.ObjectMeta{Name: "secret-2", Annotations: map[string]string{imageapi.ExcludeImageSecretAnnotation: "true"}, Namespace: "default"}, Type: corev1.SecretTypeDockercfg}, {ObjectMeta: metav1.ObjectMeta{Name: "secret-3", Namespace: "default"}, Type: corev1.SecretTypeOpaque}, {ObjectMeta: metav1.ObjectMeta{Name: "secret-4", Namespace: "default"}, Type: corev1.SecretTypeServiceAccountToken}, {ObjectMeta: metav1.ObjectMeta{Name: "secret-5", Namespace: "default"}, Type: corev1.SecretTypeDockerConfigJson}}})
 	rest := NewREST(fake.CoreV1())
 	opts, _, _ := rest.NewGetOptions()

@@ -88,6 +88,8 @@ func waitForRouterInternalIP(oc *exutil.CLI) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return waitForNamedRouterServiceIP(oc, "router-internal-default")
 }
 func waitForRouterExternalIP(oc *exutil.CLI) (string, error) {
@@ -105,9 +107,13 @@ func waitForRouterExternalIP(oc *exutil.CLI) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return waitForNamedRouterServiceIP(oc, "router-default")
 }
 func routerShouldHaveExternalService(oc *exutil.CLI) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -154,6 +160,8 @@ func waitForRouterServiceIP(oc *exutil.CLI) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if useExternal, err := routerShouldHaveExternalService(oc); err != nil {
 		return "", err
 	} else if useExternal {
@@ -162,6 +170,8 @@ func waitForRouterServiceIP(oc *exutil.CLI) (string, error) {
 	return waitForRouterInternalIP(oc)
 }
 func waitForNamedRouterServiceIP(oc *exutil.CLI, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

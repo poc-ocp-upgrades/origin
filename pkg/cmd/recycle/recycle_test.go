@@ -27,6 +27,8 @@ func prepareTestDir(root string, filenames []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, dir := range filenames {
 		dirpath := path.Join(root, dir)
 		if err := os.Mkdir(dirpath, os.FileMode(0755)); err != nil {
@@ -45,6 +47,8 @@ func prepareTestDir(root string, filenames []string) error {
 	return nil
 }
 func TestRecycle(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func TestRecycle(t *testing.T) {
 	}
 }
 func TestCheckEmpty(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

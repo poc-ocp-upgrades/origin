@@ -36,11 +36,15 @@ func TestPodNodeConstraintsAdmissionPluginSetNodeNameClusterAdmin(t *testing.T) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oclient, kclientset, fn := setupClusterAdminPodNodeConstraintsTest(t, &pluginapi.PodNodeConstraintsConfig{})
 	defer fn()
 	testPodNodeConstraintsObjectCreationWithPodTemplate(t, "set node name, cluster admin", kclientset, oclient, "nodename.example.com", nil, false)
 }
 func TestPodNodeConstraintsAdmissionPluginSetNodeNameNonAdmin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func TestPodNodeConstraintsAdmissionPluginSetNodeSelectorClusterAdmin(t *testing
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &pluginapi.PodNodeConstraintsConfig{NodeSelectorLabelBlacklist: []string{"hostname"}}
 	oclient, kclientset, fn := setupClusterAdminPodNodeConstraintsTest(t, config)
 	defer fn()
@@ -95,12 +101,16 @@ func TestPodNodeConstraintsAdmissionPluginSetNodeSelectorNonAdmin(t *testing.T) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &pluginapi.PodNodeConstraintsConfig{NodeSelectorLabelBlacklist: []string{"hostname"}}
 	oclient, kclientset, fn := setupUserPodNodeConstraintsTest(t, config, "derples")
 	defer fn()
 	testPodNodeConstraintsObjectCreationWithPodTemplate(t, "set node selector, regular user", kclientset, oclient, "", map[string]string{"hostname": "foo"}, true)
 }
 func setupClusterAdminPodNodeConstraintsTest(t *testing.T, pluginConfig *pluginapi.PodNodeConstraintsConfig) (appsclient.Interface, kubernetes.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +157,8 @@ func setupClusterAdminPodNodeConstraintsTest(t *testing.T, pluginConfig *plugina
 	}
 }
 func setupUserPodNodeConstraintsTest(t *testing.T, pluginConfig *pluginapi.PodNodeConstraintsConfig, user string) (appsclient.Interface, kubernetes.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +229,8 @@ func testPodNodeConstraintsPodSpec(nodeName string, nodeSelector map[string]stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := corev1.PodSpec{}
 	spec.RestartPolicy = corev1.RestartPolicyAlways
 	spec.NodeName = nodeName
@@ -239,12 +253,16 @@ func testPodNodeConstraintsPod(nodeName string, nodeSelector map[string]string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &corev1.Pod{}
 	pod.Name = "testpod"
 	pod.Spec = testPodNodeConstraintsPodSpec(nodeName, nodeSelector)
 	return pod
 }
 func testPodNodeConstraintsReplicationController(nodeName string, nodeSelector map[string]string) *corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,9 +301,13 @@ func int32Ptr(in int32) *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &in
 }
 func testPodNodeConstraintsDeployment(nodeName string, nodeSelector map[string]string) *appsv1.Deployment {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +331,8 @@ func testPodNodeConstraintsDeployment(nodeName string, nodeSelector map[string]s
 	return d
 }
 func testPodNodeConstraintsReplicaSet(nodeName string, nodeSelector map[string]string) *appsv1.ReplicaSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,6 +371,8 @@ func testPodNodeConstraintsJob(nodeName string, nodeSelector map[string]string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	job := &batchv1.Job{}
 	job.Name = "testjob"
 	job.Spec.Template.Labels = map[string]string{"foo": "bar"}
@@ -355,6 +381,8 @@ func testPodNodeConstraintsJob(nodeName string, nodeSelector map[string]string) 
 	return job
 }
 func testPodNodeConstraintsDeploymentConfig(nodeName string, nodeSelector map[string]string) *oappsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,6 +407,8 @@ func testPodNodeConstraintsDeploymentConfig(nodeName string, nodeSelector map[st
 	return dc
 }
 func testPodNodeConstraintsObjectCreationWithPodTemplate(t *testing.T, name string, kclientset kubernetes.Interface, appsClient appsclient.Interface, nodeName string, nodeSelector map[string]string, expectError bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,6 +27,8 @@ func IsOpenShiftNetworkPlugin(pluginName string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch strings.ToLower(pluginName) {
 	case SingleTenantPluginName, MultiTenantPluginName, NetworkPolicyPluginName:
 		return true
@@ -34,6 +36,8 @@ func IsOpenShiftNetworkPlugin(pluginName string) bool {
 	return false
 }
 func IsOpenShiftMultitenantNetworkPlugin(pluginName string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

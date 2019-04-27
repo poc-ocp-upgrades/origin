@@ -27,6 +27,8 @@ func TestDescriptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	InstallInternalOpenShift(scheme)
 	InstallInternalKube(scheme)
@@ -38,6 +40,8 @@ func TestDescriptions(t *testing.T) {
 	}
 }
 func checkDescriptions(objType reflect.Type, seen *map[reflect.Type]bool, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func TestInternalJsonTags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	InstallInternalOpenShift(scheme)
 	InstallInternalKube(scheme)
@@ -114,6 +120,8 @@ func TestInternalJsonTags(t *testing.T) {
 var internalTypesWithAllowedJsonTags = sets.NewString("DockerConfig", "DockerImage")
 
 func checkInternalJsonTags(objType reflect.Type, seen *map[reflect.Type]bool, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +181,8 @@ func TestExternalJsonTags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	InstallInternalOpenShift(scheme)
 	InstallInternalKube(scheme)
@@ -185,6 +195,8 @@ func TestExternalJsonTags(t *testing.T) {
 	}
 }
 func checkExternalJsonTags(objType reflect.Type, seen *map[reflect.Type]bool, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

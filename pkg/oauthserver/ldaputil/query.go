@@ -24,6 +24,8 @@ func NewLDAPQuery(config config.LDAPQuery) (LDAPQuery, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scope, err := DetermineLDAPScope(config.Scope)
 	if err != nil {
 		return LDAPQuery{}, err
@@ -59,6 +61,8 @@ func (q *LDAPQuery) NewSearchRequest(additionalAttributes []string) *ldap.Search
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var controls []ldap.Control
 	if q.PageSize > 0 {
 		controls = append(controls, ldap.NewControlPaging(uint32(q.PageSize)))
@@ -66,6 +70,8 @@ func (q *LDAPQuery) NewSearchRequest(additionalAttributes []string) *ldap.Search
 	return ldap.NewSearchRequest(q.BaseDN, int(q.Scope), int(q.DerefAliases), 0, q.TimeLimit, false, q.Filter, additionalAttributes, controls)
 }
 func NewLDAPQueryOnAttribute(config config.LDAPQuery, attribute string) (LDAPQueryOnAttribute, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +99,8 @@ type LDAPQueryOnAttribute struct {
 }
 
 func (o *LDAPQueryOnAttribute) NewSearchRequest(attributeValue string, attributes []string) (*ldap.SearchRequest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +147,8 @@ func (o *LDAPQueryOnAttribute) buildDNQuery(dn string, attributes []string) *lda
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var controls []ldap.Control
 	if o.PageSize > 0 {
 		controls = append(controls, ldap.NewControlPaging(uint32(o.PageSize)))
@@ -146,6 +156,8 @@ func (o *LDAPQueryOnAttribute) buildDNQuery(dn string, attributes []string) *lda
 	return ldap.NewSearchRequest(dn, ldap.ScopeBaseObject, int(o.DerefAliases), 0, o.TimeLimit, false, "(objectClass=*)", attributes, controls)
 }
 func (o *LDAPQueryOnAttribute) buildAttributeQuery(attributeValue string, attributes []string) *ldap.SearchRequest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +181,8 @@ func (o *LDAPQueryOnAttribute) buildAttributeQuery(attributeValue string, attrib
 	return ldap.NewSearchRequest(o.BaseDN, int(o.Scope), int(o.DerefAliases), 0, o.TimeLimit, false, filter, attributes, controls)
 }
 func QueryForUniqueEntry(clientConfig ldapclient.Config, query *ldap.SearchRequest) (*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +230,8 @@ func formatResult(results []*ldap.Entry) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, entry := range results {
 		names = append(names, entry.DN)
@@ -223,6 +239,8 @@ func formatResult(results []*ldap.Entry) string {
 	return "\t" + strings.Join(names[0:10], "\n\t")
 }
 func QueryForEntries(clientConfig ldapclient.Config, query *ldap.SearchRequest) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

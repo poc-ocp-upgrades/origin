@@ -40,6 +40,8 @@ func tabbedString(f func(*tabwriter.Writer) error) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := new(tabwriter.Writer)
 	buf := &bytes.Buffer{}
 	out.Init(buf, 0, 8, 1, '\t', 0)
@@ -52,6 +54,8 @@ func tabbedString(f func(*tabwriter.Writer) error) (string, error) {
 	return str, nil
 }
 func toString(v interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,9 +91,13 @@ func bold(v interface{}) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "\033[1m" + toString(v) + "\033[0m"
 }
 func convertEnv(env []corev1.EnvVar) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,12 +133,16 @@ func formatEnv(env corev1.EnvVar) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if env.ValueFrom != nil && env.ValueFrom.FieldRef != nil {
 		return fmt.Sprintf("%s=<%s>", env.Name, env.ValueFrom.FieldRef.FieldPath)
 	}
 	return fmt.Sprintf("%s=%s", env.Name, env.Value)
 }
 func formatString(out *tabwriter.Writer, label string, v interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,9 +178,13 @@ func formatTime(out *tabwriter.Writer, label string, t time.Time) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(out, fmt.Sprintf("%s:\t%s ago\n", label, formatRelativeTime(t)))
 }
 func formatLabels(labelMap map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +216,8 @@ func extractAnnotations(annotations map[string]string, keys ...string) ([]string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	extracted := make([]string, len(keys))
 	remaining := make(map[string]string)
 	for k, v := range annotations {
@@ -212,6 +230,8 @@ func extractAnnotations(annotations map[string]string, keys ...string) ([]string
 	return extracted, remaining
 }
 func formatMapStringString(out *tabwriter.Writer, label string, items map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +277,8 @@ func formatAnnotations(out *tabwriter.Writer, m metav1.ObjectMeta, prefix string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	values, annotations := extractAnnotations(m.Annotations, "description")
 	if len(values[0]) > 0 {
 		formatString(out, prefix+"Description", values[0])
@@ -269,6 +291,8 @@ var timeNowFn = func() time.Time {
 }
 
 func formatToHumanDuration(dur time.Duration) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -300,6 +324,8 @@ func formatRelativeTime(t time.Time) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return units.HumanDuration(timeNowFn().Sub(t))
 }
 func FormatRelativeTime(t time.Time) string {
@@ -317,9 +343,13 @@ func FormatRelativeTime(t time.Time) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return formatRelativeTime(t)
 }
 func formatMeta(out *tabwriter.Writer, m metav1.ObjectMeta) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -365,6 +395,8 @@ func webHooksDescribe(triggers []buildv1.BuildTriggerPolicy, name, namespace str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := map[string][]DescribeWebhook{}
 	for _, trigger := range triggers {
 		var allowEnv *bool
@@ -390,6 +422,8 @@ func webHooksDescribe(triggers []buildv1.BuildTriggerPolicy, name, namespace str
 	return result
 }
 func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -599,6 +633,8 @@ func roleBindingRestrictionType(rbr *authorizationapi.RoleBindingRestriction) st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case rbr.Spec.UserRestriction != nil:
 		return "User"
@@ -610,6 +646,8 @@ func roleBindingRestrictionType(rbr *authorizationapi.RoleBindingRestriction) st
 	return ""
 }
 func PrintTemplateParameters(params []templateapi.Parameter, output io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

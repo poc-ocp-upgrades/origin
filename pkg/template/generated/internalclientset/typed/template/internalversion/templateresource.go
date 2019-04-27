@@ -44,9 +44,13 @@ func newTemplates(c *TemplateClient, namespace string) *templates {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &templates{client: c.RESTClient(), ns: namespace}
 }
 func (c *templates) Get(name string, options v1.GetOptions) (result *template.Template, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ func (c *templates) Get(name string, options v1.GetOptions) (result *template.Te
 	return
 }
 func (c *templates) List(opts v1.ListOptions) (result *template.TemplateList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +109,8 @@ func (c *templates) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -111,6 +119,8 @@ func (c *templates) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Namespace(c.ns).Resource("templates").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *templates) Create(templateResource *template.Template) (result *template.Template, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,11 +154,15 @@ func (c *templates) Update(templateResource *template.Template) (result *templat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &template.Template{}
 	err = c.client.Put().Namespace(c.ns).Resource("templates").Name(templateResource.Name).Body(templateResource).Do().Into(result)
 	return
 }
 func (c *templates) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +194,8 @@ func (c *templates) DeleteCollection(options *v1.DeleteOptions, listOptions v1.L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -187,6 +203,8 @@ func (c *templates) DeleteCollection(options *v1.DeleteOptions, listOptions v1.L
 	return c.client.Delete().Namespace(c.ns).Resource("templates").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *templates) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *template.Template, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -17,5 +17,7 @@ func (RunOnceDurationConfig) SwaggerDoc() map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map_RunOnceDurationConfig
 }

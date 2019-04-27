@@ -78,6 +78,8 @@ func TestHandleBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := metav1.NewTime(time.Now().Round(time.Second))
 	build := func(phase buildv1.BuildPhase) *buildv1.Build {
 		b := dockerStrategy(mockBuild(phase, buildv1.BuildOutput{}))
@@ -254,6 +256,8 @@ func TestWorkWithNewBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
 	var patchedBuild *buildv1.Build
 	buildClient := fakeBuildClient(build)
@@ -273,6 +277,8 @@ func TestWorkWithNewBuild(t *testing.T) {
 	}
 }
 func TestCreateBuildPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -354,6 +360,8 @@ func TestCreateBuildPodWithImageStreamOutput(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream := &imagev1.ImageStream{}
 	imageStream.Namespace = "isnamespace"
 	imageStream.Name = "isname"
@@ -380,6 +388,8 @@ func TestCreateBuildPodWithImageStreamOutput(t *testing.T) {
 	}
 }
 func TestCreateBuildPodWithOutputImageStreamMissing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -425,6 +435,8 @@ func TestCreateBuildPodWithImageStreamMissing(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStreamRef := &corev1.ObjectReference{Name: "isname:latest", Kind: "DockerImage"}
 	bc := newFakeBuildController(nil, nil, nil, nil, nil)
 	defer bc.stop()
@@ -443,6 +455,8 @@ func TestCreateBuildPodWithImageStreamMissing(t *testing.T) {
 	}
 }
 func TestCreateBuildPodWithImageStreamUnresolved(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -496,9 +510,13 @@ func (*errorStrategy) CreateBuildPod(build *buildv1.Build, additionalCAs map[str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 func TestCreateBuildPodWithPodSpecCreationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -541,6 +559,8 @@ func TestCreateBuildPodWithExistingRelatedPod(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tru := true
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
 	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace, UID: types.UID(uuid.New().String()), OwnerReferences: []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &tru}}}}
@@ -564,6 +584,8 @@ func TestCreateBuildPodWithExistingRelatedPod(t *testing.T) {
 	validateUpdate(t, "create build pod with existing related pod error", expected, update)
 }
 func TestCreateBuildPodWithExistingRelatedPodMissingCA(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -620,6 +642,8 @@ func TestCreateBuildPodWithExistingRelatedPodBadCA(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tru := true
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
 	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace, UID: types.UID(uuid.New().String()), OwnerReferences: []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &tru}}}}
@@ -645,6 +669,8 @@ func TestCreateBuildPodWithExistingRelatedPodBadCA(t *testing.T) {
 	validateUpdate(t, "create build pod with existing related pod and bad CA configMap error", expected, update)
 }
 func TestCreateBuildPodWithExistingUnrelatedPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -693,6 +719,8 @@ func TestCreateBuildPodWithPodCreationError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fakeKubeExternalClientSet()
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, fmt.Errorf("error")
@@ -725,6 +753,8 @@ func TestCreateBuildPodWithCACreationError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fakeKubeExternalClientSet()
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, fmt.Errorf("error")
@@ -743,6 +773,8 @@ func TestCreateBuildPodWithCACreationError(t *testing.T) {
 	validateUpdate(t, "create build pod with CA ConfigMap creation error", expected, update)
 }
 func TestCancelBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -797,6 +829,8 @@ func TestShouldIgnore(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	setCompletionTimestamp := func(build *buildv1.Build) *buildv1.Build {
 		now := metav1.Now()
 		build.Status.CompletionTimestamp = &now
@@ -815,6 +849,8 @@ func TestShouldIgnore(t *testing.T) {
 	}
 }
 func TestIsValidTransition(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -871,6 +907,8 @@ func TestIsTerminal(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[buildv1.BuildPhase]bool{buildv1.BuildPhaseNew: false, buildv1.BuildPhasePending: false, buildv1.BuildPhaseRunning: false, buildv1.BuildPhaseComplete: true, buildv1.BuildPhaseFailed: true, buildv1.BuildPhaseError: true, buildv1.BuildPhaseCancelled: true}
 	for phase, expected := range tests {
 		if actual := buildutil.IsTerminalPhase(phase); actual != expected {
@@ -879,6 +917,8 @@ func TestIsTerminal(t *testing.T) {
 	}
 }
 func TestSetBuildCompletionTimestampAndDuration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1023,6 +1063,8 @@ func TestCreateBuildCAConfigMap(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		addlCAData	map[string]string
@@ -1066,6 +1108,8 @@ func TestCreateBuildCAConfigMap(t *testing.T) {
 	}
 }
 func TestHandleControllerConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1247,9 +1291,13 @@ func isRegistryConfigEmpty(config configv1.RegistrySources) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(config.InsecureRegistries) == 0
 }
 func decodeRegistries(configTOML string) (*tomlConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1283,9 +1331,13 @@ func isSignaturePolicyConfigEmpty(config configv1.RegistrySources) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(config.AllowedRegistries) == 0 && len(config.BlockedRegistries) == 0
 }
 func decodePolicyConfig(configJSON string) (*signature.Policy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1323,9 +1375,13 @@ func (e *errorBuildLister) List(selector labels.Selector) ([]*configv1.Build, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 func (e *errorBuildLister) Get(name string) (*configv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1360,9 +1416,13 @@ func (e *errorImageLister) List(selector labels.Selector) ([]*configv1.Image, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 func (e *errorImageLister) Get(name string) (*configv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1397,9 +1457,13 @@ func (e *errorConfigMapLister) List(selector labels.Selector) ([]*corev1.ConfigM
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 func (e *errorConfigMapLister) Get(name string) (*corev1.ConfigMap, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1431,9 +1495,13 @@ func (e *errorConfigMapLister) ConfigMaps(namespace string) v1lister.ConfigMapNa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e
 }
 func TestCreateBuildRegistryConfConfigMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1482,9 +1550,13 @@ func mockBuild(phase buildv1.BuildPhase, output buildv1.BuildOutput) *buildv1.Bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Name: "data-build", Namespace: "namespace", Annotations: map[string]string{buildutil.BuildConfigAnnotation: "test-bc"}, Labels: map[string]string{"name": "dataBuild", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel), buildutil.BuildConfigLabel: "test-bc"}}, Spec: buildv1.BuildSpec{CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.build.com/the/build/Dockerfile"}, ContextDir: "contextimage"}, Output: output}}, Status: buildv1.BuildStatus{Phase: phase}}
 }
 func dockerStrategy(build *buildv1.Build) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1517,10 +1589,14 @@ func pipelineStrategy(build *buildv1.Build) *buildv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build.Spec.Strategy = buildv1.BuildStrategy{JenkinsPipelineStrategy: &buildv1.JenkinsPipelineBuildStrategy{}}
 	return build
 }
 func fakeImageClient(objects ...runtime.Object) imagev1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1552,6 +1628,8 @@ func fakeBuildClient(objects ...runtime.Object) buildv1client.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakebuildv1client.NewSimpleClientset(objects...)
 }
 func fakeConfigClient(objects ...runtime.Object) configv1client.Interface {
@@ -1569,9 +1647,13 @@ func fakeConfigClient(objects ...runtime.Object) configv1client.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeconfigv1client.NewSimpleClientset(objects...)
 }
 func fakeKubeExternalClientSet(objects ...runtime.Object) kubernetes.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1608,9 +1690,13 @@ func fakeKubeInternalClientSet(objects ...runtime.Object) kubernetes.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fake.NewSimpleClientset(objects...)
 }
 func fakeKubeExternalInformers(clientSet kubernetes.Interface) informers.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1652,6 +1738,8 @@ func (c *fakeBuildController) start() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.kubeExternalInformers.Start(c.stopChan)
 	c.imageInformers.Start(c.stopChan)
 	c.buildInformers.Start(c.stopChan)
@@ -1675,9 +1763,13 @@ func (c *fakeBuildController) stop() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(c.stopChan)
 }
 func newFakeBuildController(buildClient buildv1client.Interface, imageClient imagev1client.Interface, kubeExternalClient kubernetes.Interface, kubeInternalClient kubernetes.Interface, configClient configv1client.Interface) *fakeBuildController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1716,6 +1808,8 @@ func newFakeBuildController(buildClient buildv1client.Interface, imageClient ima
 	return bc
 }
 func validateUpdate(t *testing.T, name string, expected, actual *buildUpdate) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1850,6 +1944,8 @@ func applyBuildPatch(build *buildv1.Build, patch []byte) (*buildv1.Build, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildJSON, err := runtime.Encode(buildscheme.Encoder, build)
 	if err != nil {
 		return nil, err
@@ -1865,6 +1961,8 @@ func applyBuildPatch(build *buildv1.Build, patch []byte) (*buildv1.Build, error)
 	return patchedVersionedBuild.(*buildv1.Build), nil
 }
 func applyBuildPatchReaction(t *testing.T, build *buildv1.Build, buildPtr **buildv1.Build) func(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1908,9 +2006,13 @@ func newUpdate() *updateBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &updateBuilder{update: &buildUpdate{}}
 }
 func (b *updateBuilder) phase(phase buildv1.BuildPhase) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1943,10 +2045,14 @@ func (b *updateBuilder) reason(reason buildv1.StatusReason) *updateBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setReason(reason)
 	return b
 }
 func (b *updateBuilder) message(message string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1979,10 +2085,14 @@ func (b *updateBuilder) startTime(startTime metav1.Time) *updateBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setStartTime(startTime)
 	return b
 }
 func (b *updateBuilder) completionTime(completionTime metav1.Time) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2015,10 +2125,14 @@ func (b *updateBuilder) duration(duration time.Duration) *updateBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setDuration(duration)
 	return b
 }
 func (b *updateBuilder) outputRef(ref string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2051,10 +2165,14 @@ func (b *updateBuilder) podNameAnnotation(podName string) *updateBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setPodNameAnnotation(podName)
 	return b
 }
 func (b *updateBuilder) logSnippet(message string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2093,9 +2211,13 @@ func (f *fakeRunPolicy) IsRunnable(*buildv1.Build) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !f.notRunnable, nil
 }
 func (f *fakeRunPolicy) OnComplete(*buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2128,9 +2250,13 @@ func (f *fakeRunPolicy) Handles(buildv1.BuildRunPolicy) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func mockBuildPod(build *buildv1.Build) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2153,6 +2279,8 @@ func mockBuildPod(build *buildv1.Build) *corev1.Pod {
 	return pod
 }
 func mockBuildCAConfigMap(build *buildv1.Build, pod *corev1.Pod) *corev1.ConfigMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2190,6 +2318,8 @@ func mockBuildSystemConfigMap(build *buildv1.Build, pod *corev1.Pod) *corev1.Con
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cm := &corev1.ConfigMap{}
 	cm.Name = buildapihelpers.GetBuildSystemConfigMapName(build)
 	cm.Namespace = build.Namespace
@@ -2199,6 +2329,8 @@ func mockBuildSystemConfigMap(build *buildv1.Build, pod *corev1.Pod) *corev1.Con
 	return cm
 }
 func TestPodStatusReporting(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

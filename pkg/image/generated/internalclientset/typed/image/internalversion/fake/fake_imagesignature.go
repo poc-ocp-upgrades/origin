@@ -27,6 +27,8 @@ func (c *FakeImageSignatures) Create(imageSignature *image.ImageSignature) (resu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootCreateAction(imagesignaturesResource, imageSignature), &image.ImageSignature{})
 	if obj == nil {
 		return nil, err
@@ -34,6 +36,8 @@ func (c *FakeImageSignatures) Create(imageSignature *image.ImageSignature) (resu
 	return obj.(*image.ImageSignature), err
 }
 func (c *FakeImageSignatures) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

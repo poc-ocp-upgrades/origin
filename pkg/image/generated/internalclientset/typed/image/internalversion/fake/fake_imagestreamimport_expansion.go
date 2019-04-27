@@ -20,6 +20,8 @@ func (c *FakeImageStreamImports) CreateWithoutTimeout(imageStreamImport *image.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewCreateAction(imagestreamimportsResource, c.ns, imageStreamImport), &image.ImageStreamImport{})
 	if obj == nil {
 		return nil, err

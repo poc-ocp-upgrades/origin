@@ -21,6 +21,8 @@ func RouteFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route, ok := obj.(*Route)
 	if !ok {
 		return fmt.Errorf("%T not a Route", obj)

@@ -71,9 +71,13 @@ func (c Client) GetBuildConfig(ctx context.Context, name string, options *metav1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.BuildConfigs.BuildConfigs(apirequest.NamespaceValue(ctx)).Get(name, *options)
 }
 func (c Client) UpdateBuildConfig(ctx context.Context, buildConfig *buildv1.BuildConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,9 +110,13 @@ func (c Client) GetBuild(ctx context.Context, name string, options *metav1.GetOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Builds.Builds(apirequest.NamespaceValue(ctx)).Get(name, *options)
 }
 func (c Client) CreateBuild(ctx context.Context, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,10 +149,14 @@ func (c Client) UpdateBuild(ctx context.Context, build *buildv1.Build) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := c.Builds.Builds(apirequest.NamespaceValue(ctx)).Update(build)
 	return err
 }
 func (c Client) GetImageStream(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,9 +188,13 @@ func (c Client) GetImageStreamImage(ctx context.Context, name string, options *m
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.ImageStreamImages.ImageStreamImages(apirequest.NamespaceValue(ctx)).Get(name, *options)
 }
 func (c Client) GetImageStreamTag(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,6 +226,8 @@ func fetchServiceAccountSecrets(secrets corev1client.SecretsGetter, serviceAccou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []corev1.Secret
 	sa, err := serviceAccounts.ServiceAccounts(namespace).Get(serviceAccount, metav1.GetOptions{})
 	if err != nil {
@@ -225,6 +243,8 @@ func fetchServiceAccountSecrets(secrets corev1client.SecretsGetter, serviceAccou
 	return result, nil
 }
 func findImageChangeTrigger(bc *buildv1.BuildConfig, ref *corev1.ObjectReference) *buildv1.ImageChangeTrigger {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,6 +303,8 @@ func describeBuildRequest(request *buildv1.BuildRequest) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	desc := fmt.Sprintf("BuildConfig: %s/%s", request.Namespace, request.Name)
 	if request.Revision != nil {
 		desc += fmt.Sprintf(", Revision: %#v", request.Revision.Git)
@@ -296,6 +318,8 @@ func describeBuildRequest(request *buildv1.BuildRequest) string {
 	return desc
 }
 func updateBuildArgs(oldArgs *[]corev1.EnvVar, newArgs []corev1.EnvVar) []corev1.EnvVar {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -324,6 +348,8 @@ func updateBuildArgs(oldArgs *[]corev1.EnvVar, newArgs []corev1.EnvVar) []corev1
 	return result
 }
 func (g *BuildGenerator) InstantiateInternal(ctx context.Context, request *buildapi.BuildRequest) (*buildapi.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,6 +393,8 @@ func (g *BuildGenerator) Instantiate(ctx context.Context, request *buildv1.Build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var build *buildv1.Build
 	var err error
 	for i := 0; i < conflictRetries; i++ {
@@ -385,6 +413,8 @@ func (g *BuildGenerator) Instantiate(ctx context.Context, request *buildv1.Build
 	return build, err
 }
 func (g *BuildGenerator) instantiate(ctx context.Context, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,6 +505,8 @@ func (g *BuildGenerator) checkLastVersion(bc *buildv1.BuildConfig, lastVersion *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if lastVersion != nil && bc.Status.LastVersion != *lastVersion {
 		klog.V(2).Infof("Aborting version triggered build for BuildConfig %s/%s because the BuildConfig LastVersion (%d) does not match the requested LastVersion (%d)", bc.Namespace, bc.Name, bc.Status.LastVersion, *lastVersion)
 		return fmt.Errorf("the LastVersion(%v) on build config %s/%s does not match the build request LastVersion(%d)", bc.Status.LastVersion, bc.Namespace, bc.Name, *lastVersion)
@@ -482,6 +514,8 @@ func (g *BuildGenerator) checkLastVersion(bc *buildv1.BuildConfig, lastVersion *
 	return nil
 }
 func (g *BuildGenerator) updateImageTriggers(ctx context.Context, bc *buildv1.BuildConfig, from, triggeredBy *corev1.ObjectReference) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -546,6 +580,8 @@ func (g *BuildGenerator) CloneInternal(ctx context.Context, request *buildapi.Bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	versionedRequest := &buildv1.BuildRequest{}
 	if err := legacyscheme.Scheme.Convert(request, versionedRequest, nil); err != nil {
 		return nil, err
@@ -575,6 +611,8 @@ func (g *BuildGenerator) Clone(ctx context.Context, request *buildv1.BuildReques
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var build *buildv1.Build
 	var err error
 	for i := 0; i < conflictRetries; i++ {
@@ -587,6 +625,8 @@ func (g *BuildGenerator) Clone(ctx context.Context, request *buildv1.BuildReques
 	return build, err
 }
 func (g *BuildGenerator) clone(ctx context.Context, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -654,6 +694,8 @@ func (g *BuildGenerator) createBuild(ctx context.Context, build *buildv1.Build) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !rest.ValidNamespace(ctx, &build.ObjectMeta) {
 		return nil, errors.NewConflict(buildv1.Resource("build"), build.Namespace, fmt.Errorf("Build.Namespace does not match the provided context"))
 	}
@@ -665,6 +707,8 @@ func (g *BuildGenerator) createBuild(ctx context.Context, build *buildv1.Build) 
 	return g.Client.GetBuild(ctx, build.Name, &metav1.GetOptions{})
 }
 func (g *BuildGenerator) generateBuildFromConfig(ctx context.Context, bc *buildv1.BuildConfig, revision *buildv1.SourceRevision, binary *buildv1.BinaryBuildSource) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -717,6 +761,8 @@ func (g *BuildGenerator) setBuildSourceImage(ctx context.Context, builderSecrets
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	strategyImageChangeTrigger := getStrategyImageChangeTrigger(bcCopy)
 	for i, sourceImage := range Source.Images {
@@ -745,6 +791,8 @@ func (g *BuildGenerator) setBuildSourceImage(ctx context.Context, builderSecrets
 	return nil
 }
 func (g *BuildGenerator) setBaseImageAndPullSecretForBuildStrategy(ctx context.Context, builderSecrets []corev1.Secret, bcCopy *buildv1.BuildConfig, strategy *buildv1.BuildStrategy) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -803,6 +851,8 @@ func (g *BuildGenerator) setBaseImageAndPullSecretForBuildStrategy(ctx context.C
 	return nil
 }
 func (g *BuildGenerator) resolveImageStreamReference(ctx context.Context, from corev1.ObjectReference, defaultNamespace string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -888,6 +938,8 @@ func (g *BuildGenerator) resolveImageStreamDockerRepository(ctx context.Context,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := defaultNamespace
 	if len(from.Namespace) > 0 {
 		namespace = from.Namespace
@@ -940,6 +992,8 @@ func (g *BuildGenerator) resolveImageSecret(ctx context.Context, secrets []corev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(secrets) == 0 || imageRef == nil {
 		return nil
 	}
@@ -955,6 +1009,8 @@ func (g *BuildGenerator) resolveImageSecret(ctx context.Context, secrets []corev
 	return s
 }
 func findDockerSecretAsInternalReference(secrets []corev1.Secret, image string) *corev1.LocalObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1002,6 +1058,8 @@ func resolveError(kind string, namespace string, name string, err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	msg := fmt.Sprintf("Error resolving %s %s in namespace %s: %v", kind, name, namespace, err)
 	return &errors.StatusError{ErrStatus: metav1.Status{Status: metav1.StatusFailure, Code: http.StatusUnprocessableEntity, Reason: metav1.StatusReasonInvalid, Message: msg, Details: &metav1.StatusDetails{Kind: kind, Name: name, Causes: []metav1.StatusCause{{Field: "from", Message: msg}}}}}
 }
@@ -1020,10 +1078,14 @@ func getNextBuildName(buildConfig *buildv1.BuildConfig) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfig.Status.LastVersion++
 	return apihelpers.GetName(buildConfig.Name, strconv.FormatInt(buildConfig.Status.LastVersion, 10), kvalidation.DNS1123SubdomainMaxLength)
 }
 func updateCustomImageEnv(strategy *buildv1.CustomBuildStrategy, newImage string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1058,6 +1120,8 @@ func updateCustomImageEnv(strategy *buildv1.CustomBuildStrategy, newImage string
 	}
 }
 func generateBuildFromBuild(build *buildv1.Build, buildConfig *buildv1.BuildConfig) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1108,6 +1172,8 @@ func getNextBuildNameFromBuild(build *buildv1.Build, buildConfig *buildv1.BuildC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var buildName string
 	if buildConfig != nil {
 		return getNextBuildName(buildConfig)
@@ -1138,6 +1204,8 @@ func getStrategyImageChangeTrigger(bc *buildv1.BuildConfig) *buildv1.ImageChange
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, trigger := range bc.Spec.Triggers {
 		if trigger.Type == buildv1.ImageChangeBuildTriggerType && trigger.ImageChange.From == nil {
 			return trigger.ImageChange
@@ -1146,6 +1214,8 @@ func getStrategyImageChangeTrigger(bc *buildv1.BuildConfig) *buildv1.ImageChange
 	return nil
 }
 func getImageChangeTriggerForRef(bc *buildv1.BuildConfig, ref *corev1.ObjectReference) *buildv1.ImageChangeTrigger {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1185,6 +1255,8 @@ func setBuildSource(binary *buildv1.BinaryBuildSource, build *buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if binary != nil {
 		build.Spec.Source.Git = nil
 		build.Spec.Source.Binary = binary
@@ -1197,6 +1269,8 @@ func setBuildSource(binary *buildv1.BinaryBuildSource, build *buildv1.Build) {
 	}
 }
 func setBuildAnnotationAndLabel(bcCopy *buildv1.BuildConfig, build *buildv1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1238,6 +1312,8 @@ func mergeMaps(a, b map[string]string) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a == nil && b == nil {
 		return nil
 	}
@@ -1251,6 +1327,8 @@ func mergeMaps(a, b map[string]string) map[string]string {
 	return res
 }
 func isPaused(bc *buildv1.BuildConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

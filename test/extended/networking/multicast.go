@@ -54,6 +54,8 @@ func makeNamespaceMulticastEnabled(ns *kapiv1.Namespace) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := testutil.GetClusterAdminClientConfig(testexutil.KubeConfigPath())
 	networkClient := networkclient.NewForConfigOrDie(clientConfig)
 	expectNoError(err)
@@ -77,6 +79,8 @@ func makeNamespaceMulticastEnabled(ns *kapiv1.Namespace) {
 	expectNoError(err)
 }
 func testMulticast(f *e2e.Framework, oc *testexutil.CLI) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +134,8 @@ func testMulticast(f *e2e.Framework, oc *testexutil.CLI) error {
 	return nil
 }
 func launchTestMulticastPod(f *e2e.Framework, nodeName string, podName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

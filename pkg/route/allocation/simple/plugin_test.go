@@ -23,6 +23,8 @@ func TestNewSimpleAllocationPlugin(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		Name			string
 		ErrorExpectation	bool
@@ -42,6 +44,8 @@ func TestNewSimpleAllocationPlugin(t *testing.T) {
 	}
 }
 func TestSimpleAllocationPlugin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ func TestSimpleAllocationPlugin(t *testing.T) {
 	}
 }
 func TestSimpleAllocationPluginViaController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

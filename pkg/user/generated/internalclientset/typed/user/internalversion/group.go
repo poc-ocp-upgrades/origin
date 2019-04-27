@@ -39,9 +39,13 @@ func newGroups(c *UserClient) *groups {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &groups{client: c.RESTClient()}
 }
 func (c *groups) Get(name string, options v1.GetOptions) (result *user.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,6 +65,8 @@ func (c *groups) Get(name string, options v1.GetOptions) (result *user.Group, er
 	return
 }
 func (c *groups) List(opts v1.ListOptions) (result *user.GroupList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (c *groups) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -106,6 +114,8 @@ func (c *groups) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Resource("groups").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *groups) Create(group *user.Group) (result *user.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,11 +149,15 @@ func (c *groups) Update(group *user.Group) (result *user.Group, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &user.Group{}
 	err = c.client.Put().Resource("groups").Name(group.Name).Body(group).Do().Into(result)
 	return
 }
 func (c *groups) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (c *groups) DeleteCollection(options *v1.DeleteOptions, listOptions v1.List
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -182,6 +198,8 @@ func (c *groups) DeleteCollection(options *v1.DeleteOptions, listOptions v1.List
 	return c.client.Delete().Resource("groups").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *groups) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *user.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

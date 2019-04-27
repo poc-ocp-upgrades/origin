@@ -20,6 +20,8 @@ func TestSerialIsRunnableNewBuilds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allNewBuilds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerial), addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerial), addBuild("build-3", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerial)}
 	client := newTestClient(allNewBuilds)
 	policy := SerialPolicy{BuildLister: client.Lister(), BuildUpdater: client}

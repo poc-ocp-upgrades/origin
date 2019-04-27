@@ -36,6 +36,8 @@ func TestServiceGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/new-app.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -88,6 +90,8 @@ func TestBareRCGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/bare-rc.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -108,6 +112,8 @@ func TestBareRCGroup(t *testing.T) {
 	}
 }
 func TestBareDCGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -164,6 +170,8 @@ func TestAllBCImageInputs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/prereq-image-present.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -179,6 +187,8 @@ func TestAllBCImageInputs(t *testing.T) {
 	}
 }
 func TestBareBCGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +228,8 @@ func TestBareBCGroup(t *testing.T) {
 	}
 }
 func TestGraph(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

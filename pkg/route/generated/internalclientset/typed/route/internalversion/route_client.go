@@ -26,9 +26,13 @@ func (c *RouteClient) Routes(namespace string) RouteResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newRoutes(c, namespace)
 }
 func NewForConfig(c *rest.Config) (*RouteClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func NewForConfigOrDie(c *rest.Config) *RouteClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := NewForConfig(c)
 	if err != nil {
 		panic(err)
@@ -89,9 +95,13 @@ func New(c rest.Interface) *RouteClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RouteClient{c}
 }
 func setConfigDefaults(config *rest.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +134,8 @@ func setConfigDefaults(config *rest.Config) error {
 	return nil
 }
 func (c *RouteClient) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -28,6 +28,8 @@ func TestDeploymentConfigDescriber(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := appsapitest.OkDeploymentConfig(1)
 	deployment, _ := appsutil.MakeDeployment(config)
 	podList := &corev1.PodList{}

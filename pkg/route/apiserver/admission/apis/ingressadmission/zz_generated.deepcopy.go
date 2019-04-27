@@ -19,11 +19,15 @@ func (in *IngressAdmissionConfig) DeepCopyInto(out *IngressAdmissionConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *IngressAdmissionConfig) DeepCopy() *IngressAdmissionConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (in *IngressAdmissionConfig) DeepCopy() *IngressAdmissionConfig {
 	return out
 }
 func (in *IngressAdmissionConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

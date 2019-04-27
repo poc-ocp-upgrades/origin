@@ -26,6 +26,8 @@ func InstallInternalLegacyRoute(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyRoute(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalRouteTypes, core.AddToScheme, corev1conversions.AddToScheme, addLegacyRouteFieldSelectorKeyConversions, routev1helpers.RegisterDefaults, routev1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
@@ -45,10 +47,14 @@ func InstallExternalLegacyRoute(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedRouteTypes, corev1.AddToScheme)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func addUngroupifiedRouteTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,10 +88,14 @@ func addUngroupifiedInternalRouteTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(InternalGroupVersion, &route.Route{}, &route.RouteList{})
 	return nil
 }
 func addLegacyRouteFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +116,8 @@ func addLegacyRouteFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	return nil
 }
 func legacyRouteFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -118,6 +118,8 @@ func New(c *OsdnNodeConfig) (*OsdnNode, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var policy osdnPolicy
 	var pluginId int
 	var minOvsVersion string
@@ -155,6 +157,8 @@ func New(c *OsdnNodeConfig) (*OsdnNode, error) {
 	return plugin, nil
 }
 func (c *OsdnNodeConfig) setNodeIP() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,6 +223,8 @@ func GetLinkDetails(ip string) (netlink.Link, *net.IPNet, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	links, err := netlink.LinkList()
 	if err != nil {
 		return nil, nil, err
@@ -242,6 +248,8 @@ func GetLinkDetails(ip string) (netlink.Link, *net.IPNet, error) {
 	return nil, nil, ErrorNetworkInterfaceNotFound
 }
 func (node *OsdnNode) Start() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,6 +360,8 @@ func (node *OsdnNode) reattachPods(existingPods map[string]podNetworkInfo) error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sandboxes, err := node.getPodSandboxes()
 	if err != nil {
 		return err
@@ -392,6 +402,8 @@ func (node *OsdnNode) killFailedPods(failed []*kruntimeapi.PodSandbox) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, sandbox := range failed {
 		podRef := &corev1.ObjectReference{Kind: "Pod", Name: sandbox.Metadata.Name, Namespace: sandbox.Metadata.Namespace, UID: types.UID(sandbox.Metadata.Uid)}
 		node.recorder.Eventf(podRef, corev1.EventTypeWarning, "NetworkFailed", "The pod's network interface has been lost and the pod will be stopped.")
@@ -416,6 +428,8 @@ func (node *OsdnNode) UpdatePod(pod corev1.Pod) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filter := &kruntimeapi.PodSandboxFilter{LabelSelector: map[string]string{ktypes.KubernetesPodUIDLabel: string(pod.UID)}}
 	sandboxID, err := node.getPodSandboxID(filter)
 	if err != nil {
@@ -426,6 +440,8 @@ func (node *OsdnNode) UpdatePod(pod corev1.Pod) error {
 	return err
 }
 func (node *OsdnNode) GetLocalPods(namespace string) ([]corev1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,6 +485,8 @@ func isServiceChanged(oldsvc, newsvc *corev1.Service) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(oldsvc.Spec.Ports) == len(newsvc.Spec.Ports) {
 		for i := range oldsvc.Spec.Ports {
 			if oldsvc.Spec.Ports[i].Protocol != newsvc.Spec.Ports[i].Protocol || oldsvc.Spec.Ports[i].Port != newsvc.Spec.Ports[i].Port {
@@ -494,10 +512,14 @@ func (node *OsdnNode) watchServices() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&kapi.Service{}, node.handleAddOrUpdateService, node.handleDeleteService)
 	node.kubeInformers.Core().V1().Services().Informer().AddEventHandler(funcs)
 }
 func (node *OsdnNode) handleAddOrUpdateService(obj, oldObj interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -547,6 +569,8 @@ func (node *OsdnNode) handleDeleteService(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serv := obj.(*corev1.Service)
 	if !helper.IsServiceIPSet(serv) {
 		return
@@ -555,6 +579,8 @@ func (node *OsdnNode) handleDeleteService(obj interface{}) {
 	node.DeleteServiceRules(serv)
 }
 func validateNetworkPluginName(networkClient networkclient.Interface, pluginName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

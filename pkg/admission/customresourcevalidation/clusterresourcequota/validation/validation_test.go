@@ -27,6 +27,8 @@ func spec(scopes ...corev1.ResourceQuotaScope) corev1.ResourceQuotaSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return corev1.ResourceQuotaSpec{Hard: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("100"), corev1.ResourceMemory: resource.MustParse("10000"), corev1.ResourceRequestsCPU: resource.MustParse("100"), corev1.ResourceRequestsMemory: resource.MustParse("10000"), corev1.ResourceLimitsCPU: resource.MustParse("100"), corev1.ResourceLimitsMemory: resource.MustParse("10000"), corev1.ResourcePods: resource.MustParse("10"), corev1.ResourceServices: resource.MustParse("0"), corev1.ResourceReplicationControllers: resource.MustParse("10"), corev1.ResourceQuotas: resource.MustParse("10"), corev1.ResourceConfigMaps: resource.MustParse("10"), corev1.ResourceSecrets: resource.MustParse("10")}, Scopes: scopes}
 }
 func scopeableSpec(scopes ...corev1.ResourceQuotaScope) corev1.ResourceQuotaSpec {
@@ -44,9 +46,13 @@ func scopeableSpec(scopes ...corev1.ResourceQuotaScope) corev1.ResourceQuotaSpec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return corev1.ResourceQuotaSpec{Hard: corev1.ResourceList{corev1.ResourceCPU: resource.MustParse("100"), corev1.ResourceMemory: resource.MustParse("10000"), corev1.ResourceRequestsCPU: resource.MustParse("100"), corev1.ResourceRequestsMemory: resource.MustParse("10000"), corev1.ResourceLimitsCPU: resource.MustParse("100"), corev1.ResourceLimitsMemory: resource.MustParse("10000")}, Scopes: scopes}
 }
 func TestValidationClusterQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +95,8 @@ func TestValidationClusterQuota(t *testing.T) {
 	}
 }
 func TestValidationQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

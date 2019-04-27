@@ -33,6 +33,8 @@ func newStorage(t *testing.T) (*REST, *etcdtesting.EtcdTestServer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, etcdStorage := etcdtesting.NewUnsecuredEtcd3TestClientServer(t)
 	etcdStorage.Codec = legacyscheme.Codecs.LegacyCodec(schema.GroupVersion{Group: "image.openshift.io", Version: "v1"})
 	imageRESTOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "images"}
@@ -43,6 +45,8 @@ func newStorage(t *testing.T) (*REST, *etcdtesting.EtcdTestServer) {
 	return storage, server
 }
 func TestStorage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,9 +79,13 @@ func validImage() *imageapi.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "foo", GenerateName: "foo"}, DockerImageReference: "openshift/origin"}
 }
 func TestCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +110,8 @@ func TestCreate(t *testing.T) {
 	test.TestCreate(valid, &imageapi.Image{})
 }
 func TestUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +155,8 @@ func TestList(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
@@ -152,6 +164,8 @@ func TestList(t *testing.T) {
 	test.TestList(validImage())
 }
 func TestGet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,6 +201,8 @@ func TestDelete(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
@@ -196,6 +212,8 @@ func TestDelete(t *testing.T) {
 	test.TestDelete(validImage())
 }
 func TestWatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -318,6 +336,8 @@ func TestCreateSetsMetadata(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		image	*imageapi.Image
 		expect	func(*imageapi.Image) bool
@@ -356,6 +376,8 @@ func TestCreateSetsMetadata(t *testing.T) {
 	}
 }
 func TestUpdateResetsMetadata(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

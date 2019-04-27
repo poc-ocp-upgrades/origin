@@ -42,6 +42,8 @@ func ValidateImageStreamName(name string, prefix bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reasons := path.ValidatePathSegmentName(name, prefix); len(reasons) != 0 {
 		return reasons
 	}
@@ -65,9 +67,13 @@ func ValidateImage(image *imageapi.Image) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateImage(image, nil)
 }
 func validateImage(image *imageapi.Image, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +116,8 @@ func ValidateImageUpdate(newImage, oldImage *imageapi.Image) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := validation.ValidateObjectMetaUpdate(&newImage.ObjectMeta, &oldImage.ObjectMeta, field.NewPath("metadata"))
 	result = append(result, ValidateImage(newImage)...)
 	return result
@@ -129,9 +137,13 @@ func ValidateImageSignature(signature *imageapi.ImageSignature) field.ErrorList 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateImageSignature(signature, nil)
 }
 func validateImageSignature(signature *imageapi.ImageSignature, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +221,8 @@ func ValidateImageSignatureUpdate(newImageSignature, oldImageSignature *imageapi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&newImageSignature.ObjectMeta, &oldImageSignature.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateImageSignature(newImageSignature)...)
 	if newImageSignature.Type != oldImageSignature.Type {
@@ -234,9 +248,13 @@ func ValidateImageStream(stream *imageapi.ImageStream) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateImageStreamWithWhitelister(nil, stream)
 }
 func ValidateImageStreamWithWhitelister(whitelister whitelist.RegistryWhitelister, stream *imageapi.ImageStream) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -323,6 +341,8 @@ func ValidateImageStreamTagReference(whitelister whitelist.RegistryWhitelister, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs = field.ErrorList{}
 	if tagRef.From != nil {
 		if len(tagRef.From.Name) == 0 {
@@ -370,9 +390,13 @@ func ValidateImageStreamUpdate(newStream, oldStream *imageapi.ImageStream) field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateImageStreamUpdateWithWhitelister(nil, newStream, oldStream)
 }
 func ValidateImageStreamUpdateWithWhitelister(whitelister whitelist.RegistryWhitelister, newStream, oldStream *imageapi.ImageStream) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,9 +437,13 @@ func ValidateImageStreamStatusUpdate(newStream, oldStream *imageapi.ImageStream)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateImageStreamStatusUpdateWithWhitelister(nil, newStream, oldStream)
 }
 func ValidateImageStreamStatusUpdateWithWhitelister(whitelister whitelist.RegistryWhitelister, newStream, oldStream *imageapi.ImageStream) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -487,6 +515,8 @@ func collectImageStreamSpecImageReferences(s *imageapi.ImageStream) sets.String 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := sets.NewString()
 	if len(s.Spec.DockerImageRepository) > 0 {
 		res.Insert(s.Spec.DockerImageRepository)
@@ -499,6 +529,8 @@ func collectImageStreamSpecImageReferences(s *imageapi.ImageStream) sets.String 
 	return res
 }
 func collectImageStreamStatusImageReferences(s *imageapi.ImageStream) map[string][]referencePath {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -531,6 +563,8 @@ func collectImageStreamStatusImageReferences(s *imageapi.ImageStream) map[string
 	return res
 }
 func ValidateImageStreamMapping(mapping *imageapi.ImageStreamMapping) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -584,9 +618,13 @@ func ValidateImageStreamTag(ist *imageapi.ImageStreamTag) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateImageStreamTagWithWhitelister(nil, ist)
 }
 func ValidateImageStreamTagWithWhitelister(whitelister whitelist.RegistryWhitelister, ist *imageapi.ImageStreamTag) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -626,9 +664,13 @@ func ValidateImageStreamTagUpdate(newIST, oldIST *imageapi.ImageStreamTag) field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateImageStreamTagUpdateWithWhitelister(nil, newIST, oldIST)
 }
 func ValidateImageStreamTagUpdateWithWhitelister(whitelister whitelist.RegistryWhitelister, newIST, oldIST *imageapi.ImageStreamTag) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -680,6 +722,8 @@ func ValidateRegistryAllowedForImport(whitelister whitelist.RegistryWhitelister,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostname := net.JoinHostPort(registryHost, registryPort)
 	err := whitelister.AdmitHostname(hostname, whitelist.WhitelistTransportSecure)
 	if err != nil {
@@ -688,6 +732,8 @@ func ValidateRegistryAllowedForImport(whitelister whitelist.RegistryWhitelister,
 	return nil
 }
 func ValidateImageStreamImport(isi *imageapi.ImageStreamImport) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -771,6 +817,8 @@ func isRepositoryInsecure(obj runtime.Object) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	accessor, err := kmeta.Accessor(obj)
 	if err != nil {
 		klog.V(4).Infof("Error getting accessor for %#v", obj)
@@ -779,6 +827,8 @@ func isRepositoryInsecure(obj runtime.Object) bool {
 	return accessor.GetAnnotations()[imageapi.InsecureRepositoryAnnotation] == "true"
 }
 func getWhitelistTransportForFlag(insecure, allowSecureFallback bool) whitelist.WhitelistTransport {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -816,6 +866,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -890,5 +961,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -41,6 +41,8 @@ func NewBasicAuthChallenger(realm string, users []User, authenticatedHandler htt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userMap := make(map[string]User, len(users))
 	for _, user := range users {
 		userMap[user.ID] = user
@@ -48,6 +50,8 @@ func NewBasicAuthChallenger(realm string, users []User, authenticatedHandler htt
 	return BasicAuthChallenger{realm, userMap, authenticatedHandler}
 }
 func (challenger BasicAuthChallenger) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,11 +109,15 @@ func (challenger *BasicAuthChallenger) Challenge(w http.ResponseWriter) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.Infof("Sending challenge\n")
 	w.Header().Set("WWW-Authenticate", "Basic realm=\""+challenger.realm+"\"")
 	Error("Authorization failed", http.StatusUnauthorized, w)
 }
 func Error(message string, status int, w http.ResponseWriter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +140,8 @@ func Error(message string, status int, w http.ResponseWriter) {
 	io.WriteString(w, string(json))
 }
 func (challenger *BasicAuthChallenger) Validate(username, password string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +185,8 @@ func (handler *identifyingHandler) ServeHTTP(w http.ResponseWriter, r *http.Requ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user := context.Get(r, "username")
 	if user == nil {
 		Error("No user found", http.StatusBadRequest, w)
@@ -199,12 +211,16 @@ func NewIdentifyingHandler() http.Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &identifyingHandler{}
 }
 
 type xRemoteUserProxyingHandler struct{ proxier *httputil.ReverseProxy }
 
 func (handler *xRemoteUserProxyingHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,12 +258,16 @@ func NewXRemoteUserProxyingHandler(rawURL string) http.Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsedURL, _ := url.Parse(rawURL)
 	proxier := httputil.NewSingleHostReverseProxy(parsedURL)
 	proxier.Transport = insecureTransport()
 	return &xRemoteUserProxyingHandler{proxier}
 }
 func insecureTransport() *http.Transport {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

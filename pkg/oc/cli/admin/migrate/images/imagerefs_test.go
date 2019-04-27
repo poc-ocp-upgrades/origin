@@ -30,6 +30,8 @@ func TestImageReferenceMappingsMapReference(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		mappings	ImageReferenceMappings
 		results		map[string]string
@@ -59,6 +61,8 @@ func TestImageReferenceMappingsMapDockerAuthKey(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		mappings	ImageReferenceMappings
 		results		map[string]string
@@ -74,6 +78,8 @@ func TestImageReferenceMappingsMapDockerAuthKey(t *testing.T) {
 	}
 }
 func TestTransform(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

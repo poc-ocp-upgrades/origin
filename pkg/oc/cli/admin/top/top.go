@@ -34,6 +34,8 @@ func NewCommandTop(name, fullName string, f kcmdutil.Factory, streams genericcli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmds := &cobra.Command{Use: name, Short: "Show usage statistics of resources on the server", Long: topLong, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmdTopNode := cmdutil.ReplaceCommandName("kubectl", fullName, top.NewCmdTopNode(f, nil, streams))
 	cmdTopPod := cmdutil.ReplaceCommandName("kubectl", fullName, top.NewCmdTopPod(f, nil, streams))

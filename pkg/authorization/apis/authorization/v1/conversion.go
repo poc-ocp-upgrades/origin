@@ -29,6 +29,8 @@ func Convert_v1_SubjectAccessReview_To_authorization_SubjectAccessReview(in *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_v1_SubjectAccessReview_To_authorization_SubjectAccessReview(in, out, s); err != nil {
 		return err
 	}
@@ -37,6 +39,8 @@ func Convert_v1_SubjectAccessReview_To_authorization_SubjectAccessReview(in *v1.
 	return nil
 }
 func Convert_authorization_SubjectAccessReview_To_v1_SubjectAccessReview(in *newer.SubjectAccessReview, out *v1.SubjectAccessReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,6 +77,8 @@ func Convert_v1_SelfSubjectRulesReviewSpec_To_authorization_SelfSubjectRulesRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_v1_SelfSubjectRulesReviewSpec_To_authorization_SelfSubjectRulesReviewSpec(in, out, s); err != nil {
 		return err
 	}
@@ -94,6 +100,8 @@ func Convert_authorization_SelfSubjectRulesReviewSpec_To_v1_SelfSubjectRulesRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_authorization_SelfSubjectRulesReviewSpec_To_v1_SelfSubjectRulesReviewSpec(in, out, s); err != nil {
 		return err
 	}
@@ -101,6 +109,8 @@ func Convert_authorization_SelfSubjectRulesReviewSpec_To_v1_SelfSubjectRulesRevi
 	return nil
 }
 func Convert_v1_LocalSubjectAccessReview_To_authorization_LocalSubjectAccessReview(in *v1.LocalSubjectAccessReview, out *newer.LocalSubjectAccessReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +147,8 @@ func Convert_authorization_LocalSubjectAccessReview_To_v1_LocalSubjectAccessRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_authorization_LocalSubjectAccessReview_To_v1_LocalSubjectAccessReview(in, out, s); err != nil {
 		return err
 	}
@@ -145,6 +157,8 @@ func Convert_authorization_LocalSubjectAccessReview_To_v1_LocalSubjectAccessRevi
 	return nil
 }
 func Convert_v1_ResourceAccessReviewResponse_To_authorization_ResourceAccessReviewResponse(in *v1.ResourceAccessReviewResponse, out *newer.ResourceAccessReviewResponse, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +195,8 @@ func Convert_authorization_ResourceAccessReviewResponse_To_v1_ResourceAccessRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_authorization_ResourceAccessReviewResponse_To_v1_ResourceAccessReviewResponse(in, out, s); err != nil {
 		return err
 	}
@@ -189,6 +205,8 @@ func Convert_authorization_ResourceAccessReviewResponse_To_v1_ResourceAccessRevi
 	return nil
 }
 func Convert_v1_PolicyRule_To_authorization_PolicyRule(in *v1.PolicyRule, out *newer.PolicyRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,6 +249,8 @@ func Convert_authorization_PolicyRule_To_v1_PolicyRule(in *newer.PolicyRule, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := apihelpers.Convert_runtime_Object_To_runtime_RawExtension(legacyscheme.Scheme, &in.AttributeRestrictions, &out.AttributeRestrictions, s); err != nil {
 		return err
 	}
@@ -244,6 +264,8 @@ func Convert_authorization_PolicyRule_To_v1_PolicyRule(in *newer.PolicyRule, out
 	return nil
 }
 func Convert_v1_RoleBinding_To_authorization_RoleBinding(in *v1.RoleBinding, out *newer.RoleBinding, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -282,6 +304,8 @@ func Convert_authorization_RoleBinding_To_v1_RoleBinding(in *newer.RoleBinding, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_authorization_RoleBinding_To_v1_RoleBinding(in, out, s); err != nil {
 		return err
 	}
@@ -289,6 +313,8 @@ func Convert_authorization_RoleBinding_To_v1_RoleBinding(in *newer.RoleBinding, 
 	return nil
 }
 func Convert_v1_ClusterRoleBinding_To_authorization_ClusterRoleBinding(in *v1.ClusterRoleBinding, out *newer.ClusterRoleBinding, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -327,6 +353,8 @@ func Convert_authorization_ClusterRoleBinding_To_v1_ClusterRoleBinding(in *newer
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := autoConvert_authorization_ClusterRoleBinding_To_v1_ClusterRoleBinding(in, out, s); err != nil {
 		return err
 	}
@@ -334,6 +362,8 @@ func Convert_authorization_ClusterRoleBinding_To_v1_ClusterRoleBinding(in *newer
 	return nil
 }
 func AddConversionFuncs(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -369,6 +399,8 @@ func AddFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func _logClusterCodePath() {
@@ -386,6 +418,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -460,5 +513,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

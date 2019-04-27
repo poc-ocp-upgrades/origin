@@ -38,10 +38,14 @@ func createDNSPod(namespace, probeCmd string) *kapiv1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapiv1.Pod{TypeMeta: metav1.TypeMeta{Kind: "Pod", APIVersion: "v1"}, ObjectMeta: metav1.ObjectMeta{Name: "dns-test-" + string(uuid.NewUUID()), Namespace: namespace}, Spec: kapiv1.PodSpec{RestartPolicy: kapiv1.RestartPolicyNever, Containers: []kapiv1.Container{{Name: "querier", Image: "gcr.io/google_containers/dnsutils:e2e", Command: []string{"sh", "-c", probeCmd}}}}}
 	return pod
 }
 func digForNames(namesToResolve []string, expect sets.String) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func digForCNAMEs(namesToResolve []string, expect sets.String) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fileNamePrefix := "test"
 	var probeCmd string
 	for _, name := range namesToResolve {
@@ -101,6 +107,8 @@ func digForCNAMEs(namesToResolve []string, expect sets.String) string {
 	return probeCmd
 }
 func digForSRVs(namesToResolve []string, expect sets.String) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +151,8 @@ func digForARecords(records map[string][]string, expect sets.String) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var probeCmd string
 	fileNamePrefix := "test"
 	for name, ips := range records {
@@ -153,6 +163,8 @@ func digForARecords(records map[string][]string, expect sets.String) string {
 	return probeCmd
 }
 func reverseIP(ip string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +200,8 @@ func digForPTRRecords(records map[string]string, expect sets.String) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var probeCmd string
 	fileNamePrefix := "test"
 	for ip, name := range records {
@@ -198,6 +212,8 @@ func digForPTRRecords(records map[string]string, expect sets.String) string {
 	return probeCmd
 }
 func digForPod(namespace string, expect sets.String) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,12 +253,16 @@ func repeatCommand(times int, cmd ...string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	probeCmd := fmt.Sprintf("for i in `seq 1 %d`; do ", times)
 	probeCmd += strings.Join(cmd, " ")
 	probeCmd += "sleep 1; done"
 	return probeCmd
 }
 func assertLinesExist(lines sets.String, expect int, r io.Reader) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +313,8 @@ func PodSucceeded(event watch.Event) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch event.Type {
 	case watch.Deleted:
 		return false, errors.NewNotFound(schema.GroupResource{Resource: "pods"}, "")
@@ -309,6 +331,8 @@ func PodSucceeded(event watch.Event) (bool, error) {
 	return false, nil
 }
 func validateDNSResults(f *e2e.Framework, pod *kapiv1.Pod, fileNames sets.String, expect int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -374,6 +398,8 @@ func createServiceSpec(serviceName string, isHeadless bool, externalName string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &kapiv1.Service{ObjectMeta: metav1.ObjectMeta{Name: serviceName}, Spec: kapiv1.ServiceSpec{Ports: []kapiv1.ServicePort{{Port: 80, Name: "http", Protocol: "TCP"}}, Selector: selector}}
 	if isHeadless {
 		s.Spec.ClusterIP = "None"
@@ -400,9 +426,13 @@ func createEndpointSpec(name string) *kapiv1.Endpoints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapiv1.Endpoints{ObjectMeta: metav1.ObjectMeta{Name: name}, Subsets: []kapiv1.EndpointSubset{{Addresses: []kapiv1.EndpointAddress{{IP: "1.1.1.1", Hostname: "endpoint1"}, {IP: "1.1.1.2"}}, NotReadyAddresses: []kapiv1.EndpointAddress{{IP: "2.1.1.1"}, {IP: "2.1.1.2"}}, Ports: []kapiv1.EndpointPort{{Port: 80}}}}}
 }
 func ipsForEndpoints(ep *kapiv1.Endpoints) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -475,6 +505,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -549,5 +600,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

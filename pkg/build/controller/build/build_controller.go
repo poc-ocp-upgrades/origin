@@ -80,9 +80,13 @@ func newResourceTriggerQueue() *resourceTriggerQueue {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &resourceTriggerQueue{queue: make(map[string][]string)}
 }
 func (q *resourceTriggerQueue) Add(resource string, on []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +122,8 @@ func (q *resourceTriggerQueue) Remove(resource string, on []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	for _, key := range on {
@@ -133,6 +139,8 @@ func (q *resourceTriggerQueue) Remove(resource string, on []string) {
 	}
 }
 func (q *resourceTriggerQueue) Pop(key string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +245,8 @@ func NewBuildController(params *BuildControllerParams) *BuildController {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartRecordingToSink(&ktypedclient.EventSinkImpl{Interface: params.KubeClient.CoreV1().Events("")})
 	buildClient := buildmanualclient.NewClientBuildClient(params.BuildClient)
@@ -259,6 +269,8 @@ func NewBuildController(params *BuildControllerParams) *BuildController {
 	return c
 }
 func (bc *BuildController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -317,6 +329,8 @@ func (bc *BuildController) buildWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := bc.buildWork(); quit {
 			return
@@ -324,6 +338,8 @@ func (bc *BuildController) buildWorker() {
 	}
 }
 func (bc *BuildController) buildWork() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -370,6 +386,8 @@ func (bc *BuildController) buildConfigWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := bc.buildConfigWork(); quit {
 			return
@@ -377,6 +395,8 @@ func (bc *BuildController) buildConfigWorker() {
 	}
 }
 func (bc *BuildController) buildConfigWork() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -420,6 +440,8 @@ func parseBuildConfigKey(key string) (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(key, "/", 2)
 	if len(parts) != 2 {
 		return "", "", fmt.Errorf("invalid build config key: %s", key)
@@ -427,6 +449,8 @@ func parseBuildConfigKey(key string) (string, string, error) {
 	return parts[0], parts[1], nil
 }
 func (bc *BuildController) handleBuild(build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -494,6 +518,8 @@ func shouldIgnore(build *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if build.Spec.Strategy.JenkinsPipelineStrategy != nil {
 		klog.V(4).Infof("Ignoring build %s with jenkins pipeline strategy", buildDesc(build))
 		return true
@@ -532,9 +558,13 @@ func shouldCancel(build *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !buildutil.IsBuildComplete(build) && build.Status.Cancelled
 }
 func (bc *BuildController) cancelBuild(build *buildv1.Build) (*buildUpdate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -558,6 +588,8 @@ func (bc *BuildController) cancelBuild(build *buildv1.Build) (*buildUpdate, erro
 	return transitionToPhase(buildv1.BuildPhaseCancelled, buildv1.StatusReasonCancelledBuild, buildutil.StatusMessageCancelledBuild), nil
 }
 func (bc *BuildController) handleNewBuild(build *buildv1.Build, pod *corev1.Pod) (*buildUpdate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -602,6 +634,8 @@ func (bc *BuildController) createPodSpec(build *buildv1.Build, includeAdditional
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if build.Spec.Output.To != nil {
 		build.Status.OutputDockerImageReference = build.Spec.Output.To.Name
 	}
@@ -626,6 +660,8 @@ func (bc *BuildController) createPodSpec(build *buildv1.Build, includeAdditional
 	return podSpec, nil
 }
 func (bc *BuildController) resolveImageSecretAsReference(build *buildv1.Build, imagename string) (*corev1.LocalObjectReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -684,6 +720,8 @@ func resourceName(namespace, name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return namespace + "/" + name
 }
 
@@ -693,6 +731,8 @@ var (
 )
 
 func unresolvedImageStreamReferences(m imagereferencemutators.ImageReferenceMutator, defaultNamespace string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -740,6 +780,8 @@ func unresolvedImageStreamReferences(m imagereferencemutators.ImageReferenceMuta
 	return streams, nil
 }
 func resolveImageStreamLocation(ref *corev1.ObjectReference, lister imagev1lister.ImageStreamLister, defaultNamespace string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -812,6 +854,8 @@ func resolveImageStreamImage(ref *corev1.ObjectReference, lister imagev1lister.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := ref.Namespace
 	if len(namespace) == 0 {
 		namespace = defaultNamespace
@@ -837,6 +881,8 @@ func resolveImageStreamImage(ref *corev1.ObjectReference, lister imagev1lister.I
 	return &corev1.ObjectReference{Kind: "DockerImage", Name: event.DockerImageReference}, nil
 }
 func resolveImageStreamTag(ref *corev1.ObjectReference, lister imagev1lister.ImageStreamLister, defaultNamespace string) (*corev1.ObjectReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -886,6 +932,8 @@ func (bc *BuildController) resolveOutputDockerImageReference(build *buildv1.Buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := build.Spec.Output.To
 	if ref == nil || ref.Name == "" {
 		return nil
@@ -903,6 +951,8 @@ func (bc *BuildController) resolveOutputDockerImageReference(build *buildv1.Buil
 	}
 }
 func (bc *BuildController) resolveImageReferences(build *buildv1.Build, update *buildUpdate) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -963,6 +1013,8 @@ func (bc *BuildController) resolveImageReferences(build *buildv1.Build, update *
 	return nil
 }
 func (bc *BuildController) createBuildPod(build *buildv1.Build) (*buildUpdate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1138,6 +1190,8 @@ func (bc *BuildController) handleActiveBuild(build *buildv1.Build, pod *corev1.P
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if pod == nil {
 		pod = bc.findMissingPod(build)
 		if pod == nil {
@@ -1223,6 +1277,8 @@ func isOOMKilled(pod *corev1.Pod) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if pod == nil {
 		return false
 	}
@@ -1244,6 +1300,8 @@ func isOOMKilled(pod *corev1.Pod) bool {
 	return false
 }
 func isPodEvicted(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1281,6 +1339,8 @@ func (bc *BuildController) handleCompletedBuild(build *buildv1.Build, pod *corev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	update := &buildUpdate{}
 	if isOOMKilled(pod) {
 		update = transitionToPhase(buildv1.BuildPhaseFailed, buildv1.StatusReasonOutOfMemoryKilled, buildutil.StatusMessageOutOfMemoryKilled)
@@ -1289,6 +1349,8 @@ func (bc *BuildController) handleCompletedBuild(build *buildv1.Build, pod *corev
 	return update, nil
 }
 func (bc *BuildController) updateBuild(build *buildv1.Build, update *buildUpdate, pod *corev1.Pod) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1362,6 +1424,8 @@ func (bc *BuildController) handleBuildCompletion(build *buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcName := buildutil.ConfigNameForBuild(build)
 	bc.enqueueBuildConfig(build.Namespace, bcName)
 	if err := common.HandleBuildPruning(bcName, build.Namespace, bc.buildLister, bc.buildConfigGetter, bc.buildDeleter); err != nil {
@@ -1383,10 +1447,14 @@ func (bc *BuildController) enqueueBuildConfig(ns, name string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key := resourceName(ns, name)
 	bc.buildConfigQueue.Add(key)
 }
 func (bc *BuildController) handleBuildConfig(bcNamespace string, bcName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1437,6 +1505,8 @@ func createBuildPatch(older, newer *buildv1.Build) ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newerJSON, err := runtime.Encode(buildscheme.Encoder, newer)
 	if err != nil {
 		return nil, fmt.Errorf("error encoding newer: %v", err)
@@ -1452,6 +1522,8 @@ func createBuildPatch(older, newer *buildv1.Build) ([]byte, error) {
 	return patch, nil
 }
 func (bc *BuildController) patchBuild(build *buildv1.Build, update *buildUpdate) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1490,6 +1562,8 @@ func (bc *BuildController) findMissingPod(build *buildv1.Build) *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, err := bc.podClient.Pods(build.Namespace).Get(buildapihelpers.GetBuildPodName(build), metav1.GetOptions{})
 	if err == nil {
 		klog.V(2).Infof("Found missing pod for build %s by using direct client.", buildDesc(build))
@@ -1498,6 +1572,8 @@ func (bc *BuildController) findMissingPod(build *buildv1.Build) *corev1.Pod {
 	return nil
 }
 func (bc *BuildController) getBuildByKey(key string) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1538,6 +1614,8 @@ func (bc *BuildController) podUpdated(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	curPod := cur.(*corev1.Pod)
 	oldPod := old.(*corev1.Pod)
 	if curPod.ResourceVersion == oldPod.ResourceVersion {
@@ -1548,6 +1626,8 @@ func (bc *BuildController) podUpdated(old, cur interface{}) {
 	}
 }
 func (bc *BuildController) podDeleted(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1594,6 +1674,8 @@ func (bc *BuildController) buildAdded(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := obj.(*buildv1.Build)
 	bc.enqueueBuild(build)
 }
@@ -1612,10 +1694,14 @@ func (bc *BuildController) buildUpdated(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := cur.(*buildv1.Build)
 	bc.enqueueBuild(build)
 }
 func (bc *BuildController) buildDeleted(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1663,6 +1749,8 @@ func (bc *BuildController) enqueueBuild(build *buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key := resourceName(build.Namespace, build.Name)
 	bc.buildQueue.Add(key)
 }
@@ -1681,9 +1769,13 @@ func (bc *BuildController) enqueueBuildForPod(pod *corev1.Pod) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.buildQueue.Add(resourceName(pod.Namespace, getBuildName(pod)))
 }
 func (bc *BuildController) imageStreamAdded(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1718,9 +1810,13 @@ func (bc *BuildController) imageStreamUpdated(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.imageStreamAdded(cur)
 }
 func (bc *BuildController) handleBuildError(err error, key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1767,6 +1863,8 @@ func (bc *BuildController) handleBuildConfigError(err error, key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		bc.buildConfigQueue.Forget(key)
 		return
@@ -1780,6 +1878,8 @@ func (bc *BuildController) handleBuildConfigError(err error, key interface{}) {
 	bc.buildConfigQueue.Forget(key)
 }
 func (bc *BuildController) createBuildCAConfigMap(build *buildv1.Build, buildPod *corev1.Pod, update *buildUpdate) (*buildUpdate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1820,6 +1920,8 @@ func (bc *BuildController) createBuildCAConfigMapSpec(build *buildv1.Build, buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cm := &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildCAConfigMapName(build), OwnerReferences: []metav1.OwnerReference{makeBuildPodOwnerRef(buildPod)}, Annotations: map[string]string{"service.alpha.openshift.io/inject-cabundle": "true"}}, Data: bc.additionalTrustedCAData}
 	if cm.Data == nil {
 		cm.Data = make(map[string]string)
@@ -1827,6 +1929,8 @@ func (bc *BuildController) createBuildCAConfigMapSpec(build *buildv1.Build, buil
 	return cm
 }
 func (bc *BuildController) findOwnedConfigMap(owner *corev1.Pod, namespace string, name string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1867,6 +1971,8 @@ func (bc *BuildController) createBuildSystemConfConfigMap(build *buildv1.Build, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configMapSpec := bc.createBuildSystemConfigMapSpec(build, buildPod)
 	configMap, err := bc.configMapClient.ConfigMaps(build.Namespace).Create(configMapSpec)
 	if err != nil {
@@ -1879,6 +1985,8 @@ func (bc *BuildController) createBuildSystemConfConfigMap(build *buildv1.Build, 
 	return update, nil
 }
 func (bc *BuildController) createBuildSystemConfigMapSpec(build *buildv1.Build, buildPod *corev1.Pod) *corev1.ConfigMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1917,6 +2025,8 @@ func (bc *BuildController) controllerConfigWorker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if quit := bc.controllerConfigWork(); quit {
 			return
@@ -1924,6 +2034,8 @@ func (bc *BuildController) controllerConfigWorker() {
 	}
 }
 func (bc *BuildController) controllerConfigWork() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1970,6 +2082,8 @@ func (bc *BuildController) handleControllerConfig() []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configErrs := bc.readClusterImageConfig()
 	err := bc.readClusterBuildControllerConfig()
 	if err != nil {
@@ -1978,6 +2092,8 @@ func (bc *BuildController) handleControllerConfig() []error {
 	return configErrs
 }
 func (bc *BuildController) readClusterBuildControllerConfig() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2009,6 +2125,8 @@ func (bc *BuildController) readClusterBuildControllerConfig() error {
 	return nil
 }
 func (bc *BuildController) readClusterImageConfig() []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2075,6 +2193,8 @@ func (bc *BuildController) getAdditionalTrustedCAData(config *configv1.Image) (m
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(config.Spec.AdditionalTrustedCA.Name) == 0 {
 		klog.V(4).Info("additional certificate authorities for builds not specified")
 		return nil, nil
@@ -2113,6 +2233,8 @@ func (bc *BuildController) createBuildRegistriesConfigData(config *configv1.Imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	registriesConfig := config.Spec.RegistrySources
 	if len(registriesConfig.InsecureRegistries) == 0 {
 		klog.V(4).Info("using default insecure registry settings for builds")
@@ -2132,6 +2254,8 @@ func (bc *BuildController) createBuildRegistriesConfigData(config *configv1.Imag
 	return string(configTOML), nil
 }
 func (bc *BuildController) createBuildSignaturePolicyData(config *configv1.Image) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2196,12 +2320,16 @@ func (bc *BuildController) handleControllerConfigError(err error, key interface{
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err != nil {
 		utilruntime.HandleError(err)
 	}
 	bc.controllerConfigQueue.Forget(key)
 }
 func (bc *BuildController) buildControllerConfigAdded(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2233,9 +2361,13 @@ func (bc *BuildController) buildControllerConfigUpdated(old, cur interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.controllerConfigChanged()
 }
 func (bc *BuildController) buildControllerConfigDeleted(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2267,9 +2399,13 @@ func (bc *BuildController) imageConfigAdded(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.controllerConfigChanged()
 }
 func (bc *BuildController) imageConfigUpdated(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2301,6 +2437,8 @@ func (bc *BuildController) imageConfigDeleted(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.controllerConfigChanged()
 }
 func (bc *BuildController) controllerConfigChanged() {
@@ -2318,9 +2456,13 @@ func (bc *BuildController) controllerConfigChanged() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc.controllerConfigQueue.Add("openshift-config")
 }
 func (bc *BuildController) configMapAdded(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2371,6 +2513,8 @@ func (bc *BuildController) configMapUpdated(old, curr interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configMap, ok := curr.(*corev1.ConfigMap)
 	if !ok {
 		utilruntime.HandleError(fmt.Errorf("object was not a configMap: %+v", curr))
@@ -2393,6 +2537,8 @@ func (bc *BuildController) configMapUpdated(old, curr interface{}) {
 	bc.controllerConfigChanged()
 }
 func (bc *BuildController) configMapDeleted(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2448,6 +2594,8 @@ func isBuildPod(pod *corev1.Pod) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(getBuildName(pod)) > 0
 }
 func buildDesc(build *buildv1.Build) string {
@@ -2465,9 +2613,13 @@ func buildDesc(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s (%s)", build.Namespace, build.Name, build.Status.Phase)
 }
 func transitionToPhase(phase buildv1.BuildPhase, reason buildv1.StatusReason, message string) *buildUpdate {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2503,6 +2655,8 @@ func isValidTransition(from, to buildv1.BuildPhase) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if from == to {
 		return true
 	}
@@ -2523,6 +2677,8 @@ func isValidTransition(from, to buildv1.BuildPhase) bool {
 	return true
 }
 func setBuildCompletionData(build *buildv1.Build, pod *corev1.Pod, update *buildUpdate) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2586,6 +2742,8 @@ func hasError(err error, fns ...utilerrors.Matcher) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return false
 	}
@@ -2605,6 +2763,8 @@ func hasError(err error, fns ...utilerrors.Matcher) bool {
 	return false
 }
 func getBuildName(pod metav1.Object) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2639,9 +2799,13 @@ func makeBuildPodOwnerRef(buildPod *corev1.Pod) metav1.OwnerReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return metav1.OwnerReference{APIVersion: "v1", Kind: "Pod", Name: buildPod.Name, UID: buildPod.UID}
 }
 func hasBuildPodOwnerRef(buildPod *corev1.Pod, caMap *corev1.ConfigMap) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2679,6 +2843,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -2753,5 +2938,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

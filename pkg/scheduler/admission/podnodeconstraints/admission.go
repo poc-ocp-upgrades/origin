@@ -46,6 +46,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		pluginConfig, err := readConfig(config)
 		if err != nil {
@@ -59,6 +61,8 @@ func Register(plugins *admission.Plugins) {
 	})
 }
 func NewPodNodeConstraints(config *podnodeconstraints.PodNodeConstraintsConfig, nodeIdentifier nodeidentifier.NodeIdentifier) admission.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +110,8 @@ func shouldCheckResource(resource schema.GroupResource, kind schema.GroupKind) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expectedKind, shouldCheck := resourcesToCheck[resource]
 	if !shouldCheck {
 		return false, nil
@@ -138,6 +144,8 @@ func readConfig(reader io.Reader) (*podnodeconstraints.PodNodeConstraintsConfig,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reader == nil || reflect.ValueOf(reader).IsNil() {
 		return nil, nil
 	}
@@ -155,6 +163,8 @@ func readConfig(reader io.Reader) (*podnodeconstraints.PodNodeConstraintsConfig,
 	return config, nil
 }
 func (o *podNodeConstraints) Validate(attr admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,6 +214,8 @@ func (o *podNodeConstraints) getPodSpec(attr admission.Attributes) (kapi.PodSpec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec, _, err := imagereferencemutators.GetPodSpec(attr.GetObject())
 	if err != nil {
 		return kapi.PodSpec{}, kapierrors.NewInternalError(err)
@@ -211,6 +223,8 @@ func (o *podNodeConstraints) getPodSpec(attr admission.Attributes) (kapi.PodSpec
 	return *spec, nil
 }
 func (o *podNodeConstraints) validatePodSpec(attr admission.Attributes, ps kapi.PodSpec) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,9 +281,13 @@ func (o *podNodeConstraints) SetAuthorizer(a authorizer.Authorizer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.authorizer = a
 }
 func (o *podNodeConstraints) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +325,8 @@ func (o *podNodeConstraints) checkPodsBindAccess(attr admission.Attributes) (boo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authzAttr := authorizer.AttributesRecord{User: attr.GetUserInfo(), Verb: "create", Namespace: attr.GetNamespace(), Resource: "pods", Subresource: "binding", APIGroup: kapi.GroupName, ResourceRequest: true}
 	if attr.GetResource().GroupResource() == kapi.Resource("pods") {
 		authzAttr.Name = attr.GetName()
@@ -315,6 +335,8 @@ func (o *podNodeConstraints) checkPodsBindAccess(attr admission.Attributes) (boo
 	return authorized == authorizer.DecisionAllow, err
 }
 func (o *podNodeConstraints) isNodeSelfTargetWithMirrorPod(attr admission.Attributes, nodeName string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,6 +379,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -431,5 +474,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

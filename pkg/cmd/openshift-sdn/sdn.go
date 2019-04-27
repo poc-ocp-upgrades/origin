@@ -24,6 +24,8 @@ func (sdn *OpenShiftSDN) initSDN() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runtimeEndpoint := sdn.NodeConfig.DockerConfig.DockerShimSocket
 	runtime, ok := sdn.NodeConfig.KubeletArguments["container-runtime"]
 	if ok && len(runtime) == 1 && runtime[0] == "remote" {
@@ -49,6 +51,8 @@ func (sdn *OpenShiftSDN) initSDN() error {
 	return err
 }
 func (sdn *OpenShiftSDN) runSDN() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -36,6 +36,8 @@ func serverHandleCNI(request *cniserver.PodRequest) ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if request.Command == cniserver.CNI_ADD {
 		return json.Marshal(&resultFromServer)
 	} else if request.Command == cniserver.CNI_DEL {
@@ -54,6 +56,8 @@ const (
 )
 
 func skelArgsToEnv(command cniserver.CNICommand, args *cniskel.CmdArgs) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func clearEnv() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ev := range []string{CNI_COMMAND, CNI_CONTAINERID, CNI_NETNS, CNI_IFNAME, CNI_ARGS, CNI_PATH} {
 		os.Unsetenv(ev)
 	}
@@ -98,6 +104,8 @@ func clearEnv() {
 type dummyHostNS struct{}
 
 func (ns *dummyHostNS) Do(toRun func(ns.NetNS) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,9 +137,13 @@ func (ns *dummyHostNS) Set() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("should not be reached")
 }
 func (ns *dummyHostNS) Path() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,6 +175,8 @@ func (ns *dummyHostNS) Fd() uintptr {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("should not be reached")
 }
 func (ns *dummyHostNS) Close() error {
@@ -180,9 +194,13 @@ func (ns *dummyHostNS) Close() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("should not be reached")
 }
 func TestOpenshiftSdnCNIPlugin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

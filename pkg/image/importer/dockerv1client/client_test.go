@@ -26,6 +26,8 @@ func TestHTTPFallback(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -51,6 +53,8 @@ func TestHTTPFallback(t *testing.T) {
 	<-called
 }
 func TestV2Check(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func TestV2Check(t *testing.T) {
 	<-called
 }
 func TestV2CheckNoDistributionHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +178,8 @@ func TestInsecureHTTPS(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	called := make(chan struct{}, 2)
 	var uri *url.URL
 	server := httptest.NewTLSServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -197,6 +205,8 @@ func TestInsecureHTTPS(t *testing.T) {
 	<-called
 }
 func TestProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,6 +249,8 @@ func TestProxy(t *testing.T) {
 	<-called
 }
 func TestTokenExpiration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -331,6 +343,8 @@ func TestGetTagFallback(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uri *url.URL
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Docker-Endpoints", uri.Host)
@@ -367,6 +381,8 @@ func TestGetTagFallback(t *testing.T) {
 	}
 }
 func TestImageManifest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -30,6 +30,8 @@ func GivenRequest(method string) *http.Request {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest(method, "http://someurl.com", nil)
 	return req
 }
@@ -48,9 +50,13 @@ func GivenRequestWithPayload(t *testing.T, filename string) *http.Request {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GivenRequestWithPayloadAndContentType(t, filename, "application/json")
 }
 func GivenRequestWithPayloadAndContentType(t *testing.T, filename, contentType string) *http.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +95,8 @@ func GivenRequestWithRefsPayload(t *testing.T) *http.Request {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile("testdata/post-receive-git.json")
 	if err != nil {
 		t.Errorf("Error reading setup data: %v", err)
@@ -99,6 +107,8 @@ func GivenRequestWithRefsPayload(t *testing.T) *http.Request {
 	return req
 }
 func matchWarning(t *testing.T, err error, message string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +139,8 @@ func matchWarning(t *testing.T, err error, message string) {
 	}
 }
 func TestVerifyRequestForMethod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,9 +187,13 @@ func (_ emptyReader) Read(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, io.EOF
 }
 func TestExtractWithEmptyPayload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,6 +238,8 @@ func TestExtractWithUnmatchedRefGitPayload(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequestWithPayload(t, "push-generic.json")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "asdfkasdfasdfasdfadsfkjhkhkh"}}, Strategy: mockBuildStrategy}}}
 	plugin := New()
@@ -235,6 +253,8 @@ func TestExtractWithUnmatchedRefGitPayload(t *testing.T) {
 	}
 }
 func TestExtractWithGitPayload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,6 +298,8 @@ func TestExtractWithGitPayloadAndUTF8Charset(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequestWithPayloadAndContentType(t, "push-generic.json", "application/json; charset=utf-8")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "master"}}, Strategy: mockBuildStrategy}}}
 	plugin := New()
@@ -293,6 +315,8 @@ func TestExtractWithGitPayloadAndUTF8Charset(t *testing.T) {
 	}
 }
 func TestExtractWithGitRefsPayload(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +360,8 @@ func TestExtractWithUnmatchedGitRefsPayload(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequestWithRefsPayload(t)
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "other"}}, Strategy: mockBuildStrategy}}}
 	plugin := New()
@@ -349,6 +375,8 @@ func TestExtractWithUnmatchedGitRefsPayload(t *testing.T) {
 	}
 }
 func TestExtractWithKeyValuePairsJSON(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,6 +423,8 @@ func TestExtractWithKeyValuePairsYAML(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequestWithPayloadAndContentType(t, "push-generic-envs.yaml", "application/yaml")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100", AllowEnv: true}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "master"}}, Strategy: mockBuildStrategy}}}
 	plugin := New()
@@ -413,6 +443,8 @@ func TestExtractWithKeyValuePairsYAML(t *testing.T) {
 	}
 }
 func TestExtractWithKeyValuePairsDisabled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -459,6 +491,8 @@ func TestGitlabPush(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := GivenRequestWithPayload(t, "push-gitlab.json")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{}}, Strategy: mockBuildStrategy}}}
 	plugin := New()
@@ -469,6 +503,8 @@ func TestGitlabPush(t *testing.T) {
 	}
 }
 func TestNonJsonPush(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -513,10 +549,14 @@ func (_ errJSON) Read(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p = []byte("{")
 	return len(p), io.EOF
 }
 func TestExtractWithUnmarshalError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -559,6 +599,8 @@ func TestExtractWithUnmarshalErrorYAML(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("POST", "http://someurl.com", errJSON{})
 	req.Header.Add("Content-Type", "application/yaml")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "other"}}, Strategy: mockBuildStrategy}}}
@@ -587,6 +629,8 @@ func TestExtractWithBadContentType(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, _ := http.NewRequest("POST", "http://someurl.com", errJSON{})
 	req.Header.Add("Content-Type", "bad")
 	buildConfig := &buildv1.BuildConfig{Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{Ref: "other"}}, Strategy: mockBuildStrategy}}}
@@ -601,6 +645,8 @@ func TestExtractWithBadContentType(t *testing.T) {
 	}
 }
 func TestExtractWithUnparseableContentType(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -36,6 +36,8 @@ func newTestWatcher(username string, groups []string, predicate storage.Selectio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objects := []runtime.Object{}
 	for i := range namespaces {
 		objects = append(objects, namespaces[i])
@@ -69,9 +71,13 @@ func (w *fakeAuthCache) RemoveWatcher(watcher CacheWatcher) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.removed = append(w.removed, watcher)
 }
 func (w *fakeAuthCache) List(userInfo user.Info, selector labels.Selector) (*corev1.NamespaceList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +101,8 @@ func (w *fakeAuthCache) List(userInfo user.Info, selector labels.Selector) (*cor
 	return ret, nil
 }
 func TestFullIncoming(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -164,6 +172,8 @@ func TestAddModifyDeleteEventsByUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	watcher, _, stopCh := newTestWatcher("bob", nil, matchAllPredicate(), newNamespaces("ns-01")...)
 	defer close(stopCh)
 	go watcher.Watch()
@@ -199,6 +209,8 @@ func TestAddModifyDeleteEventsByUser(t *testing.T) {
 	}
 }
 func TestProjectSelectionPredicate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -279,6 +291,8 @@ func TestAddModifyDeleteEventsByGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	watcher, _, stopCh := newTestWatcher("bob", []string{"group-one"}, matchAllPredicate(), newNamespaces("ns-01")...)
 	defer close(stopCh)
 	go watcher.Watch()
@@ -328,6 +342,8 @@ func newNamespaces(names ...string) []*corev1.Namespace {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []*corev1.Namespace{}
 	for _, name := range names {
 		ret = append(ret, &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: name}})
@@ -335,6 +351,8 @@ func newNamespaces(names ...string) []*corev1.Namespace {
 	return ret
 }
 func matchAllPredicate() storage.SelectionPredicate {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -26,6 +26,8 @@ func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	codec := legacyscheme.Codecs.LegacyCodec(versioned.SchemeGroupVersion)
 	data, err := runtime.Encode(codec, obj)
 	if err != nil {
@@ -46,6 +48,8 @@ func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
 	return obj3
 }
 func TestDefaultSecurityContextConstraints(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func TestDefaultSCCVolumes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		scc		*versioned.SecurityContextConstraints
 		expectedVolumes	[]versioned.FSType
@@ -108,6 +114,8 @@ func TestDefaultSCCVolumes(t *testing.T) {
 	}
 }
 func TestDefaultAllowPrivilegeEscalation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

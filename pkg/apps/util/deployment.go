@@ -29,11 +29,15 @@ func newControllerRef(config *appsv1.DeploymentConfig) *metav1.OwnerReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	blockOwnerDeletion := true
 	isController := true
 	return &metav1.OwnerReference{APIVersion: deploymentConfigControllerRefKind.GroupVersion().String(), Kind: deploymentConfigControllerRefKind.Kind, Name: config.Name, UID: config.UID, BlockOwnerDeletion: &blockOwnerDeletion, Controller: &isController}
 }
 func MakeDeployment(config *appsv1.DeploymentConfig) (*v1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

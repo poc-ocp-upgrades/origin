@@ -34,6 +34,8 @@ func newTestClient(builds []buildv1.Build) *fakeBuildClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeBuildClient{builds: &buildv1.BuildList{Items: builds}}
 }
 func (f *fakeBuildClient) List(namespace string, opts metav1.ListOptions) (*buildv1.BuildList, error) {
@@ -51,9 +53,13 @@ func (f *fakeBuildClient) List(namespace string, opts metav1.ListOptions) (*buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.builds, nil
 }
 func (f *fakeBuildClient) Update(namespace string, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,12 +102,16 @@ func (f *fakeBuildClient) Lister() buildlister.BuildLister {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeBuildLister{f: f}
 }
 
 type fakeBuildLister struct{ f *fakeBuildClient }
 
 func (f *fakeBuildLister) List(label labels.Selector) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +133,8 @@ func (f *fakeBuildLister) List(label labels.Selector) ([]*buildv1.Build, error) 
 	return items, nil
 }
 func (f *fakeBuildLister) Get(name string) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,9 +171,13 @@ func (f *fakeBuildLister) Builds(ns string) buildlister.BuildNamespaceLister {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f
 }
 func addBuild(name, bcName string, phase buildv1.BuildPhase, policy buildv1.BuildRunPolicy) buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +196,8 @@ func addBuild(name, bcName string, phase buildv1.BuildPhase, policy buildv1.Buil
 	return buildv1.Build{Spec: buildv1.BuildSpec{}, ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: "test", Labels: map[string]string{buildutil.BuildRunPolicyLabel: string(policy), buildutil.BuildConfigLabel: bcName}, Annotations: map[string]string{buildutil.BuildNumberAnnotation: parts[len(parts)-1]}}, Status: buildv1.BuildStatus{Phase: phase}}
 }
 func TestForBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +252,8 @@ func TestGetNextConfigBuildSerial(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builds := []buildv1.Build{addBuild("build-1", "sample-bc", buildv1.BuildPhaseComplete, buildv1.BuildRunPolicySerial), addBuild("build-2", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerial), addBuild("build-3", "sample-bc", buildv1.BuildPhaseNew, buildv1.BuildRunPolicySerial)}
 	client := newTestClient(builds)
 	resultBuilds, isRunning, err := GetNextConfigBuild(client.Lister(), "namespace", "bc")
@@ -252,6 +272,8 @@ func TestGetNextConfigBuildSerial(t *testing.T) {
 	}
 }
 func TestGetNextConfigBuildParallel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

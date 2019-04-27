@@ -27,9 +27,13 @@ func NewRemoteValueGenerator() RemoteValueGenerator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return RemoteValueGenerator{}
 }
 func (g RemoteValueGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

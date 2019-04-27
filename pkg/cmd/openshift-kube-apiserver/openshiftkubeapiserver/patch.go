@@ -55,6 +55,8 @@ func NewOpenShiftKubeAPIServerConfigPatch(delegateAPIServer genericapiserver.Del
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	patchContext := &KubeAPIServerServerPatchContext{postStartHooks: map[string]genericapiserver.PostStartHookFunc{}}
 	return func(genericConfig *genericapiserver.Config, kubeInformers clientgoinformers.SharedInformerFactory, pluginInitializers *[]admission.PluginInitializer) (genericapiserver.DelegationTarget, error) {
 		kubeAPIServerInformers, err := NewInformers(kubeInformers, genericConfig.LoopbackClientConfig)
@@ -130,6 +132,8 @@ func (c *KubeAPIServerServerPatchContext) PatchServer(server *master.Master) err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !c.initialized {
 		return fmt.Errorf("not initialized with config")
 	}
@@ -145,6 +149,8 @@ func (c *KubeAPIServerServerPatchContext) PatchServer(server *master.Master) err
 	return nil
 }
 func NewInformers(versionedInformers clientgoinformers.SharedInformerFactory, loopbackClientConfig *rest.Config) (*KubeAPIServerInformers, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,9 +215,13 @@ func (i *KubeAPIServerInformers) GetKubernetesInformers() kexternalinformers.Sha
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.KubernetesInformers
 }
 func (i *KubeAPIServerInformers) GetOpenshiftQuotaInformers() quotainformer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,6 +253,8 @@ func (i *KubeAPIServerInformers) GetOpenshiftSecurityInformers() securityv1infor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.OpenshiftSecurityInformers
 }
 func (i *KubeAPIServerInformers) GetOpenshiftUserInformers() userinformer.SharedInformerFactory {
@@ -260,9 +272,13 @@ func (i *KubeAPIServerInformers) GetOpenshiftUserInformers() userinformer.Shared
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.OpenshiftUserInformers
 }
 func (i *KubeAPIServerInformers) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

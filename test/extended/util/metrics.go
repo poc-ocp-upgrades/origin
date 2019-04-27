@@ -57,6 +57,8 @@ func CalculatePodMetrics(adminClient kubernetes.Interface, adminConfig *restclie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podURLGetter := &portForwardURLGetter{Protocol: "https", Host: "localhost", RemotePort: "8443", LocalPort: "37587"}
 	namespaces, err := adminClient.CoreV1().Namespaces().List(metav1.ListOptions{})
 	if err != nil {
@@ -95,6 +97,8 @@ func CalculatePodMetrics(adminClient kubernetes.Interface, adminConfig *restclie
 	return nil
 }
 func getPodInfoForNamespace(adminClient kubernetes.Interface, adminConfig *restclient.Config, podURLGetter *portForwardURLGetter, namespace string) ([]*podInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +199,8 @@ func getPodMetrics(adminConfig *restclient.Config, pod *v1.Pod, podURLGetter *po
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err := podURLGetter.Get("/metrics", pod, adminConfig)
 	if err != nil {
 		return nil, err
@@ -202,6 +208,8 @@ func getPodMetrics(adminConfig *restclient.Config, pod *v1.Pod, podURLGetter *po
 	return parseRawMetrics(result)
 }
 func parseRawMetrics(rawMetrics string) (map[string]*dto.MetricFamily, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,9 +249,13 @@ func newDefaultPortForwarder(adminConfig *rest.Config) *defaultPortForwarder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &defaultPortForwarder{restConfig: adminConfig, StopChannel: make(chan struct{}, 1), ReadyChannel: make(chan struct{}, 1)}
 }
 func (f *defaultPortForwarder) forwardPortsAndExecute(pod *v1.Pod, ports []string, toExecute func()) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +315,8 @@ func setRESTConfigDefaults(config rest.Config) *rest.Config {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config.GroupVersion == nil {
 		config.GroupVersion = &schema.GroupVersion{Group: "", Version: "v1"}
 	}
@@ -316,6 +330,8 @@ func setRESTConfigDefaults(config rest.Config) *rest.Config {
 	return &config
 }
 func newInsecureRESTClientForHost(host string) (rest.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +365,8 @@ type portForwardURLGetter struct {
 }
 
 func (c *portForwardURLGetter) Get(urlPath string, pod *v1.Pod, config *rest.Config) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

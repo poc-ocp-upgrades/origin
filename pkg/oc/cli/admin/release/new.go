@@ -53,9 +53,13 @@ func NewNewOptions(streams genericclioptions.IOStreams) *NewOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &NewOptions{IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 4}, AlwaysInclude: []string{"cluster-version-operator", "cli", "installer"}, ToImageBaseTag: "cluster-version-operator", AllowedComponents: []string{"kubernetes"}}
 }
 func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,6 +201,8 @@ func (o *NewOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	overlap := make(map[string]string)
 	var mappings []Mapping
 	for _, filename := range o.MappingFilenames {
@@ -233,6 +239,8 @@ func (o *NewOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []str
 	return nil
 }
 func (o *NewOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +305,8 @@ func findStatusTagEvents(tags []imageapi.NamedTagEventList, name string) *imagea
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range tags {
 		tag := &tags[i]
 		if tag.Tag != name {
@@ -321,6 +331,8 @@ func findStatusTagEvent(tags []imageapi.NamedTagEventList, name string) *imageap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	events := findStatusTagEvents(tags, name)
 	if events == nil || len(events.Items) == 0 {
 		return nil
@@ -328,6 +340,8 @@ func findStatusTagEvent(tags []imageapi.NamedTagEventList, name string) *imageap
 	return &events.Items[0]
 }
 func findSpecTag(tags []imageapi.TagReference, name string) *imageapi.TagReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -373,12 +387,16 @@ func (o *NewOptions) cleanup() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, fn := range o.cleanupFns {
 		fn()
 	}
 	o.cleanupFns = nil
 }
 func (o *NewOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -751,6 +769,8 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch referenceMode {
 	case "public", "", "source":
 		forceExternal := referenceMode == "public" || referenceMode == ""
@@ -859,6 +879,8 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 	}
 }
 func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, metadata map[string]imageData) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -996,6 +1018,8 @@ func (o *NewOptions) mirrorImages(is *imageapi.ImageStream) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Mirroring release contents to %s", o.Mirror)
 	copied := is.DeepCopy()
 	opts := NewMirrorOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
@@ -1031,6 +1055,8 @@ func (o *NewOptions) mirrorImages(is *imageapi.ImageStream) error {
 	return nil
 }
 func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1190,6 +1216,8 @@ func toJSONString(obj interface{}) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := json.Marshal(obj)
 	if err != nil {
 		panic(err)
@@ -1200,6 +1228,8 @@ func toJSONString(obj interface{}) string {
 type nopCloser struct{ io.Writer }
 
 func (_ nopCloser) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1231,6 +1261,8 @@ func writeNestedTarHeader(tw *tar.Writer, parts []string, existing map[string]st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range parts {
 		componentDir := path.Join(parts[:i+1]...)
 		if _, ok := existing[componentDir]; ok {
@@ -1245,6 +1277,8 @@ func writeNestedTarHeader(tw *tar.Writer, parts []string, existing map[string]st
 	return nil
 }
 func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata, ordered []string, metadata map[string]imageData, allowMissingImages bool, verifiers []PayloadVerifier) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1385,6 +1419,8 @@ func iterateExtractedManifests(ordered []string, metadata map[string]imageData, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, name := range ordered {
 		image, ok := metadata[name]
 		if !ok {
@@ -1418,6 +1454,8 @@ func hasTag(tags []imageapi.TagReference, tag string) *imageapi.TagReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range tags {
 		if tag == tags[i].Name {
 			return &tags[i]
@@ -1426,6 +1464,8 @@ func hasTag(tags []imageapi.TagReference, tag string) *imageapi.TagReference {
 	return nil
 }
 func pruneEmptyDirectories(dir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1479,6 +1519,8 @@ func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var mappings []Mapping
 	for _, s := range args {
 		parts := strings.SplitN(s, "=", 2)
@@ -1499,6 +1541,8 @@ func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
 	return mappings, nil
 }
 func parseFile(filename string, overlap map[string]string) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1558,6 +1602,8 @@ func takeFileByName(files *[]os.FileInfo, name string) os.FileInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, fi := range *files {
 		if fi.IsDir() || fi.Name() != name {
 			continue
@@ -1571,6 +1617,8 @@ func takeFileByName(files *[]os.FileInfo, name string) os.FileInfo {
 type PayloadVerifier func(filename string, data []byte) error
 
 func pruneUnreferencedImageStreams(out io.Writer, is *imageapi.ImageStream, metadata map[string]imageData, include []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1617,6 +1665,8 @@ func pruneUnreferencedImageStreams(out io.Writer, is *imageapi.ImageStream, meta
 	return nil
 }
 func filenameContents(s string, in io.Reader) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

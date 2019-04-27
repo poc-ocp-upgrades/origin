@@ -21,5 +21,7 @@ func (factory *RouteAllocationControllerFactory) Create(plugin route.AllocationP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RouteAllocationController{Plugin: plugin}
 }

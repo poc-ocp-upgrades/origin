@@ -57,6 +57,8 @@ func Init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flag.StringVar(&syntheticSuite, "suite", "", "DEPRECATED: Optional suite selector to filter which tests are run. Use focus.")
 	e2e.ViperizeFlags()
 	InitTest()
@@ -76,11 +78,15 @@ func InitStandardFlags() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.RegisterCommonFlags()
 	e2e.RegisterClusterFlags()
 	e2e.RegisterStorageFlags()
 }
 func InitTest() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +140,8 @@ func ExecuteTest(t ginkgo.GinkgoTestingT, suite string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var r []ginkgo.Reporter
 	if dir := os.Getenv("TEST_REPORT_DIR"); len(dir) > 0 {
 		TestContext.ReportDir = dir
@@ -160,6 +168,8 @@ func ExecuteTest(t ginkgo.GinkgoTestingT, suite string) {
 	}
 }
 func AnnotateTestSuite() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,11 +280,15 @@ func InitDefaultEnvironmentVariables() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ad := os.Getenv("ARTIFACT_DIR"); len(strings.TrimSpace(ad)) == 0 {
 		os.Setenv("ARTIFACT_DIR", filepath.Join(os.TempDir(), "artifacts"))
 	}
 }
 func isPackage(pkg string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -306,9 +320,13 @@ func isOriginTest() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return isPackage("/origin/test/")
 }
 func isKubernetesE2ETest() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,9 +358,13 @@ func testNameContains(name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.Contains(ginkgo.CurrentGinkgoTestDescription().FullTestText, name)
 }
 func isOriginUpgradeTest() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -374,9 +396,13 @@ func skipTestNamespaceCustomization() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return (isPackage("/kubernetes/test/e2e/namespace.go") && (testNameContains("should always delete fast") || testNameContains("should delete fast enough")))
 }
 func createTestingNS(baseName string, c kclientset.Interface, labels map[string]string) (*kapiv1.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -441,9 +467,13 @@ func checkSyntheticInput() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checkSuiteSkips()
 }
 func checkSuiteSkips() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -473,6 +503,8 @@ func checkSuiteSkips() {
 var longRetry = wait.Backoff{Steps: 100}
 
 func allowAllNodeScheduling(c kclientset.Interface, namespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -518,6 +550,8 @@ func addE2EServiceAccountsToSCC(securityClient securityclient.Interface, namespa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := retry.RetryOnConflict(longRetry, func() error {
 		scc, err := securityClient.Security().SecurityContextConstraints().Get(sccName, metav1.GetOptions{})
 		if err != nil {
@@ -541,6 +575,8 @@ func addE2EServiceAccountsToSCC(securityClient securityclient.Interface, namespa
 	}
 }
 func addRoleToE2EServiceAccounts(rbacClient rbacv1client.RbacV1Interface, namespaces []kapiv1.Namespace, roleName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

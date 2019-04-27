@@ -38,6 +38,8 @@ func ValidateOAuthConfig(config *configapi.OAuthConfig, fldPath *field.Path) com
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	if config.MasterCA == nil {
 		validationResults.AddErrors(field.Invalid(fldPath.Child("masterCA"), config.MasterCA, "a filename or empty string is required"))
@@ -154,6 +156,8 @@ func ValidateIdentityProvider(identityProvider configapi.IdentityProvider, fldPa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	if len(identityProvider.Name) == 0 {
 		validationResults.AddErrors(field.Required(fldPath.Child("name"), ""))
@@ -208,6 +212,8 @@ func ValidateLDAPIdentityProvider(provider *configapi.LDAPPasswordIdentityProvid
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.Append(common.ValidateStringSource(provider.BindPassword, fldPath.Child("bindPassword")))
 	bindPassword, _ := configapi.ResolveStringValue(provider.BindPassword)
@@ -218,6 +224,8 @@ func ValidateLDAPIdentityProvider(provider *configapi.LDAPPasswordIdentityProvid
 	return validationResults
 }
 func ValidateKeystoneIdentityProvider(provider *configapi.KeystonePasswordIdentityProvider, identityProvider configapi.IdentityProvider, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,6 +254,8 @@ func ValidateKeystoneIdentityProvider(provider *configapi.KeystonePasswordIdenti
 	return validationResults
 }
 func ValidateRequestHeaderIdentityProvider(provider *configapi.RequestHeaderIdentityProvider, identityProvider configapi.IdentityProvider, fieldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,6 +329,8 @@ func ValidateOAuthIdentityProvider(clientID string, clientSecret configapi.Strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(clientID) == 0 {
 		allErrs = append(allErrs, field.Required(fieldPath.Child("provider", "clientID"), ""))
@@ -336,6 +348,8 @@ func ValidateOAuthIdentityProvider(clientID string, clientSecret configapi.Strin
 	return allErrs
 }
 func ValidateGitHubIdentityProvider(provider *configapi.GitHubIdentityProvider, challenge bool, mappingMethod string, fieldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,9 +414,13 @@ func isValidHostname(hostname string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(kvalidation.IsDNS1123Subdomain(hostname)) == 0 || net.ParseIP(hostname) != nil
 }
 func ValidateGoogleIdentityProvider(provider *configapi.GoogleIdentityProvider, challenge bool, mappingMethod string, fieldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -442,6 +460,8 @@ func ValidateGitLabIdentityProvider(provider *configapi.GitLabIdentityProvider, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, ValidateOAuthIdentityProvider(provider.ClientID, provider.ClientSecret, fieldPath)...)
 	_, urlErrs := common.ValidateSecureURL(provider.URL, fieldPath.Child("provider", "url"))
@@ -452,6 +472,8 @@ func ValidateGitLabIdentityProvider(provider *configapi.GitLabIdentityProvider, 
 	return allErrs
 }
 func ValidateOpenIDIdentityProvider(provider *configapi.OpenIDIdentityProvider, identityProvider configapi.IdentityProvider, fieldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -501,6 +523,8 @@ func validateGrantConfig(config configapi.GrantConfig, fldPath *field.Path) fiel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if !configapi.ValidGrantHandlerTypes.Has(string(config.Method)) {
 		allErrs = append(allErrs, field.NotSupported(fldPath.Child("method"), config.Method, configapi.ValidGrantHandlerTypes.List()))
@@ -511,6 +535,8 @@ func validateGrantConfig(config configapi.GrantConfig, fldPath *field.Path) fiel
 	return allErrs
 }
 func validateSessionConfig(config *configapi.SessionConfig, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -548,6 +574,8 @@ func validateSessionConfig(config *configapi.SessionConfig, fldPath *field.Path)
 	return allErrs
 }
 func ValidateSessionSecrets(config *configapi.SessionSecrets) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

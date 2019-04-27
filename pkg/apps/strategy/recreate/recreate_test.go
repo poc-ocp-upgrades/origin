@@ -33,11 +33,15 @@ func getUpdateAcceptor(timeout time.Duration, minReadySeconds int32) appsstrateg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testAcceptor{acceptFn: func(deployment *corev1.ReplicationController) error {
 		return nil
 	}}
 }
 func recreateParams(timeout int64, preFailurePolicy, midFailurePolicy, postFailurePolicy appsv1.LifecycleHookFailurePolicy) appsv1.DeploymentStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ func (t *testAcceptor) Accept(deployment *corev1.ReplicationController) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.acceptFn(deployment)
 }
 
@@ -94,6 +100,8 @@ type fakeControllerClient struct {
 }
 
 func (c *fakeControllerClient) ReplicationControllers(ns string) kcoreclient.ReplicationControllerInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +133,13 @@ func (c *fakeControllerClient) scaledOnce() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(c.scaleEvents) == 1
 }
 func (c *fakeControllerClient) fakeScaleClient() *scalefake.FakeScaleClient {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +185,8 @@ func newFakeControllerClient(deployment *corev1.ReplicationController) *fakeCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &fakeControllerClient{deployment: deployment}
 	c.fakeClient = fake.NewSimpleClientset(c.deployment)
 	return c
@@ -181,6 +195,8 @@ func newFakeControllerClient(deployment *corev1.ReplicationController) *fakeCont
 type fakePodClient struct{ deployerName string }
 
 func (c *fakePodClient) Pods(ns string) kcoreclient.PodInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,9 +237,13 @@ func (h *hookExecutorImpl) Execute(hook *appsv1.LifecycleHook, rc *corev1.Replic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.executeFunc(hook, rc, suffix, label)
 }
 func TestRecreate_initialDeployment(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -256,6 +276,8 @@ func TestRecreate_initialDeployment(t *testing.T) {
 	}
 }
 func TestRecreate_deploymentPreHookSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +325,8 @@ func TestRecreate_deploymentPreHookFail(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := appstest.OkDeploymentConfig(1)
 	config.Spec.Strategy = recreateParams(30, appsv1.LifecycleHookFailurePolicyAbort, "", "")
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -334,6 +358,8 @@ func TestRecreate_deploymentMidHookSuccess(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := appstest.OkDeploymentConfig(1)
 	config.Spec.Strategy = recreateParams(30, "", appsv1.LifecycleHookFailurePolicyAbort, "")
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -351,6 +377,8 @@ func TestRecreate_deploymentMidHookSuccess(t *testing.T) {
 	}
 }
 func TestRecreate_deploymentPostHookSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -398,6 +426,8 @@ func TestRecreate_deploymentPostHookFail(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := appstest.OkDeploymentConfig(1)
 	config.Spec.Strategy = recreateParams(30, "", "", appsv1.LifecycleHookFailurePolicyAbort)
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -417,6 +447,8 @@ func TestRecreate_deploymentPostHookFail(t *testing.T) {
 	}
 }
 func TestRecreate_acceptorSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -476,6 +508,8 @@ func TestRecreate_acceptorSuccessWithColdCaches(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var deployment *corev1.ReplicationController
 	strategy := &RecreateDeploymentStrategy{out: &bytes.Buffer{}, errOut: &bytes.Buffer{}, eventClient: fake.NewSimpleClientset().CoreV1()}
 	acceptorCalled := false
@@ -507,6 +541,8 @@ func TestRecreate_acceptorSuccessWithColdCaches(t *testing.T) {
 	}
 }
 func TestRecreate_acceptorFail(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func NewCmd(f kcmdutil.Factory, parentName string, streams genericclioptions.IOS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := &cobra.Command{Use: "release", Short: "Tools for managing the OpenShift release process", Long: templates.LongDesc(`
 			This tool is used by OpenShift release to build images that can update a cluster.
 

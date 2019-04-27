@@ -37,6 +37,8 @@ func (r *mockReview) Users() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.users
 }
 func (r *mockReview) Groups() []string {
@@ -54,9 +56,13 @@ func (r *mockReview) Groups() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.groups
 }
 func (r *mockReview) EvaluationError() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (mr *mockReviewer) Review(name string) (Review, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	review := mr.expectedResults[name]
 	if review == nil {
 		return nil, fmt.Errorf("Item %s does not exist", name)
@@ -105,6 +113,8 @@ func (mr *mockReviewer) Review(name string) (Review, error) {
 	return review, nil
 }
 func validateList(t *testing.T, lister Lister, user user.Info, expectedSet sets.String) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +142,8 @@ func validateList(t *testing.T, lister Lister, user user.Info, expectedSet sets.
 	}
 }
 func TestSyncNamespace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

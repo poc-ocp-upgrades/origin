@@ -20,6 +20,8 @@ func getServiceName(sep rune, requestURL string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := url.Parse(requestURL)
 	if err != nil {
 		return "", err
@@ -30,6 +32,8 @@ func getServiceName(sep rune, requestURL string) (string, error) {
 type negotiateUnsupported struct{ error }
 
 func newUnsupportedNegotiator(name string) Negotiator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,9 +65,13 @@ func (n *negotiateUnsupported) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n
 }
 func (n *negotiateUnsupported) InitSecContext(requestURL string, challengeToken []byte) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,9 +103,13 @@ func (*negotiateUnsupported) IsComplete() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (n *negotiateUnsupported) Release() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

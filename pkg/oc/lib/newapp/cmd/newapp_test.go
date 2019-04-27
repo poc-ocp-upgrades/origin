@@ -50,6 +50,8 @@ func TestValidate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		cfg			AppConfig
 		componentValues		[]string
@@ -111,6 +113,8 @@ func TestValidate(t *testing.T) {
 	}
 }
 func TestBuildTemplates(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +216,8 @@ func fakeTemplateSearcher() app.Searcher {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := faketemplatev1client.NewSimpleClientset()
 	client.PrependReactor("list", "templates", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, templateList(), nil
@@ -233,9 +239,13 @@ func templateList() *templatev1.TemplateList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &templatev1.TemplateList{Items: []templatev1.Template{{Objects: []runtime.RawExtension{}, ObjectMeta: metav1.ObjectMeta{Name: "first-stored-template", Namespace: "default"}}}}
 }
 func TestEnsureHasSource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -296,6 +306,8 @@ func mockSourceRepositories(t *testing.T, file string) []*app.SourceRepository {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var b []*app.SourceRepository
 	for _, location := range []string{"https://github.com/openshift/ruby-hello-world.git", file} {
 		s, err := app.NewSourceRepository(location, newapp.StrategySource)
@@ -307,6 +319,8 @@ func mockSourceRepositories(t *testing.T, file string) []*app.SourceRepository {
 	return b
 }
 func TestBuildPipelinesWithUnresolvedImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,6 +375,8 @@ func TestBuildOutputCycleResilience(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &AppConfig{}
 	mockIS := &image.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "mockimagestream"}, Spec: image.ImageStreamSpec{Tags: make(map[string]image.TagReference)}}
 	mockIS.Spec.Tags["latest"] = image.TagReference{From: &kapi.ObjectReference{Kind: "DockerImage", Name: "mockimage:latest"}}
@@ -373,6 +389,8 @@ func TestBuildOutputCycleResilience(t *testing.T) {
 	}
 }
 func TestBuildOutputCycleWithCircularTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

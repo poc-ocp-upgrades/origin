@@ -49,9 +49,13 @@ func NewDecryptOptions(streams genericclioptions.IOStreams) *DecryptOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DecryptOptions{EncryptedReader: streams.In, DecryptedWriter: streams.Out}
 }
 func NewCommandDecrypt(commandName string, fullName, encryptFullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +98,8 @@ func (o *DecryptOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -109,6 +115,8 @@ func (o *DecryptOptions) Validate(args []string) error {
 	return nil
 }
 func (o *DecryptOptions) Decrypt() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -29,6 +29,8 @@ func TestExecAdmit(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	goodPod := func() *corev1.Pod {
 		return &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Namespace: "default"}, Spec: corev1.PodSpec{ServiceAccountName: "default", Containers: []corev1.Container{{SecurityContext: &corev1.SecurityContext{}}}}}
 	}

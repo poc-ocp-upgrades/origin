@@ -25,6 +25,8 @@ func testRunOnceDurationPod(activeDeadlineSeconds int64) *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &corev1.Pod{}
 	pod.GenerateName = "testpod"
 	pod.Spec.RestartPolicy = corev1.RestartPolicyNever
@@ -35,6 +37,8 @@ func testRunOnceDurationPod(activeDeadlineSeconds int64) *corev1.Pod {
 	return pod
 }
 func testPodDuration(t *testing.T, name string, kclientset kubernetes.Interface, pod *corev1.Pod, expected int64) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func TestRunOnceDurationAdmissionPlugin(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var secs int64 = 3600
 	config := &pluginapi.RunOnceDurationConfig{ActiveDeadlineSecondsLimit: &secs}
 	kclientset, fn := setupRunOnceDurationTest(t, config, nil)
@@ -85,6 +91,8 @@ func TestRunOnceDurationAdmissionPlugin(t *testing.T) {
 	testPodDuration(t, "global, smaller duration", kclientset, testRunOnceDurationPod(100), 100)
 }
 func TestRunOnceDurationAdmissionPluginProjectLimit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +117,8 @@ func TestRunOnceDurationAdmissionPluginProjectLimit(t *testing.T) {
 	testPodDuration(t, "project, smaller duration", kclientset, testRunOnceDurationPod(50), 50)
 }
 func setupRunOnceDurationTest(t *testing.T, pluginConfig *pluginapi.RunOnceDurationConfig, nsAnnotations map[string]string) (kubernetes.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

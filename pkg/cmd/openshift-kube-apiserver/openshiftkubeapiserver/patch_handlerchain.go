@@ -35,6 +35,8 @@ func BuildHandlerChain(genericConfig *genericapiserver.Config, oauthConfig *osin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if oauthMetadataFile := authConfig.OAuthMetadataFile; len(oauthMetadataFile) > 0 {
 		if _, _, err := util.LoadOAuthMetadataFile(oauthMetadataFile); err == nil {
 			oauthConfig = nil
@@ -80,6 +82,8 @@ func withOAuthRedirection(oauthConfig *osinv1.OAuthConfig, handler, oauthServerH
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if oauthConfig == nil {
 		return handler
 	}
@@ -87,6 +91,8 @@ func withOAuthRedirection(oauthConfig *osinv1.OAuthConfig, handler, oauthServerH
 	return WithPatternPrefixHandler(handler, oauthServerHandler, openShiftOAuthAPIPrefix, openShiftLoginPrefix, openShiftLogoutPrefix, openShiftOAuthCallbackPrefix)
 }
 func WithPatternPrefixHandler(handler http.Handler, patternHandler http.Handler, prefixes ...string) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +118,8 @@ func WithPatternPrefixHandler(handler http.Handler, patternHandler http.Handler,
 	})
 }
 func withConsoleRedirect(handler http.Handler, consolePublicURL string) http.Handler {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

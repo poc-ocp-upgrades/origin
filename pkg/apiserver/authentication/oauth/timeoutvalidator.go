@@ -38,9 +38,13 @@ func (a *tokenData) timeout() time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.token.CreationTimestamp.Time.Add(time.Duration(a.token.InactivityTimeoutSeconds) * time.Second)
 }
 func (a *tokenData) Key() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,9 +76,13 @@ func (a *tokenData) Rank() int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.timeout().Unix()
 }
 func timeoutAsDuration(timeout int32) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -119,6 +127,8 @@ func NewTimeoutValidator(tokens oauthclient.OAuthAccessTokenInterface, oauthClie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a := &TimeoutValidator{oauthClients: oauthClients, tokens: tokens, tokenChannel: make(chan *tokenData), data: rankedset.New(), defaultTimeout: timeoutAsDuration(defaultTimeout), tickerInterval: timeoutAsDuration(minValidTimeout / 3), clock: clock.RealClock{}}
 	a.flushHandler = a.flush
 	a.putTokenHandler = a.putToken
@@ -126,6 +136,8 @@ func NewTimeoutValidator(tokens oauthclient.OAuthAccessTokenInterface, oauthClie
 	return a
 }
 func (a *TimeoutValidator) Validate(token *oauthv1.OAuthAccessToken, _ *userv1.User) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,9 +180,13 @@ func (a *TimeoutValidator) putToken(td *tokenData) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.tokenChannel <- td
 }
 func (a *TimeoutValidator) clientTimeout(name string) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,6 +226,8 @@ func (a *TimeoutValidator) update(td *tokenData) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	delta := a.clientTimeout(td.token.ClientName)
 	newTimeout := int32(0)
 	if delta > 0 {
@@ -227,6 +245,8 @@ func (a *TimeoutValidator) update(td *tokenData) error {
 	return err
 }
 func (a *TimeoutValidator) flush(flushHorizon time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,9 +303,13 @@ func (a *TimeoutValidator) nextTick() time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.clock.Now().Add(a.tickerInterval + 10*time.Second)
 }
 func (a *TimeoutValidator) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

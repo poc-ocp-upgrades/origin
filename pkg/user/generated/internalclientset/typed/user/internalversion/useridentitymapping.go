@@ -34,9 +34,13 @@ func newUserIdentityMappings(c *UserClient) *userIdentityMappings {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &userIdentityMappings{client: c.RESTClient()}
 }
 func (c *userIdentityMappings) Get(name string, options v1.GetOptions) (result *user.UserIdentityMapping, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func (c *userIdentityMappings) Create(userIdentityMapping *user.UserIdentityMapp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &user.UserIdentityMapping{}
 	err = c.client.Post().Resource("useridentitymappings").Body(userIdentityMapping).Do().Into(result)
 	return
@@ -89,11 +95,15 @@ func (c *userIdentityMappings) Update(userIdentityMapping *user.UserIdentityMapp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &user.UserIdentityMapping{}
 	err = c.client.Put().Resource("useridentitymappings").Name(userIdentityMapping.Name).Body(userIdentityMapping).Do().Into(result)
 	return
 }
 func (c *userIdentityMappings) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

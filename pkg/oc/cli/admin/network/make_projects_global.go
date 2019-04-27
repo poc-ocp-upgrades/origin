@@ -43,9 +43,13 @@ func NewMakeGlobalOptions(streams genericclioptions.IOStreams) *MakeGlobalOption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MakeGlobalOptions{Options: NewProjectOptions(streams)}
 }
 func NewCmdMakeGlobalProjectsNetwork(commandName, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +88,8 @@ func (o *MakeGlobalOptions) Complete(f kcmdutil.Factory, c *cobra.Command, args 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.Options.Complete(f, c, args); err != nil {
 		return err
 	}
@@ -105,9 +111,13 @@ func (o *MakeGlobalOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.Options.Validate()
 }
 func (o *MakeGlobalOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

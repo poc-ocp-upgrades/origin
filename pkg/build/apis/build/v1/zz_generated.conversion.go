@@ -28,9 +28,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -637,6 +641,8 @@ func autoConvert_v1_BinaryBuildRequestOptions_To_build_BinaryBuildRequestOptions
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.AsFile = in.AsFile
 	out.Commit = in.Commit
@@ -662,9 +668,13 @@ func Convert_v1_BinaryBuildRequestOptions_To_build_BinaryBuildRequestOptions(in 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BinaryBuildRequestOptions_To_build_BinaryBuildRequestOptions(in, out, s)
 }
 func autoConvert_build_BinaryBuildRequestOptions_To_v1_BinaryBuildRequestOptions(in *build.BinaryBuildRequestOptions, out *v1.BinaryBuildRequestOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -704,9 +714,13 @@ func Convert_build_BinaryBuildRequestOptions_To_v1_BinaryBuildRequestOptions(in 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BinaryBuildRequestOptions_To_v1_BinaryBuildRequestOptions(in, out, s)
 }
 func autoConvert_v1_BinaryBuildSource_To_build_BinaryBuildSource(in *v1.BinaryBuildSource, out *build.BinaryBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -739,9 +753,13 @@ func Convert_v1_BinaryBuildSource_To_build_BinaryBuildSource(in *v1.BinaryBuildS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BinaryBuildSource_To_build_BinaryBuildSource(in, out, s)
 }
 func autoConvert_build_BinaryBuildSource_To_v1_BinaryBuildSource(in *build.BinaryBuildSource, out *v1.BinaryBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -774,9 +792,13 @@ func Convert_build_BinaryBuildSource_To_v1_BinaryBuildSource(in *build.BinaryBui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BinaryBuildSource_To_v1_BinaryBuildSource(in, out, s)
 }
 func autoConvert_v1_BitbucketWebHookCause_To_build_BitbucketWebHookCause(in *v1.BitbucketWebHookCause, out *build.BitbucketWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -811,9 +833,13 @@ func Convert_v1_BitbucketWebHookCause_To_build_BitbucketWebHookCause(in *v1.Bitb
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BitbucketWebHookCause_To_build_BitbucketWebHookCause(in, out, s)
 }
 func autoConvert_build_BitbucketWebHookCause_To_v1_BitbucketWebHookCause(in *build.BitbucketWebHookCause, out *v1.BitbucketWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -848,9 +874,13 @@ func Convert_build_BitbucketWebHookCause_To_v1_BitbucketWebHookCause(in *build.B
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BitbucketWebHookCause_To_v1_BitbucketWebHookCause(in, out, s)
 }
 func autoConvert_v1_Build_To_build_Build(in *v1.Build, out *build.Build, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -889,9 +919,13 @@ func Convert_v1_Build_To_build_Build(in *v1.Build, out *build.Build, s conversio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Build_To_build_Build(in, out, s)
 }
 func autoConvert_build_Build_To_v1_Build(in *build.Build, out *v1.Build, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -930,9 +964,13 @@ func Convert_build_Build_To_v1_Build(in *build.Build, out *v1.Build, s conversio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_Build_To_v1_Build(in, out, s)
 }
 func autoConvert_v1_BuildConfig_To_build_BuildConfig(in *v1.BuildConfig, out *build.BuildConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -971,6 +1009,8 @@ func autoConvert_build_BuildConfig_To_v1_BuildConfig(in *build.BuildConfig, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	if err := Convert_build_BuildConfigSpec_To_v1_BuildConfigSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
@@ -995,9 +1035,13 @@ func Convert_build_BuildConfig_To_v1_BuildConfig(in *build.BuildConfig, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildConfig_To_v1_BuildConfig(in, out, s)
 }
 func autoConvert_v1_BuildConfigList_To_build_BuildConfigList(in *v1.BuildConfigList, out *build.BuildConfigList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1041,9 +1085,13 @@ func Convert_v1_BuildConfigList_To_build_BuildConfigList(in *v1.BuildConfigList,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildConfigList_To_build_BuildConfigList(in, out, s)
 }
 func autoConvert_build_BuildConfigList_To_v1_BuildConfigList(in *build.BuildConfigList, out *v1.BuildConfigList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1087,9 +1135,13 @@ func Convert_build_BuildConfigList_To_v1_BuildConfigList(in *build.BuildConfigLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildConfigList_To_v1_BuildConfigList(in, out, s)
 }
 func autoConvert_v1_BuildConfigSpec_To_build_BuildConfigSpec(in *v1.BuildConfigSpec, out *build.BuildConfigSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1138,9 +1190,13 @@ func Convert_v1_BuildConfigSpec_To_build_BuildConfigSpec(in *v1.BuildConfigSpec,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildConfigSpec_To_build_BuildConfigSpec(in, out, s)
 }
 func autoConvert_build_BuildConfigSpec_To_v1_BuildConfigSpec(in *build.BuildConfigSpec, out *v1.BuildConfigSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1189,9 +1245,13 @@ func Convert_build_BuildConfigSpec_To_v1_BuildConfigSpec(in *build.BuildConfigSp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildConfigSpec_To_v1_BuildConfigSpec(in, out, s)
 }
 func autoConvert_v1_BuildConfigStatus_To_build_BuildConfigStatus(in *v1.BuildConfigStatus, out *build.BuildConfigStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1224,9 +1284,13 @@ func Convert_v1_BuildConfigStatus_To_build_BuildConfigStatus(in *v1.BuildConfigS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildConfigStatus_To_build_BuildConfigStatus(in, out, s)
 }
 func autoConvert_build_BuildConfigStatus_To_v1_BuildConfigStatus(in *build.BuildConfigStatus, out *v1.BuildConfigStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1259,9 +1323,13 @@ func Convert_build_BuildConfigStatus_To_v1_BuildConfigStatus(in *build.BuildConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildConfigStatus_To_v1_BuildConfigStatus(in, out, s)
 }
 func autoConvert_v1_BuildList_To_build_BuildList(in *v1.BuildList, out *build.BuildList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1305,9 +1373,13 @@ func Convert_v1_BuildList_To_build_BuildList(in *v1.BuildList, out *build.BuildL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildList_To_build_BuildList(in, out, s)
 }
 func autoConvert_build_BuildList_To_v1_BuildList(in *build.BuildList, out *v1.BuildList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1351,9 +1423,13 @@ func Convert_build_BuildList_To_v1_BuildList(in *build.BuildList, out *v1.BuildL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildList_To_v1_BuildList(in, out, s)
 }
 func autoConvert_v1_BuildLog_To_build_BuildLog(in *v1.BuildLog, out *build.BuildLog, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1385,9 +1461,13 @@ func Convert_v1_BuildLog_To_build_BuildLog(in *v1.BuildLog, out *build.BuildLog,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildLog_To_build_BuildLog(in, out, s)
 }
 func autoConvert_build_BuildLog_To_v1_BuildLog(in *build.BuildLog, out *v1.BuildLog, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1419,9 +1499,13 @@ func Convert_build_BuildLog_To_v1_BuildLog(in *build.BuildLog, out *v1.BuildLog,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildLog_To_v1_BuildLog(in, out, s)
 }
 func autoConvert_v1_BuildLogOptions_To_build_BuildLogOptions(in *v1.BuildLogOptions, out *build.BuildLogOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1463,9 +1547,13 @@ func Convert_v1_BuildLogOptions_To_build_BuildLogOptions(in *v1.BuildLogOptions,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildLogOptions_To_build_BuildLogOptions(in, out, s)
 }
 func autoConvert_build_BuildLogOptions_To_v1_BuildLogOptions(in *build.BuildLogOptions, out *v1.BuildLogOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1507,9 +1595,13 @@ func Convert_build_BuildLogOptions_To_v1_BuildLogOptions(in *build.BuildLogOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildLogOptions_To_v1_BuildLogOptions(in, out, s)
 }
 func autoConvert_v1_BuildOutput_To_build_BuildOutput(in *v1.BuildOutput, out *build.BuildOutput, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1560,6 +1652,8 @@ func autoConvert_build_BuildOutput_To_v1_BuildOutput(in *build.BuildOutput, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in.To != nil {
 		in, out := &in.To, &out.To
 		*out = new(apicorev1.ObjectReference)
@@ -1596,9 +1690,13 @@ func Convert_build_BuildOutput_To_v1_BuildOutput(in *build.BuildOutput, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildOutput_To_v1_BuildOutput(in, out, s)
 }
 func autoConvert_v1_BuildPostCommitSpec_To_build_BuildPostCommitSpec(in *v1.BuildPostCommitSpec, out *build.BuildPostCommitSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1633,9 +1731,13 @@ func Convert_v1_BuildPostCommitSpec_To_build_BuildPostCommitSpec(in *v1.BuildPos
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildPostCommitSpec_To_build_BuildPostCommitSpec(in, out, s)
 }
 func autoConvert_build_BuildPostCommitSpec_To_v1_BuildPostCommitSpec(in *build.BuildPostCommitSpec, out *v1.BuildPostCommitSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1670,9 +1772,13 @@ func Convert_build_BuildPostCommitSpec_To_v1_BuildPostCommitSpec(in *build.Build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildPostCommitSpec_To_v1_BuildPostCommitSpec(in, out, s)
 }
 func autoConvert_v1_BuildRequest_To_build_BuildRequest(in *v1.BuildRequest, out *build.BuildRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1766,9 +1872,13 @@ func Convert_v1_BuildRequest_To_build_BuildRequest(in *v1.BuildRequest, out *bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildRequest_To_build_BuildRequest(in, out, s)
 }
 func autoConvert_build_BuildRequest_To_v1_BuildRequest(in *build.BuildRequest, out *v1.BuildRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1862,9 +1972,13 @@ func Convert_build_BuildRequest_To_v1_BuildRequest(in *build.BuildRequest, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildRequest_To_v1_BuildRequest(in, out, s)
 }
 func autoConvert_v1_BuildSource_To_build_BuildSource(in *v1.BuildSource, out *build.BuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1942,9 +2056,13 @@ func Convert_v1_BuildSource_To_build_BuildSource(in *v1.BuildSource, out *build.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildSource_To_build_BuildSource(in, out, s)
 }
 func autoConvert_build_BuildSource_To_v1_BuildSource(in *build.BuildSource, out *v1.BuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2022,6 +2140,8 @@ func autoConvert_v1_BuildSpec_To_build_BuildSpec(in *v1.BuildSpec, out *build.Bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := Convert_v1_CommonSpec_To_build_CommonSpec(&in.CommonSpec, &out.CommonSpec, s); err != nil {
 		return err
 	}
@@ -2053,9 +2173,13 @@ func Convert_v1_BuildSpec_To_build_BuildSpec(in *v1.BuildSpec, out *build.BuildS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildSpec_To_build_BuildSpec(in, out, s)
 }
 func autoConvert_build_BuildSpec_To_v1_BuildSpec(in *build.BuildSpec, out *v1.BuildSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2101,9 +2225,13 @@ func Convert_build_BuildSpec_To_v1_BuildSpec(in *build.BuildSpec, out *v1.BuildS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildSpec_To_v1_BuildSpec(in, out, s)
 }
 func autoConvert_v1_BuildStatus_To_build_BuildStatus(in *v1.BuildStatus, out *build.BuildStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2157,9 +2285,13 @@ func Convert_v1_BuildStatus_To_build_BuildStatus(in *v1.BuildStatus, out *build.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildStatus_To_build_BuildStatus(in, out, s)
 }
 func autoConvert_build_BuildStatus_To_v1_BuildStatus(in *build.BuildStatus, out *v1.BuildStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2213,9 +2345,13 @@ func Convert_build_BuildStatus_To_v1_BuildStatus(in *build.BuildStatus, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildStatus_To_v1_BuildStatus(in, out, s)
 }
 func autoConvert_v1_BuildStatusOutput_To_build_BuildStatusOutput(in *v1.BuildStatusOutput, out *build.BuildStatusOutput, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2248,9 +2384,13 @@ func Convert_v1_BuildStatusOutput_To_build_BuildStatusOutput(in *v1.BuildStatusO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildStatusOutput_To_build_BuildStatusOutput(in, out, s)
 }
 func autoConvert_build_BuildStatusOutput_To_v1_BuildStatusOutput(in *build.BuildStatusOutput, out *v1.BuildStatusOutput, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2283,9 +2423,13 @@ func Convert_build_BuildStatusOutput_To_v1_BuildStatusOutput(in *build.BuildStat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildStatusOutput_To_v1_BuildStatusOutput(in, out, s)
 }
 func autoConvert_v1_BuildStatusOutputTo_To_build_BuildStatusOutputTo(in *v1.BuildStatusOutputTo, out *build.BuildStatusOutputTo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2318,9 +2462,13 @@ func Convert_v1_BuildStatusOutputTo_To_build_BuildStatusOutputTo(in *v1.BuildSta
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildStatusOutputTo_To_build_BuildStatusOutputTo(in, out, s)
 }
 func autoConvert_build_BuildStatusOutputTo_To_v1_BuildStatusOutputTo(in *build.BuildStatusOutputTo, out *v1.BuildStatusOutputTo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2353,9 +2501,13 @@ func Convert_build_BuildStatusOutputTo_To_v1_BuildStatusOutputTo(in *build.Build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildStatusOutputTo_To_v1_BuildStatusOutputTo(in, out, s)
 }
 func autoConvert_v1_BuildStrategy_To_build_BuildStrategy(in *v1.BuildStrategy, out *build.BuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2423,9 +2575,13 @@ func Convert_v1_BuildStrategy_To_build_BuildStrategy(in *v1.BuildStrategy, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildStrategy_To_build_BuildStrategy(in, out, s)
 }
 func autoConvert_build_BuildStrategy_To_v1_BuildStrategy(in *build.BuildStrategy, out *v1.BuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2479,6 +2635,8 @@ func autoConvert_build_BuildStrategy_To_v1_BuildStrategy(in *build.BuildStrategy
 	return nil
 }
 func autoConvert_v1_BuildTriggerCause_To_build_BuildTriggerCause(in *v1.BuildTriggerCause, out *build.BuildTriggerCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2556,9 +2714,13 @@ func Convert_v1_BuildTriggerCause_To_build_BuildTriggerCause(in *v1.BuildTrigger
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildTriggerCause_To_build_BuildTriggerCause(in, out, s)
 }
 func autoConvert_build_BuildTriggerCause_To_v1_BuildTriggerCause(in *build.BuildTriggerCause, out *v1.BuildTriggerCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2636,9 +2798,13 @@ func Convert_build_BuildTriggerCause_To_v1_BuildTriggerCause(in *build.BuildTrig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildTriggerCause_To_v1_BuildTriggerCause(in, out, s)
 }
 func autoConvert_v1_BuildTriggerPolicy_To_build_BuildTriggerPolicy(in *v1.BuildTriggerPolicy, out *build.BuildTriggerPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2684,6 +2850,8 @@ func autoConvert_build_BuildTriggerPolicy_To_v1_BuildTriggerPolicy(in *build.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Type = v1.BuildTriggerType(in.Type)
 	out.GitHubWebHook = (*v1.WebHookTrigger)(unsafe.Pointer(in.GitHubWebHook))
 	out.GenericWebHook = (*v1.WebHookTrigger)(unsafe.Pointer(in.GenericWebHook))
@@ -2715,9 +2883,13 @@ func Convert_build_BuildTriggerPolicy_To_v1_BuildTriggerPolicy(in *build.BuildTr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_BuildTriggerPolicy_To_v1_BuildTriggerPolicy(in, out, s)
 }
 func autoConvert_v1_CommonSpec_To_build_CommonSpec(in *v1.CommonSpec, out *build.CommonSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2776,9 +2948,13 @@ func Convert_v1_CommonSpec_To_build_CommonSpec(in *v1.CommonSpec, out *build.Com
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_CommonSpec_To_build_CommonSpec(in, out, s)
 }
 func autoConvert_build_CommonSpec_To_v1_CommonSpec(in *build.CommonSpec, out *v1.CommonSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2837,9 +3013,13 @@ func Convert_build_CommonSpec_To_v1_CommonSpec(in *build.CommonSpec, out *v1.Com
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_CommonSpec_To_v1_CommonSpec(in, out, s)
 }
 func autoConvert_v1_CommonWebHookCause_To_build_CommonWebHookCause(in *v1.CommonWebHookCause, out *build.CommonWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2881,9 +3061,13 @@ func Convert_v1_CommonWebHookCause_To_build_CommonWebHookCause(in *v1.CommonWebH
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_CommonWebHookCause_To_build_CommonWebHookCause(in, out, s)
 }
 func autoConvert_build_CommonWebHookCause_To_v1_CommonWebHookCause(in *build.CommonWebHookCause, out *v1.CommonWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2925,9 +3109,13 @@ func Convert_build_CommonWebHookCause_To_v1_CommonWebHookCause(in *build.CommonW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_CommonWebHookCause_To_v1_CommonWebHookCause(in, out, s)
 }
 func autoConvert_v1_ConfigMapBuildSource_To_build_ConfigMapBuildSource(in *v1.ConfigMapBuildSource, out *build.ConfigMapBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2963,9 +3151,13 @@ func Convert_v1_ConfigMapBuildSource_To_build_ConfigMapBuildSource(in *v1.Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ConfigMapBuildSource_To_build_ConfigMapBuildSource(in, out, s)
 }
 func autoConvert_build_ConfigMapBuildSource_To_v1_ConfigMapBuildSource(in *build.ConfigMapBuildSource, out *v1.ConfigMapBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3001,9 +3193,13 @@ func Convert_build_ConfigMapBuildSource_To_v1_ConfigMapBuildSource(in *build.Con
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ConfigMapBuildSource_To_v1_ConfigMapBuildSource(in, out, s)
 }
 func autoConvert_v1_CustomBuildStrategy_To_build_CustomBuildStrategy(in *v1.CustomBuildStrategy, out *build.CustomBuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3072,6 +3268,8 @@ func autoConvert_build_CustomBuildStrategy_To_v1_CustomBuildStrategy(in *build.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := corev1.Convert_core_ObjectReference_To_v1_ObjectReference(&in.From, &out.From, s); err != nil {
 		return err
 	}
@@ -3126,9 +3324,13 @@ func Convert_build_CustomBuildStrategy_To_v1_CustomBuildStrategy(in *build.Custo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_CustomBuildStrategy_To_v1_CustomBuildStrategy(in, out, s)
 }
 func autoConvert_v1_DockerBuildStrategy_To_build_DockerBuildStrategy(in *v1.DockerBuildStrategy, out *build.DockerBuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3204,6 +3406,8 @@ func autoConvert_build_DockerBuildStrategy_To_v1_DockerBuildStrategy(in *build.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in.From != nil {
 		in, out := &in.From, &out.From
 		*out = new(apicorev1.ObjectReference)
@@ -3265,9 +3469,13 @@ func Convert_build_DockerBuildStrategy_To_v1_DockerBuildStrategy(in *build.Docke
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_DockerBuildStrategy_To_v1_DockerBuildStrategy(in, out, s)
 }
 func autoConvert_v1_DockerStrategyOptions_To_build_DockerStrategyOptions(in *v1.DockerStrategyOptions, out *build.DockerStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3311,9 +3519,13 @@ func Convert_v1_DockerStrategyOptions_To_build_DockerStrategyOptions(in *v1.Dock
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DockerStrategyOptions_To_build_DockerStrategyOptions(in, out, s)
 }
 func autoConvert_build_DockerStrategyOptions_To_v1_DockerStrategyOptions(in *build.DockerStrategyOptions, out *v1.DockerStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3357,9 +3569,13 @@ func Convert_build_DockerStrategyOptions_To_v1_DockerStrategyOptions(in *build.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_DockerStrategyOptions_To_v1_DockerStrategyOptions(in, out, s)
 }
 func autoConvert_v1_GenericWebHookCause_To_build_GenericWebHookCause(in *v1.GenericWebHookCause, out *build.GenericWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3401,9 +3617,13 @@ func Convert_v1_GenericWebHookCause_To_build_GenericWebHookCause(in *v1.GenericW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GenericWebHookCause_To_build_GenericWebHookCause(in, out, s)
 }
 func autoConvert_build_GenericWebHookCause_To_v1_GenericWebHookCause(in *build.GenericWebHookCause, out *v1.GenericWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3445,9 +3665,13 @@ func Convert_build_GenericWebHookCause_To_v1_GenericWebHookCause(in *build.Gener
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GenericWebHookCause_To_v1_GenericWebHookCause(in, out, s)
 }
 func autoConvert_v1_GenericWebHookEvent_To_build_GenericWebHookEvent(in *v1.GenericWebHookEvent, out *build.GenericWebHookEvent, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3500,9 +3724,13 @@ func Convert_v1_GenericWebHookEvent_To_build_GenericWebHookEvent(in *v1.GenericW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GenericWebHookEvent_To_build_GenericWebHookEvent(in, out, s)
 }
 func autoConvert_build_GenericWebHookEvent_To_v1_GenericWebHookEvent(in *build.GenericWebHookEvent, out *v1.GenericWebHookEvent, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3555,9 +3783,13 @@ func Convert_build_GenericWebHookEvent_To_v1_GenericWebHookEvent(in *build.Gener
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GenericWebHookEvent_To_v1_GenericWebHookEvent(in, out, s)
 }
 func autoConvert_v1_GitBuildSource_To_build_GitBuildSource(in *v1.GitBuildSource, out *build.GitBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3594,9 +3826,13 @@ func Convert_v1_GitBuildSource_To_build_GitBuildSource(in *v1.GitBuildSource, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitBuildSource_To_build_GitBuildSource(in, out, s)
 }
 func autoConvert_build_GitBuildSource_To_v1_GitBuildSource(in *build.GitBuildSource, out *v1.GitBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3633,9 +3869,13 @@ func Convert_build_GitBuildSource_To_v1_GitBuildSource(in *build.GitBuildSource,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitBuildSource_To_v1_GitBuildSource(in, out, s)
 }
 func autoConvert_v1_GitHubWebHookCause_To_build_GitHubWebHookCause(in *v1.GitHubWebHookCause, out *build.GitHubWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3677,9 +3917,13 @@ func Convert_v1_GitHubWebHookCause_To_build_GitHubWebHookCause(in *v1.GitHubWebH
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitHubWebHookCause_To_build_GitHubWebHookCause(in, out, s)
 }
 func autoConvert_build_GitHubWebHookCause_To_v1_GitHubWebHookCause(in *build.GitHubWebHookCause, out *v1.GitHubWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3721,9 +3965,13 @@ func Convert_build_GitHubWebHookCause_To_v1_GitHubWebHookCause(in *build.GitHubW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitHubWebHookCause_To_v1_GitHubWebHookCause(in, out, s)
 }
 func autoConvert_v1_GitInfo_To_build_GitInfo(in *v1.GitInfo, out *build.GitInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3762,9 +4010,13 @@ func Convert_v1_GitInfo_To_build_GitInfo(in *v1.GitInfo, out *build.GitInfo, s c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitInfo_To_build_GitInfo(in, out, s)
 }
 func autoConvert_build_GitInfo_To_v1_GitInfo(in *build.GitInfo, out *v1.GitInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3803,9 +4055,13 @@ func Convert_build_GitInfo_To_v1_GitInfo(in *build.GitInfo, out *v1.GitInfo, s c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitInfo_To_v1_GitInfo(in, out, s)
 }
 func autoConvert_v1_GitLabWebHookCause_To_build_GitLabWebHookCause(in *v1.GitLabWebHookCause, out *build.GitLabWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3840,9 +4096,13 @@ func Convert_v1_GitLabWebHookCause_To_build_GitLabWebHookCause(in *v1.GitLabWebH
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitLabWebHookCause_To_build_GitLabWebHookCause(in, out, s)
 }
 func autoConvert_build_GitLabWebHookCause_To_v1_GitLabWebHookCause(in *build.GitLabWebHookCause, out *v1.GitLabWebHookCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3877,9 +4137,13 @@ func Convert_build_GitLabWebHookCause_To_v1_GitLabWebHookCause(in *build.GitLabW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitLabWebHookCause_To_v1_GitLabWebHookCause(in, out, s)
 }
 func autoConvert_v1_GitRefInfo_To_build_GitRefInfo(in *v1.GitRefInfo, out *build.GitRefInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3917,9 +4181,13 @@ func Convert_v1_GitRefInfo_To_build_GitRefInfo(in *v1.GitRefInfo, out *build.Git
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitRefInfo_To_build_GitRefInfo(in, out, s)
 }
 func autoConvert_build_GitRefInfo_To_v1_GitRefInfo(in *build.GitRefInfo, out *v1.GitRefInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3957,9 +4225,13 @@ func Convert_build_GitRefInfo_To_v1_GitRefInfo(in *build.GitRefInfo, out *v1.Git
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitRefInfo_To_v1_GitRefInfo(in, out, s)
 }
 func autoConvert_v1_GitSourceRevision_To_build_GitSourceRevision(in *v1.GitSourceRevision, out *build.GitSourceRevision, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3999,9 +4271,13 @@ func Convert_v1_GitSourceRevision_To_build_GitSourceRevision(in *v1.GitSourceRev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitSourceRevision_To_build_GitSourceRevision(in, out, s)
 }
 func autoConvert_build_GitSourceRevision_To_v1_GitSourceRevision(in *build.GitSourceRevision, out *v1.GitSourceRevision, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4041,9 +4317,13 @@ func Convert_build_GitSourceRevision_To_v1_GitSourceRevision(in *build.GitSource
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_GitSourceRevision_To_v1_GitSourceRevision(in, out, s)
 }
 func autoConvert_v1_ImageChangeCause_To_build_ImageChangeCause(in *v1.ImageChangeCause, out *build.ImageChangeCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4085,9 +4365,13 @@ func Convert_v1_ImageChangeCause_To_build_ImageChangeCause(in *v1.ImageChangeCau
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageChangeCause_To_build_ImageChangeCause(in, out, s)
 }
 func autoConvert_build_ImageChangeCause_To_v1_ImageChangeCause(in *build.ImageChangeCause, out *v1.ImageChangeCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4129,9 +4413,13 @@ func Convert_build_ImageChangeCause_To_v1_ImageChangeCause(in *build.ImageChange
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ImageChangeCause_To_v1_ImageChangeCause(in, out, s)
 }
 func autoConvert_v1_ImageChangeTrigger_To_build_ImageChangeTrigger(in *v1.ImageChangeTrigger, out *build.ImageChangeTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4174,9 +4462,13 @@ func Convert_v1_ImageChangeTrigger_To_build_ImageChangeTrigger(in *v1.ImageChang
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageChangeTrigger_To_build_ImageChangeTrigger(in, out, s)
 }
 func autoConvert_build_ImageChangeTrigger_To_v1_ImageChangeTrigger(in *build.ImageChangeTrigger, out *v1.ImageChangeTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4219,9 +4511,13 @@ func Convert_build_ImageChangeTrigger_To_v1_ImageChangeTrigger(in *build.ImageCh
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ImageChangeTrigger_To_v1_ImageChangeTrigger(in, out, s)
 }
 func autoConvert_v1_ImageLabel_To_build_ImageLabel(in *v1.ImageLabel, out *build.ImageLabel, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4255,9 +4551,13 @@ func Convert_v1_ImageLabel_To_build_ImageLabel(in *v1.ImageLabel, out *build.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageLabel_To_build_ImageLabel(in, out, s)
 }
 func autoConvert_build_ImageLabel_To_v1_ImageLabel(in *build.ImageLabel, out *v1.ImageLabel, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4291,9 +4591,13 @@ func Convert_build_ImageLabel_To_v1_ImageLabel(in *build.ImageLabel, out *v1.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ImageLabel_To_v1_ImageLabel(in, out, s)
 }
 func autoConvert_v1_ImageSource_To_build_ImageSource(in *v1.ImageSource, out *build.ImageSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4339,9 +4643,13 @@ func Convert_v1_ImageSource_To_build_ImageSource(in *v1.ImageSource, out *build.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageSource_To_build_ImageSource(in, out, s)
 }
 func autoConvert_build_ImageSource_To_v1_ImageSource(in *build.ImageSource, out *v1.ImageSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4387,9 +4695,13 @@ func Convert_build_ImageSource_To_v1_ImageSource(in *build.ImageSource, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ImageSource_To_v1_ImageSource(in, out, s)
 }
 func autoConvert_v1_ImageSourcePath_To_build_ImageSourcePath(in *v1.ImageSourcePath, out *build.ImageSourcePath, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4423,9 +4735,13 @@ func Convert_v1_ImageSourcePath_To_build_ImageSourcePath(in *v1.ImageSourcePath,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageSourcePath_To_build_ImageSourcePath(in, out, s)
 }
 func autoConvert_build_ImageSourcePath_To_v1_ImageSourcePath(in *build.ImageSourcePath, out *v1.ImageSourcePath, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4459,9 +4775,13 @@ func Convert_build_ImageSourcePath_To_v1_ImageSourcePath(in *build.ImageSourcePa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ImageSourcePath_To_v1_ImageSourcePath(in, out, s)
 }
 func autoConvert_v1_JenkinsPipelineBuildStrategy_To_build_JenkinsPipelineBuildStrategy(in *v1.JenkinsPipelineBuildStrategy, out *build.JenkinsPipelineBuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4506,9 +4826,13 @@ func Convert_v1_JenkinsPipelineBuildStrategy_To_build_JenkinsPipelineBuildStrate
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_JenkinsPipelineBuildStrategy_To_build_JenkinsPipelineBuildStrategy(in, out, s)
 }
 func autoConvert_build_JenkinsPipelineBuildStrategy_To_v1_JenkinsPipelineBuildStrategy(in *build.JenkinsPipelineBuildStrategy, out *v1.JenkinsPipelineBuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4553,9 +4877,13 @@ func Convert_build_JenkinsPipelineBuildStrategy_To_v1_JenkinsPipelineBuildStrate
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_JenkinsPipelineBuildStrategy_To_v1_JenkinsPipelineBuildStrategy(in, out, s)
 }
 func autoConvert_v1_ProxyConfig_To_build_ProxyConfig(in *v1.ProxyConfig, out *build.ProxyConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4590,9 +4918,13 @@ func Convert_v1_ProxyConfig_To_build_ProxyConfig(in *v1.ProxyConfig, out *build.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProxyConfig_To_build_ProxyConfig(in, out, s)
 }
 func autoConvert_build_ProxyConfig_To_v1_ProxyConfig(in *build.ProxyConfig, out *v1.ProxyConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4627,9 +4959,13 @@ func Convert_build_ProxyConfig_To_v1_ProxyConfig(in *build.ProxyConfig, out *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_ProxyConfig_To_v1_ProxyConfig(in, out, s)
 }
 func autoConvert_v1_SecretBuildSource_To_build_SecretBuildSource(in *v1.SecretBuildSource, out *build.SecretBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4665,9 +5001,13 @@ func Convert_v1_SecretBuildSource_To_build_SecretBuildSource(in *v1.SecretBuildS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SecretBuildSource_To_build_SecretBuildSource(in, out, s)
 }
 func autoConvert_build_SecretBuildSource_To_v1_SecretBuildSource(in *build.SecretBuildSource, out *v1.SecretBuildSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4703,9 +5043,13 @@ func Convert_build_SecretBuildSource_To_v1_SecretBuildSource(in *build.SecretBui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SecretBuildSource_To_v1_SecretBuildSource(in, out, s)
 }
 func autoConvert_v1_SecretLocalReference_To_build_SecretLocalReference(in *v1.SecretLocalReference, out *build.SecretLocalReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4738,9 +5082,13 @@ func Convert_v1_SecretLocalReference_To_build_SecretLocalReference(in *v1.Secret
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SecretLocalReference_To_build_SecretLocalReference(in, out, s)
 }
 func autoConvert_build_SecretLocalReference_To_v1_SecretLocalReference(in *build.SecretLocalReference, out *v1.SecretLocalReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4773,9 +5121,13 @@ func Convert_build_SecretLocalReference_To_v1_SecretLocalReference(in *build.Sec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SecretLocalReference_To_v1_SecretLocalReference(in, out, s)
 }
 func autoConvert_v1_SecretSpec_To_build_SecretSpec(in *v1.SecretSpec, out *build.SecretSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4811,9 +5163,13 @@ func Convert_v1_SecretSpec_To_build_SecretSpec(in *v1.SecretSpec, out *build.Sec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SecretSpec_To_build_SecretSpec(in, out, s)
 }
 func autoConvert_build_SecretSpec_To_v1_SecretSpec(in *build.SecretSpec, out *v1.SecretSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4849,9 +5205,13 @@ func Convert_build_SecretSpec_To_v1_SecretSpec(in *build.SecretSpec, out *v1.Sec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SecretSpec_To_v1_SecretSpec(in, out, s)
 }
 func autoConvert_v1_SourceBuildStrategy_To_build_SourceBuildStrategy(in *v1.SourceBuildStrategy, out *build.SourceBuildStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4909,6 +5269,8 @@ func autoConvert_build_SourceBuildStrategy_To_v1_SourceBuildStrategy(in *build.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := corev1.Convert_core_ObjectReference_To_v1_ObjectReference(&in.From, &out.From, s); err != nil {
 		return err
 	}
@@ -4952,9 +5314,13 @@ func Convert_build_SourceBuildStrategy_To_v1_SourceBuildStrategy(in *build.Sourc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SourceBuildStrategy_To_v1_SourceBuildStrategy(in, out, s)
 }
 func autoConvert_v1_SourceControlUser_To_build_SourceControlUser(in *v1.SourceControlUser, out *build.SourceControlUser, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4988,9 +5354,13 @@ func Convert_v1_SourceControlUser_To_build_SourceControlUser(in *v1.SourceContro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SourceControlUser_To_build_SourceControlUser(in, out, s)
 }
 func autoConvert_build_SourceControlUser_To_v1_SourceControlUser(in *build.SourceControlUser, out *v1.SourceControlUser, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5024,9 +5394,13 @@ func Convert_build_SourceControlUser_To_v1_SourceControlUser(in *build.SourceCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SourceControlUser_To_v1_SourceControlUser(in, out, s)
 }
 func autoConvert_v1_SourceRevision_To_build_SourceRevision(in *v1.SourceRevision, out *build.SourceRevision, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5059,9 +5433,13 @@ func Convert_v1_SourceRevision_To_build_SourceRevision(in *v1.SourceRevision, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SourceRevision_To_build_SourceRevision(in, out, s)
 }
 func autoConvert_build_SourceRevision_To_v1_SourceRevision(in *build.SourceRevision, out *v1.SourceRevision, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5094,6 +5472,8 @@ func autoConvert_v1_SourceStrategyOptions_To_build_SourceStrategyOptions(in *v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Incremental = (*bool)(unsafe.Pointer(in.Incremental))
 	return nil
 }
@@ -5112,9 +5492,13 @@ func Convert_v1_SourceStrategyOptions_To_build_SourceStrategyOptions(in *v1.Sour
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SourceStrategyOptions_To_build_SourceStrategyOptions(in, out, s)
 }
 func autoConvert_build_SourceStrategyOptions_To_v1_SourceStrategyOptions(in *build.SourceStrategyOptions, out *v1.SourceStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5147,9 +5531,13 @@ func Convert_build_SourceStrategyOptions_To_v1_SourceStrategyOptions(in *build.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_SourceStrategyOptions_To_v1_SourceStrategyOptions(in, out, s)
 }
 func autoConvert_v1_StageInfo_To_build_StageInfo(in *v1.StageInfo, out *build.StageInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5185,9 +5573,13 @@ func Convert_v1_StageInfo_To_build_StageInfo(in *v1.StageInfo, out *build.StageI
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_StageInfo_To_build_StageInfo(in, out, s)
 }
 func autoConvert_build_StageInfo_To_v1_StageInfo(in *build.StageInfo, out *v1.StageInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5223,9 +5615,13 @@ func Convert_build_StageInfo_To_v1_StageInfo(in *build.StageInfo, out *v1.StageI
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_StageInfo_To_v1_StageInfo(in, out, s)
 }
 func autoConvert_v1_StepInfo_To_build_StepInfo(in *v1.StepInfo, out *build.StepInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5260,9 +5656,13 @@ func Convert_v1_StepInfo_To_build_StepInfo(in *v1.StepInfo, out *build.StepInfo,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_StepInfo_To_build_StepInfo(in, out, s)
 }
 func autoConvert_build_StepInfo_To_v1_StepInfo(in *build.StepInfo, out *v1.StepInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5297,9 +5697,13 @@ func Convert_build_StepInfo_To_v1_StepInfo(in *build.StepInfo, out *v1.StepInfo,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_build_StepInfo_To_v1_StepInfo(in, out, s)
 }
 func autoConvert_v1_WebHookTrigger_To_build_WebHookTrigger(in *v1.WebHookTrigger, out *build.WebHookTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5334,9 +5738,13 @@ func Convert_v1_WebHookTrigger_To_build_WebHookTrigger(in *v1.WebHookTrigger, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_WebHookTrigger_To_build_WebHookTrigger(in, out, s)
 }
 func autoConvert_build_WebHookTrigger_To_v1_WebHookTrigger(in *build.WebHookTrigger, out *v1.WebHookTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5357,6 +5765,8 @@ func autoConvert_build_WebHookTrigger_To_v1_WebHookTrigger(in *build.WebHookTrig
 	return nil
 }
 func Convert_build_WebHookTrigger_To_v1_WebHookTrigger(in *build.WebHookTrigger, out *v1.WebHookTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

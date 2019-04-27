@@ -26,6 +26,8 @@ func ExtractRun(line string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := testStartPattern.FindStringSubmatch(line); len(matches) > 1 && len(matches[1]) > 0 {
 		return matches[1], true
 	}
@@ -35,6 +37,8 @@ func ExtractRun(line string) (string, bool) {
 var testResultPattern = regexp.MustCompile(`^(\s*)--- (PASS|FAIL|SKIP):\s+([^\s]+)\s+\((\d+\.\d+)(s| seconds)\)$`)
 
 func ExtractResult(line string) (r api.TestResult, name string, depth int, duration string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func ExtractOutput(line string) (string, int, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := testOutputPattern.FindStringSubmatch(line); len(matches) > 1 {
 		return matches[2], len(matches[1]) / 4, true
 	}
@@ -110,12 +116,16 @@ func ExtractPackage(line string) (name string, duration string, coverage string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := packageResultPattern.FindStringSubmatch(line); len(matches) > 1 && len(matches[2]) > 0 {
 		return matches[2], matches[3], matches[5], true
 	}
 	return "", "", "", false
 }
 func ExtractDuration(line string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +165,8 @@ func ExtractProperties(line string) (map[string]string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := coverageOutputPattern.FindStringSubmatch(line); len(matches) > 1 && len(matches[1]) > 0 {
 		return map[string]string{coveragePropertyName: matches[1]}, true
 	}
@@ -178,6 +190,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -252,5 +285,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -25,12 +25,16 @@ func (f AuthorizeHandlerFunc) HandleAuthorize(ar *osin.AuthorizeRequest, resp *o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(ar, resp, w)
 }
 
 type AuthorizeHandlers []AuthorizeHandler
 
 func (all AuthorizeHandlers) HandleAuthorize(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,12 +77,16 @@ func (f AccessHandlerFunc) HandleAccess(ar *osin.AccessRequest, w http.ResponseW
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(ar, w)
 }
 
 type AccessHandlers []AccessHandler
 
 func (all AccessHandlers) HandleAccess(ar *osin.AccessRequest, w http.ResponseWriter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

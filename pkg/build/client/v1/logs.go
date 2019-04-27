@@ -25,6 +25,8 @@ func NewBuildLogClient(c rest.Interface, ns string) BuildLogInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildLogs{client: c, ns: ns}
 }
 
@@ -34,6 +36,8 @@ type buildLogs struct {
 }
 
 func (c *buildLogs) Logs(name string, options buildv1.BuildLogOptions) *rest.Request {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

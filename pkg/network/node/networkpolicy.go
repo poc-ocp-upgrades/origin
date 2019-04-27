@@ -70,9 +70,13 @@ func NewNetworkPolicyPlugin() osdnPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &networkPolicyPlugin{namespaces: make(map[uint32]*npNamespace), kNamespaces: make(map[string]corev1.Namespace), pods: make(map[ktypes.UID]corev1.Pod)}
 }
 func (np *networkPolicyPlugin) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,9 +108,13 @@ func (np *networkPolicyPlugin) SupportsVNIDs() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (np *networkPolicyPlugin) Start(node *OsdnNode) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +153,8 @@ func (np *networkPolicyPlugin) Start(node *OsdnNode) error {
 	return nil
 }
 func (np *networkPolicyPlugin) initNamespaces() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,6 +214,8 @@ func (np *networkPolicyPlugin) AddNetNamespace(netns *networkv1.NetNamespace) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	np.lock.Lock()
 	defer np.lock.Unlock()
 	if _, exists := np.namespaces[netns.NetID]; exists {
@@ -227,12 +239,16 @@ func (np *networkPolicyPlugin) UpdateNetNamespace(netns *networkv1.NetNamespace,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if netns.NetID != oldNetID {
 		klog.Warningf("Got VNID change for namespace %s while using %s plugin", netns.NetName, network.NetworkPolicyPluginName)
 	}
 	np.node.podManager.UpdateLocalMulticastRules(netns.NetID)
 }
 func (np *networkPolicyPlugin) DeleteNetNamespace(netns *networkv1.NetNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -272,9 +288,13 @@ func (np *networkPolicyPlugin) GetVNID(namespace string) (uint32, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return np.vnids.WaitAndGetVNID(namespace)
 }
 func (np *networkPolicyPlugin) GetNamespaces(vnid uint32) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -306,9 +326,13 @@ func (np *networkPolicyPlugin) GetMulticastEnabled(vnid uint32) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return np.vnids.GetMulticastEnabled(vnid)
 }
 func (np *networkPolicyPlugin) syncNamespace(npns *npNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -343,6 +367,8 @@ func (np *networkPolicyPlugin) syncFlows() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	np.lock.Lock()
 	defer np.lock.Unlock()
 	for _, npns := range np.namespaces {
@@ -353,6 +379,8 @@ func (np *networkPolicyPlugin) syncFlows() {
 	}
 }
 func (np *networkPolicyPlugin) syncNamespaceFlows(npns *npNamespace) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,6 +441,8 @@ func (np *networkPolicyPlugin) EnsureVNIDRules(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	np.lock.Lock()
 	defer np.lock.Unlock()
 	npns, exists := np.namespaces[vnid]
@@ -423,6 +453,8 @@ func (np *networkPolicyPlugin) EnsureVNIDRules(vnid uint32) {
 	np.syncNamespace(npns)
 }
 func (np *networkPolicyPlugin) SyncVNIDRules() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -450,6 +482,8 @@ func (np *networkPolicyPlugin) SyncVNIDRules() {
 	}
 }
 func (np *networkPolicyPlugin) selectPodsFromNamespaces(nsLabelSel, podLabelSel *metav1.LabelSelector) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -506,6 +540,8 @@ func (np *networkPolicyPlugin) selectNamespaces(lsel *metav1.LabelSelector) []st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var vnids []string
 	sel, err := metav1.LabelSelectorAsSelector(lsel)
 	if err != nil {
@@ -536,6 +572,8 @@ func (np *networkPolicyPlugin) selectPods(npns *npNamespace, lsel *metav1.LabelS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ips := []string{}
 	sel, err := metav1.LabelSelectorAsSelector(lsel)
 	if err != nil {
@@ -550,6 +588,8 @@ func (np *networkPolicyPlugin) selectPods(npns *npNamespace, lsel *metav1.LabelS
 	return ips
 }
 func (np *networkPolicyPlugin) parseNetworkPolicy(npns *npNamespace, policy *networkingv1.NetworkPolicy) (*npPolicy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -666,6 +706,8 @@ func (np *networkPolicyPlugin) updateNetworkPolicy(npns *npNamespace, policy *ne
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	npp, err := np.parseNetworkPolicy(npns, policy)
 	if err != nil {
 		klog.Infof("Unsupported NetworkPolicy %s/%s (%v); treating as deny-all", policy.Namespace, policy.Name, err)
@@ -694,10 +736,14 @@ func (np *networkPolicyPlugin) watchNetworkPolicies() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&networkingv1.NetworkPolicy{}, np.handleAddOrUpdateNetworkPolicy, np.handleDeleteNetworkPolicy)
 	np.node.kubeInformers.Networking().V1().NetworkPolicies().Informer().AddEventHandler(funcs)
 }
 func (np *networkPolicyPlugin) handleAddOrUpdateNetworkPolicy(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -744,6 +790,8 @@ func (np *networkPolicyPlugin) handleDeleteNetworkPolicy(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policy := obj.(*networkingv1.NetworkPolicy)
 	klog.V(5).Infof("Watch %s event for NetworkPolicy %s/%s", watch.Deleted, policy.Namespace, policy.Name)
 	vnid, err := np.vnids.WaitAndGetVNID(policy.Namespace)
@@ -775,10 +823,14 @@ func (np *networkPolicyPlugin) watchPods() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&corev1.Pod{}, np.handleAddOrUpdatePod, np.handleDeletePod)
 	np.node.kubeInformers.Core().V1().Pods().Informer().AddEventHandler(funcs)
 }
 func (np *networkPolicyPlugin) handleAddOrUpdatePod(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -826,6 +878,8 @@ func (np *networkPolicyPlugin) handleDeletePod(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := obj.(*corev1.Pod)
 	klog.V(5).Infof("Watch %s event for Pod %q", watch.Deleted, getPodFullName(pod))
 	_, podExisted := np.pods[pod.UID]
@@ -852,10 +906,14 @@ func (np *networkPolicyPlugin) watchNamespaces() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	funcs := common.InformerFuncs(&corev1.Namespace{}, np.handleAddOrUpdateNamespace, np.handleDeleteNamespace)
 	np.node.kubeInformers.Core().V1().Namespaces().Informer().AddEventHandler(funcs)
 }
 func (np *networkPolicyPlugin) handleAddOrUpdateNamespace(obj, _ interface{}, eventType watch.EventType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -892,6 +950,8 @@ func (np *networkPolicyPlugin) handleDeleteNamespace(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := obj.(*corev1.Namespace)
 	klog.V(5).Infof("Watch %s event for Namespace %q", watch.Deleted, ns.Name)
 	np.lock.Lock()
@@ -900,6 +960,8 @@ func (np *networkPolicyPlugin) handleDeleteNamespace(obj interface{}) {
 	np.refreshNetworkPolicies(refreshForNamespaces)
 }
 func (np *networkPolicyPlugin) refreshNetworkPolicies(refreshFor refreshForType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -930,6 +992,8 @@ func (np *networkPolicyPlugin) refreshNetworkPolicies(refreshFor refreshForType)
 	}
 }
 func getPodFullName(pod *corev1.Pod) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -121,9 +121,13 @@ func NewEnvOptions(streams genericclioptions.IOStreams) *EnvOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &EnvOptions{PrintFlags: genericclioptions.NewPrintFlags("updated").WithTypeSetter(scheme.Scheme), IOStreams: streams, ContainerSelector: "*", Overwrite: true}
 }
 func NewCmdEnv(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +179,8 @@ func validateNoOverwrites(existing []corev1.EnvVar, env []corev1.EnvVar) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, e := range env {
 		if current, exists := findEnv(existing, e.Name); exists && current.Value != e.Value {
 			return fmt.Errorf("'%s' already has a value (%s), and --overwrite is false", current.Name, current.Value)
@@ -197,10 +203,14 @@ func keyToEnvName(key string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validEnvNameRegexp := regexp.MustCompile("[^a-zA-Z0-9_]")
 	return strings.ToUpper(validEnvNameRegexp.ReplaceAllString(key, "_"))
 }
 func (o *EnvOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +270,8 @@ func (o *EnvOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []str
 	return nil
 }
 func (o *EnvOptions) RunEnv() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -470,6 +482,8 @@ updates:
 	return utilerrors.NewAggregate(allErrs)
 }
 func updateObjectEnvironment(obj runtime.Object, fn func(*[]corev1.EnvVar) error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

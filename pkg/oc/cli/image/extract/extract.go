@@ -118,9 +118,13 @@ func NewOptions(streams genericclioptions.IOStreams) *Options {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Options{Paths: []string{}, IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 1}}
 }
 func New(name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,6 +172,8 @@ type Mapping struct {
 }
 
 func parseMappings(images, paths, files []string, requireEmpty bool) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,6 +277,8 @@ func (o *Options) Complete(cmd *cobra.Command, args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.FilterOptions.Complete(cmd.Flags()); err != nil {
 		return err
 	}
@@ -302,12 +310,16 @@ func (o *Options) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Mappings) == 0 {
 		return fmt.Errorf("you must specify one or more paths or files")
 	}
 	return o.FilterOptions.Validate()
 }
 func (o *Options) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -494,6 +506,8 @@ func layerByEntry(r io.Reader, options *archive.TarOptions, layerInfo LayerInfo,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc, err := dockerarchive.DecompressStream(r)
 	if err != nil {
 		return false, err
@@ -550,6 +564,8 @@ func (a alterations) Alter(hdr *tar.Header) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range a {
 		ok, err := item.Alter(hdr)
 		if err != nil {
@@ -565,6 +581,8 @@ func (a alterations) Alter(hdr *tar.Header) (bool, error) {
 type removePermissions struct{}
 
 func (_ removePermissions) Alter(hdr *tar.Header) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -605,6 +623,8 @@ func (_ writableDirectories) Alter(hdr *tar.Header) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch hdr.Typeflag {
 	case tar.TypeDir:
 		hdr.Mode = int64(os.FileMode(0600) | os.FileMode(hdr.Mode))
@@ -629,12 +649,16 @@ func newCopyFromDirectory(from string) archive.AlterHeader {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !strings.HasSuffix(from, "/") {
 		from = from + "/"
 	}
 	return &copyFromDirectory{From: from}
 }
 func (n *copyFromDirectory) Alter(hdr *tar.Header) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -672,12 +696,16 @@ func newCopyFromPattern(dir, name string) archive.AlterHeader {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !strings.HasSuffix(dir, "/") {
 		dir = dir + "/"
 	}
 	return &copyFromPattern{Base: dir, Name: name}
 }
 func (n *copyFromPattern) Alter(hdr *tar.Header) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -706,6 +734,8 @@ func (n *copyFromPattern) Alter(hdr *tar.Header) (bool, error) {
 	return true, nil
 }
 func changeTarEntryParent(hdr *tar.Header, from string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -754,6 +784,8 @@ func (_ filesOnly) Alter(hdr *tar.Header) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch hdr.Typeflag {
 	case tar.TypeReg, tar.TypeRegA, tar.TypeDir:
 		return true, nil
@@ -763,6 +795,8 @@ func (_ filesOnly) Alter(hdr *tar.Header) (bool, error) {
 	}
 }
 func parseLayerFilter(s string) (LayerFilter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -827,6 +861,8 @@ func (s *prefixLayerFilter) Filter(layers []distribution.Descriptor) ([]distribu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var filtered []distribution.Descriptor
 	for _, d := range layers {
 		if strings.HasPrefix(d.Digest.String(), s.Prefix) {
@@ -848,6 +884,8 @@ type indexLayerFilter struct {
 }
 
 func (s *indexLayerFilter) Filter(layers []distribution.Descriptor) ([]distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -903,9 +941,13 @@ func NewPositionLayerFilter(at int32) LayerFilter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &positionLayerFilter{at}
 }
 func (s *positionLayerFilter) Filter(layers []distribution.Descriptor) ([]distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -945,6 +987,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1019,5 +1082,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

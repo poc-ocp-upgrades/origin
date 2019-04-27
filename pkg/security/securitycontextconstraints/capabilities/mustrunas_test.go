@@ -22,6 +22,8 @@ func TestGenerateAdds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		defaultAddCaps		[]api.Capability
 		requiredDropCaps	[]api.Capability
@@ -50,6 +52,8 @@ func TestGenerateAdds(t *testing.T) {
 	}
 }
 func TestGenerateDrops(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +110,8 @@ func TestValidateAdds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		defaultAddCaps		[]api.Capability
 		requiredDropCaps	[]api.Capability
@@ -130,6 +136,8 @@ func TestValidateAdds(t *testing.T) {
 	}
 }
 func TestValidateDrops(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

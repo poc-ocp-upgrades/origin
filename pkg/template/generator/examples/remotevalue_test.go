@@ -22,6 +22,8 @@ func TestRemoteValueGenerator(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generator := NewRemoteValueGenerator()
 	_, err := generator.GenerateValue("[GET:http://api.example.com/new]")
 	if err == nil {
@@ -29,6 +31,8 @@ func TestRemoteValueGenerator(t *testing.T) {
 	}
 }
 func TestFakeRemoteValueGenerator(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

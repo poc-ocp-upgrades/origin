@@ -24,6 +24,8 @@ func TestDCPodTemplateSpecNode(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
 	dc := &appsv1.DeploymentConfig{}
 	dc.Namespace = "ns"

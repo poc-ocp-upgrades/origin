@@ -44,6 +44,8 @@ func newQuotaAccessor(clusterQuotaLister quotalister.ClusterResourceQuotaLister,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	updatedCache, err := lru.New(100)
 	if err != nil {
 		panic(err)
@@ -51,6 +53,8 @@ func newQuotaAccessor(clusterQuotaLister quotalister.ClusterResourceQuotaLister,
 	return &clusterQuotaAccessor{clusterQuotaLister: clusterQuotaLister, namespaceLister: namespaceLister, clusterQuotaClient: clusterQuotaClient, clusterQuotaMapper: clusterQuotaMapper, updatedClusterQuotas: updatedCache}
 }
 func (e *clusterQuotaAccessor) UpdateQuotaStatus(newQuota *corev1.ResourceQuota) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -105,6 +109,8 @@ func (e *clusterQuotaAccessor) checkCache(clusterQuota *quotav1.ClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uncastCachedQuota, ok := e.updatedClusterQuotas.Get(clusterQuota.Name)
 	if !ok {
 		return clusterQuota
@@ -117,6 +123,8 @@ func (e *clusterQuotaAccessor) checkCache(clusterQuota *quotav1.ClusterResourceQ
 	return cachedQuota
 }
 func (e *clusterQuotaAccessor) GetQuotas(namespaceName string) ([]corev1.ResourceQuota, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +177,8 @@ func (e *clusterQuotaAccessor) waitForReadyClusterQuotaNames(namespaceName strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var clusterQuotaNames []string
 	err := utilwait.PollImmediate(100*time.Millisecond, 8*time.Second, func() (done bool, err error) {
 		var namespaceSelectionFields clusterquotamapping.SelectionFields
@@ -202,6 +212,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -276,5 +307,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

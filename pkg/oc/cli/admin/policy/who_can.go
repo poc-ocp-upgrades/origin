@@ -47,9 +47,13 @@ func NewWhoCanOptions(streams genericclioptions.IOStreams) *WhoCanOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WhoCanOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdWhoCan(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func NewCmdWhoCan(name, fullName string, f kcmdutil.Factory, streams genericclio
 	return cmd
 }
 func (o *WhoCanOptions) complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +141,8 @@ func ResourceFor(mapper meta.RESTMapper, resourceArg string) schema.GroupVersion
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fullySpecifiedGVR, groupResource := schema.ParseResourceArg(strings.ToLower(resourceArg))
 	gvr := schema.GroupVersionResource{}
 	if fullySpecifiedGVR != nil {
@@ -150,6 +158,8 @@ func ResourceFor(mapper meta.RESTMapper, resourceArg string) schema.GroupVersion
 	return gvr
 }
 func (o *WhoCanOptions) run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

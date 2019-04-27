@@ -21,6 +21,8 @@ func TestFailValidateAuthenticationSpec(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errorCases := map[string]struct {
 		spec		configv1.AuthenticationSpec
 		errorType	field.ErrorType
@@ -42,6 +44,8 @@ func TestFailValidateAuthenticationSpec(t *testing.T) {
 	}
 }
 func TestSucceedValidateAuthenticationSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func TestFailValidateAuthenticationStatus(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errorCases := map[string]struct {
 		status		configv1.AuthenticationStatus
 		errorType	field.ErrorType
@@ -100,6 +106,8 @@ func TestFailValidateAuthenticationStatus(t *testing.T) {
 	}
 }
 func TestSucceedValidateAuthenticationStatus(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

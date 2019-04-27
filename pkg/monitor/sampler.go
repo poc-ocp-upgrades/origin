@@ -27,6 +27,8 @@ func StartSampling(ctx context.Context, recorder Recorder, interval time.Duratio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &sampler{available: true}
 	go func() {
 		ticker := time.NewTicker(interval)
@@ -62,6 +64,8 @@ func (s *sampler) isAvailable() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	return s.available
@@ -81,11 +85,15 @@ func (s *sampler) setAvailable(b bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	s.available = b
 }
 func (s *sampler) ConditionWhenFailing(condition *Condition) SamplerFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

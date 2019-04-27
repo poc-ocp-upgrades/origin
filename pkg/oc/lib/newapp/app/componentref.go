@@ -23,6 +23,8 @@ func IsComponentReference(s string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s) == 0 {
 		return fmt.Errorf("empty string provided to component reference check")
 	}
@@ -31,6 +33,8 @@ func IsComponentReference(s string) error {
 	return err
 }
 func componentWithSource(s string) (component, repo string, builder bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +93,8 @@ func (r ComponentReferences) filter(filterFunc func(ref ComponentReference) bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refs := ComponentReferences{}
 	for _, ref := range r {
 		if filterFunc(ref) {
@@ -98,6 +104,8 @@ func (r ComponentReferences) filter(filterFunc func(ref ComponentReference) bool
 	return refs
 }
 func (r ComponentReferences) HasSource() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +139,8 @@ func (r ComponentReferences) NeedsSource() (refs ComponentReferences) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.filter(func(ref ComponentReference) bool {
 		return ref.NeedsSource()
 	})
@@ -150,11 +160,15 @@ func (r ComponentReferences) UseSource() (refs ComponentReferences) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.filter(func(ref ComponentReference) bool {
 		return ref.Input().Uses != nil
 	})
 }
 func (r ComponentReferences) ImageComponentRefs() (refs ComponentReferences) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,11 +205,15 @@ func (r ComponentReferences) TemplateComponentRefs() (refs ComponentReferences) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.filter(func(ref ComponentReference) bool {
 		return ref.Input() != nil && ref.Input().ResolvedMatch != nil && ref.Input().ResolvedMatch.IsTemplate()
 	})
 }
 func (r ComponentReferences) InstallableComponentRefs() (refs ComponentReferences) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,9 +247,13 @@ func (r ComponentReferences) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.HumanString(",")
 }
 func (r ComponentReferences) HumanString(separator string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,9 +292,13 @@ func (m GroupedComponentReferences) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m GroupedComponentReferences) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -304,9 +330,13 @@ func (m GroupedComponentReferences) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Input().GroupID < m[j].Input().GroupID
 }
 func (r ComponentReferences) Group() (refs []ComponentReferences) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +379,8 @@ func (components ComponentReferences) Resolve() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, ref := range components {
 		if err := ref.Resolve(); err != nil {
@@ -359,6 +391,8 @@ func (components ComponentReferences) Resolve() error {
 	return errors.NewAggregate(errs)
 }
 func (components ComponentReferences) Search() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -410,6 +444,8 @@ func (r *ReferenceBuilder) AddComponents(inputs []string, fn func(*ComponentInpu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refs := ComponentReferences{}
 	for _, s := range inputs {
 		for _, s := range strings.Split(s, "+") {
@@ -436,6 +472,8 @@ func (r *ReferenceBuilder) AddComponents(inputs []string, fn func(*ComponentInpu
 	return refs
 }
 func (r *ReferenceBuilder) AddGroups(inputs []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -492,6 +530,8 @@ func (r *ReferenceBuilder) AddSourceRepository(input string, strategy newapp.Str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, existing := range r.repos {
 		if input == existing.location {
 			return existing, true
@@ -506,6 +546,8 @@ func (r *ReferenceBuilder) AddSourceRepository(input string, strategy newapp.Str
 	return source, true
 }
 func (r *ReferenceBuilder) AddExistingSourceRepository(source *SourceRepository) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -537,9 +579,13 @@ func (r *ReferenceBuilder) Result() (ComponentReferences, SourceRepositories, []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.refs, r.repos, r.errs
 }
 func NewComponentInput(input string) (*ComponentInput, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -590,6 +636,8 @@ func (i *ComponentInput) Input() *ComponentInput {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i
 }
 func (i *ComponentInput) NeedsSource() bool {
@@ -607,9 +655,13 @@ func (i *ComponentInput) NeedsSource() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.ExpectToBuild && i.Uses == nil
 }
 func (i *ComponentInput) Resolve() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -651,6 +703,8 @@ func (i *ComponentInput) Search() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i.Searcher == nil {
 		return ErrNoMatch{Value: i.Value, Qualifier: "no searcher defined"}
 	}
@@ -675,9 +729,13 @@ func (i *ComponentInput) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.Value
 }
 func (i *ComponentInput) Use(repo *SourceRepository) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

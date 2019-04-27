@@ -22,12 +22,16 @@ func TestLocalAndDryRunFlags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tf := kcmdtesting.NewTestFactory().WithNamespace("test")
 	defer tf.Cleanup()
 	setCmd := NewCmdSet("", tf, genericclioptions.NewTestIOStreamsDiscard())
 	ensureLocalAndDryRunFlagsOnChildren(t, setCmd, "")
 }
 func ensureLocalAndDryRunFlagsOnChildren(t *testing.T, c *cobra.Command, prefix string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

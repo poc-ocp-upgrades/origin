@@ -19,9 +19,13 @@ func (c *FakeCSRF) Generate(w http.ResponseWriter, req *http.Request) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Token
 }
 func (c *FakeCSRF) Check(req *http.Request, value string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

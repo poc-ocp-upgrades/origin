@@ -21,6 +21,8 @@ func GetName(base, suffix string, maxLength int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if maxLength <= 0 {
 		return ""
 	}
@@ -52,6 +54,8 @@ func GetPodName(base, suffix string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GetName(base, suffix, kvalidation.DNS1123SubdomainMaxLength)
 }
 func GetConfigMapName(base, suffix string) string {
@@ -69,9 +73,13 @@ func GetConfigMapName(base, suffix string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GetName(base, suffix, kvalidation.DNS1123SubdomainMaxLength)
 }
 func max(a, b int) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,12 +114,16 @@ func min(a, b int) int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b < a {
 		return b
 	}
 	return a
 }
 func hash(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

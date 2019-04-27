@@ -30,6 +30,8 @@ func NewDeploymentConfigHistoryViewer(kc kubernetes.Interface) kubectl.HistoryVi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DeploymentConfigHistoryViewer{rn: kc.CoreV1()}
 }
 
@@ -40,6 +42,8 @@ type DeploymentConfigHistoryViewer struct {
 var _ kubectl.HistoryViewer = &DeploymentConfigHistoryViewer{}
 
 func (h *DeploymentConfigHistoryViewer) ViewHistory(namespace, name string, revision int64) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func (h *DeploymentConfigHistoryViewer) ViewHistory(namespace, name string, revi
 	})
 }
 func tabbedString(f func(*tabwriter.Writer) error) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

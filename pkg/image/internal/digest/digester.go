@@ -35,6 +35,8 @@ func (a Algorithm) Available() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h, ok := algorithms[a]
 	if !ok {
 		return false
@@ -42,6 +44,8 @@ func (a Algorithm) Available() bool {
 	return h.Available()
 }
 func (a Algorithm) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,6 +77,8 @@ func (a Algorithm) Size() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h, ok := algorithms[a]
 	if !ok {
 		return 0
@@ -80,6 +86,8 @@ func (a Algorithm) Size() int {
 	return h.Size()
 }
 func (a *Algorithm) Set(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,9 +124,13 @@ func (a Algorithm) New() Digester {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &digester{alg: a, hash: a.Hash()}
 }
 func (a Algorithm) Hash() hash.Hash {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +165,8 @@ func (a Algorithm) FromReader(rd io.Reader) (Digest, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	digester := a.New()
 	if _, err := io.Copy(digester.Hash(), rd); err != nil {
 		return "", err
@@ -160,6 +174,8 @@ func (a Algorithm) FromReader(rd io.Reader) (Digest, error) {
 	return digester.Digest(), nil
 }
 func (a Algorithm) FromBytes(p []byte) Digest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,9 +221,13 @@ func (d *digester) Hash() hash.Hash {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.hash
 }
 func (d *digester) Digest() Digest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -44,6 +44,8 @@ func NewClient(cli *http.Client, root string) Client {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &client{cli: cli, root: root}
 }
 
@@ -53,6 +55,8 @@ type ServerError struct {
 }
 
 func (e *ServerError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,9 +88,13 @@ func newServerError(statusCode int, description string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ServerError{StatusCode: statusCode, Description: description}
 }
 func (c *client) Client() *http.Client {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +126,8 @@ func OriginatingIdentityHeader(u user.Info) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	templatereq := api.ConvertUserToTemplateInstanceRequester(u)
 	b, err := json.Marshal(&templatereq)
 	if err != nil {
@@ -127,6 +137,8 @@ func OriginatingIdentityHeader(u user.Info) (string, error) {
 	return api.OriginatingIdentitySchemeKubernetes + " " + encodeVal, nil
 }
 func (c *client) Catalog(ctx context.Context) (*api.CatalogResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +183,8 @@ func (c *client) Catalog(ctx context.Context) (*api.CatalogResponse, error) {
 	return nil, newServerError(resp.StatusCode, r.Description)
 }
 func (c *client) Provision(ctx context.Context, u user.Info, instanceID string, preq *api.ProvisionRequest) (*api.ProvisionResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -253,6 +267,8 @@ func (c *client) Deprovision(ctx context.Context, u user.Info, instanceID string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if errs := api.ValidateUUID(field.NewPath("instanceID"), instanceID); len(errs) > 0 {
 		return errs.ToAggregate()
 	}
@@ -301,6 +317,8 @@ func (c *client) Deprovision(ctx context.Context, u user.Info, instanceID string
 	return newServerError(resp.StatusCode, r.Description)
 }
 func (c *client) LastOperation(ctx context.Context, u user.Info, instanceID string, operation api.Operation) (*api.LastOperationResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,6 +385,8 @@ func (c *client) WaitForOperation(ctx context.Context, u user.Info, instanceID s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	done := ctx.Done()
 	for {
 		op, err := c.LastOperation(ctx, u, instanceID, operation)
@@ -385,6 +405,8 @@ func (c *client) WaitForOperation(ctx context.Context, u user.Info, instanceID s
 	}
 }
 func (c *client) Bind(ctx context.Context, u user.Info, instanceID, bindingID string, breq *api.BindRequest) (*api.BindResponse, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -460,6 +482,8 @@ func (c *client) Unbind(ctx context.Context, u user.Info, instanceID, bindingID 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if errs := api.ValidateUUID(field.NewPath("instanceID"), instanceID); len(errs) > 0 {
 		return errs.ToAggregate()
 	}
@@ -515,6 +539,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -589,5 +634,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

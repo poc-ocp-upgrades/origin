@@ -29,6 +29,8 @@ func setupOVSController(t *testing.T) (ovs.Interface, *ovsController, []string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ovsif := ovs.NewFake(Br0)
 	oc := NewOVSController(ovsif, 0, true, "172.17.0.4")
 	oc.tunMAC = "c6:ac:2c:13:48:4b"
@@ -57,6 +59,8 @@ type flowChange struct {
 }
 
 func assertFlowChanges(origFlows, newFlows []string, changes ...flowChange) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +134,8 @@ func TestOVSService(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ovsif, oc, origFlows := setupOVSController(t)
 	svc := corev1.Service{TypeMeta: metav1.TypeMeta{Kind: "Service"}, ObjectMeta: metav1.ObjectMeta{Name: "service"}, Spec: corev1.ServiceSpec{ClusterIP: "172.30.99.99", Ports: []corev1.ServicePort{{Protocol: corev1.ProtocolTCP, Port: 80}, {Protocol: corev1.ProtocolTCP, Port: 443}}}}
 	err := oc.AddServiceRules(&svc, 42)
@@ -163,6 +169,8 @@ const (
 )
 
 func TestOVSPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,6 +238,8 @@ func TestGetPodDetails(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type testcase struct {
 		sandboxID	string
 		ip		string
@@ -263,6 +273,8 @@ func TestGetPodDetails(t *testing.T) {
 	}
 }
 func TestOVSLocalMulticast(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,6 +353,8 @@ func assertENPFlowAdditions(origFlows, newFlows []string, additions ...enpFlowAd
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	changes := make([]flowChange, 0)
 	for _, addition := range additions {
 		for i, rule := range addition.policy.Spec.Egress {
@@ -363,6 +377,8 @@ func assertENPFlowAdditions(origFlows, newFlows []string, additions ...enpFlowAd
 	return assertFlowChanges(origFlows, newFlows, changes...)
 }
 func TestOVSEgressNetworkPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,6 +542,8 @@ func TestAlreadySetUp(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := []struct {
 		flow	string
 		success	bool
@@ -551,6 +569,8 @@ func TestAlreadySetUp(t *testing.T) {
 	}
 }
 func TestFindUnusedVNIDs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -591,6 +611,8 @@ func TestFindUnusedVNIDs(t *testing.T) {
 	}
 }
 func TestSetHWAddrByIP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

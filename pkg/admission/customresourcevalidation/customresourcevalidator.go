@@ -35,12 +35,16 @@ func NewValidator(resources map[schema.GroupResource]bool, validators map[schema
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &validateCustomResource{Handler: admission.NewHandler(admission.Create, admission.Update), resources: resources, validators: validators}, nil
 }
 
 var _ admission.ValidationInterface = &validateCustomResource{}
 
 func (a *validateCustomResource) Validate(uncastAttributes admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func (a *validateCustomResource) Validate(uncastAttributes admission.Attributes)
 	}
 }
 func (a *validateCustomResource) shouldIgnore(attributes admission.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -193,6 +193,8 @@ func getImageName(oc *exutil.CLI, namespace, name, tag string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	istag, err := oc.AdminImageClient().ImageV1().ImageStreamTags(namespace).Get(fmt.Sprintf("%s:%s", name, tag), metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -200,6 +202,8 @@ func getImageName(oc *exutil.CLI, namespace, name, tag string) (string, error) {
 	return istag.Image.Name, nil
 }
 func testPruneImages(oc *exutil.CLI, schemaVersion int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -329,6 +333,8 @@ func testSoftPruneImages(oc *exutil.CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isName := "prune"
 	cleanUp := NewCleanUpContainer(oc)
 	defer cleanUp.Run()
@@ -353,6 +359,8 @@ func testSoftPruneImages(oc *exutil.CLI) {
 	o.Expect(skipRegistrySize == pruneSize).To(o.BeTrue())
 }
 func testPruneAllImages(oc *exutil.CLI, setAllImagesToFalse bool, schemaVersion int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -449,9 +457,13 @@ func (bls byLayerSize) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(bls)
 }
 func (bls byLayerSize) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -483,6 +495,8 @@ func (bls byLayerSize) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if bls[i].LayerSize < bls[j].LayerSize {
 		return true
 	}
@@ -492,6 +506,8 @@ func (bls byLayerSize) Less(i, j int) bool {
 	return false
 }
 func importImageAndMirrorItsSmallestBlob(oc *exutil.CLI, imageReference, destISTag string) (*imageapi.Image, godigest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -544,6 +560,8 @@ func importImageAndMirrorItsSmallestBlob(oc *exutil.CLI, imageReference, destIST
 	return &istag.Image, godigest.Digest(tmpLayers[0].Name), nil
 }
 func dumpRegistryLogs(oc *exutil.CLI, since time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

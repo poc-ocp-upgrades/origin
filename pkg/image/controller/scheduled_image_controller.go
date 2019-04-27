@@ -42,6 +42,8 @@ func (s *ScheduledImageStreamController) Importing(stream *imagev1.ImageStream) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !s.enabled {
 		return
 	}
@@ -54,6 +56,8 @@ func (s *ScheduledImageStreamController) Importing(stream *imagev1.ImageStream) 
 	s.scheduler.Delay(key)
 }
 func (s *ScheduledImageStreamController) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,10 +98,14 @@ func (s *ScheduledImageStreamController) addImageStream(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stream := obj.(*imagev1.ImageStream)
 	s.enqueueImageStream(stream)
 }
 func (s *ScheduledImageStreamController) updateImageStream(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +148,8 @@ func (s *ScheduledImageStreamController) deleteImageStream(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("unable to get namespace key for %#v", obj))
@@ -148,6 +158,8 @@ func (s *ScheduledImageStreamController) deleteImageStream(obj interface{}) {
 	s.scheduler.Remove(key, nil)
 }
 func (s *ScheduledImageStreamController) enqueueImageStream(stream *imagev1.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +187,8 @@ func (s *ScheduledImageStreamController) enqueueImageStream(stream *imagev1.Imag
 	}
 }
 func (s *ScheduledImageStreamController) syncTimed(key, value interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +240,8 @@ func (s *ScheduledImageStreamController) syncTimedByName(namespace, name string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sharedStream, err := s.lister.ImageStreams(namespace).Get(name)
 	if err != nil {
 		if apierrs.IsNotFound(err) {
@@ -258,6 +274,8 @@ func resetScheduledTags(stream *imagev1.ImageStream) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	next := stream.Generation + 1
 	for tag, tagRef := range stream.Spec.Tags {
 		if tagImportable(tagRef) && tagRef.ImportPolicy.Scheduled {
@@ -267,6 +285,8 @@ func resetScheduledTags(stream *imagev1.ImageStream) {
 	}
 }
 func needsScheduling(stream *imagev1.ImageStream) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -17,6 +17,8 @@ func (t *TestCase) SetDuration(duration string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsedDuration, err := time.ParseDuration(duration)
 	if err != nil {
 		return err
@@ -39,9 +41,13 @@ func (t *TestCase) MarkSkipped(message string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.SkipMessage = &SkipMessage{Message: message}
 }
 func (t *TestCase) MarkFailed(message, output string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

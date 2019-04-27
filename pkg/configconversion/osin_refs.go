@@ -20,6 +20,8 @@ func GetOAuthConfigFileReferences(config *osinv1.OAuthConfig) []*string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == nil {
 		return []*string{}
 	}
@@ -62,6 +64,8 @@ func GetOAuthConfigFileReferences(config *osinv1.OAuthConfig) []*string {
 	return refs
 }
 func GetSessionConfigFileReferences(config *osinv1.SessionConfig) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

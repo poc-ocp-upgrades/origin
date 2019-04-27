@@ -26,6 +26,8 @@ func NewOpenshiftNonAPIConfig(generiConfig *genericapiserver.Config, kubeInforme
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	ret := &OpenshiftNonAPIConfig{GenericConfig: &genericapiserver.RecommendedConfig{Config: *generiConfig, SharedInformerFactory: kubeInformers}}
 	ret.ExtraConfig.OAuthMetadata, _, err = oauthutil.PrepOauthMetadata(oauthConfig, authConfig.OAuthMetadataFile)
@@ -66,10 +68,14 @@ func (c *OpenshiftNonAPIConfig) Complete() completedOpenshiftNonAPIConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg := completedOpenshiftNonAPIConfig{c.GenericConfig.Complete(), &c.ExtraConfig}
 	return cfg
 }
 func (c completedOpenshiftNonAPIConfig) New(delegationTarget genericapiserver.DelegationTarget) (*OpenshiftNonAPIServer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +106,8 @@ const (
 )
 
 func initOAuthAuthorizationServerMetadataRoute(mux *genericmux.PathRecorderMux, ExtraConfig *NonAPIExtraConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

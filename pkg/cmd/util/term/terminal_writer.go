@@ -28,6 +28,8 @@ func NewResponsiveWriter(w io.Writer) io.Writer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, ok := w.(*os.File)
 	if !ok {
 		return w
@@ -66,9 +68,13 @@ func NewWordWrapWriter(w io.Writer, limit uint) io.Writer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &wordWrapWriter{limit: limit, writer: w}
 }
 func (w wordWrapWriter) Write(p []byte) (nn int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +115,8 @@ func NewPunchCardWriter(w io.Writer) io.Writer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewWordWrapWriter(w, 80)
 }
 
@@ -134,9 +142,13 @@ func NewMaxWidthWriter(w io.Writer, maxWidth uint) io.Writer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &maxWidthWriter{maxWidth: maxWidth, writer: w}
 }
 func (m maxWidthWriter) Write(p []byte) (nn int, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

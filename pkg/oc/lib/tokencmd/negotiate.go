@@ -31,9 +31,13 @@ func NewNegotiateChallengeHandler(negotiator Negotiator) ChallengeHandler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &NegotiateChallengeHandler{negotiator: negotiator}
 }
 func (c *NegotiateChallengeHandler) CanHandle(headers http.Header) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,6 +75,8 @@ func (c *NegotiateChallengeHandler) HandleChallenge(requestURL string, headers h
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, incomingToken, err := getNegotiateToken(headers)
 	if err != nil {
 		return nil, false, err
@@ -85,6 +91,8 @@ func (c *NegotiateChallengeHandler) HandleChallenge(requestURL string, headers h
 	return responseHeaders, true, nil
 }
 func (c *NegotiateChallengeHandler) CompleteChallenge(requestURL string, headers http.Header) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,12 +143,16 @@ func (c *NegotiateChallengeHandler) Release() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.negotiator.Release()
 }
 
 const negotiateScheme = "negotiate"
 
 func getNegotiateToken(headers http.Header) (bool, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

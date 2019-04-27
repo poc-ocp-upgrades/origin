@@ -25,6 +25,8 @@ func assertHostSubnetFlowChanges(hsw *hostSubnetWatcher, flows *[]string, change
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldFlows := *flows
 	newFlows, err := hsw.oc.ovs.DumpFlows("")
 	if err != nil {
@@ -38,6 +40,8 @@ func assertHostSubnetFlowChanges(hsw *hostSubnetWatcher, flows *[]string, change
 	return nil
 }
 func setupHostSubnetWatcher(t *testing.T) (*hostSubnetWatcher, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,9 +84,13 @@ func makeHostSubnet(name, hostIP, subnet string) *networkapi.HostSubnet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &networkapi.HostSubnet{TypeMeta: metav1.TypeMeta{Kind: "HostSubnet"}, ObjectMeta: metav1.ObjectMeta{Name: name, UID: ktypes.UID(name + "-uid")}, Host: name, HostIP: hostIP, Subnet: subnet}
 }
 func TestHostSubnetWatcher(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +142,8 @@ func TestHostSubnetWatcher(t *testing.T) {
 	}
 }
 func TestHostSubnetReassignment(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

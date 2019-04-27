@@ -24,6 +24,8 @@ func TestImageWithMetadata(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		image		imageapi.Image
 		expectedImage	imageapi.Image
@@ -45,6 +47,8 @@ func TestImageWithMetadata(t *testing.T) {
 	}
 }
 func validImageWithManifestData() imageapi.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -117,6 +121,8 @@ func validImageWithManifestData() imageapi.Image {
 }`}
 }
 func validImageWithManifestV2Data() imageapi.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

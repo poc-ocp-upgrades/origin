@@ -21,6 +21,8 @@ func TestAllocate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nr, err := NewNetIDRange(201, 300)
 	if err != nil {
 		t.Fatal(err)

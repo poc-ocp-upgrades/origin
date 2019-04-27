@@ -21,6 +21,8 @@ func TestMergeEnvWithoutDuplicates(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name			string
 		useSourcePrecedence	bool

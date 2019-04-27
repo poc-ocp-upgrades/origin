@@ -20,6 +20,8 @@ func TestHostnameMatchSpecCandidates(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := []struct {
 		Hostname	string
 		ExpectedSpecs	[]string
@@ -32,6 +34,8 @@ func TestHostnameMatchSpecCandidates(t *testing.T) {
 	}
 }
 func TestHostnameMatches(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

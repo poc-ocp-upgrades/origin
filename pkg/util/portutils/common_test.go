@@ -33,6 +33,8 @@ func TestSplitPortAndProtocol(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, data := range testData {
 		dp, err := SplitPortAndProtocol(data.port)
 		if data.err == "" && err != nil {
@@ -56,6 +58,8 @@ func TestSplitPortAndProtocol(t *testing.T) {
 	}
 }
 func TestFilterPortAndProtocolArray(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +105,8 @@ func TestFilterPortAndProtocolArray(t *testing.T) {
 	}
 }
 func TestSplitPortAndProtocolArray(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

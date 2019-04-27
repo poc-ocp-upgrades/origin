@@ -25,5 +25,7 @@ func (obj *AdmissionPluginTestConfig) GetObjectKind() schema.ObjectKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &obj.TypeMeta
 }

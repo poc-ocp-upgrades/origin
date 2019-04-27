@@ -21,6 +21,8 @@ func TestPush(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		stackSeed	*testSuiteNode
@@ -36,6 +38,8 @@ func TestPush(t *testing.T) {
 	}
 }
 func TestPop(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func TestPeek(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name			string
 		stackSeed		*testSuiteNode
@@ -100,6 +106,8 @@ func TestPeek(t *testing.T) {
 	}
 }
 func TestIsEmpty(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,9 +154,13 @@ func newTestSuite(name string) *api.TestSuite {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &api.TestSuite{Name: name}
 }
 func newTestSuiteNode(testSuite *api.TestSuite, next *testSuiteNode) *testSuiteNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

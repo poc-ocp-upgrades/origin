@@ -86,9 +86,13 @@ func NewSCCReviewOptions(streams genericclioptions.IOStreams) *SCCReviewOptions 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SCCReviewOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdSccReview(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,10 +141,14 @@ func (p *policyPrinter) WithInfo(info *resource.Info) *policyPrinter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.info = info
 	return p
 }
 func (p *policyPrinter) PrintObj(obj runtime.Object, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,6 +173,8 @@ func (p *policyPrinter) PrintObj(obj runtime.Object, out io.Writer) error {
 	return printer.PrintObj(obj, out)
 }
 func (o *SCCReviewOptions) Complete(f kcmdutil.Factory, args []string, cmd *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +236,8 @@ func (o *SCCReviewOptions) Run(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := o.builder.WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).NamespaceParam(o.namespace).FilenameParam(o.enforceNamespace, &o.FilenameOptions).ResourceTypeOrNameArgs(true, args...).ContinueOnError().Flatten().Do()
 	err := r.Err()
 	if err != nil {
@@ -273,6 +285,8 @@ func CheckStatefulSetWithWolumeClaimTemplates(obj runtime.Object) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch r := obj.(type) {
 	case *appsv1beta1.StatefulSet:
 		if len(r.Spec.VolumeClaimTemplates) > 0 {
@@ -304,6 +318,8 @@ func GetPodTemplateForObject(obj runtime.Object) (*corev1.PodTemplateSpec, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podSpec, _, err := ometa.GetPodSpecV1(obj)
 	if err != nil {
 		return nil, err
@@ -311,6 +327,8 @@ func GetPodTemplateForObject(obj runtime.Object) (*corev1.PodTemplateSpec, error
 	return &corev1.PodTemplateSpec{Spec: *podSpec}, nil
 }
 func sccReviewHumanPrintFunc(info *resource.Info, obj runtime.Object, noHeaders *bool, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -28,11 +28,15 @@ func TestBuildDeleteController(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildClient, _, kClient, fn := setupBuildControllerTest(t)
 	defer fn()
 	build.RunBuildDeleteTest(t, buildClient, kClient, testutil.Namespace())
 }
 func TestBuildRunningPodDeleteController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,11 +71,15 @@ func TestBuildCompletePodDeleteController(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildClient, _, kClient, fn := setupBuildControllerTest(t)
 	defer fn()
 	build.RunBuildCompletePodDeleteTest(t, buildClient, kClient, testutil.Namespace())
 }
 func setupBuildControllerTest(t *testing.T) (buildv1clienttyped.BuildV1Interface, imagev1clienttyped.ImageV1Interface, kubernetes.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

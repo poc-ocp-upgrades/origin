@@ -24,6 +24,8 @@ func TestGeneration(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	from := appstest.OkDeploymentConfig(2)
 	from.Spec.Strategy = appsapi.DeploymentStrategy{Type: appsapi.DeploymentStrategyTypeCustom}
 	from.Spec.Triggers = append(from.Spec.Triggers, appsapi.DeploymentTriggerPolicy{Type: appsapi.DeploymentTriggerOnConfigChange})
@@ -78,9 +80,13 @@ func hasStrategyDiff(a, b *appsapi.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.Spec.Strategy.Type != b.Spec.Strategy.Type
 }
 func hasTriggerDiff(a, b *appsapi.DeploymentConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +133,8 @@ func hasReplicationMetaDiff(a, b *appsapi.DeploymentConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a.Spec.Replicas != b.Spec.Replicas {
 		return true
 	}
@@ -138,6 +146,8 @@ func hasReplicationMetaDiff(a, b *appsapi.DeploymentConfig) bool {
 	return false
 }
 func hasPodTemplateDiff(a, b *appsapi.DeploymentConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

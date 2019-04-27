@@ -23,6 +23,8 @@ func TestValidateProvisionRequest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name			string
 		preq			ProvisionRequest
@@ -63,6 +65,8 @@ func TestValidateBindRequest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		breq		BindRequest
@@ -89,6 +93,8 @@ func TestValidateBindRequest(t *testing.T) {
 	}
 }
 func TestValidateUUID(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

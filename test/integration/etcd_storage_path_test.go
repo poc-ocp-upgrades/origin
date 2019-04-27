@@ -53,6 +53,8 @@ func TestEtcd3StoragePath(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install.InstallInternalOpenShift(legacyscheme.Scheme)
 	install.InstallInternalKube(legacyscheme.Scheme)
 	masterConfig, err := testserver.DefaultMasterOptions()
@@ -226,12 +228,16 @@ func addGVKToEtcdBucket(cohabitatingResources map[string]map[schema.GroupVersion
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cohabitatingResources[bucket] == nil {
 		cohabitatingResources[bucket] = map[schema.GroupVersionKind]empty{}
 	}
 	cohabitatingResources[bucket][gvk] = empty{}
 }
 func getEtcdBucket(path string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -281,9 +287,13 @@ func (obj *metaObject) getGVK() schema.GroupVersionKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.FromAPIVersionAndKind(obj.APIVersion, obj.Kind)
 }
 func (obj *metaObject) isEmpty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,9 +325,13 @@ func (obj *metaObject) GetObjectKind() schema.ObjectKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.EmptyObjectKind
 }
 func (obj *metaObject) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,9 +375,13 @@ func gvr(g, v, r string) schema.GroupVersionResource {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.GroupVersionResource{Group: g, Version: v, Resource: r}
 }
 func gvkP(g, v, k string) *schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,6 +413,8 @@ func jsonToMetaObject(stub string) (*metaObject, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj := &metaObject{}
 	if err := json.Unmarshal([]byte(stub), &obj); err != nil {
 		return nil, err
@@ -404,6 +424,8 @@ func jsonToMetaObject(stub string) (*metaObject, error) {
 	return obj, nil
 }
 func keyStringer(i interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -452,6 +474,8 @@ func (c *allClient) verb(verb string, gvk schema.GroupVersionKind) (*restclient.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apiPath := "/apis"
 	switch {
 	case gvk.Group == kapi.GroupName:
@@ -471,6 +495,8 @@ func (c *allClient) verb(verb string, gvk schema.GroupVersionKind) (*restclient.
 	return restclient.NewRequest(c.client, verb, baseURL, versionedAPIPath, contentConfig, *serializers, c.backoff, c.config.RateLimiter, 0), nil
 }
 func (c *allClient) create(stub, ns string, mapping *meta.RESTMapping, all *[]cleanupData) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -515,6 +541,8 @@ func (c *allClient) destroy(obj runtime.Object, mapping *meta.RESTMapping) error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := c.verb("DELETE", mapping.GroupVersionKind)
 	if err != nil {
 		return err
@@ -541,6 +569,8 @@ func (c *allClient) cleanup(all *[]cleanupData) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := len(*all) - 1; i >= 0; i-- {
 		obj := (*all)[i].obj
 		mapping := (*all)[i].mapping
@@ -551,6 +581,8 @@ func (c *allClient) cleanup(all *[]cleanupData) error {
 	return nil
 }
 func (c *allClient) createPrerequisites(mapper meta.RESTMapper, ns string, prerequisites []etcddata.Prerequisite, all *[]cleanupData) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -595,6 +627,8 @@ func newClient(config restclient.Config) (*allClient, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config.ContentConfig.NegotiatedSerializer = legacyscheme.Codecs
 	config.ContentConfig.ContentType = "application/json"
 	config.Timeout = 30 * time.Second
@@ -608,6 +642,8 @@ func newClient(config restclient.Config) (*allClient, error) {
 	return &allClient{client: client, config: &config, backoff: backoff}, nil
 }
 func createSerializers(config restclient.ContentConfig) (*restclient.Serializers, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -664,6 +700,8 @@ func getFromEtcd(kv etcdv3.KV, path string) (*metaObject, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	response, err := kv.Get(context.Background(), "/"+path, etcdv3.WithSerializable())
 	if err != nil {
 		return nil, err
@@ -692,11 +730,15 @@ func diffMaps(a, b interface{}) ([]string, []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	inA := diffMapKeys(a, b, keyStringer)
 	inB := diffMapKeys(b, a, keyStringer)
 	return inA, inB
 }
 func diffMapKeys(a, b interface{}, stringer func(interface{}) string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

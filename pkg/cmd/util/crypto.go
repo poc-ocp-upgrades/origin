@@ -24,6 +24,8 @@ func CertPoolFromFile(filename string) (*x509.CertPool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pool := x509.NewCertPool()
 	if len(filename) == 0 {
 		return pool, nil
@@ -56,6 +58,8 @@ func CertificatesFromFile(file string) ([]*x509.Certificate, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(file) == 0 {
 		return nil, nil
 	}
@@ -70,6 +74,8 @@ func CertificatesFromFile(file string) ([]*x509.Certificate, error) {
 	return certs, nil
 }
 func PrivateKeysFromPEM(pemCerts []byte) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

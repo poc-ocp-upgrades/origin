@@ -52,6 +52,8 @@ func ValidateUpstreamCommitsWithoutGodepsChanges(commits []util.Commit) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() && !commit.DeclaresUpstreamChange() {
@@ -66,6 +68,8 @@ func ValidateUpstreamCommitsWithoutGodepsChanges(commits []util.Commit) error {
 	return nil
 }
 func ValidateUpstreamCommitModifiesSingleGodepsRepo(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +102,8 @@ func ValidateUpstreamCommitModifiesSingleGodepsRepo(commits []util.Commit) error
 	return nil
 }
 func ValidateUpstreamCommitSummaries(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +151,8 @@ func ValidateUpstreamCommitModifiesOnlyGodeps(commits []util.Commit) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	problemCommits := []util.Commit{}
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() && commit.HasNonVendoredCodeChanges() {
@@ -159,6 +167,8 @@ func ValidateUpstreamCommitModifiesOnlyGodeps(commits []util.Commit) error {
 	return nil
 }
 func ValidateUpstreamCommitModifiesOnlyKubernetes(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +205,8 @@ func ValidateUpstreamCommitModifiesOnlyKubernetes(commits []util.Commit) error {
 	return nil
 }
 func ValidateUpstreamCommitModifiesOnlyDeclaredGodepRepo(commits []util.Commit) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,6 +261,8 @@ func ValidateGodeps(commits []util.Commit) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runGodepsRestore := false
 	for _, commit := range commits {
 		if commit.HasVendoredCodeChanges() || commit.HasGodepsChanges() {
@@ -280,6 +294,8 @@ const (
 )
 
 func renderGodepFilesError(label string, commits []util.Commit, opt CommitFilesRenderOption) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

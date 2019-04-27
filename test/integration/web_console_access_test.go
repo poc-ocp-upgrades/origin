@@ -33,6 +33,8 @@ func templateEscapeHref(test *testing.T, s string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	prefix := `<a href="`
 	suffix := `">`
 	b := new(bytes.Buffer)
@@ -45,6 +47,8 @@ func templateEscapeHref(test *testing.T, s string) string {
 	return escaped[len(prefix) : len(escaped)-len(suffix)]
 }
 func tryAccessURL(t *testing.T, url string, expectedStatus int, expectedRedirectLocation string, expectedLinks []string) *http.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +98,8 @@ func tryAccessURL(t *testing.T, url string, expectedStatus int, expectedRedirect
 	return resp
 }
 func TestAccessOriginWebConsoleMultipleIdentityProviders(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

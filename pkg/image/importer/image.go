@@ -29,6 +29,8 @@ func schema1ToImage(manifest *schema1.SignedManifest, d godigest.Digest) (*image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(manifest.History) == 0 {
 		return nil, fmt.Errorf("image has no v1Compatibility history and cannot be used")
 	}
@@ -52,6 +54,8 @@ func schema1ToImage(manifest *schema1.SignedManifest, d godigest.Digest) (*image
 	return image, nil
 }
 func schema2ToImage(manifest *schema2.DeserializedManifest, imageConfig []byte, d godigest.Digest) (*imageapi.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +101,8 @@ func schema0ToImage(dockerImage *dockerregistry.Image) (*imageapi.Image, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var baseImage imageapi.DockerImage
 	if err := legacyscheme.Scheme.Convert(&dockerImage.Image, &baseImage, nil); err != nil {
 		return nil, fmt.Errorf("could not convert image: %#v", err)
@@ -105,6 +111,8 @@ func schema0ToImage(dockerImage *dockerregistry.Image) (*imageapi.Image, error) 
 	return image, nil
 }
 func unmarshalDockerImage(body []byte) (*imageapi.DockerImage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +138,8 @@ func unmarshalDockerImage(body []byte) (*imageapi.DockerImage, error) {
 	return dockerImage, nil
 }
 func isDockerError(err error, code errcode.ErrorCode) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -47,6 +47,8 @@ func (e *Event) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s.%03d %s %s %s", e.At.Format("Jan 02 15:04:05"), e.At.Nanosecond()/1000000, eventString[e.Level], e.Locator, strings.Replace(e.Message, "\n", "\\n", -1))
 }
 
@@ -80,6 +82,8 @@ func (i *EventInterval) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i.From.Equal(i.To) {
 		return fmt.Sprintf("%s.%03d %s %s %s", i.From.Format("Jan 02 15:04:05"), i.From.Nanosecond()/int(time.Millisecond), eventString[i.Level], i.Locator, strings.Replace(i.Message, "\n", "\\n", -1))
 	}
@@ -91,6 +95,8 @@ type EventIntervals []*EventInterval
 var _ sort.Interface = EventIntervals{}
 
 func (intervals EventIntervals) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,9 +140,13 @@ func (intervals EventIntervals) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(intervals)
 }
 func (intervals EventIntervals) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

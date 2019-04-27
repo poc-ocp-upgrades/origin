@@ -42,9 +42,13 @@ func NewPruneAuthOptions(streams genericclioptions.IOStreams) *PruneAuthOptions 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &PruneAuthOptions{IOStreams: streams}
 }
 func NewCmdPruneAuth(f kcmdutil.Factory, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func NewCmdPruneAuth(f kcmdutil.Factory, name string, streams genericclioptions.
 	return cmd
 }
 func (o *PruneAuthOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +141,8 @@ func (o *PruneAuthOptions) RunPrune() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := o.Builder.Do()
 	if r.Err() != nil {
 		return r.Err()
@@ -172,6 +180,8 @@ func isRole(mapping *meta.RESTMapping) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mapping.Resource.Group != "rbac.authorization.k8s.io" && mapping.Resource.Group != "authorization.openshift.io" {
 		return false
 	}
@@ -181,6 +191,8 @@ func isRole(mapping *meta.RESTMapping) bool {
 	return true
 }
 func isClusterRole(mapping *meta.RESTMapping) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,12 +230,16 @@ func isUser(mapping *meta.RESTMapping) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mapping.Resource.Group == "user.openshift.io" && mapping.Resource.Resource == "users" {
 		return true
 	}
 	return false
 }
 func isGroup(mapping *meta.RESTMapping) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

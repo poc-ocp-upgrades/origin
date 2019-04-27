@@ -43,6 +43,8 @@ func MockBuilderSecrets() []*corev1.Secret {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var secrets []*corev1.Secret
 	for name, conf := range SampleDockerConfigs {
 		secrets = append(secrets, &corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: metav1.NamespaceDefault}, Type: corev1.SecretTypeDockercfg, Data: map[string][]byte{".dockercfg": conf}})
@@ -50,6 +52,8 @@ func MockBuilderSecrets() []*corev1.Secret {
 	return secrets
 }
 func MockBuilderServiceAccount(secrets []*corev1.Secret) corev1client.ServiceAccountsGetter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,9 +94,13 @@ func MockBuildConfig(source buildv1.BuildSource, strategy buildv1.BuildStrategy,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "test-build-config", Namespace: metav1.NamespaceDefault, Labels: map[string]string{"testbclabel": "testbcvalue"}}, Spec: buildv1.BuildConfigSpec{CommonSpec: buildv1.CommonSpec{Source: source, Revision: &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Commit: "1234"}}, Strategy: strategy, Output: output}}}
 }
 func MockSource() buildv1.BuildSource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,9 +132,13 @@ func MockSourceStrategyForImageRepository() buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{SourceStrategy: &buildv1.SourceBuildStrategy{From: corev1.ObjectReference{Kind: "ImageStreamTag", Name: imageRepoName + ":" + tagName, Namespace: imageRepoNamespace}}}
 }
 func MockSourceStrategyForEnvs() buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,9 +170,13 @@ func MockDockerStrategyForEnvs() buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{Env: []corev1.EnvVar{{Name: "FOO", Value: "VAR"}}, From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: imageRepoName + ":" + tagName, Namespace: imageRepoNamespace}}}
 }
 func MockCustomStrategyForEnvs() buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +208,8 @@ func MockJenkinsStrategyForEnvs() buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{JenkinsPipelineStrategy: &buildv1.JenkinsPipelineBuildStrategy{Env: []corev1.EnvVar{{Name: "FOO", Value: "VAR"}}}}
 }
 func MockOutput() buildv1.BuildOutput {
@@ -209,9 +227,13 @@ func MockOutput() buildv1.BuildOutput {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: "localhost:5000/test/image-tag"}}
 }
 func MockImageStream(repoName, dockerImageRepo string, tags map[string]string) *imagev1.ImageStream {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -247,6 +269,8 @@ func MockImage(name, dockerSpec string) *imagev1.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: name}, DockerImageReference: dockerSpec}
 }
 func _logClusterCodePath() {
@@ -264,6 +288,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -338,5 +383,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

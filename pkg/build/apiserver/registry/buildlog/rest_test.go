@@ -35,6 +35,8 @@ func newPodClient() *fake.Clientset {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fake.NewSimpleClientset(mockPod(corev1.PodPending, "pending-build"), mockPod(corev1.PodRunning, "running-build"), mockPod(corev1.PodSucceeded, "succeeded-build"), mockPod(corev1.PodFailed, "failed-build"), mockPod(corev1.PodUnknown, "unknown-build"))
 }
 func anotherNewPodClient() *fake.Clientset {
@@ -52,9 +54,13 @@ func anotherNewPodClient() *fake.Clientset {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fake.NewSimpleClientset(mockPod(corev1.PodSucceeded, "bc-1-build"), mockPod(corev1.PodSucceeded, "bc-2-build"), mockPod(corev1.PodSucceeded, "bc-3-build"))
 }
 func TestRegistryResourceLocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +105,8 @@ func TestRegistryResourceLocation(t *testing.T) {
 	}
 }
 func TestWaitForBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,6 +168,8 @@ func TestWaitForBuildTimeout(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := mockBuild(buildv1.BuildPhasePending, "running", 1)
 	buildClient := buildfakeclient.NewSimpleClientset(build)
 	ctx := apirequest.NewDefaultContext()
@@ -170,6 +180,8 @@ func TestWaitForBuildTimeout(t *testing.T) {
 	}
 }
 func resourceLocationHelper(buildPhase buildv1.BuildPhase, podPhase string, ctx context.Context, version int) (string, string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,6 +231,8 @@ func mockPod(podPhase corev1.PodPhase, podName string) *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: podName, Namespace: metav1.NamespaceDefault}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "foo-container"}}, NodeName: "foo-host"}, Status: corev1.PodStatus{Phase: podPhase}}
 }
 func mockBuild(status buildv1.BuildPhase, podName string, version int) *buildv1.Build {
@@ -236,9 +250,13 @@ func mockBuild(status buildv1.BuildPhase, podName string, version int) *buildv1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: podName, Annotations: map[string]string{buildapi.BuildNumberAnnotation: strconv.Itoa(version)}, Labels: map[string]string{buildapi.BuildConfigLabel: "bc"}}, Status: buildv1.BuildStatus{Phase: status}}
 }
 func TestPreviousBuildLogs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

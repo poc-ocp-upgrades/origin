@@ -22,6 +22,8 @@ func TestBuildPruneNamespaced(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	osFake := &fakebuildv1client.FakeBuildV1{Fake: &clienttesting.Fake{}}
 	opts := &PruneBuildsOptions{Namespace: "foo", BuildClient: osFake, IOStreams: genericclioptions.NewTestIOStreamsDiscard()}
 	if err := opts.Run(); err != nil {

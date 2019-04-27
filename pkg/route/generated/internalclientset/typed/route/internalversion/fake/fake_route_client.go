@@ -23,9 +23,13 @@ func (c *FakeRoute) Routes(namespace string) internalversion.RouteResourceInterf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeRoutes{c, namespace}
 }
 func (c *FakeRoute) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

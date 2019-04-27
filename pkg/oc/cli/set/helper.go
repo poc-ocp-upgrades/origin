@@ -27,6 +27,8 @@ func selectContainers(containers []corev1.Container, spec string) ([]*corev1.Con
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := []*corev1.Container{}
 	skipped := []*corev1.Container{}
 	for i, c := range containers {
@@ -39,6 +41,8 @@ func selectContainers(containers []corev1.Container, spec string) ([]*corev1.Con
 	return out, skipped
 }
 func selectString(s, spec string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +100,8 @@ func updateEnv(existing []corev1.EnvVar, env []corev1.EnvVar, remove []string) [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := []corev1.EnvVar{}
 	covered := sets.NewString(remove...)
 	for _, e := range existing {
@@ -134,6 +140,8 @@ func findEnv(env []corev1.EnvVar, name string) (corev1.EnvVar, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, e := range env {
 		if e.Name == name {
 			return e, true
@@ -151,6 +159,8 @@ type Patch struct {
 }
 
 func CalculatePatches(infos []*resource.Info, encoder runtime.Encoder, mutateFn func(*resource.Info) (bool, error)) []*Patch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +219,8 @@ func CalculatePatchesExternal(infos []*resource.Info, mutateFn func(*resource.In
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var patches []*Patch
 	for _, info := range infos {
 		patch := &Patch{Info: info}
@@ -233,6 +245,8 @@ func CalculatePatchesExternal(infos []*resource.Info, mutateFn func(*resource.In
 	return patches
 }
 func getObjectName(info *resource.Info) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

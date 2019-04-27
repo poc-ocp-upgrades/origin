@@ -30,9 +30,13 @@ func NewStrategy(rw whitelist.RegistryWhitelister) *strategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &strategy{ObjectTyper: legacyscheme.Scheme, registryWhitelister: rw}
 }
 func (s *strategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,6 +68,8 @@ func (s *strategy) GenerateName(string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (s *strategy) Canonicalize(runtime.Object) {
@@ -81,8 +87,12 @@ func (s *strategy) Canonicalize(runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s *strategy) ValidateAllowedRegistries(isi *imageapi.ImageStreamImport) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,10 +138,14 @@ func (s *strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newIST := obj.(*imageapi.ImageStreamImport)
 	newIST.Status = imageapi.ImageStreamImportStatus{}
 }
 func (s *strategy) PrepareImageForCreate(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +166,8 @@ func (s *strategy) PrepareImageForCreate(obj runtime.Object) {
 	image.DockerImageConfig = ""
 }
 func (s *strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

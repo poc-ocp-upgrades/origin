@@ -35,11 +35,15 @@ func (l Logger) Printf(format string, v ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if klog.V(2) {
 		klog.ErrorDepth(3, fmt.Sprintf("osin: "+format, v...))
 	}
 }
 func New(config *osin.ServerConfig, storage osin.Storage, authorize AuthorizeHandler, access AccessHandler, errorHandler ErrorHandler) *Server {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func (s *Server) Install(mux oauthserver.Mux, paths ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, prefix := range paths {
 		mux.HandleFunc(path.Join(prefix, urls.AuthorizePath), s.handleAuthorize)
 		mux.HandleFunc(path.Join(prefix, urls.TokenPath), s.handleToken)
@@ -82,6 +88,8 @@ func (s *Server) Install(mux oauthserver.Mux, paths ...string) {
 	}
 }
 func (s *Server) handleAuthorize(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +142,8 @@ func (s *Server) handleToken(w http.ResponseWriter, r *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp := s.server.NewResponse()
 	defer resp.Close()
 	if ar := s.server.HandleAccessRequest(resp, r); ar != nil {
@@ -149,6 +159,8 @@ func (s *Server) handleToken(w http.ResponseWriter, r *http.Request) {
 	osin.OutputJSON(resp, w, r)
 }
 func (s *Server) handleInfo(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

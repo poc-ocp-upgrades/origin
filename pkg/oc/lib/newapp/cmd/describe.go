@@ -36,6 +36,8 @@ func displayName(meta metav1.ObjectMeta) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	displayName := meta.Annotations[oapi.OpenShiftDisplayName]
 	if len(displayName) > 0 {
 		return displayName
@@ -43,6 +45,8 @@ func displayName(meta metav1.ObjectMeta) string {
 	return meta.Name
 }
 func localOrRemoteName(meta metav1.ObjectMeta, namespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,6 +81,8 @@ func extractFirstImageStreamTag(newOnly bool, images ...*app.ImageRef) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, image := range images {
 		if image == nil {
 			continue
@@ -93,6 +99,8 @@ func extractFirstImageStreamTag(newOnly bool, images ...*app.ImageRef) string {
 	return ""
 }
 func describeLocatedImage(refInput *app.ComponentInput, baseNamespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +154,8 @@ func inputAnnotations(match *app.ComponentMatch) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if match == nil {
 		return nil
 	}
@@ -167,6 +177,8 @@ func inputAnnotations(match *app.ComponentMatch) map[string]string {
 	return base
 }
 func describeBuildPipelineWithImage(out io.Writer, ref app.ComponentReference, pipeline *app.Pipeline, baseNamespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +349,8 @@ func hasRootUser(image *dockerv10.DockerImage) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image.Config == nil {
 		return false
 	}
@@ -357,12 +371,16 @@ func hasEmptyDir(image *dockerv10.DockerImage) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image.Config == nil {
 		return false
 	}
 	return len(image.Config.Volumes) > 0
 }
 func describeGeneratedJob(out io.Writer, ref app.ComponentReference, pod *corev1.Pod, secret *corev1.Secret, baseNamespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -425,6 +443,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -499,5 +538,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

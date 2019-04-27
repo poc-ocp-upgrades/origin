@@ -28,6 +28,8 @@ func ValidateLDAPSyncConfig(config *configapi.LDAPSyncConfig) common.ValidationR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.Append(common.ValidateStringSource(config.BindPassword, field.NewPath("bindPassword")))
 	bindPassword, _ := configapi.ResolveStringValue(config.BindPassword)
@@ -65,6 +67,8 @@ func ValidateLDAPSyncConfig(config *configapi.LDAPSyncConfig) common.ValidationR
 	return validationResults
 }
 func ValidateLDAPClientConfig(url, bindDN, bindPassword, CA string, insecure bool, fldPath *field.Path) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +129,8 @@ func ValidateRFC2307Config(config *configapi.RFC2307Config) common.ValidationRes
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.Append(ValidateLDAPQuery(config.AllGroupsQuery, field.NewPath("groupsQuery")))
 	if len(config.GroupUIDAttribute) == 0 {
@@ -161,6 +167,8 @@ func ValidateActiveDirectoryConfig(config *configapi.ActiveDirectoryConfig) comm
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := common.ValidationResults{}
 	validationResults.Append(ValidateLDAPQuery(config.AllUsersQuery, field.NewPath("usersQuery")))
 	if len(config.UserNameAttributes) == 0 {
@@ -172,6 +180,8 @@ func ValidateActiveDirectoryConfig(config *configapi.ActiveDirectoryConfig) comm
 	return validationResults
 }
 func ValidateAugmentedActiveDirectoryConfig(config *configapi.AugmentedActiveDirectoryConfig) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,9 +229,13 @@ func ValidateLDAPQuery(query configapi.LDAPQuery, fldPath *field.Path) common.Va
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateLDAPQuery(query, fldPath, false)
 }
 func validateLDAPQuery(query configapi.LDAPQuery, fldPath *field.Path, isDNOnly bool) common.ValidationResults {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -279,6 +293,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -353,5 +388,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

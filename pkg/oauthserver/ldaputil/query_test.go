@@ -38,6 +38,8 @@ func TestNewSearchRequest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		options		LDAPQueryOnAttribute
@@ -60,6 +62,8 @@ func TestNewSearchRequest(t *testing.T) {
 	}
 }
 func TestErrNoSuchObject(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +106,8 @@ func TestErrEntryNotFound(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testConfig := testclient.NewConfig(testclient.New())
 	testSearchRequest := &ldap.SearchRequest{BaseDN: "dc=example,dc=com", Scope: ldap.ScopeWholeSubtree, DerefAliases: int(DefaultDerefAliases), SizeLimit: DefaultSizeLimit, TimeLimit: DefaultTimeLimit, TypesOnly: DefaultTypesOnly, Filter: "(objectClass=*)", Attributes: append(DefaultAttributes), Controls: DefaultControls}
 	expectedErr := &errEntryNotFound{baseDN: "dc=example,dc=com", filter: "(objectClass=*)"}
@@ -113,6 +119,8 @@ func TestErrEntryNotFound(t *testing.T) {
 	}
 }
 func TestQueryWithPaging(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

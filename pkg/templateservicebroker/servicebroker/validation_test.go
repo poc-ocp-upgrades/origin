@@ -22,6 +22,8 @@ func TestValidateProvisionRequest(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		preq		api.ProvisionRequest
@@ -48,6 +50,8 @@ func TestValidateProvisionRequest(t *testing.T) {
 	}
 }
 func TestValidateBindRequest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

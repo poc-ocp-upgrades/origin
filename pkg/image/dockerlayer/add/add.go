@@ -39,6 +39,8 @@ func DigestCopy(dst io.ReaderFrom, src io.Reader) (layerDigest, blobDigest diges
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	algo := digest.Canonical
 	blobhash := algo.Hash()
 	pr, pw := io.Pipe()
@@ -89,10 +91,14 @@ func NewEmptyConfig() *docker10.DockerImageConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &docker10.DockerImageConfig{DockerVersion: "", Created: (time.Time{}).Add(1 * time.Second), OS: runtime.GOOS, Architecture: runtime.GOARCH}
 	return config
 }
 func AddScratchLayerToConfig(config *docker10.DockerImageConfig) distribution.Descriptor {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +118,8 @@ func AddScratchLayerToConfig(config *docker10.DockerImageConfig) distribution.De
 	return layer
 }
 func AddLayerToConfig(config *docker10.DockerImageConfig, layer distribution.Descriptor, diffID string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +155,8 @@ func UploadSchema2Config(ctx context.Context, blobs distribution.BlobService, co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config.Size = 0
 	for _, layer := range layers {
 		config.Size += layer.Size
@@ -158,6 +168,8 @@ func UploadSchema2Config(ctx context.Context, blobs distribution.BlobService, co
 	return putSchema2ImageConfig(ctx, blobs, dockerV2Schema2ConfigMediaType, configJSON, layers)
 }
 func putSchema2ImageConfig(ctx context.Context, blobs distribution.BlobService, mediaType string, configJSON []byte, layers []distribution.Descriptor) (*schema2.DeserializedManifest, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +215,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -277,5 +310,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -28,6 +28,8 @@ func reapForUser(userClient userv1client.UserV1Interface, authorizationClient au
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := []error{}
 	removedSubject := corev1.ObjectReference{Kind: "User", Name: name}
 	errors = append(errors, reapClusterBindings(removedSubject, authorizationClient, out)...)

@@ -21,6 +21,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.DeploymentConfig{}, func(obj interface{}) {
 		SetObjectDefaults_DeploymentConfig(obj.(*v1.DeploymentConfig))
 	})
@@ -30,6 +32,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	return nil
 }
 func SetObjectDefaults_DeploymentConfig(in *v1.DeploymentConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,6 +269,8 @@ func SetObjectDefaults_DeploymentConfig(in *v1.DeploymentConfig) {
 	}
 }
 func SetObjectDefaults_DeploymentConfigList(in *v1.DeploymentConfigList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

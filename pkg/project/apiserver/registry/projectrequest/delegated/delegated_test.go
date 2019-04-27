@@ -27,6 +27,8 @@ func TestDelegatedWait(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cache := &testRoleBindingLister{}
 	storage := &REST{roleBindings: cache}
 	cache.namespacelister = &testRoleBindingNamespaceLister{}
@@ -46,6 +48,8 @@ func TestDelegatedWait(t *testing.T) {
 	}
 }
 func waitForResultChannel(storage *REST) chan struct{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,9 +92,13 @@ func (t *testRoleBindingNamespaceLister) List(selector labels.Selector) (ret []*
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ret, nil
 }
 func (t *testRoleBindingNamespaceLister) Get(name string) (*rbacv1.RoleBinding, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +140,8 @@ func (t *testRoleBindingLister) RoleBindings(namespace string) rbacv1listers.Rol
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.namespacelister
 }
 func (t *testRoleBindingLister) List(selector labels.Selector) ([]*rbacv1.RoleBinding, error) {
@@ -149,9 +159,13 @@ func (t *testRoleBindingLister) List(selector labels.Selector) ([]*rbacv1.RoleBi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (t *testRoleBindingLister) addAdminRolebinding() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

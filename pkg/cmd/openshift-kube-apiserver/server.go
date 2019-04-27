@@ -33,6 +33,8 @@ func RunOpenShiftKubeAPIServerServer(kubeAPIServerConfig *kubecontrolplanev1.Kub
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apiserver.AddAlwaysLocalDelegateForPrefix("/apis/quota.openshift.io/v1/clusterresourcequotas")
 	capabilities.Initialize(capabilities.Capabilities{AllowPrivileged: true, PrivilegedSources: capabilities.PrivilegedSources{HostNetworkSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostPIDSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostIPCSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}}})
 	bootstrappolicy.ClusterRoles = bootstrappolicy.OpenshiftClusterRoles

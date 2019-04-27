@@ -22,6 +22,8 @@ func TestBuildFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install := func(scheme *runtime.Scheme) error {
 		InstallInternalLegacyBuild(scheme)
 		return nil

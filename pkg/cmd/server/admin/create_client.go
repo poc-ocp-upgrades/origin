@@ -51,9 +51,13 @@ func NewCreateClientOptions(streams genericclioptions.IOStreams) *CreateClientOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateClientOptions{SignerCertOptions: NewDefaultSignerCertOptions(), ExpireDays: crypto.DefaultCertificateLifetimeInDays, APIServerURL: "https://localhost:8443", APIServerCAFiles: []string{"openshift.local.config/master/ca.crt"}, IOStreams: streams}
 }
 func NewCommandCreateClient(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func NewCommandCreateClient(commandName string, fullName string, streams generic
 	return cmd
 }
 func (o CreateClientOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,6 +154,8 @@ func (o CreateClientOptions) CreateClientFolder() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("creating a .kubeconfig with: %#v", o)
 	baseName := o.BaseName
 	if len(baseName) == 0 {
@@ -176,6 +184,8 @@ func (o CreateClientOptions) CreateClientFolder() error {
 	return nil
 }
 func readFiles(srcFiles []string, separator []byte) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

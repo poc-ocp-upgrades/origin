@@ -23,6 +23,8 @@ func Test_podSpecV1Mutator_Mutate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type fields struct {
 		spec	*corev1.PodSpec
 		oldSpec	*corev1.PodSpec

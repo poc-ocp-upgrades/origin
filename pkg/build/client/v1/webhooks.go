@@ -28,6 +28,8 @@ func NewWebhookURLClient(c rest.Interface, ns string) WebHookURLInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &webhooks{client: c, ns: ns}
 }
 
@@ -37,6 +39,8 @@ type webhooks struct {
 }
 
 func (c *webhooks) WebHookURL(name string, trigger *buildv1.BuildTriggerPolicy) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,6 +27,8 @@ func TestGoodPrune(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testGroupPruner, tc := newTestPruner()
 	errs := testGroupPruner.Prune()
 	for _, err := range errs {
@@ -35,6 +37,8 @@ func TestGoodPrune(t *testing.T) {
 	checkClientForDeletedGroups(tc, []string{"os" + Group2UID}, t)
 }
 func TestListFailsForPrune(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func TestLocateFails(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testGroupPruner, tc := newTestPruner()
 	locateErr := fmt.Errorf("error during location for group: %s", Group1UID)
 	testGroupPruner.GroupDetector.(*TestGroupDetector).SourceOfErrors[Group1UID] = locateErr
@@ -90,6 +96,8 @@ func TestLocateFails(t *testing.T) {
 	checkClientForDeletedGroups(tc, []string{"os" + Group2UID}, t)
 }
 func TestDeleteFails(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +145,8 @@ func checkClientForDeletedGroups(tc *fakeuserv1client.FakeUserV1, expectedGroups
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	actualGroups := sets.NewString(extractDeletedGroups(tc)...)
 	wantedGroups := sets.NewString(expectedGroups...)
 	if !actualGroups.Equal(wantedGroups) {
@@ -144,6 +154,8 @@ func checkClientForDeletedGroups(tc *fakeuserv1client.FakeUserV1, expectedGroups
 	}
 }
 func extractDeletedGroups(tc *fakeuserv1client.FakeUserV1) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +194,8 @@ func newTestPruner() (*LDAPGroupPruner, *fakeuserv1client.FakeUserV1) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tc := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 	tc.PrependReactor("delete", "groups", func(action clienttesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, nil, nil
@@ -189,6 +203,8 @@ func newTestPruner() (*LDAPGroupPruner, *fakeuserv1client.FakeUserV1) {
 	return &LDAPGroupPruner{GroupLister: newTestLister(), GroupDetector: newTestGroupDetector(), GroupNameMapper: newTestGroupNameMapper(), GroupClient: tc.Groups(), Host: newTestHost(), Out: ioutil.Discard, Err: ioutil.Discard}, tc
 }
 func newTestGroupDetector() interfaces.LDAPGroupDetector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +230,8 @@ type TestGroupDetector struct {
 }
 
 func (l *TestGroupDetector) Exists(ldapGroupUID string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

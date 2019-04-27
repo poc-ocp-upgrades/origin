@@ -24,6 +24,8 @@ func (node *OsdnNode) getRuntimeService() (kubeletapi.RuntimeService, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node.runtimeService != nil {
 		return node.runtimeService, nil
 	}
@@ -58,6 +60,8 @@ func (node *OsdnNode) getPodSandboxID(filter *kruntimeapi.PodSandboxFilter) (str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runtimeService, err := node.getRuntimeService()
 	if err != nil {
 		return "", err
@@ -72,6 +76,8 @@ func (node *OsdnNode) getPodSandboxID(filter *kruntimeapi.PodSandboxFilter) (str
 	return podSandboxList[0].Id, nil
 }
 func (node *OsdnNode) getPodSandboxes() (map[string]*kruntimeapi.PodSandbox, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

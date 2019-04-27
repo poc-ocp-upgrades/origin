@@ -19,6 +19,8 @@ func (in *Route) DeepCopyInto(out *Route) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.ObjectMeta.DeepCopyInto(&out.ObjectMeta)
@@ -27,6 +29,8 @@ func (in *Route) DeepCopyInto(out *Route) {
 	return
 }
 func (in *Route) DeepCopy() *Route {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,12 +67,16 @@ func (in *Route) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *RouteIngress) DeepCopyInto(out *RouteIngress) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,6 +116,8 @@ func (in *RouteIngress) DeepCopy() *RouteIngress {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -116,6 +126,8 @@ func (in *RouteIngress) DeepCopy() *RouteIngress {
 	return out
 }
 func (in *RouteIngressCondition) DeepCopyInto(out *RouteIngressCondition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +164,8 @@ func (in *RouteIngressCondition) DeepCopy() *RouteIngressCondition {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -160,6 +174,8 @@ func (in *RouteIngressCondition) DeepCopy() *RouteIngressCondition {
 	return out
 }
 func (in *RouteList) DeepCopyInto(out *RouteList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -201,6 +217,8 @@ func (in *RouteList) DeepCopy() *RouteList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -209,6 +227,8 @@ func (in *RouteList) DeepCopy() *RouteList {
 	return out
 }
 func (in *RouteList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -243,11 +263,15 @@ func (in *RoutePort) DeepCopyInto(out *RoutePort) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TargetPort = in.TargetPort
 	return
 }
 func (in *RoutePort) DeepCopy() *RoutePort {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,6 +294,8 @@ func (in *RoutePort) DeepCopy() *RoutePort {
 	return out
 }
 func (in *RouteSpec) DeepCopyInto(out *RouteSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,6 +346,8 @@ func (in *RouteSpec) DeepCopy() *RouteSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -328,6 +356,8 @@ func (in *RouteSpec) DeepCopy() *RouteSpec {
 	return out
 }
 func (in *RouteStatus) DeepCopyInto(out *RouteStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,6 +397,8 @@ func (in *RouteStatus) DeepCopy() *RouteStatus {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -375,6 +407,8 @@ func (in *RouteStatus) DeepCopy() *RouteStatus {
 	return out
 }
 func (in *RouteTargetReference) DeepCopyInto(out *RouteTargetReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -412,6 +446,8 @@ func (in *RouteTargetReference) DeepCopy() *RouteTargetReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -434,10 +470,14 @@ func (in *RouterShard) DeepCopyInto(out *RouterShard) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *RouterShard) DeepCopy() *RouterShard {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -474,10 +514,14 @@ func (in *TLSConfig) DeepCopyInto(out *TLSConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *TLSConfig) DeepCopy() *TLSConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

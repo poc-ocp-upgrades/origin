@@ -22,6 +22,8 @@ func TestByPriority(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sccs := []*securityv1.SecurityContextConstraints{testSCC("one", 1), testSCC("two", 2), testSCC("three", 3), testSCC("negative", -1), testSCC("super", 100)}
 	expected := []string{"super", "three", "two", "one", "negative"}
 	sort.Sort(ByPriority(sccs))
@@ -32,6 +34,8 @@ func TestByPriority(t *testing.T) {
 	}
 }
 func TestByPrioritiesScore(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func TestByPrioritiesName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sccs := []*securityv1.SecurityContextConstraints{testSCC("e", 1), testSCC("d", 1), testSCC("a", 1), testSCC("c", 1), testSCC("b", 1)}
 	expected := []string{"a", "b", "c", "d", "e"}
 	sort.Sort(ByPriority(sccs))
@@ -85,6 +91,8 @@ func TestByPrioritiesName(t *testing.T) {
 	}
 }
 func TestByPrioritiesMixedSCCs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +120,8 @@ func TestByPrioritiesMixedSCCs(t *testing.T) {
 	}
 }
 func testSCC(name string, priority int) *securityv1.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

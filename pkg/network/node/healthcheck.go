@@ -32,6 +32,8 @@ func waitForOVS(network, addr string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return utilwait.PollImmediate(time.Second, time.Minute, func() (bool, error) {
 		c, err := ovsclient.DialTimeout(network, addr, ovsDialTimeout)
 		if err != nil {
@@ -47,6 +49,8 @@ func waitForOVS(network, addr string) error {
 	})
 }
 func runOVSHealthCheck(network, addr string, healthFn func() error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

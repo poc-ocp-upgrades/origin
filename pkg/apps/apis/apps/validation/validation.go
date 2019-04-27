@@ -37,12 +37,16 @@ func ValidateDeploymentConfig(config *appsapi.DeploymentConfig) field.ErrorList 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMeta(&config.ObjectMeta, true, apimachineryvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateDeploymentConfigSpec(config.Spec)...)
 	allErrs = append(allErrs, ValidateDeploymentConfigStatus(config.Status)...)
 	return allErrs
 }
 func ValidateDeploymentConfigSpec(spec appsapi.DeploymentConfigSpec) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +120,8 @@ func getContainerImageNames(template *kapi.PodTemplateSpec) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	originalContainerImageNames := make([]string, len(template.Spec.Containers))
 	for i := range template.Spec.Containers {
 		originalContainerImageNames[i] = template.Spec.Containers[i].Image
@@ -137,11 +143,15 @@ func setContainerImageNames(template *kapi.PodTemplateSpec, originalNames []stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range template.Spec.Containers {
 		template.Spec.Containers[i].Image = originalNames[i]
 	}
 }
 func handleEmptyImageReferences(template *kapi.PodTemplateSpec, triggers []appsapi.DeploymentTriggerPolicy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -201,6 +211,8 @@ func ValidateDeploymentConfigStatus(status appsapi.DeploymentConfigStatus) field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	statusPath := field.NewPath("status")
 	allErrs = append(allErrs, kapivalidation.ValidateNonnegativeField(int64(status.LatestVersion), statusPath.Child("latestVersion"))...)
@@ -226,12 +238,16 @@ func ValidateDeploymentConfigUpdate(newConfig *appsapi.DeploymentConfig, oldConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&newConfig.ObjectMeta, &oldConfig.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateDeploymentConfig(newConfig)...)
 	allErrs = append(allErrs, ValidateDeploymentConfigStatusUpdate(newConfig, oldConfig)...)
 	return allErrs
 }
 func ValidateDeploymentConfigStatusUpdate(newConfig *appsapi.DeploymentConfig, oldConfig *appsapi.DeploymentConfig) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -274,6 +290,8 @@ func ValidateDeploymentConfigRollback(rollback *appsapi.DeploymentConfigRollback
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := field.ErrorList{}
 	if len(rollback.Name) == 0 {
 		result = append(result, field.Required(field.NewPath("name"), "name of the deployment config is missing"))
@@ -287,6 +305,8 @@ func ValidateDeploymentConfigRollback(rollback *appsapi.DeploymentConfigRollback
 	return result
 }
 func ValidateDeploymentConfigRollbackDeprecated(rollback *appsapi.DeploymentConfigRollback) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,6 +335,8 @@ func ValidateDeploymentConfigRollbackDeprecated(rollback *appsapi.DeploymentConf
 	return result
 }
 func validateDeploymentStrategy(strategy *appsapi.DeploymentStrategy, pod *kapi.PodSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -398,11 +420,15 @@ func validateCustomParams(params *appsapi.CustomDeploymentStrategyParams, fldPat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := field.ErrorList{}
 	errs = append(errs, validateEnv(params.Environment, fldPath.Child("environment"))...)
 	return errs
 }
 func validateRecreateParams(params *appsapi.RecreateDeploymentStrategyParams, pod *kapi.PodSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -433,6 +459,8 @@ func validateRecreateParams(params *appsapi.RecreateDeploymentStrategyParams, po
 	return errs
 }
 func validateLifecycleHook(hook *appsapi.LifecycleHook, pod *kapi.PodSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -492,6 +520,8 @@ func verifyTemplateImageForContainer(pod *kapi.PodSpec, containerName string) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	containers := []kapi.Container{}
 	containers = append(containers, pod.Containers...)
 	containers = append(containers, pod.InitContainers...)
@@ -522,6 +552,8 @@ func validateExecNewPod(hook *appsapi.ExecNewPodHook, fldPath *field.Path) field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := field.ErrorList{}
 	if len(hook.Command) == 0 {
 		errs = append(errs, field.Required(fldPath.Child("command"), ""))
@@ -536,6 +568,8 @@ func validateExecNewPod(hook *appsapi.ExecNewPodHook, fldPath *field.Path) field
 	return errs
 }
 func validateEnv(vars []kapi.EnvVar, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -579,6 +613,8 @@ func validateHookVolumes(volumes []string, fldPath *field.Path) field.ErrorList 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := field.ErrorList{}
 	for i, vol := range volumes {
 		vErrs := field.ErrorList{}
@@ -590,6 +626,8 @@ func validateHookVolumes(volumes []string, fldPath *field.Path) field.ErrorList 
 	return errs
 }
 func validateRollingParams(params *appsapi.RollingDeploymentStrategyParams, pod *kapi.PodSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -643,6 +681,8 @@ func validateTrigger(trigger *appsapi.DeploymentTriggerPolicy, fldPath *field.Pa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := field.ErrorList{}
 	if len(trigger.Type) == 0 {
 		errs = append(errs, field.Required(fldPath.Child("type"), ""))
@@ -657,6 +697,8 @@ func validateTrigger(trigger *appsapi.DeploymentTriggerPolicy, fldPath *field.Pa
 	return errs
 }
 func validateImageChangeParams(params *appsapi.DeploymentTriggerImageChangeParams, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -706,6 +748,8 @@ func validateImageStreamTagName(istag string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name, _, ok := imageapi.SplitImageStreamTag(istag)
 	if !ok {
 		return fmt.Errorf("must be in the form of <name>:<tag>")
@@ -716,6 +760,8 @@ func validateImageStreamTagName(istag string) error {
 	return nil
 }
 func ValidatePositiveIntOrPercent(intOrPercent intstr.IntOrString, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -755,6 +801,8 @@ func getPercentValue(intOrStringValue intstr.IntOrString) (int, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if intOrStringValue.Type != intstr.String || !IsValidPercent(intOrStringValue.StrVal) {
 		return 0, false
 	}
@@ -762,6 +810,8 @@ func getPercentValue(intOrStringValue intstr.IntOrString) (int, bool) {
 	return value, true
 }
 func getIntOrPercentValue(intOrStringValue intstr.IntOrString) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -797,6 +847,8 @@ func IsNotMoreThan100Percent(intOrStringValue intstr.IntOrString, fldPath *field
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	value, isPercent := getPercentValue(intOrStringValue)
 	if !isPercent || value <= 100 {
@@ -806,6 +858,8 @@ func IsNotMoreThan100Percent(intOrStringValue intstr.IntOrString, fldPath *field
 	return allErrs
 }
 func ValidatePositiveField(value int64, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -846,12 +900,16 @@ func IsValidPercent(percent string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return percentRegexp.MatchString(percent)
 }
 
 const isNegativeErrorMsg string = `must be non-negative`
 
 func ValidateDeploymentRequest(req *appsapi.DeploymentRequest) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -889,6 +947,8 @@ func ValidateRequestForDeploymentConfig(req *appsapi.DeploymentRequest, config *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := ValidateDeploymentRequest(req)
 	if config.Spec.Paused {
 		details := fmt.Sprintf("deployment config %q is paused - unpause to request a new deployment", config.Name)
@@ -897,6 +957,8 @@ func ValidateRequestForDeploymentConfig(req *appsapi.DeploymentRequest, config *
 	return allErrs
 }
 func ValidateDeploymentLogOptions(opts *appsapi.DeploymentLogOptions) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -939,6 +1001,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1013,5 +1096,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -30,6 +30,8 @@ func executeWithLogging(e executor, cmd []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &bytes.Buffer{}
 	err := e.Execute(cmd, nil, w, w)
 	klog.V(4).Infof("%s", w.String())
@@ -51,9 +53,13 @@ func isWindows() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return runtime.GOOS == "windows"
 }
 func hasLocalRsync() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +95,8 @@ func isExitError(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return false
 	}
@@ -96,6 +104,8 @@ func isExitError(err error) bool {
 	return exitErr
 }
 func checkRsync(e executor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,9 +137,13 @@ func checkTar(e executor) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return executeWithLogging(e, testTarCommand)
 }
 func rsyncFlagsFromOptions(o *RsyncOptions) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +203,8 @@ func tarFlagsFromOptions(o *RsyncOptions) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags := []string{}
 	if !o.Quiet {
 		flags = append(flags, "-v")
@@ -207,6 +223,8 @@ func tarFlagsFromOptions(o *RsyncOptions) []string {
 	return flags
 }
 func rsyncSpecificFlags(o *RsyncOptions) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,6 +259,8 @@ type podAPIChecker struct {
 }
 
 func (p podAPIChecker) CheckPod() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

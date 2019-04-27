@@ -42,9 +42,13 @@ func newProjects(c *ProjectClient) *projects {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &projects{client: c.RESTClient()}
 }
 func (c *projects) Get(name string, options v1.GetOptions) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,6 +68,8 @@ func (c *projects) Get(name string, options v1.GetOptions) (result *project.Proj
 	return
 }
 func (c *projects) List(opts v1.ListOptions) (result *project.ProjectList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +107,8 @@ func (c *projects) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -109,6 +117,8 @@ func (c *projects) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Resource("projects").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *projects) Create(projectResource *project.Project) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,11 +152,15 @@ func (c *projects) Update(projectResource *project.Project) (result *project.Pro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &project.Project{}
 	err = c.client.Put().Resource("projects").Name(projectResource.Name).Body(projectResource).Do().Into(result)
 	return
 }
 func (c *projects) UpdateStatus(projectResource *project.Project) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,9 +194,13 @@ func (c *projects) Delete(name string, options *v1.DeleteOptions) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.client.Delete().Resource("projects").Name(name).Body(options).Do().Error()
 }
 func (c *projects) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,6 +222,8 @@ func (c *projects) DeleteCollection(options *v1.DeleteOptions, listOptions v1.Li
 	return c.client.Delete().Resource("projects").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *projects) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *project.Project, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

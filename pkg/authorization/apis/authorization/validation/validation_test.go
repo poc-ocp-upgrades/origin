@@ -23,6 +23,8 @@ func TestValidateRoleBinding(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := ValidateRoleBinding(&authorizationapi.RoleBinding{ObjectMeta: metav1.ObjectMeta{Namespace: metav1.NamespaceDefault, Name: "master"}, RoleRef: kapi.ObjectReference{Namespace: "master", Name: "valid"}, Subjects: []kapi.ObjectReference{{Name: "validsaname", Kind: authorizationapi.ServiceAccountKind}, {Name: "valid@username", Kind: authorizationapi.UserKind}, {Name: "system:admin", Kind: authorizationapi.SystemUserKind}, {Name: "valid@groupname", Kind: authorizationapi.GroupKind}, {Name: "system:authenticated", Kind: authorizationapi.SystemGroupKind}}}, true)
 	if len(errs) != 0 {
 		t.Errorf("expected success: %v", errs)
@@ -49,6 +51,8 @@ func TestValidateRoleBinding(t *testing.T) {
 	}
 }
 func TestValidateRoleBindingUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +108,8 @@ func TestValidateRole(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := ValidateRole(&authorizationapi.Role{ObjectMeta: metav1.ObjectMeta{Namespace: metav1.NamespaceDefault, Name: "master"}}, true)
 	if len(errs) != 0 {
 		t.Errorf("expected success: %v", errs)
@@ -130,6 +136,8 @@ func TestValidateRole(t *testing.T) {
 	}
 }
 func TestValidateRoleUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

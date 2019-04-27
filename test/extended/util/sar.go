@@ -24,6 +24,8 @@ func WaitForSelfSAR(interval, timeout time.Duration, c kclientset.Interface, sel
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.PollImmediate(interval, timeout, func() (bool, error) {
 		res, err := c.AuthorizationV1().SelfSubjectAccessReviews().Create(&authorizationapiv1.SelfSubjectAccessReview{Spec: selfSAR})
 		if err != nil {

@@ -71,9 +71,13 @@ func NewPruneOptions(streams genericclioptions.IOStreams) *PruneOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &PruneOptions{Whitelist: []string{}, IOStreams: streams}
 }
 func NewCmdPrune(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +108,8 @@ func NewCmdPrune(name, fullName string, f kcmdutil.Factory, streams genericcliop
 	return cmd
 }
 func (o *PruneOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +162,8 @@ func (o *PruneOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := ldap.ValidateLDAPSyncConfig(o.Config)
 	if o.GroupClient == nil {
 		results.Errors = append(results.Errors, field.Required(field.NewPath("groupInterface"), ""))
@@ -166,6 +174,8 @@ func (o *PruneOptions) Validate() error {
 	return nil
 }
 func (o *PruneOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +231,8 @@ func buildPruneBuilder(clientConfig ldapclient.Config, pruneConfig *config.LDAPS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case pruneConfig.RFC2307Config != nil:
 		return &RFC2307Builder{ClientConfig: clientConfig, Config: pruneConfig.RFC2307Config}, nil
@@ -233,6 +245,8 @@ func buildPruneBuilder(clientConfig ldapclient.Config, pruneConfig *config.LDAPS
 	}
 }
 func (o *PruneOptions) GetWhitelist() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,6 +278,8 @@ func (o *PruneOptions) GetBlacklist() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.Blacklist
 }
 func (o *PruneOptions) GetClient() userv1typedclient.GroupInterface {
@@ -281,9 +297,13 @@ func (o *PruneOptions) GetClient() userv1typedclient.GroupInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.GroupClient.Groups()
 }
 func (o *PruneOptions) GetGroupNameMappings() map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

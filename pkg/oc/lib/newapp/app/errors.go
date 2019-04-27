@@ -28,12 +28,16 @@ func (e ErrNoMatch) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(e.Qualifier) != 0 {
 		return fmt.Sprintf("unable to locate any %s with name %q: %s", e.Type, e.Value, e.Qualifier)
 	}
 	return fmt.Sprintf("unable to locate any %s with name %q", e.Type, e.Value)
 }
 func (e ErrNoMatch) Suggestion(commandName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,9 +76,13 @@ func (e ErrPartialMatch) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("only a partial match was found for %q: %q", e.Value, e.Match.Name)
 }
 func (e ErrPartialMatch) Suggestion(commandName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,10 +128,14 @@ func (e ErrNoTagsFound) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream := fmt.Sprintf("%s/%s", e.Match.ImageStream.Namespace, e.Match.ImageStream.Name)
 	return fmt.Sprintf("no tags found on matching image stream: %q", imageStream)
 }
 func (e ErrNoTagsFound) Suggestion(commandName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +181,8 @@ func (e ErrMultipleMatches) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("multiple images or templates matched %q", e.Value)
 }
 
@@ -191,12 +205,16 @@ func (e CircularOutputReferenceError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("output image of %q should be different than input", e.Reference)
 }
 
 type CircularReferenceError struct{ Reference string }
 
 func (e CircularReferenceError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

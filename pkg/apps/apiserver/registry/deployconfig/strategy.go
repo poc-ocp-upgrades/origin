@@ -37,9 +37,13 @@ func (strategy) NamespaceScoped() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,9 +75,13 @@ func (strategy) AllowUnconditionalUpdate() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (s strategy) Export(ctx context.Context, obj runtime.Object, exact bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,6 +114,8 @@ func (strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc := obj.(*appsapi.DeploymentConfig)
 	dc.Generation = 1
 	dc.Status = appsapi.DeploymentConfigStatus{}
@@ -116,6 +126,8 @@ func (strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
 	}
 }
 func (strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,8 +169,12 @@ func (strategy) Canonicalize(obj runtime.Object) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,9 +206,13 @@ func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) fie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateDeploymentConfigUpdate(obj.(*appsapi.DeploymentConfig), old.(*appsapi.DeploymentConfig))
 }
 func (strategy) CheckGracefulDelete(obj runtime.Object, options *metav1.DeleteOptions) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +247,8 @@ func (s legacyStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.strategy.PrepareForCreate(ctx, obj)
 }
 
@@ -247,12 +269,16 @@ func (s legacyStrategy) DefaultGarbageCollectionPolicy(ctx context.Context) rest
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return rest.OrphanDependents
 }
 
 type groupStrategy struct{ strategy }
 
 func (s groupStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -291,6 +317,8 @@ func (statusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Obj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newDc := obj.(*appsapi.DeploymentConfig)
 	oldDc := old.(*appsapi.DeploymentConfig)
 	newDc.Spec = oldDc.Spec
@@ -311,9 +339,13 @@ func (statusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Objec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateDeploymentConfigStatusUpdate(obj.(*appsapi.DeploymentConfig), old.(*appsapi.DeploymentConfig))
 }
 func appsV1DeploymentConfigLayeredDefaults(dc *appsapi.DeploymentConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

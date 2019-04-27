@@ -52,6 +52,8 @@ func (f *fakeSubjectAccessReviewRegistry) Create(subjectAccessReview *authorizat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 
@@ -60,6 +62,8 @@ type fakeUser struct{}
 var _ user.Info = &fakeUser{}
 
 func (u *fakeUser) GetName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +95,13 @@ func (u *fakeUser) GetUID() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "uid"
 }
 func (u *fakeUser) GetGroups() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +133,13 @@ func (u *fakeUser) GetExtra() map[string][]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string][]string{}
 }
 func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,6 +178,8 @@ func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
 type statusError interface{ Status() metav1.Status }
 
 func TestGetImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,6 +260,8 @@ func TestGetImageStreamTagDIR(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	expDockerImageReference := "foo/bar/baz:latest"
 	image := &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "10"}, DockerImageReference: "foo/bar/baz:different"}
 	repo := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "test"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{Created: metav1.Date(2015, 3, 24, 9, 38, 0, 0, time.UTC), DockerImageReference: expDockerImageReference, Image: "10"}}}}}}
@@ -263,6 +279,8 @@ func TestGetImageStreamTagDIR(t *testing.T) {
 	}
 }
 func TestDeleteImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -324,6 +342,8 @@ func TestDeleteImageStreamTag(t *testing.T) {
 	}
 }
 func TestCreateImageStreamTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

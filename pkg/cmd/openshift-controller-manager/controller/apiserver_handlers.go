@@ -25,9 +25,13 @@ func newBypassAuthorizer(auth kauthorizer.Authorizer, paths ...string) kauthoriz
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return bypassAuthorizer{paths: sets.NewString(paths...), authorizer: auth}
 }
 func (a bypassAuthorizer) Authorize(attributes kauthorizer.Attributes) (allowed kauthorizer.Decision, reason string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

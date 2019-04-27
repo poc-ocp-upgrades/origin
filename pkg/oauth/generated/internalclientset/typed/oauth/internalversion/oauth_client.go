@@ -29,9 +29,13 @@ func (c *OauthClient) OAuthAccessTokens() OAuthAccessTokenInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newOAuthAccessTokens(c)
 }
 func (c *OauthClient) OAuthAuthorizeTokens() OAuthAuthorizeTokenInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ func (c *OauthClient) OAuthClients() OAuthClientInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newOAuthClients(c)
 }
 func (c *OauthClient) OAuthClientAuthorizations() OAuthClientAuthorizationInterface {
@@ -80,9 +86,13 @@ func (c *OauthClient) OAuthClientAuthorizations() OAuthClientAuthorizationInterf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newOAuthClientAuthorizations(c)
 }
 func NewForConfig(c *rest.Config) (*OauthClient, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +132,8 @@ func NewForConfigOrDie(c *rest.Config) *OauthClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := NewForConfig(c)
 	if err != nil {
 		panic(err)
@@ -143,9 +155,13 @@ func New(c rest.Interface) *OauthClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &OauthClient{c}
 }
 func setConfigDefaults(config *rest.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +194,8 @@ func setConfigDefaults(config *rest.Config) error {
 	return nil
 }
 func (c *OauthClient) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

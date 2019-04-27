@@ -23,6 +23,8 @@ func TestValidate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName	string
 		options		func(genericclioptions.IOStreams) *CreateSecretOptions
@@ -50,6 +52,8 @@ func TestValidate(t *testing.T) {
 	}
 }
 func TestCreateSecret(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +186,8 @@ func TestSecretTypeSpecified(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	options := CreateSecretOptions{Name: "any", SecretTypeName: string(kapi.SecretTypeDockercfg), Sources: []string{"./bsFixtures/www.google.com"}, IOStreams: genericclioptions.NewTestIOStreamsDiscard()}
 	secret, err := options.BundleSecret()
 	if err != nil {
@@ -192,6 +198,8 @@ func TestSecretTypeSpecified(t *testing.T) {
 	}
 }
 func TestSecretTypeDiscovered(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

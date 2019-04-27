@@ -17,6 +17,8 @@ func TestQuote(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tt := range []struct {
 		id		string
 		expected	string

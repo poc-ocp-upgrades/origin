@@ -39,9 +39,13 @@ func newTestStatus(out io.Writer, includeSuccessfulOutput bool, total int, timeo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testStatus{out: out, total: total, timeout: timeout, monitor: m, includeSuccessfulOutput: includeSuccessfulOutput}
 }
 func (s *testStatus) Failure() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func (s *testStatus) Fprintf(format string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	if s.index < s.total {
@@ -83,6 +89,8 @@ func (s *testStatus) Fprintf(format string) {
 	fmt.Fprintf(s.out, format, s.failures, s.index, s.total)
 }
 func (s *testStatus) Run(ctx context.Context, test *testCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +186,8 @@ func summarizeTests(tests []*testCase) (int, int, int, []*testCase) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var pass, fail, skip int
 	var failingTests []*testCase
 	for _, t := range tests {
@@ -194,6 +204,8 @@ func summarizeTests(tests []*testCase) (int, int, int, []*testCase) {
 	return pass, fail, skip, failingTests
 }
 func sortedTests(tests []*testCase) []*testCase {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

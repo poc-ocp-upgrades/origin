@@ -32,6 +32,8 @@ func TestRolling_deployInitial(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	initialStrategyInvoked := false
 	strategy := &RollingDeploymentStrategy{rcClient: fake.NewSimpleClientset().CoreV1(), eventClient: fake.NewSimpleClientset().CoreV1(), initialStrategy: &testStrategy{deployFn: func(from *corev1.ReplicationController, to *corev1.ReplicationController, desiredReplicas int, updateAcceptor strat.UpdateAcceptor) error {
 		initialStrategyInvoked = true
@@ -53,6 +55,8 @@ func TestRolling_deployInitial(t *testing.T) {
 	}
 }
 func TestRolling_deployRolling(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,9 +151,13 @@ func (h *hookExecutorImpl) Execute(hook *appsv1.LifecycleHook, rc *corev1.Replic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return h.executeFunc(hook, rc, suffix, label)
 }
 func TestRolling_deployRollingHooks(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +236,8 @@ func TestRolling_deployInitialHooks(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var hookError error
 	strategy := &RollingDeploymentStrategy{rcClient: fake.NewSimpleClientset().CoreV1(), eventClient: fake.NewSimpleClientset().CoreV1(), initialStrategy: &testStrategy{deployFn: func(from *corev1.ReplicationController, to *corev1.ReplicationController, desiredReplicas int, updateAcceptor strat.UpdateAcceptor) error {
 		return nil
@@ -282,9 +292,13 @@ func (s *testStrategy) DeployWithAcceptor(from *corev1.ReplicationController, to
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.deployFn(from, to, desiredReplicas, updateAcceptor)
 }
 func mkintp(i int) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +317,8 @@ func mkintp(i int) *int64 {
 	return &v
 }
 func rollingParams(preFailurePolicy, postFailurePolicy appsv1.LifecycleHookFailurePolicy) *appsv1.RollingDeploymentStrategyParams {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -342,6 +358,8 @@ func getUpdateAcceptor(timeout time.Duration, minReadySeconds int32) strat.Updat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testAcceptor{acceptFn: func(deployment *corev1.ReplicationController) error {
 		return nil
 	}}
@@ -352,6 +370,8 @@ type testAcceptor struct {
 }
 
 func (t *testAcceptor) Accept(deployment *corev1.ReplicationController) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -35,9 +35,13 @@ func (b *RFC2307Builder) GetGroupLister() (interfaces.LDAPGroupLister, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return b.getRFC2307LDAPInterface()
 }
 func (b *RFC2307Builder) GetGroupNameMapper() (interfaces.LDAPGroupNameMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,9 +80,13 @@ func (b *RFC2307Builder) GetUserNameMapper() (interfaces.LDAPUserNameMapper, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return syncgroups.NewUserNameMapper(b.Config.UserNameAttributes), nil
 }
 func (b *RFC2307Builder) GetGroupMemberExtractor() (interfaces.LDAPMemberExtractor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +118,8 @@ func (b *RFC2307Builder) getRFC2307LDAPInterface() (*rfc2307.LDAPInterface, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.rfc2307LDAPInterface != nil {
 		return b.rfc2307LDAPInterface, nil
 	}
@@ -125,6 +135,8 @@ func (b *RFC2307Builder) getRFC2307LDAPInterface() (*rfc2307.LDAPInterface, erro
 	return b.rfc2307LDAPInterface, nil
 }
 func (b *RFC2307Builder) GetGroupDetector() (interfaces.LDAPGroupDetector, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

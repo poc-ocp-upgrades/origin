@@ -20,6 +20,8 @@ func GetOpenShiftAPIServerConfigFileReferences(config *openshiftcontrolplanev1.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config == nil {
 		return []*string{}
 	}
@@ -29,6 +31,8 @@ func GetOpenShiftAPIServerConfigFileReferences(config *openshiftcontrolplanev1.O
 	return refs
 }
 func GetOpenShiftControllerConfigFileReferences(config *openshiftcontrolplanev1.OpenShiftControllerManagerConfig) []*string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

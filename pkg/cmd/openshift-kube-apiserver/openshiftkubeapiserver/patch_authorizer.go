@@ -29,6 +29,8 @@ func NewAuthorizer(versionedInformers informers.SharedInformerFactory) authorize
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rbacInformers := versionedInformers.Rbac().V1()
 	scopeLimitedAuthorizer := scope.NewAuthorizer(rbacInformers.ClusterRoles().Lister())
 	kubeAuthorizer := rbacauthorizer.New(&rbacauthorizer.RoleGetter{Lister: rbacInformers.Roles().Lister()}, &rbacauthorizer.RoleBindingLister{Lister: rbacInformers.RoleBindings().Lister()}, &rbacauthorizer.ClusterRoleGetter{Lister: rbacInformers.ClusterRoles().Lister()}, &rbacauthorizer.ClusterRoleBindingLister{Lister: rbacInformers.ClusterRoleBindings().Lister()})

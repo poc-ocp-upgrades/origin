@@ -26,6 +26,8 @@ func NewStore(name string, secure bool, secrets ...[]byte) Store {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cookie := sessions.NewCookieStore(secrets...)
 	cookie.Options.MaxAge = 0
 	cookie.Options.HttpOnly = true
@@ -33,6 +35,8 @@ func NewStore(name string, secure bool, secrets ...[]byte) Store {
 	return &store{name: name, store: cookie}
 }
 func (s *store) Get(r *http.Request) Values {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -55,6 +59,8 @@ func (s *store) Get(r *http.Request) Values {
 	return session.Values
 }
 func (s *store) Put(w http.ResponseWriter, v Values) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

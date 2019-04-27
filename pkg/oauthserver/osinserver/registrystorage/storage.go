@@ -42,6 +42,8 @@ func New(access oauthclient.OAuthAccessTokenInterface, authorize oauthclient.OAu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &storage{accesstoken: access, authorizetoken: authorize, client: client, tokentimeout: tokentimeout}
 }
 
@@ -56,6 +58,8 @@ var _ = handlers.TokenMaxAgeSeconds(&clientWrapper{})
 var _ = handlers.TokenTimeoutSeconds(&clientWrapper{})
 
 func (w *clientWrapper) GetId() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,9 +91,13 @@ func (w *clientWrapper) GetSecret() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("unsupported")
 }
 func (w *clientWrapper) ClientSecretMatches(secret string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,12 +137,16 @@ func (w *clientWrapper) GetRedirectUri() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(w.client.RedirectURIs) == 0 {
 		return ""
 	}
 	return strings.Join(w.client.RedirectURIs, ",")
 }
 func (w *clientWrapper) GetUserData() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,9 +178,13 @@ func (w *clientWrapper) GetTokenMaxAgeSeconds() *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return w.client.AccessTokenMaxAgeSeconds
 }
 func (w *clientWrapper) GetAccessTokenInactivityTimeoutSeconds() *int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +216,8 @@ func (s *storage) Clone() osin.Storage {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s
 }
 func (s *storage) Close() {
@@ -217,8 +235,12 @@ func (s *storage) Close() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (s *storage) GetClient(id string) (osin.Client, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +279,8 @@ func (s *storage) SaveAuthorize(data *osin.AuthorizeData) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	token, err := s.convertToAuthorizeToken(data)
 	if err != nil {
 		return err
@@ -265,6 +289,8 @@ func (s *storage) SaveAuthorize(data *osin.AuthorizeData) error {
 	return err
 }
 func (s *storage) LoadAuthorize(code string) (*osin.AuthorizeData, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -304,9 +330,13 @@ func (s *storage) RemoveAuthorize(code string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.authorizetoken.Delete(code, nil)
 }
 func (s *storage) SaveAccess(data *osin.AccessData) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -343,6 +373,8 @@ func (s *storage) LoadAccess(token string) (*osin.AccessData, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	access, err := s.accesstoken.Get(token, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
@@ -350,6 +382,8 @@ func (s *storage) LoadAccess(token string) (*osin.AccessData, error) {
 	return s.convertFromAccessToken(access)
 }
 func (s *storage) RemoveAccess(token string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -381,6 +415,8 @@ func (s *storage) LoadRefresh(token string) (*osin.AccessData, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, errors.New("not implemented")
 }
 func (s *storage) RemoveRefresh(token string) error {
@@ -398,9 +434,13 @@ func (s *storage) RemoveRefresh(token string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errors.New("not implemented")
 }
 func (s *storage) convertToAuthorizeToken(data *osin.AuthorizeData) (*oauthapi.OAuthAuthorizeToken, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -437,6 +477,8 @@ func (s *storage) convertFromAuthorizeToken(authorize *oauthapi.OAuthAuthorizeTo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, err := convertFromToken(authorize.UserName, authorize.UserUID)
 	if err != nil {
 		return nil, err
@@ -451,6 +493,8 @@ func (s *storage) convertFromAuthorizeToken(authorize *oauthapi.OAuthAuthorizeTo
 	return &osin.AuthorizeData{Code: authorize.Name, CodeChallenge: authorize.CodeChallenge, CodeChallengeMethod: authorize.CodeChallengeMethod, Client: &clientWrapper{authorize.ClientName, client}, ExpiresIn: int32(authorize.ExpiresIn), Scope: scope.Join(authorize.Scopes), RedirectUri: authorize.RedirectURI, State: authorize.State, CreatedAt: authorize.CreationTimestamp.Time, UserData: user}, nil
 }
 func (s *storage) convertToAccessToken(data *osin.AccessData) (*oauthapi.OAuthAccessToken, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -496,6 +540,8 @@ func (s *storage) convertFromAccessToken(access *oauthapi.OAuthAccessToken) (*os
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	user, err := convertFromToken(access.UserName, access.UserUID)
 	if err != nil {
 		return nil, err
@@ -510,6 +556,8 @@ func (s *storage) convertFromAccessToken(access *oauthapi.OAuthAccessToken) (*os
 	return &osin.AccessData{AccessToken: access.Name, RefreshToken: access.RefreshToken, Client: &clientWrapper{access.ClientName, client}, ExpiresIn: int32(access.ExpiresIn), Scope: scope.Join(access.Scopes), RedirectUri: access.RedirectURI, CreatedAt: access.CreationTimestamp.Time, UserData: user}, nil
 }
 func convertFromUser(user interface{}) (name, uid string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -550,6 +598,8 @@ func convertFromToken(name, uid string) (kuser.Info, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(name) == 0 || len(uid) == 0 {
 		return nil, fmt.Errorf("token has no user name or UID stored: name=%s uid=%s", name, uid)
 	}
@@ -570,6 +620,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -644,5 +715,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

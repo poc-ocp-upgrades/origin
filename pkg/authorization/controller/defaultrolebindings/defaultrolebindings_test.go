@@ -30,6 +30,8 @@ func TestSync(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name				string
 		startingNamespaces		[]*corev1.Namespace

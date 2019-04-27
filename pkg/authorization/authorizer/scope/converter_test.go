@@ -26,6 +26,8 @@ func TestUserEvaluator(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name		string
 		scopes		[]string
@@ -51,6 +53,8 @@ func TestUserEvaluator(t *testing.T) {
 	}
 }
 func TestClusterRoleEvaluator(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +111,8 @@ func TestEscalationProtection(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name		string
 		scopes		[]string
@@ -145,6 +151,8 @@ func (f *fakePolicyGetter) List(label labels.Selector) ([]*rbacv1.ClusterRole, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []*rbacv1.ClusterRole{}
 	for _, v := range f.clusterRoles {
 		ret = append(ret, &v)
@@ -152,6 +160,8 @@ func (f *fakePolicyGetter) List(label labels.Selector) ([]*rbacv1.ClusterRole, e
 	return ret, f.err
 }
 func (f *fakePolicyGetter) Get(id string) (*rbacv1.ClusterRole, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

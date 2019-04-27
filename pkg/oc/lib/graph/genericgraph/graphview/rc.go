@@ -31,6 +31,8 @@ func AllReplicationControllers(g osgraph.Graph, excludeNodeIDs IntSet) ([]Replic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	rcViews := []ReplicationController{}
 	for _, uncastNode := range g.NodesByKind(kubenodes.ReplicationControllerNodeKind) {
@@ -58,6 +60,8 @@ func (rc *ReplicationController) MaxRecentContainerRestarts() int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var maxRestarts int32
 	for _, pod := range rc.OwnedPods {
 		for _, status := range pod.Status.ContainerStatuses {
@@ -69,6 +73,8 @@ func (rc *ReplicationController) MaxRecentContainerRestarts() int32 {
 	return maxRestarts
 }
 func NewReplicationController(g osgraph.Graph, rcNode *kubenodes.ReplicationControllerNode) (ReplicationController, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +118,8 @@ func NewReplicationController(g osgraph.Graph, rcNode *kubenodes.ReplicationCont
 	return rcView, covered
 }
 func MaxRecentContainerRestartsForRC(g osgraph.Graph, rcNode *kubenodes.ReplicationControllerNode) int32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

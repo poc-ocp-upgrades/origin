@@ -32,9 +32,13 @@ func NewUnionSubjectChecker(checkers []SubjectChecker) UnionSubjectChecker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return UnionSubjectChecker(checkers)
 }
 func (checkers UnionSubjectChecker) Allowed(subject rbac.Subject, ctx *RoleBindingRestrictionContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,9 +89,13 @@ func newRoleBindingRestrictionContext(ns string, kc kubernetes.Interface, userCl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RoleBindingRestrictionContext{namespace: ns, kclient: kc, userClient: userClient, groupCache: groupCache, userToLabelSet: map[string]labels.Set{}, groupToLabelSet: map[string]labels.Set{}}, nil
 }
 func (ctx *RoleBindingRestrictionContext) labelSetForUser(subject rbac.Subject) (labels.Set, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,12 +139,16 @@ func (ctx *RoleBindingRestrictionContext) groupsForUser(subject rbac.Subject) ([
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if subject.Kind != rbac.UserKind {
 		return []*userapi.Group{}, fmt.Errorf("not a user: %q", subject.Name)
 	}
 	return ctx.groupCache.GroupsFor(subject.Name)
 }
 func (ctx *RoleBindingRestrictionContext) labelSetForGroup(subject rbac.Subject) (labels.Set, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,9 +197,13 @@ func NewUserSubjectChecker(userRestriction *authorizationapi.UserRestriction) Us
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return UserSubjectChecker{userRestriction: userRestriction}
 }
 func (checker UserSubjectChecker) Allowed(subject rbac.Subject, ctx *RoleBindingRestrictionContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,9 +276,13 @@ func NewGroupSubjectChecker(groupRestriction *authorizationapi.GroupRestriction)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GroupSubjectChecker{groupRestriction: groupRestriction}
 }
 func (checker GroupSubjectChecker) Allowed(subject rbac.Subject, ctx *RoleBindingRestrictionContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -322,9 +342,13 @@ func NewServiceAccountSubjectChecker(serviceAccountRestriction *authorizationapi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ServiceAccountSubjectChecker{serviceAccountRestriction: serviceAccountRestriction}
 }
 func (checker ServiceAccountSubjectChecker) Allowed(subject rbac.Subject, ctx *RoleBindingRestrictionContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -363,6 +387,8 @@ func (checker ServiceAccountSubjectChecker) Allowed(subject rbac.Subject, ctx *R
 	return false, nil
 }
 func NewSubjectChecker(spec *authorizationapi.RoleBindingRestrictionSpec) (SubjectChecker, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

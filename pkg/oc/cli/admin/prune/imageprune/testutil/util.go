@@ -48,9 +48,13 @@ func ImageList(images ...imagev1.Image) imagev1.ImageList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return imagev1.ImageList{Items: images}
 }
 func AgedImage(id, ref string, ageInMinutes int64, layers ...string) imagev1.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func CreatedImage(id, ref string, created time.Time, layers ...string) imagev1.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(layers) == 0 {
 		layers = []string{Layer1, Layer2, Layer3, Layer4, Layer5}
 	}
@@ -90,6 +96,8 @@ func CreatedImage(id, ref string, created time.Time, layers ...string) imagev1.I
 	return image
 }
 func SizedImage(id, ref string, size int64, configName *string) imagev1.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,9 +136,13 @@ func Image(id, ref string) imagev1.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AgedImage(id, ref, 120)
 }
 func ImageWithLayers(id, ref string, configName *string, layers ...string) imagev1.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +185,8 @@ func UnmanagedImage(id, ref string, hasAnnotations bool, annotation, value strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image := ImageWithLayers(id, ref, nil)
 	if !hasAnnotations {
 		image.Annotations = nil
@@ -183,6 +197,8 @@ func UnmanagedImage(id, ref string, hasAnnotations bool, annotation, value strin
 	return image
 }
 func PodList(pods ...corev1.Pod) corev1.PodList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,9 +230,13 @@ func Pod(namespace, name string, phase corev1.PodPhase, containerImages ...strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AgedPod(namespace, name, phase, -1, containerImages...)
 }
 func AgedPod(namespace, name string, phase corev1.PodPhase, ageInMinutes int64, containerImages ...string) corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -238,6 +258,8 @@ func AgedPod(namespace, name string, phase corev1.PodPhase, ageInMinutes int64, 
 	return pod
 }
 func PodSpecInternal(containerImages ...string) corev1.PodSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -274,6 +296,8 @@ func PodSpec(containerImages ...string) corev1.PodSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := corev1.PodSpec{Containers: []corev1.Container{}}
 	for _, image := range containerImages {
 		container := corev1.Container{Image: image}
@@ -282,6 +306,8 @@ func PodSpec(containerImages ...string) corev1.PodSpec {
 	return spec
 }
 func StreamList(streams ...imagev1.ImageStream) imagev1.ImageStreamList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,9 +339,13 @@ func Stream(registry, namespace, name string, tags []imagev1.NamedTagEventList) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AgedStream(registry, namespace, name, -1, tags)
 }
 func AgedStream(registry, namespace, name string, ageInMinutes int64, tags []imagev1.NamedTagEventList) imagev1.ImageStream {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -351,10 +381,14 @@ func StreamPtr(registry, namespace, name string, tags []imagev1.NamedTagEventLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := Stream(registry, namespace, name, tags)
 	return &s
 }
 func Tag(name string, events ...imagev1.TagEvent) imagev1.NamedTagEventList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -386,9 +420,13 @@ func TagEvent(id, ref string) imagev1.TagEvent {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return imagev1.TagEvent{Image: id, DockerImageReference: ref}
 }
 func YoungTagEvent(id, ref string, created metav1.Time) imagev1.TagEvent {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -420,9 +458,13 @@ func RCList(rcs ...corev1.ReplicationController) corev1.ReplicationControllerLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return corev1.ReplicationControllerList{Items: rcs}
 }
 func RC(namespace, name string, containerImages ...string) corev1.ReplicationController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -454,9 +496,13 @@ func DSList(dss ...kappsv1.DaemonSet) kappsv1.DaemonSetList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kappsv1.DaemonSetList{Items: dss}
 }
 func DS(namespace, name string, containerImages ...string) kappsv1.DaemonSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -488,9 +534,13 @@ func DeploymentList(deployments ...kappsv1.Deployment) kappsv1.DeploymentList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kappsv1.DeploymentList{Items: deployments}
 }
 func Deployment(namespace, name string, containerImages ...string) kappsv1.Deployment {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -522,9 +572,13 @@ func DCList(dcs ...appsv1.DeploymentConfig) appsv1.DeploymentConfigList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsv1.DeploymentConfigList{Items: dcs}
 }
 func DC(namespace, name string, containerImages ...string) appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -556,9 +610,13 @@ func RSList(rss ...kappsv1.ReplicaSet) kappsv1.ReplicaSetList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kappsv1.ReplicaSetList{Items: rss}
 }
 func RS(namespace, name string, containerImages ...string) kappsv1.ReplicaSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -590,9 +648,13 @@ func BCList(bcs ...buildv1.BuildConfig) buildv1.BuildConfigList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildConfigList{Items: bcs}
 }
 func BC(namespace, name, strategyType, fromKind, fromNamespace, fromName string) buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -624,9 +686,13 @@ func BuildList(builds ...buildv1.Build) buildv1.BuildList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildList{Items: builds}
 }
 func Build(namespace, name, strategyType, fromKind, fromNamespace, fromName string) buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -658,6 +724,8 @@ func LimitList(limits ...int64) []*corev1.LimitRange {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list := make([]*corev1.LimitRange, 0, len(limits))
 	for _, limit := range limits {
 		quantity := resource.NewQuantity(limit, resource.BinarySI)
@@ -666,6 +734,8 @@ func LimitList(limits ...int64) []*corev1.LimitRange {
 	return list
 }
 func CommonSpec(strategyType, fromKind, fromNamespace, fromName string) buildv1.CommonSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -706,6 +776,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -780,5 +871,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

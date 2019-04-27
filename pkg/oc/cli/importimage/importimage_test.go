@@ -27,6 +27,8 @@ func TestCreateImageImport(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		name			string
 		from			string
@@ -93,6 +95,8 @@ func TestWasError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		isi		*imagev1.ImageStreamImport
 		expected	bool
@@ -104,6 +108,8 @@ func TestWasError(t *testing.T) {
 	}
 }
 func listEqual(actual, expected []imagev1.ImageImportSpec) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +142,8 @@ func listEqual(actual, expected []imagev1.ImageImportSpec) bool {
 	return true
 }
 func newBool(a bool) *bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

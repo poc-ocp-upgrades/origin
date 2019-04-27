@@ -29,6 +29,8 @@ func (c *FakePodSecurityPolicySelfSubjectReviews) Create(podSecurityPolicySelfSu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewCreateAction(podsecuritypolicyselfsubjectreviewsResource, c.ns, podSecurityPolicySelfSubjectReview), &security.PodSecurityPolicySelfSubjectReview{})
 	if obj == nil {
 		return nil, err

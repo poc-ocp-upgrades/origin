@@ -98,9 +98,13 @@ func NewSyncOptions(streams genericclioptions.IOStreams) *SyncOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SyncOptions{Whitelist: []string{}, Type: string(GroupSyncSourceLDAP), PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme).WithDefaultOutput("yaml"), IOStreams: streams}
 }
 func NewCmdSync(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +136,8 @@ func NewCmdSync(name, fullName string, f kcmdutil.Factory, streams genericcliopt
 	return cmd
 }
 func (o *SyncOptions) Complete(f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,6 +216,8 @@ func buildOpenShiftGroupNameList(args []string, file string, nameMapping map[str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rawList, err := buildNameList(args, file)
 	if err != nil {
 		return nil, err
@@ -228,6 +236,8 @@ func buildOpenShiftGroupNameList(args []string, file string, nameMapping map[str
 	return namesList, nil
 }
 func buildNameList(args []string, file string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,6 +280,8 @@ func decodeSyncConfigFromFile(configFile string) (*config.LDAPSyncConfig, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var config config.LDAPSyncConfig
 	yamlConfig, err := ioutil.ReadFile(configFile)
 	if err != nil {
@@ -285,6 +297,8 @@ func decodeSyncConfigFromFile(configFile string) (*config.LDAPSyncConfig, error)
 	return &config, nil
 }
 func openshiftGroupNamesOnlyList(list []string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -333,6 +347,8 @@ func readLines(path string) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, fmt.Errorf("could not open file %s: %v", path, err)
@@ -361,9 +377,13 @@ func ValidateSource(source GroupSyncSource) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return sets.NewString(AllowedSourceTypes...).Has(string(source))
 }
 func (o *SyncOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +425,8 @@ func (o *SyncOptions) CreateErrorHandler() syncerror.Handler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	components := []syncerror.Handler{}
 	if o.Config.RFC2307Config != nil {
 		if o.Config.RFC2307Config.TolerateMemberOutOfScopeErrors {
@@ -417,6 +439,8 @@ func (o *SyncOptions) CreateErrorHandler() syncerror.Handler {
 	return syncerror.NewCompoundHandler(components...)
 }
 func (o *SyncOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -507,6 +531,8 @@ func buildSyncBuilder(clientConfig ldapclient.Config, syncConfig *config.LDAPSyn
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case syncConfig.RFC2307Config != nil:
 		return &RFC2307Builder{ClientConfig: clientConfig, Config: syncConfig.RFC2307Config, ErrorHandler: errorHandler}, nil
@@ -533,6 +559,8 @@ func getOpenShiftGroupListerMapper(host string, info OpenShiftGroupNameRestricti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(info.GetWhitelist()) != 0 {
 		return syncgroups.NewOpenShiftGroupLister(info.GetWhitelist(), info.GetBlacklist(), host, info.GetClient()), nil
 	} else {
@@ -540,6 +568,8 @@ func getOpenShiftGroupListerMapper(host string, info OpenShiftGroupNameRestricti
 	}
 }
 func getLDAPGroupLister(syncBuilder SyncBuilder, info GroupNameRestrictions) (interfaces.LDAPGroupLister, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -585,6 +615,8 @@ func getGroupNameMapper(syncBuilder SyncBuilder, info MappedNameRestrictions) (i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	syncNameMapper, err := syncBuilder.GetGroupNameMapper()
 	if err != nil {
 		return nil, err
@@ -599,6 +631,8 @@ func getGroupNameMapper(syncBuilder SyncBuilder, info MappedNameRestrictions) (i
 	return syncNameMapper, nil
 }
 func (o *SyncOptions) GetWhitelist() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -630,6 +664,8 @@ func (o *SyncOptions) GetBlacklist() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.Blacklist
 }
 func (o *SyncOptions) GetClient() userv1typedclient.GroupInterface {
@@ -647,9 +683,13 @@ func (o *SyncOptions) GetClient() userv1typedclient.GroupInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.GroupClient.Groups()
 }
 func (o *SyncOptions) GetGroupNameMappings() map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -219,6 +219,8 @@ func findIngress(route *routev1.Route, name string) *routev1.RouteIngress {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, ingress := range route.Status.Ingress {
 		if ingress.RouterName == name {
 			return &route.Status.Ingress[i]
@@ -241,11 +243,15 @@ func scaledRouter(image string, args []string) *extensionsv1beta1.ReplicaSet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	one := int64(1)
 	scale := int32(3)
 	return &extensionsv1beta1.ReplicaSet{ObjectMeta: metav1.ObjectMeta{Name: "router"}, Spec: extensionsv1beta1.ReplicaSetSpec{Replicas: &scale, Selector: &metav1.LabelSelector{MatchLabels: map[string]string{"app": "router"}}, Template: corev1.PodTemplateSpec{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{"app": "router"}}, Spec: corev1.PodSpec{TerminationGracePeriodSeconds: &one, Containers: []corev1.Container{{Env: []corev1.EnvVar{{Name: "NAME", ValueFrom: &corev1.EnvVarSource{FieldRef: &corev1.ObjectFieldSelector{FieldPath: "metadata.name"}}}}, Name: "router", Image: image, Args: args}}}}}}
 }
 func outputIngress(routes ...routev1.Route) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -286,6 +292,8 @@ func verifyCommandEquivalent(c clientset.Interface, rs *extensionsv1beta1.Replic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selector, err := metav1.LabelSelectorAsSelector(rs.Spec.Selector)
 	o.Expect(err).NotTo(o.HaveOccurred())
 	podList, err := c.CoreV1().Pods(rs.Namespace).List(metav1.ListOptions{LabelSelector: selector.String()})
@@ -309,6 +317,8 @@ func verifyCommandEquivalent(c clientset.Interface, rs *extensionsv1beta1.Replic
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
 func waitForReadyReplicaSet(c clientset.Interface, ns, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -37,6 +37,8 @@ func (r *Resolvers) ImageSourceResolver() app.Resolver {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolver := app.PerfectMatchWeightedResolver{}
 	if r.ImageStreamByAnnotationSearcher != nil {
 		resolver = append(resolver, app.WeightedResolver{Searcher: r.ImageStreamByAnnotationSearcher, Weight: 0.0})
@@ -50,6 +52,8 @@ func (r *Resolvers) ImageSourceResolver() app.Resolver {
 	return resolver
 }
 func (r *Resolvers) DockerfileResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +95,13 @@ func (r *Resolvers) PipelineResolver() app.Resolver {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return app.PipelineResolver{}
 }
 func (r *Resolvers) SourceResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +144,8 @@ type ResolvedComponents struct {
 }
 
 func Resolve(appConfig *AppConfig) (*ResolvedComponents, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,6 +240,8 @@ func AddSourceRepositoriesToRefBuilder(b *app.ReferenceBuilder, c *ComponentInpu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := g.Strategy
 	if strategy == newapp.StrategyUnspecified {
 		strategy = newapp.StrategySource
@@ -260,6 +272,8 @@ func AddSourceRepositoriesToRefBuilder(b *app.ReferenceBuilder, c *ComponentInpu
 	return result, kutilerrors.NewAggregate(errs)
 }
 func AddDockerfileToSourceRepositories(b *app.ReferenceBuilder, dockerfile string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +323,8 @@ func DetectSource(repositories []*app.SourceRepository, d app.Detector, g *Gener
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, repo := range repositories {
 		err := repo.Detect(d, g.Strategy == newapp.StrategyDocker || g.Strategy == newapp.StrategyPipeline)
@@ -334,6 +350,8 @@ func DetectSource(repositories []*app.SourceRepository, d app.Detector, g *Gener
 	return kutilerrors.NewAggregate(errs)
 }
 func AddComponentInputsToRefBuilder(b *app.ReferenceBuilder, r *Resolvers, c *ComponentInputs, g *GenerationInputs, s, i *[]string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +454,8 @@ func AddImageSourceRepository(sourceRepos app.SourceRepositories, r app.Resolver
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(g.SourceImage) == 0 {
 		return nil, sourceRepos, nil
 	}
@@ -479,6 +499,8 @@ func detectPartialMatches(components app.ComponentReferences) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, ref := range components {
 		input := ref.Input()
@@ -489,6 +511,8 @@ func detectPartialMatches(components app.ComponentReferences) error {
 	return kutilerrors.NewAggregate(errs)
 }
 func InferBuildTypes(components app.ComponentReferences, g *GenerationInputs) (app.ComponentReferences, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -538,6 +562,8 @@ func InferBuildTypes(components app.ComponentReferences, g *GenerationInputs) (a
 	return components, kutilerrors.NewAggregate(errs)
 }
 func EnsureHasSource(components app.ComponentReferences, repositories app.SourceRepositories, g *GenerationInputs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -602,6 +628,8 @@ func EnsureHasSource(components app.ComponentReferences, repositories app.Source
 	return nil
 }
 func AddMissingComponentsToRefBuilder(b *app.ReferenceBuilder, repositories app.SourceRepositories, dockerfileResolver, sourceResolver, pipelineResolver app.Resolver, g *GenerationInputs) (app.ComponentReferences, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

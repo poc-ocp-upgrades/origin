@@ -128,9 +128,13 @@ func NewTriggersOptions(streams genericclioptions.IOStreams) *TriggersOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TriggersOptions{PrintFlags: genericclioptions.NewPrintFlags("triggers updated").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdTriggers(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +177,8 @@ func NewCmdTriggers(fullName string, f kcmdutil.Factory, streams genericclioptio
 	return cmd
 }
 func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,6 +270,8 @@ func (o *TriggersOptions) count() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	if o.FromConfig {
 		count++
@@ -303,6 +311,8 @@ func (o *TriggersOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := o.count()
 	switch {
 	case o.Auto && o.Manual:
@@ -321,6 +331,8 @@ func (o *TriggersOptions) Validate() error {
 	return nil
 }
 func (o *TriggersOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -401,6 +413,8 @@ func (o *TriggersOptions) printTriggers(infos []*resource.Info) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(o.Out, 0, 2, 2, ' ', 0)
 	defer w.Flush()
 	fmt.Fprintf(w, "NAME\tTYPE\tVALUE\tAUTO\n")
@@ -449,6 +463,8 @@ func (o *TriggersOptions) printTriggers(infos []*resource.Info) error {
 	return nil
 }
 func (o *TriggersOptions) updateTriggers(triggers *TriggerDefinition) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -577,12 +593,16 @@ func defaultNamespace(namespace, defaultNamespace string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if namespace == defaultNamespace {
 		return ""
 	}
 	return namespace
 }
 func NewAnnotationTriggers(obj runtime.Object) (*TriggerDefinition, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -644,6 +664,8 @@ func NewDeploymentConfigTriggers(config *appsv1.DeploymentConfig) *TriggerDefini
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &TriggerDefinition{}
 	for _, trigger := range config.Spec.Triggers {
 		switch trigger.Type {
@@ -656,6 +678,8 @@ func NewDeploymentConfigTriggers(config *appsv1.DeploymentConfig) *TriggerDefini
 	return t
 }
 func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -705,6 +729,8 @@ func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
 	return t
 }
 func (t *TriggerDefinition) Apply(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -882,6 +908,8 @@ func triggerMatchesBuildImageChange(trigger ImageChangeTrigger, strategyTrigger 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if imageChange == nil {
 		return false
 	}
@@ -909,6 +937,8 @@ func filterBuildImageTriggers(src []buildv1.BuildTriggerPolicy, trigger ImageCha
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var dst []buildv1.BuildTriggerPolicy
 	for i := range src {
 		if triggerMatchesBuildImageChange(trigger, strategyTrigger, src[i].ImageChange) {
@@ -919,6 +949,8 @@ func filterBuildImageTriggers(src []buildv1.BuildTriggerPolicy, trigger ImageCha
 	return dst
 }
 func filterDeploymentTriggers(src []appsv1.DeploymentTriggerPolicy, types ...appsv1.DeploymentTriggerType) []appsv1.DeploymentTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -960,6 +992,8 @@ func strategyTrigger(config *buildv1.BuildConfig) *ImageChangeTrigger {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if from := getInputReference(config.Spec.Strategy); from != nil {
 		if from.Kind == "ImageStreamTag" {
 			from.Namespace = defaultNamespace(from.Namespace, config.Namespace)
@@ -969,6 +1003,8 @@ func strategyTrigger(config *buildv1.BuildConfig) *ImageChangeTrigger {
 	return nil
 }
 func mergeDeployTriggers(dst, src []appsv1.DeploymentTriggerPolicy) []appsv1.DeploymentTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1011,6 +1047,8 @@ func findDeployTrigger(dst []appsv1.DeploymentTriggerPolicy, trigger appsv1.Depl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range dst {
 		if reflect.DeepEqual(dst[i], trigger) {
 			return i
@@ -1019,6 +1057,8 @@ func findDeployTrigger(dst []appsv1.DeploymentTriggerPolicy, trigger appsv1.Depl
 	return -1
 }
 func mergeBuildTriggers(dst, src []buildv1.BuildTriggerPolicy) []buildv1.BuildTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1061,6 +1101,8 @@ func findBuildTrigger(dst []buildv1.BuildTriggerPolicy, trigger buildv1.BuildTri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if trigger.ImageChange != nil {
 		trigger.ImageChange = &buildv1.ImageChangeTrigger{From: trigger.ImageChange.From}
 	}
@@ -1075,6 +1117,8 @@ func findBuildTrigger(dst []buildv1.BuildTriggerPolicy, trigger buildv1.BuildTri
 	return -1
 }
 func UpdateTriggersForObject(obj runtime.Object, fn func(*TriggerDefinition) error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1116,6 +1160,8 @@ func UpdateTriggersForObject(obj runtime.Object, fn func(*TriggerDefinition) err
 	}
 }
 func getInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

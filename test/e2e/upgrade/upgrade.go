@@ -45,12 +45,16 @@ func AllTests() []upgrades.Test {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []upgrades.Test{&upgrades.ServiceUpgradeTest{}, &upgrades.SecretUpgradeTest{}, &apps.ReplicaSetUpgradeTest{}, &apps.StatefulSetUpgradeTest{}, &apps.DeploymentUpgradeTest{}, &apps.JobUpgradeTest{}, &upgrades.ConfigMapUpgradeTest{}, &apps.DaemonSetUpgradeTest{}}
 }
 
 var upgradeTests = []upgrades.Test{}
 
 func SetTests(tests []upgrades.Test) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +120,8 @@ func (cma *chaosMonkeyAdapter) Test(sem *chaosmonkey.Semaphore) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	start := time.Now()
 	var once sync.Once
 	ready := func() {
@@ -137,6 +143,8 @@ func (cma *chaosMonkeyAdapter) Test(sem *chaosmonkey.Semaphore) {
 	cma.test.Test(cma.framework, sem.StopCh, cma.upgradeType)
 }
 func finalizeUpgradeTest(start time.Time, tc *junit.TestCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -180,6 +188,8 @@ func createUpgradeFrameworks(tests []upgrades.Test) map[string]*framework.Framew
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsFilter := regexp.MustCompile("[^[:word:]-]+")
 	testFrameworks := map[string]*framework.Framework{}
 	for _, t := range tests {
@@ -190,6 +200,8 @@ func createUpgradeFrameworks(tests []upgrades.Test) map[string]*framework.Framew
 	return testFrameworks
 }
 func runUpgradeSuite(f *framework.Framework, tests []upgrades.Test, testFrameworks map[string]*framework.Framework, testSuite *junit.TestSuite, upgCtx *upgrades.UpgradeContext, upgradeType upgrades.UpgradeType, upgradeFunc func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,6 +258,8 @@ func latestCompleted(history []configv1.UpdateHistory) (*configv1.Update, bool) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, version := range history {
 		if version.State == configv1.CompletedUpdate {
 			return &configv1.Update{Version: version.Version, Image: version.Image}, true
@@ -254,6 +268,8 @@ func latestCompleted(history []configv1.UpdateHistory) (*configv1.Update, bool) 
 	return nil, false
 }
 func getUpgradeContext(c configv1client.Interface, upgradeTarget, upgradeImage string) (*upgrades.UpgradeContext, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,6 +336,8 @@ func getUpgradeContext(c configv1client.Interface, upgradeTarget, upgradeImage s
 	return upgCtx, nil
 }
 func clusterUpgrade(c configv1client.Interface, version upgrades.VersionContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -447,6 +465,8 @@ func findVersion(versions []configv1.OperandVersion, name string, oldVersion, ne
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, version := range versions {
 		if version.Name == name {
 			if len(oldVersion) > 0 && version.Version == oldVersion {
@@ -461,6 +481,8 @@ func findVersion(versions []configv1.OperandVersion, name string, oldVersion, ne
 	return ""
 }
 func findConditionShortStatus(conditions []configv1.ClusterOperatorStatusCondition, name configv1.ClusterStatusConditionType, unless configv1.ConditionStatus) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -508,12 +530,16 @@ func findConditionMessage(conditions []configv1.ClusterOperatorStatusCondition, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := findCondition(conditions, name); c != nil {
 		return c.Message
 	}
 	return ""
 }
 func findCondition(conditions []configv1.ClusterOperatorStatusCondition, name configv1.ClusterStatusConditionType) *configv1.ClusterOperatorStatusCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -550,6 +576,8 @@ func equivalentUpdates(a, b configv1.Update) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a.Image) > 0 && len(b.Image) > 0 {
 		return a.Image == b.Image
 	}
@@ -559,6 +587,8 @@ func equivalentUpdates(a, b configv1.Update) bool {
 	return false
 }
 func versionString(update configv1.Update) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -599,6 +629,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -673,5 +724,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

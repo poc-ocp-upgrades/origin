@@ -64,6 +64,8 @@ func (rl RepoLinks) Add(repo string, links ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rl[repo] = append(rl[repo], links...)
 }
 
@@ -75,6 +77,8 @@ type RegistryStorageFiles struct {
 }
 
 func (sfs *RegistryStorageFiles) ToPaths(root string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,6 +130,8 @@ func (sfs *RegistryStorageFiles) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if sfs == nil {
 		return 0
 	}
@@ -139,6 +145,8 @@ func (sfs *RegistryStorageFiles) Len() int {
 	return count
 }
 func repoToPath(root, repository string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,10 +178,14 @@ func repoLinkToPath(root, fileType, repository, dgst string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d := godigest.Digest(dgst)
 	return path.Join(root, fmt.Sprintf("repositories/%s/_%ss/%s/%s/link", repository, fileType, d.Algorithm(), d.Hex()))
 }
 func blobToPath(root, dgst string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +226,8 @@ func GetImageLabels(c imagetypedclientset.ImageStreamImageInterface, imageRepoNa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, imageID, err := imageapi.ParseImageStreamImageName(imageRef)
 	image, err := c.Get(imageapi.JoinImageStreamImage(imageRepoName, imageID), metav1.GetOptions{})
 	if err != nil {
@@ -222,6 +236,8 @@ func GetImageLabels(c imagetypedclientset.ImageStreamImageInterface, imageRepoNa
 	return image.Image.DockerImageMetadata.Config.Labels, nil
 }
 func BuildAndPushImageOfSizeWithBuilder(oc *exutil.CLI, dClient *dockerclient.Client, namespace, name, tag string, size uint64, numberOfLayers int, shouldSucceed bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +325,8 @@ func BuildAndPushImageOfSizeWithDocker(oc *exutil.CLI, dClient *dockerclient.Cli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageName, image, err := buildImageOfSizeWithDocker(oc, dClient, "scratch", name, tag, size, numberOfLayers, outSink)
 	if err != nil {
 		return "", "", err
@@ -334,6 +352,8 @@ func BuildAndPushChildImage(oc *exutil.CLI, dClient *dockerclient.Client, parent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageName, image, err := buildImageOfSizeWithDocker(oc, dClient, parent, name, tag, defaultLayerSize, numberOfNewLayers, outSink)
 	if err != nil {
 		return "", "", err
@@ -345,6 +365,8 @@ func BuildAndPushChildImage(oc *exutil.CLI, dClient *dockerclient.Client, parent
 	return digest, image.ID, nil
 }
 func buildImageOfSizeWithDocker(oc *exutil.CLI, dClient *dockerclient.Client, parent, name, tag string, size uint64, numberOfLayers int, outSink io.Writer) (string, *dockerclient.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -393,6 +415,8 @@ func buildImageOfSizeWithDocker(oc *exutil.CLI, dClient *dockerclient.Client, pa
 	return imageName, image, nil
 }
 func pushImageWithDocker(oc *exutil.CLI, dClient *dockerclient.Client, image *dockerclient.Image, name, tag string, outSink io.Writer, shouldSucceed bool, removeBuiltImage bool) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -463,6 +487,8 @@ func createRandomBlob(dest string, size uint64) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var letters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 	f, err := os.Create(dest)
 	if err != nil {
@@ -483,6 +509,8 @@ func createRandomBlob(dest string, size uint64) error {
 var dockerVersion = ""
 
 func getDockerVersion(logger io.Writer) (major, minor int, version string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -536,9 +564,13 @@ func calculateRoughDataSize(wantedImageSize uint64, numberOfLayers int) uint64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return uint64(float64(wantedImageSize) / (float64(numberOfLayers) * layerSizeMultiplierForLatestDocker))
 }
 func MirrorBlobInRegistry(oc *exutil.CLI, dgst godigest.Digest, repository string, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -617,9 +649,13 @@ func IsEmptyDigest(dgst godigest.Digest) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return dgst == digestSha256EmptyTar || dgst == digestSHA256GzippedEmptyTar
 }
 func pathExistsInRegistry(oc *exutil.CLI, pthComponents ...string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -660,6 +696,8 @@ func IsBlobStoredInRegistry(oc *exutil.CLI, dgst godigest.Digest, repository str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	present, err := pathExistsInRegistry(oc, "blobs", string(dgst.Algorithm()), dgst.Hex()[0:2], dgst.Hex(), "data")
 	if err != nil || !present {
 		return false, false, err
@@ -671,6 +709,8 @@ func IsBlobStoredInRegistry(oc *exutil.CLI, dgst godigest.Digest, repository str
 	return present, presentInRepository, err
 }
 func RunHardPrune(oc *exutil.CLI, dryRun bool) (*RegistryStorageFiles, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -767,6 +807,8 @@ func AssertDeletedStorageFiles(deleted, expected *RegistryStorageFiles) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errors []error
 	deletedSet := sets.NewString(deleted.ToPaths("")...)
 	expectedPaths := sets.NewString(expected.ToPaths("")...)
@@ -809,9 +851,13 @@ func NewCleanUpContainer(oc *exutil.CLI) *CleanUpContainer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CleanUpContainer{OC: oc, imageNames: sets.NewString(), imageIDs: sets.NewString(), isTags: sets.NewString(), isNames: sets.NewString()}
 }
 func (c *CleanUpContainer) AddImage(name, id, isTag string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -851,9 +897,13 @@ func (c *CleanUpContainer) AddImageStream(isName string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.isNames.Insert(isName)
 }
 func (c *CleanUpContainer) Run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

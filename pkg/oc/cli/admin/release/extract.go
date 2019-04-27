@@ -36,9 +36,13 @@ func NewExtractOptions(streams genericclioptions.IOStreams) *ExtractOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ExtractOptions{IOStreams: streams, Directory: "."}
 }
 func NewExtract(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +127,8 @@ func (o *ExtractOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(args) == 0 && len(o.From) == 0:
 		cfg, err := f.ToRESTConfig()
@@ -156,6 +162,8 @@ func (o *ExtractOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args [
 	return nil
 }
 func (o *ExtractOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -262,6 +270,8 @@ func (o *ExtractOptions) Run() error {
 	}
 }
 func (o *ExtractOptions) extractGit(dir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

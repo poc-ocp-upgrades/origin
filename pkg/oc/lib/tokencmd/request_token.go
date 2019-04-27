@@ -58,9 +58,13 @@ func RequestToken(clientCfg *restclient.Config, reader io.Reader, defaultUsernam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewRequestTokenOptions(clientCfg, reader, defaultUsername, defaultPassword, false).RequestToken()
 }
 func NewRequestTokenOptions(clientCfg *restclient.Config, reader io.Reader, defaultUsername string, defaultPassword string, tokenFlow bool) *RequestTokenOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,6 +112,8 @@ func (o *RequestTokenOptions) SetDefaultOsinConfig() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.OsinConfig != nil {
 		return fmt.Errorf("osin config is already set to: %#v", *o.OsinConfig)
 	}
@@ -139,6 +145,8 @@ func (o *RequestTokenOptions) SetDefaultOsinConfig() error {
 	return nil
 }
 func (o *RequestTokenOptions) RequestToken() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +265,8 @@ func oauthTokenFlow(location string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := url.Parse(location)
 	if err != nil {
 		return "", err
@@ -275,6 +285,8 @@ func oauthTokenFlow(location string) (string, error) {
 	return fragmentValues.Get("access_token"), nil
 }
 func oauthCodeFlow(client *osincli.Client, authorizeRequest *osincli.AuthorizeRequest, location string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -326,12 +338,16 @@ func osinToOAuthError(err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if osinErr, ok := err.(*osincli.Error); ok {
 		return createOAuthError(osinErr.Id, osinErr.Description)
 	}
 	return err
 }
 func oauthErrFromValues(values url.Values) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,9 +383,13 @@ func createOAuthError(errorCode, errorDescription string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("%s %s", errorCode, errorDescription)
 }
 func request(rt http.RoundTripper, requestURL string, requestHeaders http.Header) (*http.Response, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,6 +415,8 @@ func request(rt http.RoundTripper, requestURL string, requestHeaders http.Header
 	return rt.RoundTrip(req)
 }
 func transportWithSystemRoots(issuer string, clientConfig *restclient.Config) (http.RoundTripper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

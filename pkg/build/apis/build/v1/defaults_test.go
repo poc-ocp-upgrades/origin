@@ -23,6 +23,8 @@ func TestDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		External	runtime.Object
 		Ok		func(runtime.Object) bool
@@ -79,6 +81,8 @@ func TestDefaults(t *testing.T) {
 	}
 }
 func roundTrip(t *testing.T, obj runtime.Object) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

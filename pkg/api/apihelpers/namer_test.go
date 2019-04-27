@@ -21,6 +21,8 @@ func TestGetName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 10; i++ {
 		shortName := randSeq(rand.Intn(kvalidation.DNS1123SubdomainMaxLength-1) + 1)
 		longName := randSeq(kvalidation.DNS1123SubdomainMaxLength + rand.Intn(100))
@@ -34,6 +36,8 @@ func TestGetName(t *testing.T) {
 	}
 }
 func TestGetNameIsDifferent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func TestGetNameReturnShortNames(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	base := randSeq(32)
 	for maxLength := 0; maxLength < len(base)+2; maxLength++ {
 		for suffixLen := 0; suffixLen <= maxLength+1; suffixLen++ {
@@ -91,6 +97,8 @@ func TestGetNameReturnShortNames(t *testing.T) {
 var letters = []rune("abcdefghijklmnopqrstuvwxyz0123456789-")
 
 func randSeq(n int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

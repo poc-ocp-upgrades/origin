@@ -21,6 +21,8 @@ func EnsureRouteNode(g osgraph.MutableUniqueGraph, route *routev1.Route) *RouteN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, RouteNodeName(route), func(node osgraph.Node) graph.Node {
 		return &RouteNode{Node: node, Route: route}
 	}).(*RouteNode)

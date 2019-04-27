@@ -36,6 +36,8 @@ func NewCmdCreateRoute(fullName string, f kcmdutil.Factory, streams genericcliop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := &cobra.Command{Use: "route", Short: "Expose containers externally via secured routes", Long: fmt.Sprintf(routeLong, fullName), Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmd.AddCommand(NewCmdCreateEdgeRoute(fullName, f, streams))
 	cmd.AddCommand(NewCmdCreatePassthroughRoute(fullName, f, streams))
@@ -72,9 +74,13 @@ func NewCreateRouteSubcommandOptions(ioStreams genericclioptions.IOStreams) *Cre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateRouteSubcommandOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: ioStreams}
 }
 func (o *CreateRouteSubcommandOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,6 +131,8 @@ func (o *CreateRouteSubcommandOptions) Complete(f kcmdutil.Factory, cmd *cobra.C
 	return nil
 }
 func resolveRouteName(args []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

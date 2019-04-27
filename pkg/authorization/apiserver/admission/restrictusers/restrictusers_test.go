@@ -33,6 +33,8 @@ func TestAdmission(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		userAlice		= userapi.User{ObjectMeta: metav1.ObjectMeta{Name: "Alice", Labels: map[string]string{"foo": "bar"}}}
 		userAliceSubj		= rbac.Subject{Kind: rbac.UserKind, Name: "Alice"}

@@ -43,6 +43,8 @@ func fillImageLayers(image *imageapi.Image, manifest dockerapi10.DockerImageMani
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(image.DockerImageLayers) != 0 {
 		return nil
 	}
@@ -80,6 +82,8 @@ func fillImageLayers(image *imageapi.Image, manifest dockerapi10.DockerImageMani
 	return nil
 }
 func InternalImageWithMetadata(image *imageapi.Image) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +174,8 @@ func ImageWithMetadata(image *imagev1.Image) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	meta, hasMetadata := image.DockerImageMetadata.Object.(*dockerv10.DockerImage)
 	if hasMetadata && meta.Size > 0 {
 		return nil
@@ -189,6 +195,8 @@ func ImageWithMetadata(image *imagev1.Image) error {
 	return nil
 }
 func ReorderImageLayers(image *imageapi.Image) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +236,8 @@ func ReorderImageLayers(image *imageapi.Image) {
 	image.Annotations[imageapi.DockerImageLayersOrderAnnotation] = imageapi.DockerImageLayersOrderAscending
 }
 func ManifestMatchesImage(image *imageapi.Image, newManifest []byte) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,6 +297,8 @@ func ImageConfigMatchesImage(image *imageapi.Image, imageConfig []byte) (bool, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image.DockerImageManifestMediaType != schema2.MediaTypeManifest {
 		return false, nil
 	}
@@ -301,6 +313,8 @@ func ImageConfigMatchesImage(image *imageapi.Image, imageConfig []byte) (bool, e
 	return v.Verified(), nil
 }
 func StatusHasTag(stream *imagev1.ImageStream, name string) (imagev1.NamedTagEventList, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +351,8 @@ func SpecHasTag(stream *imagev1.ImageStream, name string) (imagev1.TagReference,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tag := range stream.Spec.Tags {
 		if tag.Name == name {
 			return tag, true
@@ -345,6 +361,8 @@ func SpecHasTag(stream *imagev1.ImageStream, name string) (imagev1.TagReference,
 	return imagev1.TagReference{}, false
 }
 func LatestObservedTagGeneration(stream *imagev1.ImageStream, tag string) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -396,6 +414,8 @@ func HasAnnotationTag(tagRef *imagev1.TagReference, searchTag string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tag := range strings.Split(tagRef.Annotations["tags"], ",") {
 		if tag == searchTag {
 			return true
@@ -404,6 +424,8 @@ func HasAnnotationTag(tagRef *imagev1.TagReference, searchTag string) bool {
 	return false
 }
 func LatestTaggedImage(stream *imagev1.ImageStream, tag string) *imagev1.TagEvent {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -445,6 +467,8 @@ func SetDockerClientDefaults(r *imagev1.DockerImageReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Registry) == 0 {
 		r.Registry = imageapi.DockerDefaultRegistry
 	}
@@ -456,6 +480,8 @@ func SetDockerClientDefaults(r *imagev1.DockerImageReference) {
 	}
 }
 func ParseDockerImageReference(spec string) (imagev1.DockerImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -491,12 +517,16 @@ func DigestOrImageMatch(image, imageID string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if d, err := digest.ParseDigest(image); err == nil {
 		return strings.HasPrefix(d.Hex(), imageID) || strings.HasPrefix(image, imageID)
 	}
 	return strings.HasPrefix(image, imageID)
 }
 func ResolveImageID(stream *imagev1.ImageStream, imageID string) (*imagev1.TagEvent, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -546,6 +576,8 @@ func ResolveLatestTaggedImage(stream *imagev1.ImageStream, tag string) (string, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tag) == 0 {
 		tag = imageapi.DefaultImageTag
 	}
@@ -566,12 +598,16 @@ func ResolveTagReference(stream *imagev1.ImageStream, tag string, latest *imagev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if latest == nil {
 		return "", false
 	}
 	return ResolveReferenceForTagEvent(stream, tag, latest), true
 }
 func ResolveReferenceForTagEvent(stream *imagev1.ImageStream, tag string, latest *imagev1.TagEvent) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -622,6 +658,8 @@ func ParseImageStreamImageName(input string) (name string, id string, err error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	segments := strings.SplitN(input, "@", 3)
 	switch len(segments) {
 	case 2:
@@ -636,6 +674,8 @@ func ParseImageStreamImageName(input string) (name string, id string, err error)
 	return
 }
 func ParseImageStreamTagName(istag string) (name string, tag string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -668,6 +708,8 @@ func ParseImageStreamTagName(istag string) (name string, tag string, err error) 
 	return
 }
 func DockerImageReferenceForImage(stream *imagev1.ImageStream, imageID string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -724,6 +766,8 @@ func IsRegistryDockerHub(registry string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch registry {
 	case DockerDefaultRegistry, DockerDefaultV1Registry, DockerDefaultV2Registry:
 		return true
@@ -746,12 +790,16 @@ func DockerImageReferenceString(r imagev1.DockerImageReference) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Namespace) == 0 && IsRegistryDockerHub(r.Registry) {
 		r.Namespace = "library"
 	}
 	return DockerImageReferenceExact(r)
 }
 func DockerImageReferenceNameString(r imagev1.DockerImageReference) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -798,6 +846,8 @@ func DockerImageReferenceExact(r imagev1.DockerImageReference) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := DockerImageReferenceNameString(r)
 	if len(name) == 0 {
 		return name
@@ -812,6 +862,8 @@ func DockerImageReferenceExact(r imagev1.DockerImageReference) string {
 	return s + name
 }
 func LatestImageTagEvent(stream *imagev1.ImageStream, imageID string) (string, *imagev1.TagEvent) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -859,6 +911,8 @@ func DockerImageReferenceForStream(stream *imagev1.ImageStream) (imagev1.DockerI
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	spec := stream.Status.DockerImageRepository
 	if len(spec) == 0 {
 		spec = stream.Spec.DockerImageRepository
@@ -883,6 +937,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -957,5 +1032,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

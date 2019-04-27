@@ -29,6 +29,8 @@ func BuildTopics(pages Pages) []Topic {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := make(map[string]Topic)
 	for _, page := range pages {
 		path := page.OutputPath()

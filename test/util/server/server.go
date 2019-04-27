@@ -78,6 +78,8 @@ func guardMaster() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	startLock.Lock()
 	defer startLock.Unlock()
 	if startedMaster {
@@ -90,6 +92,8 @@ const ServiceAccountWaitTimeout = 30 * time.Second
 const PodCreationWaitTimeout = 10 * time.Second
 
 func FindAvailableBindAddress(lowPort, highPort int) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +135,8 @@ func FindAvailableBindAddress(lowPort, highPort int) (string, error) {
 	return "", fmt.Errorf("Could not find available port in the range %d-%d", lowPort, highPort)
 }
 func setupStartOptions() *start.MasterArgs {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,9 +195,13 @@ func DefaultMasterOptions() (*configapi.MasterConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DefaultMasterOptionsWithTweaks()
 }
 func DefaultMasterOptionsWithTweaks() (*configapi.MasterConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -262,6 +272,8 @@ func CreateMasterCerts(masterArgs *start.MasterArgs) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostnames, err := masterArgs.GetServerCertHostnames()
 	if err != nil {
 		return err
@@ -298,6 +310,8 @@ func MasterEtcdClients(config *configapi.MasterConfig) (*etcdclientv3.Client, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	etcd3, err := etcd.MakeEtcdClientV3(config.EtcdClientInfo)
 	if err != nil {
 		return nil, err
@@ -305,6 +319,8 @@ func MasterEtcdClients(config *configapi.MasterConfig) (*etcdclientv3.Client, er
 	return etcd3, nil
 }
 func CleanupMasterEtcd(t *testing.T, config *configapi.MasterConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -333,6 +349,8 @@ func CleanupMasterEtcd(t *testing.T, config *configapi.MasterConfig) {
 	}
 }
 func StartConfiguredMasterWithOptions(masterConfig *configapi.MasterConfig, stopCh <-chan struct{}) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -417,6 +435,8 @@ func startEtcd(etcdConfig *configapi.EtcdConfig, etcdClientInfo configapi.EtcdCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if etcdConfig != nil && len(etcdConfig.StorageDir) > 0 {
 		os.RemoveAll(etcdConfig.StorageDir)
 	}
@@ -435,6 +455,8 @@ func startEtcd(etcdConfig *configapi.EtcdConfig, etcdClientInfo configapi.EtcdCo
 var configGroupVersioner = schema.GroupVersions([]schema.GroupVersion{{Group: "autoscaling.openshift.io", Version: "v1"}, {Group: "image.openshift.io", Version: "v1"}, {Group: "network.openshift.io", Version: "v1"}, {Group: "scheduling.openshift.io", Version: "v1"}, {Group: "project.openshift.io", Version: "v1"}, legacyconfigv1.LegacySchemeGroupVersion})
 
 func startKubernetesAPIServer(masterConfig *configapi.MasterConfig, clientConfig *restclient.Config, stopCh <-chan struct{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -493,6 +515,8 @@ func startKubernetesAPIServer(masterConfig *configapi.MasterConfig, clientConfig
 	return nil
 }
 func startOpenShiftAPIServer(masterConfig *configapi.MasterConfig, clientConfig *restclient.Config, stopCh <-chan struct{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -609,6 +633,8 @@ func startKubernetesControllers(masterConfig *configapi.MasterConfig, adminKubeC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmdLineArgs := map[string][]string{}
 	cmdLineArgs["controllers"] = []string{"*", "-ttl", "-bootstrapsigner", "-tokencleaner"}
 	cmdLineArgs["service-account-private-key-file"] = []string{masterConfig.ServiceAccountConfig.PrivateKeyFile}
@@ -652,6 +678,8 @@ func startKubernetesControllers(masterConfig *configapi.MasterConfig, adminKubeC
 	return nil
 }
 func startOpenShiftControllers(masterConfig *configapi.MasterConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -720,6 +748,8 @@ func waitForServerHealthy(url *url.URL) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := cmdutil.WaitForSuccessfulDial(url.Scheme == "https", "tcp", url.Host, 100*time.Millisecond, 1*time.Second, 60); err != nil {
 		return err
 	}
@@ -752,6 +782,8 @@ func isServerPathHealthy(url url.URL, path string, code int) (bool, string, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	transport := knet.SetTransportDefaults(&http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}})
 	url.Path = path
 	req, err := http.NewRequest("GET", url.String(), nil)
@@ -765,6 +797,8 @@ func isServerPathHealthy(url url.URL, path string, code int) (bool, string, erro
 	return resp.StatusCode == code, string(content), nil
 }
 func serviceAccountSecretsExist(clientset kubernetes.Interface, namespace string, sa *corev1.ServiceAccount) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -813,6 +847,8 @@ func WaitForPodCreationServiceAccounts(clientset kubernetes.Interface, namespace
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := WaitForServiceAccounts(clientset, namespace, []string{bootstrappolicy.DefaultServiceAccountName}); err != nil {
 		return err
 	}
@@ -847,6 +883,8 @@ func WaitForServiceAccounts(clientset kubernetes.Interface, namespace string, ac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceAccounts := clientset.CoreV1().ServiceAccounts(namespace)
 	return wait.Poll(time.Second, ServiceAccountWaitTimeout, func() (bool, error) {
 		for _, account := range accounts {
@@ -862,6 +900,8 @@ func WaitForServiceAccounts(clientset kubernetes.Interface, namespace string, ac
 	})
 }
 func CreateNewProject(clientConfig *restclient.Config, projectName, adminUser string) (kubernetes.Interface, *restclient.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

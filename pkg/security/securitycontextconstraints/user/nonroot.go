@@ -25,6 +25,8 @@ func NewRunAsNonRoot(options *securityapi.RunAsUserStrategyOptions) (RunAsUserSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &nonRoot{}, nil
 }
 func (s *nonRoot) Generate(pod *api.Pod, container *api.Container) (*int64, error) {
@@ -42,9 +44,13 @@ func (s *nonRoot) Generate(pod *api.Pod, container *api.Container) (*int64, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *nonRoot) Validate(fldPath *field.Path, _ *api.Pod, _ *api.Container, runAsNonRoot *bool, runAsUser *int64) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -20,6 +20,8 @@ func RandomBits(bits int) []byte {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	size := bits / 8
 	if bits%8 != 0 {
 		size++
@@ -45,9 +47,13 @@ func RandomBitsString(bits int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return base64.RawURLEncoding.EncodeToString(RandomBits(bits))
 }
 func Random256BitsString() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func NewUpdatePodSpecForObjectFn(delegate polymorphichelpers.UpdatePodSpecForObj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj runtime.Object, fn func(*corev1.PodSpec) error) (bool, error) {
 		switch t := obj.(type) {
 		case *oappsv1.DeploymentConfig:

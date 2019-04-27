@@ -27,6 +27,8 @@ func TestAddDNS(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, addr, err := runLocalUDPServer("127.0.0.1:0")
 	if err != nil {
 		t.Fatalf("unable to run test server: %v", err)
@@ -83,6 +85,8 @@ func TestAddDNS(t *testing.T) {
 	}
 }
 func TestUpdateDNS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +193,8 @@ func dummyServer(output string) func(dns.ResponseWriter, *dns.Msg) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(w dns.ResponseWriter, req *dns.Msg) {
 		m := new(dns.Msg)
 		m.SetReply(req)
@@ -202,6 +208,8 @@ func dummyServer(output string) func(dns.ResponseWriter, *dns.Msg) {
 	}
 }
 func runLocalUDPServer(addr string) (*dns.Server, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -233,6 +241,8 @@ func runLocalUDPServer(addr string) (*dns.Server, string, error) {
 	return server, pc.LocalAddr().String(), nil
 }
 func createResolveConfFile(addr string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func addNamespaceRole(namespaceRoles map[string][]rbacv1.Role, namespace string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if namespace != "openshift" && !strings.HasPrefix(namespace, "openshift-") {
 		klog.Fatalf(`roles can only be bootstrapped into reserved "openshift" namespace or namespaces starting with "openshift-", not %q`, namespace)
 	}
@@ -38,6 +40,8 @@ func addNamespaceRole(namespaceRoles map[string][]rbacv1.Role, namespace string,
 	namespaceRoles[namespace] = existingRoles
 }
 func addNamespaceRoleBinding(namespaceRoleBindings map[string][]rbacv1.RoleBinding, namespace string, roleBinding rbacv1.RoleBinding) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +85,8 @@ func buildNamespaceRolesAndBindings() (map[string][]rbacv1.Role, map[string][]rb
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaceRoles := map[string][]rbacv1.Role{}
 	namespaceRoleBindings := map[string][]rbacv1.RoleBinding{}
 	addNamespaceRole(namespaceRoles, DefaultOpenShiftSharedResourcesNamespace, rbacv1.Role{ObjectMeta: metav1.ObjectMeta{Name: OpenshiftSharedResourceViewRoleName}, Rules: []rbacv1.PolicyRule{rbacv1helpers.NewRule(read...).Groups(templateGroup, legacyTemplateGroup).Resources("templates").RuleOrDie(), rbacv1helpers.NewRule(read...).Groups(imageGroup, legacyImageGroup).Resources("imagestreams", "imagestreamtags", "imagestreamimages").RuleOrDie(), rbacv1helpers.NewRule("get").Groups(imageGroup, legacyImageGroup).Resources("imagestreams/layers").RuleOrDie()}})
@@ -104,10 +110,14 @@ func NamespaceRoles() map[string][]rbacv1.Role {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespaceRoles, _ := buildNamespaceRolesAndBindings()
 	return namespaceRoles
 }
 func NamespaceRoleBindings() map[string][]rbacv1.RoleBinding {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

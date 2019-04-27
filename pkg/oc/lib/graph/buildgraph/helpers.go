@@ -24,6 +24,8 @@ func RelevantBuilds(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (*build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		lastSuccessfulBuild	*buildgraph.BuildNode
 		lastUnsuccessfulBuild	*buildgraph.BuildNode
@@ -72,6 +74,8 @@ func belongsToBuildConfig(config *buildv1.BuildConfig, b *buildv1.Build) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.Labels == nil {
 		return false
 	}
@@ -104,9 +108,13 @@ func (m RecentBuildReferences) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m RecentBuildReferences) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,9 +146,13 @@ func (m RecentBuildReferences) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Build.CreationTimestamp.After(m[j].Build.CreationTimestamp.Time)
 }
 func defaultNamespace(value, defaultValue string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +187,8 @@ func BuildConfigsForTag(g osgraph.Graph, istag graph.Node) []*buildgraph.BuildCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcs := []*buildgraph.BuildConfigNode{}
 	for _, bcNode := range g.PredecessorNodesByEdgeKind(istag, BuildOutputEdgeKind) {
 		bcs = append(bcs, bcNode.(*buildgraph.BuildConfigNode))
@@ -182,6 +196,8 @@ func BuildConfigsForTag(g osgraph.Graph, istag graph.Node) []*buildgraph.BuildCo
 	return bcs
 }
 func GetLatestBuild(g osgraph.Graph, bc graph.Node) *buildgraph.BuildNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

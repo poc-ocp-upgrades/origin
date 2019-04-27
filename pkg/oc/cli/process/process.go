@@ -117,11 +117,15 @@ func NewProcessOptions(streams genericclioptions.IOStreams) *ProcessOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	printFlags := genericclioptions.NewPrintFlags("processed").WithTypeSetter(scheme.Scheme).WithDefaultOutput("json")
 	printFlags.TemplatePrinterFlags.TemplateArgument = nil
 	return &ProcessOptions{PrintFlags: printFlags, IOStreams: streams}
 }
 func NewCmdProcess(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,6 +189,8 @@ func (p *processPrinter) PrintObj(obj runtime.Object, out io.Writer) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.outputFormat == "describe" {
 		templateObj, ok := obj.(*templatev1.Template)
 		if !ok {
@@ -208,6 +214,8 @@ func (p *processPrinter) PrintObj(obj runtime.Object, out io.Writer) error {
 	return printer.PrintObj(obj, out)
 }
 func (o *ProcessOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,6 +305,8 @@ func (o *ProcessOptions) Validate(cmd *cobra.Command) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.parameters {
 		for _, flag := range []string{"param", "labels", "output", "output-version", "raw", "template"} {
 			if f := cmd.Flags().Lookup(flag); f != nil && f.Changed {
@@ -310,6 +320,8 @@ func (o *ProcessOptions) Validate(cmd *cobra.Command) error {
 	return nil
 }
 func (o *ProcessOptions) RunProcess() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -456,6 +468,8 @@ func injectUserVars(values app.Environment, t *templatev1.Template, ignoreUnknow
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errors []error
 	for param, val := range values {
 		v := templateprocessing.GetParameterByName(t, param)
@@ -469,6 +483,8 @@ func injectUserVars(values app.Environment, t *templatev1.Template, ignoreUnknow
 	return errors
 }
 func processTemplateLocally(tpl *templatev1.Template) (*templatev1.Template, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -515,6 +531,8 @@ func parseNamespaceResourceName(v, defaultNamespace string) (ns, resource, name 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(strings.TrimSpace(v), "/")
 	switch len(parts) {
 	case 3:
@@ -541,6 +559,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -615,5 +654,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

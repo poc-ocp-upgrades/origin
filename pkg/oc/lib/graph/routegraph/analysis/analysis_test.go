@@ -22,6 +22,8 @@ func TestPortMappingIssues(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/missing-route-port.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -86,6 +88,8 @@ func TestPathBasedPassthroughRoutes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/invalid-route.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -100,6 +104,8 @@ func TestPathBasedPassthroughRoutes(t *testing.T) {
 	}
 }
 func TestMissingRouter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

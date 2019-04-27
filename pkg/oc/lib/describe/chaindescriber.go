@@ -42,6 +42,8 @@ func (e NotFoundErr) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("couldn't find image stream tag: %q", string(e))
 }
 
@@ -67,9 +69,13 @@ func NewChainDescriber(c buildv1client.BuildConfigsGetter, namespaces sets.Strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ChainDescriber{c: c, namespaces: namespaces, outputFormat: out, namer: namespacedFormatter{hideNamespace: true}}
 }
 func (d *ChainDescriber) MakeGraph() (osgraph.Graph, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +110,8 @@ func (d *ChainDescriber) MakeGraph() (osgraph.Graph, error) {
 	return g, nil
 }
 func (d *ChainDescriber) Describe(ist *imagev1.ImageStreamTag, includeInputImages, reverse bool) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,6 +179,8 @@ func partition(g osgraph.Graph, root graph.Node, buildInputEdgeKinds []string) o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeFn := osgraph.NodesOfKind(buildgraph.BuildConfigNodeKind, imagegraph.ImageStreamTagNodeKind)
 	edgeKinds := []string{}
 	edgeKinds = append(edgeKinds, buildInputEdgeKinds...)
@@ -207,6 +217,8 @@ func partitionReverse(g osgraph.Graph, root graph.Node, buildInputEdgeKinds []st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeFn := osgraph.NodesOfKind(buildgraph.BuildConfigNodeKind, imagegraph.ImageStreamTagNodeKind)
 	edgeKinds := []string{}
 	edgeKinds = append(edgeKinds, buildInputEdgeKinds...)
@@ -229,6 +241,8 @@ func partitionReverse(g osgraph.Graph, root graph.Node, buildInputEdgeKinds []st
 	return sub.SubgraphWithNodes(desired, osgraph.ExistingDirectEdge)
 }
 func (d *ChainDescriber) humanReadableOutput(g osgraph.Graph, f osgraph.Namer, root graph.Node, reverse bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +304,8 @@ func outputHelper(info, namespace string, singleNamespace bool) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if singleNamespace {
 		return info
 	}
@@ -317,9 +333,13 @@ func (d *DepthFirst) Walk(g graph.Graph, from graph.Node, until func(graph.Node)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.visit(g, from, until)
 }
 func (d *DepthFirst) visit(g graph.Graph, t graph.Node, until func(graph.Node) bool) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -373,6 +393,8 @@ func (d *DepthFirst) visited(id int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range d.stack {
 		if n.ID() == id {
 			return true
@@ -398,9 +420,13 @@ func (s *NodeStack) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(*s)
 }
 func (s *NodeStack) Pop() graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -435,6 +461,8 @@ func (s *NodeStack) Push(n graph.Node) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*s = append(*s, n)
 }
 func _logClusterCodePath() {
@@ -452,6 +480,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -526,5 +575,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

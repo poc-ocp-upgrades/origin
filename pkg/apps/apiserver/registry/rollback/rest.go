@@ -43,6 +43,8 @@ func NewREST(appsclient appsclient.Interface, kc kubernetes.Interface) *REST {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &REST{generator: NewRollbackGenerator(), dn: appsclient.AppsV1(), rn: kc.CoreV1()}
 }
 func (r *REST) New() runtime.Object {
@@ -60,9 +62,13 @@ func (r *REST) New() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentConfigRollback{}
 }
 func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +139,8 @@ func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 	return r.generator.GenerateRollback(fromInternal, toInternal, &rollback.Spec)
 }
 func newInvalidError(rollback *appsapi.DeploymentConfigRollback, reason string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

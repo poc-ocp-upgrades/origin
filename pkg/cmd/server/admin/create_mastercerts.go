@@ -93,9 +93,13 @@ func NewCreateMasterCertsOptions(streams genericclioptions.IOStreams) *CreateMas
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateMasterCertsOptions{ExpireDays: crypto.DefaultCertificateLifetimeInDays, SignerExpireDays: crypto.DefaultCACertificateLifetimeInDays, CertDir: "openshift.local.config/master", SignerName: DefaultSignerName(), APIServerURL: "https://localhost:8443", IOStreams: streams}
 }
 func NewCommandCreateMasterCerts(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +134,8 @@ func NewCommandCreateMasterCerts(commandName string, fullName string, streams ge
 	return cmd
 }
 func (o CreateMasterCertsOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,6 +203,8 @@ func (o CreateMasterCertsOptions) CreateMasterCerts() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Creating all certs with: %#v", o)
 	getSignerCertOptions, err := o.createNewSigner(CAFilePrefix)
 	if err != nil {
@@ -244,6 +252,8 @@ func (o CreateMasterCertsOptions) createNewSigner(prefix string) (*SignerCertOpt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	signerCertOptions := CreateSignerCertOptions{CertFile: DefaultCertFilename(o.CertDir, prefix), KeyFile: DefaultKeyFilename(o.CertDir, prefix), SerialFile: DefaultSerialFilename(o.CertDir, prefix), ExpireDays: o.SignerExpireDays, Name: o.SignerName, Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 	if err := signerCertOptions.Validate(nil); err != nil {
 		return nil, err
@@ -254,6 +264,8 @@ func (o CreateMasterCertsOptions) createNewSigner(prefix string) (*SignerCertOpt
 	return &SignerCertOptions{CertFile: DefaultCertFilename(o.CertDir, prefix), KeyFile: DefaultKeyFilename(o.CertDir, prefix), SerialFile: DefaultSerialFilename(o.CertDir, prefix)}, nil
 }
 func (o CreateMasterCertsOptions) createAPIClients(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -297,12 +309,16 @@ func (o CreateMasterCertsOptions) createAggregatorClientCerts(getSignerCertOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.createClientCert(DefaultAggregatorClientCertInfo(o.CertDir), getSignerCertOptions); err != nil {
 		return err
 	}
 	return nil
 }
 func (o CreateMasterCertsOptions) createEtcdClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +355,8 @@ func (o CreateMasterCertsOptions) createProxyClientCerts(getSignerCertOptions *S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, clientCertInfo := range DefaultProxyClientCerts(o.CertDir) {
 		if err := o.createClientCert(clientCertInfo, getSignerCertOptions); err != nil {
 			return err
@@ -347,6 +365,8 @@ func (o CreateMasterCertsOptions) createProxyClientCerts(getSignerCertOptions *S
 	return nil
 }
 func (o CreateMasterCertsOptions) createKubeletClientCerts(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,6 +403,8 @@ func (o CreateMasterCertsOptions) createClientCert(clientCertInfo ClientCertInfo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientCertOptions := CreateClientCertOptions{SignerCertOptions: getSignerCertOptions, CertFile: clientCertInfo.CertLocation.CertFile, KeyFile: clientCertInfo.CertLocation.KeyFile, ExpireDays: o.ExpireDays, User: clientCertInfo.User, Groups: clientCertInfo.Groups.List(), Overwrite: o.Overwrite, Output: o.Out}
 	if err := clientCertOptions.Validate(nil); err != nil {
 		return err
@@ -393,6 +415,8 @@ func (o CreateMasterCertsOptions) createClientCert(clientCertInfo ClientCertInfo
 	return nil
 }
 func (o CreateMasterCertsOptions) createCABundle(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -433,6 +457,8 @@ func (o CreateMasterCertsOptions) createServerCerts(getSignerCertOptions *Signer
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, serverCertInfo := range DefaultServerCerts(o.CertDir) {
 		serverCertOptions := CreateServerCertOptions{SignerCertOptions: getSignerCertOptions, CertFile: serverCertInfo.CertFile, KeyFile: serverCertInfo.KeyFile, ExpireDays: o.ExpireDays, Hostnames: o.Hostnames, Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 		if err := serverCertOptions.Validate(nil); err != nil {
@@ -459,6 +485,8 @@ func (o CreateMasterCertsOptions) createServiceAccountKeys() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keypairOptions := CreateKeyPairOptions{PublicKeyFile: DefaultServiceAccountPublicKeyFile(o.CertDir), PrivateKeyFile: DefaultServiceAccountPrivateKeyFile(o.CertDir), Overwrite: o.Overwrite, IOStreams: o.IOStreams}
 	if err := keypairOptions.Validate(nil); err != nil {
 		return err
@@ -469,6 +497,8 @@ func (o CreateMasterCertsOptions) createServiceAccountKeys() error {
 	return nil
 }
 func (o CreateMasterCertsOptions) createServiceSigningCA(getSignerCertOptions *SignerCertOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

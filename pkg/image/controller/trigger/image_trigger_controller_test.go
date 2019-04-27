@@ -61,6 +61,8 @@ func (r fakeTagRetriever) ImageStreamTag(namespace, name string) (string, int64,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, resp := range r {
 		if resp.Namespace != namespace || resp.Name != name {
 			continue
@@ -76,6 +78,8 @@ type mockOperationQueue struct {
 }
 
 func (q *mockOperationQueue) Add(key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +113,8 @@ func (q *mockOperationQueue) AddRateLimited(key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (q *mockOperationQueue) AddAfter(key interface{}, d time.Duration) {
 	_logClusterCodePath()
@@ -125,8 +131,12 @@ func (q *mockOperationQueue) AddAfter(key interface{}, d time.Duration) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (q *mockOperationQueue) NumRequeues(key interface{}) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,9 +168,13 @@ func (q *mockOperationQueue) Get() (key interface{}, shutdown bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", false
 }
 func (q *mockOperationQueue) Done(key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,8 +205,12 @@ func (q *mockOperationQueue) Forget(key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (q *mockOperationQueue) All() []interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,11 +244,15 @@ func (q *mockOperationQueue) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	return len(q.queued)
 }
 func (q *mockOperationQueue) ShutDown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,6 +283,8 @@ func (q *mockOperationQueue) ShuttingDown() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 
@@ -276,6 +300,8 @@ type mockTagRetriever struct {
 }
 
 func (r *mockTagRetriever) ImageStreamTag(namespace, name string) (string, int64, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,9 +346,13 @@ func (l *mockImageStreamLister) List(selector labels.Selector) (ret []*imagev1.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, l.err
 }
 func (l *mockImageStreamLister) ImageStreams(namespace string) imagev1lister.ImageStreamNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,6 +371,8 @@ func (l *mockImageStreamLister) ImageStreams(namespace string) imagev1lister.Ima
 	return l
 }
 func (l *mockImageStreamLister) Get(name string) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,9 +407,13 @@ func (f *imageStreamInformer) Informer() cache.SharedIndexInformer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.informer
 }
 func (f *imageStreamInformer) Lister() imagev1lister.ImageStreamLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -404,6 +440,8 @@ type fakeInstantiator struct {
 }
 
 func (i *fakeInstantiator) Instantiate(namespace string, req *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -449,11 +487,15 @@ func (m *fakeBuildConfigUpdater) Update(buildcfg *buildv1.BuildConfig) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.buildcfg = buildcfg
 	m.updateCount++
 	return m.err
 }
 func fakeBuildConfigInstantiator(buildcfg *buildv1.BuildConfig, imageStream *imagev1.ImageStream) *fakeInstantiator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -504,6 +546,8 @@ func TestTriggerControllerSyncImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	queue := &mockOperationQueue{}
 	lister := &mockImageStreamLister{stream: scenario_1_imageStream_single("test", "stream", "10")}
 	controller := TriggerController{triggerCache: NewTriggerCache(), lister: lister, imageChangeQueue: queue}
@@ -517,6 +561,8 @@ func TestTriggerControllerSyncImageStream(t *testing.T) {
 	}
 }
 func TestTriggerControllerSyncBuildConfigResource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -585,6 +631,8 @@ func TestTriggerControllerSyncBuildConfigResourceErrorHandling(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name	string
 		bc	*buildv1.BuildConfig
@@ -621,6 +669,8 @@ func TestTriggerControllerSyncBuildConfigResourceErrorHandling(t *testing.T) {
 	}
 }
 func TestBuildConfigTriggerIndexer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -693,6 +743,8 @@ func TestDeploymentConfigTriggerIndexer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	informer, fw := newFakeInformer(&appsv1.DeploymentConfig{}, &appsv1.DeploymentConfigList{ListMeta: metav1.ListMeta{ResourceVersion: "1"}})
@@ -743,6 +795,8 @@ func verifyEntriesAt(c cache.ThreadSafeStore, entries []interface{}, keys ...str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, key := range keys {
 		indexed, err := c.ByIndex("images", key)
 		if err != nil {
@@ -755,6 +809,8 @@ func verifyEntriesAt(c cache.ThreadSafeStore, entries []interface{}, keys ...str
 	return nil
 }
 func scenario_1_buildConfig_strategy() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -786,9 +842,13 @@ func scenario_1_imageStream_single(namespace, name, rv string) *imagev1.ImageStr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace, ResourceVersion: rv}, Status: imagev1.ImageStreamStatus{Tags: []imagev1.NamedTagEventList{{Tag: "1", Items: []imagev1.TagEvent{{DockerImageReference: "image/result:1"}}}}}}
 }
 func scenario_1_imageStream_single_defaultImageTag(namespace, name, rv string) *imagev1.ImageStream {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -820,9 +880,13 @@ func scenario_1_buildConfig_imageSource_defaultImageTag() *buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "build2", Namespace: "test2"}, Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{ImageChange: &buildv1.ImageChangeTrigger{}}, {ImageChange: &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{APIVersion: imagev1.GroupVersion.Version, Kind: "ImageStreamTag", Name: "stream:latest", Namespace: "other"}, LastTriggeredImageID: "image/result:2"}}, {ImageChange: &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Kind: "DockerImage", Name: "mysql", Namespace: "other"}}}}, CommonSpec: buildv1.CommonSpec{Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{APIVersion: imagev1.GroupVersion.Version, Kind: "ImageStreamTag", Name: "stream:latest"}}}}}}
 }
 func scenario_1_buildConfig_strategy_cacheEntry() *trigger.CacheEntry {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -854,9 +918,13 @@ func scenario_1_deploymentConfig_imageSource() *appsv1.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsv1.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "deploy1", Namespace: "test"}, Spec: appsv1.DeploymentConfigSpec{Triggers: []appsv1.DeploymentTriggerPolicy{{ImageChangeParams: &appsv1.DeploymentTriggerImageChangeParams{Automatic: true, ContainerNames: []string{"first", "second"}, From: corev1.ObjectReference{Kind: "ImageStreamTag", Name: "stream:1"}, LastTriggeredImage: "image/result:2"}}, {ImageChangeParams: &appsv1.DeploymentTriggerImageChangeParams{Automatic: true, ContainerNames: []string{"third"}, From: corev1.ObjectReference{Kind: "DockerImage", Name: "mysql", Namespace: "other"}}}}, Template: &corev1.PodTemplateSpec{Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "first", Image: "image/result:2"}, {Name: "second", Image: ""}, {Name: "third", Image: ""}}}}}}
 }
 func scenario_1_deploymentConfig_imageSource_cacheEntry() *trigger.CacheEntry {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -888,9 +956,13 @@ func scenario_1_buildConfig_otherTrigger() *buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "build2", Namespace: "test2"}, Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{}}}, CommonSpec: buildv1.CommonSpec{Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "stream:1"}}}}}}
 }
 func scenario_1_buildConfig_imageSource() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -922,9 +994,13 @@ func scenario_1_buildConfig_imageSource_previousBuildForTag() *buildv1.BuildConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "build2", Namespace: "test2"}, Spec: buildv1.BuildConfigSpec{Triggers: []buildv1.BuildTriggerPolicy{{ImageChange: &buildv1.ImageChangeTrigger{}}, {ImageChange: &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "stream:2", Namespace: "other"}, LastTriggeredImageID: "image/result:3"}}, {ImageChange: &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Kind: "DockerImage", Name: "mysql", Namespace: "other"}}}}, CommonSpec: buildv1.CommonSpec{Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "stream:1"}}}}}}
 }
 func scenario_1_buildConfig_imageSource_noImageIDChange() *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -956,9 +1032,13 @@ func scenario_1_buildConfig_imageSource_cacheEntry() *trigger.CacheEntry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &trigger.CacheEntry{Key: "buildconfigs/test2/build2", Namespace: "test2", Triggers: []triggerapi.ObjectFieldTrigger{{From: triggerapi.ObjectReference{Kind: "ImageStreamTag", Name: "stream:1"}, FieldPath: "spec.strategy.*.from"}, {From: triggerapi.ObjectReference{Kind: "ImageStreamTag", Name: "stream:2", Namespace: "other"}, FieldPath: "spec.triggers"}}}
 }
 func newFakeInformer(item, initialList runtime.Object) (cache.SharedIndexInformer, *watch.RaceFreeFakeWatcher) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1006,9 +1086,13 @@ func (fn imageReactorFunc) ImageChanged(obj runtime.Object, tagRetriever trigger
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fn(obj, tagRetriever)
 }
 func (r *fakeImageReactor) ImageChanged(obj runtime.Object, tagRetriever trigger.TagRetriever) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1049,6 +1133,8 @@ func (r *fakeImageReactor) Results() *fakeImageReactor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.lock.Lock()
 	defer r.lock.Unlock()
 	return &fakeImageReactor{nested: r.nested, calls: r.calls, err: r.err}
@@ -1068,9 +1154,13 @@ func randomStreamTag(r *rand.Rand, maxStreams, maxTags int32) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("stream-%d:%d", r.Int31n(maxStreams), r.Int31n(maxTags))
 }
 func benchmark_1_buildConfig(r *rand.Rand, identity, maxStreams, maxTags, triggers int32) *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1109,6 +1199,8 @@ func benchmark_1_pod(r *rand.Rand, identity, maxStreams, maxTags, containers int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("pod-%d", identity), Namespace: "test", Annotations: map[string]string{triggerapi.TriggerAnnotationKey: fmt.Sprintf(`[
 						{"from":{"kind":"ImageStreamTag","name":"%s"},"fieldPath":"spec.containers[0].image"},
 						{"from":{"kind":"ImageStreamTag","name":"%s"},"fieldPath":"spec.containers[1].image"}
@@ -1119,6 +1211,8 @@ func benchmark_1_pod(r *rand.Rand, identity, maxStreams, maxTags, containers int
 	return pod
 }
 func benchmark_1_deploymentConfig(r *rand.Rand, identity, maxStreams, maxTags, containers int32) *appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1155,6 +1249,8 @@ func benchmark_1_imageStream(identity, maxTags, sequence int32, round, index int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is := &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("stream-%d", identity), Namespace: "test"}, Status: imagev1.ImageStreamStatus{Tags: []imagev1.NamedTagEventList{}}}
 	for i := int32(0); i < maxTags; i++ {
 		is.Status.Tags = append(is.Status.Tags, imagev1.NamedTagEventList{Tag: strconv.Itoa(int(i)), Items: []imagev1.TagEvent{{DockerImageReference: fmt.Sprintf("image-%d-%d:%d-%d-%d", identity, i, round, index, sequence)}}})
@@ -1162,6 +1258,8 @@ func benchmark_1_imageStream(identity, maxTags, sequence int32, round, index int
 	return is
 }
 func updateBuildConfigImages(bc *buildv1.BuildConfig, tagRetriever trigger.TagRetriever) (*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1219,6 +1317,8 @@ func alterBuildConfigFromTriggers(bcWatch *consistentWatch) imageReactorFunc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return imageReactorFunc(func(obj runtime.Object, tagRetriever trigger.TagRetriever) error {
 		bc := obj.DeepCopyObject()
 		updated, err := updateBuildConfigImages(bc.(*buildv1.BuildConfig), tagRetriever)
@@ -1232,6 +1332,8 @@ func alterBuildConfigFromTriggers(bcWatch *consistentWatch) imageReactorFunc {
 	})
 }
 func alterDeploymentConfigFromTriggers(dcWatch *consistentWatch) imageReactorFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1273,6 +1375,8 @@ func alterPodFromTriggers(podWatch *watch.RaceFreeFakeWatcher) imageReactorFunc 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 2
 	return imageReactorFunc(func(obj runtime.Object, tagRetriever trigger.TagRetriever) error {
 		pod := obj.DeepCopyObject()
@@ -1296,6 +1400,8 @@ type consistentWatch struct {
 }
 
 func (w *consistentWatch) Add(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1353,6 +1459,8 @@ func (w *consistentWatch) Modify(obj runtime.Object) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.lock.Lock()
 	defer w.lock.Unlock()
 	m, err := meta.Accessor(obj)
@@ -1382,6 +1490,8 @@ func (w *consistentWatch) Modify(obj runtime.Object) error {
 	return nil
 }
 func TestTriggerController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1540,6 +1650,8 @@ func verifyState(c *TriggerController, t *testing.T, expected []interface{}, des
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !controllerDrained(c) {
 		t.Errorf("queue=%d changes=%d", c.queue.Len(), c.imageChangeQueue.Len())
 		return false
@@ -1609,6 +1721,8 @@ func verifyState(c *TriggerController, t *testing.T, expected []interface{}, des
 	return !failed
 }
 func controllerDrained(c *TriggerController) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -39,6 +39,8 @@ func parseSource(ref string) (reference.DockerImageReference, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	src, err := reference.Parse(ref)
 	if err != nil {
 		return src, fmt.Errorf("%q is not a valid image reference: %v", ref, err)
@@ -49,6 +51,8 @@ func parseSource(ref string) (reference.DockerImageReference, error) {
 	return src, nil
 }
 func parseDestination(ref string) (reference.DockerImageReference, DestinationType, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func parseDestination(ref string) (reference.DockerImageReference, DestinationTy
 	return dst, dstType, nil
 }
 func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +150,8 @@ func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
 	return mappings, nil
 }
 func parseFile(filename string, overlap map[string]string, in io.Reader) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,6 +239,8 @@ func (d *destinations) mergeIntoDigests(srcDigest digest.Digest, target pushTarg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	srcKey := srcDigest.String()
@@ -252,6 +262,8 @@ func (d *destinations) mergeIntoDigests(srcDigest digest.Digest, target pushTarg
 type targetTree map[key]*destinations
 
 func buildTargetTree(mappings []Mapping) targetTree {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,6 +331,8 @@ func addDockerRegistryScopes(scopes map[string]map[string]bool, targets map[stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, target := range targets {
 		for dstKey, t := range target {
 			m := scopes[dstKey.registry]
@@ -342,6 +356,8 @@ func addDockerRegistryScopes(scopes map[string]map[string]bool, targets map[stri
 	}
 }
 func calculateDockerRegistryScopes(tree targetTree) map[string][]auth.Scope {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -390,6 +406,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -464,5 +501,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

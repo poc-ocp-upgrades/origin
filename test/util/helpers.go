@@ -30,6 +30,8 @@ func GetTemplateFixture(filename string) (*templateapi.Template, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -45,6 +47,8 @@ func GetTemplateFixture(filename string) (*templateapi.Template, error) {
 	return obj.(*templateapi.Template), nil
 }
 func GetImageFixture(filename string) (*imageapi.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,9 +92,13 @@ func SetAdditionalAllowedRegistries(hostPortGlobs ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv(additionalAllowedRegistriesEnvVar, strings.Join(hostPortGlobs, ","))
 }
 func AddAdditionalAllowedRegistries(hostPortGlobs ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +118,8 @@ func AddAdditionalAllowedRegistries(hostPortGlobs ...string) {
 	SetAdditionalAllowedRegistries(regs.List()...)
 }
 func GetAdditionalAllowedRegistries() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

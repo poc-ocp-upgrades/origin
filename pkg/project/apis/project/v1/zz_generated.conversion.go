@@ -25,9 +25,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +113,8 @@ func autoConvert_v1_Project_To_project_Project(in *v1.Project, out *project.Proj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	if err := Convert_v1_ProjectSpec_To_project_ProjectSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
@@ -133,9 +139,13 @@ func Convert_v1_Project_To_project_Project(in *v1.Project, out *project.Project,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_Project_To_project_Project(in, out, s)
 }
 func autoConvert_project_Project_To_v1_Project(in *project.Project, out *v1.Project, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,9 +184,13 @@ func Convert_project_Project_To_v1_Project(in *project.Project, out *v1.Project,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_project_Project_To_v1_Project(in, out, s)
 }
 func autoConvert_v1_ProjectList_To_project_ProjectList(in *v1.ProjectList, out *project.ProjectList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,9 +224,13 @@ func Convert_v1_ProjectList_To_project_ProjectList(in *v1.ProjectList, out *proj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProjectList_To_project_ProjectList(in, out, s)
 }
 func autoConvert_project_ProjectList_To_v1_ProjectList(in *project.ProjectList, out *v1.ProjectList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,9 +264,13 @@ func Convert_project_ProjectList_To_v1_ProjectList(in *project.ProjectList, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_project_ProjectList_To_v1_ProjectList(in, out, s)
 }
 func autoConvert_v1_ProjectRequest_To_project_ProjectRequest(in *v1.ProjectRequest, out *project.ProjectRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,9 +305,13 @@ func Convert_v1_ProjectRequest_To_project_ProjectRequest(in *v1.ProjectRequest, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProjectRequest_To_project_ProjectRequest(in, out, s)
 }
 func autoConvert_project_ProjectRequest_To_v1_ProjectRequest(in *project.ProjectRequest, out *v1.ProjectRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,9 +346,13 @@ func Convert_project_ProjectRequest_To_v1_ProjectRequest(in *project.ProjectRequ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_project_ProjectRequest_To_v1_ProjectRequest(in, out, s)
 }
 func autoConvert_v1_ProjectSpec_To_project_ProjectSpec(in *v1.ProjectSpec, out *project.ProjectSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -355,9 +385,13 @@ func Convert_v1_ProjectSpec_To_project_ProjectSpec(in *v1.ProjectSpec, out *proj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProjectSpec_To_project_ProjectSpec(in, out, s)
 }
 func autoConvert_project_ProjectSpec_To_v1_ProjectSpec(in *project.ProjectSpec, out *v1.ProjectSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -390,9 +424,13 @@ func Convert_project_ProjectSpec_To_v1_ProjectSpec(in *project.ProjectSpec, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_project_ProjectSpec_To_v1_ProjectSpec(in, out, s)
 }
 func autoConvert_v1_ProjectStatus_To_project_ProjectStatus(in *v1.ProjectStatus, out *project.ProjectStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -425,9 +463,13 @@ func Convert_v1_ProjectStatus_To_project_ProjectStatus(in *v1.ProjectStatus, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProjectStatus_To_project_ProjectStatus(in, out, s)
 }
 func autoConvert_project_ProjectStatus_To_v1_ProjectStatus(in *project.ProjectStatus, out *v1.ProjectStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -446,6 +488,8 @@ func autoConvert_project_ProjectStatus_To_v1_ProjectStatus(in *project.ProjectSt
 	return nil
 }
 func Convert_project_ProjectStatus_To_v1_ProjectStatus(in *project.ProjectStatus, out *v1.ProjectStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

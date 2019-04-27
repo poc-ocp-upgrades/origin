@@ -23,6 +23,8 @@ func TestOpenAPIRoundtrip(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dummyRef := func(name string) spec.Ref {
 		return spec.MustCreateRef("#/definitions/dummy")
 	}

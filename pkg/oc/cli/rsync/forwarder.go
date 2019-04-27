@@ -35,6 +35,8 @@ func (f *portForwarder) ForwardPorts(ports []string, stopChan <-chan struct{}) e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := f.Client.CoreV1().RESTClient().Post().Resource("pods").Namespace(f.Namespace).Name(f.PodName).SubResource("portforward")
 	transport, upgrader, err := spdy.RoundTripperFor(f.Config)
 	dialer := spdy.NewDialer(upgrader, &http.Client{Transport: transport}, "POST", req.URL())
@@ -55,6 +57,8 @@ func (f *portForwarder) ForwardPorts(ports []string, stopChan <-chan struct{}) e
 	}
 }
 func newPortForwarder(o *RsyncOptions) forwarder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

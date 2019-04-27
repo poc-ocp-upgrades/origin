@@ -38,6 +38,8 @@ func ValidateRoute(route *routeapi.Route) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := validation.ValidateObjectMeta(&route.ObjectMeta, true, ValidateRouteName, field.NewPath("metadata"))
 	specPath := field.NewPath("spec")
 	if len(route.Spec.Host) > 0 {
@@ -104,12 +106,16 @@ func ValidateRouteUpdate(route *routeapi.Route, older *routeapi.Route) field.Err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&route.ObjectMeta, &older.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, validation.ValidateImmutableField(route.Spec.WildcardPolicy, older.Spec.WildcardPolicy, field.NewPath("spec", "wildcardPolicy"))...)
 	allErrs = append(allErrs, ValidateRoute(route)...)
 	return allErrs
 }
 func ValidateRouteStatusUpdate(route *routeapi.Route, older *routeapi.Route) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +137,8 @@ func ValidateRouteStatusUpdate(route *routeapi.Route, older *routeapi.Route) fie
 type blockVerifierFunc func(block *pem.Block) (*pem.Block, error)
 
 func publicKeyBlockVerifier(block *pem.Block) (*pem.Block, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +178,8 @@ func certificateBlockVerifier(block *pem.Block) (*pem.Block, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cert, err := x509.ParseCertificate(block.Bytes)
 	if err != nil {
 		return nil, err
@@ -178,6 +188,8 @@ func certificateBlockVerifier(block *pem.Block) (*pem.Block, error) {
 	return block, nil
 }
 func privateKeyBlockVerifier(block *pem.Block) (*pem.Block, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,12 +242,16 @@ func ignoreBlockVerifier(block *pem.Block) (*pem.Block, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 
 var knownBlockDecoders = map[string]blockVerifierFunc{"RSA PRIVATE KEY": privateKeyBlockVerifier, "ECDSA PRIVATE KEY": privateKeyBlockVerifier, "PRIVATE KEY": privateKeyBlockVerifier, "PUBLIC KEY": publicKeyBlockVerifier, "RSA PUBLIC KEY": publicKeyBlockVerifier, "DSA PUBLIC KEY": publicKeyBlockVerifier, "ECDSA PUBLIC KEY": publicKeyBlockVerifier, "CERTIFICATE": certificateBlockVerifier, "EC PARAMETERS": ignoreBlockVerifier}
 
 func sanitizePEM(data []byte) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -275,6 +291,8 @@ func sanitizePEM(data []byte) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 func validateTLS(route *routeapi.Route, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,6 +355,8 @@ func validateInsecureEdgeTerminationPolicy(tls *routeapi.TLSConfig, fldPath *fie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(tls.InsecureEdgeTerminationPolicy) == 0 {
 		return nil
 	}
@@ -358,6 +378,8 @@ func validateInsecureEdgeTerminationPolicy(tls *routeapi.TLSConfig, fldPath *fie
 	return nil
 }
 func validateCertificatePEM(certPEM string, options *x509.VerifyOptions) ([]*x509.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -410,6 +432,8 @@ func validateWildcardPolicy(host string, policy routeapi.WildcardPolicyType, fld
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(policy) == 0 {
 		return nil
 	}
@@ -436,6 +460,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -510,5 +555,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

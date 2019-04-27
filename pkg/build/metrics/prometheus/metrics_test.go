@@ -31,9 +31,13 @@ func (f fakeLister) List(labels.Selector) ([]*buildv1.Build, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f, nil
 }
 func (fakeLister) Builds(string) buildv1lister.BuildNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func (f *fakeResponseWriter) Header() http.Header {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.header
 }
 func (f *fakeResponseWriter) WriteHeader(statusCode int) {
@@ -89,9 +95,13 @@ func (f *fakeResponseWriter) WriteHeader(statusCode int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.statusCode = statusCode
 }
 func TestMetrics(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

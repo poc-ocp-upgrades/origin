@@ -32,6 +32,8 @@ func clientDoCNI(t *testing.T, client *http.Client, req *CNIRequest) ([]byte, in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := json.Marshal(req)
 	if err != nil {
 		t.Fatalf("failed to marshal CNI request %v: %v", req, err)
@@ -66,6 +68,8 @@ func serverHandleCNI(request *PodRequest) ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if request.Command == CNI_ADD {
 		return json.Marshal(&expectedResult)
 	} else if request.Command == CNI_DEL {
@@ -76,6 +80,8 @@ func serverHandleCNI(request *PodRequest) ([]byte, error) {
 	return nil, fmt.Errorf("unhandled CNI command %v", request.Command)
 }
 func TestCNIServer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

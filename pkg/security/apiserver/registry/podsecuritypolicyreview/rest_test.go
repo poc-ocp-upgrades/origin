@@ -35,6 +35,8 @@ func TestNoErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 999
 	testcases := map[string]struct {
 		request		*securityapi.PodSecurityPolicyReview
@@ -78,6 +80,8 @@ func TestNoErrors(t *testing.T) {
 	}
 }
 func TestErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +146,8 @@ func TestSpecificSAs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		request		*securityapi.PodSecurityPolicyReview
 		sccs		[]*securityv1.SecurityContextConstraints
@@ -181,6 +187,8 @@ func TestSpecificSAs(t *testing.T) {
 type noopTestAuthorizer struct{}
 
 func (s *noopTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decision, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

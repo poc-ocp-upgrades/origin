@@ -30,6 +30,8 @@ func GetImageStreamUsage(is *imageapi.ImageStream) corev1.ResourceList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	specRefs := resource.NewQuantity(0, resource.DecimalSI)
 	statusRefs := resource.NewQuantity(0, resource.DecimalSI)
 	processImageStreamImages(is, false, func(ref string, inSpec, inStatus bool) {
@@ -43,6 +45,8 @@ func GetImageStreamUsage(is *imageapi.ImageStream) corev1.ResourceList {
 	return corev1.ResourceList{imagev1.ResourceImageStreamTags: *specRefs, imagev1.ResourceImageStreamImages: *statusRefs}
 }
 func processImageStreamImages(is *imageapi.ImageStream, specOnly bool, handler InternalImageReferenceHandler) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func gatherImagesFromImageStreamStatus(is *imageapi.ImageStream) sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := sets.NewString()
 	for _, history := range is.Status.Tags {
 		for i := range history.Items {
@@ -106,6 +112,8 @@ func gatherImagesFromImageStreamStatus(is *imageapi.ImageStream) sets.String {
 	return res
 }
 func gatherImagesFromImageStreamSpec(is *imageapi.ImageStream) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +143,8 @@ func gatherImagesFromImageStreamSpec(is *imageapi.ImageStream) sets.String {
 	return res
 }
 func getImageReferenceForObjectReference(namespace string, objRef *kapi.ObjectReference) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

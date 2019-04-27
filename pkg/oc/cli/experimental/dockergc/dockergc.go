@@ -66,6 +66,8 @@ func NewCmdDockerGCConfig(f kcmdutil.Factory, parentName, name string, streams g
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	options := &dockerGCConfigCmdOptions{DryRun: false, MinimumGCAge: DefaultMinimumGCAge, ImageGCHighThresholdPercent: DefaultImageGCHighThresholdPercent, ImageGCLowThresholdPercent: DefaultImageGCLowThresholdPercent}
 	cmd := &cobra.Command{Use: fmt.Sprintf("%s [NAME]", name), Short: "Perform garbage collection to free space in docker storage", Long: dockerGC_long, Example: fmt.Sprintf(dockerGC_example, parentName, name), Run: func(cmd *cobra.Command, args []string) {
 		err := Run(f, options, cmd, args)
@@ -81,6 +83,8 @@ func NewCmdDockerGCConfig(f kcmdutil.Factory, parentName, name string, streams g
 	return cmd
 }
 func parseInfo(str string) (int64, int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,6 +130,8 @@ func getRootDirInfo(rootDir string) (int64, int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command("df", "-k", "--output=size,used", rootDir)
 	output, err := cmd.Output()
 	if err != nil {
@@ -134,6 +140,8 @@ func getRootDirInfo(rootDir string) (int64, int64, error) {
 	return parseInfo(string(output))
 }
 func bytesToMB(bytes int64) int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,6 +176,8 @@ func (s oldestContainersFirst) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s oldestContainersFirst) Swap(i, j int) {
@@ -185,9 +195,13 @@ func (s oldestContainersFirst) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s oldestContainersFirst) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,9 +236,13 @@ func (s oldestImagesFirst) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s oldestImagesFirst) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -256,6 +274,8 @@ func (s oldestImagesFirst) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s[i].Created < s[j].Created
 }
 func parseDockerTimestamp(s string) (time.Time, error) {
@@ -273,9 +293,13 @@ func parseDockerTimestamp(s string) (time.Time, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return time.Parse(time.RFC3339Nano, s)
 }
 func doGarbageCollection(client *dockerClient, options *dockerGCConfigCmdOptions, rootDir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -370,6 +394,8 @@ func doGarbageCollection(client *dockerClient, options *dockerGCConfigCmdOptions
 	return nil
 }
 func Run(f kcmdutil.Factory, options *dockerGCConfigCmdOptions, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

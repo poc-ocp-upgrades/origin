@@ -36,9 +36,13 @@ func NewImportMetricCounter() *ImportMetricCounter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ImportMetricCounter{importSuccessCounts: make(metrics.ImportSuccessCounts), importErrorCounts: make(metrics.ImportErrorCounts)}
 }
 func (c *ImportMetricCounter) Increment(isi *imagev1.ImageStreamImport, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func (c *ImportMetricCounter) countRepositoryImport(isi *imagev1.ImageStreamImpo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errInfo := getIsImportRepositoryInfo(isi)
 	if errInfo == nil {
 		return
@@ -119,6 +125,8 @@ func (c *ImportMetricCounter) Collect() (metrics.ImportSuccessCounts, metrics.Im
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.counterMutex.Lock()
 	defer c.counterMutex.Unlock()
 	success := metrics.ImportSuccessCounts{}
@@ -132,6 +140,8 @@ func (c *ImportMetricCounter) Collect() (metrics.ImportSuccessCounts, metrics.Im
 	return success, failures, nil
 }
 func getIsImportRepositoryInfo(isi *imagev1.ImageStreamImport) *metrics.ImportErrorInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -176,6 +186,8 @@ func enumerateIsImportStatuses(isi *imagev1.ImageStreamImport, cb func(*metrics.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(isi.Status.Images) == 0 {
 		return
 	}
@@ -199,6 +211,8 @@ func enumerateIsImportStatuses(isi *imagev1.ImageStreamImport, cb func(*metrics.
 	}
 }
 func getImageDockerReferenceForImage(isi *imagev1.ImageStreamImport, index int) (*imagev1.DockerImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -255,6 +269,8 @@ func mkImportInfo(registry string, status *metav1.Status) metrics.ImportErrorInf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var reason string
 	if status.Status != metav1.StatusSuccess {
 		reason = string(status.Reason)
@@ -265,6 +281,8 @@ func mkImportInfo(registry string, status *metav1.Status) metrics.ImportErrorInf
 	return metrics.ImportErrorInfo{Registry: registry, Reason: reason}
 }
 func defaultErrorInfoReason(info *metrics.ImportErrorInfo, err error) *metrics.ImportErrorInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

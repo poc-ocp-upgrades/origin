@@ -37,6 +37,8 @@ func retryOnErrors(t *testing.T, errorPatterns []string, f func() error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeout := retryAfter
 	attempt := 0
 	for err := f(); err != nil; err = f() {
@@ -72,9 +74,13 @@ func retryWhenUnreachable(t *testing.T, f func() error, errorPatterns ...string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return retryOnErrors(t, append(errorPatterns, unreachableErrorPatterns...), f)
 }
 func TestRegistryClientConnect(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +133,8 @@ func TestRegistryClientConnectPulpRegistry(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := dockerregistry.NewClient(10*time.Second, true)
 	conn, err := c.Connect(pulpRegistryName, false)
 	if err != nil {
@@ -148,6 +156,8 @@ func TestRegistryClientConnectPulpRegistry(t *testing.T) {
 	}
 }
 func TestRegistryClientDockerHubV2(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,6 +204,8 @@ func TestRegistryClientDockerHubV1(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := dockerregistry.NewClient(10*time.Second, true)
 	conn, err := c.Connect(dockerHubV1RegistryName, false)
 	if err != nil {
@@ -226,6 +238,8 @@ func TestRegistryClientRegistryNotFound(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	conn, err := dockerregistry.NewClient(10*time.Second, true).Connect("localhost:65000", false)
 	if err != nil {
 		t.Fatal(err)
@@ -235,6 +249,8 @@ func TestRegistryClientRegistryNotFound(t *testing.T) {
 	}
 }
 func doTestRegistryClientImage(t *testing.T, registry, reponame, version string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -304,10 +320,14 @@ func TestRegistryClientAPIv2ManifestV2Schema2(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Log("openshift/schema-v2-test-repo was pushed by Docker 1.11.1")
 	doTestRegistryClientImage(t, dockerHubV2RegistryName, "schema-v2-test-repo", "v2")
 }
 func TestRegistryClientAPIv2ManifestV2Schema1(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,10 +360,14 @@ func TestRegistryClientAPIv1(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Log("openshift/schema-v1-test-repo was pushed by Docker 1.8.2")
 	doTestRegistryClientImage(t, dockerHubV1RegistryName, "schema-v1-test-repo", "v1")
 }
 func TestRegistryClientQuayIOImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

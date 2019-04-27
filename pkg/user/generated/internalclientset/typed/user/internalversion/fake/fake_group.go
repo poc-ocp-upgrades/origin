@@ -30,6 +30,8 @@ func (c *FakeGroups) Get(name string, options v1.GetOptions) (result *user.Group
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(groupsResource, name), &user.Group{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeGroups) Get(name string, options v1.GetOptions) (result *user.Group
 	return obj.(*user.Group), err
 }
 func (c *FakeGroups) List(opts v1.ListOptions) (result *user.GroupList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeGroups) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(groupsResource, opts))
 }
 func (c *FakeGroups) Create(group *user.Group) (result *user.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeGroups) Update(group *user.Group) (result *user.Group, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(groupsResource, group), &user.Group{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeGroups) Update(group *user.Group) (result *user.Group, err error) {
 	return obj.(*user.Group), err
 }
 func (c *FakeGroups) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeGroups) DeleteCollection(options *v1.DeleteOptions, listOptions v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(groupsResource, listOptions)
 	_, err := c.Fake.Invokes(action, &user.GroupList{})
 	return err
 }
 func (c *FakeGroups) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *user.Group, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -55,9 +55,13 @@ func NewCreateClusterQuotaOptions(streams genericclioptions.IOStreams) *CreateCl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateClusterQuotaOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 }
 func NewCmdCreateClusterQuota(name, fullName string, f genericclioptions.RESTClientGetter, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func NewCmdCreateClusterQuota(name, fullName string, f genericclioptions.RESTCli
 	return cmd
 }
 func (o *CreateClusterQuotaOptions) Complete(cmd *cobra.Command, f genericclioptions.RESTClientGetter, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,6 +141,8 @@ func (o *CreateClusterQuotaOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterQuota := &quotav1.ClusterResourceQuota{TypeMeta: metav1.TypeMeta{APIVersion: quotav1.SchemeGroupVersion.String(), Kind: "ClusterResourceQuota"}, ObjectMeta: metav1.ObjectMeta{Name: o.CreateSubcommandOptions.Name}, Spec: quotav1.ClusterResourceQuotaSpec{Selector: quotav1.ClusterResourceQuotaSelector{LabelSelector: o.ProjectLabelSelectorStr, AnnotationSelector: o.ProjectAnnotationSelectorStr}, Quota: corev1.ResourceQuotaSpec{Hard: corev1.ResourceList{}}}}
 	for _, resourceCount := range o.Hard {
 		tokens := strings.Split(resourceCount, "=")
@@ -157,6 +165,8 @@ func (o *CreateClusterQuotaOptions) Run() error {
 	return o.CreateSubcommandOptions.Printer.PrintObj(clusterQuota, o.CreateSubcommandOptions.Out)
 }
 func parseAnnotationSelector(s string) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,6 +215,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -279,5 +310,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

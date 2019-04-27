@@ -30,6 +30,8 @@ func (t *testInitializer) InitializeUser(identity *userapi.Identity, user *usera
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.called = true
 	return nil
 }
@@ -46,6 +48,8 @@ type strategyTestCase struct {
 }
 
 func makeUser(uid string, name string, identities ...string) *userapi.User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,6 +81,8 @@ func makeIdentity(uid string, providerName string, providerUserName string, user
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &userapi.Identity{ObjectMeta: metav1.ObjectMeta{Name: providerName + ":" + providerUserName, UID: types.UID(uid)}, ProviderName: providerName, ProviderUserName: providerUserName, User: corev1.ObjectReference{UID: types.UID(userUID), Name: userName}, Extra: map[string]string{}}
 }
 func makeUserIdentityMapping(identityUID string, providerName string, providerUserName string, userUID string, userName string) *userapi.UserIdentityMapping {
@@ -94,9 +100,13 @@ func makeUserIdentityMapping(identityUID string, providerName string, providerUs
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &userapi.UserIdentityMapping{ObjectMeta: metav1.ObjectMeta{Name: providerName + ":" + providerUserName}, User: corev1.ObjectReference{UID: types.UID(userUID), Name: userName}, Identity: corev1.ObjectReference{UID: types.UID(identityUID), Name: "stockvalue"}}
 }
 func (tc strategyTestCase) run(k string, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func TestFailingKubeletArgs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := configapi.ExtendedArguments{}
 	args["port"] = []string{"invalid-value"}
 	args["missing-key"] = []string{"value"}
@@ -67,6 +69,8 @@ func TestFailingKubeletArgs(t *testing.T) {
 	}
 }
 func TestInvalidProjectEmptyDirQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

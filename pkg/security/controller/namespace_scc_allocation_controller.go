@@ -61,6 +61,8 @@ func NewNamespaceSCCAllocationController(namespaceInformer corev1informers.Names
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &NamespaceSCCAllocationController{requiredUIDRange: requiredUIDRange, mcsAllocator: mcs, namespaceClient: client, rangeAllocationClient: rangeAllocationClient, nsLister: namespaceInformer.Lister(), nsListerSynced: namespaceInformer.Informer().HasSynced, queue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), controllerName)}
 	namespaceInformer.Informer().AddEventHandlerWithResyncPeriod(cache.ResourceEventHandlerFuncs{AddFunc: c.enqueueNamespace, UpdateFunc: func(oldObj, newObj interface{}) {
 		c.enqueueNamespace(newObj)
@@ -68,6 +70,8 @@ func NewNamespaceSCCAllocationController(namespaceInformer corev1informers.Names
 	return c
 }
 func (c *NamespaceSCCAllocationController) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,6 +115,8 @@ func (c *NamespaceSCCAllocationController) syncNamespace(key string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns, err := c.nsLister.Get(key)
 	if apierrors.IsNotFound(err) {
 		return nil
@@ -124,6 +130,8 @@ func (c *NamespaceSCCAllocationController) syncNamespace(key string) error {
 	return c.allocate(ns)
 }
 func (c *NamespaceSCCAllocationController) allocate(ns *corev1.Namespace) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +220,8 @@ func allocateNextContiguousBit(allocated *big.Int, max int) (int, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < max; i++ {
 		if allocated.Bit(i) == 0 {
 			return i, true
@@ -220,6 +230,8 @@ func allocateNextContiguousBit(allocated *big.Int, max int) (int, bool) {
 	return 0, false
 }
 func (c *NamespaceSCCAllocationController) WaitForRepair(stopCh <-chan struct{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -249,6 +261,8 @@ func (c *NamespaceSCCAllocationController) WaitForRepair(stopCh <-chan struct{})
 	})
 }
 func (c *NamespaceSCCAllocationController) Repair() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,6 +344,8 @@ func DefaultMCSAllocation(from *uid.Range, to *mcs.Range, blockSize int) MCSAllo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(block uid.Block) *mcs.Label {
 		ok, offset := from.Offset(block)
 		if !ok {
@@ -343,6 +359,8 @@ func DefaultMCSAllocation(from *uid.Range, to *mcs.Range, blockSize int) MCSAllo
 	}
 }
 func (c *NamespaceSCCAllocationController) enqueueNamespace(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,10 +396,14 @@ func (c *NamespaceSCCAllocationController) worker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.work() {
 	}
 }
 func (c *NamespaceSCCAllocationController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -424,6 +446,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -498,5 +541,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

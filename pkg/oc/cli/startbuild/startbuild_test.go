@@ -52,9 +52,13 @@ func (c *FakeClientConfig) ConfigAccess() kclientcmd.ConfigAccess {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (c *FakeClientConfig) RawConfig() (clientcmdapi.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func (c *FakeClientConfig) ClientConfig() (*restclient.Config, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Client, c.Err
 }
 func (c *FakeClientConfig) Namespace() (string, bool, error) {
@@ -103,9 +109,13 @@ func (c *FakeClientConfig) Namespace() (string, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.NS, c.Explicit, c.Err
 }
 func TestStartBuildWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +148,8 @@ func TestStartBuildWebHook(t *testing.T) {
 	}
 }
 func TestStartBuildHookPostReceive(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +215,8 @@ func (c FakeBuildConfigs) InstantiateBinary(name string, options *buildv1.Binary
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if binary, err := ioutil.ReadAll(r); err != nil {
 		c.t.Errorf("Error while reading binary over HTTP: %v", err)
 	} else if string(binary) != "hi" {
@@ -216,6 +230,8 @@ func (c FakeBuildConfigs) InstantiateBinary(name string, options *buildv1.Binary
 	return &buildv1.Build{}, nil
 }
 func TestHttpBinary(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,9 +336,13 @@ func (r *failReader) Read(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, r.Err
 }
 func TestStreamBuildLogs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

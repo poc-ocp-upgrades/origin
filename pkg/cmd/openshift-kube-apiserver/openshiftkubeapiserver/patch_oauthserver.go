@@ -22,6 +22,8 @@ func NewOAuthServerConfigFromMasterConfig(genericConfig *genericapiserver.Config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthServerConfig, err := oauthserver.NewOAuthServerConfig(*oauthConfig, genericConfig.LoopbackClientConfig)
 	if err != nil {
 		return nil, err
@@ -33,6 +35,8 @@ func NewOAuthServerConfigFromMasterConfig(genericConfig *genericapiserver.Config
 	return oauthServerConfig, nil
 }
 func NewOAuthServerHandler(genericConfig *genericapiserver.Config, oauthConfig *osinv1.OAuthConfig) (http.Handler, map[string]genericapiserver.PostStartHookFunc, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

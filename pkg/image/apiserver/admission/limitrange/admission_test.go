@@ -34,6 +34,8 @@ func TestAdmitImageStreamMapping(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		imageStreamMapping	*imageapi.ImageStreamMapping
 		limitRange		*corev1.LimitRange
@@ -64,6 +66,8 @@ func TestAdmitImageStreamMapping(t *testing.T) {
 	}
 }
 func TestAdmitImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +117,8 @@ func TestLimitAppliestoImages(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		limitRange	*corev1.LimitRange
 		shouldApply	bool
@@ -147,6 +153,8 @@ func TestHandles(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugin, err := NewImageLimitRangerPlugin(nil)
 	if err != nil {
 		t.Fatalf("error creating plugin: %v", err)
@@ -165,6 +173,8 @@ func TestHandles(t *testing.T) {
 	}
 }
 func TestSupports(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,9 +224,13 @@ func getBaseImageWith1Layer() imageapi.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: testutil.BaseImageWith1LayerDigest, Annotations: map[string]string{imageapi.ManagedByOpenShiftAnnotation: "true"}}, DockerImageReference: fmt.Sprintf("registry.example.org/%s/%s", "test", testutil.BaseImageWith1LayerDigest), DockerImageManifest: testutil.BaseImageWith1Layer}
 }
 func getLimitRange(limit string) *corev1.LimitRange {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,9 +262,13 @@ func getImageStreamMapping() *imageapi.ImageStreamMapping {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: "test-ism", Namespace: "test"}, Image: getBaseImageWith1Layer()}
 }
 func newHandlerForTest(c kubernetes.Interface) (admission.Interface, informers.SharedInformerFactory, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

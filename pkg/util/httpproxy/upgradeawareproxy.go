@@ -40,6 +40,8 @@ func NewUpgradeAwareSingleHostReverseProxy(clientConfig *restclient.Config, back
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	transport, err := restclient.TransportFor(clientConfig)
 	if err != nil {
 		return nil, err
@@ -51,6 +53,8 @@ func NewUpgradeAwareSingleHostReverseProxy(clientConfig *restclient.Config, back
 	return p, nil
 }
 func (p *UpgradeAwareSingleHostReverseProxy) RoundTrip(req *http.Request) (*http.Response, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func singleJoiningSlash(a, b string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	aslash := strings.HasSuffix(a, "/")
 	bslash := strings.HasPrefix(b, "/")
 	switch {
@@ -103,6 +109,8 @@ func singleJoiningSlash(a, b string) string {
 	return a + b
 }
 func (p *UpgradeAwareSingleHostReverseProxy) newProxyRequest(req *http.Request) (*http.Request, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +151,8 @@ func (p *UpgradeAwareSingleHostReverseProxy) isUpgradeRequest(req *http.Request)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, h := range req.Header[http.CanonicalHeaderKey("Connection")] {
 		if strings.Contains(strings.ToLower(h), "upgrade") {
 			return true
@@ -151,6 +161,8 @@ func (p *UpgradeAwareSingleHostReverseProxy) isUpgradeRequest(req *http.Request)
 	return false
 }
 func (p *UpgradeAwareSingleHostReverseProxy) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +204,8 @@ func (p *UpgradeAwareSingleHostReverseProxy) dialBackend(req *http.Request) (net
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dialAddr := netutil.CanonicalAddr(req.URL)
 	switch p.backendAddr.Scheme {
 	case "http":
@@ -216,6 +230,8 @@ func (p *UpgradeAwareSingleHostReverseProxy) dialBackend(req *http.Request) (net
 	}
 }
 func (p *UpgradeAwareSingleHostReverseProxy) serveUpgrade(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,9 +317,13 @@ func removeAuthHeaders(req *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req.Header.Del("Authorization")
 }
 func removeChallengeHeaders(resp *http.Response) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -335,12 +355,16 @@ func removeCORSHeaders(resp *http.Response) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resp.Header.Del("Access-Control-Allow-Credentials")
 	resp.Header.Del("Access-Control-Allow-Headers")
 	resp.Header.Del("Access-Control-Allow-Methods")
 	resp.Header.Del("Access-Control-Allow-Origin")
 }
 func addAuthHeaders(req *http.Request, clientConfig *restclient.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

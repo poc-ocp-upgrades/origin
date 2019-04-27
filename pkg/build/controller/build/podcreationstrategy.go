@@ -31,6 +31,8 @@ func (f *typeBasedFactoryStrategy) CreateBuildPod(build *buildv1.Build, addition
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var pod *corev1.Pod
 	var err error
 	switch {

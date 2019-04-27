@@ -21,6 +21,8 @@ func NewGLogWriterV(level int) io.Writer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &gLogWriter{level: klog.Level(level)}
 }
 
@@ -41,12 +43,16 @@ func (w *gLogWriter) Write(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if klog.V(w.level) {
 		klog.InfoDepth(2, string(p))
 	}
 	return len(p), nil
 }
 func InitLogrus() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

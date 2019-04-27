@@ -25,6 +25,8 @@ func (m *TestUserIdentityMapper) UserFor(identityInfo api.UserIdentityInfo) (use
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.Identity = identityInfo
 	username := identityInfo.GetProviderUserName()
 	if preferredUsername := identityInfo.GetExtra()[api.IdentityPreferredUsernameKey]; len(preferredUsername) > 0 {
@@ -33,6 +35,8 @@ func (m *TestUserIdentityMapper) UserFor(identityInfo api.UserIdentityInfo) (use
 	return &user.DefaultInfo{Name: username}, nil
 }
 func TestRequestHeader(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

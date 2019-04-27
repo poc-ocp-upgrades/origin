@@ -56,6 +56,8 @@ func TestDescriberCoverage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 main:
 	for _, apiType := range legacyscheme.Scheme.KnownTypes(legacy.InternalGroupVersion) {
 		if !strings.HasPrefix(apiType.PkgPath(), "github.com/openshift/origin") || strings.HasPrefix(apiType.PkgPath(), "github.com/openshift/origin/vendor/") {
@@ -83,6 +85,8 @@ main:
 	}
 }
 func TestDescribeBuildDuration(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +131,8 @@ func mkV1Pod(status corev1.PodPhase, exitCode int) *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "PodName"}, Status: corev1.PodStatus{Phase: status, ContainerStatuses: []corev1.ContainerStatus{{State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{ExitCode: int32(exitCode)}}}}}}
 }
 func mkPod(status kapi.PodPhase, exitCode int) *kapi.Pod {
@@ -144,9 +150,13 @@ func mkPod(status kapi.PodPhase, exitCode int) *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapi.Pod{ObjectMeta: metav1.ObjectMeta{Name: "PodName"}, Status: kapi.PodStatus{Phase: status, ContainerStatuses: []kapi.ContainerStatus{{State: kapi.ContainerState{Terminated: &kapi.ContainerStateTerminated{ExitCode: int32(exitCode)}}}}}}
 }
 func TestDescribePostCommitHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +206,8 @@ func TestDescribeBuildSpec(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		spec	buildv1.BuildSpec
 		want	string
@@ -213,6 +225,8 @@ func TestDescribeBuildSpec(t *testing.T) {
 	}
 }
 func TestDescribeImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

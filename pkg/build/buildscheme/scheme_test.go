@@ -32,6 +32,8 @@ func TestLegacyDecoding(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err := runtime.Decode(Decoder, []byte(legacyBC))
 	if err != nil {
 		t.Fatal(err)

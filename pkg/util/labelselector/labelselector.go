@@ -41,9 +41,13 @@ func isWhitespace(ch byte) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n'
 }
 func isSpecialSymbol(ch byte) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func (l *Lexer) read() (b byte) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b = 0
 	if l.pos < len(l.s) {
 		b = l.s[l.pos]
@@ -107,9 +113,13 @@ func (l *Lexer) unread() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l.pos--
 }
 func (l *Lexer) scanIdOrKeyword() (tok Token, lit string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +154,8 @@ IdentifierLoop:
 	return IdentifierToken, s
 }
 func (l *Lexer) scanSpecialSymbol() (Token, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,6 +210,8 @@ func (l *Lexer) skipWhiteSpaces(ch byte) byte {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if !isWhitespace(ch) {
 			return ch
@@ -206,6 +220,8 @@ func (l *Lexer) skipWhiteSpaces(ch byte) byte {
 	}
 }
 func (l *Lexer) Lex() (tok Token, lit string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -253,10 +269,14 @@ func (p *Parser) lookahead() (Token, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tok, lit := p.scannedItems[p.position].tok, p.scannedItems[p.position].literal
 	return tok, lit
 }
 func (p *Parser) consume() (Token, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +313,8 @@ func (p *Parser) scan() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		token, literal := p.l.Lex()
 		p.scannedItems = append(p.scannedItems, ScannedItem{token, literal})
@@ -302,6 +324,8 @@ func (p *Parser) scan() {
 	}
 }
 func (p *Parser) parse() (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,6 +385,8 @@ func (p *Parser) parseLabel() (string, string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := p.parseKey()
 	if err != nil {
 		return "", "", err
@@ -379,6 +405,8 @@ func (p *Parser) parseLabel() (string, string, error) {
 	return key, value, nil
 }
 func (p *Parser) parseKey() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -418,6 +446,8 @@ func (p *Parser) parseOperator() (op string, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tok, lit := p.consume()
 	switch tok {
 	case EqualsToken:
@@ -428,6 +458,8 @@ func (p *Parser) parseOperator() (op string, err error) {
 	return op, nil
 }
 func (p *Parser) parseExactValue() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +498,8 @@ func Parse(selector string) (map[string]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &Parser{l: &Lexer{s: selector, pos: 0}}
 	labels, error := p.parse()
 	if error != nil {
@@ -474,6 +508,8 @@ func Parse(selector string) (map[string]string, error) {
 	return labels, nil
 }
 func Conflicts(labels1, labels2 map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -512,6 +548,8 @@ func Merge(labels1, labels2 map[string]string) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mergedMap := map[string]string{}
 	for k, v := range labels1 {
 		mergedMap[k] = v
@@ -522,6 +560,8 @@ func Merge(labels1, labels2 map[string]string) map[string]string {
 	return mergedMap
 }
 func Equals(labels1, labels2 map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -568,12 +608,16 @@ func validateLabelKey(k string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(kvalidation.IsQualifiedName(k)) != 0 {
 		return field.Invalid(field.NewPath("label key"), k, qualifiedNameErrorMsg)
 	}
 	return nil
 }
 func validateLabelValue(v string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -608,6 +652,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -682,5 +747,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

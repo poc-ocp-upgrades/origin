@@ -23,6 +23,8 @@ func TestGenerateRoute(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generator := RouteGenerator{}
 	tests := []struct {
 		params		map[string]interface{}

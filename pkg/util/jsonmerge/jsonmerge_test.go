@@ -19,6 +19,8 @@ func TestHasConflicts(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		A	interface{}
 		B	interface{}

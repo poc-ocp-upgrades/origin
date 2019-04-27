@@ -36,6 +36,8 @@ func ControllerHasDesiredReplicas(rcClient coreclient.ReplicationControllersGett
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	desiredGeneration := controller.Generation
 	return func() (bool, error) {
 		ctrl, err := rcClient.ReplicationControllers(controller.Namespace).Get(controller.Name, metav1.GetOptions{})
@@ -101,6 +103,8 @@ func NewRollingUpdater(namespace string, rcClient coreclient.ReplicationControll
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	updater := &RollingUpdater{rcClient: rcClient, podClient: podClient, scaleClient: sc, ns: namespace}
 	updater.scaleAndWait = updater.scaleAndWaitWithScaler
 	updater.getOrCreateTargetController = updater.getOrCreateTargetControllerWithClient
@@ -110,6 +114,8 @@ func NewRollingUpdater(namespace string, rcClient coreclient.ReplicationControll
 	return updater
 }
 func (r *RollingUpdater) Update(config *RollingUpdaterConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,6 +254,8 @@ func (r *RollingUpdater) scaleUp(newRc, oldRc *api.ReplicationController, desire
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if *newRc.Spec.Replicas == desired {
 		return newRc, nil
 	}
@@ -270,6 +278,8 @@ func (r *RollingUpdater) scaleUp(newRc, oldRc *api.ReplicationController, desire
 	return scaledRc, nil
 }
 func (r *RollingUpdater) scaleDown(newRc, oldRc *api.ReplicationController, desired, minAvailable, maxUnavailable, maxSurge int32, config *RollingUpdaterConfig) (*api.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -327,6 +337,8 @@ func (r *RollingUpdater) scaleAndWaitWithScaler(rc *api.ReplicationController, r
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scaler := kubectl.NewScaler(r.scaleClient)
 	if err := scaler.Scale(rc.Namespace, rc.Name, uint(*rc.Spec.Replicas), &kubectl.ScalePrecondition{Size: -1}, retry, wait, schema.GroupResource{Resource: "replicationcontrollers"}); err != nil {
 		return nil, err
@@ -334,6 +346,8 @@ func (r *RollingUpdater) scaleAndWaitWithScaler(rc *api.ReplicationController, r
 	return r.rcClient.ReplicationControllers(rc.Namespace).Get(rc.Name, metav1.GetOptions{})
 }
 func (r *RollingUpdater) readyPods(oldRc, newRc *api.ReplicationController, minReadySeconds int32) (int32, int32, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -394,6 +408,8 @@ func (r *RollingUpdater) getOrCreateTargetControllerWithClient(controller *api.R
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	existingRc, err := r.existingController(controller)
 	if err != nil {
 		if !errors.IsNotFound(err) {
@@ -435,12 +451,16 @@ func (r *RollingUpdater) existingController(controller *api.ReplicationControlle
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(controller.Name) == 0 && len(controller.GenerateName) > 0 {
 		return nil, errors.NewNotFound(api.Resource("replicationcontrollers"), controller.Name)
 	}
 	return r.rcClient.ReplicationControllers(controller.Namespace).Get(controller.Name, metav1.GetOptions{})
 }
 func (r *RollingUpdater) cleanupWithClients(oldRc, newRc *api.ReplicationController, config *RollingUpdaterConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -506,6 +526,8 @@ func Rename(c coreclient.ReplicationControllersGetter, rc *api.ReplicationContro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldName := rc.Name
 	rc.Name = newName
 	rc.ResourceVersion = ""
@@ -542,6 +564,8 @@ type NewControllerConfig struct {
 type updateRcFunc func(controller *api.ReplicationController)
 
 func updateRcWithRetries(rcClient coreclient.ReplicationControllersGetter, namespace string, rc *api.ReplicationController, applyUpdate updateRcFunc) (*api.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func RemoveDeploymentConfigs(oc *CLI, dcs ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, dc := range dcs {
 		e2e.Logf("Removing deployment config %s/%s", oc.Namespace(), dc)

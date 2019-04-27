@@ -22,6 +22,8 @@ func AllPods(g osgraph.Graph, excludeNodeIDs IntSet) ([]Pod, IntSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	pods := []Pod{}
 	for _, uncastNode := range g.NodesByKind(kubegraph.PodNodeKind) {
@@ -35,6 +37,8 @@ func AllPods(g osgraph.Graph, excludeNodeIDs IntSet) ([]Pod, IntSet) {
 	return pods, covered
 }
 func NewPod(g osgraph.Graph, podNode *kubegraph.PodNode) (Pod, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

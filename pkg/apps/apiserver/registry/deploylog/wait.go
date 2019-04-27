@@ -36,6 +36,8 @@ func WaitForRunningDeployment(rn corev1client.ReplicationControllersGetter, obse
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fieldSelector := fields.OneTermEqualSelector("metadata.name", observed.Name).String()
 	lw := &cache.ListWatch{ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
 		options.FieldSelector = fieldSelector

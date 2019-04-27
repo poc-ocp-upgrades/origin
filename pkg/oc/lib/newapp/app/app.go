@@ -47,6 +47,8 @@ func (s NameSuggestions) SuggestName() (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range s {
 		if s[i] == nil {
 			continue
@@ -58,6 +60,8 @@ func (s NameSuggestions) SuggestName() (string, bool) {
 	return "", false
 }
 func IsParameterizableValue(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func (g *Generated) WithType(slicePtr interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	found := false
 	v, err := conversion.EnforcePtr(slicePtr)
 	if err != nil || v.Kind() != reflect.Slice {
@@ -109,6 +115,8 @@ func (g *Generated) WithType(slicePtr interface{}) bool {
 	return found
 }
 func nameFromGitURL(url *s2igit.URL) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,6 +176,8 @@ func (r *SourceRef) SuggestName() (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r == nil {
 		return "", false
 	}
@@ -177,6 +187,8 @@ func (r *SourceRef) SuggestName() (string, bool) {
 	return nameFromGitURL(r.URL)
 }
 func (r *SourceRef) BuildSource() (*buildv1.BuildSource, []buildv1.BuildTriggerPolicy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +252,8 @@ func (s *BuildStrategyRef) BuildStrategy(env Environment, dockerStrategyOptions 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch s.Strategy {
 	case newapp.StrategyPipeline:
 		return &buildv1.BuildStrategy{JenkinsPipelineStrategy: &buildv1.JenkinsPipelineBuildStrategy{Env: env.List()}, Type: buildv1.JenkinsPipelineBuildStrategyType}, s.Base.BuildTriggers()
@@ -273,6 +287,8 @@ type BuildRef struct {
 }
 
 func (r *BuildRef) BuildConfig() (*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +365,8 @@ func (r *DeploymentConfigRef) DeploymentConfig() (*appsv1.DeploymentConfig, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(r.Name) == 0 {
 		suggestions := NameSuggestions{}
 		for i := range r.Images {
@@ -407,6 +425,8 @@ func GenerateSecret(n int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := make([]byte, base64.URLEncoding.DecodedLen(n))
 	if _, err := rand.Read(b); err != nil {
 		panic(err)
@@ -414,6 +434,8 @@ func GenerateSecret(n int) string {
 	return base64.URLEncoding.EncodeToString(b)
 }
 func ContainerPortsFromString(portString string) ([]corev1.ContainerPort, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -453,6 +475,8 @@ func checkPortSpecSegment(s string) (port corev1.ContainerPort, ok bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.Contains(s, ":") {
 		pair := strings.Split(s, ":")
 		if len(pair) != 2 {
@@ -475,6 +499,8 @@ func checkPortSpecSegment(s string) (port corev1.ContainerPort, ok bool) {
 	return corev1.ContainerPort{ContainerPort: int32(container)}, true
 }
 func LabelsFromSpec(spec []string) (map[string]string, []string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,6 +552,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -600,5 +647,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

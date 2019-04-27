@@ -25,6 +25,8 @@ func TestResourceVisitor_Visit(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var level klog.Level
 	origVerbosity := level.Get()
 	level.Set("1")
@@ -82,6 +84,8 @@ func (m mapWriter) Write(p []byte) (n int, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := len(m)
 	m[l] = string(p)
 	return len(p), nil
@@ -108,6 +112,8 @@ func (c *countSaveFn) save(_ *resource.Info, _ Reporter) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		c.m.Lock()
 		c.n++
@@ -120,6 +126,8 @@ func (c *countSaveFn) save(_ *resource.Info, _ Reporter) error {
 type testBuilder int
 
 func (t testBuilder) Visitor(_ ...resource.ErrMatchFunc) (resource.Visitor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -31,12 +31,16 @@ func NewLimitVerifier(limiter NamespaceLimiter) LimitVerifier {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &limitVerifier{limiter: limiter}
 }
 
 type limitVerifier struct{ limiter NamespaceLimiter }
 
 func (v *limitVerifier) VerifyLimits(namespace string, is *imageapi.ImageStream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,6 +66,8 @@ func (v *limitVerifier) VerifyLimits(namespace string, is *imageapi.ImageStream)
 	return nil
 }
 func verifyImageStreamUsage(isUsage corev1.ResourceList, limits corev1.ResourceList) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +108,8 @@ func (fn LimitRangesForNamespaceFunc) LimitsForNamespace(namespace string) (core
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	items, err := fn(namespace)
 	if err != nil {
 		return nil, err
@@ -113,6 +121,8 @@ func (fn LimitRangesForNamespaceFunc) LimitsForNamespace(namespace string) (core
 	return res, nil
 }
 func getMaxLimits(limit *corev1.LimitRange, current corev1.ResourceList) corev1.ResourceList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

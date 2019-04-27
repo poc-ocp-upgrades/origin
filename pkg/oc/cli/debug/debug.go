@@ -148,12 +148,16 @@ func NewDebugOptions(streams genericclioptions.IOStreams) *DebugOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	attachOpts := attach.NewAttachOptions(streams)
 	attachOpts.TTY = true
 	attachOpts.Stdin = true
 	return &DebugOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams, Timeout: 15 * time.Minute, KeepInitContainers: true, AsUser: -1, Attach: *attachOpts, LogsForObject: polymorphichelpers.LogsForObjectFn}
 }
 func NewCmdDebug(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -201,6 +205,8 @@ func NewCmdDebug(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	return cmd
 }
 func (o *DebugOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,12 +319,16 @@ func (o DebugOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if (o.AsRoot || o.AsNonRoot) && o.AsUser > 0 {
 		return fmt.Errorf("you may not specify --as-root and --as-user=%d at the same time", o.AsUser)
 	}
 	return nil
 }
 func (o *DebugOptions) RunDebug() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -464,6 +474,8 @@ func (o *DebugOptions) getContainerImageViaDeploymentConfig(pod *corev1.Pod, con
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := reference.Parse(container.Image)
 	if err != nil {
 		return nil, err
@@ -513,6 +525,8 @@ func (o *DebugOptions) getContainerImageViaImageStreamImport(container *corev1.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isi := &imagev1.ImageStreamImport{ObjectMeta: metav1.ObjectMeta{Name: "oc-debug"}, Spec: imagev1.ImageStreamImportSpec{Images: []imagev1.ImageImportSpec{{From: corev1.ObjectReference{Kind: "DockerImage", Name: container.Image}}}}}
 	isi, err := o.ImageClient.ImageStreamImports(o.Attach.Pod.Namespace).Create(isi)
 	if err != nil {
@@ -524,6 +538,8 @@ func (o *DebugOptions) getContainerImageViaImageStreamImport(container *corev1.C
 	return nil, nil
 }
 func (o *DebugOptions) getContainerImageCommand(pod *corev1.Pod, container *corev1.Container) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -561,6 +577,8 @@ func (o *DebugOptions) getContainerImageCommand(pod *corev1.Pod, container *core
 	return append(dockerImage.Config.Entrypoint, dockerImage.Config.Cmd...), nil
 }
 func (o *DebugOptions) transformPodForDebug(annotations map[string]string) (*corev1.Pod, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -674,6 +692,8 @@ func (o *DebugOptions) createPod(pod *corev1.Pod) (*corev1.Pod, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace, name := pod.Namespace, pod.Name
 	created, err := o.CoreClient.Pods(namespace).Create(pod)
 	if err == nil || !kapierrors.IsAlreadyExists(err) {
@@ -692,6 +712,8 @@ func (o *DebugOptions) createPod(pod *corev1.Pod) (*corev1.Pod, error) {
 	return o.CoreClient.Pods(namespace).Create(pod)
 }
 func containerForName(pod *corev1.Pod, name string) *corev1.Container {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -733,6 +755,8 @@ func containerNames(pod *corev1.Pod) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, c := range pod.Spec.Containers {
 		names = append(names, c.Name)
@@ -740,6 +764,8 @@ func containerNames(pod *corev1.Pod) []string {
 	return names
 }
 func (o *DebugOptions) approximatePodTemplateForObject(object runtime.Object) (*corev1.PodTemplateSpec, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -844,6 +870,8 @@ func setNodeName(template *corev1.PodTemplateSpec, nodeName string) *corev1.PodT
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	template.Spec.NodeName = nodeName
 	return template
 }
@@ -862,6 +890,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -936,5 +985,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

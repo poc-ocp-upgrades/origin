@@ -29,6 +29,8 @@ func RegisterSCCExecRestrictions(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register("security.openshift.io/SCCExecRestrictions", func(config io.Reader) (admission.Interface, error) {
 		execAdmitter := NewSCCExecRestrictions()
 		return execAdmitter, nil
@@ -49,6 +51,8 @@ type sccExecRestrictions struct {
 }
 
 func (d *sccExecRestrictions) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,9 +105,13 @@ func NewSCCExecRestrictions() *sccExecRestrictions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &sccExecRestrictions{Handler: admission.NewHandler(admission.Connect), constraintAdmission: NewConstraint()}
 }
 func (d *sccExecRestrictions) SetExternalKubeClientSet(c kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +144,8 @@ func (d *sccExecRestrictions) SetSecurityInformers(informers securityv1informers
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.constraintAdmission.SetSecurityInformers(informers)
 }
 func (d *sccExecRestrictions) SetAuthorizer(authorizer authorizer.Authorizer) {
@@ -153,9 +163,13 @@ func (d *sccExecRestrictions) SetAuthorizer(authorizer authorizer.Authorizer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.constraintAdmission.SetAuthorizer(authorizer)
 }
 func (d *sccExecRestrictions) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

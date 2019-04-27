@@ -23,6 +23,8 @@ func NewProtocolsForObjectFn(delegate polymorphichelpers.ProtocolsForObjectFunc)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(object runtime.Object) (map[string]string, error) {
 		switch t := object.(type) {
 		case *appsv1.DeploymentConfig:
@@ -33,6 +35,8 @@ func NewProtocolsForObjectFn(delegate polymorphichelpers.ProtocolsForObjectFunc)
 	}
 }
 func getProtocols(spec corev1.PodSpec) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

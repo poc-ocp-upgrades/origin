@@ -48,9 +48,13 @@ func NewOVSController(ovsif ovs.Interface, pluginId int, useConnTrack bool, loca
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsController{ovs: ovsif, pluginId: pluginId, useConnTrack: useConnTrack, localIP: localIP}
 }
 func (oc *ovsController) getVersionNote() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func (oc *ovsController) AlreadySetUp(vxlanPort uint32) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flows, err := oc.ovs.DumpFlows("table=%d", ruleVersionTable)
 	if err != nil || len(flows) != 1 {
 		return false
@@ -99,6 +105,8 @@ func (oc *ovsController) AlreadySetUp(vxlanPort uint32) bool {
 	return false
 }
 func (oc *ovsController) SetupOVS(clusterNetworkCIDR []string, serviceNetworkCIDR, localSubnetCIDR, localSubnetGateway string, mtu uint32, vxlanPort uint32) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +236,8 @@ func (oc *ovsController) GetPodNetworkInfo() (map[string]podNetworkInfo, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rows, err := oc.ovs.Find("interface", []string{"name", "external_ids"}, "external_ids:sandbox!=\"\"")
 	if err != nil {
 		return nil, err
@@ -270,9 +280,13 @@ func (oc *ovsController) NewTransaction() ovs.Transaction {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oc.ovs.NewTransaction()
 }
 func (oc *ovsController) ensureOvsPort(hostVeth, sandboxID, podIP string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -294,6 +308,8 @@ func (oc *ovsController) ensureOvsPort(hostVeth, sandboxID, podIP string) (int, 
 	return ofport, err
 }
 func (oc *ovsController) setupPodFlows(ofport int, podIP net.IP, vnid uint32) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +352,8 @@ func (oc *ovsController) cleanupPodFlows(podIP net.IP) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipstr := podIP.String()
 	otx := oc.ovs.NewTransaction()
 	otx.DeleteFlows("ip, nw_dst=%s", ipstr)
@@ -345,6 +363,8 @@ func (oc *ovsController) cleanupPodFlows(podIP net.IP) error {
 	return otx.Commit()
 }
 func (oc *ovsController) SetUpPod(sandboxID, hostVeth string, podIP net.IP, vnid uint32) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -380,9 +400,13 @@ func (oc *ovsController) getInterfacesForSandbox(sandboxID string) ([]string, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oc.ovs.FindOne("interface", "name", "external_ids:sandbox="+sandboxID)
 }
 func (oc *ovsController) ClearPodBandwidth(portList []string, sandboxID string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -414,6 +438,8 @@ func (oc *ovsController) ClearPodBandwidth(portList []string, sandboxID string) 
 	return nil
 }
 func (oc *ovsController) SetPodBandwidth(hostVeth, sandboxID string, ingressBPS, egressBPS int64) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +494,8 @@ func (oc *ovsController) getPodDetailsBySandboxID(sandboxID string) (int, net.IP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rows, err := oc.ovs.Find("interface", []string{"ofport", "external_ids"}, "external_ids:sandbox="+sandboxID)
 	if err != nil {
 		return 0, nil, err
@@ -508,6 +536,8 @@ func (oc *ovsController) UpdatePod(sandboxID string, vnid uint32) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ofport, podIP, err := oc.getPodDetailsBySandboxID(sandboxID)
 	if err != nil {
 		return err
@@ -521,6 +551,8 @@ func (oc *ovsController) UpdatePod(sandboxID string, vnid uint32) error {
 	return oc.setupPodFlows(ofport, podIP, vnid)
 }
 func (oc *ovsController) TearDownPod(sandboxID string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -571,6 +603,8 @@ func policyNames(policies []networkapi.EgressNetworkPolicy) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := make([]string, len(policies))
 	for i, policy := range policies {
 		names[i] = policy.Namespace + ":" + policy.Name
@@ -578,6 +612,8 @@ func policyNames(policies []networkapi.EgressNetworkPolicy) string {
 	return strings.Join(names, ", ")
 }
 func (oc *ovsController) UpdateEgressNetworkPolicyRules(policies []networkapi.EgressNetworkPolicy, vnid uint32, namespaces []string, egressDNS *common.EgressDNS) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -659,10 +695,14 @@ func hostSubnetCookie(subnet *networkapi.HostSubnet) uint32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hash := sha256.Sum256([]byte(subnet.UID))
 	return (uint32(hash[0]) << 24) | (uint32(hash[1]) << 16) | (uint32(hash[2]) << 8) | uint32(hash[3])
 }
 func (oc *ovsController) AddHostSubnetRules(subnet *networkapi.HostSubnet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -704,6 +744,8 @@ func (oc *ovsController) DeleteHostSubnetRules(subnet *networkapi.HostSubnet) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cookie := hostSubnetCookie(subnet)
 	otx := oc.ovs.NewTransaction()
 	otx.DeleteFlows("table=10, cookie=0x%08x/0xffffffff, tun_src=%s", cookie, subnet.HostIP)
@@ -712,6 +754,8 @@ func (oc *ovsController) DeleteHostSubnetRules(subnet *networkapi.HostSubnet) er
 	return otx.Commit()
 }
 func (oc *ovsController) AddServiceRules(service *corev1.Service, netID uint32) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -753,11 +797,15 @@ func (oc *ovsController) DeleteServiceRules(service *corev1.Service) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	otx := oc.ovs.NewTransaction()
 	otx.DeleteFlows(generateBaseServiceRule(service.Spec.ClusterIP))
 	return otx.Commit()
 }
 func generateBaseServiceRule(IP string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -789,6 +837,8 @@ func generateBaseAddServiceRule(IP string, protocol corev1.Protocol, port int) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var dst string
 	if protocol == corev1.ProtocolUDP {
 		dst = fmt.Sprintf(", udp, udp_dst=%d", port)
@@ -800,6 +850,8 @@ func generateBaseAddServiceRule(IP string, protocol corev1.Protocol, port int) (
 	return generateBaseServiceRule(IP) + dst, nil
 }
 func (oc *ovsController) UpdateLocalMulticastFlows(vnid uint32, enabled bool, ofports []int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -848,6 +900,8 @@ func (oc *ovsController) UpdateVXLANMulticastFlows(remoteIPs []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	otx := oc.ovs.NewTransaction()
 	if len(remoteIPs) > 0 {
 		actions := make([]string, len(remoteIPs))
@@ -862,6 +916,8 @@ func (oc *ovsController) UpdateVXLANMulticastFlows(remoteIPs []string) error {
 	return otx.Commit()
 }
 func (oc *ovsController) FindPolicyVNIDs() sets.Int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -894,10 +950,14 @@ func (oc *ovsController) FindUnusedVNIDs() []int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	inUseVNIDs, policyVNIDs := oc.findInUseAndPolicyVNIDs()
 	return policyVNIDs.Difference(inUseVNIDs).UnsortedList()
 }
 func (oc *ovsController) findInUseAndPolicyVNIDs() (sets.Int, sets.Int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -971,6 +1031,8 @@ func (oc *ovsController) ensureTunMAC() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if oc.tunMAC != "" {
 		return nil
 	}
@@ -984,6 +1046,8 @@ func (oc *ovsController) ensureTunMAC() error {
 	return nil
 }
 func (oc *ovsController) SetNamespaceEgressNormal(vnid uint32) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1017,12 +1081,16 @@ func (oc *ovsController) SetNamespaceEgressDropped(vnid uint32) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	otx := oc.ovs.NewTransaction()
 	otx.DeleteFlows("table=100, reg0=%d", vnid)
 	otx.AddFlow("table=100, priority=100, reg0=%d, actions=drop", vnid)
 	return otx.Commit()
 }
 func (oc *ovsController) SetNamespaceEgressViaEgressIP(vnid uint32, nodeIP, mark string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

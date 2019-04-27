@@ -83,6 +83,8 @@ func describerMap(clientConfig *rest.Config, kclient kubernetes.Interface, host 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient, err := kubernetes.NewForConfig(clientConfig)
 	if err != nil {
 		klog.V(1).Info(err)
@@ -156,6 +158,8 @@ func DescriberFor(kind schema.GroupKind, clientConfig *rest.Config, kubeClient k
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f, ok := describerMap(clientConfig, kubeClient, host)[kind]
 	if ok {
 		return f, true
@@ -169,6 +173,8 @@ type BuildDescriber struct {
 }
 
 func (d *BuildDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -247,6 +253,8 @@ func describeBuildDuration(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := metav1.Now().Rfc3339Copy()
 	if build.Status.StartTimestamp == nil && build.Status.CompletionTimestamp != nil && (build.Status.Phase == buildv1.BuildPhaseCancelled || build.Status.Phase == buildv1.BuildPhaseFailed || build.Status.Phase == buildv1.BuildPhaseError) {
 		return fmt.Sprintf("waited for %s", build.Status.CompletionTimestamp.Rfc3339Copy().Time.Sub(build.CreationTimestamp.Rfc3339Copy().Time))
@@ -283,12 +291,16 @@ func nameAndNamespace(ns, name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(ns) != 0 {
 		return fmt.Sprintf("%s/%s", ns, name)
 	}
 	return name
 }
 func describeCommonSpec(p buildv1.CommonSpec, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -407,6 +419,8 @@ func describePostCommitHook(hook buildv1.BuildPostCommitSpec, out *tabwriter.Wri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	command := hook.Command
 	args := hook.Args
 	script := hook.Script
@@ -431,6 +445,8 @@ func describePostCommitHook(hook buildv1.BuildPostCommitSpec, out *tabwriter.Wri
 	formatString(out, "Post Commit Hook", fmt.Sprintf("[%s]", strings.Join(all, ", ")))
 }
 func describeSourceStrategy(s *buildv1.SourceBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -476,6 +492,8 @@ func describeDockerStrategy(s *buildv1.DockerBuildStrategy, out *tabwriter.Write
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.From != nil && len(s.From.Name) != 0 {
 		formatString(out, "From Image", fmt.Sprintf("%s %s", s.From.Kind, nameAndNamespace(s.From.Namespace, s.From.Name)))
 	}
@@ -493,6 +511,8 @@ func describeDockerStrategy(s *buildv1.DockerBuildStrategy, out *tabwriter.Write
 	}
 }
 func describeCustomStrategy(s *buildv1.CustomBuildStrategy, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -542,6 +562,8 @@ func describeJenkinsPipelineStrategy(s *buildv1.JenkinsPipelineBuildStrategy, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(s.JenkinsfilePath) != 0 {
 		formatString(out, "Jenkinsfile path", s.JenkinsfilePath)
 	}
@@ -570,9 +592,13 @@ func (d *BuildConfigDescriber) DescribeTriggers(bc *buildv1.BuildConfig, out *ta
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	describeBuildTriggers(bc.Spec.Triggers, bc.Name, bc.Namespace, out, d)
 }
 func describeBuildTriggers(triggers []buildv1.BuildTriggerPolicy, name, namespace string, w *tabwriter.Writer, d *BuildConfigDescriber) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -630,6 +656,8 @@ func describeBuildTriggers(triggers []buildv1.BuildTriggerPolicy, name, namespac
 	}
 }
 func (d *BuildConfigDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -712,6 +740,8 @@ func (d *OAuthAccessTokenDescriber) Describe(namespace, name string, settings de
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.client.OAuthAccessTokens()
 	oAuthAccessToken, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -751,6 +781,8 @@ func (d *ImageDescriber) Describe(namespace, name string, settings describe.Desc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.Images()
 	image, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -759,6 +791,8 @@ func (d *ImageDescriber) Describe(namespace, name string, settings describe.Desc
 	return DescribeImage(image, "")
 }
 func describeImageSignature(s imageapi.ImageSignature, out *tabwriter.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -789,6 +823,8 @@ func describeImageSignature(s imageapi.ImageSignature, out *tabwriter.Writer) er
 	return nil
 }
 func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -847,6 +883,8 @@ func DescribeImage(image *imageapi.Image, imageName string) (string, error) {
 	})
 }
 func describeDockerImage(out *tabwriter.Writer, image *imageapi.DockerConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -921,6 +959,8 @@ func (d *ImageStreamTagDescriber) Describe(namespace, name string, settings desc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ImageStreamTags(namespace)
 	repo, tag, err := imageapi.ParseImageStreamTagName(name)
 	if err != nil {
@@ -939,6 +979,8 @@ func (d *ImageStreamTagDescriber) Describe(namespace, name string, settings desc
 type ImageStreamImageDescriber struct{ c imageclient.ImageInterface }
 
 func (d *ImageStreamImageDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -978,6 +1020,8 @@ func (d *ImageStreamDescriber) Describe(namespace, name string, settings describ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.ImageClient.ImageStreams(namespace)
 	imageStream, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -986,6 +1030,8 @@ func (d *ImageStreamDescriber) Describe(namespace, name string, settings describ
 	return DescribeImageStream(imageStream)
 }
 func DescribeImageStream(imageStream *imageapi.ImageStream) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1023,6 +1069,8 @@ type routeEndpointInfo struct {
 }
 
 func (d *RouteDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1184,6 +1232,8 @@ func (d *ProjectDescriber) Describe(namespace, name string, settings describe.De
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projectsClient := d.projectClient.Projects()
 	project, err := projectsClient.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1324,12 +1374,16 @@ func (d *TemplateDescriber) DescribeMessage(msg string, out *tabwriter.Writer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(msg) == 0 {
 		msg = "<none>"
 	}
 	formatString(out, "Message", msg)
 }
 func (d *TemplateDescriber) DescribeParameters(params []templateapi.Parameter, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1372,6 +1426,8 @@ func (d *TemplateDescriber) DescribeParameters(params []templateapi.Parameter, o
 	}
 }
 func (d *TemplateDescriber) describeObjects(objects []runtime.Object, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1429,6 +1485,8 @@ func (d *TemplateDescriber) Describe(namespace, name string, settings describe.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.templateClient.Templates(namespace)
 	template, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1437,6 +1495,8 @@ func (d *TemplateDescriber) Describe(namespace, name string, settings describe.D
 	return d.DescribeTemplate(template)
 }
 func (d *TemplateDescriber) DescribeTemplate(template *templateapi.Template) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1489,6 +1549,8 @@ func (d *TemplateInstanceDescriber) Describe(namespace, name string, settings de
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.templateClient.TemplateInstances(namespace)
 	templateInstance, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1497,6 +1559,8 @@ func (d *TemplateInstanceDescriber) Describe(namespace, name string, settings de
 	return d.DescribeTemplateInstance(templateInstance, namespace, settings)
 }
 func (d *TemplateInstanceDescriber) DescribeTemplateInstance(templateInstance *templateapi.TemplateInstance, namespace string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1542,6 +1606,8 @@ func (d *TemplateInstanceDescriber) DescribeConditions(conditions []templateapi.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Conditions", " ")
 	indent := "    "
 	for _, c := range conditions {
@@ -1568,6 +1634,8 @@ func (d *TemplateInstanceDescriber) DescribeObjects(objects []templateapi.Templa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Objects", " ")
 	indent := "    "
 	for _, o := range objects {
@@ -1575,6 +1643,8 @@ func (d *TemplateInstanceDescriber) DescribeObjects(objects []templateapi.Templa
 	}
 }
 func (d *TemplateInstanceDescriber) DescribeParameters(template templateapi.Template, namespace, name string, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1617,6 +1687,8 @@ func (d *TemplateInstanceDescriber) DescribeParameters(template templateapi.Temp
 type IdentityDescriber struct{ c userclient.UserInterface }
 
 func (d *IdentityDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1682,6 +1754,8 @@ func (d *UserIdentityMappingDescriber) Describe(namespace, name string, settings
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.UserIdentityMappings()
 	mapping, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1699,6 +1773,8 @@ func (d *UserIdentityMappingDescriber) Describe(namespace, name string, settings
 type UserDescriber struct{ c userclient.UserInterface }
 
 func (d *UserDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1767,6 +1843,8 @@ func (d *GroupDescriber) Describe(namespace, name string, settings describe.Desc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	group, err := d.c.Groups().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -1791,6 +1869,8 @@ func (d *GroupDescriber) Describe(namespace, name string, settings describe.Desc
 const PolicyRuleHeadings = "Verbs\tNon-Resource URLs\tResource Names\tAPI Groups\tResources"
 
 func DescribePolicyRule(out *tabwriter.Writer, rule authorizationapi.PolicyRule, indent string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1830,6 +1910,8 @@ func (d *RoleDescriber) Describe(namespace, name string, settings describe.Descr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.Roles(namespace)
 	role, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1838,6 +1920,8 @@ func (d *RoleDescriber) Describe(namespace, name string, settings describe.Descr
 	return DescribeRole(role)
 }
 func DescribeRole(role *authorizationapi.Role) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1881,6 +1965,8 @@ func (d *RoleBindingDescriber) Describe(namespace, name string, settings describ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.RoleBindings(namespace)
 	roleBinding, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1897,6 +1983,8 @@ func (d *RoleBindingDescriber) Describe(namespace, name string, settings describ
 	return DescribeRoleBinding(roleBinding, role, err)
 }
 func DescribeRoleBinding(roleBinding *authorizationapi.RoleBinding, role *authorizationapi.Role, err error) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1953,6 +2041,8 @@ func (d *ClusterRoleDescriber) Describe(namespace, name string, settings describ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ClusterRoles()
 	role, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1980,6 +2070,8 @@ func (d *ClusterRoleBindingDescriber) Describe(namespace, name string, settings 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.ClusterRoleBindings()
 	roleBinding, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -1989,6 +2081,8 @@ func (d *ClusterRoleBindingDescriber) Describe(namespace, name string, settings 
 	return DescribeRoleBinding(authorizationapi.ToRoleBinding(roleBinding), authorizationapi.ToRole(role), err)
 }
 func describeBuildTriggerCauses(causes []buildv1.BuildTriggerCause, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2029,6 +2123,8 @@ func describeBuildTriggerCauses(causes []buildv1.BuildTriggerCause, out *tabwrit
 	fmt.Fprintf(out, "\n")
 }
 func squashGitInfo(sourceRevision *buildv1.SourceRevision, out *tabwriter.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2085,6 +2181,8 @@ func (d *ClusterQuotaDescriber) Describe(namespace, name string, settings descri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quota, err := d.c.ClusterResourceQuotas().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -2092,6 +2190,8 @@ func (d *ClusterQuotaDescriber) Describe(namespace, name string, settings descri
 	return DescribeClusterQuota(quota)
 }
 func DescribeClusterQuota(quota *quotav1.ClusterResourceQuota) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2162,6 +2262,8 @@ func (d *AppliedClusterQuotaDescriber) Describe(namespace, name string, settings
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	quota, err := d.c.AppliedClusterResourceQuotas(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -2174,6 +2276,8 @@ type ClusterNetworkDescriber struct {
 }
 
 func (d *ClusterNetworkDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2225,6 +2329,8 @@ func (d *HostSubnetDescriber) Describe(namespace, name string, settings describe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hs, err := d.c.HostSubnets().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -2245,6 +2351,8 @@ type NetNamespaceDescriber struct {
 }
 
 func (d *NetNamespaceDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2291,6 +2399,8 @@ func (d *EgressNetworkPolicyDescriber) Describe(namespace, name string, settings
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := d.c.EgressNetworkPolicies(namespace)
 	policy, err := c.Get(name, metav1.GetOptions{})
 	if err != nil {
@@ -2314,6 +2424,8 @@ type RoleBindingRestrictionDescriber struct {
 }
 
 func (d *RoleBindingRestrictionDescriber) Describe(namespace, name string, settings describe.DescriberSettings) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2393,6 +2505,8 @@ func (d *SecurityContextConstraintsDescriber) Describe(namespace, name string, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc, err := d.c.SecurityContextConstraints().Get(name, metav1.GetOptions{})
 	if err != nil {
 		return "", err
@@ -2400,6 +2514,8 @@ func (d *SecurityContextConstraintsDescriber) Describe(namespace, name string, s
 	return describeSecurityContextConstraints(scc)
 }
 func describeSecurityContextConstraints(scc *securityapi.SecurityContextConstraints) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2490,9 +2606,13 @@ func stringOrNone(s string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return stringOrDefaultValue(s, "<none>")
 }
 func stringOrDefaultValue(s, defaultValue string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2513,6 +2633,8 @@ func stringOrDefaultValue(s, defaultValue string) string {
 	return defaultValue
 }
 func fsTypeToString(volumes []securityapi.FSType) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2548,6 +2670,8 @@ func flexVolumesToString(flexVolumes []securityapi.AllowedFlexVolume) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	volumes := []string{}
 	for _, flexVolume := range flexVolumes {
 		volumes = append(volumes, "driver="+flexVolume.Driver)
@@ -2555,6 +2679,8 @@ func flexVolumesToString(flexVolumes []securityapi.AllowedFlexVolume) string {
 	return stringOrDefaultValue(strings.Join(volumes, ","), "<all>")
 }
 func sysctlsToString(sysctls []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2586,6 +2712,8 @@ func idRangeToString(ranges []securityapi.IDRange) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formattedString := ""
 	if ranges != nil {
 		strRanges := []string{}
@@ -2597,6 +2725,8 @@ func idRangeToString(ranges []securityapi.IDRange) string {
 	return stringOrNone(formattedString)
 }
 func capsToString(caps []kapi.Capability) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

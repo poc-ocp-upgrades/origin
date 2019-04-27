@@ -98,6 +98,8 @@ func getRandName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := 20
 	b := make([]byte, c)
 	_, err := rand.Read(b)
@@ -105,6 +107,8 @@ func getRandName() string {
 	return fmt.Sprintf("%02x", b)
 }
 func getCreds(oc *exutil.CLI) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,9 +151,13 @@ func NewTestPod(oc *exutil.CLI, name, spec string) *testPod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testPod{oc: oc, name: name, spec: spec}
 }
 func (pod *testPod) syncState(c kclientset.Interface, ns string, timeout time.Duration, state kapiv1.PodPhase) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,6 +207,8 @@ func (pod *testPod) syncRunning(c kclientset.Interface, ns string, timeout time.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = pod.syncState(c, ns, timeout, kapiv1.PodRunning)
 	if err == nil {
 		framework.Logf("All pods running in %s", ns)
@@ -206,6 +216,8 @@ func (pod *testPod) syncRunning(c kclientset.Interface, ns string, timeout time.
 	return err
 }
 func (pod *testPod) NotErr(err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +252,8 @@ func (pod *testPod) Run() *testPod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By("Set up and fetch the URL of external registry server")
 	err := pod.oc.Run("create").Args("-f", "-").InputString(pod.spec).Execute()
 	o.Expect(err).NotTo(o.HaveOccurred())
@@ -247,6 +261,8 @@ func (pod *testPod) Run() *testPod {
 	return pod
 }
 func (pod *testPod) ShellExec(command ...string) *exutil.CLI {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -283,11 +299,15 @@ func genDockerConfig(pod *testPod, registryURL, user, token string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := fmt.Sprintf(`{"auths":{%q:{"auth":%q}}}`, registryURL, base64.StdEncoding.EncodeToString([]byte(user+":"+token)))
 	err := pod.ShellExec("bash", "-c", "cd /tmp; cat > config.json").InputString(config).Execute()
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
 func getRegistrySchema(pod *testPod, host string) (schema string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -326,6 +346,8 @@ func runHTTPRequest(pod *testPod, URL string, headers map[string]string) (string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	command := []string{"curl", "-s", "-v", "-k", "-L", "-o", "/dev/null"}
 	for k, v := range headers {
 		command = append(command, "-H", fmt.Sprintf("%s", k+":"+v))
@@ -334,6 +356,8 @@ func runHTTPRequest(pod *testPod, URL string, headers map[string]string) (string
 	return pod.ShellExec(command...).Output()
 }
 func requestHasStatusCode(pod *testPod, URL, token, statusCode string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -361,6 +385,8 @@ func requestHasStatusCode(pod *testPod, URL, token, statusCode string) {
 	pod.NotErr(err)
 }
 func testNewBuild(oc *exutil.CLI) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

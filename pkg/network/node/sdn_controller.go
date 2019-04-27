@@ -29,6 +29,8 @@ func (plugin *OsdnNode) alreadySetUp(localSubnetGatewayCIDR string, clusterNetwo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var found bool
 	l, err := netlink.LinkByName(Tun0)
 	if err != nil {
@@ -84,6 +86,8 @@ func deleteLocalSubnetRoute(device, localSubnetCIDR string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	backoff := utilwait.Backoff{Duration: 100 * time.Millisecond, Factor: 1.25, Steps: 7}
 	err := utilwait.ExponentialBackoff(backoff, func() (bool, error) {
 		l, err := netlink.LinkByName(device)
@@ -110,6 +114,8 @@ func deleteLocalSubnetRoute(device, localSubnetCIDR string) {
 	}
 }
 func (plugin *OsdnNode) SetupSDN() (bool, map[string]podNetworkInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -184,6 +190,8 @@ func (plugin *OsdnNode) setup(clusterNetworkCIDRs []string, localSubnetCIDR, loc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceNetworkCIDR := plugin.networkInfo.ServiceNetwork.String()
 	if err := plugin.oc.SetupOVS(clusterNetworkCIDRs, serviceNetworkCIDR, localSubnetCIDR, localSubnetGateway, plugin.mtu, plugin.networkInfo.VXLANPort); err != nil {
 		return err
@@ -231,6 +239,8 @@ func (plugin *OsdnNode) updateEgressNetworkPolicyRules(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policies := plugin.egressPolicies[vnid]
 	namespaces := plugin.policy.GetNamespaces(vnid)
 	if err := plugin.oc.UpdateEgressNetworkPolicyRules(policies, vnid, namespaces, plugin.egressDNS); err != nil {
@@ -252,12 +262,16 @@ func (plugin *OsdnNode) AddServiceRules(service *corev1.Service, netID uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(5).Infof("AddServiceRules for %v", service)
 	if err := plugin.oc.AddServiceRules(service, netID); err != nil {
 		utilruntime.HandleError(fmt.Errorf("Error adding OVS flows for service %v, netid %d: %v", service, netID, err))
 	}
 }
 func (plugin *OsdnNode) DeleteServiceRules(service *corev1.Service) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

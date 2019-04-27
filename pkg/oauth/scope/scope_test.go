@@ -20,6 +20,8 @@ func TestAdd(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checkAdd(t, []string{}, []string{}, []string{})
 	checkAdd(t, []string{"A"}, []string{}, []string{"A"})
 	checkAdd(t, []string{"A"}, []string{"A"}, []string{"A"})
@@ -28,6 +30,8 @@ func TestAdd(t *testing.T) {
 	checkAdd(t, []string{}, []string{"C", "A", "B"}, []string{"A", "B", "C"})
 }
 func checkAdd(t *testing.T, s1, s2, expected []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,6 +66,8 @@ func TestCovers(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checkCovers(t, []string{}, []string{}, true)
 	checkCovers(t, []string{"A"}, []string{}, false)
 	checkCovers(t, []string{"B", "A"}, []string{}, false)
@@ -75,6 +81,8 @@ func TestCovers(t *testing.T) {
 	checkCovers(t, []string{"A", "B"}, []string{"A", "C"}, false)
 }
 func checkCovers(t *testing.T, has, requested []string, expected bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -42,9 +42,13 @@ func NewCNIPlugin(socketPath string, hostNS ns.NetNS) *cniPlugin {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &cniPlugin{socketPath: socketPath, hostNS: hostNS}
 }
 func newCNIRequest(args *skel.CmdArgs) *cniserver.CNIRequest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,6 +73,8 @@ func newCNIRequest(args *skel.CmdArgs) *cniserver.CNIRequest {
 	return &cniserver.CNIRequest{Env: envMap, Config: args.StdinData}
 }
 func (p *cniPlugin) doCNI(url string, req *cniserver.CNIRequest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +129,8 @@ func (p *cniPlugin) doCNIServerAdd(req *cniserver.CNIRequest, hostVeth string) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req.HostVeth = hostVeth
 	body, err := p.doCNI("http://dummy/", req)
 	if err != nil {
@@ -149,6 +157,8 @@ func (p *cniPlugin) testCmdAdd(args *skel.CmdArgs) (types.Result, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err := p.doCNIServerAdd(newCNIRequest(args), "dummy0")
 	if err != nil {
 		return nil, err
@@ -156,6 +166,8 @@ func (p *cniPlugin) testCmdAdd(args *skel.CmdArgs) (types.Result, error) {
 	return convertToRequestedVersion(args.StdinData, result)
 }
 func (p *cniPlugin) CmdAdd(args *skel.CmdArgs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,6 +283,8 @@ func convertToRequestedVersion(stdinData []byte, result *current.Result) (types.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	versionDecoder := &version.ConfigDecoder{}
 	confVersion, err := versionDecoder.Decode(stdinData)
 	if err != nil {
@@ -297,10 +311,14 @@ func (p *cniPlugin) CmdDel(args *skel.CmdArgs) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := p.doCNI("http://dummy/", newCNIRequest(args))
 	return err
 }
 func main() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

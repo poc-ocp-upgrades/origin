@@ -20,10 +20,14 @@ func (in *AllowedFlexVolume) DeepCopyInto(out *AllowedFlexVolume) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *AllowedFlexVolume) DeepCopy() *AllowedFlexVolume {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (in *AllowedFlexVolume) DeepCopy() *AllowedFlexVolume {
 	return out
 }
 func (in *FSGroupStrategyOptions) DeepCopyInto(out *FSGroupStrategyOptions) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +89,8 @@ func (in *FSGroupStrategyOptions) DeepCopy() *FSGroupStrategyOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -105,10 +113,14 @@ func (in *IDRange) DeepCopyInto(out *IDRange) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *IDRange) DeepCopy() *IDRange {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +157,8 @@ func (in *PodSecurityPolicyReview) DeepCopyInto(out *PodSecurityPolicyReview) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.Spec.DeepCopyInto(&out.Spec)
@@ -152,6 +166,8 @@ func (in *PodSecurityPolicyReview) DeepCopyInto(out *PodSecurityPolicyReview) {
 	return
 }
 func (in *PodSecurityPolicyReview) DeepCopy() *PodSecurityPolicyReview {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,12 +204,16 @@ func (in *PodSecurityPolicyReview) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *PodSecurityPolicyReviewSpec) DeepCopyInto(out *PodSecurityPolicyReviewSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -232,6 +252,8 @@ func (in *PodSecurityPolicyReviewSpec) DeepCopy() *PodSecurityPolicyReviewSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -240,6 +262,8 @@ func (in *PodSecurityPolicyReviewSpec) DeepCopy() *PodSecurityPolicyReviewSpec {
 	return out
 }
 func (in *PodSecurityPolicyReviewStatus) DeepCopyInto(out *PodSecurityPolicyReviewStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -279,6 +303,8 @@ func (in *PodSecurityPolicyReviewStatus) DeepCopy() *PodSecurityPolicyReviewStat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -301,6 +327,8 @@ func (in *PodSecurityPolicySelfSubjectReview) DeepCopyInto(out *PodSecurityPolic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.Spec.DeepCopyInto(&out.Spec)
@@ -308,6 +336,8 @@ func (in *PodSecurityPolicySelfSubjectReview) DeepCopyInto(out *PodSecurityPolic
 	return
 }
 func (in *PodSecurityPolicySelfSubjectReview) DeepCopy() *PodSecurityPolicySelfSubjectReview {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,6 +374,8 @@ func (in *PodSecurityPolicySelfSubjectReview) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
@@ -364,11 +396,15 @@ func (in *PodSecurityPolicySelfSubjectReviewSpec) DeepCopyInto(out *PodSecurityP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	in.Template.DeepCopyInto(&out.Template)
 	return
 }
 func (in *PodSecurityPolicySelfSubjectReviewSpec) DeepCopy() *PodSecurityPolicySelfSubjectReviewSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +441,8 @@ func (in *PodSecurityPolicySubjectReview) DeepCopyInto(out *PodSecurityPolicySub
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	in.Spec.DeepCopyInto(&out.Spec)
@@ -412,6 +450,8 @@ func (in *PodSecurityPolicySubjectReview) DeepCopyInto(out *PodSecurityPolicySub
 	return
 }
 func (in *PodSecurityPolicySubjectReview) DeepCopy() *PodSecurityPolicySubjectReview {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -448,12 +488,16 @@ func (in *PodSecurityPolicySubjectReview) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *PodSecurityPolicySubjectReviewSpec) DeepCopyInto(out *PodSecurityPolicySubjectReviewSpec) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -492,6 +536,8 @@ func (in *PodSecurityPolicySubjectReviewSpec) DeepCopy() *PodSecurityPolicySubje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -500,6 +546,8 @@ func (in *PodSecurityPolicySubjectReviewSpec) DeepCopy() *PodSecurityPolicySubje
 	return out
 }
 func (in *PodSecurityPolicySubjectReviewStatus) DeepCopyInto(out *PodSecurityPolicySubjectReviewStatus) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -538,6 +586,8 @@ func (in *PodSecurityPolicySubjectReviewStatus) DeepCopy() *PodSecurityPolicySub
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -546,6 +596,8 @@ func (in *PodSecurityPolicySubjectReviewStatus) DeepCopy() *PodSecurityPolicySub
 	return out
 }
 func (in *RangeAllocation) DeepCopyInto(out *RangeAllocation) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -585,6 +637,8 @@ func (in *RangeAllocation) DeepCopy() *RangeAllocation {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -607,12 +661,16 @@ func (in *RangeAllocation) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *RangeAllocationList) DeepCopyInto(out *RangeAllocationList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -654,6 +712,8 @@ func (in *RangeAllocationList) DeepCopy() *RangeAllocationList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -676,12 +736,16 @@ func (in *RangeAllocationList) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *RunAsUserStrategyOptions) DeepCopyInto(out *RunAsUserStrategyOptions) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -729,6 +793,8 @@ func (in *RunAsUserStrategyOptions) DeepCopy() *RunAsUserStrategyOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -737,6 +803,8 @@ func (in *RunAsUserStrategyOptions) DeepCopy() *RunAsUserStrategyOptions {
 	return out
 }
 func (in *SELinuxContextStrategyOptions) DeepCopyInto(out *SELinuxContextStrategyOptions) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -774,6 +842,8 @@ func (in *SELinuxContextStrategyOptions) DeepCopy() *SELinuxContextStrategyOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -782,6 +852,8 @@ func (in *SELinuxContextStrategyOptions) DeepCopy() *SELinuxContextStrategyOptio
 	return out
 }
 func (in *SecurityContextConstraints) DeepCopyInto(out *SecurityContextConstraints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -885,6 +957,8 @@ func (in *SecurityContextConstraints) DeepCopy() *SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -907,12 +981,16 @@ func (in *SecurityContextConstraints) DeepCopyObject() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c := in.DeepCopy(); c != nil {
 		return c
 	}
 	return nil
 }
 func (in *SecurityContextConstraintsList) DeepCopyInto(out *SecurityContextConstraintsList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -954,6 +1032,8 @@ func (in *SecurityContextConstraintsList) DeepCopy() *SecurityContextConstraints
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -962,6 +1042,8 @@ func (in *SecurityContextConstraintsList) DeepCopy() *SecurityContextConstraints
 	return out
 }
 func (in *SecurityContextConstraintsList) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -996,11 +1078,15 @@ func (in *ServiceAccountPodSecurityPolicyReviewStatus) DeepCopyInto(out *Service
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	in.PodSecurityPolicySubjectReviewStatus.DeepCopyInto(&out.PodSecurityPolicySubjectReviewStatus)
 	return
 }
 func (in *ServiceAccountPodSecurityPolicyReviewStatus) DeepCopy() *ServiceAccountPodSecurityPolicyReviewStatus {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1037,6 +1123,8 @@ func (in *SupplementalGroupsStrategyOptions) DeepCopyInto(out *SupplementalGroup
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	if in.Ranges != nil {
 		in, out := &in.Ranges, &out.Ranges
@@ -1046,6 +1134,8 @@ func (in *SupplementalGroupsStrategyOptions) DeepCopyInto(out *SupplementalGroup
 	return
 }
 func (in *SupplementalGroupsStrategyOptions) DeepCopy() *SupplementalGroupsStrategyOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

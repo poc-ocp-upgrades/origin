@@ -21,6 +21,8 @@ func TestAddSuite(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		seedSuites	*api.TestSuites

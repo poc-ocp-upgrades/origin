@@ -38,12 +38,16 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme := runtime.NewScheme()
 	install.InstallInternalOpenShift(scheme)
 	install.InstallInternalKube(scheme)
 	fileEncodingCodecFactory = serializer.NewCodecFactory(scheme)
 }
 func TestCreateBootstrapPolicyFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func TestBootstrapNamespaceRoles(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allRoles := bootstrappolicy.NamespaceRoles()
 	list := &api.List{}
 	for _, namespace := range sets.StringKeySet(allRoles).List() {
@@ -102,6 +108,8 @@ func TestBootstrapNamespaceRoles(t *testing.T) {
 	testObjects(t, list, "bootstrap_namespace_roles.yaml")
 }
 func TestGetBootstrapNamespaceRoleBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,6 +149,8 @@ func TestBootstrapProjectRoleBindings(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roleBindings := bootstrappolicy.GetBootstrapServiceAccountProjectRoleBindings("myproject")
 	list := &api.List{}
 	for i := range roleBindings {
@@ -149,6 +159,8 @@ func TestBootstrapProjectRoleBindings(t *testing.T) {
 	testObjects(t, list, "bootstrap_service_account_project_role_bindings.yaml")
 }
 func TestBootstrapClusterRoleBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,6 +197,8 @@ func TestBootstrapClusterRoles(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roles := bootstrappolicy.GetBootstrapClusterRoles()
 	list := &api.List{}
 	for i := range roles {
@@ -193,6 +207,8 @@ func TestBootstrapClusterRoles(t *testing.T) {
 	testObjects(t, list, "bootstrap_cluster_roles.yaml")
 }
 func testObjects(t *testing.T, list *api.List, fixtureFilename string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

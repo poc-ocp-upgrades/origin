@@ -28,6 +28,8 @@ func (m *mergeResolver) Resolve() ([]*corev1.ReplicationController, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*corev1.ReplicationController{}
 	for _, resolver := range m.resolvers {
 		items, err := resolver.Resolve()
@@ -39,6 +41,8 @@ func (m *mergeResolver) Resolve() ([]*corev1.ReplicationController, error) {
 	return results, nil
 }
 func NewOrphanDeploymentResolver(dataSet DataSet, deploymentStatusFilter []appsv1.DeploymentStatus) Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ type orphanDeploymentResolver struct {
 }
 
 func (o *orphanDeploymentResolver) Resolve() ([]*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -119,12 +125,16 @@ func NewPerDeploymentConfigResolver(dataSet DataSet, keepComplete int, keepFaile
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &perDeploymentConfigResolver{dataSet: dataSet, keepComplete: keepComplete, keepFailed: keepFailed}
 }
 
 type ByMostRecent []*corev1.ReplicationController
 
 func (s ByMostRecent) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +166,8 @@ func (s ByMostRecent) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s ByMostRecent) Less(i, j int) bool {
@@ -173,9 +185,13 @@ func (s ByMostRecent) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !s[i].CreationTimestamp.Before(&s[j].CreationTimestamp)
 }
 func (o *perDeploymentConfigResolver) Resolve() ([]*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

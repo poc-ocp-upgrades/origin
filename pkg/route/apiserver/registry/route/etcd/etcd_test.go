@@ -42,10 +42,14 @@ func (a *testAllocator) AllocateRouterShard(*routeapi.Route) (*routeapi.RouterSh
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.Allocate = true
 	return nil, a.Err
 }
 func (a *testAllocator) GenerateHostname(*routeapi.Route, *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,10 +89,14 @@ func (t *testSAR) Create(subjectAccessReview *authorizationapi.SubjectAccessRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.sar = subjectAccessReview
 	return &authorizationapi.SubjectAccessReview{Status: authorizationapi.SubjectAccessReviewStatus{Allowed: t.allow}}, t.err
 }
 func newStorage(t *testing.T, allocator routetypes.RouteAllocator) (*REST, *etcdtesting.EtcdTestServer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,9 +135,13 @@ func validRoute() *routeapi.Route {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "foo"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "test", Kind: "Service"}}}
 }
 func TestCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -151,6 +163,8 @@ func TestCreate(t *testing.T) {
 	test.TestCreate(validRoute(), &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "_-a123-a_"}})
 }
 func TestCreateWithAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,6 +213,8 @@ func TestUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
@@ -217,6 +233,8 @@ func TestUpdate(t *testing.T) {
 	})
 }
 func TestList(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,6 +270,8 @@ func TestGet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, &testAllocator{})
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
@@ -273,6 +293,8 @@ func TestDelete(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
@@ -280,6 +302,8 @@ func TestDelete(t *testing.T) {
 	test.TestDelete(validRoute())
 }
 func TestWatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

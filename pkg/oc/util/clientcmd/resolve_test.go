@@ -22,9 +22,13 @@ func image(pullSpec string) *imagev1.Image {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"}, DockerImageReference: pullSpec}
 }
 func isimage(name, pullSpec string) *imagev1.ImageStreamImage {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,10 +61,14 @@ func istag(name, namespace, pullSpec string) *imagev1.ImageStreamTag {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := image(pullSpec)
 	return &imagev1.ImageStreamTag{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: namespace}, Image: *i}
 }
 func TestResolveImagePullSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

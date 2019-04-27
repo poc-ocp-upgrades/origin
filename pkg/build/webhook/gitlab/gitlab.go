@@ -31,6 +31,8 @@ func New() *WebHookPlugin {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WebHookPlugin{}
 }
 
@@ -46,6 +48,8 @@ type pushEvent struct {
 }
 
 func (p *WebHookPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.WebHookTrigger, req *http.Request) (revision *buildv1.SourceRevision, envvars []corev1.EnvVar, dockerStrategyOptions *buildv1.DockerStrategyOptions, proceed bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +103,8 @@ func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	triggers := buildapihelpers.FindTriggerPolicy(buildv1.GitLabWebHookBuildTriggerType, buildConfig)
 	webhookTriggers := []*buildv1.WebHookTrigger{}
 	for _, trigger := range triggers {
@@ -112,6 +118,8 @@ func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv
 	return webhookTriggers, nil
 }
 func verifyRequest(req *http.Request) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +151,8 @@ func verifyRequest(req *http.Request) error {
 	return nil
 }
 func getEvent(header http.Header) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

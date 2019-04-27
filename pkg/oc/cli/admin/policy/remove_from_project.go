@@ -48,9 +48,13 @@ func NewRemoveFromProjectOptions(streams genericclioptions.IOStreams) *RemoveFro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RemoveFromProjectOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdRemoveGroupFromProject(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func NewCmdRemoveUserFromProject(name, fullName string, f kcmdutil.Factory, stre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewRemoveFromProjectOptions(streams)
 	cmd := &cobra.Command{Use: name + " USER [USER ...]", Short: "Remove user from the current project", Long: `Remove user from the current project`, Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args, &o.Users, "user"))
@@ -101,6 +107,8 @@ func NewCmdRemoveUserFromProject(name, fullName string, f kcmdutil.Factory, stre
 	return cmd
 }
 func (o *RemoveFromProjectOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string, target *[]string, targetName string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,9 +165,13 @@ func (o *RemoveFromProjectOptions) Validate(f kcmdutil.Factory, cmd *cobra.Comma
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (o *RemoveFromProjectOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,6 +276,8 @@ func (s roleBindingSorter) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s roleBindingSorter) Less(i, j int) bool {
@@ -281,9 +295,13 @@ func (s roleBindingSorter) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s[i].Name < s[j].Name
 }
 func (s roleBindingSorter) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

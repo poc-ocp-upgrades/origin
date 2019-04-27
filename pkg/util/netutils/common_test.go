@@ -21,6 +21,8 @@ func TestGenerateGateway(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ipNet, err := net.ParseCIDR("10.1.0.0/24")
 	if err != nil {
 		t.Fatal(err)
@@ -31,6 +33,8 @@ func TestGenerateGateway(t *testing.T) {
 	}
 }
 func TestParseCIDRMask(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func TestParseCIDRMask(t *testing.T) {
 	}
 }
 func TestIsPrivateAddress(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

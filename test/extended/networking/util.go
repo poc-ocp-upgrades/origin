@@ -47,9 +47,13 @@ func expectNoError(err error, explain ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ExpectWithOffset(1, err).NotTo(HaveOccurred(), explain...)
 }
 func podReady(pod *corev1.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +93,8 @@ func waitForPodCondition(c kclientset.Interface, ns, podName, desc string, timeo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Waiting up to %[1]v for pod %-[2]*[3]s status to be %[4]s", timeout, podPrintWidth, podName, desc)
 	for start := time.Now(); time.Since(start) < timeout; time.Sleep(poll) {
 		pod, err := c.CoreV1().Pods(ns).Get(podName, metav1.GetOptions{})
@@ -105,6 +111,8 @@ func waitForPodCondition(c kclientset.Interface, ns, podName, desc string, timeo
 	return fmt.Errorf("gave up waiting for pod '%s' to be '%s' after %v", podName, desc, timeout)
 }
 func waitForPodSuccessInNamespace(c kclientset.Interface, podName string, contName string, namespace string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -151,6 +159,8 @@ func waitForEndpoint(c kclientset.Interface, ns, name string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for t := time.Now(); time.Since(t) < 3*time.Minute; time.Sleep(poll) {
 		endpoint, err := c.CoreV1().Endpoints(ns).Get(name, metav1.GetOptions{})
 		if kapierrs.IsNotFound(err) {
@@ -168,6 +178,8 @@ func waitForEndpoint(c kclientset.Interface, ns, name string) error {
 	return fmt.Errorf("Failed to get endpoints for %s/%s", ns, name)
 }
 func launchWebserverService(f *e2e.Framework, serviceName string, nodeName string) (serviceAddr string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -210,6 +222,8 @@ func launchWebserverService(f *e2e.Framework, serviceName string, nodeName strin
 	return
 }
 func checkConnectivityToHost(f *e2e.Framework, nodeName string, podName string, host string, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +321,8 @@ func networkPluginName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cachedNetworkPluginName == nil {
 		out, err := exec.Command("oc", "--config="+testexutil.KubeConfigPath(), "get", "clusternetwork", "default", "--template={{.pluginName}}").CombinedOutput()
 		pluginName := string(out)
@@ -333,12 +349,16 @@ func pluginIsolatesNamespaces() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if os.Getenv("NETWORKING_E2E_ISOLATION") == "true" {
 		return true
 	}
 	return networkPluginName() == network.MultiTenantPluginName
 }
 func pluginImplementsNetworkPolicy() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -377,6 +397,8 @@ func makeNamespaceGlobal(ns *corev1.Namespace) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := testutil.GetClusterAdminClientConfig(testexutil.KubeConfigPath())
 	networkClient := networkclient.NewForConfigOrDie(clientConfig)
 	expectNoError(err)
@@ -387,6 +409,8 @@ func makeNamespaceGlobal(ns *corev1.Namespace) {
 	expectNoError(err)
 }
 func makeNamespaceScheduleToAllNodes(f *e2e.Framework) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -419,6 +443,8 @@ func makeNamespaceScheduleToAllNodes(f *e2e.Framework) {
 	}
 }
 func findAppropriateNodes(f *e2e.Framework, nodeType NodeType) (*corev1.Node, *corev1.Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -490,6 +516,8 @@ func checkPodIsolation(f1, f2 *e2e.Framework, nodeType NodeType) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	makeNamespaceScheduleToAllNodes(f1)
 	makeNamespaceScheduleToAllNodes(f2)
 	serverNode, clientNode := findAppropriateNodes(f1, nodeType)
@@ -499,6 +527,8 @@ func checkPodIsolation(f1, f2 *e2e.Framework, nodeType NodeType) error {
 	return checkConnectivityToHost(f2, clientNode.Name, "isolation-wget", ip, 10*time.Second)
 }
 func checkServiceConnectivity(serverFramework, clientFramework *e2e.Framework, nodeType NodeType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -537,6 +567,8 @@ func InNonIsolatingContext(body func()) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Context("when using a plugin that does not isolate namespaces by default", func() {
 		BeforeEach(func() {
 			if pluginIsolatesNamespaces() {
@@ -547,6 +579,8 @@ func InNonIsolatingContext(body func()) {
 	})
 }
 func InIsolatingContext(body func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -585,6 +619,8 @@ func InNetworkPolicyContext(body func()) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Context("when using a plugin that implements NetworkPolicy", func() {
 		BeforeEach(func() {
 			if !pluginImplementsNetworkPolicy() {
@@ -595,6 +631,8 @@ func InNetworkPolicyContext(body func()) {
 	})
 }
 func InPluginContext(plugins []string, body func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

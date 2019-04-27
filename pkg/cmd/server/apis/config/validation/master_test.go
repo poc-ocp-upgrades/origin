@@ -28,6 +28,8 @@ func TestFailingAPIServerArgs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := configapi.ExtendedArguments{}
 	args["port"] = []string{"invalid-value"}
 	args["missing-key"] = []string{"value"}
@@ -74,6 +76,8 @@ func TestFailingAPIServerArgs(t *testing.T) {
 	}
 }
 func TestFailingControllerArgs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +151,8 @@ func TestValidate_ValidateEtcdStorageConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	osField := "openShiftStorageVersion"
 	kubeField := "kubernetesStorageVersion"
 	tests := []struct {
@@ -167,6 +173,8 @@ func TestValidate_ValidateEtcdStorageConfig(t *testing.T) {
 	}
 }
 func TestValidateAdmissionPluginConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +217,8 @@ func TestValidateAdmissionPluginConfig(t *testing.T) {
 	}
 }
 func TestValidateAdmissionPluginConfigConflicts(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +298,8 @@ func TestValidateIngressIPNetworkCIDR(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		testName	string
 		cidr		string
@@ -306,6 +318,8 @@ func TestValidateIngressIPNetworkCIDR(t *testing.T) {
 	}
 }
 func TestValidateMasterAuthConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

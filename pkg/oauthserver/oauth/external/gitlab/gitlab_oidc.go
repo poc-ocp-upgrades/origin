@@ -37,6 +37,8 @@ func NewOIDCProvider(providerName, URL, clientID, clientSecret string, transport
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u, err := url.Parse(URL)
 	if err != nil {
 		return nil, fmt.Errorf("gitlab host URL %q is invalid", URL)
@@ -71,6 +73,8 @@ func appendPath(u url.URL, subpath string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.Path = path.Join(u.Path, subpath)
 	return u.String()
 }
@@ -78,6 +82,8 @@ func appendPath(u url.URL, subpath string) string {
 var reSHA256HexDigest = regexp.MustCompile(`^[[:xdigit:]]{64}$`)
 
 func isValidUint64(s string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

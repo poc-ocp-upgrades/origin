@@ -32,6 +32,8 @@ func (f *DefaultLDAPUserIdentityFactory) IdentityFor(user *ldap.Entry) (identity
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uid := f.Definer.ID(user)
 	if uid == "" {
 		err = fmt.Errorf("Could not retrieve a non-empty value for ID attributes for dn=%q", user.DN)
@@ -65,12 +67,16 @@ func NewLDAPUserAttributeDefiner(attributeMapping osinv1.LDAPAttributeMapping) L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return LDAPUserAttributeDefiner{attributeMapping: attributeMapping}
 }
 
 type LDAPUserAttributeDefiner struct{ attributeMapping osinv1.LDAPAttributeMapping }
 
 func (d *LDAPUserAttributeDefiner) AllAttributes() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,9 +112,13 @@ func (d *LDAPUserAttributeDefiner) Email(user *ldap.Entry) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GetAttributeValue(user, d.attributeMapping.Email)
 }
 func (d *LDAPUserAttributeDefiner) Name(user *ldap.Entry) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +150,8 @@ func (d *LDAPUserAttributeDefiner) PreferredUsername(user *ldap.Entry) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GetAttributeValue(user, d.attributeMapping.PreferredUsername)
 }
 func (d *LDAPUserAttributeDefiner) ID(user *ldap.Entry) string {
@@ -157,9 +169,13 @@ func (d *LDAPUserAttributeDefiner) ID(user *ldap.Entry) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GetAttributeValue(user, d.attributeMapping.ID)
 }
 func GetAttributeValue(entry *ldap.Entry, attributes []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

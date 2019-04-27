@@ -67,9 +67,13 @@ func NewRolloutLatestOptions(streams genericclioptions.IOStreams) *RolloutLatest
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RolloutLatestOptions{IOStreams: streams, PrintFlags: genericclioptions.NewPrintFlags("rolled out").WithTypeSetter(scheme.Scheme)}
 }
 func NewCmdRolloutLatest(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func NewCmdRolloutLatest(fullName string, f kcmdutil.Factory, streams genericcli
 	return cmd
 }
 func (o *RolloutLatestOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,6 +174,8 @@ func (o *RolloutLatestOptions) RunRolloutLatest() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	infos, err := o.Builder.WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).ContinueOnError().NamespaceParam(o.Namespace).ResourceNames("deploymentconfigs", o.Resource).SingleResourceType().Do().Infos()
 	if err != nil {
 		return err
@@ -213,6 +221,8 @@ func (o *RolloutLatestOptions) RunRolloutLatest() error {
 type revisionPrinter struct{}
 
 func (p *revisionPrinter) PrintObj(obj runtime.Object, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

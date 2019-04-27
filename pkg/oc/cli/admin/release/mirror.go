@@ -43,9 +43,13 @@ func NewMirrorOptions(streams genericclioptions.IOStreams) *MirrorOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MirrorOptions{IOStreams: streams}
 }
 func NewMirror(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -121,6 +125,8 @@ func (o *MirrorOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(args) == 0 && len(o.From) == 0:
 		return fmt.Errorf("must specify a release image with --from")
@@ -152,6 +158,8 @@ func (o *MirrorOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []
 const replaceComponentMarker = "X-X-X-X-X-X-X"
 
 func (o *MirrorOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -399,6 +407,8 @@ func (o *MirrorOptions) Run() error {
 	return nil
 }
 func sourceImageRef(is *imagev1.ImageStream, name string) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

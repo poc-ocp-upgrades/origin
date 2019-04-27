@@ -28,6 +28,8 @@ func TestHPAMissingCPUTargetError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("./../../../graph/genericgraph/test/hpa-missing-cpu-target.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -48,6 +50,8 @@ func TestHPAMissingCPUTargetError(t *testing.T) {
 	}
 }
 func TestHPAMissingScaleRefError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func TestOverlappingHPAsWarning(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("./../../../graph/genericgraph/test/overlapping-hpas.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -115,6 +121,8 @@ func TestOverlappingHPAsWarning(t *testing.T) {
 	}
 }
 func TestOverlappingLegacyHPAsWarning(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

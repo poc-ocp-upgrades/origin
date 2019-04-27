@@ -32,6 +32,8 @@ func TestSerializeNodeConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &internal.NodeConfig{PodManifestConfig: &internal.PodManifestConfig{}}
 	serializedConfig, err := writeYAML(config)
 	if err != nil {
@@ -63,6 +65,8 @@ func TestSerializeNodeConfig(t *testing.T) {
 	}
 }
 func TestReadNodeConfigLocalVolumeDirQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +171,8 @@ func TestMasterConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	internal.Scheme.AddKnownTypes(v1.LegacySchemeGroupVersion, &testtypes.AdmissionPluginTestConfig{})
 	internal.Scheme.AddKnownTypes(internal.SchemeGroupVersion, &testtypes.AdmissionPluginTestConfig{})
 	config := &internal.MasterConfig{ServingInfo: internal.HTTPServingInfo{ServingInfo: internal.ServingInfo{NamedCertificates: []internal.NamedCertificate{{}}}}, KubernetesMasterConfig: internal.KubernetesMasterConfig{}, EtcdConfig: &internal.EtcdConfig{}, OAuthConfig: &internal.OAuthConfig{IdentityProviders: []internal.IdentityProvider{{Provider: &internal.BasicAuthPasswordIdentityProvider{}}, {Provider: &internal.AllowAllPasswordIdentityProvider{}}, {Provider: &internal.DenyAllPasswordIdentityProvider{}}, {Provider: &internal.HTPasswdPasswordIdentityProvider{}}, {Provider: &internal.LDAPPasswordIdentityProvider{}}, {Provider: &internal.LDAPPasswordIdentityProvider{BindPassword: internal.StringSource{StringSourceSpec: internal.StringSourceSpec{File: "filename"}}}}, {Provider: &internal.RequestHeaderIdentityProvider{}}, {Provider: &internal.KeystonePasswordIdentityProvider{}}, {Provider: &internal.GitHubIdentityProvider{}}, {Provider: &internal.GitHubIdentityProvider{ClientSecret: internal.StringSource{StringSourceSpec: internal.StringSourceSpec{File: "filename"}}}}, {Provider: &internal.GitLabIdentityProvider{}}, {Provider: &internal.GitLabIdentityProvider{ClientSecret: internal.StringSource{StringSourceSpec: internal.StringSourceSpec{File: "filename"}}}}, {Provider: &internal.GoogleIdentityProvider{}}, {Provider: &internal.GoogleIdentityProvider{ClientSecret: internal.StringSource{StringSourceSpec: internal.StringSourceSpec{File: "filename"}}}}, {Provider: &internal.OpenIDIdentityProvider{}}, {Provider: &internal.OpenIDIdentityProvider{ClientSecret: internal.StringSource{StringSourceSpec: internal.StringSourceSpec{File: "filename"}}}}}, SessionConfig: &internal.SessionConfig{}, Templates: &internal.OAuthTemplates{}}, DNSConfig: &internal.DNSConfig{}, AdmissionConfig: internal.AdmissionConfig{PluginConfig: map[string]*internal.AdmissionPluginConfig{"plugin": {Configuration: &testtypes.AdmissionPluginTestConfig{}}}, PluginOrderOverride: []string{"plugin"}}, VolumeConfig: internal.MasterVolumeConfig{DynamicProvisioningEnabled: false}}
@@ -200,6 +206,8 @@ func TestMasterConfig(t *testing.T) {
 	}
 }
 func writeYAML(obj runtime.Object) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

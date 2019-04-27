@@ -91,6 +91,8 @@ func addObjectsToTemplate(template *templateapi.Template, objects []runtime.Obje
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range objects {
 		obj := objects[i]
 		if obj == nil {

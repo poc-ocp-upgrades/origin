@@ -27,6 +27,8 @@ func RelevantDeployments(g osgraph.Graph, dcNode *appsgraph.DeploymentConfigNode
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allDeployments := []*kubegraph.ReplicationControllerNode{}
 	uncastDeployments := g.SuccessorNodesByEdgeKind(dcNode, DeploymentEdgeKind)
 	if len(uncastDeployments) == 0 {
@@ -42,6 +44,8 @@ func RelevantDeployments(g osgraph.Graph, dcNode *appsgraph.DeploymentConfigNode
 	return nil, allDeployments
 }
 func BelongsToDeploymentConfig(config *appsv1.DeploymentConfig, b *corev1.ReplicationController) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func (m RecentDeploymentReferences) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m RecentDeploymentReferences) Swap(i, j int) {
@@ -96,9 +102,13 @@ func (m RecentDeploymentReferences) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m RecentDeploymentReferences) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +148,8 @@ func templateImageForContainer(container *corev1.Container, triggerFn TriggeredB
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var ref imageapi.DockerImageReference
 	if trigger, ok := triggerFn(container); ok {
 		trigger.Image = container.Image
@@ -151,6 +163,8 @@ func templateImageForContainer(container *corev1.Container, triggerFn TriggeredB
 	return TemplateImage{Image: container.Image, Ref: &ref, Container: container}, nil
 }
 func TemplateImageForContainer(pod *corev1.PodSpec, triggerFn TriggeredByFunc, containerName string) (TemplateImage, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,10 +210,14 @@ func eachTemplateImage(container *corev1.Container, triggerFn TriggeredByFunc, f
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image, err := templateImageForContainer(container, triggerFn)
 	fn(image, err)
 }
 func EachTemplateImage(pod *corev1.PodSpec, triggerFn TriggeredByFunc, fn func(TemplateImage, error)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,9 +257,13 @@ func IgnoreTriggers(container *corev1.Container) (TemplateImage, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return TemplateImage{}, false
 }
 func DeploymentConfigHasTrigger(config *appsv1.DeploymentConfig) TriggeredByFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

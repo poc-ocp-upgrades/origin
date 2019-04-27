@@ -25,6 +25,8 @@ func RunBuildController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageTemplate := variable.NewDefaultImageTemplate()
 	imageTemplate.Format = ctx.OpenshiftControllerConfig.Build.ImageTemplateFormat.Format
 	imageTemplate.Latest = ctx.OpenshiftControllerConfig.Build.ImageTemplateFormat.Latest
@@ -44,6 +46,8 @@ func RunBuildController(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunBuildConfigChangeController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func Test_optionallyDecompress(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	longString := strings.Repeat(`some test content`, 1000)
 	tests := []struct {
 		name	string
@@ -58,6 +60,8 @@ func gzipped(s string) io.Reader {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := &bytes.Buffer{}
 	gw := gzip.NewWriter(out)
 	gw.Write([]byte(s))
@@ -65,6 +69,8 @@ func gzipped(s string) io.Reader {
 	return out
 }
 func Test_outputDirectoryEntriesOrContent(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,6 +120,8 @@ func Test_mergeReader_WriteTo(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name	string
 		in	[]Reader
@@ -139,6 +147,8 @@ func Test_mergeReader_WriteTo(t *testing.T) {
 	}
 }
 func readers(all ...string) []Reader {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

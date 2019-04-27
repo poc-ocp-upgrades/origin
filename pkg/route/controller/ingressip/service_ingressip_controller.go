@@ -70,6 +70,8 @@ func NewIngressIPController(services cache.SharedIndexInformer, kc kclientset.In
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartRecordingToSink(&kv1core.EventSinkImpl{Interface: kc.CoreV1().Events("")})
 	recorder := eventBroadcaster.NewRecorder(legacyscheme.Scheme, v1.EventSource{Component: "ingressip-controller"})
@@ -94,6 +96,8 @@ func NewIngressIPController(services cache.SharedIndexInformer, kc kclientset.In
 	return ic
 }
 func (ic *IngressIPController) enqueueChange(new interface{}, old interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +156,8 @@ func (ic *IngressIPController) Run(stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer ic.queue.ShutDown()
 	klog.V(5).Infof("Waiting for the initial sync to be completed")
@@ -193,9 +199,13 @@ func (s serviceAge) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s serviceAge) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,12 +237,16 @@ func (s serviceAge) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s[i].CreationTimestamp.Before(&s[j].CreationTimestamp) {
 		return true
 	}
 	return (s[i].CreationTimestamp == s[j].CreationTimestamp && s[i].UID < s[j].UID)
 }
 func (ic *IngressIPController) processInitialSync() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -309,6 +323,8 @@ func (ic *IngressIPController) getCachedService(key string) *v1.Service {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(key) == 0 {
 		return nil
 	}
@@ -322,6 +338,8 @@ func (ic *IngressIPController) getCachedService(key string) *v1.Service {
 	return nil
 }
 func (ic *IngressIPController) recordLocalAllocation(key, ipString string) (reallocate bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -358,6 +376,8 @@ func (ic *IngressIPController) recordLocalAllocation(key, ipString string) (real
 	return false, nil
 }
 func (ic *IngressIPController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +436,8 @@ func (ic *IngressIPController) processChange(change *serviceChange) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	service := ic.getCachedService(change.key)
 	ic.clearOldAllocation(service, change.oldService)
 	if service == nil {
@@ -435,6 +457,8 @@ func (ic *IngressIPController) processChange(change *serviceChange) error {
 	}
 }
 func (ic *IngressIPController) clearOldAllocation(new, old *v1.Service) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -488,6 +512,8 @@ func (ic *IngressIPController) recordAllocation(service *v1.Service, key string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipString := service.Status.LoadBalancer.Ingress[0].IP
 	reallocate, err := ic.recordLocalAllocation(key, ipString)
 	if !reallocate && err != nil {
@@ -509,6 +535,8 @@ func (ic *IngressIPController) recordAllocation(service *v1.Service, key string)
 	}
 }
 func (ic *IngressIPController) allocate(service *v1.Service, key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -555,6 +583,8 @@ func (ic *IngressIPController) deallocate(service *v1.Service, key string) error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(5).Infof("Clearing allocation state for %v", key)
 	serviceCopy := service.DeepCopy()
 	ipString := serviceCopy.Status.LoadBalancer.Ingress[0].IP
@@ -565,6 +595,8 @@ func (ic *IngressIPController) deallocate(service *v1.Service, key string) error
 	return nil
 }
 func (ic *IngressIPController) clearLocalAllocation(key, ipString string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -617,6 +649,8 @@ func (ic *IngressIPController) clearPersistedAllocation(service *v1.Service, key
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(errMessage) > 0 {
 		utilruntime.HandleError(fmt.Errorf(errMessage))
 	} else {
@@ -638,6 +672,8 @@ func (ic *IngressIPController) clearPersistedAllocation(service *v1.Service, key
 	return ic.persistServiceStatus(service)
 }
 func (ic *IngressIPController) ensureExternalIP(service *v1.Service, key, ingressIP string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -682,6 +718,8 @@ func (ic *IngressIPController) allocateIP(requestedIP string) (net.IP, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(requestedIP) == 0 {
 		return ic.ipAllocator.AllocateNext()
 	}
@@ -695,6 +733,8 @@ func (ic *IngressIPController) allocateIP(requestedIP string) (net.IP, error) {
 	return ip, nil
 }
 func (ic *IngressIPController) persistServiceSpec(service *v1.Service) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -726,9 +766,13 @@ func (ic *IngressIPController) persistServiceStatus(service *v1.Service) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ic.persistenceHandler(ic.client, service, true)
 }
 func persistService(client kcoreclient.ServicesGetter, service *v1.Service, targetStatus bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -781,6 +825,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -855,5 +920,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

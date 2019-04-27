@@ -39,10 +39,14 @@ func (v *RuntimeObjectsValidator) GetInfo(obj runtime.Object) (RuntimeObjectVali
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret, ok := v.typeToValidator[reflect.TypeOf(obj)]
 	return ret, ok
 }
 func (v *RuntimeObjectsValidator) MustRegister(obj runtime.Object, namespaceScoped bool, validateFunction interface{}, validateUpdateFunction interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,6 +66,8 @@ func (v *RuntimeObjectsValidator) MustRegister(obj runtime.Object, namespaceScop
 	}
 }
 func (v *RuntimeObjectsValidator) Register(obj runtime.Object, namespaceScoped bool, validateFunction interface{}, validateUpdateFunction interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +109,8 @@ func (v *RuntimeObjectsValidator) Validate(obj runtime.Object) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return field.ErrorList{}
 	}
@@ -116,6 +124,8 @@ func (v *RuntimeObjectsValidator) Validate(obj runtime.Object) field.ErrorList {
 	return allErrs
 }
 func (v *RuntimeObjectsValidator) ValidateUpdate(obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +177,8 @@ func (v *RuntimeObjectsValidator) getSpecificValidationInfo(obj runtime.Object) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objType := reflect.TypeOf(obj)
 	specificValidationInfo, exists := v.typeToValidator[objType]
 	if !exists {
@@ -189,6 +201,8 @@ func (v *RuntimeObjectsValidator) GetRequiresNamespace(obj runtime.Object) (bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	objType := reflect.TypeOf(obj)
 	specificValidationInfo, exists := v.typeToValidator[objType]
 	if !exists {
@@ -197,6 +211,8 @@ func (v *RuntimeObjectsValidator) GetRequiresNamespace(obj runtime.Object) (bool
 	return specificValidationInfo.IsNamespaced, nil
 }
 func HasObjectMeta(obj runtime.Object) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -21,6 +21,8 @@ func TestNewWithSeccompProfile(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct{ allowedProfiles []string }{"empty": {allowedProfiles: []string{}}, "nil": {allowedProfiles: nil}, "wildcard": {allowedProfiles: []string{allowAnyProfile}}, "values": {allowedProfiles: []string{"foo", "bar", "*"}}}
 	for k, v := range tests {
 		_, err := NewWithSeccompProfile(v.allowedProfiles)
@@ -30,6 +32,8 @@ func TestNewWithSeccompProfile(t *testing.T) {
 	}
 }
 func TestGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ func TestGenerate(t *testing.T) {
 	}
 }
 func TestValidatePod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +121,8 @@ func TestValidatePod(t *testing.T) {
 	}
 }
 func TestValidateContainer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

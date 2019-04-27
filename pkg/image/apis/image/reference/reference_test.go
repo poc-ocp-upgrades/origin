@@ -21,6 +21,8 @@ func TestParse(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		From					string
 		Registry, Namespace, Name, Tag, ID	string

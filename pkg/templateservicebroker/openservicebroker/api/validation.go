@@ -21,6 +21,8 @@ func ValidateProvisionRequest(preq *ProvisionRequest) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := ValidateUUID(field.NewPath("service_id"), preq.ServiceID)
 	errors = append(errors, ValidateUUID(field.NewPath("plan_id"), preq.PlanID)...)
 	if preq.Context.Platform == "" {
@@ -52,6 +54,8 @@ func ValidateBindRequest(breq *BindRequest) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := ValidateUUID(field.NewPath("service_id"), breq.ServiceID)
 	errors = append(errors, ValidateUUID(field.NewPath("plan_id"), breq.PlanID)...)
 	return errors
@@ -60,6 +64,8 @@ func ValidateBindRequest(breq *BindRequest) field.ErrorList {
 var uuidRegex = regexp.MustCompile("^(?i)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 
 func ValidateUUID(path *field.Path, uuid string) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

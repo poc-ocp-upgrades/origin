@@ -46,6 +46,8 @@ func TestImageStreamImport(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -131,6 +133,8 @@ func mockRegistryHandler(t *testing.T, requireAuth bool, count *int) http.Handle
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		(*count)++
 		t.Logf("%d got %s %s", *count, r.Method, r.URL.Path)
@@ -181,6 +185,8 @@ func testImageStreamImport(t *testing.T, c imageclient.Interface, imageSize int6
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isi, err := c.Image().ImageStreamImports(testutil.Namespace()).Create(imagestreamimport)
 	if err != nil {
 		t.Fatal(err)
@@ -207,6 +213,8 @@ func testImageStreamImport(t *testing.T, c imageclient.Interface, imageSize int6
 	}
 }
 func testImageStreamImportWithPath(t *testing.T, reponame string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +319,8 @@ func TestImageStreamImportOfV1ImageFromV2Repository(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testImageStreamImportWithPath(t, "test/image")
 }
 func TestImageStreamImportOfMultiSegmentDockerReference(t *testing.T) {
@@ -328,9 +338,13 @@ func TestImageStreamImportOfMultiSegmentDockerReference(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testImageStreamImportWithPath(t, "test/foo/bar/image")
 }
 func TestImageStreamImportAuthenticated(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -474,6 +488,8 @@ func TestImageStreamImportTagsFromRepository(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	server := httptest.NewServer(mockRegistryHandler(t, false, &count))
 	url, _ := url.Parse(server.URL)
@@ -546,6 +562,8 @@ func TestImageStreamImportTagsFromRepository(t *testing.T) {
 	}
 }
 func TestImageStreamImportScheduled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -724,6 +742,8 @@ func TestImageStreamImportDockerHub(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rt, _ := restclient.TransportFor(&restclient.Config{})
 	importCtx := registryclient.NewContext(rt, nil)
 	imports := &imageapi.ImageStreamImport{Spec: imageapi.ImageStreamImportSpec{Repository: &imageapi.RepositoryImportSpec{From: kapi.ObjectReference{Kind: "DockerImage", Name: "mongo"}}, Images: []imageapi.ImageImportSpec{{From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "redis:latest"}}, {From: kapi.ObjectReference{Kind: "DockerImage", Name: "mysql/doesnotexistinanyform"}}}}}
@@ -782,6 +802,8 @@ func TestImageStreamImportQuayIO(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rt, _ := restclient.TransportFor(&restclient.Config{})
 	importCtx := registryclient.NewContext(rt, nil)
 	repositoryName := quayRegistryName + "/coreos/etcd"
@@ -820,6 +842,8 @@ func TestImageStreamImportQuayIO(t *testing.T) {
 	}
 }
 func TestImageStreamImportRedHatRegistry(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

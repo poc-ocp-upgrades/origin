@@ -54,12 +54,16 @@ func (h *testHandlers) HandleAuthorize(ar *osin.AuthorizeRequest, resp *osin.Res
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.HandleAuthorizeReq = ar
 	h.HandleAuthorizeResp = resp
 	h.HandleAuthorizeHandled, h.HandleAuthorizeErr = h.AuthorizeHandler.HandleAuthorize(ar, resp, w)
 	return h.HandleAuthorizeHandled, h.HandleAuthorizeErr
 }
 func (h *testHandlers) AuthenticationNeeded(client api.Client, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func (h *testHandlers) AuthenticationError(err error, w http.ResponseWriter, req
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.AuthErr = err
 	return true, nil
 }
@@ -110,9 +116,13 @@ func (h *testHandlers) AuthenticateRequest(req *http.Request) (*authenticator.Re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authenticator.Response{User: h.User}, h.Authenticate, h.Err
 }
 func (h *testHandlers) GrantNeeded(user user.Info, grant *api.Grant, w http.ResponseWriter, req *http.Request) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +155,8 @@ func (h *testHandlers) GrantError(err error, w http.ResponseWriter, req *http.Re
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.GrantErr = err
 	return true, nil
 }
@@ -163,9 +175,13 @@ func (h *testHandlers) HandleError(err error, w http.ResponseWriter, req *http.R
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.HandledErr = err
 }
 func TestRegistryAndServer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

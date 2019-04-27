@@ -25,6 +25,8 @@ func NewHistoryViewerFn(delegate polymorphichelpers.HistoryViewerFunc) polymorph
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(restClientGetter genericclioptions.RESTClientGetter, mapping *meta.RESTMapping) (kubectl.HistoryViewer, error) {
 		if appsv1.SchemeGroupVersion.WithKind("DeploymentConfig").GroupKind() == mapping.GroupVersionKind.GroupKind() {
 			config, err := restClientGetter.ToRESTConfig()

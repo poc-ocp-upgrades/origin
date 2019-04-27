@@ -22,6 +22,8 @@ func TestValidateGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validObj := func() *userapi.Group {
 		return &userapi.Group{ObjectMeta: metav1.ObjectMeta{Name: "myname"}, Users: []string{"myuser"}}
 	}
@@ -45,6 +47,8 @@ func TestValidateGroup(t *testing.T) {
 	}
 }
 func TestValidateGroupUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +101,8 @@ func TestValidateUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validObj := func() *userapi.User {
 		return &userapi.User{ObjectMeta: metav1.ObjectMeta{Name: "myname"}, Identities: []string{"myprovider:mylogin"}, Groups: []string{"mygroup"}}
 	}
@@ -125,6 +131,8 @@ func TestValidateUser(t *testing.T) {
 	}
 }
 func TestValidateUserUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +190,8 @@ func TestValidateIdentity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validObj := func() *userapi.Identity {
 		return &userapi.Identity{ObjectMeta: metav1.ObjectMeta{Name: "myprovider:myproviderusername"}, ProviderName: "myprovider", ProviderUserName: "myproviderusername", User: kapi.ObjectReference{Name: "myuser", UID: "myuseruid"}}
 	}
@@ -220,6 +230,8 @@ func TestValidateIdentity(t *testing.T) {
 	}
 }
 func TestValidateIdentityUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,6 +299,8 @@ func TestValidateUserIdentityMapping(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validObj := func() *userapi.UserIdentityMapping {
 		return &userapi.UserIdentityMapping{ObjectMeta: metav1.ObjectMeta{Name: "myprovider:myproviderusername"}, Identity: kapi.ObjectReference{Name: "myprovider:myproviderusername"}, User: kapi.ObjectReference{Name: "myuser"}}
 	}
@@ -310,6 +324,8 @@ func TestValidateUserIdentityMapping(t *testing.T) {
 	}
 }
 func TestValidateUserIdentityMappingUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

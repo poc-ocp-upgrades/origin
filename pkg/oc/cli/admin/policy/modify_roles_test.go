@@ -33,6 +33,8 @@ func TestModifyNamedClusterRoleBinding(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		action				string
 		inputRole			string
@@ -65,6 +67,8 @@ func TestModifyNamedLocalRoleBinding(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		action			string
 		inputRole		string
@@ -83,6 +87,8 @@ func TestModifyNamedLocalRoleBinding(t *testing.T) {
 	}
 }
 func TestModifyRoleBindingWarnings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,11 +252,15 @@ func compareResources(t *testing.T, expected, actual interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if eq := equality.Semantic.DeepEqual(expected, actual); !eq {
 		t.Errorf("Resource does not match expected value: %s", diffutil.ObjectDiff(expected, actual))
 	}
 }
 func getRoleBindingAbstractionsList(rbacClient rbacv1client.RbacV1Interface, namespace string) ([]*roleBindingAbstraction, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +298,8 @@ func getRoleBindingAbstractionsList(rbacClient rbacv1client.RbacV1Interface, nam
 	return ret, nil
 }
 func modifyRoleAndCheck(t *testing.T, o *RoleModificationOptions, tcName, action string, expectedName string, expectedSubjects []rbacv1.Subject, expectedBindings []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

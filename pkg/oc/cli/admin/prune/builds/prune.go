@@ -42,6 +42,8 @@ func NewPruner(options PrunerOptions) Pruner {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(1).Infof("Creating build pruner with keepYoungerThan=%v, orphans=%v, keepComplete=%v, keepFailed=%v", options.KeepYoungerThan, options.Orphans, options.KeepComplete, options.KeepFailed)
 	filter := &andFilter{filterPredicates: []FilterPredicate{NewFilterBeforePredicate(options.KeepYoungerThan)}}
 	builds := filter.Filter(options.Builds)
@@ -55,6 +57,8 @@ func NewPruner(options PrunerOptions) Pruner {
 	return &pruner{resolver: &mergeResolver{resolvers: resolvers}}
 }
 func (p *pruner) Prune(deleter BuildDeleter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func NewBuildDeleter(client buildv1client.BuildsGetter) BuildDeleter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildDeleter{client: client}
 }
 
@@ -103,6 +109,8 @@ type buildDeleter struct{ client buildv1client.BuildsGetter }
 var _ BuildDeleter = &buildDeleter{}
 
 func (c *buildDeleter) DeleteBuild(build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

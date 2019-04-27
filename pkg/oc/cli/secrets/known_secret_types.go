@@ -26,6 +26,8 @@ func (ks KnownSecretType) Matches(secretContent map[string][]byte) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if secretContent == nil {
 		return false
 	}

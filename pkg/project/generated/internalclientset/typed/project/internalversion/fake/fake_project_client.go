@@ -23,6 +23,8 @@ func (c *FakeProject) Projects() internalversion.ProjectResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeProjects{c}
 }
 func (c *FakeProject) ProjectRequests() internalversion.ProjectRequestInterface {
@@ -40,9 +42,13 @@ func (c *FakeProject) ProjectRequests() internalversion.ProjectRequestInterface 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeProjectRequests{c}
 }
 func (c *FakeProject) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

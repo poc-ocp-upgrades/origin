@@ -32,6 +32,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	skipRunLevelZeroSelector, err = labels.Parse(runLevelLabel + " notin ( 0 )")
 	if err != nil {
@@ -68,9 +70,13 @@ func (p pluginHandlerWithNamespaceLabelConditions) Handles(operation admission.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.admissionPlugin.Handles(operation)
 }
 func (p pluginHandlerWithNamespaceLabelConditions) Admit(a admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +115,8 @@ func (p pluginHandlerWithNamespaceLabelConditions) Validate(a admission.Attribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !p.shouldRunAdmission(a) {
 		return nil
 	}
@@ -119,6 +127,8 @@ func (p pluginHandlerWithNamespaceLabelConditions) Validate(a admission.Attribut
 	return validatingHandler.Validate(a)
 }
 func (p pluginHandlerWithNamespaceLabelConditions) shouldRunAdmission(attr admission.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +154,8 @@ func (p pluginHandlerWithNamespaceLabelConditions) shouldRunAdmission(attr admis
 	return p.namespaceSelector.Matches(labels.Set(namespaceLabels))
 }
 func (p pluginHandlerWithNamespaceLabelConditions) getNamespaceLabels(attr admission.Attributes) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -29,6 +29,8 @@ func NewBucketingWorkQueue(name string) BucketingWorkQueue {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &workQueueBucket{queue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), name), work: map[interface{}][]interface{}{}, dirtyWork: map[interface{}][]interface{}{}, inProgress: map[interface{}]bool{}}
 }
 
@@ -41,6 +43,8 @@ type workQueueBucket struct {
 }
 
 func (e *workQueueBucket) AddWithData(key interface{}, data ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func (e *workQueueBucket) AddWithDataRateLimited(key interface{}, data ...interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.workLock.Lock()
 	defer e.workLock.Unlock()
 	e.queue.AddRateLimited(key)
@@ -89,6 +95,8 @@ func (e *workQueueBucket) AddWithDataRateLimited(key interface{}, data ...interf
 	e.work[key] = append(e.work[key], data...)
 }
 func (e *workQueueBucket) Done(key interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +133,13 @@ func (e *workQueueBucket) Forget(key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.queue.Forget(key)
 }
 func (e *workQueueBucket) GetWithData() (interface{}, []interface{}, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +170,8 @@ func (e *workQueueBucket) GetWithData() (interface{}, []interface{}, bool) {
 	return key, []interface{}{}, false
 }
 func (e *workQueueBucket) ShutDown() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

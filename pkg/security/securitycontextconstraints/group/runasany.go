@@ -24,9 +24,13 @@ func NewRunAsAny() (GroupSecurityContextConstraintsStrategy, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &runAsAny{}, nil
 }
 func (s *runAsAny) Generate(_ *api.Pod) ([]int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -58,9 +62,13 @@ func (s *runAsAny) GenerateSingle(_ *api.Pod) (*int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (s *runAsAny) Validate(_ *api.Pod, groups []int64) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

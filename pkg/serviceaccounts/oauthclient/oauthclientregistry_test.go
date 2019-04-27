@@ -44,6 +44,8 @@ func TestGetClient(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name			string
 		clientName		string
@@ -113,10 +115,14 @@ func (d *fakeDelegate) Get(name string, options metav1.GetOptions) (*oauthapiv1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.called = true
 	return nil, nil
 }
 func TestRedirectURIString(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +148,8 @@ func TestRedirectURIString(t *testing.T) {
 	}
 }
 func TestMerge(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +191,8 @@ func TestParseModelsMap(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range []struct {
 		name		string
 		annotations	map[string]string
@@ -198,6 +208,8 @@ func TestParseModelsMap(t *testing.T) {
 	}
 }
 func TestGetRedirectURIs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -245,6 +257,8 @@ func TestRedirectURIsFromRoutes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range []struct {
 		name		string
 		namespace	string
@@ -263,6 +277,8 @@ func TestRedirectURIsFromRoutes(t *testing.T) {
 	}
 }
 func buildRouteClient(routes []*routeapi.Route) saOAuthClientAdapter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +314,8 @@ func buildRedirectObjectReferenceString(kind, name, group string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := &oauthapiv1.OAuthRedirectReference{Reference: oauthapiv1.RedirectReference{Kind: kind, Name: name, Group: group}}
 	data, err := runtime.Encode(encoder, ref)
 	if err != nil {
@@ -306,6 +324,8 @@ func buildRedirectObjectReferenceString(kind, name, group string) string {
 	return string(data)
 }
 func buildValidRouteIngressCondition() []routeapi.RouteIngressCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

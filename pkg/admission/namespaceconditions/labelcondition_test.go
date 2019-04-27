@@ -28,9 +28,13 @@ func (f fakeNamespaceLister) List(selector labels.Selector) (ret []*corev1.Names
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func (f fakeNamespaceLister) Get(name string) (*corev1.Namespace, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -52,6 +56,8 @@ func (f fakeNamespaceLister) Get(name string) (*corev1.Namespace, error) {
 	return nil, errors.NewNotFound(corev1.Resource("namespaces"), name)
 }
 func TestGetNamespaceLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

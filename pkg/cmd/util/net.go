@@ -25,6 +25,8 @@ func TryListen(network, hostPort string) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l, err := net.Listen(network, hostPort)
 	if err != nil {
 		klog.V(5).Infof("Failure while checking listen on %s: %v", hostPort, err)
@@ -51,6 +53,8 @@ func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tc, err := ln.AcceptTCP()
 	if err != nil {
 		return
@@ -60,6 +64,8 @@ func (ln tcpKeepAliveListener) Accept() (c net.Conn, err error) {
 	return tc, nil
 }
 func ListenAndServeTLS(srv *http.Server, network string, certFile, keyFile string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +119,8 @@ func WaitForSuccessfulDial(https bool, network, address string, timeout, interva
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		conn	net.Conn
 		err	error
@@ -135,6 +143,8 @@ func WaitForSuccessfulDial(https bool, network, address string, timeout, interva
 	return err
 }
 func GetCertificateFunc(certs map[string]*tls.Certificate) func(*tls.ClientHelloInfo) (*tls.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +192,8 @@ func HostnameMatchSpecCandidates(hostname string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(hostname) == 0 {
 		return nil
 	}
@@ -194,6 +206,8 @@ func HostnameMatchSpecCandidates(hostname string) []string {
 	return candidates
 }
 func HostnameMatches(hostname string, matchSpec string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

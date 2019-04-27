@@ -29,6 +29,8 @@ func (c *FakeLocalResourceAccessReviews) Create(localResourceAccessReview *autho
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewCreateAction(localresourceaccessreviewsResource, c.ns, localResourceAccessReview), &authorization.ResourceAccessReviewResponse{})
 	if obj == nil {
 		return nil, err

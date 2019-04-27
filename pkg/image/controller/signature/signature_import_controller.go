@@ -44,6 +44,8 @@ func NewSignatureImportController(ctx context.Context, imageClient imagev1client
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	controller := &SignatureImportController{queue: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()), imageClient: imageClient, imageLister: imageInformer.Lister(), imageHasSynced: imageInformer.Informer().HasSynced, signatureImportLimit: limit}
 	controller.fetcher = NewContainerImageSignatureDownloader(ctx, fetchTimeout)
 	imageInformer.Informer().AddEventHandlerWithResyncPeriod(cache.ResourceEventHandlerFuncs{AddFunc: func(obj interface{}) {
@@ -58,6 +60,8 @@ func NewSignatureImportController(ctx context.Context, imageClient imagev1client
 	return controller
 }
 func (s *SignatureImportController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +103,8 @@ func (s *SignatureImportController) worker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if !s.work() {
 			return
@@ -106,6 +112,8 @@ func (s *SignatureImportController) worker() {
 	}
 }
 func (s *SignatureImportController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +161,8 @@ func (s *SignatureImportController) enqueueImage(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, ok := obj.(*imagev1.Image)
 	if !ok {
 		return
@@ -165,6 +175,8 @@ func (s *SignatureImportController) enqueueImage(obj interface{}) {
 	s.queue.Add(key)
 }
 func (s *SignatureImportController) syncImageSignatures(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

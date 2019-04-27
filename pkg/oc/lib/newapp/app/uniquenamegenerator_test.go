@@ -22,6 +22,8 @@ func TestUniqueNameGeneratorNameRequired(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nameGenerator := NewUniqueNameGenerator("")
 	_, err := nameGenerator.Generate(&ImageRef{})
 	if err != ErrNameRequired {
@@ -29,6 +31,8 @@ func TestUniqueNameGeneratorNameRequired(t *testing.T) {
 	}
 }
 func TestUniqueNameGeneratorEnsureValidName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func SetDefaults_PolicyRule(obj *v1.PolicyRule) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return
 	}

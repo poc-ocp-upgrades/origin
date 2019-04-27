@@ -25,6 +25,8 @@ func hostname(hostport string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	host, _, err := net.SplitHostPort(hostport)
 	return host, err
 }

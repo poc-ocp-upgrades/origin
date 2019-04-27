@@ -216,6 +216,8 @@ func GetDockerRegistryURL(oc *exutil.CLI) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oc.Run("registry").Args("info").Output()
 }
 
@@ -226,6 +228,8 @@ type RegistryConfiguration struct {
 type byAgeDesc []kapiv1.Pod
 
 func (ba byAgeDesc) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,6 +261,8 @@ func (ba byAgeDesc) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ba[i], ba[j] = ba[j], ba[i]
 }
 func (ba byAgeDesc) Less(i, j int) bool {
@@ -274,9 +280,13 @@ func (ba byAgeDesc) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ba[j].CreationTimestamp.Before(&ba[i].CreationTimestamp)
 }
 func GetRegistryPod(podsGetter kcoreclient.PodsGetter) (*kapiv1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -316,6 +326,8 @@ func LogRegistryPod(oc *exutil.CLI) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod, err := GetRegistryPod(oc.KubeClient().CoreV1())
 	if err != nil {
 		return fmt.Errorf("failed to get registry pod: %v", err)
@@ -328,6 +340,8 @@ func LogRegistryPod(oc *exutil.CLI) error {
 	return err
 }
 func ConfigureRegistry(oc *exutil.CLI, desiredState RegistryConfiguration) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -391,6 +405,8 @@ func RedeployRegistry(oc *exutil.CLI) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer func(ns string) {
 		oc.SetNamespace(ns)
 	}(oc.Namespace())
@@ -404,6 +420,8 @@ func RedeployRegistry(oc *exutil.CLI) (bool, error) {
 	return true, nil
 }
 func EnsureRegistryAcceptsSchema2(oc *exutil.CLI, accept bool) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -435,9 +453,13 @@ func makeReadonlyEnvValue(on bool) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf(`{"enabled":%t}`, on)
 }
 func GetRegistryStorageSize(oc *exutil.CLI) (int64, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -470,6 +492,8 @@ func GetRegistryStorageSize(oc *exutil.CLI) (int64, error) {
 	return size, nil
 }
 func DoesRegistryAcceptSchema2(oc *exutil.CLI) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

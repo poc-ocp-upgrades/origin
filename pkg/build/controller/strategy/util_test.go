@@ -35,6 +35,8 @@ func TestSetupDockerSocketHostSocket(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := corev1.Pod{Spec: corev1.PodSpec{Containers: []corev1.Container{{}}}}
 	setupDockerSocket(&pod)
 	if len(pod.Spec.Volumes) != 1 {
@@ -88,12 +90,16 @@ func isVolumeSourceEmpty(volumeSource corev1.VolumeSource) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if volumeSource.EmptyDir == nil && volumeSource.HostPath == nil && volumeSource.GCEPersistentDisk == nil && volumeSource.GitRepo == nil {
 		return true
 	}
 	return false
 }
 func TestSetupDockerSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,9 +169,13 @@ func emptyPod() corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return corev1.Pod{Spec: corev1.PodSpec{Containers: []corev1.Container{{}}}}
 }
 func TestCopyEnvVarSlice(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,6 +214,8 @@ func checkAliasing(t *testing.T, pod *corev1.Pod) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := map[uintptr]bool{}
 	for _, c := range pod.Spec.Containers {
 		p := (*reflect.SliceHeader)(unsafe.Pointer(&c.Env)).Data
@@ -223,6 +235,8 @@ func checkAliasing(t *testing.T, pod *corev1.Pod) {
 	}
 }
 func TestMountConfigsAndSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,6 +285,8 @@ func TestMountConfigsAndSecrets(t *testing.T) {
 	}
 }
 func TestSetupBuildCAs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -354,6 +370,8 @@ func TestSetupBuildCAs(t *testing.T) {
 	}
 }
 func TestSetupBuildSystem(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

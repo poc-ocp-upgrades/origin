@@ -31,9 +31,13 @@ func (s *PathSpec) Local() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s.PodName) == 0
 }
 func (s *PathSpec) RsyncPath() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (s *PathSpec) RsyncPath() string {
 	return s.Path
 }
 func (s *PathSpec) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,6 +103,8 @@ func isPathForPod(path string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(path, ":", 2)
 	if len(parts) == 1 || (isWindows() && len(parts[0]) == 1) {
 		return false
@@ -104,6 +112,8 @@ func isPathForPod(path string) bool {
 	return true
 }
 func parsePathSpec(path string) (*PathSpec, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +152,8 @@ func resolveResourceKindPath(f kcmdutil.Factory, path, namespace string) (string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(path, ":", 2)
 	if !isPathForPod(path) {
 		return path, nil
@@ -164,6 +176,8 @@ func resolveResourceKindPath(f kcmdutil.Factory, path, namespace string) (string
 	return fmt.Sprintf("%s:%s", podName, parts[1]), nil
 }
 func convertWindowsPath(path string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

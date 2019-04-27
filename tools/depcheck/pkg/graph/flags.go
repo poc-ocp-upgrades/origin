@@ -36,9 +36,13 @@ func (o *GraphOptions) Complete() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (o *GraphOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,6 +63,8 @@ func (o *GraphOptions) Validate() error {
 	return nil
 }
 func (o *GraphOptions) BuildGraph() (*MutableDirectedGraph, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +153,8 @@ func (o *GraphFlags) calculateRoots(excludes []string) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	packages, err := getPackageMetadata(o.Entrypoints, excludes, o.BuildTags)
 	if err != nil {
 		return nil, err
@@ -158,6 +166,8 @@ func (o *GraphFlags) calculateRoots(excludes []string) ([]string, error) {
 	return roots, nil
 }
 func (o *GraphFlags) ToOptions(out, errout io.Writer) (*GraphOptions, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -239,6 +249,8 @@ func (o *GraphFlags) AddFlags(cmd *cobra.Command) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd.Flags().BoolVar(&o.Openshift, "openshift", o.Openshift, "generate and use OpenShift-specific lists of excluded packages and filters.")
 	cmd.Flags().StringVar(&o.RepoImportPath, "root", o.RepoImportPath, "Go import-path of repository to analyze (e.g. github.com/openshift/origin)")
 	cmd.Flags().StringSliceVar(&o.Entrypoints, "entry", o.Entrypoints, "filepaths for packages within the specified --root relative to the repo's import path (e.g. ./cmd/...). Paths ending in an ellipsis (...) are traversed recursively.")
@@ -261,6 +273,8 @@ func isExcludedPath(path string, excludes []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, exclude := range excludes {
 		if strings.HasPrefix(path, exclude) {
 			return true
@@ -269,6 +283,8 @@ func isExcludedPath(path string, excludes []string) bool {
 	return false
 }
 func ensureEntrypointPrefix(entrypoints []string, prefix string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -306,6 +322,8 @@ func ensureVendorEntrypoint(entrypoints []string, prefix string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hasVendor := false
 	for _, entry := range entrypoints {
 		if strings.HasSuffix(path.Clean(entry), "/vendor") {
@@ -321,6 +339,8 @@ func ensureVendorEntrypoint(entrypoints []string, prefix string) []string {
 	return entrypoints
 }
 func ensureEntrypointEllipsis(entypoints []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

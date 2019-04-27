@@ -21,6 +21,8 @@ func TestParseURL(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		URL		string
 		ExpectedLDAPURL	LDAPURL

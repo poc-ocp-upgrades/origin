@@ -146,6 +146,8 @@ func newNS(ns string) ClusterLoaderType {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ClusterLoaderType{Number: 1, Tuning: "default", Basename: ns}
 }
 func newPod(pod v1.Pod) ClusterLoaderObjectType {
@@ -163,9 +165,13 @@ func newPod(pod v1.Pod) ClusterLoaderObjectType {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ClusterLoaderObjectType{Number: 1, Image: pod.Spec.Containers[0].Image, Basename: pod.Name}
 }
 func newTemplate(template string) ClusterLoaderObjectType {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

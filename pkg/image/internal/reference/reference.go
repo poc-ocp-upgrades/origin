@@ -39,9 +39,13 @@ func AsField(reference Reference) Field {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return Field{reference}
 }
 func (f Field) Reference() Reference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,9 +77,13 @@ func (f Field) MarshalText() (p []byte, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []byte(f.reference.String()), nil
 }
 func (f *Field) UnmarshalText(p []byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +142,8 @@ func SplitHostname(named Named) (string, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := named.Name()
 	match := anchoredNameRegexp.FindStringSubmatch(name)
 	if len(match) != 3 {
@@ -142,6 +152,8 @@ func SplitHostname(named Named) (string, string) {
 	return match[1], match[2]
 }
 func Parse(s string) (Reference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,6 +210,8 @@ func ParseNamed(s string) (Named, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref, err := Parse(s)
 	if err != nil {
 		return nil, err
@@ -209,6 +223,8 @@ func ParseNamed(s string) (Named, error) {
 	return named, nil
 }
 func WithName(name string) (Named, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,6 +262,8 @@ func WithTag(name Named, tag string) (NamedTagged, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !anchoredTagRegexp.MatchString(tag) {
 		return nil, ErrTagInvalidFormat
 	}
@@ -255,6 +273,8 @@ func WithTag(name Named, tag string) (NamedTagged, error) {
 	return taggedReference{name: name.Name(), tag: tag}, nil
 }
 func WithDigest(name Named, digest digest.Digest) (Canonical, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +312,8 @@ func Match(pattern string, ref Reference) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matched, err := path.Match(pattern, ref.String())
 	if namedRef, isNamed := ref.(Named); isNamed && !matched {
 		matched, _ = path.Match(pattern, namedRef.Name())
@@ -313,9 +335,13 @@ func TrimNamed(ref Named) Named {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return repository(ref.Name())
 }
 func getBestReferenceType(ref reference) Reference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -369,9 +395,13 @@ func (r reference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.name + ":" + r.tag + "@" + r.digest.String()
 }
 func (r reference) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -403,9 +433,13 @@ func (r reference) Tag() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.tag
 }
 func (r reference) Digest() digest.Digest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -440,9 +474,13 @@ func (r repository) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(r)
 }
 func (r repository) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -477,9 +515,13 @@ func (d digestReference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(d)
 }
 func (d digestReference) Digest() digest.Digest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -517,6 +559,8 @@ func (t taggedReference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.name + ":" + t.tag
 }
 func (t taggedReference) Name() string {
@@ -534,9 +578,13 @@ func (t taggedReference) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.name
 }
 func (t taggedReference) Tag() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -574,6 +622,8 @@ func (c canonicalReference) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.name + "@" + c.digest.String()
 }
 func (c canonicalReference) Name() string {
@@ -591,9 +641,13 @@ func (c canonicalReference) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.name
 }
 func (c canonicalReference) Digest() digest.Digest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

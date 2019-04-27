@@ -22,6 +22,8 @@ func NewMapBasedSelectorForObjectFn(delegate polymorphichelpers.MapBasedSelector
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(object runtime.Object) (string, error) {
 		switch t := object.(type) {
 		case *appsv1.DeploymentConfig:

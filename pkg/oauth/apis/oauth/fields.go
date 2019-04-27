@@ -21,6 +21,8 @@ func OAuthAccessTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthAccessToken, ok := obj.(*OAuthAccessToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAccessToken", obj)
@@ -46,6 +48,8 @@ func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthAuthorizeToken, ok := obj.(*OAuthAuthorizeToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAuthorizeToken", obj)
@@ -56,6 +60,8 @@ func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) e
 	return nil
 }
 func OAuthClientAuthorizationFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

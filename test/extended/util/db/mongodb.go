@@ -23,9 +23,13 @@ func NewMongoDB(podName string) util.Database {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MongoDB{podName: podName}
 }
 func (m MongoDB) PodName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,9 +61,13 @@ func (m MongoDB) IsReady(oc *util.CLI) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return isReady(oc, m.podName, `mongo --quiet --eval '{"ping", 1}'`, "1")
 }
 func (m MongoDB) Query(oc *util.CLI, query string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +99,8 @@ func (m MongoDB) QueryPrivileged(oc *util.CLI, query string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", errors.New("not implemented")
 }
 func (m MongoDB) TestRemoteLogin(oc *util.CLI, hostAddress string) error {
@@ -108,9 +118,13 @@ func (m MongoDB) TestRemoteLogin(oc *util.CLI, hostAddress string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return errors.New("not implemented")
 }
 func (m MongoDB) QueryPrimary(oc *util.CLI, query string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

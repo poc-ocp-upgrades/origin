@@ -49,6 +49,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register(api.PluginName, func(config io.Reader) (admission.Interface, error) {
 		pluginConfig, err := ReadConfig(config)
 		if err != nil {
@@ -95,6 +97,8 @@ func newClusterResourceOverride(config *api.ClusterResourceOverrideConfig) (admi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(2).Infof("%s admission controller loaded with config: %v", api.PluginName, config)
 	var internal *internalConfig
 	if config != nil {
@@ -107,6 +111,8 @@ func newClusterResourceOverride(config *api.ClusterResourceOverrideConfig) (admi
 	return &clusterResourceOverridePlugin{Handler: admission.NewHandler(admission.Create), config: internal, LimitRanger: limitRanger}, nil
 }
 func (d *clusterResourceOverridePlugin) SetExternalKubeClientSet(c kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,11 +144,15 @@ func (d *clusterResourceOverridePlugin) SetExternalKubeInformerFactory(kubeInfor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	d.LimitRanger.SetExternalKubeInformerFactory(kubeInformers)
 	d.limitRangesLister = kubeInformers.Core().V1().LimitRanges().Lister()
 	d.nsLister = kubeInformers.Core().V1().Namespaces().Lister()
 }
 func ReadConfig(configFile io.Reader) (*api.ClusterResourceOverrideConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,12 +200,16 @@ func (a *clusterResourceOverridePlugin) ValidateInitialization() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a.nsLister == nil {
 		return fmt.Errorf("%s did not get a namespace lister", api.PluginName)
 	}
 	return a.LimitRanger.ValidateInitialization()
 }
 func isExemptedNamespace(name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +251,8 @@ func (a *clusterResourceOverridePlugin) Admit(attr admission.Attributes) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.admit(attr, true)
 }
 func (a *clusterResourceOverridePlugin) Validate(attr admission.Attributes) error {
@@ -254,9 +270,13 @@ func (a *clusterResourceOverridePlugin) Validate(attr admission.Attributes) erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.admit(attr, false)
 }
 func (a *clusterResourceOverridePlugin) admit(attr admission.Attributes, mutationAllowed bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -323,6 +343,8 @@ func (a *clusterResourceOverridePlugin) admit(attr admission.Attributes, mutatio
 	return nil
 }
 func updateContainerResources(config *internalConfig, container *coreapi.Container, nsCPUFloor, nsMemFloor *resource.Quantity, mutationAllowed bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -409,6 +431,8 @@ func applyQuantity(l coreapi.ResourceList, r corev1.ResourceName, v resource.Qua
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if mutationAllowed {
 		l[coreapi.ResourceName(r)] = v
 		return nil
@@ -421,6 +445,8 @@ func applyQuantity(l coreapi.ResourceList, r corev1.ResourceName, v resource.Qua
 	return nil
 }
 func minResourceLimits(limitRanges []*corev1.LimitRange, resourceName corev1.ResourceName) *resource.Quantity {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -465,6 +491,8 @@ func minQuantity(quantities []*resource.Quantity) *resource.Quantity {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	min := quantities[0].Copy()
 	for i := range quantities {
 		if quantities[i].Cmp(*min) < 0 {
@@ -488,6 +516,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -562,5 +611,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -22,6 +22,8 @@ func TestAuthChallengeNeeded(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	realm := "testing-realm"
 	expectedChallenge := fmt.Sprintf(`Basic realm="%s"`, realm)
 	handler := NewBasicAuthChallenger(realm)
@@ -39,6 +41,8 @@ func TestAuthChallengeNeeded(t *testing.T) {
 	}
 }
 func TestAuthChallengeWithoutCSRF(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

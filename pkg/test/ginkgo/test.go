@@ -42,12 +42,16 @@ func newTestCase(spec ginkgoSpec) *testCase {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := spec.ConcatenatedString()
 	name = strings.TrimPrefix(name, "[Top Level] ")
 	summary := spec.Summary("")
 	return &testCase{name: name, spec: spec, location: summary.ComponentCodeLocations[len(summary.ComponentCodeLocations)-1]}
 }
 func (t *testCase) Retry() *testCase {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func (s *TestSuite) Filter(tests []*testCase) []*testCase {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matches := make([]*testCase, 0, len(tests))
 	for _, test := range tests {
 		if !s.Matches(test.name) {
@@ -101,6 +107,8 @@ func (s *TestSuite) Filter(tests []*testCase) []*testCase {
 	return matches
 }
 func newSuiteFromFile(name string, contents []byte) (*TestSuite, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -149,6 +157,8 @@ func testNames(tests []*testCase) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, t := range tests {
 		names = append(names, t.name)
@@ -156,6 +166,8 @@ func testNames(tests []*testCase) []string {
 	return names
 }
 func SuitesString(suites []*TestSuite, prefix string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +190,8 @@ func SuitesString(suites []*TestSuite, prefix string) string {
 	return buf.String()
 }
 func runWithTimeout(ctx context.Context, c *exec.Cmd, timeout time.Duration) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

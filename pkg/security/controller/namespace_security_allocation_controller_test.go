@@ -38,6 +38,8 @@ func TestController(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeclient := kubefakeclient.NewSimpleClientset()
 	securityclient := securityv1fakeclient.NewSimpleClientset()
 	indexer := cache.NewIndexer(controller.KeyFunc, cache.Indexers{})
@@ -92,6 +94,8 @@ func TestController(t *testing.T) {
 	}
 }
 func TestControllerError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

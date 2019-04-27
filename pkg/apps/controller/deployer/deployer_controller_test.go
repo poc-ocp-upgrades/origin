@@ -46,6 +46,8 @@ func alwaysReady() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 
@@ -55,6 +57,8 @@ type deploymentController struct {
 }
 
 func okDeploymentController(client kclientset.Interface, deployment *corev1.ReplicationController, hookPodNames []string, related bool, deployerStatus corev1.PodPhase) *deploymentController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +105,8 @@ func deployerPod(deployment *corev1.ReplicationController, alternateName string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployerPodName := appsutil.DeployerPodNameForDeployment(deployment.Name)
 	if len(alternateName) > 0 {
 		deployerPodName = alternateName
@@ -126,9 +132,13 @@ func okContainer() *corev1.Container {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &corev1.Container{Image: "openshift/origin-deployer", Command: []string{"/bin/echo", "hello", "world"}, Env: env, Resources: corev1.ResourceRequirements{Limits: corev1.ResourceList{corev1.ResourceName(corev1.ResourceCPU): resource.MustParse("10"), corev1.ResourceName(corev1.ResourceMemory): resource.MustParse("10G")}}}
 }
 func TestMakeDeployerContainer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +183,8 @@ func TestMakeDeployerContainer(t *testing.T) {
 	}
 }
 func TestHandle_createPodOk(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,6 +290,8 @@ func TestHandle_createPodFail(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := &fake.Clientset{}
 	client.AddReactor("create", "pods", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		name := action.(clientgotesting.CreateAction).GetObject().(*corev1.Pod).Name
@@ -301,6 +315,8 @@ func TestHandle_createPodFail(t *testing.T) {
 	}
 }
 func TestHandle_deployerPodAlreadyExists(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -366,6 +382,8 @@ func TestHandle_unrelatedPodAlreadyExists(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var updatedDeployment *corev1.ReplicationController
 	config := appstest.OkDeploymentConfig(1)
 	deployment, _ := appsutil.MakeDeployment(config)
@@ -396,6 +414,8 @@ func TestHandle_unrelatedPodAlreadyExists(t *testing.T) {
 	}
 }
 func TestHandle_unrelatedPodAlreadyExistsTestScaled(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -459,6 +479,8 @@ func TestHandle_noop(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		podPhase	corev1.PodPhase
@@ -488,6 +510,8 @@ func TestHandle_noop(t *testing.T) {
 	}
 }
 func TestHandle_failedTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -545,6 +569,8 @@ func TestHandle_cleanupPodOk(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hookPods := []string{"pre", "mid", "post"}
 	deletedPodNames := []string{}
 	client := &fake.Clientset{}
@@ -577,6 +603,8 @@ func TestHandle_cleanupPodOk(t *testing.T) {
 	}
 }
 func TestHandle_cleanupPodOkTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -647,6 +675,8 @@ func TestHandle_cleanupPodNoop(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := &fake.Clientset{}
 	client.AddReactor("delete", "pods", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		t.Fatalf("unexpected call to delete pod")
@@ -673,6 +703,8 @@ func TestHandle_cleanupPodNoop(t *testing.T) {
 	}
 }
 func TestHandle_cleanupPodFail(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -728,6 +760,8 @@ func TestHandle_cancelNew(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var updatedDeployment *corev1.ReplicationController
 	client := &fake.Clientset{}
 	client.AddReactor("create", "pods", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
@@ -752,6 +786,8 @@ func TestHandle_cancelNew(t *testing.T) {
 	}
 }
 func TestHandle_cleanupNewWithDeployers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -812,6 +848,8 @@ func TestHandle_cleanupPostNew(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hookPods := []string{"pre", "post"}
 	tests := []struct {
 		name		string
@@ -847,6 +885,8 @@ func TestHandle_cleanupPostNew(t *testing.T) {
 	}
 }
 func TestHandle_deployerPodDisappeared(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -929,6 +969,8 @@ func TestHandle_transitionFromDeployer(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		podPhase	corev1.PodPhase
@@ -977,6 +1019,8 @@ func expectMapContains(t *testing.T, exists, expected map[string]string, what st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected == nil {
 		return
 	}
@@ -990,6 +1034,8 @@ func expectMapContains(t *testing.T, exists, expected map[string]string, what st
 	}
 }
 func TestDeployerCustomLabelsAndAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1040,6 +1086,8 @@ func TestDeployerCustomLabelsAndAnnotations(t *testing.T) {
 	}
 }
 func TestMakeDeployerPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

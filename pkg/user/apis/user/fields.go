@@ -21,6 +21,8 @@ func IdentityFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	identity, ok := obj.(*Identity)
 	if !ok {
 		return fmt.Errorf("%T not an Identity", obj)

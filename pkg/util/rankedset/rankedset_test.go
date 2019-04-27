@@ -17,6 +17,8 @@ func TestRankedSet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := New()
 	a := newTestSetItem("A", 5, "AD")
 	b := newTestSetItem("B", 6, "BD")
@@ -156,11 +158,15 @@ func assertLen(s *RankedSet, length int, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s.Len() != length {
 		t.Errorf("%s expected len: %d got %d for %v", t.Name(), length, s.Len(), noPointerItems(s.List(false)))
 	}
 }
 func assertOrder(actual []Item, t *testing.T, items ...*testSetItem) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,6 +192,8 @@ func assertOrder(actual []Item, t *testing.T, items ...*testSetItem) {
 	}
 }
 func assertItem(item *testSetItem, actual Item, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,11 +236,15 @@ func assertHas(key string, expected bool, s *RankedSet, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected != s.Has(StringItem(key)) {
 		t.Errorf("%s expected %v for %s with %v", t.Name(), expected, key, noPointerItems(s.List(false)))
 	}
 }
 func newTestSetItem(key string, rank int64, data string) *testSetItem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,9 +283,13 @@ func (i *testSetItem) Key() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.key
 }
 func (i *testSetItem) Rank() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -305,6 +321,8 @@ func noPointers(items []*testSetItem) []testSetItem {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var out []testSetItem
 	for _, item := range items {
 		out = append(out, *item)
@@ -312,6 +330,8 @@ func noPointers(items []*testSetItem) []testSetItem {
 	return out
 }
 func noPointerItems(items []Item) []testSetItem {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -52,6 +52,8 @@ func RegisterMetrics() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	registerMetrics.Do(func() {
 		prometheus.MustRegister(OVSFlows)
 		prometheus.MustRegister(ARPCacheAvailableEntries)
@@ -76,9 +78,13 @@ func sinceInMicroseconds(start time.Time) float64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return float64(time.Since(start) / time.Microsecond)
 }
 func gatherPeriodicMetrics(ovs ovs.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,6 +118,8 @@ func updateOVSMetrics(ovs ovs.Interface) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flows, err := ovs.DumpFlows("")
 	if err == nil {
 		OVSFlows.Set(float64(len(flows)))
@@ -120,6 +128,8 @@ func updateOVSMetrics(ovs ovs.Interface) {
 	}
 }
 func updateARPMetrics() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,6 +171,8 @@ func updateARPMetrics() {
 	}
 }
 func updatePodIPMetrics() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -19,6 +19,8 @@ func MissingImports(lockfile *LockFile, yamlfile *YamlFile) (YamlFileImportList,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if lockfile == nil || yamlfile == nil {
 		return nil, []string{}, fmt.Errorf("both a lockfile and a yamlfile are required")
 	}

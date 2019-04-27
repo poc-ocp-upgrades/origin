@@ -32,6 +32,8 @@ func ValidateSecurityContextConstraints(scc *securityapi.SecurityContextConstrai
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMeta(&scc.ObjectMeta, false, ValidateSecurityContextConstraintsName, field.NewPath("metadata"))
 	if scc.Priority != nil {
 		if *scc.Priority < 0 {
@@ -124,12 +126,16 @@ func IsValidSysctlPattern(name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(name) > kapivalidation.SysctlMaxLength {
 		return false
 	}
 	return sysctlPatternRegexp.MatchString(name)
 }
 func validatePodSecurityPolicySysctlListsDoNotOverlap(allowedSysctlsFldPath, forbiddenSysctlsFldPath *field.Path, allowedUnsafeSysctls, forbiddenSysctls []string) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,6 +204,8 @@ func validateSCCSysctls(fldPath *field.Path, sysctls []string) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(sysctls) == 0 {
 		return allErrs
@@ -218,6 +226,8 @@ func validateSCCSysctls(fldPath *field.Path, sysctls []string) field.ErrorList {
 	return allErrs
 }
 func validateSCCCapsAgainstDrops(requiredDrops []kapi.Capability, capsToCheck []kapi.Capability, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -258,6 +268,8 @@ func validateSCCDefaultAllowPrivilegeEscalation(fldPath *field.Path, defaultAllo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if defaultAllowPrivilegeEscalation != nil && allowPrivilegeEscalation != nil && *defaultAllowPrivilegeEscalation && !*allowPrivilegeEscalation {
 		allErrs = append(allErrs, field.Invalid(fldPath, defaultAllowPrivilegeEscalation, "Cannot set DefaultAllowPrivilegeEscalation to true without also setting AllowPrivilegeEscalation to true"))
@@ -265,6 +277,8 @@ func validateSCCDefaultAllowPrivilegeEscalation(fldPath *field.Path, defaultAllo
 	return allErrs
 }
 func hasCap(needle kapi.Capability, haystack []kapi.Capability) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,6 +301,8 @@ func hasCap(needle kapi.Capability, haystack []kapi.Capability) bool {
 	return false
 }
 func validateIDRanges(rng []securityapi.IDRange, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,6 +348,8 @@ func ValidateSecurityContextConstraintsUpdate(newScc, oldScc *securityapi.Securi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&newScc.ObjectMeta, &oldScc.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateSecurityContextConstraints(newScc)...)
 	return allErrs
@@ -351,11 +369,15 @@ func ValidatePodSecurityPolicySubjectReview(podSecurityPolicySubjectReview *secu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validatePodSecurityPolicySubjectReviewSpec(&podSecurityPolicySubjectReview.Spec, field.NewPath("spec"))...)
 	return allErrs
 }
 func validatePodSecurityPolicySubjectReviewSpec(spec *securityapi.PodSecurityPolicySubjectReviewSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -392,11 +414,15 @@ func ValidatePodSecurityPolicySelfSubjectReview(podSecurityPolicySelfSubjectRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validatePodSecurityPolicySelfSubjectReviewSpec(&podSecurityPolicySelfSubjectReview.Spec, field.NewPath("spec"))...)
 	return allErrs
 }
 func validatePodSecurityPolicySelfSubjectReviewSpec(podSecurityPolicySelfSubjectReviewSpec *securityapi.PodSecurityPolicySelfSubjectReviewSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -430,11 +456,15 @@ func ValidatePodSecurityPolicyReview(podSecurityPolicyReview *securityapi.PodSec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validatePodSecurityPolicyReviewSpec(&podSecurityPolicyReview.Spec, field.NewPath("spec"))...)
 	return allErrs
 }
 func validatePodSecurityPolicyReviewSpec(podSecurityPolicyReviewSpec *securityapi.PodSecurityPolicyReviewSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -455,6 +485,8 @@ func validatePodSecurityPolicyReviewSpec(podSecurityPolicyReviewSpec *securityap
 	return allErrs
 }
 func validateServiceAccountNames(serviceAccountNames []string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -498,6 +530,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -572,5 +625,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

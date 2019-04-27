@@ -54,6 +54,8 @@ func NewAuthenticator(servingInfo configv1.ServingInfo, serviceAccountPublicKeyF
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeExternalClient, err := kclientsetexternal.NewForConfig(privilegedLoopbackConfig)
 	if err != nil {
 		return nil, nil, err
@@ -70,6 +72,8 @@ func NewAuthenticator(servingInfo configv1.ServingInfo, serviceAccountPublicKeyF
 	return newAuthenticator(serviceAccountPublicKeyFiles, oauthConfig, authConfig, oauthClient.OAuthAccessTokens(), oauthClientLister, serviceAccountTokenGetter, userClient.UserV1().Users(), servingInfo.ClientCA, usercache.NewGroupCache(groupInformer), bootstrap.NewBootstrapUserDataGetter(kubeExternalClient.CoreV1(), kubeExternalClient.CoreV1()))
 }
 func newAuthenticator(serviceAccountPublicKeyFiles []string, oauthConfig *osinv1.OAuthConfig, authConfig kubecontrolplanev1.MasterAuthConfig, accessTokenGetter oauthclient.OAuthAccessTokenInterface, oauthClientLister oauthclientlister.OAuthClientLister, tokenGetter serviceaccount.ServiceAccountTokenGetter, userGetter usertypedclient.UserInterface, apiClientCABundle string, groupMapper oauth.UserToGroupMapper, bootstrapUserDataGetter bootstrap.BootstrapUserDataGetter) (authenticator.Request, map[string]genericapiserver.PostStartHookFunc, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

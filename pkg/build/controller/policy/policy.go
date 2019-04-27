@@ -30,9 +30,13 @@ func GetAllRunPolicies(lister buildlister.BuildLister, updater buildclient.Build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []RunPolicy{&ParallelPolicy{BuildLister: lister, BuildUpdater: updater}, &SerialPolicy{BuildLister: lister, BuildUpdater: updater}, &SerialLatestOnlyPolicy{BuildLister: lister, BuildUpdater: updater}}
 }
 func ForBuild(build *buildv1.Build, policies []RunPolicy) RunPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,6 +75,8 @@ func hasRunningSerialBuild(lister buildlister.BuildLister, namespace, buildConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var hasRunningBuilds bool
 	buildutil.BuildConfigBuilds(lister, namespace, buildConfigName, func(b *buildv1.Build) bool {
 		switch b.Status.Phase {
@@ -85,6 +91,8 @@ func hasRunningSerialBuild(lister buildlister.BuildLister, namespace, buildConfi
 	return hasRunningBuilds
 }
 func GetNextConfigBuild(lister buildlister.BuildLister, namespace, buildConfigName string) ([]*buildv1.Build, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +161,8 @@ func buildNumber(build *buildv1.Build) (int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotations := build.GetAnnotations()
 	if stringNumber, ok := annotations[buildutil.BuildNumberAnnotation]; ok {
 		return strconv.ParseInt(stringNumber, 10, 64)
@@ -160,6 +170,8 @@ func buildNumber(build *buildv1.Build) (int64, error) {
 	return 0, fmt.Errorf("build %s/%s does not have %s annotation", build.Namespace, build.Name, buildutil.BuildNumberAnnotation)
 }
 func buildRunPolicy(build *buildv1.Build) buildv1.BuildRunPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -21,6 +21,8 @@ func TestValidateCreateSpec(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		featureSet	string
@@ -49,6 +51,8 @@ func TestValidateCreateSpec(t *testing.T) {
 	}
 }
 func TestValidateUpdateSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

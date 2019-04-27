@@ -33,6 +33,8 @@ func TestOAuthExpiration(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterOptions, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -78,6 +80,8 @@ func TestOAuthExpiration(t *testing.T) {
 	}
 }
 func testExpiringOAuthFlows(t *testing.T, clusterAdminClientConfig *restclient.Config, oauthClient *oauthapi.OAuthClient, anonConfig *restclient.Config, expectedExpires int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

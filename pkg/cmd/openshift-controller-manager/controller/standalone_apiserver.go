@@ -36,6 +36,8 @@ func RunControllerServer(servingInfo configv1.HTTPServingInfo, kubeExternal clie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientCAs, err := getClientCertCAPool(servingInfo)
 	if err != nil {
 		return err
@@ -80,6 +82,8 @@ func initReadinessCheckRoute(mux *genericmux.PathRecorderMux, path string, ready
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mux.HandleFunc(path, func(w http.ResponseWriter, req *http.Request) {
 		if readyFunc() {
 			w.WriteHeader(http.StatusOK)
@@ -90,6 +94,8 @@ func initReadinessCheckRoute(mux *genericmux.PathRecorderMux, path string, ready
 	})
 }
 func serveControllers(servingInfo configv1.HTTPServingInfo, handler http.Handler) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +145,8 @@ func getClientCertCAPool(servingInfo configv1.HTTPServingInfo) (*x509.CertPool, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roots := x509.NewCertPool()
 	certs, err := cmdutil.CertificatesFromFile(servingInfo.ClientCA)
 	if err != nil {
@@ -150,6 +158,8 @@ func getClientCertCAPool(servingInfo configv1.HTTPServingInfo) (*x509.CertPool, 
 	return roots, nil
 }
 func getNamedCertificateMap(namedCertificates []configv1.NamedCertificate) (map[string]*tls.Certificate, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -40,6 +40,8 @@ func (o *PinImportsFlags) ToOptions(out, errout io.Writer) (*PinImportsOpts, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.LockFileName) == 0 || len(o.YamlFileName) == 0 {
 		return nil, fmt.Errorf("both a --glide.lock path and a --glide.yaml path must be specified")
 	}
@@ -68,6 +70,8 @@ func (o *PinImportsFlags) ToOptions(out, errout io.Writer) (*PinImportsOpts, err
 	return &PinImportsOpts{LockFile: lockfile, YamlFile: yamlfile, ExistingGlideYamlContent: yamlFileBytes, Out: out, ErrOut: errout}, nil
 }
 func NewCmdPinImports(parent string, out, errout io.Writer) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +117,8 @@ func (o *PinImportsOpts) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.YamlFile == nil || o.LockFile == nil {
 		return fmt.Errorf("both a glide.yaml and a glide.lock file are required")
 	}
@@ -122,6 +128,8 @@ func (o *PinImportsOpts) Validate() error {
 	return nil
 }
 func (o *PinImportsOpts) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

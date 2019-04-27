@@ -27,9 +27,13 @@ func (s *testPodCreationStrategy) CreateBuildPod(b *buildv1.Build, additionalCAs
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.pod, s.err
 }
 func TestStrategyCreateBuildPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

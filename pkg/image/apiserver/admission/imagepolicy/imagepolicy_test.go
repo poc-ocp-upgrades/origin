@@ -60,12 +60,16 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configinstall.InstallLegacyInternal(configapi.Scheme)
 }
 
 type resolveFunc func(ref *kapi.ObjectReference, defaultNamespace string, forceLocalResolve bool) (*rules.ImagePolicyAttributes, error)
 
 func (fn resolveFunc) ResolveObjectReference(ref *kapi.ObjectReference, defaultNamespace string, forceLocalResolve bool) (*rules.ImagePolicyAttributes, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,11 +101,15 @@ func setDefaultCache(p *imagePolicyPlugin) kcache.Indexer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	indexer := kcache.NewIndexer(kcache.MetaNamespaceKeyFunc, kcache.Indexers{})
 	p.nsLister = corev1listers.NewNamespaceLister(indexer)
 	return indexer
 }
 func TestDefaultPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -316,6 +324,8 @@ func TestAdmissionWithoutPodSpec(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	onResources := []metav1.GroupResource{{Resource: "nodes"}}
 	p, err := newImagePolicyPlugin(&imagepolicy.ImagePolicyConfig{ExecutionRules: []imagepolicy.ImageExecutionPolicyRule{{ImageCondition: imagepolicy.ImageCondition{OnResources: onResources}}}})
 	if err != nil {
@@ -330,6 +340,8 @@ func TestAdmissionWithoutPodSpec(t *testing.T) {
 	}
 }
 func TestAdmissionResolution(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -394,6 +406,8 @@ func TestAdmissionResolution(t *testing.T) {
 	}
 }
 func TestAdmissionResolveImages(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -501,6 +515,8 @@ func TestAdmissionResolveImages(t *testing.T) {
 	}
 }
 func TestResolutionConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

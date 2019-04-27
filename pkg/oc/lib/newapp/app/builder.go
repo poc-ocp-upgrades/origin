@@ -28,6 +28,8 @@ func IsBuilderImage(image *dockerv10.DockerImage) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if image == nil || image.Config == nil {
 		return false
 	}
@@ -44,6 +46,8 @@ func IsBuilderImage(image *dockerv10.DockerImage) bool {
 	return false
 }
 func IsBuilderStreamTag(stream *imagev1.ImageStream, tag string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func IsBuilderMatch(match *ComponentMatch) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if match.DockerImage != nil && IsBuilderImage(match.DockerImage) {
 		return true
 	}
@@ -91,6 +97,8 @@ func IsBuilderMatch(match *ComponentMatch) bool {
 	return false
 }
 func isGeneratorJobImage(image *dockerv10.DockerImage) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func isGeneratorJobImageStreamTag(stream *imagev1.ImageStream, tag string) bool 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if stream == nil {
 		return false
 	}
@@ -138,6 +148,8 @@ func isGeneratorJobImageStreamTag(stream *imagev1.ImageStream, tag string) bool 
 	return t.Annotations[labelGenerateJob] == "true"
 }
 func parseGenerateTokenAs(value string) (*TokenInput, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +207,8 @@ type GeneratorInput struct {
 }
 
 func GeneratorInputFromMatch(match *ComponentMatch) (GeneratorInput, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

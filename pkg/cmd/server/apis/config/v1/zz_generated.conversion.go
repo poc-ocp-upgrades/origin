@@ -30,9 +30,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -979,6 +983,8 @@ func autoConvert_v1_ActiveDirectoryConfig_To_config_ActiveDirectoryConfig(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := Convert_v1_LDAPQuery_To_config_LDAPQuery(&in.AllUsersQuery, &out.AllUsersQuery, s); err != nil {
 		return err
 	}
@@ -1001,9 +1007,13 @@ func Convert_v1_ActiveDirectoryConfig_To_config_ActiveDirectoryConfig(in *v1.Act
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ActiveDirectoryConfig_To_config_ActiveDirectoryConfig(in, out, s)
 }
 func autoConvert_config_ActiveDirectoryConfig_To_v1_ActiveDirectoryConfig(in *config.ActiveDirectoryConfig, out *v1.ActiveDirectoryConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1040,9 +1050,13 @@ func Convert_config_ActiveDirectoryConfig_To_v1_ActiveDirectoryConfig(in *config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ActiveDirectoryConfig_To_v1_ActiveDirectoryConfig(in, out, s)
 }
 func autoConvert_v1_AdmissionConfig_To_config_AdmissionConfig(in *v1.AdmissionConfig, out *config.AdmissionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1088,9 +1102,13 @@ func Convert_v1_AdmissionConfig_To_config_AdmissionConfig(in *v1.AdmissionConfig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AdmissionConfig_To_config_AdmissionConfig(in, out, s)
 }
 func autoConvert_config_AdmissionConfig_To_v1_AdmissionConfig(in *config.AdmissionConfig, out *v1.AdmissionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1136,9 +1154,13 @@ func Convert_config_AdmissionConfig_To_v1_AdmissionConfig(in *config.AdmissionCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_AdmissionConfig_To_v1_AdmissionConfig(in, out, s)
 }
 func autoConvert_v1_AdmissionPluginConfig_To_config_AdmissionPluginConfig(in *v1.AdmissionPluginConfig, out *config.AdmissionPluginConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1174,10 +1196,14 @@ func autoConvert_config_AdmissionPluginConfig_To_v1_AdmissionPluginConfig(in *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Location = in.Location
 	return nil
 }
 func autoConvert_v1_AggregatorConfig_To_config_AggregatorConfig(in *v1.AggregatorConfig, out *config.AggregatorConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1212,9 +1238,13 @@ func Convert_v1_AggregatorConfig_To_config_AggregatorConfig(in *v1.AggregatorCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AggregatorConfig_To_config_AggregatorConfig(in, out, s)
 }
 func autoConvert_config_AggregatorConfig_To_v1_AggregatorConfig(in *config.AggregatorConfig, out *v1.AggregatorConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1249,9 +1279,13 @@ func Convert_config_AggregatorConfig_To_v1_AggregatorConfig(in *config.Aggregato
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_AggregatorConfig_To_v1_AggregatorConfig(in, out, s)
 }
 func autoConvert_v1_AllowAllPasswordIdentityProvider_To_config_AllowAllPasswordIdentityProvider(in *v1.AllowAllPasswordIdentityProvider, out *config.AllowAllPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1283,9 +1317,13 @@ func Convert_v1_AllowAllPasswordIdentityProvider_To_config_AllowAllPasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AllowAllPasswordIdentityProvider_To_config_AllowAllPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_AllowAllPasswordIdentityProvider_To_v1_AllowAllPasswordIdentityProvider(in *config.AllowAllPasswordIdentityProvider, out *v1.AllowAllPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1317,9 +1355,13 @@ func Convert_config_AllowAllPasswordIdentityProvider_To_v1_AllowAllPasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_AllowAllPasswordIdentityProvider_To_v1_AllowAllPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_AuditConfig_To_config_AuditConfig(in *v1.AuditConfig, out *config.AuditConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1363,6 +1405,8 @@ func autoConvert_config_AuditConfig_To_v1_AuditConfig(in *config.AuditConfig, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Enabled = in.Enabled
 	out.AuditFilePath = in.AuditFilePath
 	out.MaximumFileRetentionDays = in.MaximumFileRetentionDays
@@ -1378,6 +1422,8 @@ func autoConvert_config_AuditConfig_To_v1_AuditConfig(in *config.AuditConfig, ou
 	return nil
 }
 func autoConvert_v1_AugmentedActiveDirectoryConfig_To_config_AugmentedActiveDirectoryConfig(in *v1.AugmentedActiveDirectoryConfig, out *config.AugmentedActiveDirectoryConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1419,9 +1465,13 @@ func Convert_v1_AugmentedActiveDirectoryConfig_To_config_AugmentedActiveDirector
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AugmentedActiveDirectoryConfig_To_config_AugmentedActiveDirectoryConfig(in, out, s)
 }
 func autoConvert_config_AugmentedActiveDirectoryConfig_To_v1_AugmentedActiveDirectoryConfig(in *config.AugmentedActiveDirectoryConfig, out *v1.AugmentedActiveDirectoryConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1463,9 +1513,13 @@ func Convert_config_AugmentedActiveDirectoryConfig_To_v1_AugmentedActiveDirector
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_AugmentedActiveDirectoryConfig_To_v1_AugmentedActiveDirectoryConfig(in, out, s)
 }
 func autoConvert_v1_BasicAuthPasswordIdentityProvider_To_config_BasicAuthPasswordIdentityProvider(in *v1.BasicAuthPasswordIdentityProvider, out *config.BasicAuthPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1500,9 +1554,13 @@ func Convert_v1_BasicAuthPasswordIdentityProvider_To_config_BasicAuthPasswordIde
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BasicAuthPasswordIdentityProvider_To_config_BasicAuthPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_BasicAuthPasswordIdentityProvider_To_v1_BasicAuthPasswordIdentityProvider(in *config.BasicAuthPasswordIdentityProvider, out *v1.BasicAuthPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1537,9 +1595,13 @@ func Convert_config_BasicAuthPasswordIdentityProvider_To_v1_BasicAuthPasswordIde
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_BasicAuthPasswordIdentityProvider_To_v1_BasicAuthPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_BuildDefaultsConfig_To_config_BuildDefaultsConfig(in *v1.BuildDefaultsConfig, out *config.BuildDefaultsConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1592,9 +1654,13 @@ func Convert_v1_BuildDefaultsConfig_To_config_BuildDefaultsConfig(in *v1.BuildDe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildDefaultsConfig_To_config_BuildDefaultsConfig(in, out, s)
 }
 func autoConvert_config_BuildDefaultsConfig_To_v1_BuildDefaultsConfig(in *config.BuildDefaultsConfig, out *v1.BuildDefaultsConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1647,9 +1713,13 @@ func Convert_config_BuildDefaultsConfig_To_v1_BuildDefaultsConfig(in *config.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_BuildDefaultsConfig_To_v1_BuildDefaultsConfig(in, out, s)
 }
 func autoConvert_v1_BuildOverridesConfig_To_config_BuildOverridesConfig(in *v1.BuildOverridesConfig, out *config.BuildOverridesConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1696,9 +1766,13 @@ func Convert_v1_BuildOverridesConfig_To_config_BuildOverridesConfig(in *v1.Build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_BuildOverridesConfig_To_config_BuildOverridesConfig(in, out, s)
 }
 func autoConvert_config_BuildOverridesConfig_To_v1_BuildOverridesConfig(in *config.BuildOverridesConfig, out *v1.BuildOverridesConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1745,9 +1819,13 @@ func Convert_config_BuildOverridesConfig_To_v1_BuildOverridesConfig(in *config.B
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_BuildOverridesConfig_To_v1_BuildOverridesConfig(in, out, s)
 }
 func autoConvert_v1_CertInfo_To_config_CertInfo(in *v1.CertInfo, out *config.CertInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1781,9 +1859,13 @@ func Convert_v1_CertInfo_To_config_CertInfo(in *v1.CertInfo, out *config.CertInf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_CertInfo_To_config_CertInfo(in, out, s)
 }
 func autoConvert_config_CertInfo_To_v1_CertInfo(in *config.CertInfo, out *v1.CertInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1817,9 +1899,13 @@ func Convert_config_CertInfo_To_v1_CertInfo(in *config.CertInfo, out *v1.CertInf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_CertInfo_To_v1_CertInfo(in, out, s)
 }
 func autoConvert_v1_ClientConnectionOverrides_To_config_ClientConnectionOverrides(in *v1.ClientConnectionOverrides, out *config.ClientConnectionOverrides, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1855,9 +1941,13 @@ func Convert_v1_ClientConnectionOverrides_To_config_ClientConnectionOverrides(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClientConnectionOverrides_To_config_ClientConnectionOverrides(in, out, s)
 }
 func autoConvert_config_ClientConnectionOverrides_To_v1_ClientConnectionOverrides(in *config.ClientConnectionOverrides, out *v1.ClientConnectionOverrides, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1893,9 +1983,13 @@ func Convert_config_ClientConnectionOverrides_To_v1_ClientConnectionOverrides(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ClientConnectionOverrides_To_v1_ClientConnectionOverrides(in, out, s)
 }
 func autoConvert_v1_ClusterNetworkEntry_To_config_ClusterNetworkEntry(in *v1.ClusterNetworkEntry, out *config.ClusterNetworkEntry, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1929,9 +2023,13 @@ func Convert_v1_ClusterNetworkEntry_To_config_ClusterNetworkEntry(in *v1.Cluster
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterNetworkEntry_To_config_ClusterNetworkEntry(in, out, s)
 }
 func autoConvert_config_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in *config.ClusterNetworkEntry, out *v1.ClusterNetworkEntry, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1965,9 +2063,13 @@ func Convert_config_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in *config.Clu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ClusterNetworkEntry_To_v1_ClusterNetworkEntry(in, out, s)
 }
 func autoConvert_v1_ControllerConfig_To_config_ControllerConfig(in *v1.ControllerConfig, out *config.ControllerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2004,9 +2106,13 @@ func Convert_v1_ControllerConfig_To_config_ControllerConfig(in *v1.ControllerCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ControllerConfig_To_config_ControllerConfig(in, out, s)
 }
 func autoConvert_config_ControllerConfig_To_v1_ControllerConfig(in *config.ControllerConfig, out *v1.ControllerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2043,9 +2149,13 @@ func Convert_config_ControllerConfig_To_v1_ControllerConfig(in *config.Controlle
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ControllerConfig_To_v1_ControllerConfig(in, out, s)
 }
 func autoConvert_v1_ControllerElectionConfig_To_config_ControllerElectionConfig(in *v1.ControllerElectionConfig, out *config.ControllerElectionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2082,9 +2192,13 @@ func Convert_v1_ControllerElectionConfig_To_config_ControllerElectionConfig(in *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ControllerElectionConfig_To_config_ControllerElectionConfig(in, out, s)
 }
 func autoConvert_config_ControllerElectionConfig_To_v1_ControllerElectionConfig(in *config.ControllerElectionConfig, out *v1.ControllerElectionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2121,9 +2235,13 @@ func Convert_config_ControllerElectionConfig_To_v1_ControllerElectionConfig(in *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ControllerElectionConfig_To_v1_ControllerElectionConfig(in, out, s)
 }
 func autoConvert_v1_DNSConfig_To_config_DNSConfig(in *v1.DNSConfig, out *config.DNSConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2158,9 +2276,13 @@ func Convert_v1_DNSConfig_To_config_DNSConfig(in *v1.DNSConfig, out *config.DNSC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DNSConfig_To_config_DNSConfig(in, out, s)
 }
 func autoConvert_config_DNSConfig_To_v1_DNSConfig(in *config.DNSConfig, out *v1.DNSConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2195,9 +2317,13 @@ func Convert_config_DNSConfig_To_v1_DNSConfig(in *config.DNSConfig, out *v1.DNSC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_DNSConfig_To_v1_DNSConfig(in, out, s)
 }
 func autoConvert_v1_DefaultAdmissionConfig_To_config_DefaultAdmissionConfig(in *v1.DefaultAdmissionConfig, out *config.DefaultAdmissionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2230,9 +2356,13 @@ func Convert_v1_DefaultAdmissionConfig_To_config_DefaultAdmissionConfig(in *v1.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DefaultAdmissionConfig_To_config_DefaultAdmissionConfig(in, out, s)
 }
 func autoConvert_config_DefaultAdmissionConfig_To_v1_DefaultAdmissionConfig(in *config.DefaultAdmissionConfig, out *v1.DefaultAdmissionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2265,9 +2395,13 @@ func Convert_config_DefaultAdmissionConfig_To_v1_DefaultAdmissionConfig(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_DefaultAdmissionConfig_To_v1_DefaultAdmissionConfig(in, out, s)
 }
 func autoConvert_v1_DenyAllPasswordIdentityProvider_To_config_DenyAllPasswordIdentityProvider(in *v1.DenyAllPasswordIdentityProvider, out *config.DenyAllPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2299,9 +2433,13 @@ func Convert_v1_DenyAllPasswordIdentityProvider_To_config_DenyAllPasswordIdentit
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DenyAllPasswordIdentityProvider_To_config_DenyAllPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_DenyAllPasswordIdentityProvider_To_v1_DenyAllPasswordIdentityProvider(in *config.DenyAllPasswordIdentityProvider, out *v1.DenyAllPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2333,9 +2471,13 @@ func Convert_config_DenyAllPasswordIdentityProvider_To_v1_DenyAllPasswordIdentit
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_DenyAllPasswordIdentityProvider_To_v1_DenyAllPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_DockerConfig_To_config_DockerConfig(in *v1.DockerConfig, out *config.DockerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2370,9 +2512,13 @@ func Convert_v1_DockerConfig_To_config_DockerConfig(in *v1.DockerConfig, out *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DockerConfig_To_config_DockerConfig(in, out, s)
 }
 func autoConvert_config_DockerConfig_To_v1_DockerConfig(in *config.DockerConfig, out *v1.DockerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2407,9 +2553,13 @@ func Convert_config_DockerConfig_To_v1_DockerConfig(in *config.DockerConfig, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_DockerConfig_To_v1_DockerConfig(in, out, s)
 }
 func autoConvert_v1_EtcdConfig_To_config_EtcdConfig(in *v1.EtcdConfig, out *config.EtcdConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2450,9 +2600,13 @@ func Convert_v1_EtcdConfig_To_config_EtcdConfig(in *v1.EtcdConfig, out *config.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EtcdConfig_To_config_EtcdConfig(in, out, s)
 }
 func autoConvert_config_EtcdConfig_To_v1_EtcdConfig(in *config.EtcdConfig, out *v1.EtcdConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2493,9 +2647,13 @@ func Convert_config_EtcdConfig_To_v1_EtcdConfig(in *config.EtcdConfig, out *v1.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_EtcdConfig_To_v1_EtcdConfig(in, out, s)
 }
 func autoConvert_v1_EtcdConnectionInfo_To_config_EtcdConnectionInfo(in *v1.EtcdConnectionInfo, out *config.EtcdConnectionInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2529,11 +2687,15 @@ func autoConvert_config_EtcdConnectionInfo_To_v1_EtcdConnectionInfo(in *config.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.URLs = *(*[]string)(unsafe.Pointer(&in.URLs))
 	out.CA = in.CA
 	return nil
 }
 func autoConvert_v1_EtcdStorageConfig_To_config_EtcdStorageConfig(in *v1.EtcdStorageConfig, out *config.EtcdStorageConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2569,9 +2731,13 @@ func Convert_v1_EtcdStorageConfig_To_config_EtcdStorageConfig(in *v1.EtcdStorage
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_EtcdStorageConfig_To_config_EtcdStorageConfig(in, out, s)
 }
 func autoConvert_config_EtcdStorageConfig_To_v1_EtcdStorageConfig(in *config.EtcdStorageConfig, out *v1.EtcdStorageConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2607,9 +2773,13 @@ func Convert_config_EtcdStorageConfig_To_v1_EtcdStorageConfig(in *config.EtcdSto
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_EtcdStorageConfig_To_v1_EtcdStorageConfig(in, out, s)
 }
 func autoConvert_v1_GitHubIdentityProvider_To_config_GitHubIdentityProvider(in *v1.GitHubIdentityProvider, out *config.GitHubIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2649,9 +2819,13 @@ func Convert_v1_GitHubIdentityProvider_To_config_GitHubIdentityProvider(in *v1.G
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitHubIdentityProvider_To_config_GitHubIdentityProvider(in, out, s)
 }
 func autoConvert_config_GitHubIdentityProvider_To_v1_GitHubIdentityProvider(in *config.GitHubIdentityProvider, out *v1.GitHubIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2691,9 +2865,13 @@ func Convert_config_GitHubIdentityProvider_To_v1_GitHubIdentityProvider(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_GitHubIdentityProvider_To_v1_GitHubIdentityProvider(in, out, s)
 }
 func autoConvert_v1_GitLabIdentityProvider_To_config_GitLabIdentityProvider(in *v1.GitLabIdentityProvider, out *config.GitLabIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2732,9 +2910,13 @@ func Convert_v1_GitLabIdentityProvider_To_config_GitLabIdentityProvider(in *v1.G
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GitLabIdentityProvider_To_config_GitLabIdentityProvider(in, out, s)
 }
 func autoConvert_config_GitLabIdentityProvider_To_v1_GitLabIdentityProvider(in *config.GitLabIdentityProvider, out *v1.GitLabIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2773,9 +2955,13 @@ func Convert_config_GitLabIdentityProvider_To_v1_GitLabIdentityProvider(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_GitLabIdentityProvider_To_v1_GitLabIdentityProvider(in, out, s)
 }
 func autoConvert_v1_GoogleIdentityProvider_To_config_GoogleIdentityProvider(in *v1.GoogleIdentityProvider, out *config.GoogleIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2812,9 +2998,13 @@ func Convert_v1_GoogleIdentityProvider_To_config_GoogleIdentityProvider(in *v1.G
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GoogleIdentityProvider_To_config_GoogleIdentityProvider(in, out, s)
 }
 func autoConvert_config_GoogleIdentityProvider_To_v1_GoogleIdentityProvider(in *config.GoogleIdentityProvider, out *v1.GoogleIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2851,9 +3041,13 @@ func Convert_config_GoogleIdentityProvider_To_v1_GoogleIdentityProvider(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_GoogleIdentityProvider_To_v1_GoogleIdentityProvider(in, out, s)
 }
 func autoConvert_v1_GrantConfig_To_config_GrantConfig(in *v1.GrantConfig, out *config.GrantConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2887,9 +3081,13 @@ func Convert_v1_GrantConfig_To_config_GrantConfig(in *v1.GrantConfig, out *confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GrantConfig_To_config_GrantConfig(in, out, s)
 }
 func autoConvert_config_GrantConfig_To_v1_GrantConfig(in *config.GrantConfig, out *v1.GrantConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2923,9 +3121,13 @@ func Convert_config_GrantConfig_To_v1_GrantConfig(in *config.GrantConfig, out *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_GrantConfig_To_v1_GrantConfig(in, out, s)
 }
 func autoConvert_v1_GroupResource_To_config_GroupResource(in *v1.GroupResource, out *config.GroupResource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2959,9 +3161,13 @@ func Convert_v1_GroupResource_To_config_GroupResource(in *v1.GroupResource, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_GroupResource_To_config_GroupResource(in, out, s)
 }
 func autoConvert_config_GroupResource_To_v1_GroupResource(in *config.GroupResource, out *v1.GroupResource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2995,9 +3201,13 @@ func Convert_config_GroupResource_To_v1_GroupResource(in *config.GroupResource, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_GroupResource_To_v1_GroupResource(in, out, s)
 }
 func autoConvert_v1_HTPasswdPasswordIdentityProvider_To_config_HTPasswdPasswordIdentityProvider(in *v1.HTPasswdPasswordIdentityProvider, out *config.HTPasswdPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3030,9 +3240,13 @@ func Convert_v1_HTPasswdPasswordIdentityProvider_To_config_HTPasswdPasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_HTPasswdPasswordIdentityProvider_To_config_HTPasswdPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_HTPasswdPasswordIdentityProvider_To_v1_HTPasswdPasswordIdentityProvider(in *config.HTPasswdPasswordIdentityProvider, out *v1.HTPasswdPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3065,9 +3279,13 @@ func Convert_config_HTPasswdPasswordIdentityProvider_To_v1_HTPasswdPasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_HTPasswdPasswordIdentityProvider_To_v1_HTPasswdPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_HTTPServingInfo_To_config_HTTPServingInfo(in *v1.HTTPServingInfo, out *config.HTTPServingInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3104,9 +3322,13 @@ func Convert_v1_HTTPServingInfo_To_config_HTTPServingInfo(in *v1.HTTPServingInfo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_HTTPServingInfo_To_config_HTTPServingInfo(in, out, s)
 }
 func autoConvert_config_HTTPServingInfo_To_v1_HTTPServingInfo(in *config.HTTPServingInfo, out *v1.HTTPServingInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3143,9 +3365,13 @@ func Convert_config_HTTPServingInfo_To_v1_HTTPServingInfo(in *config.HTTPServing
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_HTTPServingInfo_To_v1_HTTPServingInfo(in, out, s)
 }
 func autoConvert_v1_IdentityProvider_To_config_IdentityProvider(in *v1.IdentityProvider, out *config.IdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3184,6 +3410,8 @@ func autoConvert_config_IdentityProvider_To_v1_IdentityProvider(in *config.Ident
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Name = in.Name
 	out.UseAsChallenger = in.UseAsChallenger
 	out.UseAsLogin = in.UseAsLogin
@@ -3191,6 +3419,8 @@ func autoConvert_config_IdentityProvider_To_v1_IdentityProvider(in *config.Ident
 	return nil
 }
 func autoConvert_v1_ImageConfig_To_config_ImageConfig(in *v1.ImageConfig, out *config.ImageConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3224,9 +3454,13 @@ func Convert_v1_ImageConfig_To_config_ImageConfig(in *v1.ImageConfig, out *confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ImageConfig_To_config_ImageConfig(in, out, s)
 }
 func autoConvert_config_ImageConfig_To_v1_ImageConfig(in *config.ImageConfig, out *v1.ImageConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3260,9 +3494,13 @@ func Convert_config_ImageConfig_To_v1_ImageConfig(in *config.ImageConfig, out *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ImageConfig_To_v1_ImageConfig(in, out, s)
 }
 func autoConvert_v1_ImagePolicyConfig_To_config_ImagePolicyConfig(in *v1.ImagePolicyConfig, out *config.ImagePolicyConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3301,6 +3539,8 @@ func autoConvert_config_ImagePolicyConfig_To_v1_ImagePolicyConfig(in *config.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.MaxImagesBulkImportedPerRepository = in.MaxImagesBulkImportedPerRepository
 	out.DisableScheduledImport = in.DisableScheduledImport
 	out.ScheduledImageImportMinimumIntervalSeconds = in.ScheduledImageImportMinimumIntervalSeconds
@@ -3311,6 +3551,8 @@ func autoConvert_config_ImagePolicyConfig_To_v1_ImagePolicyConfig(in *config.Ima
 	return nil
 }
 func autoConvert_v1_JenkinsPipelineConfig_To_config_JenkinsPipelineConfig(in *v1.JenkinsPipelineConfig, out *config.JenkinsPipelineConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3347,9 +3589,13 @@ func Convert_v1_JenkinsPipelineConfig_To_config_JenkinsPipelineConfig(in *v1.Jen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_JenkinsPipelineConfig_To_config_JenkinsPipelineConfig(in, out, s)
 }
 func autoConvert_config_JenkinsPipelineConfig_To_v1_JenkinsPipelineConfig(in *config.JenkinsPipelineConfig, out *v1.JenkinsPipelineConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3386,9 +3632,13 @@ func Convert_config_JenkinsPipelineConfig_To_v1_JenkinsPipelineConfig(in *config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_JenkinsPipelineConfig_To_v1_JenkinsPipelineConfig(in, out, s)
 }
 func autoConvert_v1_KeystonePasswordIdentityProvider_To_config_KeystonePasswordIdentityProvider(in *v1.KeystonePasswordIdentityProvider, out *config.KeystonePasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3425,9 +3675,13 @@ func Convert_v1_KeystonePasswordIdentityProvider_To_config_KeystonePasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_KeystonePasswordIdentityProvider_To_config_KeystonePasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_KeystonePasswordIdentityProvider_To_v1_KeystonePasswordIdentityProvider(in *config.KeystonePasswordIdentityProvider, out *v1.KeystonePasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3464,9 +3718,13 @@ func Convert_config_KeystonePasswordIdentityProvider_To_v1_KeystonePasswordIdent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_KeystonePasswordIdentityProvider_To_v1_KeystonePasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_KubeletConnectionInfo_To_config_KubeletConnectionInfo(in *v1.KubeletConnectionInfo, out *config.KubeletConnectionInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3500,11 +3758,15 @@ func autoConvert_config_KubeletConnectionInfo_To_v1_KubeletConnectionInfo(in *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Port = in.Port
 	out.CA = in.CA
 	return nil
 }
 func autoConvert_v1_KubernetesMasterConfig_To_config_KubernetesMasterConfig(in *v1.KubernetesMasterConfig, out *config.KubernetesMasterConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3549,6 +3811,8 @@ func autoConvert_config_KubernetesMasterConfig_To_v1_KubernetesMasterConfig(in *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.DisabledAPIGroupVersions = *(*map[string][]string)(unsafe.Pointer(&in.DisabledAPIGroupVersions))
 	out.MasterIP = in.MasterIP
 	out.MasterEndpointReconcileTTL = in.MasterEndpointReconcileTTL
@@ -3565,6 +3829,8 @@ func autoConvert_config_KubernetesMasterConfig_To_v1_KubernetesMasterConfig(in *
 	return nil
 }
 func autoConvert_v1_LDAPAttributeMapping_To_config_LDAPAttributeMapping(in *v1.LDAPAttributeMapping, out *config.LDAPAttributeMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3600,9 +3866,13 @@ func Convert_v1_LDAPAttributeMapping_To_config_LDAPAttributeMapping(in *v1.LDAPA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LDAPAttributeMapping_To_config_LDAPAttributeMapping(in, out, s)
 }
 func autoConvert_config_LDAPAttributeMapping_To_v1_LDAPAttributeMapping(in *config.LDAPAttributeMapping, out *v1.LDAPAttributeMapping, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3638,9 +3908,13 @@ func Convert_config_LDAPAttributeMapping_To_v1_LDAPAttributeMapping(in *config.L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_LDAPAttributeMapping_To_v1_LDAPAttributeMapping(in, out, s)
 }
 func autoConvert_v1_LDAPPasswordIdentityProvider_To_config_LDAPPasswordIdentityProvider(in *v1.LDAPPasswordIdentityProvider, out *config.LDAPPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3682,9 +3956,13 @@ func Convert_v1_LDAPPasswordIdentityProvider_To_config_LDAPPasswordIdentityProvi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LDAPPasswordIdentityProvider_To_config_LDAPPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_config_LDAPPasswordIdentityProvider_To_v1_LDAPPasswordIdentityProvider(in *config.LDAPPasswordIdentityProvider, out *v1.LDAPPasswordIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3726,9 +4004,13 @@ func Convert_config_LDAPPasswordIdentityProvider_To_v1_LDAPPasswordIdentityProvi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_LDAPPasswordIdentityProvider_To_v1_LDAPPasswordIdentityProvider(in, out, s)
 }
 func autoConvert_v1_LDAPQuery_To_config_LDAPQuery(in *v1.LDAPQuery, out *config.LDAPQuery, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3766,9 +4048,13 @@ func Convert_v1_LDAPQuery_To_config_LDAPQuery(in *v1.LDAPQuery, out *config.LDAP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LDAPQuery_To_config_LDAPQuery(in, out, s)
 }
 func autoConvert_config_LDAPQuery_To_v1_LDAPQuery(in *config.LDAPQuery, out *v1.LDAPQuery, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3806,9 +4092,13 @@ func Convert_config_LDAPQuery_To_v1_LDAPQuery(in *config.LDAPQuery, out *v1.LDAP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_LDAPQuery_To_v1_LDAPQuery(in, out, s)
 }
 func autoConvert_v1_LDAPSyncConfig_To_config_LDAPSyncConfig(in *v1.LDAPSyncConfig, out *config.LDAPSyncConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3851,9 +4141,13 @@ func Convert_v1_LDAPSyncConfig_To_config_LDAPSyncConfig(in *v1.LDAPSyncConfig, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LDAPSyncConfig_To_config_LDAPSyncConfig(in, out, s)
 }
 func autoConvert_config_LDAPSyncConfig_To_v1_LDAPSyncConfig(in *config.LDAPSyncConfig, out *v1.LDAPSyncConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3896,9 +4190,13 @@ func Convert_config_LDAPSyncConfig_To_v1_LDAPSyncConfig(in *config.LDAPSyncConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_LDAPSyncConfig_To_v1_LDAPSyncConfig(in, out, s)
 }
 func autoConvert_v1_LocalQuota_To_config_LocalQuota(in *v1.LocalQuota, out *config.LocalQuota, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3931,9 +4229,13 @@ func Convert_v1_LocalQuota_To_config_LocalQuota(in *v1.LocalQuota, out *config.L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LocalQuota_To_config_LocalQuota(in, out, s)
 }
 func autoConvert_config_LocalQuota_To_v1_LocalQuota(in *config.LocalQuota, out *v1.LocalQuota, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3966,9 +4268,13 @@ func Convert_config_LocalQuota_To_v1_LocalQuota(in *config.LocalQuota, out *v1.L
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_LocalQuota_To_v1_LocalQuota(in, out, s)
 }
 func autoConvert_v1_MasterAuthConfig_To_config_MasterAuthConfig(in *v1.MasterAuthConfig, out *config.MasterAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4003,9 +4309,13 @@ func Convert_v1_MasterAuthConfig_To_config_MasterAuthConfig(in *v1.MasterAuthCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_MasterAuthConfig_To_config_MasterAuthConfig(in, out, s)
 }
 func autoConvert_config_MasterAuthConfig_To_v1_MasterAuthConfig(in *config.MasterAuthConfig, out *v1.MasterAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4040,9 +4350,13 @@ func Convert_config_MasterAuthConfig_To_v1_MasterAuthConfig(in *config.MasterAut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_MasterAuthConfig_To_v1_MasterAuthConfig(in, out, s)
 }
 func autoConvert_v1_MasterClients_To_config_MasterClients(in *v1.MasterClients, out *config.MasterClients, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4076,9 +4390,13 @@ func Convert_v1_MasterClients_To_config_MasterClients(in *v1.MasterClients, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_MasterClients_To_config_MasterClients(in, out, s)
 }
 func autoConvert_config_MasterClients_To_v1_MasterClients(in *config.MasterClients, out *v1.MasterClients, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4112,9 +4430,13 @@ func Convert_config_MasterClients_To_v1_MasterClients(in *config.MasterClients, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_MasterClients_To_v1_MasterClients(in, out, s)
 }
 func autoConvert_v1_MasterConfig_To_config_MasterConfig(in *v1.MasterConfig, out *config.MasterConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4230,9 +4552,13 @@ func Convert_v1_MasterConfig_To_config_MasterConfig(in *v1.MasterConfig, out *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_MasterConfig_To_config_MasterConfig(in, out, s)
 }
 func autoConvert_config_MasterConfig_To_v1_MasterConfig(in *config.MasterConfig, out *v1.MasterConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4348,9 +4674,13 @@ func Convert_config_MasterConfig_To_v1_MasterConfig(in *config.MasterConfig, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_MasterConfig_To_v1_MasterConfig(in, out, s)
 }
 func autoConvert_v1_MasterNetworkConfig_To_config_MasterNetworkConfig(in *v1.MasterNetworkConfig, out *config.MasterNetworkConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4390,6 +4720,8 @@ func autoConvert_config_MasterNetworkConfig_To_v1_MasterNetworkConfig(in *config
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.NetworkPluginName = in.NetworkPluginName
 	out.DeprecatedClusterNetworkCIDR = in.DeprecatedClusterNetworkCIDR
 	out.ClusterNetworks = *(*[]v1.ClusterNetworkEntry)(unsafe.Pointer(&in.ClusterNetworks))
@@ -4415,9 +4747,13 @@ func Convert_config_MasterNetworkConfig_To_v1_MasterNetworkConfig(in *config.Mas
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_MasterNetworkConfig_To_v1_MasterNetworkConfig(in, out, s)
 }
 func autoConvert_v1_MasterVolumeConfig_To_config_MasterVolumeConfig(in *v1.MasterVolumeConfig, out *config.MasterVolumeConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4452,12 +4788,16 @@ func autoConvert_config_MasterVolumeConfig_To_v1_MasterVolumeConfig(in *config.M
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := metav1.Convert_bool_To_Pointer_bool(&in.DynamicProvisioningEnabled, &out.DynamicProvisioningEnabled, s); err != nil {
 		return err
 	}
 	return nil
 }
 func autoConvert_v1_NamedCertificate_To_config_NamedCertificate(in *v1.NamedCertificate, out *config.NamedCertificate, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4493,9 +4833,13 @@ func Convert_v1_NamedCertificate_To_config_NamedCertificate(in *v1.NamedCertific
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NamedCertificate_To_config_NamedCertificate(in, out, s)
 }
 func autoConvert_config_NamedCertificate_To_v1_NamedCertificate(in *config.NamedCertificate, out *v1.NamedCertificate, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4531,9 +4875,13 @@ func Convert_config_NamedCertificate_To_v1_NamedCertificate(in *config.NamedCert
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_NamedCertificate_To_v1_NamedCertificate(in, out, s)
 }
 func autoConvert_v1_NodeAuthConfig_To_config_NodeAuthConfig(in *v1.NodeAuthConfig, out *config.NodeAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4569,9 +4917,13 @@ func Convert_v1_NodeAuthConfig_To_config_NodeAuthConfig(in *v1.NodeAuthConfig, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NodeAuthConfig_To_config_NodeAuthConfig(in, out, s)
 }
 func autoConvert_config_NodeAuthConfig_To_v1_NodeAuthConfig(in *config.NodeAuthConfig, out *v1.NodeAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4607,9 +4959,13 @@ func Convert_config_NodeAuthConfig_To_v1_NodeAuthConfig(in *config.NodeAuthConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_NodeAuthConfig_To_v1_NodeAuthConfig(in, out, s)
 }
 func autoConvert_v1_NodeConfig_To_config_NodeConfig(in *v1.NodeConfig, out *config.NodeConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4677,6 +5033,8 @@ func autoConvert_config_NodeConfig_To_v1_NodeConfig(in *config.NodeConfig, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.NodeName = in.NodeName
 	out.NodeIP = in.NodeIP
 	if err := Convert_config_ServingInfo_To_v1_ServingInfo(&in.ServingInfo, &out.ServingInfo, s); err != nil {
@@ -4730,6 +5088,8 @@ func autoConvert_v1_NodeNetworkConfig_To_config_NodeNetworkConfig(in *v1.NodeNet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.NetworkPluginName = in.NetworkPluginName
 	out.MTU = in.MTU
 	return nil
@@ -4749,9 +5109,13 @@ func Convert_v1_NodeNetworkConfig_To_config_NodeNetworkConfig(in *v1.NodeNetwork
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NodeNetworkConfig_To_config_NodeNetworkConfig(in, out, s)
 }
 func autoConvert_config_NodeNetworkConfig_To_v1_NodeNetworkConfig(in *config.NodeNetworkConfig, out *v1.NodeNetworkConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4785,9 +5149,13 @@ func Convert_config_NodeNetworkConfig_To_v1_NodeNetworkConfig(in *config.NodeNet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_NodeNetworkConfig_To_v1_NodeNetworkConfig(in, out, s)
 }
 func autoConvert_v1_NodeVolumeConfig_To_config_NodeVolumeConfig(in *v1.NodeVolumeConfig, out *config.NodeVolumeConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4822,9 +5190,13 @@ func Convert_v1_NodeVolumeConfig_To_config_NodeVolumeConfig(in *v1.NodeVolumeCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_NodeVolumeConfig_To_config_NodeVolumeConfig(in, out, s)
 }
 func autoConvert_config_NodeVolumeConfig_To_v1_NodeVolumeConfig(in *config.NodeVolumeConfig, out *v1.NodeVolumeConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4859,9 +5231,13 @@ func Convert_config_NodeVolumeConfig_To_v1_NodeVolumeConfig(in *config.NodeVolum
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_NodeVolumeConfig_To_v1_NodeVolumeConfig(in, out, s)
 }
 func autoConvert_v1_OAuthConfig_To_config_OAuthConfig(in *v1.OAuthConfig, out *config.OAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4917,9 +5293,13 @@ func Convert_v1_OAuthConfig_To_config_OAuthConfig(in *v1.OAuthConfig, out *confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthConfig_To_config_OAuthConfig(in, out, s)
 }
 func autoConvert_config_OAuthConfig_To_v1_OAuthConfig(in *config.OAuthConfig, out *v1.OAuthConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4975,9 +5355,13 @@ func Convert_config_OAuthConfig_To_v1_OAuthConfig(in *config.OAuthConfig, out *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_OAuthConfig_To_v1_OAuthConfig(in, out, s)
 }
 func autoConvert_v1_OAuthTemplates_To_config_OAuthTemplates(in *v1.OAuthTemplates, out *config.OAuthTemplates, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5012,9 +5396,13 @@ func Convert_v1_OAuthTemplates_To_config_OAuthTemplates(in *v1.OAuthTemplates, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OAuthTemplates_To_config_OAuthTemplates(in, out, s)
 }
 func autoConvert_config_OAuthTemplates_To_v1_OAuthTemplates(in *config.OAuthTemplates, out *v1.OAuthTemplates, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5049,9 +5437,13 @@ func Convert_config_OAuthTemplates_To_v1_OAuthTemplates(in *config.OAuthTemplate
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_OAuthTemplates_To_v1_OAuthTemplates(in, out, s)
 }
 func autoConvert_v1_OpenIDClaims_To_config_OpenIDClaims(in *v1.OpenIDClaims, out *config.OpenIDClaims, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5087,9 +5479,13 @@ func Convert_v1_OpenIDClaims_To_config_OpenIDClaims(in *v1.OpenIDClaims, out *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OpenIDClaims_To_config_OpenIDClaims(in, out, s)
 }
 func autoConvert_config_OpenIDClaims_To_v1_OpenIDClaims(in *config.OpenIDClaims, out *v1.OpenIDClaims, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5125,9 +5521,13 @@ func Convert_config_OpenIDClaims_To_v1_OpenIDClaims(in *config.OpenIDClaims, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_OpenIDClaims_To_v1_OpenIDClaims(in, out, s)
 }
 func autoConvert_v1_OpenIDIdentityProvider_To_config_OpenIDIdentityProvider(in *v1.OpenIDIdentityProvider, out *config.OpenIDIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5172,9 +5572,13 @@ func Convert_v1_OpenIDIdentityProvider_To_config_OpenIDIdentityProvider(in *v1.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OpenIDIdentityProvider_To_config_OpenIDIdentityProvider(in, out, s)
 }
 func autoConvert_config_OpenIDIdentityProvider_To_v1_OpenIDIdentityProvider(in *config.OpenIDIdentityProvider, out *v1.OpenIDIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5219,9 +5623,13 @@ func Convert_config_OpenIDIdentityProvider_To_v1_OpenIDIdentityProvider(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_OpenIDIdentityProvider_To_v1_OpenIDIdentityProvider(in, out, s)
 }
 func autoConvert_v1_OpenIDURLs_To_config_OpenIDURLs(in *v1.OpenIDURLs, out *config.OpenIDURLs, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5256,9 +5664,13 @@ func Convert_v1_OpenIDURLs_To_config_OpenIDURLs(in *v1.OpenIDURLs, out *config.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_OpenIDURLs_To_config_OpenIDURLs(in, out, s)
 }
 func autoConvert_config_OpenIDURLs_To_v1_OpenIDURLs(in *config.OpenIDURLs, out *v1.OpenIDURLs, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5293,9 +5705,13 @@ func Convert_config_OpenIDURLs_To_v1_OpenIDURLs(in *config.OpenIDURLs, out *v1.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_OpenIDURLs_To_v1_OpenIDURLs(in, out, s)
 }
 func autoConvert_v1_PodManifestConfig_To_config_PodManifestConfig(in *v1.PodManifestConfig, out *config.PodManifestConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5329,9 +5745,13 @@ func Convert_v1_PodManifestConfig_To_config_PodManifestConfig(in *v1.PodManifest
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodManifestConfig_To_config_PodManifestConfig(in, out, s)
 }
 func autoConvert_config_PodManifestConfig_To_v1_PodManifestConfig(in *config.PodManifestConfig, out *v1.PodManifestConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5365,9 +5785,13 @@ func Convert_config_PodManifestConfig_To_v1_PodManifestConfig(in *config.PodMani
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_PodManifestConfig_To_v1_PodManifestConfig(in, out, s)
 }
 func autoConvert_v1_PolicyConfig_To_config_PolicyConfig(in *v1.PolicyConfig, out *config.PolicyConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5402,9 +5826,13 @@ func Convert_v1_PolicyConfig_To_config_PolicyConfig(in *v1.PolicyConfig, out *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PolicyConfig_To_config_PolicyConfig(in, out, s)
 }
 func autoConvert_config_PolicyConfig_To_v1_PolicyConfig(in *config.PolicyConfig, out *v1.PolicyConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5439,9 +5867,13 @@ func Convert_config_PolicyConfig_To_v1_PolicyConfig(in *config.PolicyConfig, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_PolicyConfig_To_v1_PolicyConfig(in, out, s)
 }
 func autoConvert_v1_ProjectConfig_To_config_ProjectConfig(in *v1.ProjectConfig, out *config.ProjectConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5477,9 +5909,13 @@ func Convert_v1_ProjectConfig_To_config_ProjectConfig(in *v1.ProjectConfig, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ProjectConfig_To_config_ProjectConfig(in, out, s)
 }
 func autoConvert_config_ProjectConfig_To_v1_ProjectConfig(in *config.ProjectConfig, out *v1.ProjectConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5515,9 +5951,13 @@ func Convert_config_ProjectConfig_To_v1_ProjectConfig(in *config.ProjectConfig, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ProjectConfig_To_v1_ProjectConfig(in, out, s)
 }
 func autoConvert_v1_RFC2307Config_To_config_RFC2307Config(in *v1.RFC2307Config, out *config.RFC2307Config, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5562,9 +6002,13 @@ func Convert_v1_RFC2307Config_To_config_RFC2307Config(in *v1.RFC2307Config, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RFC2307Config_To_config_RFC2307Config(in, out, s)
 }
 func autoConvert_config_RFC2307Config_To_v1_RFC2307Config(in *config.RFC2307Config, out *v1.RFC2307Config, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5609,9 +6053,13 @@ func Convert_config_RFC2307Config_To_v1_RFC2307Config(in *config.RFC2307Config, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_RFC2307Config_To_v1_RFC2307Config(in, out, s)
 }
 func autoConvert_v1_RegistryLocation_To_config_RegistryLocation(in *v1.RegistryLocation, out *config.RegistryLocation, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5645,9 +6093,13 @@ func Convert_v1_RegistryLocation_To_config_RegistryLocation(in *v1.RegistryLocat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RegistryLocation_To_config_RegistryLocation(in, out, s)
 }
 func autoConvert_config_RegistryLocation_To_v1_RegistryLocation(in *config.RegistryLocation, out *v1.RegistryLocation, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5681,9 +6133,13 @@ func Convert_config_RegistryLocation_To_v1_RegistryLocation(in *config.RegistryL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_RegistryLocation_To_v1_RegistryLocation(in, out, s)
 }
 func autoConvert_v1_RemoteConnectionInfo_To_config_RemoteConnectionInfo(in *v1.RemoteConnectionInfo, out *config.RemoteConnectionInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5717,11 +6173,15 @@ func autoConvert_config_RemoteConnectionInfo_To_v1_RemoteConnectionInfo(in *conf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.URL = in.URL
 	out.CA = in.CA
 	return nil
 }
 func autoConvert_v1_RequestHeaderAuthenticationOptions_To_config_RequestHeaderAuthenticationOptions(in *v1.RequestHeaderAuthenticationOptions, out *config.RequestHeaderAuthenticationOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5758,9 +6218,13 @@ func Convert_v1_RequestHeaderAuthenticationOptions_To_config_RequestHeaderAuthen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RequestHeaderAuthenticationOptions_To_config_RequestHeaderAuthenticationOptions(in, out, s)
 }
 func autoConvert_config_RequestHeaderAuthenticationOptions_To_v1_RequestHeaderAuthenticationOptions(in *config.RequestHeaderAuthenticationOptions, out *v1.RequestHeaderAuthenticationOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5797,9 +6261,13 @@ func Convert_config_RequestHeaderAuthenticationOptions_To_v1_RequestHeaderAuthen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_RequestHeaderAuthenticationOptions_To_v1_RequestHeaderAuthenticationOptions(in, out, s)
 }
 func autoConvert_v1_RequestHeaderIdentityProvider_To_config_RequestHeaderIdentityProvider(in *v1.RequestHeaderIdentityProvider, out *config.RequestHeaderIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5839,9 +6307,13 @@ func Convert_v1_RequestHeaderIdentityProvider_To_config_RequestHeaderIdentityPro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RequestHeaderIdentityProvider_To_config_RequestHeaderIdentityProvider(in, out, s)
 }
 func autoConvert_config_RequestHeaderIdentityProvider_To_v1_RequestHeaderIdentityProvider(in *config.RequestHeaderIdentityProvider, out *v1.RequestHeaderIdentityProvider, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5881,9 +6353,13 @@ func Convert_config_RequestHeaderIdentityProvider_To_v1_RequestHeaderIdentityPro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_RequestHeaderIdentityProvider_To_v1_RequestHeaderIdentityProvider(in, out, s)
 }
 func autoConvert_v1_RoutingConfig_To_config_RoutingConfig(in *v1.RoutingConfig, out *config.RoutingConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5916,9 +6392,13 @@ func Convert_v1_RoutingConfig_To_config_RoutingConfig(in *v1.RoutingConfig, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RoutingConfig_To_config_RoutingConfig(in, out, s)
 }
 func autoConvert_config_RoutingConfig_To_v1_RoutingConfig(in *config.RoutingConfig, out *v1.RoutingConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5951,9 +6431,13 @@ func Convert_config_RoutingConfig_To_v1_RoutingConfig(in *config.RoutingConfig, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_RoutingConfig_To_v1_RoutingConfig(in, out, s)
 }
 func autoConvert_v1_SecurityAllocator_To_config_SecurityAllocator(in *v1.SecurityAllocator, out *config.SecurityAllocator, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5988,9 +6472,13 @@ func Convert_v1_SecurityAllocator_To_config_SecurityAllocator(in *v1.SecurityAll
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SecurityAllocator_To_config_SecurityAllocator(in, out, s)
 }
 func autoConvert_config_SecurityAllocator_To_v1_SecurityAllocator(in *config.SecurityAllocator, out *v1.SecurityAllocator, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6025,9 +6513,13 @@ func Convert_config_SecurityAllocator_To_v1_SecurityAllocator(in *config.Securit
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_SecurityAllocator_To_v1_SecurityAllocator(in, out, s)
 }
 func autoConvert_v1_ServiceAccountConfig_To_config_ServiceAccountConfig(in *v1.ServiceAccountConfig, out *config.ServiceAccountConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6064,9 +6556,13 @@ func Convert_v1_ServiceAccountConfig_To_config_ServiceAccountConfig(in *v1.Servi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ServiceAccountConfig_To_config_ServiceAccountConfig(in, out, s)
 }
 func autoConvert_config_ServiceAccountConfig_To_v1_ServiceAccountConfig(in *config.ServiceAccountConfig, out *v1.ServiceAccountConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6103,9 +6599,13 @@ func Convert_config_ServiceAccountConfig_To_v1_ServiceAccountConfig(in *config.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ServiceAccountConfig_To_v1_ServiceAccountConfig(in, out, s)
 }
 func autoConvert_v1_ServiceServingCert_To_config_ServiceServingCert(in *v1.ServiceServingCert, out *config.ServiceServingCert, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6138,9 +6638,13 @@ func Convert_v1_ServiceServingCert_To_config_ServiceServingCert(in *v1.ServiceSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ServiceServingCert_To_config_ServiceServingCert(in, out, s)
 }
 func autoConvert_config_ServiceServingCert_To_v1_ServiceServingCert(in *config.ServiceServingCert, out *v1.ServiceServingCert, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6173,9 +6677,13 @@ func Convert_config_ServiceServingCert_To_v1_ServiceServingCert(in *config.Servi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_ServiceServingCert_To_v1_ServiceServingCert(in, out, s)
 }
 func autoConvert_v1_ServingInfo_To_config_ServingInfo(in *v1.ServingInfo, out *config.ServingInfo, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6213,6 +6721,8 @@ func autoConvert_config_ServingInfo_To_v1_ServingInfo(in *config.ServingInfo, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.BindAddress = in.BindAddress
 	out.BindNetwork = in.BindNetwork
 	out.ClientCA = in.ClientCA
@@ -6222,6 +6732,8 @@ func autoConvert_config_ServingInfo_To_v1_ServingInfo(in *config.ServingInfo, ou
 	return nil
 }
 func autoConvert_v1_SessionConfig_To_config_SessionConfig(in *v1.SessionConfig, out *config.SessionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6256,9 +6768,13 @@ func Convert_v1_SessionConfig_To_config_SessionConfig(in *v1.SessionConfig, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SessionConfig_To_config_SessionConfig(in, out, s)
 }
 func autoConvert_config_SessionConfig_To_v1_SessionConfig(in *config.SessionConfig, out *v1.SessionConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6293,9 +6809,13 @@ func Convert_config_SessionConfig_To_v1_SessionConfig(in *config.SessionConfig, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_SessionConfig_To_v1_SessionConfig(in, out, s)
 }
 func autoConvert_v1_SessionSecret_To_config_SessionSecret(in *v1.SessionSecret, out *config.SessionSecret, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6329,9 +6849,13 @@ func Convert_v1_SessionSecret_To_config_SessionSecret(in *v1.SessionSecret, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SessionSecret_To_config_SessionSecret(in, out, s)
 }
 func autoConvert_config_SessionSecret_To_v1_SessionSecret(in *config.SessionSecret, out *v1.SessionSecret, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6365,9 +6889,13 @@ func Convert_config_SessionSecret_To_v1_SessionSecret(in *config.SessionSecret, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_SessionSecret_To_v1_SessionSecret(in, out, s)
 }
 func autoConvert_v1_SessionSecrets_To_config_SessionSecrets(in *v1.SessionSecrets, out *config.SessionSecrets, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6400,9 +6928,13 @@ func Convert_v1_SessionSecrets_To_config_SessionSecrets(in *v1.SessionSecrets, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SessionSecrets_To_config_SessionSecrets(in, out, s)
 }
 func autoConvert_config_SessionSecrets_To_v1_SessionSecrets(in *config.SessionSecrets, out *v1.SessionSecrets, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6435,9 +6967,13 @@ func Convert_config_SessionSecrets_To_v1_SessionSecrets(in *config.SessionSecret
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_SessionSecrets_To_v1_SessionSecrets(in, out, s)
 }
 func autoConvert_v1_SourceStrategyDefaultsConfig_To_config_SourceStrategyDefaultsConfig(in *v1.SourceStrategyDefaultsConfig, out *config.SourceStrategyDefaultsConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6470,9 +7006,13 @@ func Convert_v1_SourceStrategyDefaultsConfig_To_config_SourceStrategyDefaultsCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SourceStrategyDefaultsConfig_To_config_SourceStrategyDefaultsConfig(in, out, s)
 }
 func autoConvert_config_SourceStrategyDefaultsConfig_To_v1_SourceStrategyDefaultsConfig(in *config.SourceStrategyDefaultsConfig, out *v1.SourceStrategyDefaultsConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6505,9 +7045,13 @@ func Convert_config_SourceStrategyDefaultsConfig_To_v1_SourceStrategyDefaultsCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_SourceStrategyDefaultsConfig_To_v1_SourceStrategyDefaultsConfig(in, out, s)
 }
 func autoConvert_v1_StringSource_To_config_StringSource(in *v1.StringSource, out *config.StringSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6542,9 +7086,13 @@ func Convert_v1_StringSource_To_config_StringSource(in *v1.StringSource, out *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_StringSource_To_config_StringSource(in, out, s)
 }
 func autoConvert_config_StringSource_To_v1_StringSource(in *config.StringSource, out *v1.StringSource, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6579,9 +7127,13 @@ func Convert_config_StringSource_To_v1_StringSource(in *config.StringSource, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_StringSource_To_v1_StringSource(in, out, s)
 }
 func autoConvert_v1_StringSourceSpec_To_config_StringSourceSpec(in *v1.StringSourceSpec, out *config.StringSourceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6617,9 +7169,13 @@ func Convert_v1_StringSourceSpec_To_config_StringSourceSpec(in *v1.StringSourceS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_StringSourceSpec_To_config_StringSourceSpec(in, out, s)
 }
 func autoConvert_config_StringSourceSpec_To_v1_StringSourceSpec(in *config.StringSourceSpec, out *v1.StringSourceSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6655,9 +7211,13 @@ func Convert_config_StringSourceSpec_To_v1_StringSourceSpec(in *config.StringSou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_StringSourceSpec_To_v1_StringSourceSpec(in, out, s)
 }
 func autoConvert_v1_TokenConfig_To_config_TokenConfig(in *v1.TokenConfig, out *config.TokenConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6692,9 +7252,13 @@ func Convert_v1_TokenConfig_To_config_TokenConfig(in *v1.TokenConfig, out *confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_TokenConfig_To_config_TokenConfig(in, out, s)
 }
 func autoConvert_config_TokenConfig_To_v1_TokenConfig(in *config.TokenConfig, out *v1.TokenConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6729,9 +7293,13 @@ func Convert_config_TokenConfig_To_v1_TokenConfig(in *config.TokenConfig, out *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_TokenConfig_To_v1_TokenConfig(in, out, s)
 }
 func autoConvert_v1_UserAgentDenyRule_To_config_UserAgentDenyRule(in *v1.UserAgentDenyRule, out *config.UserAgentDenyRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6767,9 +7335,13 @@ func Convert_v1_UserAgentDenyRule_To_config_UserAgentDenyRule(in *v1.UserAgentDe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_UserAgentDenyRule_To_config_UserAgentDenyRule(in, out, s)
 }
 func autoConvert_config_UserAgentDenyRule_To_v1_UserAgentDenyRule(in *config.UserAgentDenyRule, out *v1.UserAgentDenyRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6805,9 +7377,13 @@ func Convert_config_UserAgentDenyRule_To_v1_UserAgentDenyRule(in *config.UserAge
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_UserAgentDenyRule_To_v1_UserAgentDenyRule(in, out, s)
 }
 func autoConvert_v1_UserAgentMatchRule_To_config_UserAgentMatchRule(in *v1.UserAgentMatchRule, out *config.UserAgentMatchRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6841,9 +7417,13 @@ func Convert_v1_UserAgentMatchRule_To_config_UserAgentMatchRule(in *v1.UserAgent
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_UserAgentMatchRule_To_config_UserAgentMatchRule(in, out, s)
 }
 func autoConvert_config_UserAgentMatchRule_To_v1_UserAgentMatchRule(in *config.UserAgentMatchRule, out *v1.UserAgentMatchRule, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6877,9 +7457,13 @@ func Convert_config_UserAgentMatchRule_To_v1_UserAgentMatchRule(in *config.UserA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_UserAgentMatchRule_To_v1_UserAgentMatchRule(in, out, s)
 }
 func autoConvert_v1_UserAgentMatchingConfig_To_config_UserAgentMatchingConfig(in *v1.UserAgentMatchingConfig, out *config.UserAgentMatchingConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6914,9 +7498,13 @@ func Convert_v1_UserAgentMatchingConfig_To_config_UserAgentMatchingConfig(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_UserAgentMatchingConfig_To_config_UserAgentMatchingConfig(in, out, s)
 }
 func autoConvert_config_UserAgentMatchingConfig_To_v1_UserAgentMatchingConfig(in *config.UserAgentMatchingConfig, out *v1.UserAgentMatchingConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6951,9 +7539,13 @@ func Convert_config_UserAgentMatchingConfig_To_v1_UserAgentMatchingConfig(in *co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_config_UserAgentMatchingConfig_To_v1_UserAgentMatchingConfig(in, out, s)
 }
 func autoConvert_v1_WebhookTokenAuthenticator_To_config_WebhookTokenAuthenticator(in *v1.WebhookTokenAuthenticator, out *config.WebhookTokenAuthenticator, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6987,9 +7579,13 @@ func Convert_v1_WebhookTokenAuthenticator_To_config_WebhookTokenAuthenticator(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_WebhookTokenAuthenticator_To_config_WebhookTokenAuthenticator(in, out, s)
 }
 func autoConvert_config_WebhookTokenAuthenticator_To_v1_WebhookTokenAuthenticator(in *config.WebhookTokenAuthenticator, out *v1.WebhookTokenAuthenticator, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7009,6 +7605,8 @@ func autoConvert_config_WebhookTokenAuthenticator_To_v1_WebhookTokenAuthenticato
 	return nil
 }
 func Convert_config_WebhookTokenAuthenticator_To_v1_WebhookTokenAuthenticator(in *config.WebhookTokenAuthenticator, out *v1.WebhookTokenAuthenticator, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

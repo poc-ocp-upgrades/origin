@@ -35,6 +35,8 @@ func makeIdentityInfo(providerName, providerUserName string, extra map[string]st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	info := authapi.NewDefaultUserIdentityInfo("idp", "bob")
 	if extra != nil {
 		info.Extra = extra
@@ -42,6 +44,8 @@ func makeIdentityInfo(providerName, providerUserName string, extra map[string]st
 	return info
 }
 func makeUser(name string, identities ...string) *userapi.User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,9 +77,13 @@ func makeIdentity(providerName, providerUserName string) *userapi.Identity {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &userapi.Identity{ObjectMeta: metav1.ObjectMeta{Name: providerName + ":" + providerUserName}, ProviderName: providerName, ProviderUserName: providerUserName}
 }
 func makeIdentityWithUserReference(providerName, providerUserName string, userName string, userUID types.UID) *userapi.Identity {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,9 +118,13 @@ func makeMapping(user, identity string) *userapi.UserIdentityMapping {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &userapi.UserIdentityMapping{ObjectMeta: metav1.ObjectMeta{Name: identity}, User: corev1.ObjectReference{Name: user}, Identity: corev1.ObjectReference{Name: identity}}
 }
 func TestUserInitialization(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

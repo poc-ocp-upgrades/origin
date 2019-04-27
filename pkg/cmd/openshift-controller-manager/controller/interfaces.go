@@ -52,6 +52,8 @@ func NewControllerContext(config openshiftcontrolplanev1.OpenShiftControllerMana
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const defaultInformerResyncPeriod = 10 * time.Minute
 	kubeClient, err := kubernetes.NewForConfig(inClientConfig)
 	if err != nil {
@@ -105,6 +107,8 @@ func NewControllerContext(config openshiftcontrolplanev1.OpenShiftControllerMana
 	return openshiftControllerContext, nil
 }
 func (c *ControllerContext) ToGenericInformer() genericinformers.GenericResourceInformer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +178,8 @@ func (c *ControllerContext) StartInformers(stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.KubernetesInformers.Start(stopCh)
 	c.OpenshiftConfigKubernetesInformers.Start(stopCh)
 	c.AppsInformers.Start(stopCh)
@@ -192,6 +198,8 @@ func (c *ControllerContext) StartInformers(stopCh <-chan struct{}) {
 	}
 }
 func (c *ControllerContext) IsControllerEnabled(name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,6 +256,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftTemplateClient(name string) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -255,6 +265,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftTemplateClient(name string) (
 	return templateclient.NewForConfig(clientConfig)
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftTemplateClientOrDie(name string) templateclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +302,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftImageClient(name string) (ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -297,6 +311,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftImageClient(name string) (ima
 	return imageclient.NewForConfig(clientConfig)
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftImageClientOrDie(name string) imageclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,6 +348,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftAppsClient(name string) (apps
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -339,6 +357,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftAppsClient(name string) (apps
 	return appsclient.NewForConfig(clientConfig)
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftAppsClientOrDie(name string) appsclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -374,6 +394,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftBuildClient(name string) (bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -381,6 +403,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftBuildClient(name string) (bui
 	return buildclient.NewForConfig(clientConfig)
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftBuildClientOrDie(name string) buildclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +440,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftConfigClient(name string) (co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -423,6 +449,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftConfigClient(name string) (co
 	return configclient.NewForConfig(nonProtobufConfig(clientConfig))
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftConfigClientOrDie(name string) configclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -458,6 +486,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftQuotaClient(name string) (quo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -465,6 +495,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftQuotaClient(name string) (quo
 	return quotaclient.NewForConfig(nonProtobufConfig(clientConfig))
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftQuotaClientOrDie(name string) quotaclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -500,6 +532,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftNetworkClient(name string) (n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -507,6 +541,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftNetworkClient(name string) (n
 	return networkclient.NewForConfig(nonProtobufConfig(clientConfig))
 }
 func (b OpenshiftControllerClientBuilder) OpenshiftNetworkClientOrDie(name string) networkclient.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -542,6 +578,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftSecurityClient(name string) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := b.Config(name)
 	if err != nil {
 		return nil, err
@@ -563,6 +601,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftSecurityClientOrDie(name stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, err := b.OpenshiftSecurityClient(name)
 	if err != nil {
 		klog.Fatal(err)
@@ -570,6 +610,8 @@ func (b OpenshiftControllerClientBuilder) OpenshiftSecurityClientOrDie(name stri
 	return client
 }
 func nonProtobufConfig(inConfig *rest.Config) *rest.Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

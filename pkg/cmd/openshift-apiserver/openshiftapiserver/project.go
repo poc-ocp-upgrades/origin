@@ -27,9 +27,13 @@ func NewClusterQuotaMappingController(nsInternalInformer corev1informers.Namespa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return clusterquotamapping.NewClusterQuotaMappingController(nsInternalInformer, clusterQuotaInformer)
 }
 func NewProjectCache(nsInformer corev1informers.NamespaceInformer, privilegedLoopbackConfig *restclient.Config, defaultNodeSelector string) (*projectcache.ProjectCache, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -51,6 +55,8 @@ func NewProjectCache(nsInformer corev1informers.NamespaceInformer, privilegedLoo
 	return projectcache.NewProjectCache(nsInformer.Informer(), kubeClient.CoreV1().Namespaces(), defaultNodeSelector), nil
 }
 func NewProjectAuthorizationCache(subjectLocator rbacauthorizer.SubjectLocator, namespaces corev1informers.NamespaceInformer, rbacInformers rbacinformers.Interface) *projectauth.AuthorizationCache {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

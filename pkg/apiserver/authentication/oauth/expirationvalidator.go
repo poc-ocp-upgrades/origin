@@ -24,6 +24,8 @@ func NewExpirationValidator() OAuthTokenValidator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return OAuthTokenValidatorFunc(func(token *oauthv1.OAuthAccessToken, _ *userv1.User) error {
 		if token.ExpiresIn > 0 {
 			if expire(token).Before(time.Now()) {
@@ -37,6 +39,8 @@ func NewExpirationValidator() OAuthTokenValidator {
 	})
 }
 func expire(token *oauthv1.OAuthAccessToken) time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -29,9 +29,13 @@ func (RouteGenerator) ParamNames() []generate.GeneratorParam {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []generate.GeneratorParam{{Name: "labels", Required: false}, {Name: "default-name", Required: true}, {Name: "port", Required: false}, {Name: "name", Required: false}, {Name: "hostname", Required: false}, {Name: "path", Required: false}, {Name: "wildcard-policy", Required: false}}
 }
 func (RouteGenerator) Generate(genericParams map[string]interface{}) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

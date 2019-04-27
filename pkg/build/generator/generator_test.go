@@ -50,6 +50,8 @@ func TestInstantiate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generator := mockBuildGenerator(nil, nil, nil, nil, nil, nil, nil)
 	_, err := generator.Instantiate(apirequest.NewDefaultContext(), &buildv1.BuildRequest{})
 	if err != nil {
@@ -57,6 +59,8 @@ func TestInstantiate(t *testing.T) {
 	}
 }
 func TestInstantiateBinary(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,6 +106,8 @@ func TestInstantiateDeletingError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	generator := BuildGenerator{Client: TestingClient{GetBuildConfigFunc: func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error) {
 		bc := &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Annotations: map[string]string{buildutil.BuildConfigPausedAnnotation: "true"}}, Spec: buildv1.BuildConfigSpec{CommonSpec: buildv1.CommonSpec{Source: source, Revision: &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Commit: "1234"}}}}}
@@ -120,6 +126,8 @@ func TestInstantiateDeletingError(t *testing.T) {
 	}
 }
 func TestInstantiateBinaryRemoved(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +182,8 @@ func TestInstantiateGetBuildConfigError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generator := BuildGenerator{Client: TestingClient{GetBuildConfigFunc: func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error) {
 		return nil, fmt.Errorf("get-error")
 	}, GetImageStreamFunc: func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStream, error) {
@@ -203,6 +213,8 @@ func TestInstantiateGenerateBuildError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeSecrets := []runtime.Object{}
 	for _, s := range mocks.MockBuilderSecrets() {
 		fakeSecrets = append(fakeSecrets, s)
@@ -216,6 +228,8 @@ func TestInstantiateGenerateBuildError(t *testing.T) {
 	}
 }
 func TestInstantiateWithImageTrigger(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +312,8 @@ func TestInstantiateWithImageTrigger(t *testing.T) {
 	}
 }
 func TestInstantiateWithBuildRequestEnvs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,6 +413,8 @@ func TestInstantiateWithLastVersion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := mockBuildGenerator(nil, nil, nil, nil, nil, nil, nil)
 	c := g.Client.(TestingClient)
 	c.GetBuildConfigFunc = func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error) {
@@ -435,6 +453,8 @@ func TestInstantiateWithMissingImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := mockBuildGenerator(nil, nil, nil, nil, nil, nil, nil)
 	c := g.Client.(TestingClient)
 	c.GetImageStreamFunc = func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStream, error) {
@@ -454,6 +474,8 @@ func TestInstantiateWithMissingImageStream(t *testing.T) {
 	}
 }
 func TestInstantiateWithLabelsAndAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -503,6 +525,8 @@ func TestFindImageTrigger(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defaultTrigger := &buildv1.ImageChangeTrigger{}
 	image1Trigger := &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Name: "image1:tag1"}}
 	image2Trigger := &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Name: "image2:tag2", Namespace: "image2ns"}}
@@ -522,6 +546,8 @@ func TestFindImageTrigger(t *testing.T) {
 	}
 }
 func TestClone(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -561,6 +587,8 @@ func TestCloneError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	generator := BuildGenerator{Client: TestingClient{GetBuildFunc: func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.Build, error) {
 		return nil, fmt.Errorf("get-error")
 	}}}
@@ -570,6 +598,8 @@ func TestCloneError(t *testing.T) {
 	}
 }
 func TestCreateBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -613,6 +643,8 @@ func TestCreateBuildNamespaceError(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Name: "test-build"}}
 	generator := mockBuildGenerator(nil, nil, nil, nil, nil, nil, nil)
 	_, err := generator.createBuild(apirequest.NewContext(), build)
@@ -621,6 +653,8 @@ func TestCreateBuildNamespaceError(t *testing.T) {
 	}
 }
 func TestCreateBuildCreateError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -645,6 +679,8 @@ func TestCreateBuildCreateError(t *testing.T) {
 	}
 }
 func TestGenerateBuildFromConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -736,6 +772,8 @@ func TestGenerateBuildWithImageTagForSourceStrategyImageRepository(t *testing.T)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	strategy := mocks.MockSourceStrategyForImageRepository()
 	output := mocks.MockOutput()
@@ -763,6 +801,8 @@ func TestGenerateBuildWithImageTagForSourceStrategyImageRepository(t *testing.T)
 	}
 }
 func TestGenerateBuildWithImageTagForDockerStrategyImageRepository(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -818,6 +858,8 @@ func TestGenerateBuildWithImageTagForCustomStrategyImageRepository(t *testing.T)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	strategy := mockCustomStrategyForImageRepository()
 	output := mocks.MockOutput()
@@ -845,6 +887,8 @@ func TestGenerateBuildWithImageTagForCustomStrategyImageRepository(t *testing.T)
 	}
 }
 func TestGenerateBuildFromBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -907,6 +951,8 @@ func TestGenerateBuildFromBuildWithBuildConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	strategy := mockDockerStrategyForImageRepository()
 	output := mocks.MockOutput()
@@ -941,6 +987,8 @@ func TestGenerateBuildFromBuildWithBuildConfig(t *testing.T) {
 	}
 }
 func TestSubstituteImageCustomAllMatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -999,6 +1047,8 @@ func TestSubstituteImageCustomAllMismatch(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	strategy := mockCustomStrategyForDockerImage(originalImage, &metav1.GetOptions{})
 	output := mocks.MockOutput()
@@ -1014,6 +1064,8 @@ func TestSubstituteImageCustomAllMismatch(t *testing.T) {
 	}
 }
 func TestSubstituteImageCustomBaseMatchEnvMismatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1066,6 +1118,8 @@ func TestSubstituteImageCustomBaseMatchEnvMissing(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := mocks.MockSource()
 	strategy := mockCustomStrategyForImageRepository()
 	output := mocks.MockOutput()
@@ -1089,6 +1143,8 @@ func TestSubstituteImageCustomBaseMatchEnvMissing(t *testing.T) {
 	}
 }
 func TestSubstituteImageCustomBaseMatchEnvNil(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1135,6 +1191,8 @@ func TestGetNextBuildName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := mocks.MockBuildConfig(mocks.MockSource(), mocks.MockSourceStrategyForImageRepository(), mocks.MockOutput())
 	if expected, actual := bc.Name+"-1", getNextBuildName(bc); expected != actual {
 		t.Errorf("Wrong buildName, expected %s, got %s", expected, actual)
@@ -1144,6 +1202,8 @@ func TestGetNextBuildName(t *testing.T) {
 	}
 }
 func TestGetNextBuildNameFromBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1184,6 +1244,8 @@ func TestGetNextBuildNameFromBuildWithBuildConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		value		string
 		buildConfig	*buildv1.BuildConfig
@@ -1197,6 +1259,8 @@ func TestGetNextBuildNameFromBuildWithBuildConfig(t *testing.T) {
 	}
 }
 func TestResolveImageStreamRef(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1249,6 +1313,8 @@ func mockResources() corev1.ResourceRequirements {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	res := corev1.ResourceRequirements{}
 	res.Limits = corev1.ResourceList{}
 	res.Limits[corev1.ResourceCPU] = resource.MustParse("100m")
@@ -1256,6 +1322,8 @@ func mockResources() corev1.ResourceRequirements {
 	return res
 }
 func mockDockerStrategyForDockerImage(name string, options *metav1.GetOptions) buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1287,9 +1355,13 @@ func mockDockerStrategyForImageRepository() buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{NoCache: true, From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: imageRepoName + ":" + tagName, Namespace: imageRepoNamespace}}}
 }
 func mockCustomStrategyForDockerImage(name string, options *metav1.GetOptions) buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1321,6 +1393,8 @@ func mockCustomStrategyForImageRepository() buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{CustomStrategy: &buildv1.CustomBuildStrategy{From: corev1.ObjectReference{Kind: "ImageStreamTag", Name: imageRepoName + ":" + tagName, Namespace: imageRepoNamespace}}}
 }
 func mockOutputWithImageName(name string, options *metav1.GetOptions) buildv1.BuildOutput {
@@ -1338,9 +1412,13 @@ func mockOutputWithImageName(name string, options *metav1.GetOptions) buildv1.Bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: name}}
 }
 func getBuildConfigFunc(buildConfigFunc func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error)) func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1377,6 +1455,8 @@ func getUpdateBuildConfigFunc(updateBuildConfigFunc func(ctx context.Context, bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if updateBuildConfigFunc == nil {
 		return func(ctx context.Context, buildConfig *buildv1.BuildConfig) error {
 			return nil
@@ -1385,6 +1465,8 @@ func getUpdateBuildConfigFunc(updateBuildConfigFunc func(ctx context.Context, bu
 	return updateBuildConfigFunc
 }
 func getCreateBuildFunc(createBuildConfigFunc func(ctx context.Context, build *buildv1.Build) error, b *buildv1.Build) func(ctx context.Context, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1408,6 +1490,8 @@ func getCreateBuildFunc(createBuildConfigFunc func(ctx context.Context, build *b
 	return createBuildConfigFunc
 }
 func getGetBuildFunc(getBuildFunc func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.Build, error), b *buildv1.Build) func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1447,6 +1531,8 @@ func getGetImageStreamFunc(getImageStreamFunc func(ctx context.Context, name str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if getImageStreamFunc == nil {
 		return func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStream, error) {
 			if name != imageRepoName {
@@ -1458,6 +1544,8 @@ func getGetImageStreamFunc(getImageStreamFunc func(ctx context.Context, name str
 	return getImageStreamFunc
 }
 func getGetImageStreamTagFunc(getImageStreamTagFunc func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStreamTag, error)) func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1494,6 +1582,8 @@ func getGetImageStreamImageFunc(getImageStreamImageFunc func(ctx context.Context
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if getImageStreamImageFunc == nil {
 		return func(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStreamImage, error) {
 			return &imagev1.ImageStreamImage{Image: imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: imageRepoName + ":@id"}, DockerImageReference: latestDockerReference}}, nil
@@ -1516,6 +1606,8 @@ func mockBuildGenerator(buildConfigFunc func(ctx context.Context, name string, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeSecrets := []runtime.Object{}
 	for _, s := range mocks.MockBuilderSecrets() {
 		fakeSecrets = append(fakeSecrets, s)
@@ -1524,6 +1616,8 @@ func mockBuildGenerator(buildConfigFunc func(ctx context.Context, name string, o
 	return &BuildGenerator{Secrets: fake.NewSimpleClientset(fakeSecrets...).CoreV1(), ServiceAccounts: mocks.MockBuilderServiceAccount(mocks.MockBuilderSecrets()), Client: TestingClient{GetBuildConfigFunc: getBuildConfigFunc(buildConfigFunc), UpdateBuildConfigFunc: getUpdateBuildConfigFunc(updateBuildConfigFunc), CreateBuildFunc: getCreateBuildFunc(createBuildFunc, &b), GetBuildFunc: getGetBuildFunc(getBuildFunc, &b), GetImageStreamFunc: getGetImageStreamFunc(getImageStreamFunc), GetImageStreamTagFunc: getGetImageStreamTagFunc(getImageStreamTagFunc), GetImageStreamImageFunc: getGetImageStreamImageFunc(getImageStreamImageFunc)}}
 }
 func TestGenerateBuildFromConfigWithSecrets(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1574,6 +1668,8 @@ func TestInstantiateBuildTriggerCauseConfigChange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	changeMessage := buildutil.BuildTriggerCauseConfigMsg
 	buildTriggerCauses := []buildv1.BuildTriggerCause{}
 	buildRequest := &buildv1.BuildRequest{TriggeredBy: append(buildTriggerCauses, buildv1.BuildTriggerCause{Message: changeMessage})}
@@ -1589,6 +1685,8 @@ func TestInstantiateBuildTriggerCauseConfigChange(t *testing.T) {
 	}
 }
 func TestInstantiateBuildTriggerCauseImageChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1644,6 +1742,8 @@ func TestInstantiateBuildTriggerCauseGenericWebHook(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildTriggerCauses := []buildv1.BuildTriggerCause{}
 	changeMessage := "Generic WebHook"
 	webHookSecret := "<secret>"
@@ -1667,6 +1767,8 @@ func TestInstantiateBuildTriggerCauseGenericWebHook(t *testing.T) {
 	}
 }
 func TestInstantiateBuildTriggerCauseGitHubWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1718,6 +1820,8 @@ func TestInstantiateBuildTriggerCauseGitLabWebHook(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildTriggerCauses := []buildv1.BuildTriggerCause{}
 	changeMessage := buildutil.BuildTriggerCauseGitLabMsg
 	webHookSecret := "<secret>"
@@ -1741,6 +1845,8 @@ func TestInstantiateBuildTriggerCauseGitLabWebHook(t *testing.T) {
 	}
 }
 func TestInstantiateBuildTriggerCauseBitbucketWebHook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1792,6 +1898,8 @@ func TestOverrideDockerStrategyNoCacheOption(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfigFunc := func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.BuildConfig, error) {
 		return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{}, Spec: buildv1.BuildConfigSpec{CommonSpec: buildv1.CommonSpec{Source: mocks.MockSource(), Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{NoCache: true}}, Revision: &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Commit: "1234"}}}}}, nil
 	}
@@ -1805,6 +1913,8 @@ func TestOverrideDockerStrategyNoCacheOption(t *testing.T) {
 	}
 }
 func TestOverrideSourceStrategyIncrementalOption(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

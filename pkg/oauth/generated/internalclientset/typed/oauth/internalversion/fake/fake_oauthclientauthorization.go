@@ -30,6 +30,8 @@ func (c *FakeOAuthClientAuthorizations) Get(name string, options v1.GetOptions) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(oauthclientauthorizationsResource, name), &oauth.OAuthClientAuthorization{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeOAuthClientAuthorizations) Get(name string, options v1.GetOptions) 
 	return obj.(*oauth.OAuthClientAuthorization), err
 }
 func (c *FakeOAuthClientAuthorizations) List(opts v1.ListOptions) (result *oauth.OAuthClientAuthorizationList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeOAuthClientAuthorizations) Watch(opts v1.ListOptions) (watch.Interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(oauthclientauthorizationsResource, opts))
 }
 func (c *FakeOAuthClientAuthorizations) Create(oAuthClientAuthorization *oauth.OAuthClientAuthorization) (result *oauth.OAuthClientAuthorization, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeOAuthClientAuthorizations) Update(oAuthClientAuthorization *oauth.O
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(oauthclientauthorizationsResource, oAuthClientAuthorization), &oauth.OAuthClientAuthorization{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeOAuthClientAuthorizations) Update(oAuthClientAuthorization *oauth.O
 	return obj.(*oauth.OAuthClientAuthorization), err
 }
 func (c *FakeOAuthClientAuthorizations) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeOAuthClientAuthorizations) DeleteCollection(options *v1.DeleteOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(oauthclientauthorizationsResource, listOptions)
 	_, err := c.Fake.Invokes(action, &oauth.OAuthClientAuthorizationList{})
 	return err
 }
 func (c *FakeOAuthClientAuthorizations) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *oauth.OAuthClientAuthorization, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -34,9 +34,13 @@ func testImageInfo() *imageapi.DockerImage {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.DockerImage{Config: &imageapi.DockerConfig{}}
 }
 func TestWithType(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func TestWithType(t *testing.T) {
 	}
 }
 func TestBuildConfigNoOutput(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,6 +120,8 @@ func TestBuildConfigWithSecrets(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, err := git.Parse("https://github.com/openshift/origin.git")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -130,6 +138,8 @@ func TestBuildConfigWithSecrets(t *testing.T) {
 	}
 }
 func TestBuildConfigWithConfigMaps(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +184,8 @@ func TestBuildConfigBinaryWithImageSource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	source := &SourceRef{Name: "binarybuild", SourceImage: &ImageRef{Reference: imageapi.DockerImageReference{Name: "foo", Registry: "bar"}}}
 	build := &BuildRef{Source: source, Binary: true}
 	config, err := build.BuildConfig()
@@ -190,6 +202,8 @@ func TestBuildConfigBinaryWithImageSource(t *testing.T) {
 	}
 }
 func TestBuildConfigWithImageSource(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,6 +256,8 @@ func TestSourceRefBuildSourceURI(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		input		string
@@ -257,6 +273,8 @@ func TestSourceRefBuildSourceURI(t *testing.T) {
 	}
 }
 func TestGenerateSimpleDockerApp(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +321,8 @@ func TestImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		r		*ImageRef
@@ -321,6 +341,8 @@ func TestImageStream(t *testing.T) {
 	}
 }
 func TestNameSuggestions_SuggestName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -371,9 +393,13 @@ func (s *suggestWith) SuggestName() (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.name, s.success
 }
 func TestIsParameterizableValue(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -404,6 +430,8 @@ func TestIsParameterizableValue(t *testing.T) {
 	}
 }
 func TestNameFromGitURL(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +496,8 @@ func TestContainerPortsFromString(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		portString	string
 		expectedPorts	[]corev1.ContainerPort
@@ -482,6 +512,8 @@ func TestContainerPortsFromString(t *testing.T) {
 	}
 }
 func TestLabelsFromSpec(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -514,6 +546,8 @@ func TestLabelsFromSpec(t *testing.T) {
 	}
 }
 func checkError(err error, expectedError string, name string, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

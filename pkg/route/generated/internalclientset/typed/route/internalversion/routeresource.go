@@ -45,9 +45,13 @@ func newRoutes(c *RouteClient, namespace string) *routes {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &routes{client: c.RESTClient(), ns: namespace}
 }
 func (c *routes) Get(name string, options v1.GetOptions) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,6 +71,8 @@ func (c *routes) Get(name string, options v1.GetOptions) (result *route.Route, e
 	return
 }
 func (c *routes) List(opts v1.ListOptions) (result *route.RouteList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +110,8 @@ func (c *routes) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -112,6 +120,8 @@ func (c *routes) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Namespace(c.ns).Resource("routes").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *routes) Create(routeResource *route.Route) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,11 +155,15 @@ func (c *routes) Update(routeResource *route.Route) (result *route.Route, err er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &route.Route{}
 	err = c.client.Put().Namespace(c.ns).Resource("routes").Name(routeResource.Name).Body(routeResource).Do().Into(result)
 	return
 }
 func (c *routes) UpdateStatus(routeResource *route.Route) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,9 +197,13 @@ func (c *routes) Delete(name string, options *v1.DeleteOptions) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.client.Delete().Namespace(c.ns).Resource("routes").Name(name).Body(options).Do().Error()
 }
 func (c *routes) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -207,6 +225,8 @@ func (c *routes) DeleteCollection(options *v1.DeleteOptions, listOptions v1.List
 	return c.client.Delete().Namespace(c.ns).Resource("routes").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *routes) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

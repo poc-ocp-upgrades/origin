@@ -43,6 +43,8 @@ func (o *ParallelOptions) Bind(flags *pflag.FlagSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.IntVar(&o.MaxPerRegistry, "max-per-registry", o.MaxPerRegistry, "Number of concurrent requests allowed per registry.")
 }
 
@@ -54,6 +56,8 @@ type SecurityOptions struct {
 }
 
 func (o *SecurityOptions) Bind(flags *pflag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func NewVerifier() Verifier {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &verifier{}
 }
 
@@ -102,6 +108,8 @@ type verifier struct {
 }
 
 func (v *verifier) Verify(dgst, contentDgst digest.Digest) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,11 +146,15 @@ func (v *verifier) Verified() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v.lock.Lock()
 	defer v.lock.Unlock()
 	return !v.hadError
 }
 func (o *SecurityOptions) Context() (*registryclient.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,6 +177,8 @@ func (o *SecurityOptions) Context() (*registryclient.Context, error) {
 	return context, err
 }
 func (o *SecurityOptions) NewContext() (*registryclient.Context, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -220,9 +234,13 @@ func (o *FilterOptions) Bind(flags *pflag.FlagSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.StringVar(&o.FilterByOS, "filter-by-os", o.FilterByOS, "A regular expression to control which images are considered when multiple variants are available. Images will be passed as '<platform>/<architecture>[/<variant>]'.")
 }
 func (o *FilterOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -262,6 +280,8 @@ func (o *FilterOptions) Complete(flags *pflag.FlagSet) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pattern := o.FilterByOS
 	if len(pattern) == 0 && !flags.Changed("filter-by-os") {
 		o.DefaultOSFilter = true
@@ -270,6 +290,8 @@ func (o *FilterOptions) Complete(flags *pflag.FlagSet) error {
 	return nil
 }
 func (o *FilterOptions) Include(d *manifestlist.ManifestDescriptor, hasMultiple bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,12 +330,16 @@ func PlatformSpecString(platform manifestlist.PlatformSpec) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(platform.Variant) > 0 {
 		return fmt.Sprintf("%s/%s/%s", platform.OS, platform.Architecture, platform.Variant)
 	}
 	return fmt.Sprintf("%s/%s", platform.OS, platform.Architecture)
 }
 func (o *FilterOptions) IncludeAll(d *manifestlist.ManifestDescriptor, hasMultiple bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +366,8 @@ type FilterFunc func(*manifestlist.ManifestDescriptor, bool) bool
 var PreferManifestList = distribution.WithManifestMediaTypes([]string{manifestlist.MediaTypeManifestList, schema2.MediaTypeManifest})
 
 func AllManifests(ctx context.Context, from imagereference.DockerImageReference, repo distribution.Repository) (map[digest.Digest]distribution.Manifest, *manifestlist.DeserializedManifestList, digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,9 +425,13 @@ func (m ManifestLocation) IsList() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m.ManifestList) > 0
 }
 func (m ManifestLocation) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -420,6 +452,8 @@ func (m ManifestLocation) String() string {
 	return fmt.Sprintf("manifest %s", m.Manifest)
 }
 func FirstManifest(ctx context.Context, from imagereference.DockerImageReference, repo distribution.Repository, filterFn FilterFunc) (distribution.Manifest, ManifestLocation, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +502,8 @@ func FirstManifest(ctx context.Context, from imagereference.DockerImageReference
 	return srcManifest, ManifestLocation{Manifest: srcDigest}, nil
 }
 func ManifestToImageConfig(ctx context.Context, srcManifest distribution.Manifest, blobs distribution.BlobService, location ManifestLocation) (*docker10.DockerImageConfig, []distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -531,6 +567,8 @@ func ManifestToImageConfig(ctx context.Context, srcManifest distribution.Manifes
 	}
 }
 func ProcessManifestList(ctx context.Context, srcDigest digest.Digest, srcManifest distribution.Manifest, manifests distribution.ManifestService, ref imagereference.DockerImageReference, filterFn FilterFunc) ([]distribution.Manifest, distribution.Manifest, digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -616,6 +654,8 @@ func ManifestsFromList(ctx context.Context, srcDigest digest.Digest, srcManifest
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := srcManifest.(type) {
 	case *manifestlist.DeserializedManifestList:
 		allManifests := make(map[digest.Digest]distribution.Manifest)
@@ -634,6 +674,8 @@ func ManifestsFromList(ctx context.Context, srcDigest digest.Digest, srcManifest
 	}
 }
 func PutManifestInCompatibleSchema(ctx context.Context, srcManifest distribution.Manifest, tag string, toManifests distribution.ManifestService, ref reference.Named, blobs distribution.BlobService, configJSON []byte) (digest.Digest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -706,6 +748,8 @@ func convertToSchema1(ctx context.Context, blobs distribution.BlobService, confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if configJSON == nil {
 		targetDescriptor := schema2Manifest.Target()
 		config, err := blobs.Get(ctx, targetDescriptor.Digest)
@@ -740,6 +784,8 @@ var (
 )
 
 func loadPrivateKey() (libtrust.PrivateKey, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

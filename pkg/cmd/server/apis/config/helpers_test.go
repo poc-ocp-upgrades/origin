@@ -21,6 +21,8 @@ func TestGetKubeAPIServerFlagAPIEnablement(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name		string
 		flagValue	[]string
@@ -36,6 +38,8 @@ func TestGetKubeAPIServerFlagAPIEnablement(t *testing.T) {
 	}
 }
 func TestGetEnabledAPIVersionsForGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,6 +72,8 @@ func TestGetEnabledAPIVersionsForGroup(t *testing.T) {
 	}
 }
 func TestGetDisabledAPIVersionsForGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

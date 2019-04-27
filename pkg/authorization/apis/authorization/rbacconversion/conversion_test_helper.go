@@ -21,6 +21,8 @@ func Covers(ownerRules, servantRules []authorizationapi.PolicyRule) (bool, []aut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	subrules := []authorizationapi.PolicyRule{}
 	for _, servantRule := range servantRules {
 		subrules = append(subrules, BreakdownRule(servantRule)...)
@@ -41,6 +43,8 @@ func Covers(ownerRules, servantRules []authorizationapi.PolicyRule) (bool, []aut
 	return (len(uncoveredRules) == 0), uncoveredRules
 }
 func BreakdownRule(rule authorizationapi.PolicyRule) []authorizationapi.PolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func breakdownRuleForGroup(group string, rule authorizationapi.PolicyRule) []aut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	subrules := []authorizationapi.PolicyRule{}
 	for resource := range rule.Resources {
 		for verb := range rule.Verbs {
@@ -105,6 +111,8 @@ func breakdownRuleForGroup(group string, rule authorizationapi.PolicyRule) []aut
 	return subrules
 }
 func ruleCovers(ownerRule, subrule authorizationapi.PolicyRule) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +145,8 @@ func ruleCovers(ownerRule, subrule authorizationapi.PolicyRule) bool {
 	return verbMatches && resourceMatches && resourceNameMatches && groupMatches && nonResourceCovers
 }
 func nonResourceRuleCovers(allowedPaths sets.String, requestedPaths sets.String) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

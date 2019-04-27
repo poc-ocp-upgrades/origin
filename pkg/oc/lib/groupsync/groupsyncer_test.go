@@ -33,6 +33,8 @@ func TestMakeOpenShiftGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	syncer := &LDAPGroupSyncer{Out: ioutil.Discard, Err: ioutil.Discard, Host: "test-host:port", GroupNameMapper: &TestGroupNameMapper{NameMapping: map[string]string{"alfa": "zulu"}}}
 	tcs := map[string]struct {
 		ldapGroupUID	string
@@ -98,6 +100,8 @@ func TestGoodSync(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testGroupSyncer, tc := newTestSyncer()
 	_, errs := testGroupSyncer.Sync()
 	for _, err := range errs {
@@ -106,6 +110,8 @@ func TestGoodSync(t *testing.T) {
 	checkClientForGroups(tc, newDefaultOpenShiftGroups(testGroupSyncer.Host), t)
 }
 func TestListFails(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +153,8 @@ func TestMissingLDAPGroupUIDMapping(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testGroupSyncer, tc := newTestSyncer()
 	testGroupSyncer.GroupLister.(*TestGroupLister).GroupUIDs = append(testGroupSyncer.GroupLister.(*TestGroupLister).GroupUIDs, "ldapgroupwithnouid")
 	_, errs := testGroupSyncer.Sync()
@@ -158,6 +166,8 @@ func TestMissingLDAPGroupUIDMapping(t *testing.T) {
 	checkClientForGroups(tc, newDefaultOpenShiftGroups(testGroupSyncer.Host), t)
 }
 func checkClientForGroups(tc *fakeuserv1client.FakeUserV1, expectedGroups []*userv1.Group, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,6 +204,8 @@ func groupExists(haystack []*userv1.Group, needle *userv1.Group) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, actual := range haystack {
 		actualGroup := actual.DeepCopy()
 		delete(actualGroup.Annotations, ldaputil.LDAPSyncTimeAnnotation)
@@ -204,6 +216,8 @@ func groupExists(haystack []*userv1.Group, needle *userv1.Group) bool {
 	return false
 }
 func extractActualGroups(tc *fakeuserv1client.FakeUserV1) []*userv1.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,9 +258,13 @@ func newDefaultOpenShiftGroups(host string) []*userv1.Group {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "os" + Group1UID, Annotations: map[string]string{ldaputil.LDAPURLAnnotation: host, ldaputil.LDAPUIDAnnotation: Group1UID}, Labels: map[string]string{ldaputil.LDAPHostLabel: strings.Split(host, ":")[0]}}, Users: []string{Member1UID, Member2UID}}, {ObjectMeta: metav1.ObjectMeta{Name: "os" + Group2UID, Annotations: map[string]string{ldaputil.LDAPURLAnnotation: host, ldaputil.LDAPUIDAnnotation: Group2UID}, Labels: map[string]string{ldaputil.LDAPHostLabel: strings.Split(host, ":")[0]}}, Users: []string{Member2UID, Member3UID}}, {ObjectMeta: metav1.ObjectMeta{Name: "os" + Group3UID, Annotations: map[string]string{ldaputil.LDAPURLAnnotation: host, ldaputil.LDAPUIDAnnotation: Group3UID}, Labels: map[string]string{ldaputil.LDAPHostLabel: strings.Split(host, ":")[0]}}, Users: []string{Member3UID, Member4UID}}}
 }
 func newTestSyncer() (*LDAPGroupSyncer, *fakeuserv1client.FakeUserV1) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -287,9 +305,13 @@ func newTestHost() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test.host:port"
 }
 func newTestLister() interfaces.LDAPGroupLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -321,6 +343,8 @@ func newTestMemberExtractor() interfaces.LDAPMemberExtractor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TestGroupMemberExtractor{MemberMapping: map[string][]*ldap.Entry{Group1UID: Group1Members, Group2UID: Group2Members, Group3UID: Group3Members}}
 }
 func newTestUserNameMapper() interfaces.LDAPUserNameMapper {
@@ -338,9 +362,13 @@ func newTestUserNameMapper() interfaces.LDAPUserNameMapper {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TestUserNameMapper{NameAttributes: []string{UserNameAttribute}}
 }
 func newTestGroupNameMapper() interfaces.LDAPGroupNameMapper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,6 +411,8 @@ func (l *TestGroupLister) ListGroups() ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if l.err != nil {
 		return nil, l.err
 	}
@@ -392,6 +422,8 @@ func (l *TestGroupLister) ListGroups() ([]string, error) {
 type TestGroupMemberExtractor struct{ MemberMapping map[string][]*ldap.Entry }
 
 func (e *TestGroupMemberExtractor) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -430,6 +462,8 @@ func (m *TestUserNameMapper) UserNameFor(user *ldap.Entry) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	openShiftUserName := ldaputil.GetAttributeValue(user, m.NameAttributes)
 	if len(openShiftUserName) == 0 {
 		return "", fmt.Errorf("the user entry (%v) does not map to a OpenShift User name with the given mapping", user)
@@ -440,6 +474,8 @@ func (m *TestUserNameMapper) UserNameFor(user *ldap.Entry) (string, error) {
 type TestGroupNameMapper struct{ NameMapping map[string]string }
 
 func (m *TestGroupNameMapper) GroupNameFor(ldapGroupUID string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

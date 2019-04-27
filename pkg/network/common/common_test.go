@@ -24,6 +24,8 @@ func mustParseCIDR(cidr string) *net.IPNet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, net, err := net.ParseCIDR(cidr)
 	if err != nil {
 		panic("bad CIDR string constant " + cidr)
@@ -31,6 +33,8 @@ func mustParseCIDR(cidr string) *net.IPNet {
 	return net
 }
 func Test_checkHostNetworks(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,9 +83,13 @@ func dummySubnet(hostip string, subnet string) networkapi.HostSubnet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return networkapi.HostSubnet{HostIP: hostip, Subnet: subnet}
 }
 func dummyService(ip string) kapi.Service {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,9 +121,13 @@ func dummyPod(ip string) kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kapi.Pod{Status: kapi.PodStatus{PodIP: ip}}
 }
 func Test_checkClusterObjects(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +170,8 @@ func Test_checkClusterObjects(t *testing.T) {
 	}
 }
 func Test_parseNetworkInfo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

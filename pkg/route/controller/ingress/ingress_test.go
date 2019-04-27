@@ -42,9 +42,13 @@ func (r *routeLister) List(selector labels.Selector) (ret []*routev1.Route, err 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Items, r.Err
 }
 func (r *routeLister) Routes(namespace string) routelisters.RouteNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (r *nsRouteLister) List(selector labels.Selector) (ret []*routev1.Route, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.r.Items, r.r.Err
 }
 func (r *nsRouteLister) Get(name string) (*routev1.Route, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,9 +135,13 @@ func (r *ingressLister) List(selector labels.Selector) (ret []*extensionsv1beta1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Items, r.Err
 }
 func (r *ingressLister) Ingresses(namespace string) extensionslisters.IngressNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,9 +179,13 @@ func (r *nsIngressLister) List(selector labels.Selector) (ret []*extensionsv1bet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.r.Items, r.r.Err
 }
 func (r *nsIngressLister) Get(name string) (*extensionsv1beta1.Ingress, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +228,8 @@ func (r *serviceLister) List(selector labels.Selector) (ret []*v1.Service, err e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Items, r.Err
 }
 func (r *serviceLister) Services(namespace string) corelisters.ServiceNamespaceLister {
@@ -229,9 +247,13 @@ func (r *serviceLister) Services(namespace string) corelisters.ServiceNamespaceL
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &nsServiceLister{r: r, ns: namespace}
 }
 func (r *serviceLister) GetPodServices(pod *v1.Pod) ([]*v1.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -269,9 +291,13 @@ func (r *nsServiceLister) List(selector labels.Selector) (ret []*v1.Service, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.r.Items, r.r.Err
 }
 func (r *nsServiceLister) Get(name string) (*v1.Service, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,9 +340,13 @@ func (r *secretLister) List(selector labels.Selector) (ret []*v1.Secret, err err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.Items, r.Err
 }
 func (r *secretLister) Secrets(namespace string) corelisters.SecretNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -354,9 +384,13 @@ func (r *nsSecretLister) List(selector labels.Selector) (ret []*v1.Secret, err e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.r.Items, r.r.Err
 }
 func (r *nsSecretLister) Get(name string) (*v1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -415,6 +449,8 @@ spec:
 `
 
 func TestController_stabilizeAfterCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -546,11 +582,15 @@ func newTestExpectations(fn func(*expectations)) *expectations {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := newExpectations()
 	fn(e)
 	return e
 }
 func TestController_sync(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

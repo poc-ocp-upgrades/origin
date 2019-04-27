@@ -23,6 +23,8 @@ func NewPortsForObjectFn(delegate polymorphichelpers.PortsForObjectFunc) polymor
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(object runtime.Object) ([]string, error) {
 		switch t := object.(type) {
 		case *appsv1.DeploymentConfig:
@@ -33,6 +35,8 @@ func NewPortsForObjectFn(delegate polymorphichelpers.PortsForObjectFunc) polymor
 	}
 }
 func getPorts(spec corev1.PodSpec) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

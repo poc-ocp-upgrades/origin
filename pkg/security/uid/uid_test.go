@@ -20,6 +20,8 @@ func TestParseRange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		in	string
 		errFn	func(error) bool
@@ -66,6 +68,8 @@ func TestBlock(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b := Block{Start: 100, End: 109}
 	if b.String() != "100/10" {
 		t.Errorf("unexpected block string: %s", b.String())
@@ -79,6 +83,8 @@ func TestBlock(t *testing.T) {
 	}
 }
 func TestOffset(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

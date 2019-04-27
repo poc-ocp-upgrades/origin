@@ -95,6 +95,8 @@ func (d *ProjectStatusDescriber) MakeGraph(namespace string) (osgraph.Graph, set
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
 	loaders := []GraphLoader{&serviceLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &serviceAccountLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &secretLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &pvcLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &rcLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &podLoader{namespace: namespace, lister: d.KubeClient.CoreV1()}, &jobLoader{namespace: namespace, lister: d.KubeClient.BatchV1()}, &statefulSetLoader{namespace: namespace, lister: d.KubeClient.AppsV1()}, &horizontalPodAutoscalerLoader{namespace: namespace, lister: d.KubeClient.AutoscalingV1()}, &deploymentLoader{namespace: namespace, lister: d.KubeClient.AppsV1()}, &replicasetLoader{namespace: namespace, lister: d.KubeClient.AppsV1()}, &daemonsetLoader{namespace: namespace, lister: d.KubeClient.AppsV1()}, &bcLoader{namespace: namespace, lister: d.BuildClient}, &buildLoader{namespace: namespace, lister: d.BuildClient}, &isLoader{namespace: namespace, lister: d.ImageClient}, &dcLoader{namespace: namespace, lister: d.AppsClient}, &routeLoader{namespace: namespace, lister: d.RouteClient}}
 	loadingFuncs := []func() error{}
@@ -164,6 +166,8 @@ func createSelector(values map[string]string) labels.Selector {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selector := labels.NewSelector()
 	for k, v := range values {
 		req, err := labels.NewRequirement(k, "=", []string{v})
@@ -175,6 +179,8 @@ func createSelector(values map[string]string) labels.Selector {
 	return selector
 }
 func (d *ProjectStatusDescriber) Describe(namespace, name string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -489,6 +495,8 @@ func printMarkerSuggestions(markers []osgraph.Marker, suggest bool, out *tabwrit
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	suggestionAmount := 0
 	for _, marker := range markers {
 		if len(marker.Suggestion) > 0 {
@@ -526,6 +534,8 @@ func createForbiddenMarkers(forbiddenResources sets.String) []osgraph.Marker {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for forbiddenResource := range forbiddenResources {
 		markers = append(markers, osgraph.Marker{Severity: osgraph.WarningSeverity, Key: ForbiddenListWarning, Message: fmt.Sprintf("Unable to list %s resources.  Not all status relationships can be established.", forbiddenResource)})
@@ -533,6 +543,8 @@ func createForbiddenMarkers(forbiddenResources sets.String) []osgraph.Marker {
 	return markers
 }
 func getMarkerScanners(logsCommandName, securityPolicyCommandFormat, setProbeCommandName string, forbiddenResources sets.String) []osgraph.MarkerScanner {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -575,6 +587,8 @@ func printLines(out io.Writer, indent string, depth int, lines ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, s := range lines {
 		fmt.Fprintf(out, strings.Repeat(indent, depth))
 		if i != 0 {
@@ -584,6 +598,8 @@ func printLines(out io.Writer, indent string, depth int, lines ...string) {
 	}
 }
 func indentLines(indent string, lines ...string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -622,6 +638,8 @@ func namespaceNameWithType(resource, name, namespace, defaultNamespace string, n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if noNamespace || namespace == defaultNamespace || len(namespace) == 0 {
 		return resource + "/" + name
 	}
@@ -636,6 +654,8 @@ type namespacedFormatter struct {
 }
 
 func (f namespacedFormatter) ResourceName(obj interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -710,6 +730,8 @@ func describeProjectAndServer(f formatter, project *projectv1.Project, server st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projectName := project.Name
 	displayName := project.Annotations[oapi.OpenShiftDisplayName]
 	if len(displayName) == 0 {
@@ -738,12 +760,16 @@ func describeAllProjectsOnServer(f formatter, server string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(server) == 0 {
 		return "Showing all projects\n"
 	}
 	return fmt.Sprintf("Showing all projects on server %s\n", server)
 }
 func describeDeploymentConfigInServiceGroup(f formatter, deploy graphview.DeploymentConfigPipeline, restartFn func(*kubegraph.ReplicationControllerNode) int32) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -788,6 +814,8 @@ func describeDeploymentConfigInServiceGroup(f formatter, deploy graphview.Deploy
 	return lines
 }
 func describeDeploymentInServiceGroup(f formatter, deploy graphview.Deployment, restartFn func(node *kubegraph.ReplicaSetNode) int32) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -848,6 +876,8 @@ func describeStatefulSetInServiceGroup(f formatter, node graphview.StatefulSet) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	local := namespacedFormatter{currentNamespace: node.StatefulSet.StatefulSet.Namespace}
 	includeLastPass := false
 	format := "%s manages %s"
@@ -875,6 +905,8 @@ func describeStatefulSetInServiceGroup(f formatter, node graphview.StatefulSet) 
 	return lines
 }
 func describeDaemonSetInServiceGroup(f formatter, node graphview.DaemonSet) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -935,6 +967,8 @@ func describeRCInServiceGroup(f formatter, rcNode *kubegraph.ReplicationControll
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rcNode.ReplicationController.Spec.Template == nil {
 		return []string{}
 	}
@@ -947,6 +981,8 @@ func describeRCInServiceGroup(f formatter, rcNode *kubegraph.ReplicationControll
 	return lines
 }
 func describeRSInServiceGroup(f formatter, rsNode *kubegraph.ReplicaSetNode) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -984,6 +1020,8 @@ func describePodInServiceGroup(f formatter, podNode *kubegraph.PodNode) []string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	images := []string{}
 	for _, container := range podNode.Pod.Spec.Containers {
 		images = append(images, container.Image)
@@ -1006,6 +1044,8 @@ func describeMonopod(f formatter, podNode *kubegraph.PodNode) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	images := []string{}
 	for _, container := range podNode.Pod.Spec.Containers {
 		images = append(images, container.Image)
@@ -1014,6 +1054,8 @@ func describeMonopod(f formatter, podNode *kubegraph.PodNode) []string {
 	return lines
 }
 func describeStandaloneJob(f formatter, node graphview.Job) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1069,6 +1111,8 @@ func describeJobStatus(job *batchv1.Job) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(job.CreationTimestamp.Time))
 	return fmt.Sprintf("created %s ago %d/%d completed %d running", timeAt, job.Status.Succeeded, *job.Spec.Completions, job.Status.Active)
 }
@@ -1076,6 +1120,8 @@ func describeJobStatus(job *batchv1.Job) string {
 type exposedRoutes []string
 
 func (e exposedRoutes) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1107,9 +1153,13 @@ func (e exposedRoutes) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e[i], e[j] = e[j], e[i]
 }
 func (e exposedRoutes) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1177,6 +1227,8 @@ func extractRouteInfo(route *routev1.Route) (requested bool, other []string, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	reasons := sets.NewString()
 	for _, ingress := range route.Status.Ingress {
 		exact := route.Spec.Host == ingress.Host
@@ -1194,6 +1246,8 @@ func extractRouteInfo(route *routev1.Route) (requested bool, other []string, err
 	return requested, other, reasons.List()
 }
 func describeRouteExposed(host string, route *routev1.Route, errors bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1249,6 +1303,8 @@ func describeRouteInServiceGroup(f formatter, routeNode *routegraph.RouteNode) [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	requested, other, errors := extractRouteInfo(routeNode.Route)
 	var lines []string
 	if requested {
@@ -1286,12 +1342,16 @@ func describeDeploymentConfigTrigger(dc *appsv1.DeploymentConfig) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(dc.Spec.Triggers) == 0 {
 		return "(manual)"
 	}
 	return ""
 }
 func describeStandaloneBuildGroup(f formatter, pipeline graphview.ImagePipeline, namespace string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1334,6 +1394,8 @@ func describeImageInPipeline(f formatter, pipeline graphview.ImagePipeline, name
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case pipeline.Image != nil && pipeline.Build != nil:
 		return fmt.Sprintf("%s <- %s", describeImageTagInPipeline(f, pipeline.Image, namespace), describeBuildInPipeline(f, pipeline, namespace))
@@ -1360,6 +1422,8 @@ func describeImageTagInPipeline(f formatter, image graphview.ImageTagLocation, n
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := image.(type) {
 	case *imagegraph.ImageStreamTagNode:
 		if t.ImageStreamTag.Namespace != namespace {
@@ -1371,6 +1435,8 @@ func describeImageTagInPipeline(f formatter, image graphview.ImageTagLocation, n
 	}
 }
 func describeBuildInPipeline(f formatter, pipeline graphview.ImagePipeline, namespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1421,6 +1487,8 @@ func describeBuildInPipeline(f formatter, pipeline graphview.ImagePipeline, name
 	return retStr
 }
 func describeAdditionalBuildDetail(build *buildgraph.BuildConfigNode, lastSuccessfulBuild *buildgraph.BuildNode, lastUnsuccessfulBuild *buildgraph.BuildNode, activeBuilds []*buildgraph.BuildNode, pushTargetResolved bool, includeSuccess bool) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1511,6 +1579,8 @@ func describeBuildPhase(build *buildv1.Build, t *metav1.Time, parentName string,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStreamFailure := ""
 	if (build.Spec.Output.To != nil) && !pushTargetResolved {
 		imageStreamFailure = " (can't push to image)"
@@ -1564,6 +1634,8 @@ func describeSourceRevision(rev *buildv1.SourceRevision) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if rev == nil {
 		return ""
 	}
@@ -1600,6 +1672,8 @@ func describeSourceControlUser(user buildv1.SourceControlUser) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(user.Name) == 0 {
 		return user.Email
 	}
@@ -1609,6 +1683,8 @@ func describeSourceControlUser(user buildv1.SourceControlUser) string {
 	return fmt.Sprintf("%s <%s>", user.Name, user.Email)
 }
 func buildTimestamp(build *buildv1.Build) metav1.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1649,6 +1725,8 @@ func describeSourceInPipeline(source *buildv1.BuildSource) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case source.Git != nil:
 		if len(source.Git.Ref) == 0 {
@@ -1665,6 +1743,8 @@ func describeSourceInPipeline(source *buildv1.BuildSource) (string, bool) {
 	return "", false
 }
 func describeDeployments(f formatter, dNode *kubegraph.DeploymentNode, activeDeployment *kubegraph.ReplicaSetNode, inactiveDeployments []*kubegraph.ReplicaSetNode, restartFn func(node *kubegraph.ReplicaSetNode) int32, count int) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1710,6 +1790,8 @@ func describeDeploymentStatus(rs *kappsv1.ReplicaSet, revision int64, first bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(rs.CreationTimestamp.Time))
 	replicaSetRevision, _ := deployutil.Revision(rs)
 	if replicaSetRevision == revision {
@@ -1719,6 +1801,8 @@ func describeDeploymentStatus(rs *kappsv1.ReplicaSet, revision int64, first bool
 	}
 }
 func describeDeploymentConfigDeployments(f formatter, dcNode *appsgraph.DeploymentConfigNode, activeDeployment *kubegraph.ReplicationControllerNode, inactiveDeployments []*kubegraph.ReplicationControllerNode, restartFn func(*kubegraph.ReplicationControllerNode) int32, count int) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1782,6 +1866,8 @@ func describeDeploymentConfigDeploymentStatus(rc *corev1.ReplicationController, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(rc.CreationTimestamp.Time))
 	status := appsutil.DeploymentStatusFor(rc)
 	version := appsutil.DeploymentVersionFor(rc)
@@ -1826,6 +1912,8 @@ func describeDeploymentConfigRolloutStatus(d *kappsv1.Deployment) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(d.CreationTimestamp.Time))
 	return fmt.Sprintf("created %s ago%s", timeAt, describePodSummaryInline(int32(d.Status.Replicas), int32(d.Status.Replicas), *d.Spec.Replicas, false, 0))
 }
@@ -1844,10 +1932,14 @@ func describeStatefulSetStatus(p *kappsv1.StatefulSet) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(p.CreationTimestamp.Time))
 	return fmt.Sprintf("created %s ago%s", timeAt, describePodSummaryInline(int32(p.Status.Replicas), int32(p.Status.Replicas), *p.Spec.Replicas, false, 0))
 }
 func describeDaemonSetStatus(ds *kappsv1.DaemonSet) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1881,10 +1973,14 @@ func describeRCStatus(rc *corev1.ReplicationController) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	timeAt := strings.ToLower(formatRelativeTime(rc.CreationTimestamp.Time))
 	return fmt.Sprintf("rc/%s created %s ago%s", rc.Name, timeAt, describePodSummaryInline(rc.Status.ReadyReplicas, rc.Status.Replicas, *rc.Spec.Replicas, false, 0))
 }
 func describeRSStatus(rs *kappsv1.ReplicaSet) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1917,6 +2013,8 @@ func describePodSummaryInline(ready, actual, requested int32, includeEmpty bool,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := describePodSummary(ready, requested, includeEmpty, restartCount)
 	if len(s) == 0 {
 		return s
@@ -1931,6 +2029,8 @@ func describePodSummaryInline(ready, actual, requested int32, includeEmpty bool,
 	return fmt.Sprintf(" - %s%s", s, change)
 }
 func describePodSummary(ready, requested int32, includeEmpty bool, restartCount int32) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1979,6 +2079,8 @@ func describeDeploymentConfigTriggers(config *appsv1.DeploymentConfig) (string, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hasConfig, hasImage := false, false
 	for _, t := range config.Spec.Triggers {
 		switch t.Type {
@@ -2000,6 +2102,8 @@ func describeDeploymentConfigTriggers(config *appsv1.DeploymentConfig) (string, 
 	}
 }
 func describeServiceInServiceGroup(f formatter, svc graphview.ServiceGroup, exposed ...string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2050,6 +2154,8 @@ func portOrNodePort(spec corev1.ServiceSpec, port corev1.ServicePort) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case spec.Type != corev1.ServiceTypeNodePort:
 		return strconv.Itoa(int(port.Port))
@@ -2060,6 +2166,8 @@ func portOrNodePort(spec corev1.ServiceSpec, port corev1.ServicePort) string {
 	}
 }
 func describeServicePorts(spec corev1.ServiceSpec) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2101,6 +2209,8 @@ func describeServicePorts(spec corev1.ServiceSpec) string {
 	}
 }
 func filterBoringPods(pods []graphview.Pod) ([]graphview.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2161,6 +2271,8 @@ func (l *rcLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.ReplicationControllers(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2169,6 +2281,8 @@ func (l *rcLoader) Load() error {
 	return nil
 }
 func (l *rcLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2210,6 +2324,8 @@ func (l *serviceLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Services(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2218,6 +2334,8 @@ func (l *serviceLoader) Load() error {
 	return nil
 }
 func (l *serviceLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2259,6 +2377,8 @@ func (l *podLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Pods(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2267,6 +2387,8 @@ func (l *podLoader) Load() error {
 	return nil
 }
 func (l *podLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2308,6 +2430,8 @@ func (l *jobLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Jobs(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2316,6 +2440,8 @@ func (l *jobLoader) Load() error {
 	return nil
 }
 func (l *jobLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2357,6 +2483,8 @@ func (l *statefulSetLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.StatefulSets(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2365,6 +2493,8 @@ func (l *statefulSetLoader) Load() error {
 	return nil
 }
 func (l *statefulSetLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2406,6 +2536,8 @@ func (l *horizontalPodAutoscalerLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.HorizontalPodAutoscalers(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2414,6 +2546,8 @@ func (l *horizontalPodAutoscalerLoader) Load() error {
 	return nil
 }
 func (l *horizontalPodAutoscalerLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2455,6 +2589,8 @@ func (l *deploymentLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Deployments(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2463,6 +2599,8 @@ func (l *deploymentLoader) Load() error {
 	return nil
 }
 func (l *deploymentLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2504,6 +2642,8 @@ func (l *daemonsetLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.DaemonSets(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2512,6 +2652,8 @@ func (l *daemonsetLoader) Load() error {
 	return nil
 }
 func (l *daemonsetLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2553,6 +2695,8 @@ func (l *replicasetLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.ReplicaSets(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2561,6 +2705,8 @@ func (l *replicasetLoader) Load() error {
 	return nil
 }
 func (l *replicasetLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2602,6 +2748,8 @@ func (l *serviceAccountLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.ServiceAccounts(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2610,6 +2758,8 @@ func (l *serviceAccountLoader) Load() error {
 	return nil
 }
 func (l *serviceAccountLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2651,6 +2801,8 @@ func (l *secretLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Secrets(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2659,6 +2811,8 @@ func (l *secretLoader) Load() error {
 	return nil
 }
 func (l *secretLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2700,6 +2854,8 @@ func (l *pvcLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.PersistentVolumeClaims(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2708,6 +2864,8 @@ func (l *pvcLoader) Load() error {
 	return nil
 }
 func (l *pvcLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2749,6 +2907,8 @@ func (l *isLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.ImageStreams(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2757,6 +2917,8 @@ func (l *isLoader) Load() error {
 	return nil
 }
 func (l *isLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2799,6 +2961,8 @@ func (l *dcLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.DeploymentConfigs(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2807,6 +2971,8 @@ func (l *dcLoader) Load() error {
 	return nil
 }
 func (l *dcLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2852,6 +3018,8 @@ func (l *bcLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.BuildConfigs(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return errors.TolerateNotFoundError(err)
@@ -2860,6 +3028,8 @@ func (l *bcLoader) Load() error {
 	return nil
 }
 func (l *bcLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2901,6 +3071,8 @@ func (l *buildLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Builds(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return errors.TolerateNotFoundError(err)
@@ -2909,6 +3081,8 @@ func (l *buildLoader) Load() error {
 	return nil
 }
 func (l *buildLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2950,6 +3124,8 @@ func (l *routeLoader) Load() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := l.lister.Routes(l.namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return err
@@ -2958,6 +3134,8 @@ func (l *routeLoader) Load() error {
 	return nil
 }
 func (l *routeLoader) AddToGraph(g osgraph.Graph) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

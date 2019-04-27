@@ -27,6 +27,8 @@ func TestGetImageReferenceForObjectReference(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		namespace	string
@@ -49,6 +51,8 @@ func TestGetImageReferenceForObjectReference(t *testing.T) {
 	}
 }
 func TestGetImageStreamUsage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

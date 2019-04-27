@@ -25,6 +25,8 @@ func TransformTemplate(tpl *templatev1.Template, templateProcessor templateclien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for k, value := range parameters {
 		v := templateprocessing.GetParameterByName(tpl, k)
 		if v != nil {
@@ -56,12 +58,16 @@ func formatString(out io.Writer, tab, s string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelVals := strings.Split(strings.TrimSuffix(s, "\n"), "\n")
 	for _, lval := range labelVals {
 		fmt.Fprintf(out, fmt.Sprintf("%s%s\n", tab, lval))
 	}
 }
 func DescribeGeneratedTemplate(out io.Writer, input string, result *templatev1.Template, baseNamespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

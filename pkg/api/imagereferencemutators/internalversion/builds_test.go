@@ -23,6 +23,8 @@ func imageRef(name string) *kapi.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := imageRefValue(name)
 	return &ref
 }
@@ -41,9 +43,13 @@ func imageRefValue(name string) kapi.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kapi.ObjectReference{Kind: "DockerImage", Name: name}
 }
 func Test_buildSpecMutator_Mutate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

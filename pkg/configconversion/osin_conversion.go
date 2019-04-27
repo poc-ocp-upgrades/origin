@@ -25,6 +25,8 @@ func Convert_legacyconfigv1_OAuthConfig_to_osinv1_OAuthConfig(in *legacyconfigv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	if err := converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames|conversion.IgnoreMissingFields, meta); err != nil {

@@ -77,6 +77,8 @@ func newPodManager(kClient kubernetes.Interface, policy osdnPolicy, mtu uint32, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pm := newDefaultPodManager()
 	pm.kClient = kClient
 	pm.policy = policy
@@ -102,9 +104,13 @@ func newDefaultPodManager() *podManager {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &podManager{runningPods: make(map[string]*runningPod), requests: make(chan *cniserver.PodRequest, 20)}
 }
 func getIPAMConfig(clusterNetworks []common.ClusterNetwork, localSubnet string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,6 +163,8 @@ func (m *podManager) Start(rundir string, localSubnetCIDR string, clusterNetwork
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if m.enableHostports {
 		iptInterface := utiliptables.New(utilexec.New(), utildbus.New(), utiliptables.ProtocolIpv4)
 		m.hostportSyncer = kubehostport.NewHostportSyncer(iptInterface)
@@ -187,9 +195,13 @@ func getPodKey(request *cniserver.PodRequest) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s/%s", request.PodNamespace, request.PodName)
 }
 func (m *podManager) getPod(request *cniserver.PodRequest) *kubehostport.PodPortMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +236,8 @@ func hasHostPorts(pod *kubehostport.PodPortMapping) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, mapping := range pod.PortMappings {
 		if mapping.HostPort != 0 {
 			return true
@@ -232,6 +246,8 @@ func hasHostPorts(pod *kubehostport.PodPortMapping) bool {
 	return false
 }
 func (m *podManager) shouldSyncHostports(newPod *kubehostport.PodPortMapping) []*kubehostport.PodPortMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -282,9 +298,13 @@ func (m *podManager) addRequest(request *cniserver.PodRequest) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.requests <- request
 }
 func (m *podManager) waitRequest(request *cniserver.PodRequest) *cniserver.PodResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -316,6 +336,8 @@ func (m *podManager) handleCNIRequest(request *cniserver.PodRequest) ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(5).Infof("Dispatching pod network request %v", request)
 	m.addRequest(request)
 	result := m.waitRequest(request)
@@ -323,6 +345,8 @@ func (m *podManager) handleCNIRequest(request *cniserver.PodRequest) ([]byte, er
 	return result.Response, result.Err
 }
 func (m *podManager) updateLocalMulticastRulesWithLock(vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -365,11 +389,15 @@ func (m *podManager) UpdateLocalMulticastRules(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.runningPodsLock.Lock()
 	defer m.runningPodsLock.Unlock()
 	m.updateLocalMulticastRulesWithLock(vnid)
 }
 func (m *podManager) processCNIRequests() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -393,6 +421,8 @@ func (m *podManager) processCNIRequests() {
 	panic("stopped processing CNI pod requests!")
 }
 func (m *podManager) processRequest(request *cniserver.PodRequest) *cniserver.PodResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -452,6 +482,8 @@ func (m *podManager) processRequest(request *cniserver.PodRequest) *cniserver.Po
 	return result
 }
 func maybeAddMacvlan(pod *corev1.Pod, netns string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -530,9 +562,13 @@ func createIPAMArgs(netnsPath, cniBinPath string, action cniserver.CNICommand, i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &invoke.Args{Command: string(action), ContainerID: id, NetNS: netnsPath, IfName: podInterfaceName, Path: cniBinPath}
 }
 func (m *podManager) ipamAdd(netnsPath string, id string) (*current.Result, net.IP, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -579,6 +615,8 @@ func (m *podManager) ipamDel(id string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := createIPAMArgs("", m.cniBinPath, cniserver.CNI_DEL, id)
 	err := invoke.ExecPluginWithoutResult(m.cniBinPath+"/host-local", m.ipamConfig, args)
 	if err != nil {
@@ -587,6 +625,8 @@ func (m *podManager) ipamDel(id string) error {
 	return nil
 }
 func setupPodBandwidth(ovs *ovsController, pod *corev1.Pod, hostVeth, sandboxID string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -638,9 +678,13 @@ func vnidToString(vnid uint32) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strconv.FormatUint(uint64(vnid), 10)
 }
 func podIsExited(p *kcontainer.Pod) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -663,6 +707,8 @@ func podIsExited(p *kcontainer.Pod) bool {
 	return true
 }
 func (m *podManager) setup(req *cniserver.PodRequest) (cnitypes.Result, *runningPod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -740,6 +786,8 @@ func (m *podManager) update(req *cniserver.PodRequest) (uint32, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vnid, err := m.policy.GetVNID(req.PodNamespace)
 	if err != nil {
 		return 0, err
@@ -750,6 +798,8 @@ func (m *podManager) update(req *cniserver.PodRequest) (uint32, error) {
 	return vnid, nil
 }
 func (m *podManager) teardown(req *cniserver.PodRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -780,6 +830,8 @@ func (m *podManager) teardown(req *cniserver.PodRequest) error {
 	return kerrors.NewAggregate(errList)
 }
 func constructPodPortMapping(pod *corev1.Pod, podIP net.IP) *kubehostport.PodPortMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

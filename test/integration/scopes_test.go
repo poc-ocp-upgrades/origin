@@ -50,6 +50,8 @@ func TestScopedTokens(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -109,6 +111,8 @@ func TestScopedImpersonation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -138,6 +142,8 @@ func TestScopedImpersonation(t *testing.T) {
 	}
 }
 func TestScopeEscalations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +223,8 @@ func TestTokensWithIllegalScopes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -275,6 +283,8 @@ func TestTokensWithIllegalScopes(t *testing.T) {
 	}
 }
 func TestUnknownScopes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -384,6 +394,8 @@ func authzv1_To_rbacv1_PolicyRules(authzv1Rules []authorizationv1.PolicyRule) ([
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authzRules := make([]authorizationapi.PolicyRule, len(authzv1Rules))
 	for index := range authzv1Rules {
 		err := authorizationapiv1.Convert_v1_PolicyRule_To_authorization_PolicyRule(&authzv1Rules[index], &authzRules[index], nil)
@@ -402,6 +414,8 @@ func authzv1_To_rbacv1_PolicyRules(authzv1Rules []authorizationv1.PolicyRule) ([
 	return rbacv1Rules, nil
 }
 func checkEqualRules(a, b []rbacv1.PolicyRule) (bool, []rbacv1.PolicyRule) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

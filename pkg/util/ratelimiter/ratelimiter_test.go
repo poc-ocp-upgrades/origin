@@ -26,6 +26,8 @@ func (h *handler) handle() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.Lock()
 	defer h.Unlock()
 	h._counter += 1
@@ -46,11 +48,15 @@ func (h *handler) counter() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	h.Lock()
 	defer h.Unlock()
 	return h._counter
 }
 func TestRateLimitedFunction(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

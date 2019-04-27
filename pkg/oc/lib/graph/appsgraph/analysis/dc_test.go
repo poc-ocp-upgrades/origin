@@ -24,6 +24,8 @@ func TestMissingImageStreamTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/missing-istag.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -41,6 +43,8 @@ func TestMissingImageStreamTag(t *testing.T) {
 	}
 }
 func TestMissingImageStream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func TestMissingReadinessProbe(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g, _, err := osgraphtest.BuildGraph("../../../graph/genericgraph/test/unpushable-build-2.yaml")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -102,6 +108,8 @@ func TestMissingReadinessProbe(t *testing.T) {
 	}
 }
 func TestSingleHostVolumeError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

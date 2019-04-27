@@ -31,10 +31,14 @@ func (m *mockDeleteRecorder) DeleteBuild(build *buildv1.Build) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m.set.Insert(build.Name)
 	return m.err
 }
 func (m *mockDeleteRecorder) Verify(t *testing.T, expected sets.String) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -58,6 +62,8 @@ func (m *mockDeleteRecorder) Verify(t *testing.T, expected sets.String) {
 	}
 }
 func TestPruneTask(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

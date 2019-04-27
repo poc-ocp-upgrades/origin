@@ -24,6 +24,8 @@ func TestAdmission(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svc := &kapi.Service{ObjectMeta: metav1.ObjectMeta{Name: "test"}}
 	var oldSvc *kapi.Service
 	_, ipv4, err := net.ParseCIDR("172.0.0.0/16")
@@ -96,6 +98,8 @@ func TestAdmission(t *testing.T) {
 	}
 }
 func TestHandles(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

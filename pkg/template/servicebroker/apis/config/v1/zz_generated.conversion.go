@@ -22,9 +22,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,10 +70,14 @@ func autoConvert_v1_TemplateServiceBrokerConfig_To_config_TemplateServiceBrokerC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.TemplateNamespaces = *(*[]string)(unsafe.Pointer(&in.TemplateNamespaces))
 	return nil
 }
 func Convert_v1_TemplateServiceBrokerConfig_To_config_TemplateServiceBrokerConfig(in *TemplateServiceBrokerConfig, out *config.TemplateServiceBrokerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,10 +109,14 @@ func autoConvert_config_TemplateServiceBrokerConfig_To_v1_TemplateServiceBrokerC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.TemplateNamespaces = *(*[]string)(unsafe.Pointer(&in.TemplateNamespaces))
 	return nil
 }
 func Convert_config_TemplateServiceBrokerConfig_To_v1_TemplateServiceBrokerConfig(in *config.TemplateServiceBrokerConfig, out *TemplateServiceBrokerConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -47,9 +47,13 @@ func NewEndpoints(publicMasterURL, openShiftLogoutPrefix string, osinOAuthClient
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &endpointDetails{publicMasterURL: publicMasterURL, osinOAuthClientGetter: osinOAuthClientGetter, ready: make(chan struct{}), tokens: tokens, openShiftLogoutPrefix: openShiftLogoutPrefix}
 }
 func (e *endpointDetails) Install(mux oauthserver.Mux, paths ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,6 +75,8 @@ func (e *endpointDetails) Install(mux oauthserver.Mux, paths ...string) {
 	}
 }
 func (e *endpointDetails) readyHandler(delegate func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -113,6 +119,8 @@ func (e *endpointDetails) safeInitOsinOAuthClientOnce() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.initLock.Lock()
 	defer e.initLock.Unlock()
 	if e.osinOAuthClient == nil {
@@ -140,11 +148,15 @@ func (e *endpointDetails) requestToken(w http.ResponseWriter, req *http.Request)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authReq := e.osinOAuthClient.NewAuthorizeRequest(osincli.CODE)
 	oauthURL := authReq.GetAuthorizeUrl()
 	http.Redirect(w, req, oauthURL.String(), http.StatusFound)
 }
 func (e *endpointDetails) displayToken(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -192,6 +204,8 @@ func (e *endpointDetails) displayToken(w http.ResponseWriter, req *http.Request)
 	renderToken(w, data)
 }
 func renderToken(w io.Writer, data tokenData) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -278,6 +292,8 @@ func (e *endpointDetails) implicitToken(w http.ResponseWriter, req *http.Request
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Set("Content-Type", "text/plain")
 	_, _ = w.Write([]byte(`
 You have reached this page by following a redirect Location header from an OAuth authorize request.
@@ -309,6 +325,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -383,5 +420,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -21,6 +21,8 @@ func (in *ImageCondition) DeepCopyInto(out *ImageCondition) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	if in.OnResources != nil {
 		in, out := &in.OnResources, &out.OnResources
@@ -75,6 +77,8 @@ func (in *ImageCondition) DeepCopy() *ImageCondition {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -83,6 +87,8 @@ func (in *ImageCondition) DeepCopy() *ImageCondition {
 	return out
 }
 func (in *ImageExecutionPolicyRule) DeepCopyInto(out *ImageExecutionPolicyRule) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +122,8 @@ func (in *ImageExecutionPolicyRule) DeepCopy() *ImageExecutionPolicyRule {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -124,6 +132,8 @@ func (in *ImageExecutionPolicyRule) DeepCopy() *ImageExecutionPolicyRule {
 	return out
 }
 func (in *ImagePolicyConfig) DeepCopyInto(out *ImagePolicyConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +179,8 @@ func (in *ImagePolicyConfig) DeepCopy() *ImagePolicyConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -177,6 +189,8 @@ func (in *ImagePolicyConfig) DeepCopy() *ImagePolicyConfig {
 	return out
 }
 func (in *ImagePolicyConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -211,11 +225,15 @@ func (in *ImageResolutionPolicyRule) DeepCopyInto(out *ImageResolutionPolicyRule
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TargetResource = in.TargetResource
 	return
 }
 func (in *ImageResolutionPolicyRule) DeepCopy() *ImageResolutionPolicyRule {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,10 +270,14 @@ func (in *ValueCondition) DeepCopyInto(out *ValueCondition) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	return
 }
 func (in *ValueCondition) DeepCopy() *ValueCondition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

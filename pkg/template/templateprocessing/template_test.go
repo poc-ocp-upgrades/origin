@@ -32,12 +32,16 @@ func makeParameter(name, value, generate string, required bool) templateapi.Para
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return templateapi.Parameter{Name: name, Value: value, Generate: generate, Required: required}
 }
 
 type FooGenerator struct{}
 
 func (g FooGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,12 +76,16 @@ func (g ErrorGenerator) GenerateValue(expression string) (interface{}, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", fmt.Errorf("error")
 }
 
 type NoStringGenerator struct{}
 
 func (g NoStringGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -112,9 +120,13 @@ func (g EmptyGenerator) GenerateValue(expression string) (interface{}, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", nil
 }
 func TestParameterGenerators(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,6 +175,8 @@ func TestParameterGenerators(t *testing.T) {
 	}
 }
 func TestProcessValue(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -235,6 +249,8 @@ func TestProcessValue(t *testing.T) {
 var trailingWhitespace = regexp.MustCompile(`\n\s*`)
 
 func TestEvaluateLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,6 +422,8 @@ func TestProcessTemplateParameters(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var template, expectedTemplate templateapi.Template
 	jsonData, _ := ioutil.ReadFile("../../../test/templates/testdata/guestbook.json")
 	if err := runtime.DecodeInto(legacyscheme.Codecs.UniversalDecoder(), jsonData, &template); err != nil {
@@ -432,6 +450,8 @@ func TestProcessTemplateParameters(t *testing.T) {
 	}
 }
 func addParameter(t *templateapi.Template, param templateapi.Parameter) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

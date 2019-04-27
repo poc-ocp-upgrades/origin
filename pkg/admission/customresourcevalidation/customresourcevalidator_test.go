@@ -29,6 +29,8 @@ func TestCustomResourceValidator(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const (
 		testGroup	= "config.openshift.io"
 		testVersion	= "v1"
@@ -158,6 +160,8 @@ func (v testValidator) ValidateCreate(uncastObj runtime.Object) field.ErrorList 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return v.validateCreate(uncastObj)
 }
 func (v testValidator) ValidateUpdate(uncastObj runtime.Object, uncastOldObj runtime.Object) field.ErrorList {
@@ -175,9 +179,13 @@ func (v testValidator) ValidateUpdate(uncastObj runtime.Object, uncastOldObj run
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return v.validateUpdate(uncastObj, uncastOldObj)
 }
 func (v testValidator) ValidateStatusUpdate(uncastObj runtime.Object, uncastOldObj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

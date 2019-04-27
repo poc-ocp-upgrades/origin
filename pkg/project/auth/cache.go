@@ -60,6 +60,8 @@ func reviewRecordKeyFn(obj interface{}) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	reviewRecord, ok := obj.(*reviewRecord)
 	if !ok {
 		return "", fmt.Errorf("expected reviewRecord")
@@ -67,6 +69,8 @@ func reviewRecordKeyFn(obj interface{}) (string, error) {
 	return reviewRecord.namespace, nil
 }
 func subjectRecordKeyFn(obj interface{}) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +113,8 @@ func (u unionLastSyncResourceVersioner) LastSyncResourceVersion() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resourceVersions := []string{}
 	for _, versioner := range u {
 		resourceVersions = append(resourceVersions, versioner.LastSyncResourceVersion())
@@ -119,6 +125,8 @@ func (u unionLastSyncResourceVersioner) LastSyncResourceVersion() string {
 type statelessSkipSynchronizer struct{}
 
 func (rs *statelessSkipSynchronizer) SkipSynchronize(prevState string, versionedObjects ...LastSyncResourceVersioner) (skip bool, currentState string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +153,8 @@ func (rs *statelessSkipSynchronizer) SkipSynchronize(prevState string, versioned
 type neverSkipSynchronizer struct{}
 
 func (s *neverSkipSynchronizer) SkipSynchronize(prevState string, versionedObjects ...LastSyncResourceVersioner) (bool, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,6 +208,8 @@ func (l syncedRoleLister) LastSyncResourceVersion() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.versioner.LastSyncResourceVersion()
 }
 
@@ -207,6 +219,8 @@ type syncedClusterRoleLister struct {
 }
 
 func (l syncedClusterRoleLister) LastSyncResourceVersion() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,6 +258,8 @@ func (l syncedRoleBindingLister) LastSyncResourceVersion() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return l.versioner.LastSyncResourceVersion()
 }
 
@@ -253,6 +269,8 @@ type syncedClusterRoleBindingLister struct {
 }
 
 func (l syncedClusterRoleBindingLister) LastSyncResourceVersion() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +325,8 @@ func NewAuthorizationCache(namespaceLister corev1listers.NamespaceLister, namesp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scrLister := syncedClusterRoleLister{informers.ClusterRoles().Lister(), informers.ClusterRoles().Informer()}
 	scrbLister := syncedClusterRoleBindingLister{informers.ClusterRoleBindings().Lister(), informers.ClusterRoleBindings().Informer()}
 	srLister := syncedRoleLister{informers.Roles().Lister(), informers.Roles().Informer()}
@@ -317,6 +337,8 @@ func NewAuthorizationCache(namespaceLister corev1listers.NamespaceLister, namesp
 	return ac
 }
 func (ac *AuthorizationCache) Run(period time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -351,11 +373,15 @@ func (ac *AuthorizationCache) AddWatcher(watcher CacheWatcher) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ac.watcherLock.Lock()
 	defer ac.watcherLock.Unlock()
 	ac.watchers = append(ac.watchers, watcher)
 }
 func (ac *AuthorizationCache) RemoveWatcher(watcher CacheWatcher) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -398,9 +424,13 @@ func (ac *AuthorizationCache) GetClusterRoleLister() SyncedClusterRoleLister {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ac.clusterRoleLister
 }
 func (ac *AuthorizationCache) synchronizeNamespaces(userSubjectRecordStore cache.Store, groupSubjectRecordStore cache.Store, reviewRecordStore cache.Store) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -445,6 +475,8 @@ func (ac *AuthorizationCache) synchronizePolicies(userSubjectRecordStore cache.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	roleList, err := ac.roleNamespacer.Roles(metav1.NamespaceAll).List(labels.Everything())
 	if err != nil {
 		utilruntime.HandleError(err)
@@ -458,6 +490,8 @@ func (ac *AuthorizationCache) synchronizePolicies(userSubjectRecordStore cache.S
 	}
 }
 func (ac *AuthorizationCache) synchronizeRoleBindings(userSubjectRecordStore cache.Store, groupSubjectRecordStore cache.Store, reviewRecordStore cache.Store) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -499,6 +533,8 @@ func (ac *AuthorizationCache) purgeDeletedNamespaces(oldNamespaces, newNamespace
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	reviewRecordItems := reviewRecordStore.List()
 	for i := range reviewRecordItems {
 		reviewRecord := reviewRecordItems[i].(*reviewRecord)
@@ -513,6 +549,8 @@ func (ac *AuthorizationCache) purgeDeletedNamespaces(oldNamespaces, newNamespace
 	}
 }
 func (ac *AuthorizationCache) invalidateCache() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -571,6 +609,8 @@ func (ac *AuthorizationCache) synchronize() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skip, currentState := ac.skip.SkipSynchronize(ac.lastState, ac.lastSyncResourceVersioner, ac.roleLastSyncResourceVersioner)
 	if skip {
 		return
@@ -597,6 +637,8 @@ func (ac *AuthorizationCache) synchronize() {
 	ac.lastState = currentState
 }
 func (ac *AuthorizationCache) syncRequest(request *reviewRequest, userSubjectRecordStore cache.Store, groupSubjectRecordStore cache.Store, reviewRecordStore cache.Store) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -643,6 +685,8 @@ func (ac *AuthorizationCache) syncRequest(request *reviewRequest, userSubjectRec
 	return nil
 }
 func (ac *AuthorizationCache) List(userInfo user.Info, selector labels.Selector) (*corev1.NamespaceList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -709,9 +753,13 @@ func (ac *AuthorizationCache) ReadyForAccess() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ac.lastState) > 0
 }
 func skipReview(request *reviewRequest, lastKnownValue *reviewRecord) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -767,6 +815,8 @@ func deleteNamespaceFromSubjects(subjectRecordStore cache.Store, subjects []stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, subject := range subjects {
 		obj, exists, _ := subjectRecordStore.GetByKey(subject)
 		if exists {
@@ -779,6 +829,8 @@ func deleteNamespaceFromSubjects(subjectRecordStore cache.Store, subjects []stri
 	}
 }
 func addSubjectsToNamespace(subjectRecordStore cache.Store, subjects []string, namespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -820,6 +872,8 @@ func (ac *AuthorizationCache) notifyWatchers(namespace string, exists *reviewRec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ac.watcherLock.Lock()
 	defer ac.watcherLock.Unlock()
 	for _, watcher := range ac.watchers {
@@ -827,6 +881,8 @@ func (ac *AuthorizationCache) notifyWatchers(namespace string, exists *reviewRec
 	}
 }
 func cacheReviewRecord(request *reviewRequest, lastKnownValue *reviewRecord, review Review, reviewRecordStore cache.Store) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -877,6 +933,8 @@ func lastKnown(reviewRecordStore cache.Store, namespace string) (*reviewRecord, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, exists, err := reviewRecordStore.GetByKey(namespace)
 	if err != nil {
 		return nil, err
@@ -901,6 +959,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -975,5 +1054,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

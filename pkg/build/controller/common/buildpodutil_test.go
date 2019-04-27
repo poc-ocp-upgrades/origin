@@ -25,6 +25,8 @@ func TestGetBuild(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := u.Build().WithDockerStrategy()
 	pod := u.Pod().WithBuild(t, build.AsBuild())
 	resultBuild, err := GetBuildFromPod((*v1.Pod)(pod))
@@ -36,6 +38,8 @@ func TestGetBuild(t *testing.T) {
 	}
 }
 func TestSetBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

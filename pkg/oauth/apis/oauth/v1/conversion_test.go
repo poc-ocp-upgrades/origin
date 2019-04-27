@@ -23,6 +23,8 @@ func TestFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("OAuthAccessToken"), AllowedExternalFieldKeys: []string{"clientName", "userName", "userUID", "authorizeToken"}, FieldKeyEvaluatorFn: oauthapi.OAuthAccessTokenFieldSelector}.Check(t)
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("OAuthAuthorizeToken"), AllowedExternalFieldKeys: []string{"clientName", "userName", "userUID"}, FieldKeyEvaluatorFn: oauthapi.OAuthAuthorizeTokenFieldSelector}.Check(t)
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("OAuthClientAuthorization"), AllowedExternalFieldKeys: []string{"clientName", "userName", "userUID"}, FieldKeyEvaluatorFn: oauthapi.OAuthClientAuthorizationFieldSelector}.Check(t)

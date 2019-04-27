@@ -33,6 +33,8 @@ func literal(s string) *regexp.Regexp {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	re := match(regexp.QuoteMeta(s))
 	if _, complete := re.LiteralPrefix(); !complete {
 		panic("must be a literal")
@@ -40,6 +42,8 @@ func literal(s string) *regexp.Regexp {
 	return re
 }
 func expression(res ...*regexp.Regexp) *regexp.Regexp {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,9 +79,13 @@ func optional(res ...*regexp.Regexp) *regexp.Regexp {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return match(group(expression(res...)).String() + `?`)
 }
 func repeated(res ...*regexp.Regexp) *regexp.Regexp {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +117,8 @@ func group(res ...*regexp.Regexp) *regexp.Regexp {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return match(`(?:` + expression(res...).String() + `)`)
 }
 func capture(res ...*regexp.Regexp) *regexp.Regexp {
@@ -126,9 +136,13 @@ func capture(res ...*regexp.Regexp) *regexp.Regexp {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return match(`(` + expression(res...).String() + `)`)
 }
 func anchored(res ...*regexp.Regexp) *regexp.Regexp {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

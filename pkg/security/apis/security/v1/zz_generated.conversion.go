@@ -26,9 +26,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +264,8 @@ func autoConvert_v1_AllowedFlexVolume_To_security_AllowedFlexVolume(in *v1.Allow
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Driver = in.Driver
 	return nil
 }
@@ -278,9 +284,13 @@ func Convert_v1_AllowedFlexVolume_To_security_AllowedFlexVolume(in *v1.AllowedFl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AllowedFlexVolume_To_security_AllowedFlexVolume(in, out, s)
 }
 func autoConvert_security_AllowedFlexVolume_To_v1_AllowedFlexVolume(in *security.AllowedFlexVolume, out *v1.AllowedFlexVolume, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -313,9 +323,13 @@ func Convert_security_AllowedFlexVolume_To_v1_AllowedFlexVolume(in *security.All
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_AllowedFlexVolume_To_v1_AllowedFlexVolume(in, out, s)
 }
 func autoConvert_v1_FSGroupStrategyOptions_To_security_FSGroupStrategyOptions(in *v1.FSGroupStrategyOptions, out *security.FSGroupStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,9 +363,13 @@ func Convert_v1_FSGroupStrategyOptions_To_security_FSGroupStrategyOptions(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_FSGroupStrategyOptions_To_security_FSGroupStrategyOptions(in, out, s)
 }
 func autoConvert_security_FSGroupStrategyOptions_To_v1_FSGroupStrategyOptions(in *security.FSGroupStrategyOptions, out *v1.FSGroupStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -385,9 +403,13 @@ func Convert_security_FSGroupStrategyOptions_To_v1_FSGroupStrategyOptions(in *se
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_FSGroupStrategyOptions_To_v1_FSGroupStrategyOptions(in, out, s)
 }
 func autoConvert_v1_IDRange_To_security_IDRange(in *v1.IDRange, out *security.IDRange, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -421,9 +443,13 @@ func Convert_v1_IDRange_To_security_IDRange(in *v1.IDRange, out *security.IDRang
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_IDRange_To_security_IDRange(in, out, s)
 }
 func autoConvert_security_IDRange_To_v1_IDRange(in *security.IDRange, out *v1.IDRange, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -457,9 +483,13 @@ func Convert_security_IDRange_To_v1_IDRange(in *security.IDRange, out *v1.IDRang
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_IDRange_To_v1_IDRange(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicyReview_To_security_PodSecurityPolicyReview(in *v1.PodSecurityPolicyReview, out *security.PodSecurityPolicyReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -497,9 +527,13 @@ func Convert_v1_PodSecurityPolicyReview_To_security_PodSecurityPolicyReview(in *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicyReview_To_security_PodSecurityPolicyReview(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicyReview_To_v1_PodSecurityPolicyReview(in *security.PodSecurityPolicyReview, out *v1.PodSecurityPolicyReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -537,9 +571,13 @@ func Convert_security_PodSecurityPolicyReview_To_v1_PodSecurityPolicyReview(in *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicyReview_To_v1_PodSecurityPolicyReview(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicyReviewSpec_To_security_PodSecurityPolicyReviewSpec(in *v1.PodSecurityPolicyReviewSpec, out *security.PodSecurityPolicyReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -575,9 +613,13 @@ func Convert_v1_PodSecurityPolicyReviewSpec_To_security_PodSecurityPolicyReviewS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicyReviewSpec_To_security_PodSecurityPolicyReviewSpec(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicyReviewSpec_To_v1_PodSecurityPolicyReviewSpec(in *security.PodSecurityPolicyReviewSpec, out *v1.PodSecurityPolicyReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -613,9 +655,13 @@ func Convert_security_PodSecurityPolicyReviewSpec_To_v1_PodSecurityPolicyReviewS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicyReviewSpec_To_v1_PodSecurityPolicyReviewSpec(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicyReviewStatus_To_security_PodSecurityPolicyReviewStatus(in *v1.PodSecurityPolicyReviewStatus, out *security.PodSecurityPolicyReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -658,9 +704,13 @@ func Convert_v1_PodSecurityPolicyReviewStatus_To_security_PodSecurityPolicyRevie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicyReviewStatus_To_security_PodSecurityPolicyReviewStatus(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicyReviewStatus_To_v1_PodSecurityPolicyReviewStatus(in *security.PodSecurityPolicyReviewStatus, out *v1.PodSecurityPolicyReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -703,9 +753,13 @@ func Convert_security_PodSecurityPolicyReviewStatus_To_v1_PodSecurityPolicyRevie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicyReviewStatus_To_v1_PodSecurityPolicyReviewStatus(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicySelfSubjectReview_To_security_PodSecurityPolicySelfSubjectReview(in *v1.PodSecurityPolicySelfSubjectReview, out *security.PodSecurityPolicySelfSubjectReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -743,9 +797,13 @@ func Convert_v1_PodSecurityPolicySelfSubjectReview_To_security_PodSecurityPolicy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicySelfSubjectReview_To_security_PodSecurityPolicySelfSubjectReview(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicySelfSubjectReview_To_v1_PodSecurityPolicySelfSubjectReview(in *security.PodSecurityPolicySelfSubjectReview, out *v1.PodSecurityPolicySelfSubjectReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -783,9 +841,13 @@ func Convert_security_PodSecurityPolicySelfSubjectReview_To_v1_PodSecurityPolicy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicySelfSubjectReview_To_v1_PodSecurityPolicySelfSubjectReview(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicySelfSubjectReviewSpec_To_security_PodSecurityPolicySelfSubjectReviewSpec(in *v1.PodSecurityPolicySelfSubjectReviewSpec, out *security.PodSecurityPolicySelfSubjectReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -820,9 +882,13 @@ func Convert_v1_PodSecurityPolicySelfSubjectReviewSpec_To_security_PodSecurityPo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicySelfSubjectReviewSpec_To_security_PodSecurityPolicySelfSubjectReviewSpec(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicySelfSubjectReviewSpec_To_v1_PodSecurityPolicySelfSubjectReviewSpec(in *security.PodSecurityPolicySelfSubjectReviewSpec, out *v1.PodSecurityPolicySelfSubjectReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -857,9 +923,13 @@ func Convert_security_PodSecurityPolicySelfSubjectReviewSpec_To_v1_PodSecurityPo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicySelfSubjectReviewSpec_To_v1_PodSecurityPolicySelfSubjectReviewSpec(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicySubjectReview_To_security_PodSecurityPolicySubjectReview(in *v1.PodSecurityPolicySubjectReview, out *security.PodSecurityPolicySubjectReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -897,9 +967,13 @@ func Convert_v1_PodSecurityPolicySubjectReview_To_security_PodSecurityPolicySubj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicySubjectReview_To_security_PodSecurityPolicySubjectReview(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicySubjectReview_To_v1_PodSecurityPolicySubjectReview(in *security.PodSecurityPolicySubjectReview, out *v1.PodSecurityPolicySubjectReview, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -937,9 +1011,13 @@ func Convert_security_PodSecurityPolicySubjectReview_To_v1_PodSecurityPolicySubj
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicySubjectReview_To_v1_PodSecurityPolicySubjectReview(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicySubjectReviewSpec_To_security_PodSecurityPolicySubjectReviewSpec(in *v1.PodSecurityPolicySubjectReviewSpec, out *security.PodSecurityPolicySubjectReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -976,9 +1054,13 @@ func Convert_v1_PodSecurityPolicySubjectReviewSpec_To_security_PodSecurityPolicy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicySubjectReviewSpec_To_security_PodSecurityPolicySubjectReviewSpec(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicySubjectReviewSpec_To_v1_PodSecurityPolicySubjectReviewSpec(in *security.PodSecurityPolicySubjectReviewSpec, out *v1.PodSecurityPolicySubjectReviewSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1015,9 +1097,13 @@ func Convert_security_PodSecurityPolicySubjectReviewSpec_To_v1_PodSecurityPolicy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicySubjectReviewSpec_To_v1_PodSecurityPolicySubjectReviewSpec(in, out, s)
 }
 func autoConvert_v1_PodSecurityPolicySubjectReviewStatus_To_security_PodSecurityPolicySubjectReviewStatus(in *v1.PodSecurityPolicySubjectReviewStatus, out *security.PodSecurityPolicySubjectReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1062,9 +1148,13 @@ func Convert_v1_PodSecurityPolicySubjectReviewStatus_To_security_PodSecurityPoli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_PodSecurityPolicySubjectReviewStatus_To_security_PodSecurityPolicySubjectReviewStatus(in, out, s)
 }
 func autoConvert_security_PodSecurityPolicySubjectReviewStatus_To_v1_PodSecurityPolicySubjectReviewStatus(in *security.PodSecurityPolicySubjectReviewStatus, out *v1.PodSecurityPolicySubjectReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1109,9 +1199,13 @@ func Convert_security_PodSecurityPolicySubjectReviewStatus_To_v1_PodSecurityPoli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_PodSecurityPolicySubjectReviewStatus_To_v1_PodSecurityPolicySubjectReviewStatus(in, out, s)
 }
 func autoConvert_v1_RangeAllocation_To_security_RangeAllocation(in *v1.RangeAllocation, out *security.RangeAllocation, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1146,9 +1240,13 @@ func Convert_v1_RangeAllocation_To_security_RangeAllocation(in *v1.RangeAllocati
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RangeAllocation_To_security_RangeAllocation(in, out, s)
 }
 func autoConvert_security_RangeAllocation_To_v1_RangeAllocation(in *security.RangeAllocation, out *v1.RangeAllocation, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1183,9 +1281,13 @@ func Convert_security_RangeAllocation_To_v1_RangeAllocation(in *security.RangeAl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_RangeAllocation_To_v1_RangeAllocation(in, out, s)
 }
 func autoConvert_v1_RangeAllocationList_To_security_RangeAllocationList(in *v1.RangeAllocationList, out *security.RangeAllocationList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1219,9 +1321,13 @@ func Convert_v1_RangeAllocationList_To_security_RangeAllocationList(in *v1.Range
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RangeAllocationList_To_security_RangeAllocationList(in, out, s)
 }
 func autoConvert_security_RangeAllocationList_To_v1_RangeAllocationList(in *security.RangeAllocationList, out *v1.RangeAllocationList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1255,9 +1361,13 @@ func Convert_security_RangeAllocationList_To_v1_RangeAllocationList(in *security
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_RangeAllocationList_To_v1_RangeAllocationList(in, out, s)
 }
 func autoConvert_v1_RunAsUserStrategyOptions_To_security_RunAsUserStrategyOptions(in *v1.RunAsUserStrategyOptions, out *security.RunAsUserStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1293,9 +1403,13 @@ func Convert_v1_RunAsUserStrategyOptions_To_security_RunAsUserStrategyOptions(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RunAsUserStrategyOptions_To_security_RunAsUserStrategyOptions(in, out, s)
 }
 func autoConvert_security_RunAsUserStrategyOptions_To_v1_RunAsUserStrategyOptions(in *security.RunAsUserStrategyOptions, out *v1.RunAsUserStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1331,9 +1445,13 @@ func Convert_security_RunAsUserStrategyOptions_To_v1_RunAsUserStrategyOptions(in
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_RunAsUserStrategyOptions_To_v1_RunAsUserStrategyOptions(in, out, s)
 }
 func autoConvert_v1_SELinuxContextStrategyOptions_To_security_SELinuxContextStrategyOptions(in *v1.SELinuxContextStrategyOptions, out *security.SELinuxContextStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1375,9 +1493,13 @@ func Convert_v1_SELinuxContextStrategyOptions_To_security_SELinuxContextStrategy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SELinuxContextStrategyOptions_To_security_SELinuxContextStrategyOptions(in, out, s)
 }
 func autoConvert_security_SELinuxContextStrategyOptions_To_v1_SELinuxContextStrategyOptions(in *security.SELinuxContextStrategyOptions, out *v1.SELinuxContextStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1419,9 +1541,13 @@ func Convert_security_SELinuxContextStrategyOptions_To_v1_SELinuxContextStrategy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_SELinuxContextStrategyOptions_To_v1_SELinuxContextStrategyOptions(in, out, s)
 }
 func autoConvert_v1_SecurityContextConstraints_To_security_SecurityContextConstraints(in *v1.SecurityContextConstraints, out *security.SecurityContextConstraints, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1485,6 +1611,8 @@ func autoConvert_security_SecurityContextConstraints_To_v1_SecurityContextConstr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	out.Priority = (*int32)(unsafe.Pointer(in.Priority))
 	out.AllowPrivilegedContainer = in.AllowPrivilegedContainer
@@ -1534,6 +1662,8 @@ func autoConvert_v1_SecurityContextConstraintsList_To_security_SecurityContextCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ListMeta = in.ListMeta
 	if in.Items != nil {
 		in, out := &in.Items, &out.Items
@@ -1563,9 +1693,13 @@ func Convert_v1_SecurityContextConstraintsList_To_security_SecurityContextConstr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SecurityContextConstraintsList_To_security_SecurityContextConstraintsList(in, out, s)
 }
 func autoConvert_security_SecurityContextConstraintsList_To_v1_SecurityContextConstraintsList(in *security.SecurityContextConstraintsList, out *v1.SecurityContextConstraintsList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1609,9 +1743,13 @@ func Convert_security_SecurityContextConstraintsList_To_v1_SecurityContextConstr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_SecurityContextConstraintsList_To_v1_SecurityContextConstraintsList(in, out, s)
 }
 func autoConvert_v1_ServiceAccountPodSecurityPolicyReviewStatus_To_security_ServiceAccountPodSecurityPolicyReviewStatus(in *v1.ServiceAccountPodSecurityPolicyReviewStatus, out *security.ServiceAccountPodSecurityPolicyReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1647,9 +1785,13 @@ func Convert_v1_ServiceAccountPodSecurityPolicyReviewStatus_To_security_ServiceA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ServiceAccountPodSecurityPolicyReviewStatus_To_security_ServiceAccountPodSecurityPolicyReviewStatus(in, out, s)
 }
 func autoConvert_security_ServiceAccountPodSecurityPolicyReviewStatus_To_v1_ServiceAccountPodSecurityPolicyReviewStatus(in *security.ServiceAccountPodSecurityPolicyReviewStatus, out *v1.ServiceAccountPodSecurityPolicyReviewStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1685,9 +1827,13 @@ func Convert_security_ServiceAccountPodSecurityPolicyReviewStatus_To_v1_ServiceA
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_security_ServiceAccountPodSecurityPolicyReviewStatus_To_v1_ServiceAccountPodSecurityPolicyReviewStatus(in, out, s)
 }
 func autoConvert_v1_SupplementalGroupsStrategyOptions_To_security_SupplementalGroupsStrategyOptions(in *v1.SupplementalGroupsStrategyOptions, out *security.SupplementalGroupsStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1721,9 +1867,13 @@ func Convert_v1_SupplementalGroupsStrategyOptions_To_security_SupplementalGroups
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_SupplementalGroupsStrategyOptions_To_security_SupplementalGroupsStrategyOptions(in, out, s)
 }
 func autoConvert_security_SupplementalGroupsStrategyOptions_To_v1_SupplementalGroupsStrategyOptions(in *security.SupplementalGroupsStrategyOptions, out *v1.SupplementalGroupsStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1743,6 +1893,8 @@ func autoConvert_security_SupplementalGroupsStrategyOptions_To_v1_SupplementalGr
 	return nil
 }
 func Convert_security_SupplementalGroupsStrategyOptions_To_v1_SupplementalGroupsStrategyOptions(in *security.SupplementalGroupsStrategyOptions, out *v1.SupplementalGroupsStrategyOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

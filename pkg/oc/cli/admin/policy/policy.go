@@ -44,6 +44,8 @@ func NewCmdPolicy(name, fullName string, f cmdutil.Factory, streams genericcliop
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmds := &cobra.Command{Use: name, Short: "Manage cluster authorization and security policy", Long: policyLong, Run: cmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	groups := ktemplates.CommandGroups{{Message: "Discover:", Commands: []*cobra.Command{NewCmdWhoCan(WhoCanRecommendedName, fullName+" "+WhoCanRecommendedName, f, streams), NewCmdSccSubjectReview(SubjectReviewRecommendedName, fullName+" "+SubjectReviewRecommendedName, f, streams), NewCmdSccReview(ReviewRecommendedName, fullName+" "+ReviewRecommendedName, f, streams)}}, {Message: "Manage project membership:", Commands: []*cobra.Command{NewCmdRemoveUserFromProject(RemoveUserRecommendedName, fullName+" "+RemoveUserRecommendedName, f, streams), NewCmdRemoveGroupFromProject(RemoveGroupRecommendedName, fullName+" "+RemoveGroupRecommendedName, f, streams)}}, {Message: "Assign roles to users and groups:", Commands: []*cobra.Command{NewCmdAddRoleToUser(AddRoleToUserRecommendedName, fullName+" "+AddRoleToUserRecommendedName, f, streams), NewCmdAddRoleToGroup(AddRoleToGroupRecommendedName, fullName+" "+AddRoleToGroupRecommendedName, f, streams), NewCmdRemoveRoleFromUser(RemoveRoleFromUserRecommendedName, fullName+" "+RemoveRoleFromUserRecommendedName, f, streams), NewCmdRemoveRoleFromGroup(RemoveRoleFromGroupRecommendedName, fullName+" "+RemoveRoleFromGroupRecommendedName, f, streams)}}, {Message: "Assign cluster roles to users and groups:", Commands: []*cobra.Command{NewCmdAddClusterRoleToUser(AddClusterRoleToUserRecommendedName, fullName+" "+AddClusterRoleToUserRecommendedName, f, streams), NewCmdAddClusterRoleToGroup(AddClusterRoleToGroupRecommendedName, fullName+" "+AddClusterRoleToGroupRecommendedName, f, streams), NewCmdRemoveClusterRoleFromUser(RemoveClusterRoleFromUserRecommendedName, fullName+" "+RemoveClusterRoleFromUserRecommendedName, f, streams), NewCmdRemoveClusterRoleFromGroup(RemoveClusterRoleFromGroupRecommendedName, fullName+" "+RemoveClusterRoleFromGroupRecommendedName, f, streams)}}, {Message: "Manage policy on pods and containers:", Commands: []*cobra.Command{NewCmdAddSCCToUser(AddSCCToUserRecommendedName, fullName+" "+AddSCCToUserRecommendedName, f, streams), NewCmdAddSCCToGroup(AddSCCToGroupRecommendedName, fullName+" "+AddSCCToGroupRecommendedName, f, streams), NewCmdRemoveSCCFromUser(RemoveSCCFromUserRecommendedName, fullName+" "+RemoveSCCFromUserRecommendedName, f, streams), NewCmdRemoveSCCFromGroup(RemoveSCCFromGroupRecommendedName, fullName+" "+RemoveSCCFromGroupRecommendedName, f, streams)}}, {Message: "Upgrade and repair system policy:", Commands: []*cobra.Command{NewCmdReconcileSCC(ReconcileSCCRecommendedName, fullName+" "+ReconcileSCCRecommendedName, f, streams)}}}
 	groups.Add(cmds)
@@ -51,6 +53,8 @@ func NewCmdPolicy(name, fullName string, f cmdutil.Factory, streams genericcliop
 	return cmds
 }
 func getUniqueName(rbacClient rbacv1client.RbacV1Interface, basename string, namespace string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +120,8 @@ func newRoleBindingAbstraction(rbacClient rbacv1client.RbacV1Interface, name str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := roleBindingAbstraction{rbacClient: rbacClient}
 	if len(namespace) > 0 {
 		switch roleKind {
@@ -155,6 +161,8 @@ func getRoleBindingAbstraction(rbacClient rbacv1client.RbacV1Interface, name str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	r := roleBindingAbstraction{rbacClient: rbacClient}
 	if len(namespace) > 0 {
@@ -168,6 +176,8 @@ func getRoleBindingAbstraction(rbacClient rbacv1client.RbacV1Interface, name str
 	return &r, nil
 }
 func getRoleBindingAbstractionsForRole(rbacClient rbacv1client.RbacV1Interface, roleName string, roleKind string, namespace string) ([]*roleBindingAbstraction, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -223,6 +233,8 @@ func (r roleBindingAbstraction) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.roleBinding != nil {
 		return r.roleBinding.Name
 	} else {
@@ -230,6 +242,8 @@ func (r roleBindingAbstraction) Name() string {
 	}
 }
 func (r roleBindingAbstraction) RoleName() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,6 +279,8 @@ func (r roleBindingAbstraction) RoleKind() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.roleBinding != nil {
 		return r.roleBinding.RoleRef.Kind
 	} else {
@@ -272,6 +288,8 @@ func (r roleBindingAbstraction) RoleKind() string {
 	}
 }
 func (r roleBindingAbstraction) Annotation(key string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +325,8 @@ func (r roleBindingAbstraction) Subjects() []rbacv1.Subject {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.roleBinding != nil {
 		return r.roleBinding.Subjects
 	} else {
@@ -314,6 +334,8 @@ func (r roleBindingAbstraction) Subjects() []rbacv1.Subject {
 	}
 }
 func (r roleBindingAbstraction) SetSubjects(subjects []rbacv1.Subject) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +371,8 @@ func (r roleBindingAbstraction) Object() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.roleBinding != nil {
 		return r.roleBinding
 	} else {
@@ -356,6 +380,8 @@ func (r roleBindingAbstraction) Object() runtime.Object {
 	}
 }
 func (r roleBindingAbstraction) Create() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -393,6 +419,8 @@ func (r roleBindingAbstraction) Update() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if r.roleBinding != nil {
 		_, err = r.rbacClient.RoleBindings(r.roleBinding.Namespace).Update(r.roleBinding)
@@ -416,6 +444,8 @@ func (r roleBindingAbstraction) Delete() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if r.roleBinding != nil {
 		err = r.rbacClient.RoleBindings(r.roleBinding.Namespace).Delete(r.roleBinding.Name, &metav1.DeleteOptions{})
@@ -425,6 +455,8 @@ func (r roleBindingAbstraction) Delete() error {
 	return err
 }
 func (r roleBindingAbstraction) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

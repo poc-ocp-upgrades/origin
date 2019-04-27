@@ -21,6 +21,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.PodSecurityPolicyReview{}, func(obj interface{}) {
 		SetObjectDefaults_PodSecurityPolicyReview(obj.(*v1.PodSecurityPolicyReview))
 	})
@@ -33,6 +35,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	return nil
 }
 func SetObjectDefaults_PodSecurityPolicyReview(in *v1.PodSecurityPolicyReview) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -338,6 +342,8 @@ func SetObjectDefaults_PodSecurityPolicySelfSubjectReview(in *v1.PodSecurityPoli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	corev1.SetDefaults_PodSpec(&in.Spec.Template.Spec)
 	for i := range in.Spec.Template.Spec.Volumes {
 		a := &in.Spec.Template.Spec.Volumes[i]
@@ -612,6 +618,8 @@ func SetObjectDefaults_PodSecurityPolicySelfSubjectReview(in *v1.PodSecurityPoli
 	}
 }
 func SetObjectDefaults_PodSecurityPolicySubjectReview(in *v1.PodSecurityPolicySubjectReview) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

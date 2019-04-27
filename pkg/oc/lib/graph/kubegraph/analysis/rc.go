@@ -28,6 +28,8 @@ func FindDuelingReplicationControllers(g osgraph.Graph, f osgraph.Namer) []osgra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for _, uncastRCNode := range g.NodesByKind(kubegraph.ReplicationControllerNodeKind) {
 		rcNode := uncastRCNode.(*kubegraph.ReplicationControllerNode)

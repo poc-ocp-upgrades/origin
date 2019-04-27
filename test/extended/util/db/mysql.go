@@ -27,6 +27,8 @@ func NewMysql(podName, masterPodName string) util.Database {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if masterPodName == "" {
 		masterPodName = podName
 	}
@@ -47,9 +49,13 @@ func (m MySQL) PodName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.podName
 }
 func (m MySQL) IsReady(oc *util.CLI) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (m MySQL) Query(oc *util.CLI, query string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	container, err := firstContainerName(oc.KubeClient().CoreV1().Pods(oc.Namespace()), m.podName)
 	if err != nil {
 		return "", err
@@ -123,6 +131,8 @@ func (m MySQL) QueryPrivileged(oc *util.CLI, query string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	container, err := firstContainerName(oc.KubeClient().CoreV1().Pods(oc.Namespace()), m.podName)
 	if err != nil {
 		return "", err
@@ -134,6 +144,8 @@ func (m MySQL) QueryPrivileged(oc *util.CLI, query string) (string, error) {
 	return oc.Run("exec").Args(m.podName, "-c", container, "--", "bash", "-c", fmt.Sprintf("mysql -h 127.0.0.1 -uroot -e \"%s\" %s", query, masterConf.Env["MYSQL_DATABASE"])).Output()
 }
 func (m MySQL) TestRemoteLogin(oc *util.CLI, hostAddress string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

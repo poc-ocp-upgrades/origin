@@ -25,6 +25,8 @@ func spec(scopes ...api.ResourceQuotaScope) api.ResourceQuotaSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return api.ResourceQuotaSpec{Hard: api.ResourceList{api.ResourceCPU: resource.MustParse("100"), api.ResourceMemory: resource.MustParse("10000"), api.ResourceRequestsCPU: resource.MustParse("100"), api.ResourceRequestsMemory: resource.MustParse("10000"), api.ResourceLimitsCPU: resource.MustParse("100"), api.ResourceLimitsMemory: resource.MustParse("10000"), api.ResourcePods: resource.MustParse("10"), api.ResourceServices: resource.MustParse("0"), api.ResourceReplicationControllers: resource.MustParse("10"), api.ResourceQuotas: resource.MustParse("10"), api.ResourceConfigMaps: resource.MustParse("10"), api.ResourceSecrets: resource.MustParse("10")}, Scopes: scopes}
 }
 func scopeableSpec(scopes ...api.ResourceQuotaScope) api.ResourceQuotaSpec {
@@ -42,9 +44,13 @@ func scopeableSpec(scopes ...api.ResourceQuotaScope) api.ResourceQuotaSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return api.ResourceQuotaSpec{Hard: api.ResourceList{api.ResourceCPU: resource.MustParse("100"), api.ResourceMemory: resource.MustParse("10000"), api.ResourceRequestsCPU: resource.MustParse("100"), api.ResourceRequestsMemory: resource.MustParse("10000"), api.ResourceLimitsCPU: resource.MustParse("100"), api.ResourceLimitsMemory: resource.MustParse("10000")}, Scopes: scopes}
 }
 func TestValidationClusterQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +93,8 @@ func TestValidationClusterQuota(t *testing.T) {
 	}
 }
 func TestValidationQuota(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

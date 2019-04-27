@@ -24,9 +24,13 @@ func (r PolicyRule) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "PolicyRule" + r.CompactString()
 }
 func (r PolicyRule) CompactString() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func BuildSubjects(users, groups []string) []kapi.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	subjects := []kapi.ObjectReference{}
 	for _, user := range users {
 		saNamespace, saName, err := serviceaccount.SplitUsername(user)
@@ -102,6 +108,8 @@ func BuildSubjects(users, groups []string) []kapi.ObjectReference {
 	return subjects
 }
 func validateUserName(name string, _ bool) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -142,6 +150,8 @@ func validateGroupName(name string, _ bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
@@ -154,6 +164,8 @@ func validateGroupName(name string, _ bool) []string {
 	return nil
 }
 func determineUserKind(user string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +201,8 @@ func determineGroupKind(group string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kind := GroupKind
 	if len(validateGroupName(group, false)) != 0 {
 		kind = SystemGroupKind
@@ -196,6 +210,8 @@ func determineGroupKind(group string) string {
 	return kind
 }
 func StringSubjectsFor(currentNamespace string, subjects []kapi.ObjectReference) ([]string, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -230,6 +246,8 @@ func StringSubjectsFor(currentNamespace string, subjects []kapi.ObjectReference)
 	return users, groups
 }
 func SubjectsStrings(currentNamespace string, subjects []kapi.ObjectReference) ([]string, []string, []string, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,9 +302,13 @@ func NewRule(verbs ...string) *PolicyRuleBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &PolicyRuleBuilder{PolicyRule: PolicyRule{Verbs: sets.NewString(verbs...), Resources: sets.String{}, ResourceNames: sets.String{}}}
 }
 func (r *PolicyRuleBuilder) Groups(groups ...string) *PolicyRuleBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,10 +341,14 @@ func (r *PolicyRuleBuilder) Resources(resources ...string) *PolicyRuleBuilder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.PolicyRule.Resources.Insert(resources...)
 	return r
 }
 func (r *PolicyRuleBuilder) Names(names ...string) *PolicyRuleBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -355,6 +381,8 @@ func (r *PolicyRuleBuilder) RuleOrDie() PolicyRule {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret, err := r.Rule()
 	if err != nil {
 		panic(err)
@@ -362,6 +390,8 @@ func (r *PolicyRuleBuilder) RuleOrDie() PolicyRule {
 	return ret
 }
 func (r *PolicyRuleBuilder) Rule() (PolicyRule, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -417,6 +447,8 @@ func (s SortableRuleSlice) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(s)
 }
 func (s SortableRuleSlice) Swap(i, j int) {
@@ -434,9 +466,13 @@ func (s SortableRuleSlice) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s[i], s[j] = s[j], s[i]
 }
 func (s SortableRuleSlice) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

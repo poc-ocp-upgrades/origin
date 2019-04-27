@@ -35,6 +35,8 @@ func (r *UserRegistry) Get(name string, options metav1.GetOptions) (*userapi.Use
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*r.Actions = append(*r.Actions, Action{"GetUser", name})
 	if user, ok := r.GetUsers[name]; ok {
 		return user, nil
@@ -45,6 +47,8 @@ func (r *UserRegistry) Get(name string, options metav1.GetOptions) (*userapi.Use
 	return nil, kerrs.NewNotFound(userapi.Resource("user"), name)
 }
 func (r *UserRegistry) Create(u *userapi.User) (*userapi.User, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,6 +84,8 @@ func (r *UserRegistry) Update(u *userapi.User) (*userapi.User, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*r.Actions = append(*r.Actions, Action{"UpdateUser", u})
 	err, _ := r.UpdateErr[u.Name]
 	if r.UpdateUser == nil && err == nil {
@@ -88,6 +94,8 @@ func (r *UserRegistry) Update(u *userapi.User) (*userapi.User, error) {
 	return r.UpdateUser, err
 }
 func (r *UserRegistry) List(options metav1.ListOptions) (*userapi.UserList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

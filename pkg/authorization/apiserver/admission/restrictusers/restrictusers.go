@@ -36,6 +36,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register("authorization.openshift.io/RestrictSubjectBindings", func(config io.Reader) (admission.Interface, error) {
 		return NewRestrictUsersAdmission()
 	})
@@ -72,6 +74,8 @@ func NewRestrictUsersAdmission() (admission.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &restrictUsersAdmission{Handler: admission.NewHandler(admission.Create, admission.Update)}, nil
 }
 func (q *restrictUsersAdmission) SetExternalKubeClientSet(c kubernetes.Interface) {
@@ -89,9 +93,13 @@ func (q *restrictUsersAdmission) SetExternalKubeClientSet(c kubernetes.Interface
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.kubeClient = c
 }
 func (q *restrictUsersAdmission) SetRESTClientConfig(restClientConfig rest.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,9 +141,13 @@ func (q *restrictUsersAdmission) SetUserInformer(userInformers userinformer.Shar
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.groupCache = usercache.NewGroupCache(userInformers.User().V1().Groups())
 }
 func subjectsDelta(elementsToIgnore, elements []rbac.Subject) []rbac.Subject {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,6 +178,8 @@ func subjectsDelta(elementsToIgnore, elements []rbac.Subject) []rbac.Subject {
 	return result
 }
 func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +265,8 @@ func (q *restrictUsersAdmission) Validate(a admission.Attributes) (err error) {
 	return nil
 }
 func (q *restrictUsersAdmission) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

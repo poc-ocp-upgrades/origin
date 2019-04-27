@@ -32,9 +32,13 @@ func (ml *mockLister) List(user user.Info, selector labels.Selector) (*corev1.Na
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ml.namespaceList, nil
 }
 func TestListProjects(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func TestCreateProjectBadObject(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage := REST{}
 	obj, err := storage.Create(apirequest.NewContext(), &projectapi.ProjectList{}, rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if obj != nil {
@@ -106,6 +112,8 @@ func TestCreateInvalidProject(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mockClient := &fake.Clientset{}
 	storage := NewREST(mockClient.CoreV1().Namespaces(), &mockLister{}, nil, nil)
 	_, err := storage.Create(apirequest.NewContext(), &projectapi.Project{ObjectMeta: metav1.ObjectMeta{Annotations: map[string]string{oapi.OpenShiftDisplayName: "h\t\ni"}}}, rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
@@ -114,6 +122,8 @@ func TestCreateInvalidProject(t *testing.T) {
 	}
 }
 func TestCreateProjectOK(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +166,8 @@ func TestGetProjectOK(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mockClient := fake.NewSimpleClientset(&corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "foo"}})
 	storage := NewREST(mockClient.CoreV1().Namespaces(), &mockLister{}, nil, nil)
 	project, err := storage.Get(apirequest.NewContext(), "foo", &metav1.GetOptions{})
@@ -170,6 +182,8 @@ func TestGetProjectOK(t *testing.T) {
 	}
 }
 func TestDeleteProject(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

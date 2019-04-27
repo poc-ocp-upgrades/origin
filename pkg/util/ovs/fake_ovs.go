@@ -32,9 +32,13 @@ func NewFake(bridge string) Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsFake{bridge: bridge}
 }
 func (fake *ovsFake) AddBridge(properties ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -71,11 +75,15 @@ func (fake *ovsFake) DeleteBridge(ifExists bool) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fake.ports = nil
 	fake.flows = nil
 	return nil
 }
 func (fake *ovsFake) ensureExists() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +118,8 @@ func (fake *ovsFake) GetOFPort(port string) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return -1, err
 	}
@@ -120,6 +130,8 @@ func (fake *ovsFake) GetOFPort(port string) (int, error) {
 	}
 }
 func (fake *ovsFake) AddPort(port string, ofportRequest int, properties ...string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -194,6 +206,8 @@ func (fake *ovsFake) DeletePort(port string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := fake.ensureExists(); err != nil {
 		return err
 	}
@@ -215,9 +229,13 @@ func (fake *ovsFake) SetFrags(mode string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (ovsif *ovsFake) Create(table string, values ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,9 +270,13 @@ func (fake *ovsFake) Destroy(table, record string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (fake *ovsFake) Get(table, record, column string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,12 +314,16 @@ func (fake *ovsFake) Set(table, record string, values ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return err
 	}
 	return nil
 }
 func (fake *ovsFake) Find(table string, columns []string, condition string) ([]map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,6 +383,8 @@ func (fake *ovsFake) FindOne(table, column, condition string) ([]string, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fullResult, err := fake.Find(table, []string{column}, condition)
 	if err != nil {
 		return nil, err
@@ -368,6 +396,8 @@ func (fake *ovsFake) FindOne(table, column, condition string) ([]string, error) 
 	return result, nil
 }
 func (fake *ovsFake) Clear(table, record string, columns ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,12 +435,16 @@ func (fake *ovsFake) NewTransaction() Transaction {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsFakeTx{fake: fake, flows: []string{}}
 }
 
 type ovsFlows []OvsFlow
 
 func (f ovsFlows) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -442,9 +476,13 @@ func (f ovsFlows) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f[i], f[j] = f[j], f[i]
 }
 func (f ovsFlows) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -468,6 +506,8 @@ func (f ovsFlows) Less(i, j int) bool {
 	return f[i].Created.Before(f[j].Created)
 }
 func fixFlowFields(flow *OvsFlow) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -507,12 +547,16 @@ func (tx *ovsFakeTx) AddFlow(flow string, args ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("add %s", flow))
 }
 func (fake *ovsFake) addFlowHelper(flow string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -557,12 +601,16 @@ func (tx *ovsFakeTx) DeleteFlows(flow string, args ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("delete %s", flow))
 }
 func (fake *ovsFake) deleteFlowsHelper(flow string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -606,6 +654,8 @@ func (tx *ovsFakeTx) Commit() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if err = tx.fake.ensureExists(); err != nil {
 		return err
@@ -631,6 +681,8 @@ func (tx *ovsFakeTx) Commit() error {
 	return err
 }
 func (fake *ovsFake) DumpFlows(flow string, args ...interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

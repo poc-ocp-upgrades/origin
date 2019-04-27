@@ -54,9 +54,13 @@ func NewTopImageStreamsOptions(streams genericclioptions.IOStreams) *TopImageStr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &TopImageStreamsOptions{IOStreams: streams}
 }
 func NewCmdTopImageStreams(f kcmdutil.Factory, parentName, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,6 +84,8 @@ func NewCmdTopImageStreams(f kcmdutil.Factory, parentName, name string, streams 
 	return cmd
 }
 func (o *TopImageStreamsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,9 +139,13 @@ func (o TopImageStreamsOptions) Validate(cmd *cobra.Command) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (o TopImageStreamsOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,12 +191,16 @@ func (i imageStreamInfo) PrintLine(out io.Writer) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	printValue(out, i.ImageStream)
 	printValue(out, units.BytesSize(float64(i.Storage)))
 	printValue(out, i.Images)
 	printValue(out, i.Layers)
 }
 func (o TopImageStreamsOptions) imageStreamsTop() []Info {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +251,8 @@ func getImageStreamSize(g genericgraph.Graph, node *imagegraph.ImageStreamNode) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageEdges := g.OutboundEdges(node, ImageStreamImageEdgeKind)
 	storage := int64(0)
 	images := len(imageEdges)
@@ -271,6 +287,8 @@ func getImageStreamSize(g genericgraph.Graph, node *imagegraph.ImageStreamNode) 
 	return storage, images, layers
 }
 func getImageStreamNodes(nodes []gonum.Node) []*imagegraph.ImageStreamNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

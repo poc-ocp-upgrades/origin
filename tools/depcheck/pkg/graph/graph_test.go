@@ -28,6 +28,8 @@ func addNodes(g *MutableDirectedGraph) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, n := range testNodes {
 		n.realNode.Id = g.NewNodeID()
 		err := g.AddNode(n.realNode)
@@ -50,6 +52,8 @@ func addNodes(g *MutableDirectedGraph) error {
 	return nil
 }
 func TestMutableDirectedGraph_PruneOrphans(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

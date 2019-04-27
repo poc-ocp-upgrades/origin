@@ -39,6 +39,8 @@ func RunImageTriggerController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	informer := ctx.ImageInformers.Image().V1().ImageStreams()
 	buildClient, err := ctx.ClientBuilder.OpenshiftBuildClient(bootstrappolicy.InfraImageTriggerControllerServiceAccountName)
 	if err != nil {
@@ -65,6 +67,8 @@ func RunImageTriggerController(ctx *ControllerContext) (bool, error) {
 type podSpecUpdater struct{ kclient kclientsetexternal.Interface }
 
 func (u podSpecUpdater) Update(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +133,8 @@ func RunImageSignatureImportController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resyncPeriod := 1 * time.Hour
 	signatureFetchTimeout := 1 * time.Minute
 	signatureImportLimit := 3
@@ -137,6 +143,8 @@ func RunImageSignatureImportController(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunImageImportController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

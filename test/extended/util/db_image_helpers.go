@@ -37,6 +37,8 @@ func WaitForQueryOutputSatisfies(oc *CLI, d Database, timeout time.Duration, adm
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.Poll(5*time.Second, timeout, func() (bool, error) {
 		var (
 			out	string
@@ -83,11 +85,15 @@ func WaitForQueryOutputContains(oc *CLI, d Database, timeout time.Duration, admi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return WaitForQueryOutputSatisfies(oc, d, timeout, admin, query, func(resultOutput string) bool {
 		return strings.Contains(resultOutput, resultSubstr)
 	})
 }
 func WaitUntilUp(oc *CLI, d Database, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,6 +117,8 @@ func WaitUntilUp(oc *CLI, d Database, timeout time.Duration) error {
 	return err
 }
 func WaitUntilAllHelpersAreUp(oc *CLI, helpers []Database) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

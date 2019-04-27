@@ -30,6 +30,8 @@ func (c *FakeOAuthAccessTokens) Get(name string, options v1.GetOptions) (result 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(oauthaccesstokensResource, name), &oauth.OAuthAccessToken{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeOAuthAccessTokens) Get(name string, options v1.GetOptions) (result 
 	return obj.(*oauth.OAuthAccessToken), err
 }
 func (c *FakeOAuthAccessTokens) List(opts v1.ListOptions) (result *oauth.OAuthAccessTokenList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeOAuthAccessTokens) Watch(opts v1.ListOptions) (watch.Interface, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(oauthaccesstokensResource, opts))
 }
 func (c *FakeOAuthAccessTokens) Create(oAuthAccessToken *oauth.OAuthAccessToken) (result *oauth.OAuthAccessToken, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeOAuthAccessTokens) Update(oAuthAccessToken *oauth.OAuthAccessToken)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(oauthaccesstokensResource, oAuthAccessToken), &oauth.OAuthAccessToken{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeOAuthAccessTokens) Update(oAuthAccessToken *oauth.OAuthAccessToken)
 	return obj.(*oauth.OAuthAccessToken), err
 }
 func (c *FakeOAuthAccessTokens) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeOAuthAccessTokens) DeleteCollection(options *v1.DeleteOptions, list
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(oauthaccesstokensResource, listOptions)
 	_, err := c.Fake.Invokes(action, &oauth.OAuthAccessTokenList{})
 	return err
 }
 func (c *FakeOAuthAccessTokens) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *oauth.OAuthAccessToken, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

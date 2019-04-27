@@ -23,6 +23,8 @@ func TestValidateProject(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name	string
 		project	projectapi.Project
@@ -47,6 +49,8 @@ func TestValidateProject(t *testing.T) {
 	}
 }
 func TestValidateProjectUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

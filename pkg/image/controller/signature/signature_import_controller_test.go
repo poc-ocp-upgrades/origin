@@ -35,6 +35,8 @@ func TestSignatureImport(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name			string
 		image			*imagev1.Image
@@ -101,9 +103,13 @@ func newSignatureRetriever(s []imagev1.ImageSignature, ch chan struct{}) *fakeSi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeSignatureRetriever{signatures: s, fetchCalled: ch}
 }
 func (f *fakeSignatureRetriever) DownloadImageSignatures(image *imagev1.Image) ([]imagev1.ImageSignature, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +142,8 @@ func controllerSetup(startingImages []runtime.Object, t *testing.T, limit int, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageclient := fakeimagev1client.NewSimpleClientset(startingImages...)
 	fakeWatch := watch.NewFake()
 	informerFactory := imagev1informer.NewSharedInformerFactory(imageclient, controller.NoResyncPeriodFunc())
@@ -146,6 +154,8 @@ func controllerSetup(startingImages []runtime.Object, t *testing.T, limit int, s
 	return imageclient, fakeWatch, controller, informerFactory
 }
 func makeImage(name, dockerRef string, signatures []imagev1.ImageSignature) *imagev1.Image {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

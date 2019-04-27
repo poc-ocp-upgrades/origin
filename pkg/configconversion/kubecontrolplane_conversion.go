@@ -22,11 +22,15 @@ func Convert_legacyconfigv1_MasterAuthConfig_to_kubecontrolplanev1_MasterAuthCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
 }
 func Convert_legacyconfigv1_AggregatorConfig_to_kubecontrolplanev1_AggregatorConfig(in *legacyconfigv1.AggregatorConfig, out *kubecontrolplanev1.AggregatorConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,11 +64,15 @@ func Convert_legacyconfigv1_KubeletConnectionInfo_to_kubecontrolplanev1_KubeletC
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	converter := conversion.NewConverter(conversion.DefaultNameFunc)
 	_, meta := converter.DefaultMeta(reflect.TypeOf(in))
 	return converter.DefaultConvert(in, out, conversion.AllowDifferentFieldTypeNames, meta)
 }
 func Convert_legacyconfigv1_UserAgentMatchingConfig_to_kubecontrolplanev1_UserAgentMatchingConfig(in *legacyconfigv1.UserAgentMatchingConfig, out *kubecontrolplanev1.UserAgentMatchingConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

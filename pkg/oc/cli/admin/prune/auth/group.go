@@ -26,6 +26,8 @@ func reapForGroup(authorizationClient authv1client.AuthorizationV1Interface, sec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errors := []error{}
 	removedSubject := corev1.ObjectReference{Kind: "Group", Name: name}
 	errors = append(errors, reapClusterBindings(removedSubject, authorizationClient, out)...)

@@ -26,6 +26,8 @@ func randomToken() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		token := crypto.Random256BitsString()
 		if strings.HasPrefix(token, "-") {
@@ -52,9 +54,13 @@ func (TokenGen) GenerateAuthorizeToken(data *osin.AuthorizeData) (ret string, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return randomToken(), nil
 }
 func (TokenGen) GenerateAccessToken(data *osin.AccessData, generaterefresh bool) (string, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

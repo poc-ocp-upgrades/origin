@@ -22,6 +22,8 @@ func SiblingCommand(cmd *cobra.Command, name string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := cmd.Parent()
 	command := []string{}
 	for c != nil {

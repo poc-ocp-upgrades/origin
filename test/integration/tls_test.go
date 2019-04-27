@@ -22,6 +22,8 @@ func TestTLSDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -68,6 +70,8 @@ func TestTLSDefaults(t *testing.T) {
 	}
 }
 func TestTLSOverrides(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +156,8 @@ func TestMasterTLSDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -198,6 +204,8 @@ func TestMasterTLSDefaults(t *testing.T) {
 	}
 }
 func TestMasterTLSOverrides(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -23,6 +23,8 @@ func TestMustRunAsOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		opts	*securityapi.SELinuxContextStrategyOptions
 		pass	bool
@@ -52,6 +54,8 @@ func TestMustRunAsGenerate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := &securityapi.SELinuxContextStrategyOptions{SELinuxOptions: &api.SELinuxOptions{User: "user", Role: "role", Type: "type", Level: "level"}}
 	mustRunAs, err := NewMustRunAs(opts)
 	if err != nil {
@@ -66,6 +70,8 @@ func TestMustRunAsGenerate(t *testing.T) {
 	}
 }
 func TestMustRunAsValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

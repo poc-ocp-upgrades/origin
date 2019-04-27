@@ -47,6 +47,8 @@ func (s *LDAPGroupSyncer) Sync() ([]*userv1.Group, []error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	openshiftGroups := []*userv1.Group{}
 	var errors []error
 	klog.V(1).Infof("Listing with %v", s.GroupLister)
@@ -104,6 +106,8 @@ func (s *LDAPGroupSyncer) determineUsernames(members []*ldap.Entry) ([]string, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var usernames []string
 	for _, member := range members {
 		username, err := s.UserNameMapper.UserNameFor(member)
@@ -130,6 +134,8 @@ func (s *LDAPGroupSyncer) updateOpenShiftGroup(openshiftGroup *userv1.Group) err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(openshiftGroup.UID) > 0 {
 		_, err := s.GroupClient.Update(openshiftGroup)
 		return err
@@ -138,6 +144,8 @@ func (s *LDAPGroupSyncer) updateOpenShiftGroup(openshiftGroup *userv1.Group) err
 	return err
 }
 func (s *LDAPGroupSyncer) makeOpenShiftGroup(ldapGroupUID string, usernames []string) (*userv1.Group, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -183,6 +191,8 @@ func (s *LDAPGroupSyncer) makeOpenShiftGroup(ldapGroupUID string, usernames []st
 	return group, nil
 }
 func ISO8601(t time.Time) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

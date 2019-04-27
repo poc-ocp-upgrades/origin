@@ -30,6 +30,8 @@ func NewRefreshTokenStore() RefreshTokenStore {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &refreshTokenStore{}
 }
 
@@ -57,11 +59,15 @@ func (s *refreshTokenStore) RefreshToken(url *url.URL, service string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	return s.store[refreshTokenKey{url: url.String(), service: service}]
 }
 func (s *refreshTokenStore) SetRefreshToken(url *url.URL, service string, token string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,9 +107,13 @@ func (s *noopCredentialStore) Basic(url *url.URL) (string, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", ""
 }
 func (s *noopCredentialStore) RefreshToken(url *url.URL, service string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,8 +145,12 @@ func (s *noopCredentialStore) SetRefreshToken(url *url.URL, service string, toke
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func NewBasicCredentials() *BasicCredentials {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,9 +192,13 @@ func (c *BasicCredentials) Add(url *url.URL, username, password string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.creds = append(c.creds, basicForURL{*url, username, password})
 }
 func (c *BasicCredentials) Basic(url *url.URL) (string, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

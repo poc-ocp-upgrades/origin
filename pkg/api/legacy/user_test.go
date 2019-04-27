@@ -22,6 +22,8 @@ func TestUserFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	install := func(scheme *runtime.Scheme) error {
 		InstallInternalLegacyUser(scheme)
 		return nil

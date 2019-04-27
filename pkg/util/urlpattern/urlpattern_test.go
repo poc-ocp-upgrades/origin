@@ -20,6 +20,8 @@ func TestMatchPattern(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		pattern			string
 		expectedScheme		string
@@ -67,6 +69,8 @@ func TestMatchPattern(t *testing.T) {
 	}
 }
 func TestMatchPatterns(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

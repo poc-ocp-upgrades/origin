@@ -22,6 +22,8 @@ func TestKeyValueInstructions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keyValuesInstructions := []struct {
 		f	func([]KeyValue) (string, error)
 		cmd	string
@@ -44,6 +46,8 @@ func TestKeyValueInstructions(t *testing.T) {
 	}
 }
 func TestFrom(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

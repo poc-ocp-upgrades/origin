@@ -31,6 +31,8 @@ func NewCmdPodNetwork(name, fullName string, f kcmdutil.Factory, streams generic
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmds := &cobra.Command{Use: name, Short: "Manage pod network", Long: podNetworkLong, Run: kcmdutil.DefaultSubCommandRun(streams.ErrOut)}
 	cmds.AddCommand(NewCmdJoinProjectsNetwork(JoinProjectsNetworkCommandName, fullName+" "+JoinProjectsNetworkCommandName, f, streams))
 	cmds.AddCommand(NewCmdMakeGlobalProjectsNetwork(MakeGlobalProjectsNetworkCommandName, fullName+" "+MakeGlobalProjectsNetworkCommandName, f, streams))

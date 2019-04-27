@@ -53,6 +53,8 @@ func TestImagePruneNamespaced(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var level klog.Level
 	level.Set(fmt.Sprint(*logLevel))
 	kFake := fakekubernetes.NewSimpleClientset()
@@ -79,6 +81,8 @@ func TestImagePruneNamespaced(t *testing.T) {
 	}
 }
 func TestImagePruneErrOnBadReference(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +176,8 @@ func (f *fakeVersionDiscovery) RESTClient() restclient.Interface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &restfake.RESTClient{NegotiatedSerializer: kubernetesscheme.Codecs, Client: restfake.CreateHTTPClient(func(req *http.Request) (*http.Response, error) {
 		if req.URL.Path != "/version/openshift" {
 			return &http.Response{StatusCode: http.StatusNotFound}, nil
@@ -182,6 +188,8 @@ func (f *fakeVersionDiscovery) RESTClient() restclient.Interface {
 	})}
 }
 func objBody(object interface{}) io.ReadCloser {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

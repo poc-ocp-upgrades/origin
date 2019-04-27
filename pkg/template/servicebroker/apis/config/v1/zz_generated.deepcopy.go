@@ -19,6 +19,8 @@ func (in *TemplateServiceBrokerConfig) DeepCopyInto(out *TemplateServiceBrokerCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	if in.TemplateNamespaces != nil {
@@ -43,6 +45,8 @@ func (in *TemplateServiceBrokerConfig) DeepCopy() *TemplateServiceBrokerConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -51,6 +55,8 @@ func (in *TemplateServiceBrokerConfig) DeepCopy() *TemplateServiceBrokerConfig {
 	return out
 }
 func (in *TemplateServiceBrokerConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

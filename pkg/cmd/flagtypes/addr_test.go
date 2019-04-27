@@ -19,6 +19,8 @@ func TestAddr(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if a := (Addr{Value: "somehost:90"}); a.Provided {
 		t.Errorf("bypassing Set should not result in a provided value: %#v", a)
 	}

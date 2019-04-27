@@ -27,6 +27,8 @@ func (b *Broker) Deprovision(u user.Info, instanceID string) *api.Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Template service broker: Deprovision: instanceID %s", instanceID)
 	brokerTemplateInstance, err := b.templateclient.BrokerTemplateInstances().Get(instanceID, metav1.GetOptions{})
 	if err != nil {

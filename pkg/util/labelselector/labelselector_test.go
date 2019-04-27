@@ -19,6 +19,8 @@ func TestLabelSelectorParse(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		selector	string
 		labels		map[string]string
@@ -51,6 +53,8 @@ func TestLabelConflict(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		labels1		map[string]string
 		labels2		map[string]string
@@ -64,6 +68,8 @@ func TestLabelConflict(t *testing.T) {
 	}
 }
 func TestLabelMerge(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

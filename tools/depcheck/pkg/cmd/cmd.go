@@ -23,6 +23,8 @@ func NewCmdDepCheck(name string, out, errout io.Writer) *cobra.Command {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := &cobra.Command{Use: fmt.Sprintf("%s (ARGUMENT) [OPTIONS]", name), Short: "Gather information about a dependency tree.", Long: "Modify or gather information about a dependency tree.", Example: fmt.Sprintf(pinImportsExample, name), RunE: func(c *cobra.Command, args []string) error {
 		c.SetOutput(errout)
 		return c.Help()

@@ -27,6 +27,8 @@ func NewRESTOptionsGetter(startingFlags map[string][]string, storageConfig confi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	targetRAMMB := 0
 	if targetRamString := startingFlags["target-ram-mb"]; len(targetRamString) == 1 {
@@ -55,6 +57,8 @@ func newHeuristicWatchCacheSizes(expectedRAMCapacityMB int) map[schema.GroupReso
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterSize := expectedRAMCapacityMB / 60
 	watchCacheSizes := make(map[schema.GroupResource]int)
 	watchCacheSizes[schema.GroupResource{Group: "network.openshift.io", Resource: "hostsubnets"}] = maxInt(5*clusterSize, 100)
@@ -63,6 +67,8 @@ func newHeuristicWatchCacheSizes(expectedRAMCapacityMB int) map[schema.GroupReso
 	return watchCacheSizes
 }
 func maxInt(a, b int) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

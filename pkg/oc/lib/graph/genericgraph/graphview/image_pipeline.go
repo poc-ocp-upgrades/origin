@@ -44,6 +44,8 @@ func AllImagePipelinesFromBuildConfig(g osgraph.Graph, excludeNodeIDs IntSet) ([
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	pipelines := []ImagePipeline{}
 	for _, uncastNode := range g.NodesByKind(buildgraph.BuildConfigNodeKind) {
@@ -93,6 +95,8 @@ func NewImagePipelineFromBuildConfigNode(g osgraph.Graph, bcNode *buildgraph.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	covered.Insert(bcNode.ID())
 	flow := ImagePipeline{}
@@ -117,6 +121,8 @@ func NewImagePipelineFromBuildConfigNode(g osgraph.Graph, bcNode *buildgraph.Bui
 	return flow, covered
 }
 func NewImagePipelineFromImageTagLocation(g osgraph.Graph, node graph.Node, imageTagLocation ImageTagLocation) (ImagePipeline, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +184,8 @@ func findBuildInputs(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (base 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered = IntSet{}
 	for _, input := range g.PredecessorNodesByEdgeKind(bcNode, buildedges.BuildInputEdgeKind) {
 		if source != nil {
@@ -209,6 +217,8 @@ func findBuildOutput(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (resul
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, output := range g.SuccessorNodesByEdgeKind(bcNode, buildedges.BuildOutputEdgeKind) {
 		result = output.(ImageTagLocation)
 		return
@@ -216,6 +226,8 @@ func findBuildOutput(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (resul
 	return
 }
 func imageStreamTagScheduled(g osgraph.Graph, input graph.Node, base ImageTagLocation) (scheduled bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,9 +273,13 @@ func (m SortedImagePipelines) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m SortedImagePipelines) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,9 +311,13 @@ func (m SortedImagePipelines) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return CompareImagePipeline(&m[i], &m[j])
 }
 func CompareImagePipeline(a, b *ImagePipeline) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

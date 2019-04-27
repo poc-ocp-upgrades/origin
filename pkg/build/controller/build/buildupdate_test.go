@@ -24,6 +24,8 @@ func TestBuildUpdateSetters(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := metav1.Now()
 	tests := []struct {
 		f		func(*buildUpdate)
@@ -77,6 +79,8 @@ func TestBuildUpdateSetters(t *testing.T) {
 	}
 }
 func TestBuildUpdateIsEmpty(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

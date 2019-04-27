@@ -34,9 +34,13 @@ func minimalDC(name string, generation int64) *appsv1.DeploymentConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsv1.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: name, Generation: generation}, Spec: appsv1.DeploymentConfigSpec{Selector: map[string]string{"app": name}, Template: &corev1.PodTemplateSpec{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{"app": name}}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "a", Image: " "}}}}}}
 }
 func int64ptr(v int64) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -68,9 +72,13 @@ func int32ptr(v int32) *int32 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &v
 }
 func setEssentialDefaults(dc *appsv1.DeploymentConfig) *appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +126,8 @@ func clearTransient(dc *appsv1.DeploymentConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc.ObjectMeta.Namespace = ""
 	dc.ObjectMeta.SelfLink = ""
 	dc.ObjectMeta.UID = ""
@@ -125,6 +135,8 @@ func clearTransient(dc *appsv1.DeploymentConfig) {
 	dc.ObjectMeta.CreationTimestamp.Time = time.Time{}
 }
 func TestDeploymentConfigDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

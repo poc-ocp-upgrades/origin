@@ -25,6 +25,8 @@ func TestParseImageStreamImageName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		input		string
 		expectedRepo	string
@@ -52,6 +54,8 @@ func TestParseImageStreamImageName(t *testing.T) {
 	}
 }
 func TestParseImageStreamTagName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +108,8 @@ func TestDockerImageReferenceAsRepository(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		Registry, Namespace, Name, Tag, ID	string
 		Expected				string
@@ -117,6 +123,8 @@ func TestDockerImageReferenceAsRepository(t *testing.T) {
 	}
 }
 func TestDockerImageReferenceDaemonMinimal(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -158,6 +166,8 @@ func TestDockerImageReferenceString(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		Registry, Namespace, Name, Tag, ID	string
 		Expected				string
@@ -171,6 +181,8 @@ func TestDockerImageReferenceString(t *testing.T) {
 	}
 }
 func TestLatestTaggedImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -207,6 +219,8 @@ func TestLatestTaggedImage(t *testing.T) {
 	}
 }
 func TestResolveLatestTaggedImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,6 +275,8 @@ func TestAddTagEventToImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		tags		map[string]TagEventList
 		nextRef		string
@@ -281,6 +297,8 @@ func TestAddTagEventToImageStream(t *testing.T) {
 	}
 }
 func TestUpdateTrackingTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -371,6 +389,8 @@ func TestJoinImageStreamTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if e, a := "foo:bar", JoinImageStreamTag("foo", "bar"); e != a {
 		t.Errorf("Unexpected value: %s", a)
 	}
@@ -379,6 +399,8 @@ func TestJoinImageStreamTag(t *testing.T) {
 	}
 }
 func TestResolveImageID(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -432,6 +454,8 @@ func TestDockerImageReferenceEquality(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	equalityTests := []struct {
 		a, b	DockerImageReference
 		isEqual	bool
@@ -446,6 +470,8 @@ func TestDockerImageReferenceEquality(t *testing.T) {
 	}
 }
 func TestPrioritizeTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -487,6 +513,8 @@ func TestTagsChanged(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		new	[]TagEvent
 		old	[]TagEvent
@@ -501,6 +529,8 @@ func TestTagsChanged(t *testing.T) {
 	}
 }
 func TestIndexOfImageSignature(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -553,6 +583,8 @@ func mockImageStream(policy TagReferencePolicyType) *ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := metav1.Now()
 	stream := &ImageStream{}
 	stream.Status = ImageStreamStatus{}
@@ -579,6 +611,8 @@ func TestLatestImageTagEvent(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tag, event := LatestImageTagEvent(mockImageStream(SourceTagReferencePolicy), "sha256:c3d8a3642ebfa6bd1fd50c2b8b90e99d3e29af1eac88637678f982cde90993fb")
 	if tag != "latest" {
 		t.Errorf("expected tag 'latest', got %q", tag)
@@ -591,6 +625,8 @@ func TestLatestImageTagEvent(t *testing.T) {
 	}
 }
 func TestDockerImageReferenceForImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -646,6 +682,8 @@ func TestValidateRegistryURL(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		input			string
 		expectedError		bool
@@ -666,6 +704,8 @@ func TestValidateRegistryURL(t *testing.T) {
 	}
 }
 func TestFollowTagReference(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

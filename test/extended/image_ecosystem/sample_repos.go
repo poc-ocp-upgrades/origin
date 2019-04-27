@@ -40,6 +40,8 @@ func NewSampleRepoTest(c sampleRepoConfig) func() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func() {
 		defer g.GinkgoRecover()
 		var oc = exutil.NewCLI(c.repoName+"-repo-test", exutil.KubeConfigPath())

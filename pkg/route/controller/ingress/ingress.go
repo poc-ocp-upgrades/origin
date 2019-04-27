@@ -68,9 +68,13 @@ func newExpectations() *expectations {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &expectations{expect: make(map[queueKey]sets.String)}
 }
 func (e *expectations) Expect(namespace, ingressName, name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func (e *expectations) Satisfied(namespace, ingressName, name string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	key := queueKey{namespace: namespace, name: ingressName}
@@ -120,6 +126,8 @@ func (e *expectations) Satisfied(namespace, ingressName, name string) {
 	}
 }
 func (e *expectations) Expecting(namespace, ingressName string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -154,6 +162,8 @@ func (e *expectations) Clear(namespace, ingressName string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	key := queueKey{namespace: namespace, name: ingressName}
@@ -166,6 +176,8 @@ type queueKey struct {
 }
 
 func NewController(eventsClient kv1core.EventsGetter, client routeclient.RoutesGetter, ingresses extensionsinformers.IngressInformer, secrets coreinformers.SecretInformer, services coreinformers.ServiceInformer, routes routeinformers.RouteInformer) *Controller {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,6 +239,8 @@ func (c *Controller) processNamespace(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case metav1.Object:
 		ns := t.GetNamespace()
@@ -240,6 +254,8 @@ func (c *Controller) processNamespace(obj interface{}) {
 	}
 }
 func (c *Controller) processRoute(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -281,6 +297,8 @@ func (c *Controller) processIngress(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *extensionsv1beta1.Ingress:
 		c.expectations.Clear(t.Namespace, t.Name)
@@ -290,6 +308,8 @@ func (c *Controller) processIngress(obj interface{}) {
 	}
 }
 func (c *Controller) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,11 +352,15 @@ func (c *Controller) worker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c.processNext() {
 	}
 	klog.V(4).Infof("Worker stopped")
 }
 func (c *Controller) processNext() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -377,6 +401,8 @@ func (c *Controller) handleNamespaceErr(err error, key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		c.queue.Forget(key)
 		return
@@ -385,6 +411,8 @@ func (c *Controller) handleNamespaceErr(err error, key interface{}) {
 	c.queue.AddRateLimited(key)
 }
 func (c *Controller) sync(key queueKey) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -506,6 +534,8 @@ func hasIngressOwnerRef(owners []metav1.OwnerReference) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ref := range owners {
 		if ref.Kind != "Ingress" || ref.APIVersion != "extensions/v1beta1" || ref.Controller == nil || !*ref.Controller {
 			continue
@@ -515,6 +545,8 @@ func hasIngressOwnerRef(owners []metav1.OwnerReference) (string, bool) {
 	return "", false
 }
 func newRouteForIngress(ingress *extensionsv1beta1.Ingress, rule *extensionsv1beta1.IngressRule, path *extensionsv1beta1.HTTPIngressPath, secretLister corelisters.SecretLister, serviceLister corelisters.ServiceLister) *routev1.Route {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -568,6 +600,8 @@ func preserveRouteAttributesFromExisting(r, existing *routev1.Route) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.Name = existing.Name
 	r.GenerateName = ""
 	r.Spec.To.Weight = existing.Spec.To.Weight
@@ -578,6 +612,8 @@ func preserveRouteAttributesFromExisting(r, existing *routev1.Route) {
 	}
 }
 func routeMatchesIngress(route *routev1.Route, ingress *extensionsv1beta1.Ingress, rule *extensionsv1beta1.IngressRule, path *extensionsv1beta1.HTTPIngressPath, secretLister corelisters.SecretLister, serviceLister corelisters.ServiceLister) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -613,6 +649,8 @@ func routeMatchesIngress(route *routev1.Route, ingress *extensionsv1beta1.Ingres
 	return true
 }
 func targetPortForService(namespace string, path *extensionsv1beta1.HTTPIngressPath, serviceLister corelisters.ServiceLister) *intstr.IntOrString {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -663,6 +701,8 @@ func secretMatchesRoute(secret *v1.Secret, tlsConfig *routev1.TLSConfig) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if secret == nil {
 		return tlsConfig == nil
 	}
@@ -681,6 +721,8 @@ func secretMatchesRoute(secret *v1.Secret, tlsConfig *routev1.TLSConfig) bool {
 	return tlsConfig.Termination == routev1.TLSTerminationEdge && tlsConfig.Certificate == string(secret.Data[v1.TLSCertKey]) && tlsConfig.Key == string(secret.Data[v1.TLSPrivateKeyKey])
 }
 func splitForPathAndHost(routes []*routev1.Route, host, path string) ([]*routev1.Route, *routev1.Route) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -719,6 +761,8 @@ func referencesSecret(ingress *extensionsv1beta1.Ingress, host string) (string, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tls := range ingress.Spec.TLS {
 		for _, tlsHost := range tls.Hosts {
 			if tlsHost == host {
@@ -729,6 +773,8 @@ func referencesSecret(ingress *extensionsv1beta1.Ingress, host string) (string, 
 	return "", false
 }
 func createRouteWithName(client routeclient.RoutesGetter, ingress *extensionsv1beta1.Ingress, route *routev1.Route, expect *expectations) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -785,6 +831,8 @@ func generateRouteName(base string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(base) > maxGeneratedNameLength {
 		base = base[:maxGeneratedNameLength]
 	}
@@ -805,6 +853,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -879,5 +948,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

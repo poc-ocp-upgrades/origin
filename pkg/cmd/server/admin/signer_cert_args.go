@@ -33,6 +33,8 @@ func BindSignerCertOptions(options *SignerCertOptions, flags *pflag.FlagSet, pre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.StringVar(&options.CertFile, prefix+"signer-cert", options.CertFile, "The certificate file.")
 	flags.StringVar(&options.KeyFile, prefix+"signer-key", options.KeyFile, "The key file.")
 	flags.StringVar(&options.SerialFile, prefix+"signer-serial", options.SerialFile, "The serial file that keeps track of how many certs have been signed.")
@@ -41,6 +43,8 @@ func BindSignerCertOptions(options *SignerCertOptions, flags *pflag.FlagSet, pre
 	cobra.MarkFlagFilename(flags, prefix+"signer-serial")
 }
 func NewDefaultSignerCertOptions() *SignerCertOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func (o *SignerCertOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := os.Stat(o.CertFile); len(o.CertFile) == 0 || err != nil {
 		return fmt.Errorf("--signer-cert, %q must be a valid certificate file", cmdutil.GetDisplayFilename(o.CertFile))
 	}
@@ -90,6 +96,8 @@ func (o *SignerCertOptions) Validate() error {
 	return nil
 }
 func (o *SignerCertOptions) CA() (*crypto.CA, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

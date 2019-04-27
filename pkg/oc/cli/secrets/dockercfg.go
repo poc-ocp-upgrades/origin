@@ -73,9 +73,13 @@ func NewCreateDockerConfigOptions(streams genericclioptions.IOStreams) *CreateDo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateDockerConfigOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdCreateDockerConfigSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams, newSecretFullName, ocEditFullName string) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +122,8 @@ func (o CreateDockerConfigOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := o.NewDockerSecret()
 	if err != nil {
 		return err
@@ -132,6 +138,8 @@ func (o CreateDockerConfigOptions) Run() error {
 	return o.Printer.PrintObj(secret, o.Out)
 }
 func (o CreateDockerConfigOptions) NewDockerSecret() (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +182,8 @@ func (o *CreateDockerConfigOptions) Complete(f kcmdutil.Factory, args []string) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 1 {
 		return errors.New("must have exactly one argument: secret name")
 	}
@@ -198,6 +208,8 @@ func (o *CreateDockerConfigOptions) Complete(f kcmdutil.Factory, args []string) 
 	return nil
 }
 func (o CreateDockerConfigOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

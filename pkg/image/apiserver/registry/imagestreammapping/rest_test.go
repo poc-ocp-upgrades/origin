@@ -59,9 +59,13 @@ func (f *fakeSubjectAccessReviewRegistry) Create(subjectAccessReview *authorizat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
 func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,12 +114,16 @@ func validImageStream() *imageapi.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "test"}}
 }
 
 const testImageID = "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"
 
 func validNewMappingWithName() *imageapi.ImageStreamMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +155,8 @@ func TestCreateConflictingNamespace(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, server, storage := setup(t)
 	defer server.Terminate(t)
 	mapping := validNewMappingWithName()
@@ -164,6 +174,8 @@ func TestCreateConflictingNamespace(t *testing.T) {
 	}
 }
 func TestCreateImageStreamNotFoundWithName(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +228,8 @@ func TestCreateSuccessWithName(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client, server, storage := setup(t)
 	defer server.Terminate(t)
 	initialRepo := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "somerepo"}}
@@ -248,6 +262,8 @@ func TestCreateSuccessWithName(t *testing.T) {
 	}
 }
 func TestAddExistingImageWithNewTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +327,8 @@ func TestAddExistingImageWithNewTag(t *testing.T) {
 	}
 }
 func TestAddExistingImageOverridingDockerImageReference(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -391,6 +409,8 @@ func TestAddExistingImageAndTag(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	existingRepo := &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "somerepo", Namespace: "default"}, Spec: imageapi.ImageStreamSpec{DockerImageRepository: "localhost:5000/someproject/somerepo"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"existingTag": {Items: []imageapi.TagEvent{{DockerImageReference: "existingImage"}}}}}}
 	existingImage := &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "existingImage", Namespace: "default"}, DockerImageReference: "localhost:5000/someproject/somerepo@" + testImageID, DockerImageMetadata: imageapi.DockerImage{Config: &imageapi.DockerConfig{Cmd: []string{"ls", "/"}, Env: []string{"a=1"}, ExposedPorts: map[string]struct{}{"1234/tcp": {}}, Memory: 1234, CPUShares: 99, WorkingDir: "/workingDir"}}}
 	client, server, storage := setup(t)
@@ -410,6 +430,8 @@ func TestAddExistingImageAndTag(t *testing.T) {
 	}
 }
 func TestTrackingTags(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -480,6 +502,8 @@ func TestCreateRetryUnrecoverable(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	registry := registryhostname.TestingRegistryHostnameRetriever(nil, "", testDefaultRegistryURL)
 	restInstance := &REST{strategy: NewStrategy(registry), imageRegistry: &fakeImageRegistry{createImage: func(ctx context.Context, image *imageapi.Image) error {
 		return nil
@@ -500,6 +524,8 @@ func TestCreateRetryUnrecoverable(t *testing.T) {
 	}
 }
 func TestCreateRetryConflictNoTagDiff(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -538,6 +564,8 @@ func TestCreateRetryConflictNoTagDiff(t *testing.T) {
 	}
 }
 func TestCreateRetryConflictTagDiff(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -609,9 +637,13 @@ func (f *fakeImageRegistry) ListImages(ctx context.Context, options *metainterna
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.listImages(ctx, options)
 }
 func (f *fakeImageRegistry) GetImage(ctx context.Context, id string, options *metav1.GetOptions) (*imageapi.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -643,9 +675,13 @@ func (f *fakeImageRegistry) CreateImage(ctx context.Context, image *imageapi.Ima
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.createImage(ctx, image)
 }
 func (f *fakeImageRegistry) DeleteImage(ctx context.Context, id string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -677,9 +713,13 @@ func (f *fakeImageRegistry) WatchImages(ctx context.Context, options *metaintern
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.watchImages(ctx, options)
 }
 func (f *fakeImageRegistry) UpdateImage(ctx context.Context, image *imageapi.Image) (*imageapi.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -723,9 +763,13 @@ func (f *fakeImageStreamRegistry) ListImageStreams(ctx context.Context, options 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.listImageStreams(ctx, options)
 }
 func (f *fakeImageStreamRegistry) GetImageStream(ctx context.Context, id string, options *metav1.GetOptions) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -757,9 +801,13 @@ func (f *fakeImageStreamRegistry) CreateImageStream(ctx context.Context, repo *i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.createImageStream(ctx, repo)
 }
 func (f *fakeImageStreamRegistry) UpdateImageStream(ctx context.Context, repo *imageapi.ImageStream, forceAllowCreate bool, options *metav1.UpdateOptions) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -791,9 +839,13 @@ func (f *fakeImageStreamRegistry) UpdateImageStreamSpec(ctx context.Context, rep
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.updateImageStreamSpec(ctx, repo)
 }
 func (f *fakeImageStreamRegistry) UpdateImageStreamStatus(ctx context.Context, repo *imageapi.ImageStream, forceAllowCreate bool, options *metav1.UpdateOptions) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -825,9 +877,13 @@ func (f *fakeImageStreamRegistry) DeleteImageStream(ctx context.Context, id stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.deleteImageStream(ctx, id)
 }
 func (f *fakeImageStreamRegistry) WatchImageStreams(ctx context.Context, options *metainternal.ListOptions) (watch.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

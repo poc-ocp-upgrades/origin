@@ -25,6 +25,8 @@ func newTestADLDAPInterface(client ldap.Client) *ADLDAPInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userQuery := ldaputil.LDAPQuery{BaseDN: "ou=users,dc=example,dc=com", Scope: ldaputil.ScopeWholeSubtree, DerefAliases: ldaputil.DerefAliasesAlways, TimeLimit: 0, Filter: "objectClass=inetOrgPerson"}
 	groupMembershipAttributes := []string{"memberOf"}
 	userNameAttributes := []string{"cn"}
@@ -45,9 +47,13 @@ func newTestUser(CN, groupUID string) *ldap.Entry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ldap.NewEntry(fmt.Sprintf("cn=%s,ou=users,dc=example,dc=com", CN), map[string][]string{"cn": {CN}, "memberOf": {groupUID}})
 }
 func TestExtractMembers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func TestListGroups(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := testclient.NewDNMappingClient(testclient.New(), map[string][]*ldap.Entry{"ou=users,dc=example,dc=com": {newTestUser("testUser", "testGroup")}})
 	ldapInterface := newTestADLDAPInterface(client)
 	groups, err := ldapInterface.ListGroups()
@@ -109,6 +117,8 @@ func TestListGroups(t *testing.T) {
 	}
 }
 func TestPopulateCache(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -147,6 +157,8 @@ func TestPopulateCache(t *testing.T) {
 	}
 }
 func TestPopulateCacheAfterExtractMembers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

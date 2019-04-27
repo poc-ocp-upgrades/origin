@@ -19,6 +19,8 @@ func RequestsResolution(imageResolutionType imagepolicyapiv1.ImageResolutionType
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch imageResolutionType {
 	case imagepolicyapiv1.RequiredRewrite, imagepolicyapiv1.Required, imagepolicyapiv1.AttemptRewrite, imagepolicyapiv1.Attempt:
 		return true
@@ -40,6 +42,8 @@ func FailOnResolutionFailure(imageResolutionType imagepolicyapiv1.ImageResolutio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch imageResolutionType {
 	case imagepolicyapiv1.RequiredRewrite, imagepolicyapiv1.Required:
 		return true
@@ -47,6 +51,8 @@ func FailOnResolutionFailure(imageResolutionType imagepolicyapiv1.ImageResolutio
 	return false
 }
 func RewriteImagePullSpec(imageResolutionType imagepolicyapiv1.ImageResolutionType) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

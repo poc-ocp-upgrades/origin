@@ -31,6 +31,8 @@ func getMatchingClusters(clientConfig restclient.Config, kubeconfig clientcmdapi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := sets.String{}
 	for key, cluster := range kubeconfig.Clusters {
 		if (cluster.Server == clientConfig.Host) && (cluster.InsecureSkipTLSVerify == clientConfig.Insecure) && (cluster.CertificateAuthority == clientConfig.CAFile) && (bytes.Compare(cluster.CertificateAuthorityData, clientConfig.CAData) == 0) {
@@ -40,6 +42,8 @@ func getMatchingClusters(clientConfig restclient.Config, kubeconfig clientcmdapi
 	return ret
 }
 func findExistingClientCA(host string, kubeconfig clientcmdapi.Config) (string, []byte, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,6 +71,8 @@ func findExistingClientCA(host string, kubeconfig clientcmdapi.Config) (string, 
 	return "", nil, false
 }
 func dialToServer(clientConfig restclient.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -116,6 +122,8 @@ func promptForInsecureTLS(reader io.Reader, out io.Writer, reason error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var insecureTLSRequestReason string
 	if reason != nil {
 		switch reason.(type) {
@@ -139,6 +147,8 @@ func promptForInsecureTLS(reader io.Reader, out io.Writer, reason error) bool {
 	return input
 }
 func hasExistingInsecureCluster(clientConfigToTest restclient.Config, kubeconfig kclientcmdapi.Config) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

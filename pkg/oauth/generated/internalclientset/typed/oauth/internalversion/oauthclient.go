@@ -39,9 +39,13 @@ func newOAuthClients(c *OauthClient) *oAuthClients {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &oAuthClients{client: c.RESTClient()}
 }
 func (c *oAuthClients) Get(name string, options v1.GetOptions) (result *oauth.OAuthClient, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,6 +65,8 @@ func (c *oAuthClients) Get(name string, options v1.GetOptions) (result *oauth.OA
 	return
 }
 func (c *oAuthClients) List(opts v1.ListOptions) (result *oauth.OAuthClientList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func (c *oAuthClients) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -106,6 +114,8 @@ func (c *oAuthClients) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	return c.client.Get().Resource("oauthclients").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *oAuthClients) Create(oAuthClient *oauth.OAuthClient) (result *oauth.OAuthClient, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,11 +149,15 @@ func (c *oAuthClients) Update(oAuthClient *oauth.OAuthClient) (result *oauth.OAu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &oauth.OAuthClient{}
 	err = c.client.Put().Resource("oauthclients").Name(oAuthClient.Name).Body(oAuthClient).Do().Into(result)
 	return
 }
 func (c *oAuthClients) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (c *oAuthClients) DeleteCollection(options *v1.DeleteOptions, listOptions v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -182,6 +198,8 @@ func (c *oAuthClients) DeleteCollection(options *v1.DeleteOptions, listOptions v
 	return c.client.Delete().Resource("oauthclients").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *oAuthClients) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *oauth.OAuthClient, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,9 +25,13 @@ func manualTrigger() []appsapi.DeploymentTriggerPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []appsapi.DeploymentTriggerPolicy{{Type: appsapi.DeploymentTriggerManual}}
 }
 func rollingConfig(interval, updatePeriod, timeout int) appsapi.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -59,9 +63,13 @@ func rollingConfigMax(maxSurge, maxUnavailable intstr.IntOrString) appsapi.Deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "bar"}, Spec: appsapi.DeploymentConfigSpec{Triggers: manualTrigger(), Strategy: appsapi.DeploymentStrategy{Type: appsapi.DeploymentStrategyTypeRolling, RollingParams: &appsapi.RollingDeploymentStrategyParams{IntervalSeconds: mkint64p(1), UpdatePeriodSeconds: mkint64p(1), TimeoutSeconds: mkint64p(1), MaxSurge: maxSurge, MaxUnavailable: maxUnavailable}, ActiveDeadlineSeconds: mkint64p(3600)}, Template: appstest.OkPodTemplate(), Selector: appstest.OkSelector()}}
 }
 func TestValidateDeploymentConfigOK(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -96,6 +104,8 @@ func TestValidateDeploymentConfigICTMissingImage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc := &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "bar"}, Spec: appsapi.DeploymentConfigSpec{Replicas: 1, Triggers: []appsapi.DeploymentTriggerPolicy{appstest.OkImageChangeTrigger()}, Selector: appstest.OkSelector(), Strategy: appstest.OkStrategy(), Template: appstest.OkPodTemplateMissingImage("container1")}}
 	errs := ValidateDeploymentConfig(dc)
 	if len(errs) > 0 {
@@ -108,6 +118,8 @@ func TestValidateDeploymentConfigICTMissingImage(t *testing.T) {
 	}
 }
 func TestValidateDeploymentConfigMissingFields(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,6 +178,8 @@ func TestValidateDeploymentConfigUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oldConfig := &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "bar", ResourceVersion: "1"}, Spec: appsapi.DeploymentConfigSpec{Replicas: 1, Triggers: manualTrigger(), Selector: appstest.OkSelector(), Strategy: appstest.OkStrategy(), Template: appstest.OkPodTemplate()}, Status: appsapi.DeploymentConfigStatus{LatestVersion: 5}}
 	newConfig := &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "bar", ResourceVersion: "1"}, Spec: appsapi.DeploymentConfigSpec{Replicas: 1, Triggers: manualTrigger(), Selector: appstest.OkSelector(), Strategy: appstest.OkStrategy(), Template: appstest.OkPodTemplate()}, Status: appsapi.DeploymentConfigStatus{LatestVersion: 3}}
 	scenarios := []struct {
@@ -210,6 +224,8 @@ func TestValidateDeploymentConfigRollbackOK(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rollback := &appsapi.DeploymentConfigRollback{Name: "config", Spec: appsapi.DeploymentConfigRollbackSpec{Revision: 2}}
 	errs := ValidateDeploymentConfigRollback(rollback)
 	if len(errs) > 0 {
@@ -217,6 +233,8 @@ func TestValidateDeploymentConfigRollbackOK(t *testing.T) {
 	}
 }
 func TestValidateDeploymentConfigRollbackDeprecatedOK(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,6 +259,8 @@ func TestValidateDeploymentConfigRollbackDeprecatedOK(t *testing.T) {
 	}
 }
 func TestValidateDeploymentConfigRollbackInvalidFields(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +310,8 @@ func TestValidateDeploymentConfigRollbackDeprecatedInvalidFields(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errorCases := map[string]struct {
 		D	appsapi.DeploymentConfigRollback
 		T	field.ErrorType
@@ -325,12 +347,16 @@ func TestValidateDeploymentConfigDefaultImageStreamKind(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &appsapi.DeploymentConfig{ObjectMeta: metav1.ObjectMeta{Name: "foo", Namespace: "bar"}, Spec: appsapi.DeploymentConfigSpec{Replicas: 1, Triggers: []appsapi.DeploymentTriggerPolicy{{Type: appsapi.DeploymentTriggerOnImageChange, ImageChangeParams: &appsapi.DeploymentTriggerImageChangeParams{From: kapi.ObjectReference{Kind: "ImageStreamTag", Name: "name:v1"}, ContainerNames: []string{"foo"}}}}, Selector: appstest.OkSelector(), Template: appstest.OkPodTemplate(), Strategy: appstest.OkStrategy()}}
 	if errs := ValidateDeploymentConfig(config); len(errs) > 0 {
 		t.Errorf("Unxpected non-empty error list: %v", errs)
 	}
 }
 func mkint64p(i int) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -363,9 +389,13 @@ func mkintp(i int) *int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &i
 }
 func TestValidateSelectorMatchesPodTemplateLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -20,11 +20,15 @@ func newGraphOptions() *graph.GraphOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := &graph.GraphOptions{Packages: &graph.PackageList{Packages: []graph.Package{{ImportPath: "foo.com/bar/baz", Imports: []string{"foo.com/bar/baz/one", "foo.com/bar/baz/two"}}, {ImportPath: "foo.com/bar/baz/one", Imports: []string{"foo.com/bar/baz/vendor/vendor.com/one", "foo.com/bar/baz/vendor/vendor.com/mine"}}, {ImportPath: "foo.com/bar/baz/two", Imports: []string{"foo.com/bar/baz/vendor/vendor.com/ours"}}, {ImportPath: "foo.com/bar/baz/vendor/vendor.com/one", Imports: []string{"foo.com/bar/baz/vendor/vendor.com/two", "foo.com/bar/baz/vendor/vendor.com/three"}}, {ImportPath: "foo.com/bar/baz/vendor/vendor.com/two", Imports: []string{"fmt"}}, {ImportPath: "foo.com/bar/baz/vendor/vendor.com/three", Imports: []string{"foo.com/bar/baz/vendor/vendor.com/ours", "foo.com/bar/baz/vendor/vendor.com/transitive_ours"}}, {ImportPath: "foo.com/bar/baz/vendor/vendor.com/ours", Imports: []string{"foo.com/bar/baz/vendor/vendor.com/transitive_ours"}}, {ImportPath: "foo.com/bar/baz/vendor/vendor.com/mine", Imports: []string{"fmt"}}}}}
 	opts.Roots = []string{"foo.com/bar/baz", "foo.com/bar/baz/one", "foo.com/bar/baz/two"}
 	return opts
 }
 func TestGraphAnalyzisCalculatesYoursMineOurs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

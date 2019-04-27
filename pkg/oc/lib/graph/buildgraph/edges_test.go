@@ -29,6 +29,8 @@ func TestNamespaceEdgeMatching(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
 	fn := func(namespace string, g osgraph.Interface) {
 		bc := &buildv1.BuildConfig{}
@@ -63,6 +65,8 @@ func TestNamespaceEdgeMatching(t *testing.T) {
 	}
 }
 func namespaceFor(node graph.Node) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

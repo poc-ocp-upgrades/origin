@@ -56,6 +56,8 @@ func NewCmdCreateReencryptRoute(fullName string, f kcmdutil.Factory, streams gen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateReencryptRouteOptions{CreateRouteSubcommandOptions: NewCreateRouteSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: "reencrypt [NAME] --dest-ca-cert=FILENAME --service=SERVICE", Short: "Create a route that uses reencrypt TLS termination", Long: reencryptRouteLong, Example: fmt.Sprintf(reencryptRouteExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args))
@@ -96,9 +98,13 @@ func (o *CreateReencryptRouteOptions) Complete(f kcmdutil.Factory, cmd *cobra.Co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.CreateRouteSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreateReencryptRouteOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

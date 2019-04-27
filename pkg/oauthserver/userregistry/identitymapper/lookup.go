@@ -30,6 +30,8 @@ func (p *lookupIdentityMapper) UserFor(info authapi.UserIdentityInfo) (kuser.Inf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mapping, err := p.mappings.Get(info.GetIdentityName(), metav1.GetOptions{})
 	if err != nil {
 		return nil, NewLookupError(info, err)
@@ -47,6 +49,8 @@ type lookupError struct {
 }
 
 func IsLookupError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,9 +83,13 @@ func NewLookupError(info authapi.UserIdentityInfo, err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return lookupError{Identity: info, CausedBy: err}
 }
 func (c lookupError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

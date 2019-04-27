@@ -27,9 +27,13 @@ func GetBuildPodName(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetPodName(build.Name, buildPodSuffix)
 }
 func GetBuildCAConfigMapName(build *buildv1.Build) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -61,9 +65,13 @@ func GetBuildSystemConfigMapName(build *buildv1.Build) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetConfigMapName(build.Name, sysConfigConfigMapSuffix)
 }
 func StrategyType(strategy buildv1.BuildStrategy) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +99,8 @@ func StrategyType(strategy buildv1.BuildStrategy) string {
 	return ""
 }
 func LabelValue(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

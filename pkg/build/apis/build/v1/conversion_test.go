@@ -32,6 +32,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	Install(scheme)
 }
 func TestFieldSelectorConversions(t *testing.T) {
@@ -49,9 +51,13 @@ func TestFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("Build"), AllowedExternalFieldKeys: []string{"status", "podName"}, FieldKeyEvaluatorFn: internal.BuildFieldSelector}.Check(t)
 }
 func TestBinaryBuildRequestOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +90,8 @@ func TestBinaryBuildRequestOptions(t *testing.T) {
 	}
 }
 func TestV1APIBuildConfigConversion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -156,6 +164,8 @@ func TestAPIV1NoSourceBuildConfigConversion(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfigs := []*internal.BuildConfig{{ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{DockerStrategy: &internal.DockerBuildStrategy{From: &kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{SourceStrategy: &internal.SourceBuildStrategy{From: kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "config-id", Namespace: "namespace"}, Spec: internal.BuildConfigSpec{CommonSpec: internal.CommonSpec{Source: internal.BuildSource{}, Strategy: internal.BuildStrategy{CustomStrategy: &internal.CustomBuildStrategy{From: kinternal.ObjectReference{Kind: "ImageStream", Name: "fromstream"}}}}}}}
 	for c, bc := range buildConfigs {
 		var internalbuild v1.BuildConfig
@@ -166,6 +176,8 @@ func TestAPIV1NoSourceBuildConfigConversion(t *testing.T) {
 	}
 }
 func TestInvalidImageChangeTriggerRemoval(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,6 +203,8 @@ func TestInvalidImageChangeTriggerRemoval(t *testing.T) {
 	}
 }
 func TestImageChangeTriggerNilImageChangePointer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

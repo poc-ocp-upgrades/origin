@@ -33,6 +33,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildinstall.Install(buildEncodingScheme)
 	buildJSONCodec = buildEncodingCodecFactory.LegacyCodec(buildv1.GroupVersion)
 }
@@ -40,6 +42,8 @@ func init() {
 type DockerBuildStrategy struct{ Image string }
 
 func (bs *DockerBuildStrategy) CreateBuildPod(build *buildv1.Build, additionalCAs map[string]string, internalRegistryHost string) (*v1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

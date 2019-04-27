@@ -41,9 +41,13 @@ func NewImageStreamTagEvaluator(store imagev1lister.ImageStreamLister, istGetter
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStreamTagEvaluator{store: store, istGetter: istGetter}
 }
 func (i *imageStreamTagEvaluator) Constraints(required []corev1.ResourceName, object runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,9 +84,13 @@ func (i *imageStreamTagEvaluator) GroupResource() schema.GroupResource {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return image.Resource("imagestreamtags")
 }
 func (i *imageStreamTagEvaluator) Handles(a kadmission.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +109,8 @@ func (i *imageStreamTagEvaluator) Handles(a kadmission.Attributes) bool {
 	return operation == kadmission.Create || operation == kadmission.Update
 }
 func (i *imageStreamTagEvaluator) Matches(resourceQuota *corev1.ResourceQuota, item runtime.Object) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,9 +145,13 @@ func (p *imageStreamTagEvaluator) MatchingScopes(item runtime.Object, scopes []c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []corev1.ScopedResourceSelectorRequirement{}, nil
 }
 func (p *imageStreamTagEvaluator) UncoveredQuotaScopes(limitedScopes []corev1.ScopedResourceSelectorRequirement, matchedQuotaScopes []corev1.ScopedResourceSelectorRequirement) ([]corev1.ScopedResourceSelectorRequirement, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,9 +183,13 @@ func (i *imageStreamTagEvaluator) MatchingResources(input []corev1.ResourceName)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return kquota.Intersection(input, imageStreamTagResources)
 }
 func (i *imageStreamTagEvaluator) Usage(item runtime.Object) (corev1.ResourceList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +230,8 @@ func (i *imageStreamTagEvaluator) Usage(item runtime.Object) (corev1.ResourceLis
 	return res, nil
 }
 func (i *imageStreamTagEvaluator) UsageStats(options kquota.UsageStatsOptions) (kquota.UsageStats, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

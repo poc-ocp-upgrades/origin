@@ -37,9 +37,13 @@ func newImageStreamTags(c *ImageClient, namespace string) *imageStreamTags {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageStreamTags{client: c.RESTClient(), ns: namespace}
 }
 func (c *imageStreamTags) Get(name string, options v1.GetOptions) (result *image.ImageStreamTag, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,6 +77,8 @@ func (c *imageStreamTags) Create(imageStreamTag *image.ImageStreamTag) (result *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &image.ImageStreamTag{}
 	err = c.client.Post().Namespace(c.ns).Resource("imagestreamtags").Body(imageStreamTag).Do().Into(result)
 	return
@@ -92,11 +98,15 @@ func (c *imageStreamTags) Update(imageStreamTag *image.ImageStreamTag) (result *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &image.ImageStreamTag{}
 	err = c.client.Put().Namespace(c.ns).Resource("imagestreamtags").Name(imageStreamTag.Name).Body(imageStreamTag).Do().Into(result)
 	return
 }
 func (c *imageStreamTags) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

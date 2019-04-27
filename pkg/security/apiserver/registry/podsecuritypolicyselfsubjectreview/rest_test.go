@@ -34,6 +34,8 @@ func TestPodSecurityPolicySelfSubjectReview(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		sccs	[]*securityv1.SecurityContextConstraints
 		check	func(p *securityapi.PodSecurityPolicySelfSubjectReview) (bool, string)
@@ -75,6 +77,8 @@ func TestPodSecurityPolicySelfSubjectReview(t *testing.T) {
 type noopTestAuthorizer struct{}
 
 func (s *noopTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decision, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func TestAssignSecurityContext(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 9999
 	fsGroup := int64(1)
 	scc := &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "test scc"}, SELinuxContext: securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyRunAsAny}, RunAsUser: securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyMustRunAs, UID: &uid}, FSGroup: securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyMustRunAs, Ranges: []securityapi.IDRange{{Min: fsGroup, Max: fsGroup}}}, SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyRunAsAny}}
@@ -70,6 +72,8 @@ func TestRequiresPreAllocatedUIDRange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 1
 	testCases := map[string]struct {
 		scc		*securityapi.SecurityContextConstraints
@@ -83,6 +87,8 @@ func TestRequiresPreAllocatedUIDRange(t *testing.T) {
 	}
 }
 func TestRequiresPreAllocatedSELinuxLevel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +129,8 @@ func TestRequiresPreallocatedSupplementalGroups(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		scc		*securityapi.SecurityContextConstraints
 		requires	bool
@@ -149,6 +157,8 @@ func TestRequiresPreallocatedFSGroup(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		scc		*securityapi.SecurityContextConstraints
 		requires	bool
@@ -161,6 +171,8 @@ func TestRequiresPreallocatedFSGroup(t *testing.T) {
 	}
 }
 func TestParseSupplementalGroupAnnotation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -215,6 +227,8 @@ func hasBlock(block uid.Block, blocks []uid.Block) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, b := range blocks {
 		if b.Start == block.Start && b.End == block.End {
 			return true
@@ -223,6 +237,8 @@ func hasBlock(block uid.Block, blocks []uid.Block) bool {
 	return false
 }
 func TestGetPreallocatedFSGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -288,6 +304,8 @@ func TestGetPreallocatedSupplementalGroups(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := func() *corev1.Namespace {
 		return &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Annotations: map[string]string{}}}
 	}
@@ -325,6 +343,8 @@ func TestGetPreallocatedSupplementalGroups(t *testing.T) {
 	}
 }
 func hasRange(rng securityapi.IDRange, ranges []securityapi.IDRange) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

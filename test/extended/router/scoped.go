@@ -215,6 +215,8 @@ func waitForRouterOKResponseExec(ns, execPodName, url, host string, timeoutSecon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf(`
 		set -e
 		for i in $(seq 1 %d); do
@@ -244,6 +246,8 @@ func waitForRouterOKResponseExec(ns, execPodName, url, host string, timeoutSecon
 	return nil
 }
 func expectRouteStatusCodeRepeatedExec(ns, execPodName, url, host string, statusCode int, times int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -293,6 +297,8 @@ func expectRouteStatusCodeExec(ns, execPodName, url, host string, statusCode int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -o /dev/null -w '%%{http_code}' --header 'Host: %s' %q", host, url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -318,6 +324,8 @@ func getAuthenticatedRouteURLViaPod(ns, execPodName, url, host, user, pass strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -u %s:%s --header 'Host: %s' %q", user, pass, host, url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -326,6 +334,8 @@ func getAuthenticatedRouteURLViaPod(ns, execPodName, url, host, user, pass strin
 	return output, nil
 }
 func ingressForName(r *routeapi.Route, name string) *routeapi.RouteIngress {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

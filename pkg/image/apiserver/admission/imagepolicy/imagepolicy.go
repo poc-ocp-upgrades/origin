@@ -47,6 +47,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register(imagepolicy.PluginName, func(input io.Reader) (admission.Interface, error) {
 		config := &imagepolicy.ImagePolicyConfig{}
 		if input != nil {
@@ -112,6 +114,8 @@ func newImagePolicyPlugin(parsed *imagepolicy.ImagePolicyConfig) (*imagePolicyPl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m := integratedRegistryMatcher{RegistryMatcher: rules.NewRegistryMatcher(nil)}
 	accepter, err := rules.NewExecutionRulesAccepter(parsed.ExecutionRules, m)
 	if err != nil {
@@ -134,9 +138,13 @@ func (a *imagePolicyPlugin) SetDefaultRegistryFunc(fn func() (string, bool)) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.integratedRegistryMatcher.RegistryMatcher = rules.RegistryNameMatcher(fn)
 }
 func (a *imagePolicyPlugin) SetRESTClientConfig(restClientConfig rest.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,9 +181,13 @@ func (a *imagePolicyPlugin) SetExternalKubeInformerFactory(kubeInformers informe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.nsLister = kubeInformers.Core().V1().Namespaces().Lister()
 }
 func (a *imagePolicyPlugin) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +230,8 @@ func (a *imagePolicyPlugin) Admit(attr admission.Attributes) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.admit(attr, true)
 }
 func (a *imagePolicyPlugin) Validate(attr admission.Attributes) error {
@@ -235,9 +249,13 @@ func (a *imagePolicyPlugin) Validate(attr admission.Attributes) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.admit(attr, false)
 }
 func (a *imagePolicyPlugin) admit(attr admission.Attributes, mutationAllowed bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -308,6 +326,8 @@ func (m *mutationPreventer) Mutate(fn internalimagereferencemutators.ImageRefere
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.m.Mutate(func(ref *kapi.ObjectReference) error {
 		original := ref.DeepCopy()
 		if err := fn(ref); err != nil {
@@ -347,6 +367,8 @@ func newImageResolutionCache(imageClient imageinternalclient.ImageInterface, int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageCache, err := lru.New(128)
 	if err != nil {
 		return nil, err
@@ -357,6 +379,8 @@ func newImageResolutionCache(imageClient imageinternalclient.ImageInterface, int
 var now = time.Now
 
 func (c *imageResolutionCache) ResolveObjectReference(ref *kapi.ObjectReference, defaultNamespace string, forceResolveLocalNames bool) (*rules.ImagePolicyAttributes, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -417,6 +441,8 @@ func (c *imageResolutionCache) resolveImageReference(ref imageapi.DockerImageRef
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(ref.ID) > 0 {
 		now := now()
 		if value, ok := c.cache.Get(ref.ID); ok {
@@ -447,6 +473,8 @@ func (c *imageResolutionCache) resolveImageReference(ref imageapi.DockerImageRef
 	return c.resolveImageStreamTag(ref.Namespace, ref.Name, tag, partialReference, forceResolveLocalNames)
 }
 func (c *imageResolutionCache) resolveImageStreamTag(namespace, name, tag string, partial, forceResolveLocalNames bool) (*rules.ImagePolicyAttributes, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -514,6 +542,8 @@ func (c *imageResolutionCache) resolveImageStreamImage(namespace, name, id strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	attrs := &rules.ImagePolicyAttributes{IntegratedRegistry: true}
 	resolved, err := c.imageClient.ImageStreamImages(namespace).Get(imageapi.JoinImageStreamImage(name, id), metav1.GetOptions{})
 	if err != nil {
@@ -530,6 +560,8 @@ func (c *imageResolutionCache) resolveImageStreamImage(namespace, name, id strin
 	return attrs, nil
 }
 func isImageStreamTagNotFound(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -577,6 +609,8 @@ func (config resolutionConfig) Covers(gr metav1.GroupResource) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, rule := range config.config.ResolutionRules {
 		if resolutionRuleCoversResource(rule.TargetResource, gr) {
 			return true
@@ -585,6 +619,8 @@ func (config resolutionConfig) Covers(gr metav1.GroupResource) bool {
 	return false
 }
 func (config resolutionConfig) RequestsResolution(gr metav1.GroupResource) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -624,12 +660,16 @@ func (config resolutionConfig) FailOnResolutionFailure(gr metav1.GroupResource) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return FailOnResolutionFailure(config.config.ResolveImages)
 }
 
 var skipImageRewriteOnUpdate = map[metav1.GroupResource]struct{}{{Group: "batch", Resource: "jobs"}: {}, {Group: "build.openshift.io", Resource: "builds"}: {}, {Group: "apps", Resource: "statefulsets"}: {}}
 
 func (config resolutionConfig) RewriteImagePullSpec(attr *rules.ImagePolicyAttributes, isUpdate bool, gr metav1.GroupResource) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -668,6 +708,8 @@ func (config resolutionConfig) RewriteImagePullSpec(attr *rules.ImagePolicyAttri
 	return RewriteImagePullSpec(config.config.ResolveImages)
 }
 func resolutionRuleCoversResource(rule metav1.GroupResource, gr metav1.GroupResource) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

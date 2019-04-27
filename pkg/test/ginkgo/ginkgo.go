@@ -24,6 +24,8 @@ func testsForSuite(cfg config.GinkgoConfigType) ([]*testCase, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	iter := ginkgo.GlobalSuite().Iterator(cfg)
 	var tests []*testCase
 	for {
@@ -70,6 +72,8 @@ func NewMinimalReporter(name string, location types.CodeLocation) *MinimalReport
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MinimalReporter{name: name, location: location}
 }
 func (r *MinimalReporter) Fail() {
@@ -87,8 +91,12 @@ func (r *MinimalReporter) Fail() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *MinimalReporter) Summary() (*types.SpecSummary, *types.SetupSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,8 +128,12 @@ func (r *MinimalReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, sum
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *MinimalReporter) BeforeSuiteDidRun(setup *types.SetupSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,8 +165,12 @@ func (r *MinimalReporter) SpecWillRun(spec *types.SpecSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *MinimalReporter) SpecDidComplete(spec *types.SpecSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +211,8 @@ func (r *MinimalReporter) AfterSuiteDidRun(setupSummary *types.SetupSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *MinimalReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	_logClusterCodePath()
@@ -211,8 +229,12 @@ func (r *MinimalReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func specName(spec *types.SpecSummary) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

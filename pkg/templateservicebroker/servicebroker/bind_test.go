@@ -34,6 +34,8 @@ func TestEvaluateJSONPathExpression(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := 1
 	obj := struct {
 		Int		int
@@ -66,6 +68,8 @@ func TestEvaluateJSONPathExpression(t *testing.T) {
 	}
 }
 func TestBase64AndString(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +136,8 @@ func TestDuplicateCredentialKeys(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	credentials := map[string]interface{}{}
 	err := updateCredentialsForObject(credentials, &kapi.Secret{ObjectMeta: v1.ObjectMeta{Annotations: map[string]string{templateapi.ExposeAnnotationPrefix + "test": "", templateapi.Base64ExposeAnnotationPrefix + "test": ""}}})
 	if err.Error() != `credential with key "test" already exists` {
@@ -139,6 +145,8 @@ func TestDuplicateCredentialKeys(t *testing.T) {
 	}
 }
 func TestBindConflict(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

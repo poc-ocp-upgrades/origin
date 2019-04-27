@@ -21,6 +21,8 @@ func GLog(flags *pflag.FlagSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	from := flag.CommandLine
 	if flag := from.Lookup("v"); flag != nil {
 		level := flag.Value.(*klog.Level)
@@ -43,6 +45,8 @@ func GLog(flags *pflag.FlagSet) {
 type pflagValue struct{ flag.Value }
 
 func (pflagValue) Type() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

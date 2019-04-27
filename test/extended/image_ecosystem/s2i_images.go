@@ -28,6 +28,8 @@ func GetTestCaseForImages() map[string][]tc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := make(map[string][]tc)
 	for name, variants := range s2iImages {
 		for i := range variants {
@@ -38,6 +40,8 @@ func GetTestCaseForImages() map[string][]tc {
 	return result
 }
 func resolveDockerImageReference(name string, t *tc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

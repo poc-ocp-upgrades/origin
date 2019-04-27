@@ -25,6 +25,8 @@ func TestStrategyGenerate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]strategyTestCase{"no user": {MakeStrategy: NewStrategyGenerate, PreferredUsername: "bob", Identity: makeIdentity("", "idp", "bob", "", ""), ValidateActions: func(t *testing.T, actions []clienttesting.Action) {
 		if len(actions) != 2 {
 			t.Fatal(spew.Sdump(actions))

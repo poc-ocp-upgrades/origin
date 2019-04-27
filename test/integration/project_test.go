@@ -42,6 +42,8 @@ func TestProjectIsNamespace(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMasterAPI()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -88,6 +90,8 @@ func TestProjectIsNamespace(t *testing.T) {
 	}
 }
 func TestProjectWatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +181,8 @@ func TestProjectWatchWithSelectionPredicate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -233,6 +239,8 @@ func waitForNoEvent(w watch.Interface, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	select {
 	case event := <-w.ResultChan():
 		t.Fatalf("unexpected event %v with object %#v", event, event.Object)
@@ -240,6 +248,8 @@ func waitForNoEvent(w watch.Interface, t *testing.T) {
 	}
 }
 func waitForDelete(projectName string, w watch.Interface, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -282,6 +292,8 @@ func waitForAdd(projectName string, w watch.Interface, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		select {
 		case event := <-w.ResultChan():
@@ -296,6 +308,8 @@ func waitForAdd(projectName string, w watch.Interface, t *testing.T) {
 	}
 }
 func waitForOnlyAdd(projectName string, w watch.Interface, t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -345,6 +359,8 @@ func waitForOnlyDelete(projectName string, w watch.Interface, t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hasTerminated := sets.NewString()
 	for {
 		select {
@@ -376,6 +392,8 @@ func waitForOnlyDelete(projectName string, w watch.Interface, t *testing.T) {
 	}
 }
 func TestScopedProjectAccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -496,6 +514,8 @@ func TestInvalidRoleRefs(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -580,6 +600,8 @@ func TestInvalidRoleRefs(t *testing.T) {
 	}
 }
 func hasExactlyTheseProjects(lister projectinternalversion.ProjectResourceInterface, projects sets.String) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

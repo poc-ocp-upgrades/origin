@@ -28,6 +28,8 @@ func TestAddConfigLabels(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var nilLabels map[string]string
 	testCases := []struct {
 		obj		runtime.Object
@@ -63,6 +65,8 @@ func TestAddConfigLabels(t *testing.T) {
 	}
 }
 func TestMergeInto(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

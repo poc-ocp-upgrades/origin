@@ -55,9 +55,13 @@ func (o *ExtractOptions) extractTools() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.extractCommand("")
 }
 func (o *ExtractOptions) extractCommand(command string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,6 +382,8 @@ const (
 )
 
 func copyAndReplaceReleaseImage(w io.Writer, r io.Reader, bufferSize int, releaseImage string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

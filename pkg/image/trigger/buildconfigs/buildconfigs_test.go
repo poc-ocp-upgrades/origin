@@ -34,6 +34,8 @@ func (r fakeTagRetriever) ImageStreamTag(namespace, name string) (string, int64,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, resp := range r {
 		if resp.Namespace != namespace || resp.Name != name {
 			continue
@@ -57,6 +59,8 @@ func testBuildConfig(params []buildv1.ImageChangeTrigger) *buildv1.BuildConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj := &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "test", Namespace: "default"}, Spec: buildv1.BuildConfigSpec{}}
 	for i := range params {
 		obj.Spec.Triggers = append(obj.Spec.Triggers, buildv1.BuildTriggerPolicy{ImageChange: &params[i]})
@@ -64,6 +68,8 @@ func testBuildConfig(params []buildv1.ImageChangeTrigger) *buildv1.BuildConfig {
 	return obj
 }
 func testBuildRequest(from *corev1.ObjectReference, core string, triggers map[string]string) *buildv1.BuildRequest {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,11 +121,15 @@ func (i *instantiator) Instantiate(namespace string, request *buildv1.BuildReque
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i.ns = namespace
 	i.request = request
 	return i.build, i.err
 }
 func TestBuildConfigReactor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

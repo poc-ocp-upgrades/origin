@@ -23,5 +23,7 @@ func TestFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("Identity"), AllowedExternalFieldKeys: []string{"providerName", "providerUserName", "user.name", "user.uid"}, FieldKeyEvaluatorFn: userapi.IdentityFieldSelector}.Check(t)
 }

@@ -56,6 +56,8 @@ func setupAndRunPinOpts(out, errout io.Writer) (*PinImportsOpts, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	yamlfile := &glide.YamlFile{Package: "test", Imports: []*glide.YamlFileImport{}}
 	lockfile := &glide.LockFile{Hash: "test", Updated: time.Now(), Imports: []*glide.LockFileImport{}}
 	opts := &PinImportsOpts{LockFile: lockfile, YamlFile: yamlfile, ExistingGlideYamlContent: []byte(yamlFileData), Out: out, ErrOut: errout}
@@ -65,6 +67,8 @@ func setupAndRunPinOpts(out, errout io.Writer) (*PinImportsOpts, error) {
 	return opts, nil
 }
 func TestCorrectlySetupOptsRunWithNoError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func TestCorrectlySetupOptsRunWithNoError(t *testing.T) {
 	}
 }
 func TestOptsOutputsOriginalData(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +138,8 @@ func TestOptsOutputsGeneratedComment(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := bytes.NewBuffer([]byte{})
 	errout := out
 	opts, err := setupAndRunPinOpts(out, errout)
@@ -146,6 +154,8 @@ func TestOptsOutputsGeneratedComment(t *testing.T) {
 	}
 }
 func TestOptionsRunErrorsOnNilLockFile(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +187,8 @@ func TestOptionsRunErrorsOnNilLockFile(t *testing.T) {
 	}
 }
 func TestValidDependenciesArePinnedToOutput(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -225,6 +237,8 @@ import:
 	}
 }
 func TestFlagsToOptionsReturnsOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +306,8 @@ func TestFlagsToOptionsReturnsOptions(t *testing.T) {
 	}
 }
 func TestPinImportsAppendsNewImports(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

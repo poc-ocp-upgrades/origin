@@ -45,6 +45,8 @@ func NewCmdCreateDeploymentConfig(name, fullName string, f genericclioptions.RES
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateDeploymentConfigOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: name + " NAME --image=IMAGE -- [COMMAND] [args...]", Short: "Create deployment config with default options that uses a given image.", Long: deploymentConfigLong, Example: fmt.Sprintf(deploymentConfigExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		cmdutil.CheckErr(o.Complete(cmd, f, args))
@@ -57,6 +59,8 @@ func NewCmdCreateDeploymentConfig(name, fullName string, f genericclioptions.RES
 	return cmd
 }
 func (o *CreateDeploymentConfigOptions) Complete(cmd *cobra.Command, f genericclioptions.RESTClientGetter, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func (o *CreateDeploymentConfigOptions) Complete(cmd *cobra.Command, f genericcl
 	return o.CreateSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreateDeploymentConfigOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

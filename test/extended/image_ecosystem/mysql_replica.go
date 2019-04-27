@@ -42,6 +42,8 @@ func CreateMySQLReplicationHelpers(c kcoreclient.PodInterface, masterDeployment,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podNames, err := exutil.WaitForPods(c, exutil.ParseLabelsOrDie(fmt.Sprintf("deployment=%s", masterDeployment)), exutil.CheckPodIsRunning, 1, 4*time.Minute)
 	o.Expect(err).NotTo(o.HaveOccurred())
 	masterPod := podNames[0]
@@ -59,6 +61,8 @@ func CreateMySQLReplicationHelpers(c kcoreclient.PodInterface, masterDeployment,
 	return master, slaves, helper
 }
 func replicationTestFactory(oc *exutil.CLI, tc testCase, cleanup func()) func() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

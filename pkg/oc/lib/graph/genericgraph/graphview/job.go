@@ -29,6 +29,8 @@ func AllJobs(g osgraph.Graph, excludeNodeIDs IntSet) ([]Job, IntSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	views := []Job{}
 	for _, uncastNode := range g.NodesByKind(kubenodes.JobNodeKind) {
@@ -42,6 +44,8 @@ func AllJobs(g osgraph.Graph, excludeNodeIDs IntSet) ([]Job, IntSet) {
 	return views, covered
 }
 func NewJob(g osgraph.Graph, node *kubenodes.JobNode) (Job, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

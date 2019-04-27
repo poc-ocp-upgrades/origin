@@ -22,6 +22,8 @@ func BuildFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build, ok := obj.(*Build)
 	if !ok {
 		return fmt.Errorf("%T not a Build", obj)

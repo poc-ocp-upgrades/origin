@@ -27,6 +27,8 @@ func fakeNamespaceLister(projectAnnotations map[string]string) corev1listers.Nam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{})
 	ns := &corev1.Namespace{}
 	ns.Name = "default"
@@ -49,9 +51,13 @@ func testConfig(n *int64) *runonceduration.RunOnceDurationConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &runonceduration.RunOnceDurationConfig{ActiveDeadlineSecondsLimit: n}
 }
 func testRunOncePod() *kapi.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,11 +91,15 @@ func testRestartOnFailurePod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.RestartPolicy = kapi.RestartPolicyOnFailure
 	return pod
 }
 func testRunOncePodWithDuration(n int64) *kapi.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +133,8 @@ func testRestartAlwaysPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.RestartPolicy = kapi.RestartPolicyAlways
 	return pod
@@ -142,9 +154,13 @@ func int64p(n int64) *int64 {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &n
 }
 func TestRunOnceDurationAdmit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -201,6 +217,8 @@ func TestReadConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	configStr := `apiVersion: autoscaling.openshift.io/v1
 kind: RunOnceDurationConfig
 activeDeadlineSecondsOverride: 3600
@@ -218,6 +236,8 @@ activeDeadlineSecondsOverride: 3600
 	}
 }
 func TestInt64MinP(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

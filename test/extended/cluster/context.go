@@ -93,6 +93,8 @@ func ParseConfig(config string, isFixture bool) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if isFixture {
 		dir, file := filepath.Split(config)
 		s := strings.Split(file, ".")

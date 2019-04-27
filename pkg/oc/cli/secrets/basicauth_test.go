@@ -21,6 +21,8 @@ func TestValidateBasicAuth(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		testName	string
 		options		func(genericclioptions.IOStreams) *CreateBasicAuthSecretOptions

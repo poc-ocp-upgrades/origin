@@ -55,6 +55,8 @@ func mustParseTime(t string) time.Time {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := time.Parse(time.RFC3339, t)
 	if err != nil {
 		panic(err)
@@ -62,6 +64,8 @@ func mustParseTime(t string) time.Time {
 	return out
 }
 func TestProjectStatus(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +216,8 @@ func TestProjectStatusErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		Err	error
 		ErrFn	func(error) bool
@@ -261,6 +267,8 @@ func TestPrintMarkerSuggestions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		markers		[]osgraph.Marker
 		suggest		bool
@@ -276,6 +284,8 @@ func TestPrintMarkerSuggestions(t *testing.T) {
 	}
 }
 func readObjectsFromPath(path, namespace string) ([]runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -341,6 +351,8 @@ func convertToExternal(scheme *runtime.Scheme, objs []runtime.Object) ([]runtime
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := make([]runtime.Object, 0, len(objs))
 	for _, obj := range objs {
 		gvks, _, err := scheme.ObjectKinds(obj)
@@ -363,6 +375,8 @@ func convertToExternal(scheme *runtime.Scheme, objs []runtime.Object) ([]runtime
 	return result, nil
 }
 func setNamespace(scheme *runtime.Scheme, obj runtime.Object, namespace string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

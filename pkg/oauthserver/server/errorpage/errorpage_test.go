@@ -21,6 +21,8 @@ func TestErrorPage(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		Headers		http.Header
 		ExpectHandled	bool
@@ -59,6 +61,8 @@ func TestErrorPage(t *testing.T) {
 	}
 }
 func TestValidateErrorPageTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

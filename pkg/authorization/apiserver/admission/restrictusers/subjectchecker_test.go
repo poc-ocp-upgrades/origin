@@ -28,6 +28,8 @@ func mustNewSubjectChecker(t *testing.T, spec *authorizationapi.RoleBindingRestr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	checker, err := NewSubjectChecker(spec)
 	if err != nil {
 		t.Errorf("unexpected error from NewChecker: %v, spec: %#v", err, spec)
@@ -35,6 +37,8 @@ func mustNewSubjectChecker(t *testing.T, spec *authorizationapi.RoleBindingRestr
 	return checker
 }
 func TestSubjectCheckers(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

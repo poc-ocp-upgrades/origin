@@ -30,6 +30,8 @@ func (c *FakeImageStreamImages) Get(name string, options v1.GetOptions) (result 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(imagestreamimagesResource, c.ns, name), &image.ImageStreamImage{})
 	if obj == nil {
 		return nil, err

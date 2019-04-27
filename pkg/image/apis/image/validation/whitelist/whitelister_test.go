@@ -23,6 +23,8 @@ func mkAllowed(insecure bool, regs ...string) openshiftcontrolplanev1.AllowedReg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ret := make(openshiftcontrolplanev1.AllowedRegistries, 0, len(regs))
 	for _, reg := range regs {
 		ret = append(ret, openshiftcontrolplanev1.RegistryLocation{DomainName: reg, Insecure: insecure})
@@ -30,6 +32,8 @@ func mkAllowed(insecure bool, regs ...string) openshiftcontrolplanev1.AllowedReg
 	return ret
 }
 func TestRegistryWhitelister(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -79,6 +83,8 @@ func TestRegistryWhitelister(t *testing.T) {
 	}
 }
 func TestWhitelistRegistry(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -143,6 +149,8 @@ func TestNewRegistryWhitelister(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		insecure	bool
@@ -156,6 +164,8 @@ func TestNewRegistryWhitelister(t *testing.T) {
 	}
 }
 func assertExpectedError(t *testing.T, a, e error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

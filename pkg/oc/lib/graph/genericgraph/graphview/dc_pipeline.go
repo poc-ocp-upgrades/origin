@@ -30,6 +30,8 @@ func AllDeploymentConfigPipelines(g osgraph.Graph, excludeNodeIDs IntSet) ([]Dep
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	dcPipelines := []DeploymentConfigPipeline{}
 	for _, uncastNode := range g.NodesByKind(appsgraph.DeploymentConfigNodeKind) {
@@ -44,6 +46,8 @@ func AllDeploymentConfigPipelines(g osgraph.Graph, excludeNodeIDs IntSet) ([]Dep
 	return dcPipelines, covered
 }
 func NewDeploymentConfigPipeline(g osgraph.Graph, dcNode *appsgraph.DeploymentConfigNode) (DeploymentConfigPipeline, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +105,8 @@ func (m SortedDeploymentConfigPipeline) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(m)
 }
 func (m SortedDeploymentConfigPipeline) Swap(i, j int) {
@@ -118,9 +124,13 @@ func (m SortedDeploymentConfigPipeline) Swap(i, j int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m[i], m[j] = m[j], m[i]
 }
 func (m SortedDeploymentConfigPipeline) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

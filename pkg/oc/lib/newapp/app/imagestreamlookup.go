@@ -34,9 +34,13 @@ func (r ImageStreamSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "images in image streams"
 }
 func (r ImageStreamSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,6 +212,8 @@ func InputImageFromMatch(match *ComponentMatch) (*ImageRef, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := NewImageRefGenerator()
 	switch {
 	case match.ImageStream != nil:
@@ -267,9 +273,13 @@ func NewImageStreamByAnnotationSearcher(streamClient imagev1typedclient.ImageStr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ImageStreamByAnnotationSearcher{Client: streamClient, ImageStreamImages: imageClient, Namespaces: namespaces, imageStreams: make(map[string]*imagev1.ImageStreamList)}
 }
 func (r *ImageStreamByAnnotationSearcher) getImageStreams(namespace string) ([]imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,6 +320,8 @@ func matchSupportsAnnotation(value, annotation string) (float32, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	valueBase := strings.Split(value, ":")[0]
 	parts := strings.Split(annotation, ",")
 	for _, p := range parts {
@@ -326,6 +338,8 @@ func matchSupportsAnnotation(value, annotation string) (float32, bool) {
 	return 0, false
 }
 func (r *ImageStreamByAnnotationSearcher) annotationMatches(stream *imagev1.ImageStream, value string) []*ComponentMatch {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -409,9 +423,13 @@ func (r *ImageStreamByAnnotationSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "image stream images with a 'supports' annotation"
 }
 func (r *ImageStreamByAnnotationSearcher) Search(precise bool, terms ...string) (ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

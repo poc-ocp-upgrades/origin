@@ -190,6 +190,8 @@ func skipUnlessCVO(c coreclient.NamespaceInterface) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.PollImmediate(time.Second, time.Minute, func() (bool, error) {
 		_, err := c.Get("openshift-cluster-version", metav1.GetOptions{})
 		if err == nil {
@@ -204,6 +206,8 @@ func skipUnlessCVO(c coreclient.NamespaceInterface) {
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
 func findOperatorVersion(versions []configv1.OperandVersion, name string) *configv1.OperandVersion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +244,8 @@ func contains(names []string, name string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, s := range names {
 		if s == name {
 			return true
@@ -248,6 +254,8 @@ func contains(names []string, name string) bool {
 	return false
 }
 func jsonString(from objx.Map) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -280,6 +288,8 @@ func objects(from *objx.Value) []objx.Map {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var values []objx.Map
 	switch {
 	case from.IsObjxMapSlice():
@@ -294,6 +304,8 @@ func objects(from *objx.Value) []objx.Map {
 	return values
 }
 func condition(cv objx.Map, condition string) objx.Map {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -40,6 +40,8 @@ func buildStrategyTypes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{"source", "docker", "custom", "jenkinspipeline"}
 }
 func buildStrategyTypesRestricted() []string {
@@ -57,9 +59,13 @@ func buildStrategyTypesRestricted() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{"custom"}
 }
 func TestPolicyBasedRestrictionOfBuildCreateAndCloneByStrategy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,6 +154,8 @@ func TestPolicyBasedRestrictionOfBuildConfigCreateAndInstantiateByStrategy(t *te
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterAdminClientConfig, projectAdminKubeClient, projectAdminClient, projectEditorClient, fn := setupBuildStrategyTest(t, true)
 	defer fn()
 	clients := map[string]buildv1client.Interface{"admin": projectAdminClient, "editor": projectEditorClient}
@@ -208,6 +216,8 @@ func TestPolicyBasedRestrictionOfBuildConfigCreateAndInstantiateByStrategy(t *te
 	}
 }
 func setupBuildStrategyTest(t *testing.T, includeControllers bool) (clusterAdminClientConfig *rest.Config, projectAdminKubeClient kubernetes.Interface, projectAdminClient, projectEditorClient buildv1client.Interface, cleanup func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -303,6 +313,8 @@ func removeBuildStrategyRoleResources(t *testing.T, clusterAdminAuthorizationCli
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, role := range []string{bootstrappolicy.BuildStrategyCustomRoleName, bootstrappolicy.BuildStrategyDockerRoleName, bootstrappolicy.BuildStrategySourceRoleName, bootstrappolicy.BuildStrategyJenkinsPipelineRoleName} {
 		options := &policy.RoleModificationOptions{RoleName: role, RoleKind: "ClusterRole", RbacClient: clusterAdminAuthorizationClient, Groups: []string{"system:authenticated"}, PrintFlags: genericclioptions.NewPrintFlags(""), ToPrinter: func(string) (printers.ResourcePrinter, error) {
 			return printers.NewDiscardingPrinter(), nil
@@ -339,6 +351,8 @@ func grantRestrictedBuildStrategyRoleResources(t *testing.T, clusterAdminAuthori
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, role := range []string{bootstrappolicy.BuildStrategyCustomRoleName} {
 		options := &policy.RoleModificationOptions{RoleName: role, RoleKind: "ClusterRole", RbacClient: clusterAdminAuthorizationClient, Groups: []string{"system:authenticated"}, PrintFlags: genericclioptions.NewPrintFlags(""), ToPrinter: func(string) (printers.ResourcePrinter, error) {
 			return printers.NewDiscardingPrinter(), nil
@@ -352,6 +366,8 @@ func grantRestrictedBuildStrategyRoleResources(t *testing.T, clusterAdminAuthori
 	}
 }
 func strategyForType(t *testing.T, strategy string) buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,6 +416,8 @@ func createBuild(t *testing.T, buildInterface buildv1clienttyped.BuildInterface,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := &buildv1.Build{}
 	build.ObjectMeta.Labels = map[string]string{buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}
 	build.GenerateName = strings.ToLower(string(strategy)) + "-build-"
@@ -408,6 +426,8 @@ func createBuild(t *testing.T, buildInterface buildv1clienttyped.BuildInterface,
 	return buildInterface.Create(build)
 }
 func updateBuild(t *testing.T, buildInterface buildv1clienttyped.BuildInterface, build *buildv1.Build) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -454,6 +474,8 @@ func createBuildConfig(t *testing.T, buildConfigInterface buildv1clienttyped.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfig := &buildv1.BuildConfig{}
 	buildConfig.Spec.RunPolicy = buildv1.BuildRunPolicyParallel
 	buildConfig.GenerateName = strings.ToLower(string(strategy)) + "-buildconfig-"
@@ -462,6 +484,8 @@ func createBuildConfig(t *testing.T, buildConfigInterface buildv1clienttyped.Bui
 	return buildConfigInterface.Create(buildConfig)
 }
 func cloneBuild(t *testing.T, buildInterface buildv1clienttyped.BuildInterface, build *buildv1.Build) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,11 +519,15 @@ func instantiateBuildConfig(t *testing.T, buildConfigInterface buildv1clienttype
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req := &buildv1.BuildRequest{}
 	req.Name = buildConfig.Name
 	return buildConfigInterface.Instantiate(buildConfig.Name, req)
 }
 func updateBuildConfig(t *testing.T, buildConfigInterface buildv1clienttyped.BuildConfigInterface, buildConfig *buildv1.BuildConfig) (*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

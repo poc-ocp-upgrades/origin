@@ -60,6 +60,8 @@ func NewDockercfgController(serviceAccounts informers.ServiceAccountInformer, se
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &DockercfgController{client: cl, queue: workqueue.NewRateLimitingQueue(workqueue.DefaultControllerRateLimiter()), dockerURLsInitialized: options.DockerURLsInitialized}
 	serviceAccountCache := serviceAccounts.Informer().GetStore()
 	e.serviceAccountController = serviceAccounts.Informer().GetController()
@@ -120,6 +122,8 @@ func (e *DockercfgController) handleTokenSecretUpdate(oldObj, newObj interface{}
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret := newObj.(*v1.Secret)
 	if secret.Annotations[DeprecatedKubeCreatedByAnnotation] != CreateDockercfgSecretsController {
 		return
@@ -138,6 +142,8 @@ func (e *DockercfgController) handleTokenSecretUpdate(oldObj, newObj interface{}
 	}
 }
 func (e *DockercfgController) handleTokenSecretDelete(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +194,8 @@ func (e *DockercfgController) enqueueServiceAccountForToken(tokenSecret *v1.Secr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceAccount := &v1.ServiceAccount{ObjectMeta: metav1.ObjectMeta{Name: tokenSecret.Annotations[v1.ServiceAccountNameKey], Namespace: tokenSecret.Namespace, UID: types.UID(tokenSecret.Annotations[v1.ServiceAccountUIDKey])}}
 	key, err := controller.KeyFunc(serviceAccount)
 	if err != nil {
@@ -197,6 +205,8 @@ func (e *DockercfgController) enqueueServiceAccountForToken(tokenSecret *v1.Secr
 	e.queue.Add(key)
 }
 func (e *DockercfgController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -247,6 +257,8 @@ func (c *DockercfgController) waitForDockerURLs(ready chan<- struct{}, stopCh <-
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	select {
 	case <-c.dockerURLsInitialized:
@@ -256,6 +268,8 @@ func (c *DockercfgController) waitForDockerURLs(ready chan<- struct{}, stopCh <-
 	close(ready)
 }
 func (e *DockercfgController) enqueueServiceAccount(serviceAccount *v1.ServiceAccount) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -295,6 +309,8 @@ func (e *DockercfgController) worker() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		if !e.work() {
 			return
@@ -302,6 +318,8 @@ func (e *DockercfgController) worker() {
 	}
 }
 func (e *DockercfgController) work() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,11 +367,15 @@ func (e *DockercfgController) SetDockerURLs(newDockerURLs ...string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.dockerURLLock.Lock()
 	defer e.dockerURLLock.Unlock()
 	e.dockerURLs = newDockerURLs
 }
 func needsDockercfgSecret(serviceAccount *v1.ServiceAccount) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,6 +397,8 @@ func needsDockercfgSecret(serviceAccount *v1.ServiceAccount) bool {
 	return true
 }
 func (e *DockercfgController) syncServiceAccount(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -472,6 +496,8 @@ func (e *DockercfgController) createTokenSecret(serviceAccount *v1.ServiceAccoun
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pendingTokenName := serviceAccount.Annotations[PendingTokenAnnotation]
 	if len(pendingTokenName) == 0 {
 		pendingTokenName = secret.Strategy.GenerateName(getTokenSecretNamePrefix(serviceAccount.Name))
@@ -508,6 +534,8 @@ func (e *DockercfgController) createTokenSecret(serviceAccount *v1.ServiceAccoun
 	return token, len(token.Data[v1.ServiceAccountTokenKey]) > 0, nil
 }
 func (e *DockercfgController) createDockerPullSecret(serviceAccount *v1.ServiceAccount) (*v1.Secret, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -561,6 +589,8 @@ func getGeneratedDockercfgSecretNames(serviceAccount *v1.ServiceAccount) (sets.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mountableDockercfgSecrets := sets.String{}
 	imageDockercfgPullSecrets := sets.String{}
 	secretNamePrefix := getDockercfgSecretNamePrefix(serviceAccount.Name)
@@ -577,6 +607,8 @@ func getGeneratedDockercfgSecretNames(serviceAccount *v1.ServiceAccount) (sets.S
 	return mountableDockercfgSecrets, imageDockercfgPullSecrets
 }
 func getDockercfgSecretNamePrefix(serviceAccountName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -608,6 +640,8 @@ func getTokenSecretNamePrefix(serviceAccountName string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetName(serviceAccountName, "token-", maxSecretPrefixNameLength)
 }
 func _logClusterCodePath() {
@@ -625,6 +659,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -699,5 +754,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -22,6 +22,8 @@ func Test_tokenLimiter_take(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nowFunc := func() time.Time {
 		return time.Time{}
 	}

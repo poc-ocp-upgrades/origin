@@ -22,6 +22,8 @@ func TestVolumeSourceFSTypeDrift(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allFSTypes := GetAllFSTypesAsSet()
 	val := reflect.ValueOf(api.VolumeSource{})
 	for i := 0; i < val.NumField(); i++ {
@@ -53,6 +55,8 @@ func TestSCCAllowsVolumeType(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		scc	*securityapi.SecurityContextConstraints
 		fsType	securityapi.FSType
@@ -66,6 +70,8 @@ func TestSCCAllowsVolumeType(t *testing.T) {
 	}
 }
 func TestEqualStringSlices(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

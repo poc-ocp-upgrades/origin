@@ -27,9 +27,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +305,8 @@ func autoConvert_v1_CustomDeploymentStrategyParams_To_apps_CustomDeploymentStrat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Image = in.Image
 	if in.Environment != nil {
 		in, out := &in.Environment, &out.Environment
@@ -331,9 +337,13 @@ func Convert_v1_CustomDeploymentStrategyParams_To_apps_CustomDeploymentStrategyP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_CustomDeploymentStrategyParams_To_apps_CustomDeploymentStrategyParams(in, out, s)
 }
 func autoConvert_apps_CustomDeploymentStrategyParams_To_v1_CustomDeploymentStrategyParams(in *apps.CustomDeploymentStrategyParams, out *v1.CustomDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,9 +388,13 @@ func Convert_apps_CustomDeploymentStrategyParams_To_v1_CustomDeploymentStrategyP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_CustomDeploymentStrategyParams_To_v1_CustomDeploymentStrategyParams(in, out, s)
 }
 func autoConvert_v1_DeploymentCause_To_apps_DeploymentCause(in *v1.DeploymentCause, out *apps.DeploymentCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -422,9 +436,13 @@ func Convert_v1_DeploymentCause_To_apps_DeploymentCause(in *v1.DeploymentCause, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentCause_To_apps_DeploymentCause(in, out, s)
 }
 func autoConvert_apps_DeploymentCause_To_v1_DeploymentCause(in *apps.DeploymentCause, out *v1.DeploymentCause, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,9 +484,13 @@ func Convert_apps_DeploymentCause_To_v1_DeploymentCause(in *apps.DeploymentCause
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentCause_To_v1_DeploymentCause(in, out, s)
 }
 func autoConvert_v1_DeploymentCauseImageTrigger_To_apps_DeploymentCauseImageTrigger(in *v1.DeploymentCauseImageTrigger, out *apps.DeploymentCauseImageTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -503,9 +525,13 @@ func Convert_v1_DeploymentCauseImageTrigger_To_apps_DeploymentCauseImageTrigger(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentCauseImageTrigger_To_apps_DeploymentCauseImageTrigger(in, out, s)
 }
 func autoConvert_apps_DeploymentCauseImageTrigger_To_v1_DeploymentCauseImageTrigger(in *apps.DeploymentCauseImageTrigger, out *v1.DeploymentCauseImageTrigger, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -540,9 +566,13 @@ func Convert_apps_DeploymentCauseImageTrigger_To_v1_DeploymentCauseImageTrigger(
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentCauseImageTrigger_To_v1_DeploymentCauseImageTrigger(in, out, s)
 }
 func autoConvert_v1_DeploymentCondition_To_apps_DeploymentCondition(in *v1.DeploymentCondition, out *apps.DeploymentCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -580,9 +610,13 @@ func Convert_v1_DeploymentCondition_To_apps_DeploymentCondition(in *v1.Deploymen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentCondition_To_apps_DeploymentCondition(in, out, s)
 }
 func autoConvert_apps_DeploymentCondition_To_v1_DeploymentCondition(in *apps.DeploymentCondition, out *v1.DeploymentCondition, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -620,9 +654,13 @@ func Convert_apps_DeploymentCondition_To_v1_DeploymentCondition(in *apps.Deploym
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentCondition_To_v1_DeploymentCondition(in, out, s)
 }
 func autoConvert_v1_DeploymentConfig_To_apps_DeploymentConfig(in *v1.DeploymentConfig, out *apps.DeploymentConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -661,9 +699,13 @@ func Convert_v1_DeploymentConfig_To_apps_DeploymentConfig(in *v1.DeploymentConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfig_To_apps_DeploymentConfig(in, out, s)
 }
 func autoConvert_apps_DeploymentConfig_To_v1_DeploymentConfig(in *apps.DeploymentConfig, out *v1.DeploymentConfig, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -702,9 +744,13 @@ func Convert_apps_DeploymentConfig_To_v1_DeploymentConfig(in *apps.DeploymentCon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfig_To_v1_DeploymentConfig(in, out, s)
 }
 func autoConvert_v1_DeploymentConfigList_To_apps_DeploymentConfigList(in *v1.DeploymentConfigList, out *apps.DeploymentConfigList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -748,9 +794,13 @@ func Convert_v1_DeploymentConfigList_To_apps_DeploymentConfigList(in *v1.Deploym
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfigList_To_apps_DeploymentConfigList(in, out, s)
 }
 func autoConvert_apps_DeploymentConfigList_To_v1_DeploymentConfigList(in *apps.DeploymentConfigList, out *v1.DeploymentConfigList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -794,9 +844,13 @@ func Convert_apps_DeploymentConfigList_To_v1_DeploymentConfigList(in *apps.Deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfigList_To_v1_DeploymentConfigList(in, out, s)
 }
 func autoConvert_v1_DeploymentConfigRollback_To_apps_DeploymentConfigRollback(in *v1.DeploymentConfigRollback, out *apps.DeploymentConfigRollback, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -833,9 +887,13 @@ func Convert_v1_DeploymentConfigRollback_To_apps_DeploymentConfigRollback(in *v1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfigRollback_To_apps_DeploymentConfigRollback(in, out, s)
 }
 func autoConvert_apps_DeploymentConfigRollback_To_v1_DeploymentConfigRollback(in *apps.DeploymentConfigRollback, out *v1.DeploymentConfigRollback, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -872,9 +930,13 @@ func Convert_apps_DeploymentConfigRollback_To_v1_DeploymentConfigRollback(in *ap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfigRollback_To_v1_DeploymentConfigRollback(in, out, s)
 }
 func autoConvert_v1_DeploymentConfigRollbackSpec_To_apps_DeploymentConfigRollbackSpec(in *v1.DeploymentConfigRollbackSpec, out *apps.DeploymentConfigRollbackSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -914,9 +976,13 @@ func Convert_v1_DeploymentConfigRollbackSpec_To_apps_DeploymentConfigRollbackSpe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfigRollbackSpec_To_apps_DeploymentConfigRollbackSpec(in, out, s)
 }
 func autoConvert_apps_DeploymentConfigRollbackSpec_To_v1_DeploymentConfigRollbackSpec(in *apps.DeploymentConfigRollbackSpec, out *v1.DeploymentConfigRollbackSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -956,9 +1022,13 @@ func Convert_apps_DeploymentConfigRollbackSpec_To_v1_DeploymentConfigRollbackSpe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfigRollbackSpec_To_v1_DeploymentConfigRollbackSpec(in, out, s)
 }
 func autoConvert_v1_DeploymentConfigSpec_To_apps_DeploymentConfigSpec(in *v1.DeploymentConfigSpec, out *apps.DeploymentConfigSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1019,9 +1089,13 @@ func Convert_v1_DeploymentConfigSpec_To_apps_DeploymentConfigSpec(in *v1.Deploym
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfigSpec_To_apps_DeploymentConfigSpec(in, out, s)
 }
 func autoConvert_apps_DeploymentConfigSpec_To_v1_DeploymentConfigSpec(in *apps.DeploymentConfigSpec, out *v1.DeploymentConfigSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1082,9 +1156,13 @@ func Convert_apps_DeploymentConfigSpec_To_v1_DeploymentConfigSpec(in *apps.Deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfigSpec_To_v1_DeploymentConfigSpec(in, out, s)
 }
 func autoConvert_v1_DeploymentConfigStatus_To_apps_DeploymentConfigStatus(in *v1.DeploymentConfigStatus, out *apps.DeploymentConfigStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1133,9 +1211,13 @@ func Convert_v1_DeploymentConfigStatus_To_apps_DeploymentConfigStatus(in *v1.Dep
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentConfigStatus_To_apps_DeploymentConfigStatus(in, out, s)
 }
 func autoConvert_apps_DeploymentConfigStatus_To_v1_DeploymentConfigStatus(in *apps.DeploymentConfigStatus, out *v1.DeploymentConfigStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1184,9 +1266,13 @@ func Convert_apps_DeploymentConfigStatus_To_v1_DeploymentConfigStatus(in *apps.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentConfigStatus_To_v1_DeploymentConfigStatus(in, out, s)
 }
 func autoConvert_v1_DeploymentDetails_To_apps_DeploymentDetails(in *v1.DeploymentDetails, out *apps.DeploymentDetails, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1230,9 +1316,13 @@ func Convert_v1_DeploymentDetails_To_apps_DeploymentDetails(in *v1.DeploymentDet
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentDetails_To_apps_DeploymentDetails(in, out, s)
 }
 func autoConvert_apps_DeploymentDetails_To_v1_DeploymentDetails(in *apps.DeploymentDetails, out *v1.DeploymentDetails, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1276,9 +1366,13 @@ func Convert_apps_DeploymentDetails_To_v1_DeploymentDetails(in *apps.DeploymentD
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentDetails_To_v1_DeploymentDetails(in, out, s)
 }
 func autoConvert_v1_DeploymentLog_To_apps_DeploymentLog(in *v1.DeploymentLog, out *apps.DeploymentLog, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1310,9 +1404,13 @@ func Convert_v1_DeploymentLog_To_apps_DeploymentLog(in *v1.DeploymentLog, out *a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentLog_To_apps_DeploymentLog(in, out, s)
 }
 func autoConvert_apps_DeploymentLog_To_v1_DeploymentLog(in *apps.DeploymentLog, out *v1.DeploymentLog, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1344,9 +1442,13 @@ func Convert_apps_DeploymentLog_To_v1_DeploymentLog(in *apps.DeploymentLog, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentLog_To_v1_DeploymentLog(in, out, s)
 }
 func autoConvert_v1_DeploymentLogOptions_To_apps_DeploymentLogOptions(in *v1.DeploymentLogOptions, out *apps.DeploymentLogOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1388,9 +1490,13 @@ func Convert_v1_DeploymentLogOptions_To_apps_DeploymentLogOptions(in *v1.Deploym
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentLogOptions_To_apps_DeploymentLogOptions(in, out, s)
 }
 func autoConvert_apps_DeploymentLogOptions_To_v1_DeploymentLogOptions(in *apps.DeploymentLogOptions, out *v1.DeploymentLogOptions, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1432,9 +1538,13 @@ func Convert_apps_DeploymentLogOptions_To_v1_DeploymentLogOptions(in *apps.Deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentLogOptions_To_v1_DeploymentLogOptions(in, out, s)
 }
 func autoConvert_v1_DeploymentRequest_To_apps_DeploymentRequest(in *v1.DeploymentRequest, out *apps.DeploymentRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1470,9 +1580,13 @@ func Convert_v1_DeploymentRequest_To_apps_DeploymentRequest(in *v1.DeploymentReq
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentRequest_To_apps_DeploymentRequest(in, out, s)
 }
 func autoConvert_apps_DeploymentRequest_To_v1_DeploymentRequest(in *apps.DeploymentRequest, out *v1.DeploymentRequest, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1508,9 +1622,13 @@ func Convert_apps_DeploymentRequest_To_v1_DeploymentRequest(in *apps.DeploymentR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentRequest_To_v1_DeploymentRequest(in, out, s)
 }
 func autoConvert_v1_DeploymentStrategy_To_apps_DeploymentStrategy(in *v1.DeploymentStrategy, out *apps.DeploymentStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1576,9 +1694,13 @@ func Convert_v1_DeploymentStrategy_To_apps_DeploymentStrategy(in *v1.DeploymentS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentStrategy_To_apps_DeploymentStrategy(in, out, s)
 }
 func autoConvert_apps_DeploymentStrategy_To_v1_DeploymentStrategy(in *apps.DeploymentStrategy, out *v1.DeploymentStrategy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1644,9 +1766,13 @@ func Convert_apps_DeploymentStrategy_To_v1_DeploymentStrategy(in *apps.Deploymen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentStrategy_To_v1_DeploymentStrategy(in, out, s)
 }
 func autoConvert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImageChangeParams(in *v1.DeploymentTriggerImageChangeParams, out *apps.DeploymentTriggerImageChangeParams, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1684,6 +1810,8 @@ func autoConvert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTrigger
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.Automatic = in.Automatic
 	out.ContainerNames = *(*[]string)(unsafe.Pointer(&in.ContainerNames))
 	if err := corev1.Convert_core_ObjectReference_To_v1_ObjectReference(&in.From, &out.From, s); err != nil {
@@ -1693,6 +1821,8 @@ func autoConvert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTrigger
 	return nil
 }
 func autoConvert_v1_DeploymentTriggerPolicy_To_apps_DeploymentTriggerPolicy(in *v1.DeploymentTriggerPolicy, out *apps.DeploymentTriggerPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1734,9 +1864,13 @@ func Convert_v1_DeploymentTriggerPolicy_To_apps_DeploymentTriggerPolicy(in *v1.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_DeploymentTriggerPolicy_To_apps_DeploymentTriggerPolicy(in, out, s)
 }
 func autoConvert_apps_DeploymentTriggerPolicy_To_v1_DeploymentTriggerPolicy(in *apps.DeploymentTriggerPolicy, out *v1.DeploymentTriggerPolicy, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1778,9 +1912,13 @@ func Convert_apps_DeploymentTriggerPolicy_To_v1_DeploymentTriggerPolicy(in *apps
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_DeploymentTriggerPolicy_To_v1_DeploymentTriggerPolicy(in, out, s)
 }
 func autoConvert_v1_ExecNewPodHook_To_apps_ExecNewPodHook(in *v1.ExecNewPodHook, out *apps.ExecNewPodHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1826,9 +1964,13 @@ func Convert_v1_ExecNewPodHook_To_apps_ExecNewPodHook(in *v1.ExecNewPodHook, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ExecNewPodHook_To_apps_ExecNewPodHook(in, out, s)
 }
 func autoConvert_apps_ExecNewPodHook_To_v1_ExecNewPodHook(in *apps.ExecNewPodHook, out *v1.ExecNewPodHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1874,9 +2016,13 @@ func Convert_apps_ExecNewPodHook_To_v1_ExecNewPodHook(in *apps.ExecNewPodHook, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_ExecNewPodHook_To_v1_ExecNewPodHook(in, out, s)
 }
 func autoConvert_v1_LifecycleHook_To_apps_LifecycleHook(in *v1.LifecycleHook, out *apps.LifecycleHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1929,9 +2075,13 @@ func Convert_v1_LifecycleHook_To_apps_LifecycleHook(in *v1.LifecycleHook, out *a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_LifecycleHook_To_apps_LifecycleHook(in, out, s)
 }
 func autoConvert_apps_LifecycleHook_To_v1_LifecycleHook(in *apps.LifecycleHook, out *v1.LifecycleHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1984,9 +2134,13 @@ func Convert_apps_LifecycleHook_To_v1_LifecycleHook(in *apps.LifecycleHook, out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_LifecycleHook_To_v1_LifecycleHook(in, out, s)
 }
 func autoConvert_v1_RecreateDeploymentStrategyParams_To_apps_RecreateDeploymentStrategyParams(in *v1.RecreateDeploymentStrategyParams, out *apps.RecreateDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2046,9 +2200,13 @@ func Convert_v1_RecreateDeploymentStrategyParams_To_apps_RecreateDeploymentStrat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_RecreateDeploymentStrategyParams_To_apps_RecreateDeploymentStrategyParams(in, out, s)
 }
 func autoConvert_apps_RecreateDeploymentStrategyParams_To_v1_RecreateDeploymentStrategyParams(in *apps.RecreateDeploymentStrategyParams, out *v1.RecreateDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2108,9 +2266,13 @@ func Convert_apps_RecreateDeploymentStrategyParams_To_v1_RecreateDeploymentStrat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_apps_RecreateDeploymentStrategyParams_To_v1_RecreateDeploymentStrategyParams(in, out, s)
 }
 func autoConvert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrategyParams(in *v1.RollingDeploymentStrategyParams, out *apps.RollingDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2163,6 +2325,8 @@ func autoConvert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.UpdatePeriodSeconds = (*int64)(unsafe.Pointer(in.UpdatePeriodSeconds))
 	out.IntervalSeconds = (*int64)(unsafe.Pointer(in.IntervalSeconds))
 	out.TimeoutSeconds = (*int64)(unsafe.Pointer(in.TimeoutSeconds))
@@ -2201,6 +2365,8 @@ func autoConvert_v1_TagImageHook_To_apps_TagImageHook(in *v1.TagImageHook, out *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ContainerName = in.ContainerName
 	if err := corev1.Convert_v1_ObjectReference_To_core_ObjectReference(&in.To, &out.To, s); err != nil {
 		return err
@@ -2208,6 +2374,8 @@ func autoConvert_v1_TagImageHook_To_apps_TagImageHook(in *v1.TagImageHook, out *
 	return nil
 }
 func Convert_v1_TagImageHook_To_apps_TagImageHook(in *v1.TagImageHook, out *apps.TagImageHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2239,6 +2407,8 @@ func autoConvert_apps_TagImageHook_To_v1_TagImageHook(in *apps.TagImageHook, out
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ContainerName = in.ContainerName
 	if err := corev1.Convert_core_ObjectReference_To_v1_ObjectReference(&in.To, &out.To, s); err != nil {
 		return err
@@ -2246,6 +2416,8 @@ func autoConvert_apps_TagImageHook_To_v1_TagImageHook(in *apps.TagImageHook, out
 	return nil
 }
 func Convert_apps_TagImageHook_To_v1_TagImageHook(in *apps.TagImageHook, out *v1.TagImageHook, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

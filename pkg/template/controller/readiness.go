@@ -40,6 +40,8 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kappsv1.AddToScheme(readinessScheme)
 	kappsv1beta1.AddToScheme(readinessScheme)
 	kappsv1beta2.AddToScheme(readinessScheme)
@@ -65,6 +67,8 @@ func checkBuildReadiness(obj runtime.Object) (bool, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b, ok := obj.(*buildv1.Build)
 	if !ok {
 		return false, false, fmt.Errorf("object %T is not v1.Build", obj)
@@ -74,6 +78,8 @@ func checkBuildReadiness(obj runtime.Object) (bool, bool, error) {
 	return ready, failed, nil
 }
 func checkBuildConfigReadiness(oc buildv1client.Interface, obj runtime.Object) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,9 +130,13 @@ func newDeploymentCondition(status corev1.ConditionStatus, reason string) *deplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &deploymentCondition{status: status, reason: reason}
 }
 func checkDeploymentReadiness(obj runtime.Object) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -211,6 +221,8 @@ func checkDeploymentConfigReadiness(obj runtime.Object) (bool, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dc, ok := obj.(*appsv1.DeploymentConfig)
 	if !ok {
 		return false, false, fmt.Errorf("object %T is not v1.DeploymentConfig", obj)
@@ -243,6 +255,8 @@ func checkJobReadiness(obj runtime.Object) (bool, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		hasCompletionTime	bool
 		isJobFailed		bool
@@ -257,6 +271,8 @@ func checkJobReadiness(obj runtime.Object) (bool, bool, error) {
 	return hasCompletionTime, isJobFailed, nil
 }
 func checkStatefulSetReadiness(obj runtime.Object) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -305,6 +321,8 @@ func checkRouteReadiness(obj runtime.Object) (bool, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route, ok := obj.(*routev1.Route)
 	if !ok {
 		return false, false, fmt.Errorf("object %T is not v1.Route", obj)
@@ -312,6 +330,8 @@ func checkRouteReadiness(obj runtime.Object) (bool, bool, error) {
 	return len(route.Spec.Host) > 0, false, nil
 }
 func groupVersionKind(gv schema.GroupVersion, kind string) schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -346,6 +366,8 @@ func CanCheckReadiness(ref corev1.ObjectReference) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch ref.GroupVersionKind() {
 	case groupVersionKind(buildv1.GroupVersion, "BuildConfig"), groupVersionKind(legacy.GroupVersion, "BuildConfig"):
 		return true
@@ -354,6 +376,8 @@ func CanCheckReadiness(ref corev1.ObjectReference) bool {
 	return found
 }
 func CheckReadiness(oc buildv1client.Interface, ref corev1.ObjectReference, obj *unstructured.Unstructured) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

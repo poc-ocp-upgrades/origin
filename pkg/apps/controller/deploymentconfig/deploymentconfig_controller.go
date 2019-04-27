@@ -46,6 +46,8 @@ func (e fatalError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("fatal error handling deployment config: %s", string(e))
 }
 
@@ -64,6 +66,8 @@ type DeploymentConfigController struct {
 }
 
 func (c *DeploymentConfigController) Handle(config *appsv1.DeploymentConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +197,8 @@ func (c *DeploymentConfigController) reconcileDeployments(existingDeployments []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	activeDeployment := appsutil.ActiveDeployment(existingDeployments)
 	var updatedDeployments []*v1.ReplicationController
 	for i := range existingDeployments {
@@ -259,6 +265,8 @@ func (c *DeploymentConfigController) updateStatus(config *appsv1.DeploymentConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newStatus := calculateStatus(config, deployments, updateObservedGeneration, additional...)
 	if reflect.DeepEqual(newStatus, config.Status) {
 		return nil
@@ -272,6 +280,8 @@ func (c *DeploymentConfigController) updateStatus(config *appsv1.DeploymentConfi
 	return nil
 }
 func (c *DeploymentConfigController) cancelRunningRollouts(config *appsv1.DeploymentConfig, existingDeployments []*v1.ReplicationController, cm *RCControllerRefManager) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,6 +357,8 @@ func calculateStatus(config *appsv1.DeploymentConfig, rcs []*v1.ReplicationContr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	latestReplicas := int32(0)
 	latestExists, latestRC := appsutil.LatestDeploymentInfo(config, rcs)
 	if !latestExists {
@@ -372,6 +384,8 @@ func calculateStatus(config *appsv1.DeploymentConfig, rcs []*v1.ReplicationContr
 	return status
 }
 func updateConditions(config *appsv1.DeploymentConfig, newStatus *appsv1.DeploymentConfigStatus, latestRC *v1.ReplicationController) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -438,6 +452,8 @@ func (c *DeploymentConfigController) handleErr(err error, key interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		c.queue.Forget(key)
 		return
@@ -475,6 +491,8 @@ func (c *DeploymentConfigController) cleanupOldDeployments(existingDeployments [
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if deploymentConfig.Spec.RevisionHistoryLimit == nil {
 		return nil
 	}
@@ -497,6 +515,8 @@ func (c *DeploymentConfigController) cleanupOldDeployments(existingDeployments [
 	return kutilerrors.NewAggregate(deletionErrors)
 }
 func triggerActivated(config *appsv1.DeploymentConfig, latestExists bool, latestDeployment *v1.ReplicationController) (bool, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

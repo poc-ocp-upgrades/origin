@@ -41,6 +41,8 @@ func controllerSetup(startingObjects []runtime.Object, t *testing.T, stopCh <-ch
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeclient := fake.NewSimpleClientset(startingObjects...)
 	fakeWatch := watch.NewFake()
 	kubeclient.PrependReactor("create", "*", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
@@ -61,6 +63,8 @@ func controllerSetup(startingObjects []runtime.Object, t *testing.T, stopCh <-ch
 	return kubeclient, fakeWatch, controller, informerFactory
 }
 func wrapHandler(indicator chan bool, handler func() error, t *testing.T) func() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +105,8 @@ func wrapStringHandler(indicator chan bool, handler func(string) error, t *testi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(key string) error {
 		defer func() {
 			indicator <- true
@@ -113,6 +119,8 @@ func wrapStringHandler(indicator chan bool, handler func(string) error, t *testi
 	}
 }
 func TestNoChangeNoOp(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +163,8 @@ func TestNoChangeNoOp(t *testing.T) {
 	}
 }
 func TestUpdateNewStyleSecretAndDNSSuffixAndAdditionalURLs(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -248,6 +258,8 @@ func TestUpdateOldStyleSecretWithKey(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopChannel := make(chan struct{})
 	defer close(stopChannel)
 	received := make(chan bool)
@@ -326,6 +338,8 @@ func TestUpdateOldStyleSecretWithoutKey(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stopChannel := make(chan struct{})
 	defer close(stopChannel)
 	received := make(chan bool)
@@ -386,6 +400,8 @@ func TestUpdateOldStyleSecretWithoutKey(t *testing.T) {
 	}
 }
 func TestClearSecretAndRecreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -67,6 +67,8 @@ func ParseURL(ldapURL string) (LDAPURL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsedURL, err := url.Parse(ldapURL)
 	if err != nil {
 		return LDAPURL{}, err
@@ -126,6 +128,8 @@ func DetermineLDAPScheme(scheme string) (Scheme, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch Scheme(scheme) {
 	case SchemeLDAP, SchemeLDAPS:
 		return Scheme(scheme), nil
@@ -134,6 +138,8 @@ func DetermineLDAPScheme(scheme string) (Scheme, error) {
 	}
 }
 func DetermineLDAPHost(hostport string, scheme Scheme) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -164,6 +170,8 @@ func DetermineLDAPHost(hostport string, scheme Scheme) (string, error) {
 	return hostport, nil
 }
 func SplitLDAPQuery(query string) (attributes, scope, filter, extensions string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -226,6 +234,8 @@ func DetermineLDAPScope(scope string) (Scope, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch scope {
 	case "", scopeWholeSubtreeString:
 		return ScopeWholeSubtree, nil
@@ -252,6 +262,8 @@ func DetermineLDAPFilter(filter string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(filter) == 0 {
 		return defaultFilter, nil
 	}
@@ -261,6 +273,8 @@ func DetermineLDAPFilter(filter string) (string, error) {
 	return filter, nil
 }
 func DetermineDerefAliasesBehavior(derefAliasesString string) (DerefAliases, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

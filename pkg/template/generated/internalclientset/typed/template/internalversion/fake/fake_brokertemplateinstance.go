@@ -30,6 +30,8 @@ func (c *FakeBrokerTemplateInstances) Get(name string, options v1.GetOptions) (r
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(brokertemplateinstancesResource, name), &template.BrokerTemplateInstance{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeBrokerTemplateInstances) Get(name string, options v1.GetOptions) (r
 	return obj.(*template.BrokerTemplateInstance), err
 }
 func (c *FakeBrokerTemplateInstances) List(opts v1.ListOptions) (result *template.BrokerTemplateInstanceList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeBrokerTemplateInstances) Watch(opts v1.ListOptions) (watch.Interfac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(brokertemplateinstancesResource, opts))
 }
 func (c *FakeBrokerTemplateInstances) Create(brokerTemplateInstance *template.BrokerTemplateInstance) (result *template.BrokerTemplateInstance, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeBrokerTemplateInstances) Update(brokerTemplateInstance *template.Br
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(brokertemplateinstancesResource, brokerTemplateInstance), &template.BrokerTemplateInstance{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeBrokerTemplateInstances) Update(brokerTemplateInstance *template.Br
 	return obj.(*template.BrokerTemplateInstance), err
 }
 func (c *FakeBrokerTemplateInstances) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeBrokerTemplateInstances) DeleteCollection(options *v1.DeleteOptions
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(brokertemplateinstancesResource, listOptions)
 	_, err := c.Fake.Invokes(action, &template.BrokerTemplateInstanceList{})
 	return err
 }
 func (c *FakeBrokerTemplateInstances) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *template.BrokerTemplateInstance, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

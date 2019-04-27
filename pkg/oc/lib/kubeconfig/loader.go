@@ -22,9 +22,13 @@ func NewPathOptions(cmd *cobra.Command) *kclientcmd.PathOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return NewPathOptionsWithConfig(kcmdutil.GetFlagString(cmd, genericclioptions.OpenShiftKubeConfigFlagName))
 }
 func NewPathOptionsWithConfig(configPath string) *kclientcmd.PathOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

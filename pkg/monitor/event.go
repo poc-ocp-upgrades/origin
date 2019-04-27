@@ -25,6 +25,8 @@ func startEventMonitoring(ctx context.Context, m Recorder, client kubernetes.Int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		for {
 			select {

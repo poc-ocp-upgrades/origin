@@ -34,6 +34,8 @@ func RunOpenShiftNetworkController(config *openshiftcontrolplanev1.OpenShiftCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	util.InitLogrus()
 	kubeClient, err := kubernetes.NewForConfig(clientConfig)
 	if err != nil {

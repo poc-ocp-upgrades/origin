@@ -97,9 +97,13 @@ func NewDeploymentHookOptions(streams genericclioptions.IOStreams) *DeploymentHo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DeploymentHookOptions{PrintFlags: genericclioptions.NewPrintFlags("hooks updated").WithTypeSetter(scheme.Scheme), IOStreams: streams, FailurePolicyStr: "ignore"}
 }
 func NewCmdDeploymentHook(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,6 +144,8 @@ func NewCmdDeploymentHook(fullName string, f kcmdutil.Factory, streams genericcl
 	return cmd
 }
 func (o *DeploymentHookOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +223,8 @@ func (o *DeploymentHookOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Remove {
 		if len(o.Command) > 0 || len(o.Volumes) > 0 || len(o.Environment) > 0 || len(o.Container) > 0 {
 			return fmt.Errorf("--remove may not be used with any option except --pre, --mid, or --post")
@@ -246,6 +254,8 @@ func (o *DeploymentHookOptions) Validate() error {
 	return nil
 }
 func (o *DeploymentHookOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,6 +340,8 @@ func (o *DeploymentHookOptions) updateDeploymentConfig(dc *appsv1.DeploymentConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
 		err		error
 		updatedRecreate	bool
@@ -350,6 +362,8 @@ func (o *DeploymentHookOptions) updateDeploymentConfig(dc *appsv1.DeploymentConf
 	return updatedRecreate || updatedRolling, nil
 }
 func (o *DeploymentHookOptions) updateRecreateParams(dc *appsv1.DeploymentConfig, strategyParams *appsv1.RecreateDeploymentStrategyParams) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -409,6 +423,8 @@ func (o *DeploymentHookOptions) updateRollingParams(dc *appsv1.DeploymentConfig,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var updated bool
 	if o.Remove {
 		if o.Pre && strategyParams.Pre != nil {
@@ -434,6 +450,8 @@ func (o *DeploymentHookOptions) updateRollingParams(dc *appsv1.DeploymentConfig,
 	return true, nil
 }
 func (o *DeploymentHookOptions) lifecycleHook(dc *appsv1.DeploymentConfig) (*appsv1.LifecycleHook, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

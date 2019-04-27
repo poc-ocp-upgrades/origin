@@ -23,6 +23,8 @@ func TestValidateServingInfo(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	certFile, err := ioutil.TempFile("", "cert.crt")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)

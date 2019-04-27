@@ -27,6 +27,8 @@ func NewSimpleAllocationPlugin(suffix string) (*SimpleAllocationPlugin, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(suffix) == 0 {
 		suffix = defaultDNSSuffix
 	}
@@ -51,10 +53,14 @@ func (p *SimpleAllocationPlugin) Allocate(route *routeapi.Route) (*routeapi.Rout
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Allocating global shard *.%s to Route: %s", p.DNSSuffix, route.Name)
 	return &routeapi.RouterShard{ShardName: "global", DNSSuffix: p.DNSSuffix}, nil
 }
 func (p *SimpleAllocationPlugin) GenerateHostname(route *routeapi.Route, shard *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

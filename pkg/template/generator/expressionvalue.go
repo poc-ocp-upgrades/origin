@@ -38,9 +38,13 @@ func NewExpressionValueGenerator(seed *rand.Rand) ExpressionValueGenerator {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ExpressionValueGenerator{seed: seed}
 }
 func (g ExpressionValueGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func alphabetSlice(from, to byte) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	leftPos := strings.Index(ASCII, string(from))
 	rightPos := strings.LastIndex(ASCII, string(to))
 	if leftPos > rightPos {
@@ -94,6 +100,8 @@ func alphabetSlice(from, to byte) (string, error) {
 	return ASCII[leftPos:rightPos], nil
 }
 func replaceWithGenerated(s *string, expression string, ranges [][]byte, length int, seed *rand.Rand) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -150,6 +158,8 @@ func removeDuplicateChars(input string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data := []byte(input)
 	length := len(data) - 1
 	for i := 0; i < length; i++ {
@@ -179,6 +189,8 @@ func findExpressionPos(s string) [][]byte {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matches := rangeExp.FindAllStringIndex(s, -1)
 	result := make([][]byte, len(matches))
 	for i, r := range matches {
@@ -187,6 +199,8 @@ func findExpressionPos(s string) [][]byte {
 	return result
 }
 func rangesAndLength(s string) (string, int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

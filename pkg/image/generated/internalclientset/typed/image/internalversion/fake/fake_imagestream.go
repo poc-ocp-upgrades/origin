@@ -34,6 +34,8 @@ func (c *FakeImageStreams) Get(name string, options v1.GetOptions) (result *imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(imagestreamsResource, c.ns, name), &image.ImageStream{})
 	if obj == nil {
 		return nil, err
@@ -41,6 +43,8 @@ func (c *FakeImageStreams) Get(name string, options v1.GetOptions) (result *imag
 	return obj.(*image.ImageStream), err
 }
 func (c *FakeImageStreams) List(opts v1.ListOptions) (result *image.ImageStreamList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,9 +90,13 @@ func (c *FakeImageStreams) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewWatchAction(imagestreamsResource, c.ns, opts))
 }
 func (c *FakeImageStreams) Create(imageStream *image.ImageStream) (result *image.ImageStream, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +132,8 @@ func (c *FakeImageStreams) Update(imageStream *image.ImageStream) (result *image
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewUpdateAction(imagestreamsResource, c.ns, imageStream), &image.ImageStream{})
 	if obj == nil {
 		return nil, err
@@ -131,6 +141,8 @@ func (c *FakeImageStreams) Update(imageStream *image.ImageStream) (result *image
 	return obj.(*image.ImageStream), err
 }
 func (c *FakeImageStreams) UpdateStatus(imageStream *image.ImageStream) (*image.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -166,10 +178,14 @@ func (c *FakeImageStreams) Delete(name string, options *v1.DeleteOptions) error 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := c.Fake.Invokes(testing.NewDeleteAction(imagestreamsResource, c.ns, name), &image.ImageStream{})
 	return err
 }
 func (c *FakeImageStreams) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +219,8 @@ func (c *FakeImageStreams) Patch(name string, pt types.PatchType, data []byte, s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewPatchSubresourceAction(imagestreamsResource, c.ns, name, pt, data, subresources...), &image.ImageStream{})
 	if obj == nil {
 		return nil, err
@@ -210,6 +228,8 @@ func (c *FakeImageStreams) Patch(name string, pt types.PatchType, data []byte, s
 	return obj.(*image.ImageStream), err
 }
 func (c *FakeImageStreams) Secrets(imageStreamName string, options v1.GetOptions) (result *corev1.SecretList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

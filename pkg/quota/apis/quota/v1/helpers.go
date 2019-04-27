@@ -24,6 +24,8 @@ func GetResourceQuotasStatusByNamespace(namespaceStatuses quotav1.ResourceQuotas
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range namespaceStatuses {
 		curr := namespaceStatuses[i]
 		if curr.Namespace == namespace {
@@ -33,6 +35,8 @@ func GetResourceQuotasStatusByNamespace(namespaceStatuses quotav1.ResourceQuotas
 	return corev1.ResourceQuotaStatus{}, false
 }
 func RemoveResourceQuotasStatusByNamespace(namespaceStatuses *quotav1.ResourceQuotasStatusByNamespace, namespace string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func InsertResourceQuotasStatus(namespaceStatuses *quotav1.ResourceQuotasStatusB
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newNamespaceStatuses := quotav1.ResourceQuotasStatusByNamespace{}
 	found := false
 	for i := range *namespaceStatuses {
@@ -92,6 +98,8 @@ func InsertResourceQuotasStatus(namespaceStatuses *quotav1.ResourceQuotasStatusB
 var accessor = meta.NewAccessor()
 
 func GetMatcher(selector quotav1.ClusterResourceQuotaSelector) (func(obj runtime.Object) (bool, error), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +154,8 @@ func GetMatcher(selector quotav1.ClusterResourceQuotaSelector) (func(obj runtime
 	}, nil
 }
 func GetObjectMatcher(selector quotav1.ClusterResourceQuotaSelector) (func(obj metav1.Object) (bool, error), error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -17,6 +17,8 @@ func TestIsWilcardMatch(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := map[string]struct {
 		Matching	[]string
 		NotMatching	[]string

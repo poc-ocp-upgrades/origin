@@ -28,6 +28,8 @@ func ValidateParameter(param *templateapi.Parameter, fldPath *field.Path) (allEr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(param.Name) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("name"), ""))
 		return
@@ -38,6 +40,8 @@ func ValidateParameter(param *templateapi.Parameter, fldPath *field.Path) (allEr
 	return
 }
 func ValidateProcessedTemplate(template *templateapi.Template) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,11 +76,15 @@ func ValidateTemplate(template *templateapi.Template) (allErrs field.ErrorList) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs = validation.ValidateObjectMeta(&template.ObjectMeta, true, ValidateTemplateName, field.NewPath("metadata"))
 	allErrs = append(allErrs, validateTemplateBody(template)...)
 	return
 }
 func ValidateTemplateUpdate(template, oldTemplate *templateapi.Template) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -108,6 +116,8 @@ func validateTemplateBody(template *templateapi.Template) (allErrs field.ErrorLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range template.Parameters {
 		allErrs = append(allErrs, ValidateParameter(&template.Parameters[i], field.NewPath("parameters").Index(i))...)
 	}
@@ -117,6 +127,8 @@ func validateTemplateBody(template *templateapi.Template) (allErrs field.ErrorLi
 var ValidateTemplateInstanceName = apimachineryvalidation.NameIsDNSSubdomain
 
 func ValidateTemplateInstance(templateInstance *templateapi.TemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +186,8 @@ func ValidateTemplateInstanceUpdate(templateInstance, oldTemplateInstance *templ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs = validation.ValidateObjectMetaUpdate(&templateInstance.ObjectMeta, &oldTemplateInstance.ObjectMeta, field.NewPath("metadata"))
 	if !kapihelper.Semantic.DeepEqual(templateInstance.Spec, oldTemplateInstance.Spec) {
 		allErrs = append(allErrs, field.Forbidden(field.NewPath("spec"), "field is immutable"))
@@ -184,6 +198,8 @@ func ValidateTemplateInstanceUpdate(templateInstance, oldTemplateInstance *templ
 var ValidateBrokerTemplateInstanceName = apimachineryvalidation.NameIsDNSSubdomain
 
 func ValidateBrokerTemplateInstance(brokerTemplateInstance *templateapi.BrokerTemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +225,8 @@ func ValidateBrokerTemplateInstance(brokerTemplateInstance *templateapi.BrokerTe
 	return
 }
 func ValidateBrokerTemplateInstanceUpdate(brokerTemplateInstance, oldBrokerTemplateInstance *templateapi.BrokerTemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,12 +269,16 @@ func nameIsUUID(name string, prefix bool) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if uuidRegex.MatchString(name) {
 		return nil
 	}
 	return []string{"is not a valid UUID"}
 }
 func validateTemplateInstanceReference(ref *kapi.ObjectReference, fldPath *field.Path, kind string) (allErrs field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

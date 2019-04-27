@@ -21,6 +21,8 @@ func TestInitializerUser(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		Identity	*userapi.Identity
 		User		*userapi.User

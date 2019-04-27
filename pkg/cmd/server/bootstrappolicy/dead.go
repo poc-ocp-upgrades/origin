@@ -26,6 +26,8 @@ func addDeadClusterRole(name string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, existingRole := range deadClusterRoles {
 		if name == existingRole.Name {
 			klog.Fatalf("role %q was already registered", name)
@@ -36,6 +38,8 @@ func addDeadClusterRole(name string) {
 	deadClusterRoles = append(deadClusterRoles, deadClusterRole)
 }
 func addDeadClusterRoleBinding(name, roleName string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -74,6 +78,8 @@ func GetDeadClusterRoles() []rbacv1.ClusterRole {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return deadClusterRoles
 }
 func GetDeadClusterRoleBindings() []rbacv1.ClusterRoleBinding {
@@ -91,9 +97,13 @@ func GetDeadClusterRoleBindings() []rbacv1.ClusterRoleBinding {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return deadClusterRoleBindings
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

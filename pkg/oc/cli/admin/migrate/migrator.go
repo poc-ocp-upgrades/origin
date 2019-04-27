@@ -42,6 +42,8 @@ func (r ReporterBool) Changed() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return bool(r)
 }
 func AlwaysRequiresMigration(_ *resource.Info) (Reporter, error) {
@@ -59,9 +61,13 @@ func AlwaysRequiresMigration(_ *resource.Info) (Reporter, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ReporterBool(true), nil
 }
 func timeStampNow() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,12 +110,16 @@ func (w *syncedWriter) Write(p []byte) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.lock.Lock()
 	n, err := w.write(p)
 	w.lock.Unlock()
 	return n, err
 }
 func (w *syncedWriter) write(p []byte) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,9 +183,13 @@ func NewResourceOptions(streams genericclioptions.IOStreams) *ResourceOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ResourceOptions{PrintFlags: genericclioptions.NewPrintFlags("migrated").WithTypeSetter(scheme.Scheme), IOStreams: streams, AllNamespaces: true}
 }
 func (o *ResourceOptions) WithIncludes(include []string) *ResourceOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,10 +222,14 @@ func (o *ResourceOptions) WithExcludes(defaultExcludes []schema.GroupResource) *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.DefaultExcludes = defaultExcludes
 	return o
 }
 func (o *ResourceOptions) WithOverlappingResources(resources []sets.String) *ResourceOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -244,10 +262,14 @@ func (o *ResourceOptions) WithUnstructured() *ResourceOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.Unstructured = true
 	return o
 }
 func (o *ResourceOptions) WithAllNamespaces() *ResourceOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -280,6 +302,8 @@ func (o *ResourceOptions) Bind(c *cobra.Command) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.Flags().StringSliceVar(&o.Include, "include", o.Include, "Resource types to migrate. Passing --filename will override this flag.")
 	c.Flags().BoolVarP(&o.AllNamespaces, "all-namespaces", "A", o.AllNamespaces, "Migrate objects in all namespaces. Defaults to true.")
 	c.Flags().BoolVar(&o.Confirm, "confirm", o.Confirm, "If true, all requested objects will be migrated. Defaults to false.")
@@ -290,6 +314,8 @@ func (o *ResourceOptions) Bind(c *cobra.Command) {
 	kcmdutil.AddJsonFilenameFlag(c.Flags(), &o.Filenames, usage)
 }
 func (o *ResourceOptions) Complete(f kcmdutil.Factory, c *cobra.Command) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -459,6 +485,8 @@ func (o *ResourceOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Filenames) == 0 && len(o.Include) == 0 {
 		return fmt.Errorf("you must specify at least one resource or resource type to migrate with --include or --filenames")
 	}
@@ -468,6 +496,8 @@ func (o *ResourceOptions) Validate() error {
 	return nil
 }
 func (o *ResourceOptions) Visitor() *ResourceVisitor {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -505,6 +535,8 @@ func (r *resourceBuilder) Visitor(fns ...resource.ErrMatchFunc) (resource.Visito
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := r.builder.Do().IgnoreErrors(fns...)
 	return result, result.Err()
 }
@@ -520,6 +552,8 @@ type ResourceVisitor struct {
 }
 
 func (o *ResourceVisitor) Visit(fn MigrateVisitFunc) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -618,12 +652,16 @@ func (ErrRetriable) Temporary() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 
 type ErrNotRetriable struct{ MigrateError }
 
 func (ErrNotRetriable) Temporary() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -687,6 +725,8 @@ func (t *migrateTracker) report(prefix string, info *resource.Info, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := info.Namespace
 	if len(ns) > 0 {
 		ns = " -n " + ns
@@ -700,6 +740,8 @@ func (t *migrateTracker) report(prefix string, info *resource.Info, err error) {
 	}
 }
 func (t *migrateTracker) run() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -774,6 +816,8 @@ func (t *migrateWorker) run() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for data := range t.work {
 		if data.err == nil && t.filterFn != nil {
 			ok, err := t.filterFn(data.info)
@@ -795,6 +839,8 @@ func (t *migrateWorker) run() {
 	}
 }
 func (t *migrateWorker) try(info *resource.Info, retries int) (attemptResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -857,12 +903,16 @@ func canRetry(err error) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if temp, ok := err.(TemporaryError); ok && temp.Temporary() {
 		return true
 	}
 	return err == ErrRecalculate
 }
 func DefaultRetriable(info *resource.Info, err error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -899,6 +949,8 @@ func DefaultRetriable(info *resource.Info, err error) error {
 	}
 }
 func FindAllCanonicalResources(d discovery.ServerResourcesInterface, m meta.RESTMapper) ([]schema.GroupResource, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -962,9 +1014,13 @@ func (g groupResourcesByName) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(g)
 }
 func (g groupResourcesByName) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -988,6 +1044,8 @@ func (g groupResourcesByName) Less(i, j int) bool {
 	return g[i].Group < g[j].Group
 }
 func (g groupResourcesByName) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -30,6 +30,8 @@ func shimKubectlForOc() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kclientcmd.ErrEmptyConfig = genericclioptions.NewErrConfigurationMissing()
 	kcmdset.ParseDockerImageReferenceToStringFunc = clientcmd.ParseDockerImageReferenceToStringFunc
 	openshiftpatch.OAPIToGroupified = legacygroupification.OAPIToGroupified

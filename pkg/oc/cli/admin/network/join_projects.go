@@ -48,9 +48,13 @@ func NewJoinOptions(streams genericclioptions.IOStreams) *JoinOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &JoinOptions{Options: NewProjectOptions(streams), JoinProject: NewProjectOptions(streams)}
 }
 func NewCmdJoinProjectsNetwork(commandName, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func (o *JoinOptions) Complete(f kcmdutil.Factory, c *cobra.Command, args []stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.Options.Complete(f, c, args); err != nil {
 		return err
 	}
@@ -114,6 +120,8 @@ func (o *JoinOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errList := []error{}
 	if err := o.Options.Validate(); err != nil {
 		errList = append(errList, err)
@@ -124,6 +132,8 @@ func (o *JoinOptions) Validate() error {
 	return kerrors.NewAggregate(errList)
 }
 func (o *JoinOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

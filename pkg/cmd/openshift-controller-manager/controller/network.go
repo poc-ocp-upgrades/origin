@@ -23,6 +23,8 @@ func RunIngressIPController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resyncPeriod := 10 * time.Minute
 	if len(ctx.OpenshiftControllerConfig.Ingress.IngressIPNetworkCIDR) == 0 {
 		return true, nil

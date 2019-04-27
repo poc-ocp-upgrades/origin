@@ -21,6 +21,8 @@ func InternalListOptionsToSelectors(options *metainternal.ListOptions) (labels.S
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	label := labels.Everything()
 	if options != nil && options.LabelSelector != nil {
 		label = options.LabelSelector

@@ -25,6 +25,8 @@ func NewDeploymentConfigStatusViewer() kubectl.StatusViewer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &DeploymentConfigStatusViewer{}
 }
 
@@ -33,6 +35,8 @@ type DeploymentConfigStatusViewer struct{}
 var _ kubectl.StatusViewer = &DeploymentConfigStatusViewer{}
 
 func (s *DeploymentConfigStatusViewer) Status(obj runtime.Unstructured, desiredRevision int64) (string, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

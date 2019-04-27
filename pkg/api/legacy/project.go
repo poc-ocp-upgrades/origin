@@ -24,6 +24,8 @@ func InstallInternalLegacyProject(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyProject(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalProjectTypes, addLegacyProjectFieldSelectorKeyConversions, projectv1helpers.RegisterDefaults, projectv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
@@ -43,10 +45,14 @@ func InstallExternalLegacyProject(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedProjectTypes)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func addUngroupifiedProjectTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,10 +86,14 @@ func addUngroupifiedInternalProjectTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(InternalGroupVersion, &project.Project{}, &project.ProjectList{}, &project.ProjectRequest{})
 	return nil
 }
 func addLegacyProjectFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +114,8 @@ func addLegacyProjectFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	return nil
 }
 func legacyProjectFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

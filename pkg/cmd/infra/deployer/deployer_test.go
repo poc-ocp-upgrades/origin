@@ -29,6 +29,8 @@ func TestDeployer_getDeploymentFail(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployer := &Deployer{strategyFor: func(config *appsv1.DeploymentConfig) (strategy.DeploymentStrategy, error) {
 		t.Fatal("unexpected call")
 		return nil, nil
@@ -45,6 +47,8 @@ func TestDeployer_getDeploymentFail(t *testing.T) {
 	t.Logf("got expected error: %v", err)
 }
 func TestDeployer_deployScenarios(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -160,6 +164,8 @@ func mkdeployment(version int64, status appsv1.DeploymentStatus) *corev1.Replica
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployment, _ := appsutil.MakeDeployment(appstest.OkDeploymentConfig(version))
 	deployment.Annotations[appsv1.DeploymentStatusAnnotation] = string(status)
 	return deployment
@@ -170,6 +176,8 @@ type testStrategy struct {
 }
 
 func (t *testStrategy) Deploy(from *corev1.ReplicationController, to *corev1.ReplicationController, desiredReplicas int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,10 +216,14 @@ func (t *FakeScaler) Scale(namespace, name string, newSize uint, preconditions *
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Events = append(t.Events, ScaleEvent{name, newSize})
 	return nil
 }
 func (t *FakeScaler) ScaleSimple(namespace, name string, preconditions *kubectl.ScalePrecondition, newSize uint, resource schema.GroupResource) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

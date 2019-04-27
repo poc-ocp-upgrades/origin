@@ -24,6 +24,8 @@ func Convert_public_to_api_DockerImage(in *public.DockerImage, out *docker10.Doc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = docker10.DockerImage{ID: in.ID, Parent: in.Parent, Comment: in.Comment, Created: metav1.Time{Time: in.Created}, Container: in.Container, DockerVersion: in.DockerVersion, Author: in.Author, Architecture: in.Architecture, Size: in.Size}
 	if err := Convert_public_to_api_DockerConfig(&in.ContainerConfig, &out.ContainerConfig); err != nil {
 		return err
@@ -37,6 +39,8 @@ func Convert_public_to_api_DockerImage(in *public.DockerImage, out *docker10.Doc
 	return nil
 }
 func Convert_compatibility_to_api_DockerImage(in *public.DockerV1CompatibilityImage, out *docker10.DockerImage) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -78,6 +82,8 @@ func Convert_imageconfig_to_api_DockerImage(in *public.DockerImageConfig, out *d
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = docker10.DockerImage{ID: in.ID, Parent: in.Parent, Comment: in.Comment, Created: metav1.Time{Time: in.Created}, Container: in.Container, DockerVersion: in.DockerVersion, Author: in.Author, Architecture: in.Architecture, Size: in.Size}
 	if err := Convert_public_to_api_DockerConfig(&in.ContainerConfig, &out.ContainerConfig); err != nil {
 		return err
@@ -91,6 +97,8 @@ func Convert_imageconfig_to_api_DockerImage(in *public.DockerImageConfig, out *d
 	return nil
 }
 func Convert_api_to_public_DockerImage(in *docker10.DockerImage, out *public.DockerImage) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,10 +140,14 @@ func Convert_public_to_api_DockerConfig(in *public.DockerConfig, out *docker10.D
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = docker10.DockerConfig{Hostname: in.Hostname, Domainname: in.Domainname, User: in.User, Memory: in.Memory, MemorySwap: in.MemorySwap, CPUShares: in.CPUShares, CPUSet: in.CPUSet, AttachStdin: in.AttachStdin, AttachStdout: in.AttachStdout, AttachStderr: in.AttachStderr, PortSpecs: in.PortSpecs, ExposedPorts: in.ExposedPorts, Tty: in.Tty, OpenStdin: in.OpenStdin, StdinOnce: in.StdinOnce, Env: in.Env, Cmd: in.Cmd, DNS: in.DNS, Image: in.Image, Volumes: in.Volumes, VolumesFrom: in.VolumesFrom, WorkingDir: in.WorkingDir, Entrypoint: in.Entrypoint, NetworkDisabled: in.NetworkDisabled, SecurityOpts: in.SecurityOpts, OnBuild: in.OnBuild, Labels: in.Labels}
 	return nil
 }
 func Convert_api_to_public_DockerConfig(in *docker10.DockerConfig, out *public.DockerConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

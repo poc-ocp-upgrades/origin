@@ -26,6 +26,8 @@ func (c *FakeSubjectAccessReviews) Create(subjectAccessReview *authorization.Sub
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootCreateAction(subjectaccessreviewsResource, subjectAccessReview), &authorization.SubjectAccessReviewResponse{})
 	if obj == nil {
 		return nil, err

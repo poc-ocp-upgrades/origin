@@ -35,6 +35,8 @@ func (ar *AuthenticationRedirectors) Add(name string, redirector AuthenticationR
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ar.redirectorMap == nil {
 		ar.redirectorMap = make(map[string]AuthenticationRedirector, 1)
 	}
@@ -45,6 +47,8 @@ func (ar *AuthenticationRedirectors) Add(name string, redirector AuthenticationR
 	ar.redirectorMap[name] = redirector
 }
 func (ar *AuthenticationRedirectors) Get(name string) (AuthenticationRedirector, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -77,9 +81,13 @@ func (ar *AuthenticationRedirectors) Count() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(ar.names)
 }
 func (ar *AuthenticationRedirectors) GetNames() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -132,6 +140,8 @@ func (all AuthenticationSuccessHandlers) AuthenticationSucceeded(user user.Info,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, h := range all {
 		if handled, err := h.AuthenticationSucceeded(user, state, w, req); handled || err != nil {
 			return handled, err
@@ -143,6 +153,8 @@ func (all AuthenticationSuccessHandlers) AuthenticationSucceeded(user user.Info,
 type AuthenticationErrorHandlers []AuthenticationErrorHandler
 
 func (all AuthenticationErrorHandlers) AuthenticationError(err error, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

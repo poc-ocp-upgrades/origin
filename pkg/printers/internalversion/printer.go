@@ -81,12 +81,16 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kprintersinternal.AddHandlers = func(p kprinters.PrintHandler) {
 		kprintersinternal.AddKubeHandlers(p)
 		AddHandlers(p)
 	}
 }
 func AddHandlers(p kprinters.PrintHandler) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,12 +191,16 @@ func formatResourceName(kind schema.GroupKind, name string, withKind bool) strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !withKind || kind.Empty() {
 		return name
 	}
 	return strings.ToLower(kind.String()) + "/" + name
 }
 func printTemplate(t *templateapi.Template, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -266,6 +274,8 @@ func printTemplateList(list *templateapi.TemplateList, w io.Writer, opts kprinte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range list.Items {
 		if err := printTemplate(&t, w, opts); err != nil {
 			return err
@@ -274,6 +284,8 @@ func printTemplateList(list *templateapi.TemplateList, w io.Writer, opts kprinte
 	return nil
 }
 func printBuild(build *buildapi.Build, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -330,6 +342,8 @@ func describeSourceShort(spec buildapi.CommonSpec) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var from string
 	switch source := spec.Source; {
 	case source.Binary != nil:
@@ -355,6 +369,8 @@ func describeSourceShort(spec buildapi.CommonSpec) string {
 	return from
 }
 func buildSourceType(source buildapi.BuildSource) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +421,8 @@ func describeSourceGitRevision(spec buildapi.CommonSpec) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var rev string
 	if spec.Revision != nil && spec.Revision.Git != nil {
 		rev = spec.Revision.Git.Commit
@@ -432,6 +450,8 @@ func printBuildList(buildList *buildapi.BuildList, w io.Writer, opts kprinters.P
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builds := buildList.Items
 	sort.Sort(buildinternalhelpers.BuildSliceByCreationTimestamp(builds))
 	for _, build := range builds {
@@ -442,6 +462,8 @@ func printBuildList(buildList *buildapi.BuildList, w io.Writer, opts kprinters.P
 	return nil
 }
 func printBuildConfig(bc *buildapi.BuildConfig, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,10 +517,14 @@ func printSubjectRulesReview(rulesReview *authorizationapi.SubjectRulesReview, w
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	printPolicyRule(rulesReview.Status.Rules, w)
 	return nil
 }
 func printSelfSubjectRulesReview(selfSubjectRulesReview *authorizationapi.SelfSubjectRulesReview, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -531,12 +557,16 @@ func printPolicyRule(policyRules []authorizationapi.PolicyRule, w io.Writer) err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, rule := range policyRules {
 		fmt.Fprintf(w, "%v\t%v\t%v\t%v\t%v\n", rule.Verbs.List(), rule.NonResourceURLs.List(), rule.ResourceNames.List(), rule.APIGroups, rule.Resources.List())
 	}
 	return nil
 }
 func printBuildConfigList(buildList *buildapi.BuildConfigList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -573,6 +603,8 @@ func printImage(image *imageapi.Image, w io.Writer, opts kprinters.PrintOptions)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, image.Name, opts.WithKind)
 	if _, err := fmt.Fprintf(w, "%s\t%s", name, image.DockerImageReference); err != nil {
 		return err
@@ -583,6 +615,8 @@ func printImage(image *imageapi.Image, w io.Writer, opts kprinters.PrintOptions)
 	return nil
 }
 func printImageStreamTag(ist *imageapi.ImageStreamTag, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -632,6 +666,8 @@ func printImageStreamTagList(list *imageapi.ImageStreamTagList, w io.Writer, opt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, ist := range list.Items {
 		if err := printImageStreamTag(&ist, w, opts); err != nil {
 			return err
@@ -640,6 +676,8 @@ func printImageStreamTagList(list *imageapi.ImageStreamTagList, w io.Writer, opt
 	return nil
 }
 func printImageStreamImage(isi *imageapi.ImageStreamImage, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -689,6 +727,8 @@ func printImageList(images *imageapi.ImageList, w io.Writer, opts kprinters.Prin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, image := range images.Items {
 		if err := printImage(&image, w, opts); err != nil {
 			return err
@@ -697,6 +737,8 @@ func printImageList(images *imageapi.ImageList, w io.Writer, opts kprinters.Prin
 	return nil
 }
 func printImageStream(stream *imageapi.ImageStream, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -760,6 +802,8 @@ func printTagsUpToWidth(statusTags map[string]imageapi.TagEventList, preferredWi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tags := imageapi.SortStatusTags(statusTags)
 	remaining := preferredWidth
 	for i, tag := range tags {
@@ -798,6 +842,8 @@ func printImageStreamList(streams *imageapi.ImageStreamList, w io.Writer, opts k
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, stream := range streams.Items {
 		if err := printImageStream(&stream, w, opts); err != nil {
 			return err
@@ -806,6 +852,8 @@ func printImageStreamList(streams *imageapi.ImageStreamList, w io.Writer, opts k
 	return nil
 }
 func printProject(project *projectapi.Project, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -845,9 +893,13 @@ func (list SortableProjects) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(list)
 }
 func (list SortableProjects) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -879,9 +931,13 @@ func (list SortableProjects) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return list[i].ObjectMeta.Name < list[j].ObjectMeta.Name
 }
 func printProjectList(projects *projectapi.ProjectList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -905,6 +961,8 @@ func printProjectList(projects *projectapi.ProjectList, w io.Writer, opts kprint
 	return nil
 }
 func printRoute(route *routeapi.Route, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1017,6 +1075,8 @@ func ingressConditionStatus(ingress *routeapi.RouteIngress, t routeapi.RouteIngr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, condition := range ingress.Conditions {
 		if t != condition.Type {
 			continue
@@ -1040,6 +1100,8 @@ func printRouteList(routeList *routeapi.RouteList, w io.Writer, opts kprinters.P
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, route := range routeList.Items {
 		if err := printRoute(&route, w, opts); err != nil {
 			return err
@@ -1048,6 +1110,8 @@ func printRouteList(routeList *routeapi.RouteList, w io.Writer, opts kprinters.P
 	return nil
 }
 func printDeploymentConfig(dc *appsapi.DeploymentConfig, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1127,6 +1191,8 @@ func printDeploymentConfigList(list *appsapi.DeploymentConfigList, w io.Writer, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, dc := range list.Items {
 		if err := printDeploymentConfig(&dc, w, opts); err != nil {
 			return err
@@ -1135,6 +1201,8 @@ func printDeploymentConfigList(list *appsapi.DeploymentConfigList, w io.Writer, 
 	return nil
 }
 func printClusterRole(role *authorizationapi.ClusterRole, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1166,9 +1234,13 @@ func printClusterRoleList(list *authorizationapi.ClusterRoleList, w io.Writer, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return printRoleList(authorizationapi.ToRoleList(list), w, opts)
 }
 func printClusterRoleBinding(roleBinding *authorizationapi.ClusterRoleBinding, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1200,9 +1272,13 @@ func printClusterRoleBindingList(list *authorizationapi.ClusterRoleBindingList, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return printRoleBindingList(authorizationapi.ToRoleBindingList(list), w, opts)
 }
 func printIsPersonalSubjectAccessReview(a *authorizationapi.IsPersonalSubjectAccessReview, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1221,6 +1297,8 @@ func printIsPersonalSubjectAccessReview(a *authorizationapi.IsPersonalSubjectAcc
 	return err
 }
 func printRole(role *authorizationapi.Role, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1264,6 +1342,8 @@ func printRoleList(list *authorizationapi.RoleList, w io.Writer, opts kprinters.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, role := range list.Items {
 		if err := printRole(&role, w, opts); err != nil {
 			return err
@@ -1286,12 +1366,16 @@ func truncatedList(list []string, maxLength int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(list) > maxLength {
 		return fmt.Sprintf("%s (%d more)", strings.Join(list[0:maxLength], ", "), len(list)-maxLength)
 	}
 	return strings.Join(list, ", ")
 }
 func printRoleBinding(roleBinding *authorizationapi.RoleBinding, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1336,6 +1420,8 @@ func printRoleBindingList(list *authorizationapi.RoleBindingList, w io.Writer, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, roleBinding := range list.Items {
 		if err := printRoleBinding(&roleBinding, w, opts); err != nil {
 			return err
@@ -1344,6 +1430,8 @@ func printRoleBindingList(list *authorizationapi.RoleBindingList, w io.Writer, o
 	return nil
 }
 func printOAuthClient(client *oauthapi.OAuthClient, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1396,6 +1484,8 @@ func printOAuthClientList(list *oauthapi.OAuthClientList, w io.Writer, opts kpri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printOAuthClient(&item, w, opts); err != nil {
 			return err
@@ -1404,6 +1494,8 @@ func printOAuthClientList(list *oauthapi.OAuthClientList, w io.Writer, opts kpri
 	return nil
 }
 func printOAuthClientAuthorization(auth *oauthapi.OAuthClientAuthorization, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1437,6 +1529,8 @@ func printOAuthClientAuthorizationList(list *oauthapi.OAuthClientAuthorizationLi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printOAuthClientAuthorization(&item, w, opts); err != nil {
 			return err
@@ -1445,6 +1539,8 @@ func printOAuthClientAuthorizationList(list *oauthapi.OAuthClientAuthorizationLi
 	return nil
 }
 func printOAuthAccessToken(token *oauthapi.OAuthAccessToken, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1483,6 +1579,8 @@ func printOAuthAccessTokenList(list *oauthapi.OAuthAccessTokenList, w io.Writer,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printOAuthAccessToken(&item, w, opts); err != nil {
 			return err
@@ -1491,6 +1589,8 @@ func printOAuthAccessTokenList(list *oauthapi.OAuthAccessTokenList, w io.Writer,
 	return nil
 }
 func printOAuthAuthorizeToken(token *oauthapi.OAuthAuthorizeToken, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1526,6 +1626,8 @@ func printOAuthAuthorizeTokenList(list *oauthapi.OAuthAuthorizeTokenList, w io.W
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printOAuthAuthorizeToken(&item, w, opts); err != nil {
 			return err
@@ -1534,6 +1636,8 @@ func printOAuthAuthorizeTokenList(list *oauthapi.OAuthAuthorizeTokenList, w io.W
 	return nil
 }
 func printUser(user *userapi.User, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1572,6 +1676,8 @@ func printUserList(list *userapi.UserList, w io.Writer, opts kprinters.PrintOpti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printUser(&item, w, opts); err != nil {
 			return err
@@ -1594,11 +1700,15 @@ func printIdentity(identity *userapi.Identity, w io.Writer, opts kprinters.Print
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, identity.Name, opts.WithKind)
 	_, err := fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\n", name, identity.ProviderName, identity.ProviderUserName, identity.User.Name, identity.User.UID)
 	return err
 }
 func printIdentityList(list *userapi.IdentityList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1635,6 +1745,8 @@ func printUserIdentityMapping(mapping *userapi.UserIdentityMapping, w io.Writer,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, mapping.Name, opts.WithKind)
 	_, err := fmt.Fprintf(w, "%s\t%s\t%s\t%s\n", name, mapping.Identity.Name, mapping.User.Name, mapping.User.UID)
 	return err
@@ -1654,11 +1766,15 @@ func printGroup(group *userapi.Group, w io.Writer, opts kprinters.PrintOptions) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, group.Name, opts.WithKind)
 	_, err := fmt.Fprintf(w, "%s\t%s\n", name, strings.Join(group.Users, ", "))
 	return err
 }
 func printGroupList(list *userapi.GroupList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1695,11 +1811,15 @@ func printHostSubnet(h *networkapi.HostSubnet, w io.Writer, opts kprinters.Print
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, h.Name, opts.WithKind)
 	_, err := fmt.Fprintf(w, "%s\t%s\t%s\t%s\t[%s]\t[%s]\n", name, h.Host, h.HostIP, h.Subnet, strings.Join(h.EgressCIDRs, ", "), strings.Join(h.EgressIPs, ", "))
 	return err
 }
 func printHostSubnetList(list *networkapi.HostSubnetList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1736,11 +1856,15 @@ func printNetNamespace(n *networkapi.NetNamespace, w io.Writer, opts kprinters.P
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name := formatResourceName(opts.Kind, n.NetName, opts.WithKind)
 	_, err := fmt.Fprintf(w, "%s\t%d\t[%s]\n", name, n.NetID, strings.Join(n.EgressIPs, ", "))
 	return err
 }
 func printNetNamespaceList(list *networkapi.NetNamespaceList, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1763,6 +1887,8 @@ func printNetNamespaceList(list *networkapi.NetNamespaceList, w io.Writer, opts 
 	return nil
 }
 func printClusterNetwork(n *networkapi.ClusterNetwork, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1810,6 +1936,8 @@ func printClusterNetworkList(list *networkapi.ClusterNetworkList, w io.Writer, o
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printClusterNetwork(&item, w, opts); err != nil {
 			return err
@@ -1818,6 +1946,8 @@ func printClusterNetworkList(list *networkapi.ClusterNetworkList, w io.Writer, o
 	return nil
 }
 func printEgressNetworkPolicy(n *networkapi.EgressNetworkPolicy, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1857,6 +1987,8 @@ func printEgressNetworkPolicyList(list *networkapi.EgressNetworkPolicyList, w io
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printEgressNetworkPolicy(&item, w, opts); err != nil {
 			return err
@@ -1865,6 +1997,8 @@ func printEgressNetworkPolicyList(list *networkapi.EgressNetworkPolicyList, w io
 	return nil
 }
 func appendItemLabels(itemLabels map[string]string, w io.Writer, columnLabels []string, showLabels bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1888,6 +2022,8 @@ func appendItemLabels(itemLabels map[string]string, w io.Writer, columnLabels []
 	return nil
 }
 func printClusterResourceQuota(resourceQuota *quotaapi.ClusterResourceQuota, w io.Writer, options kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1933,6 +2069,8 @@ func printClusterResourceQuotaList(list *quotaapi.ClusterResourceQuotaList, w io
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range list.Items {
 		if err := printClusterResourceQuota(&list.Items[i], w, options); err != nil {
 			return err
@@ -1941,6 +2079,8 @@ func printClusterResourceQuotaList(list *quotaapi.ClusterResourceQuotaList, w io
 	return nil
 }
 func printAppliedClusterResourceQuota(resourceQuota *quotaapi.AppliedClusterResourceQuota, w io.Writer, options kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1972,6 +2112,8 @@ func printAppliedClusterResourceQuotaList(list *quotaapi.AppliedClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range list.Items {
 		if err := printClusterResourceQuota(quotaapi.ConvertAppliedClusterResourceQuotaToClusterResourceQuota(&list.Items[i]), w, options); err != nil {
 			return err
@@ -1980,6 +2122,8 @@ func printAppliedClusterResourceQuotaList(list *quotaapi.AppliedClusterResourceQ
 	return nil
 }
 func printRoleBindingRestriction(rbr *authorizationapi.RoleBindingRestriction, w io.Writer, options kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2059,6 +2203,8 @@ func printRoleBindingRestrictionList(list *authorizationapi.RoleBindingRestricti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range list.Items {
 		if err := printRoleBindingRestriction(&list.Items[i], w, options); err != nil {
 			return err
@@ -2067,6 +2213,8 @@ func printRoleBindingRestrictionList(list *authorizationapi.RoleBindingRestricti
 	return nil
 }
 func printTemplateInstance(templateInstance *templateapi.TemplateInstance, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2110,6 +2258,8 @@ func printTemplateInstanceList(list *templateapi.TemplateInstanceList, w io.Writ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range list.Items {
 		if err := printTemplateInstance(&list.Items[i], w, opts); err != nil {
 			return err
@@ -2118,6 +2268,8 @@ func printTemplateInstanceList(list *templateapi.TemplateInstanceList, w io.Writ
 	return nil
 }
 func printBrokerTemplateInstance(brokerTemplateInstance *templateapi.BrokerTemplateInstance, w io.Writer, opts kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2156,6 +2308,8 @@ func printBrokerTemplateInstanceList(list *templateapi.BrokerTemplateInstanceLis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range list.Items {
 		if err := printBrokerTemplateInstance(&list.Items[i], w, opts); err != nil {
 			return err
@@ -2164,6 +2318,8 @@ func printBrokerTemplateInstanceList(list *templateapi.BrokerTemplateInstanceLis
 	return nil
 }
 func printSecurityContextConstraints(item *securityapi.SecurityContextConstraints, w io.Writer, options kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2200,6 +2356,8 @@ func printSecurityContextConstraintsList(list *securityapi.SecurityContextConstr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, item := range list.Items {
 		if err := printSecurityContextConstraints(&item, w, options); err != nil {
 			return err
@@ -2222,10 +2380,14 @@ func printRangeAllocation(item *securityapi.RangeAllocation, w io.Writer, option
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := fmt.Fprintf(w, "%s\t%s\t0x%x\n", item.Name, item.Range, item.Data)
 	return err
 }
 func printRangeAllocationList(list *securityapi.RangeAllocationList, w io.Writer, options kprinters.PrintOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

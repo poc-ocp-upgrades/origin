@@ -31,6 +31,8 @@ func NewMustRunAs(options *securityapi.SELinuxContextStrategyOptions) (SELinuxSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if options == nil {
 		return nil, fmt.Errorf("MustRunAs requires SELinuxContextStrategyOptions")
 	}
@@ -54,9 +56,13 @@ func (s *mustRunAs) Generate(_ *api.Pod, _ *api.Container) (*api.SELinuxOptions,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return s.opts.SELinuxOptions, nil
 }
 func (s *mustRunAs) Validate(fldPath *field.Path, _ *api.Pod, _ *api.Container, seLinux *api.SELinuxOptions) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +115,8 @@ func equalLevels(expected, actual string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected == actual {
 		return true
 	}
@@ -140,9 +148,13 @@ func equalSensitivity(expected, actual string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return expected == actual
 }
 func equalCategories(expected, actual string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

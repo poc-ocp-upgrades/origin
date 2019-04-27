@@ -23,6 +23,8 @@ func AddRecursiveWatch(watcher *fsnotify.Watcher, path string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Stat(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -44,6 +46,8 @@ func AddRecursiveWatch(watcher *fsnotify.Watcher, path string) error {
 	return nil
 }
 func getSubFolders(path string) (paths []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

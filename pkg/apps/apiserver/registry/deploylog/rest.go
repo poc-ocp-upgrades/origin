@@ -63,11 +63,15 @@ func NewREST(dcClient appsclient.DeploymentConfigsGetter, client kubernetes.Inte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &REST{dcClient: dcClient, rcClient: client.CoreV1(), podClient: client.CoreV1(), timeout: defaultTimeout, interval: defaultInterval}
 	r.getLogsFn = r.getLogs
 	return r
 }
 func (r *REST) NewGetOptions() (runtime.Object, bool, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,9 +103,13 @@ func (r *REST) New() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentLog{}
 }
 func (r *REST) Get(ctx context.Context, name string, opts runtime.Object) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +211,8 @@ func (r *REST) getLogs(podNamespace, podName string, logOpts *corev1.PodLogOptio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logRequest := r.podClient.Pods(podNamespace).GetLogs(podName, logOpts)
 	readerCloser, err := logRequest.Stream()
 	if err != nil {
@@ -211,6 +221,8 @@ func (r *REST) getLogs(podNamespace, podName string, logOpts *corev1.PodLogOptio
 	return &apiserverrest.PassThroughStreamer{In: readerCloser, Flush: logOpts.Follow, ContentType: "text/plain"}, nil
 }
 func (r *REST) waitForExistingDeployment(namespace, name string) (*corev1.ReplicationController, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -260,6 +272,8 @@ func (r *REST) returnApplicationPodName(target *corev1.ReplicationController) (s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selector := labels.SelectorFromValidatedSet(labels.Set(target.Spec.Selector))
 	sortBy := func(pods []*corev1.Pod) sort.Interface {
 		return controller.ByLogging(pods)
@@ -271,6 +285,8 @@ func (r *REST) returnApplicationPodName(target *corev1.ReplicationController) (s
 	return firstPod.Name, nil
 }
 func GetFirstPod(client corev1client.PodsGetter, namespace string, selector string, timeout time.Duration, sortBy func([]*corev1.Pod) sort.Interface) (*corev1.Pod, int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +365,8 @@ func WaitForRunningDeployerPod(podClient corev1client.PodsGetter, rc *corev1.Rep
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	podName := appsutil.DeployerPodNameForDeployment(rc.Name)
 	canGetLogs := func(p *corev1.Pod) bool {
 		return corev1.PodSucceeded == p.Status.Phase || corev1.PodFailed == p.Status.Phase || corev1.PodRunning == p.Status.Phase
@@ -382,6 +400,8 @@ func WaitForRunningDeployerPod(podClient corev1client.PodsGetter, rc *corev1.Rep
 	return err
 }
 func DeploymentToPodLogOptions(opts *appsapi.DeploymentLogOptions) *corev1.PodLogOptions {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

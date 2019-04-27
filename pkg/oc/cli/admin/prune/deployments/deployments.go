@@ -60,9 +60,13 @@ func NewPruneDeploymentsOptions(streams genericclioptions.IOStreams) *PruneDeplo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &PruneDeploymentsOptions{Confirm: false, KeepYoungerThan: 60 * time.Minute, KeepComplete: 5, KeepFailed: 1, IOStreams: streams}
 }
 func NewCmdPruneDeployments(f kcmdutil.Factory, parentName, name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +95,8 @@ func NewCmdPruneDeployments(f kcmdutil.Factory, parentName, name string, streams
 	return cmd
 }
 func (o *PruneDeploymentsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +151,8 @@ func (o PruneDeploymentsOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.KeepYoungerThan < 0 {
 		return fmt.Errorf("--keep-younger-than must be greater than or equal to 0")
 	}
@@ -157,6 +165,8 @@ func (o PruneDeploymentsOptions) Validate() error {
 	return nil
 }
 func (o PruneDeploymentsOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +219,8 @@ type describingDeploymentDeleter struct {
 var _ DeploymentDeleter = &describingDeploymentDeleter{}
 
 func (p *describingDeploymentDeleter) DeleteDeployment(deployment *corev1.ReplicationController) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

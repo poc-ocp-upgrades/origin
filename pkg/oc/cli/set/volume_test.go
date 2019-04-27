@@ -28,10 +28,14 @@ func fakePodWithVol() *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakePod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "fakepod"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "fake-container", VolumeMounts: []corev1.VolumeMount{{Name: "fake-mount", MountPath: "/var/www/html"}}}}, Volumes: []corev1.Volume{{Name: "fake-mount", VolumeSource: corev1.VolumeSource{HostPath: &corev1.HostPathVolumeSource{Path: "/var/www/html"}}}}}}
 	return fakePod
 }
 func fakePodWithVolumeClaim() *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,10 +68,14 @@ func makeFakePod() *corev1.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakePod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: "fakepod"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "fake-container"}}}}
 	return fakePod
 }
 func getFakeMapping() *meta.RESTMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +108,8 @@ func getFakeInfo(podInfo *corev1.Pod) ([]*resource.Info, *VolumeOptions) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeMapping := getFakeMapping()
 	info := &resource.Info{Client: fake.NewSimpleClientset().CoreV1().RESTClient(), Mapping: fakeMapping, Namespace: "default", Name: "fakepod", Object: podInfo}
 	infos := []*resource.Info{info}
@@ -110,6 +120,8 @@ func getFakeInfo(podInfo *corev1.Pod) ([]*resource.Info, *VolumeOptions) {
 	return infos, vOptions
 }
 func TestRemoveVolume(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,6 +174,8 @@ func TestAddVolume(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakePod := makeFakePod()
 	addOpts := &AddVolumeOptions{}
 	infos, vOptions := getFakeInfo(fakePod)
@@ -187,6 +201,8 @@ func TestAddVolume(t *testing.T) {
 	}
 }
 func TestAddRemoveVolumeWithExistingClaim(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,6 +283,8 @@ func TestCreateClaim(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		addOpts		*AddVolumeOptions
@@ -285,6 +303,8 @@ func TestCreateClaim(t *testing.T) {
 	}
 }
 func TestValidateAddOptions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

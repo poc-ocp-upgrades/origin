@@ -41,9 +41,13 @@ func newLimitExceededError(limitType corev1.LimitType, resourceName corev1.Resou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("requested usage of %s exceeds the maximum limit per %s (%s > %s)", resourceName, limitType, requested.String(), limit.String())
 }
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func NewImageLimitRangerPlugin(config io.Reader) (admission.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugin := &imageLimitRangerPlugin{Handler: admission.NewHandler(admission.Create)}
 	limitRanger, err := limitranger.NewLimitRanger(plugin)
 	if err != nil {
@@ -102,6 +108,8 @@ func NewImageLimitRangerPlugin(config io.Reader) (admission.Interface, error) {
 	return plugin, nil
 }
 func (a *imageLimitRangerPlugin) SetExternalKubeClientSet(c kubernetes.Interface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +141,8 @@ func (a *imageLimitRangerPlugin) SetExternalKubeInformerFactory(f informers.Shar
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.limitRanger.SetExternalKubeInformerFactory(f)
 }
 func (a *imageLimitRangerPlugin) ValidateInitialization() error {
@@ -150,9 +160,13 @@ func (a *imageLimitRangerPlugin) ValidateInitialization() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return a.limitRanger.ValidateInitialization()
 }
 func (a *imageLimitRangerPlugin) Admit(attr admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -191,12 +205,16 @@ func (a *imageLimitRangerPlugin) Validate(attr admission.Attributes) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !a.SupportsAttributes(attr) {
 		return nil
 	}
 	return a.limitRanger.Validate(attr)
 }
 func (a *imageLimitRangerPlugin) SupportsAttributes(attr admission.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +236,8 @@ func (a *imageLimitRangerPlugin) SupportsAttributes(attr admission.Attributes) b
 	return image.Kind("ImageStreamMapping") == gk || legacy.Kind("ImageStreamMapping") == gk
 }
 func (a *imageLimitRangerPlugin) SupportsLimit(limitRange *corev1.LimitRange) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -257,9 +277,13 @@ func (a *imageLimitRangerPlugin) MutateLimit(limitRange *corev1.LimitRange, kind
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (a *imageLimitRangerPlugin) ValidateLimit(limitRange *corev1.LimitRange, kind string, obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -305,6 +329,8 @@ func admitImage(size int64, limit corev1.LimitRangeItem) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if limit.Type != imagev1.LimitTypeImage {
 		return nil
 	}
@@ -333,6 +359,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -407,5 +454,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -23,6 +23,8 @@ func TestSuppressMemberLookupErrorOutOfBounds(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name			string
 		err			error
@@ -41,6 +43,8 @@ func TestSuppressMemberLookupErrorOutOfBounds(t *testing.T) {
 	}
 }
 func TestSuppressMemberLookupErrorMemberNotFound(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -38,6 +38,8 @@ func makeDeployment(version int64) corev1.ReplicationController {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	deployment, err := appsutil.MakeDeployment(appstest.OkDeploymentConfig(version))
 	if err != nil {
 		panic(err)
@@ -47,6 +49,8 @@ func makeDeployment(version int64) corev1.ReplicationController {
 	return *deployment
 }
 func makeDeploymentList(versions int64) *corev1.ReplicationControllerList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -73,6 +77,8 @@ var (
 )
 
 func mockREST(version, desired int64, status appsv1.DeploymentStatus) *REST {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +142,8 @@ func TestRESTGet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewDefaultContext()
 	tests := []struct {
 		testName		string
@@ -176,6 +184,8 @@ func TestRESTGet(t *testing.T) {
 	}
 }
 func intp(num int64) *int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

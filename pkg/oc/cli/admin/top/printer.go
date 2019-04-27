@@ -25,6 +25,8 @@ func Print(out io.Writer, headers []string, infos []Info) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := tabbedString(func(out *tabwriter.Writer) {
 		printHeader(out, headers)
 		for _, info := range infos {
@@ -49,12 +51,16 @@ func printHeader(out io.Writer, columns []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, col := range columns {
 		printValue(out, col)
 	}
 	fmt.Fprintf(out, "\n")
 }
 func printArray(out io.Writer, values []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,9 +96,13 @@ func printValue(out io.Writer, value interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(out, "%v\t", value)
 }
 func printBool(out io.Writer, value bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,6 +124,8 @@ func printBool(out io.Writer, value bool) {
 	}
 }
 func tabbedString(f func(*tabwriter.Writer)) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

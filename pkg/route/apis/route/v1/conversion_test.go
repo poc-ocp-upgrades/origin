@@ -24,9 +24,13 @@ func TestFieldSelectorConversions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	apitesting.FieldKeyCheck{SchemeBuilder: []func(*runtime.Scheme) error{Install}, Kind: v1.GroupVersion.WithKind("Route"), AllowedExternalFieldKeys: []string{"spec.host", "spec.path", "spec.to.name"}, FieldKeyEvaluatorFn: route.RouteFieldSelector}.Check(t)
 }
 func TestSupportingCamelConstants(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

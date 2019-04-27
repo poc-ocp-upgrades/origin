@@ -23,6 +23,8 @@ func RunServiceAccountController(ctx *ControllerContext) (bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(ctx.OpenshiftControllerConfig.ServiceAccount.ManagedNames) == 0 {
 		klog.Infof("Skipped starting Service Account Manager, no managed names specified")
 		return false, nil
@@ -45,6 +47,8 @@ func RunServiceAccountController(ctx *ControllerContext) (bool, error) {
 	return true, nil
 }
 func RunServiceAccountPullSecretsController(ctx *ControllerContext) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

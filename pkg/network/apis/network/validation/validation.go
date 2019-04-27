@@ -27,6 +27,8 @@ func validateCIDRv4(cidr string) (*net.IPNet, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ipnet, err := netutils.ParseCIDRMask(cidr)
 	if err != nil {
 		return nil, err
@@ -51,6 +53,8 @@ func validateIPv4(ip string) (net.IP, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bytes := net.ParseIP(ip)
 	if bytes == nil {
 		return nil, fmt.Errorf("invalid IP address")
@@ -61,6 +65,8 @@ func validateIPv4(ip string) (net.IP, error) {
 	return bytes, nil
 }
 func ValidateClusterNetwork(clusterNet *networkapi.ClusterNetwork) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +165,15 @@ func ValidateClusterNetworkUpdate(obj *networkapi.ClusterNetwork, old *networkap
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&obj.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateClusterNetwork(obj)...)
 	return allErrs
 }
 func ValidateHostSubnet(hs *networkapi.HostSubnet) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,6 +232,8 @@ func ValidateHostSubnetUpdate(obj *networkapi.HostSubnet, old *networkapi.HostSu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&obj.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateHostSubnet(obj)...)
 	if obj.Subnet != old.Subnet {
@@ -230,6 +242,8 @@ func ValidateHostSubnetUpdate(obj *networkapi.HostSubnet, old *networkapi.HostSu
 	return allErrs
 }
 func ValidateNetNamespace(netnamespace *networkapi.NetNamespace) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -273,11 +287,15 @@ func ValidateNetNamespaceUpdate(obj *networkapi.NetNamespace, old *networkapi.Ne
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := validation.ValidateObjectMetaUpdate(&obj.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateNetNamespace(obj)...)
 	return allErrs
 }
 func ValidateEgressNetworkPolicy(policy *networkapi.EgressNetworkPolicy) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,6 +337,8 @@ func ValidateEgressNetworkPolicy(policy *networkapi.EgressNetworkPolicy) field.E
 	return allErrs
 }
 func ValidateEgressNetworkPolicyUpdate(obj *networkapi.EgressNetworkPolicy, old *networkapi.EgressNetworkPolicy) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

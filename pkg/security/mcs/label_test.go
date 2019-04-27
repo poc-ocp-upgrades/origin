@@ -26,6 +26,8 @@ func TestParseRange(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		in	string
 		errFn	func(error) bool
@@ -67,6 +69,8 @@ func TestParseRange(t *testing.T) {
 	}
 }
 func TestLabel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

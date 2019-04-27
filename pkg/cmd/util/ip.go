@@ -22,6 +22,8 @@ func DefaultLocalIP4() (net.IP, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	devices, err := net.Interfaces()
 	if err != nil {
 		return nil, err
@@ -44,6 +46,8 @@ func DefaultLocalIP4() (net.IP, error) {
 	return nil, ErrorNoDefaultIP
 }
 func AllLocalIP4() ([]net.IP, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -58,6 +58,8 @@ func New(execer exec.Interface, bridge string, minVersion string) (Interface, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := execer.LookPath(OVS_OFCTL); err != nil {
 		return nil, fmt.Errorf("OVS is not installed")
 	}
@@ -84,6 +86,8 @@ func New(execer exec.Interface, bridge string, minVersion string) (Interface, er
 	return ovsif, nil
 }
 func (ovsif *ovsExec) execWithStdin(cmd string, stdinArgs []string, args ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,9 +150,13 @@ func (ovsif *ovsExec) exec(cmd string, args ...string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ovsif.execWithStdin(cmd, nil, args...)
 }
 func validateColumns(columns ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +197,8 @@ func (ovsif *ovsExec) AddBridge(properties ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := []string{"add-br", ovsif.bridge}
 	if len(properties) > 0 {
 		if err := validateColumns(properties...); err != nil {
@@ -201,6 +211,8 @@ func (ovsif *ovsExec) AddBridge(properties ...string) error {
 	return err
 }
 func (ovsif *ovsExec) DeleteBridge(ifExists bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +249,8 @@ func (ovsif *ovsExec) GetOFPort(port string) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ofportStr, err := ovsif.exec(OVS_VSCTL, "get", "Interface", port, "ofport")
 	if err != nil {
 		return -1, fmt.Errorf("failed to get OVS port for %s: %v", port, err)
@@ -255,6 +269,8 @@ func (ovsif *ovsExec) GetOFPort(port string) (int, error) {
 	return ofport, nil
 }
 func (ovsif *ovsExec) AddPort(port string, ofportRequest int, properties ...string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,6 +326,8 @@ func (ovsif *ovsExec) DeletePort(port string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_VSCTL, "--if-exists", "del-port", ovsif.bridge, port)
 	return err
 }
@@ -328,10 +346,14 @@ func (ovsif *ovsExec) SetFrags(mode string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_OFCTL, "set-frags", ovsif.bridge, mode)
 	return err
 }
 func (ovsif *ovsExec) Create(table string, values ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -367,10 +389,14 @@ func (ovsif *ovsExec) Destroy(table, record string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_VSCTL, "--if-exists", "destroy", table, record)
 	return err
 }
 func (ovsif *ovsExec) Get(table, record, column string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -405,6 +431,8 @@ func (ovsif *ovsExec) Set(table, record string, values ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return err
 	}
@@ -413,6 +441,8 @@ func (ovsif *ovsExec) Set(table, record string, values ...string) error {
 	return err
 }
 func (ovsif *ovsExec) Find(table string, columns []string, condition string) ([]map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -476,6 +506,8 @@ func (ovsif *ovsExec) FindOne(table, column, condition string) ([]string, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fullResult, err := ovsif.Find(table, []string{column}, condition)
 	if err != nil {
 		return nil, err
@@ -501,6 +533,8 @@ func (ovsif *ovsExec) Clear(table, record string, columns ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(columns...); err != nil {
 		return err
 	}
@@ -509,6 +543,8 @@ func (ovsif *ovsExec) Clear(table, record string, columns ...string) error {
 	return err
 }
 func (ovsif *ovsExec) DumpFlows(flow string, args ...interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -554,9 +590,13 @@ func (ovsif *ovsExec) NewTransaction() Transaction {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsExecTx{ovsif: ovsif, flows: []string{}}
 }
 func (ovsif *ovsExec) bundle(flows []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -598,6 +638,8 @@ func (tx *ovsExecTx) AddFlow(flow string, args ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
@@ -618,12 +660,16 @@ func (tx *ovsExecTx) DeleteFlows(flow string, args ...interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("flow delete %s", flow))
 }
 func (tx *ovsExecTx) Commit() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

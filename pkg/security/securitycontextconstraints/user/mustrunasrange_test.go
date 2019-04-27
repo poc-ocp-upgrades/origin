@@ -22,6 +22,8 @@ func TestMustRunAsRangeOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uid int64 = 1
 	tests := map[string]struct {
 		opts	*securityapi.RunAsUserStrategyOptions
@@ -52,6 +54,8 @@ func TestMustRunAsRangeGenerate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var uidMin int64 = 1
 	var uidMax int64 = 10
 	opts := &securityapi.RunAsUserStrategyOptions{UIDRangeMin: &uidMin, UIDRangeMax: &uidMax}
@@ -68,6 +72,8 @@ func TestMustRunAsRangeGenerate(t *testing.T) {
 	}
 }
 func TestMustRunAsRangeValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

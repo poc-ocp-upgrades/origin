@@ -28,9 +28,13 @@ func Pod() *TestPod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return (*TestPod)(&corev1.Pod{})
 }
 func (p *TestPod) WithAnnotation(name, value string) *TestPod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -52,6 +56,8 @@ func (p *TestPod) WithAnnotation(name, value string) *TestPod {
 	return p
 }
 func (p *TestPod) WithEnvVar(name, value string) *TestPod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +97,8 @@ func (p *TestPod) WithBuild(t *testing.T, build *buildv1.Build) *TestPod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	encodedBuild, err := runtime.Encode(buildscheme.Encoder, build)
 	if err != nil {
 		t.Fatalf("%v", err)
@@ -98,6 +106,8 @@ func (p *TestPod) WithBuild(t *testing.T, build *buildv1.Build) *TestPod {
 	return p.WithAnnotation(buildutil.BuildAnnotation, build.Name).WithEnvVar("BUILD", string(encodedBuild))
 }
 func (p *TestPod) InitEnvValue(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +147,8 @@ func (p *TestPod) EnvValue(name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(p.Spec.Containers) == 0 {
 		return ""
 	}
@@ -148,6 +160,8 @@ func (p *TestPod) EnvValue(name string) string {
 	return ""
 }
 func (p *TestPod) GetBuild(t *testing.T) *buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -187,9 +201,13 @@ func (p *TestPod) ToAttributes() admission.Attributes {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return admission.NewAttributesRecord((*corev1.Pod)(p), nil, scheme.Kind("Pod").WithVersion("version"), "default", "TestPod", corev1.Resource("pods").WithVersion("version"), "", admission.Create, false, nil)
 }
 func (p *TestPod) AsPod() *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

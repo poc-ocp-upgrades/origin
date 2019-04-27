@@ -23,6 +23,8 @@ func imageRef(name string) *corev1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref := imageRefValue(name)
 	return &ref
 }
@@ -41,9 +43,13 @@ func imageRefValue(name string) corev1.ObjectReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return corev1.ObjectReference{Kind: "DockerImage", Name: name}
 }
 func Test_buildSpecMutator_Mutate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

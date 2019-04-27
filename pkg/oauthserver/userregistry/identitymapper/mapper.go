@@ -30,6 +30,8 @@ func NewIdentityUserMapper(identities userclient.IdentityInterface, users usercl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	initUser := NewDefaultUserInitStrategy()
 	switch method {
 	case MappingMethodLookup:

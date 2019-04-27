@@ -25,6 +25,8 @@ func NewImageStreamLayerCache(size int) (ImageStreamLayerCache, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := lru.New(size)
 	if err != nil {
 		return ImageStreamLayerCache{}, err

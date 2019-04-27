@@ -40,6 +40,8 @@ func TestHandleImageStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	one, two := int64(1), int64(2)
 	testCases := []struct {
 		stream		*imagev1.ImageStream
@@ -101,6 +103,8 @@ func TestProcessNextWorkItemOnRemovedStream(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientset := fakeimagev1client.NewSimpleClientset()
 	informer := imagev1informer.NewSharedInformerFactory(fakeimagev1client.NewSimpleClientset(), 0)
 	isc := NewImageStreamController(clientset, informer.Image().V1().ImageStreams())
@@ -111,6 +115,8 @@ func TestProcessNextWorkItemOnRemovedStream(t *testing.T) {
 	}
 }
 func TestProcessNextWorkItem(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -151,6 +157,8 @@ func objBody(object interface{}) io.ReadCloser {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	output, err := json.MarshalIndent(object, "", "")
 	if err != nil {
 		panic(err)
@@ -172,11 +180,15 @@ func header() http.Header {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header := http.Header{}
 	header.Set("Content-Type", runtime.ContentTypeJSON)
 	return header
 }
 func decode(reader io.ReadCloser, decoder runtime.Decoder) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -34,6 +34,8 @@ func TestStringSource(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv("TestStringSource_present_env", "envvalue")
 	os.Setenv("TestStringSource_encrypted_env", string(encryptedData))
 	emptyFile, err := ioutil.TempFile("", "empty_file")

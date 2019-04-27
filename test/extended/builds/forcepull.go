@@ -31,6 +31,8 @@ func scrapeLogs(bldPrefix string, oc *exutil.CLI) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	br, err := exutil.StartBuildAndWait(oc, bldPrefix)
 	o.ExpectWithOffset(1, err).NotTo(o.HaveOccurred())
 	out, err := br.Logs()
@@ -50,6 +52,8 @@ func scrapeLogs(bldPrefix string, oc *exutil.CLI) {
 	}
 }
 func checkPodFlag(bldPrefix string, oc *exutil.CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -50,6 +50,8 @@ func fieldSet(parsed *OvsFlow, field string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, f := range parsed.Fields {
 		if f.Name == field {
 			return true
@@ -58,6 +60,8 @@ func fieldSet(parsed *OvsFlow, field string) bool {
 	return false
 }
 func checkNotAllowedField(flow string, parsed *OvsFlow, field string, ptype ParseType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,12 +96,16 @@ func checkUnimplementedField(flow string, parsed *OvsFlow, field string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fieldSet(parsed, field) {
 		return fmt.Errorf("bad flow %q (field %q not implemented)", flow, field)
 	}
 	return nil
 }
 func actionToOvsField(action string) (*OvsField, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -124,6 +132,8 @@ func actionToOvsField(action string) (*OvsField, error) {
 	return &OvsField{Name: strings.TrimSpace(action[:sep]), Value: strings.Trim(action[sep:], ": ")}, nil
 }
 func parseActions(actions string) ([]OvsField, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -202,6 +212,8 @@ func findField(name string, fields *[]OvsField) (*OvsField, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, f := range *fields {
 		if f.Name == name {
 			return &f, true
@@ -210,6 +222,8 @@ func findField(name string, fields *[]OvsField) (*OvsField, bool) {
 	return nil, false
 }
 func (of *OvsFlow) FindField(name string) (*OvsField, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,9 +255,13 @@ func (of *OvsFlow) FindAction(name string) (*OvsField, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return findField(name, &of.Actions)
 }
 func (of *OvsFlow) NoteHasPrefix(prefix string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -262,6 +280,8 @@ func (of *OvsFlow) NoteHasPrefix(prefix string) bool {
 	return ok && strings.HasPrefix(strings.ToLower(note.Value), strings.ToLower(prefix))
 }
 func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +436,8 @@ func FlowMatches(flow, match *OvsFlow) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if match.ptype == ParseForAdd || match.Table != -1 {
 		if flow.Table != match.Table {
 			return false
@@ -449,6 +471,8 @@ func FlowMatches(flow, match *OvsFlow) bool {
 	return true
 }
 func fieldMatches(val, match string, ptype ParseType) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -497,6 +521,8 @@ func ParseExternalIDs(externalIDs string) (map[string]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ids := make(map[string]string, 1)
 	if strings.HasPrefix(externalIDs, "{") && strings.HasSuffix(externalIDs, "}") {
 		externalIDs = externalIDs[1 : len(externalIDs)-1]
@@ -516,6 +542,8 @@ func ParseExternalIDs(externalIDs string) (map[string]string, error) {
 	return ids, nil
 }
 func UnparseExternalIDs(externalIDs map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

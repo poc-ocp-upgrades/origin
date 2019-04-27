@@ -39,6 +39,8 @@ func RunOpenShiftControllerManager(config *openshiftcontrolplanev1.OpenShiftCont
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	util.InitLogrus()
 	kubeClient, err := kubernetes.NewForConfig(clientConfig)
 	if err != nil {
@@ -107,6 +109,8 @@ func WaitForHealthyAPIServer(client rest.Interface) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var healthzContent string
 	err := wait.PollImmediate(time.Second, 5*time.Minute, func() (bool, error) {
 		healthStatus := 0
@@ -125,6 +129,8 @@ func WaitForHealthyAPIServer(client rest.Interface) error {
 	return nil
 }
 func startControllers(controllerContext *origincontrollers.ControllerContext) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

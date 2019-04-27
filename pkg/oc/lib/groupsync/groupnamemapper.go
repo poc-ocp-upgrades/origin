@@ -23,12 +23,16 @@ func NewUserDefinedGroupNameMapper(mapping map[string]string) interfaces.LDAPGro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &UserDefinedLDAPGroupNameMapper{nameMapping: mapping}
 }
 
 type UserDefinedLDAPGroupNameMapper struct{ nameMapping map[string]string }
 
 func (m *UserDefinedLDAPGroupNameMapper) GroupNameFor(ldapGroupUID string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,6 +68,8 @@ func NewEntryAttributeGroupNameMapper(nameAttribute []string, groupGetter interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &EntryAttributeLDAPGroupNameMapper{nameAttribute: nameAttribute, groupGetter: groupGetter}
 }
 
@@ -73,6 +79,8 @@ type EntryAttributeLDAPGroupNameMapper struct {
 }
 
 func (m *EntryAttributeLDAPGroupNameMapper) GroupNameFor(ldapGroupUID string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -115,6 +123,8 @@ func (m *DNLDAPGroupNameMapper) GroupNameFor(ldapGroupUID string) (string, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ldapGroupUID, nil
 }
 
@@ -123,6 +133,8 @@ type UnionGroupNameMapper struct {
 }
 
 func (m *UnionGroupNameMapper) GroupNameFor(ldapGroupUID string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

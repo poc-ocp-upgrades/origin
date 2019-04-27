@@ -23,6 +23,8 @@ func readRecordFromPod(oc *exutil.CLI, podName string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	findCmd := "rs.slaveOk(); printjson(db.test.find({}, {_id: 0}).toArray())"
 	fmt.Fprintf(g.GinkgoWriter, "DEBUG: reading record from the pod %v\n", podName)
 	mongoPod := dbutil.NewMongoDB(podName)

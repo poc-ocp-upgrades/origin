@@ -20,6 +20,8 @@ func TestRunAsAnyOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := NewRunAsAny(nil)
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsAny %v", err)
@@ -30,6 +32,8 @@ func TestRunAsAnyOptions(t *testing.T) {
 	}
 }
 func TestRunAsAnyGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func TestRunAsAnyGenerate(t *testing.T) {
 	}
 }
 func TestRunAsAnyValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

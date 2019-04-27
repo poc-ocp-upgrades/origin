@@ -92,6 +92,8 @@ func createResourceQuota(oc *exutil.CLI, hard corev1.ResourceList) (*corev1.Reso
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rq := &corev1.ResourceQuota{ObjectMeta: metav1.ObjectMeta{Name: quotaName}, Spec: corev1.ResourceQuotaSpec{Hard: hard}}
 	g.By(fmt.Sprintf("creating resource quota with a limit %v", hard))
 	rq, err := oc.AdminKubeClient().CoreV1().ResourceQuotas(oc.Namespace()).Create(rq)
@@ -102,6 +104,8 @@ func createResourceQuota(oc *exutil.CLI, hard corev1.ResourceList) (*corev1.Reso
 	return rq, err
 }
 func assertQuotasEqual(a, b corev1.ResourceList) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -151,6 +155,8 @@ func bumpQuota(oc *exutil.CLI, resourceName corev1.ResourceName, value int64) (c
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By(fmt.Sprintf("bump the quota to %s=%d", resourceName, value))
 	rq, err := oc.AdminKubeClient().CoreV1().ResourceQuotas(oc.Namespace()).Get(quotaName, metav1.GetOptions{})
 	if err != nil {
@@ -168,6 +174,8 @@ func bumpQuota(oc *exutil.CLI, resourceName corev1.ResourceName, value int64) (c
 	return rq.Spec.Hard, nil
 }
 func waitForResourceQuotaSync(oc *exutil.CLI, name string, expectedResources corev1.ResourceList) (corev1.ResourceList, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,10 +212,14 @@ func waitForLimitSync(oc *exutil.CLI, hardLimit corev1.ResourceList) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By(fmt.Sprintf("waiting for resource quota %s to get updated", quotaName))
 	return testutil.WaitForResourceQuotaLimitSync(oc.KubeClient().CoreV1().ResourceQuotas(oc.Namespace()), quotaName, hardLimit, waitTimeout)
 }
 func createImageStreamMapping(oc *exutil.CLI, namespace, name, tag string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -236,6 +248,8 @@ func createImageStreamMapping(oc *exutil.CLI, namespace, name, tag string) error
 	return err
 }
 func assertQuotaExceeded(err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

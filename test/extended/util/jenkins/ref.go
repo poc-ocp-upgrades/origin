@@ -63,6 +63,8 @@ func NewRef(oc *exutil.CLI) *JenkinsRef {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By("get ip and port for jenkins service")
 	serviceIP, err := oc.Run("get").Args("svc", "jenkins", "--config", exutil.KubeConfigPath()).Template("{{.spec.clusterIP}}").Output()
 	o.Expect(err).NotTo(o.HaveOccurred())
@@ -75,6 +77,8 @@ func NewRef(oc *exutil.CLI) *JenkinsRef {
 	return j
 }
 func (j *JenkinsRef) Namespace() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,10 +110,14 @@ func (j *JenkinsRef) BuildURI(resourcePathFormat string, a ...interface{}) strin
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resourcePath := fmt.Sprintf(resourcePathFormat, a...)
 	return fmt.Sprintf("http://%s:%v/%s", j.host, j.port, resourcePath)
 }
 func (j *JenkinsRef) GetResource(resourcePathFormat string, a ...interface{}) (string, int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -152,6 +160,8 @@ func (j *JenkinsRef) Post(reqBodyFile, resourcePathFormat, contentType string, a
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uri := j.BuildURI(resourcePathFormat, a...)
 	response := j.uri_tester.WithErrorPassthrough(true).Response(exurl.Expect("POST", uri).WithBodyToUpload(reqBodyFile, j.uri_tester.Podname(), j.oc).WithToken(j.token).WithHeader("Content-Type", contentType))
 	var err error
@@ -179,9 +189,13 @@ func (j *JenkinsRef) PostXML(reqBodyFile, resourcePathFormat string, a ...interf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return j.Post(reqBodyFile, resourcePathFormat, "application/xml", a...)
 }
 func (j *JenkinsRef) GetResourceWithStatus(validStatusList []int, timeout time.Duration, resourcePathFormat string, a ...interface{}) (string, int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +254,8 @@ func (j *JenkinsRef) WaitForContent(verificationRegEx string, verificationStatus
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var matchingContent = ""
 	err := wait.Poll(10*time.Second, timeout, func() (bool, error) {
 		content, _, err := j.GetResourceWithStatus([]int{verificationStatus}, timeout, resourcePathFormat, a...)
@@ -282,12 +298,16 @@ func (j *JenkinsRef) CreateItem(name string, itemDefXML string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By(fmt.Sprintf("Creating new jenkins item: %s", name))
 	_, status, err := j.PostXML(itemDefXML, "createItem?name=%s", name)
 	o.ExpectWithOffset(1, err).NotTo(o.HaveOccurred())
 	o.ExpectWithOffset(1, status).To(o.Equal(200))
 }
 func (j *JenkinsRef) GetJobBuildNumber(name string, timeout time.Duration) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -326,6 +346,8 @@ func (j *JenkinsRef) StartJob(jobName string) *JobMon {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lastBuildNumber, err := j.GetJobBuildNumber(jobName, time.Minute)
 	o.ExpectWithOffset(1, err).NotTo(o.HaveOccurred())
 	jmon := &JobMon{j: j, lastBuildNumber: lastBuildNumber, buildNumber: "", jobName: jobName}
@@ -337,6 +359,8 @@ func (j *JenkinsRef) StartJob(jobName string) *JobMon {
 	return jmon
 }
 func (j *JenkinsRef) ProcessJenkinsJobUsingVars(filename, namespace string, vars map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -391,9 +415,13 @@ func (j *JenkinsRef) ProcessJenkinsJob(filename, namespace string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return j.ProcessJenkinsJobUsingVars(filename, namespace, nil)
 }
 func (j *JenkinsRef) BuildDSLJob(namespace string, scriptLines ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -430,9 +458,13 @@ func (j *JenkinsRef) GetJobConsoleLogs(jobName, buildNumber string) (string, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return j.WaitForContent("", 200, 10*time.Minute, "job/%s/%s/consoleText", jobName, buildNumber)
 }
 func (j *JenkinsRef) GetJobConsoleLogsAndMatchViaBuildResult(br *exutil.BuildResult, match string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -486,9 +518,13 @@ func (j *JenkinsRef) GetLastJobConsoleLogs(jobName string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return j.GetJobConsoleLogs(jobName, "lastBuild")
 }
 func FindJenkinsPod(oc *exutil.CLI) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -512,6 +548,8 @@ func FindJenkinsPod(oc *exutil.CLI) *corev1.Pod {
 	return &pods.Items[0]
 }
 func OverridePodTemplateImages(newAppArgs []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -551,6 +589,8 @@ func SetupDockerhubImage(localImageName, snapshotImageStream string, newAppArgs 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g.By("Creating a Jenkins imagestream for overridding the default Jenkins imagestream in the openshift namespace")
 	err := oc.Run("new-build").Args("-D", fmt.Sprintf("FROM %s", localImageName), "--to", snapshotImageStream).Execute()
 	o.Expect(err).NotTo(o.HaveOccurred())
@@ -565,6 +605,8 @@ func SetupDockerhubImage(localImageName, snapshotImageStream string, newAppArgs 
 	return newAppArgs
 }
 func SetupSnapshotImage(envVarName, localImageName, snapshotImageStream string, newAppArgs []string, oc *exutil.CLI) ([]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -621,6 +663,8 @@ func ProcessLogURLAnnotations(oc *exutil.CLI, t *exutil.BuildResult) (*url.URL, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(t.Build.Annotations[buildutil.BuildJenkinsLogURLAnnotation]) == 0 {
 		return nil, fmt.Errorf("build %s does not contain a Jenkins URL annotation", t.BuildName)
 	}
@@ -659,6 +703,8 @@ func DumpLogs(oc *exutil.CLI, t *exutil.BuildResult) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	if t.Build == nil {
 		t.Build, err = oc.BuildClient().BuildV1().Builds(oc.Namespace()).Get(t.BuildName, metav1.GetOptions{})
@@ -678,6 +724,8 @@ func DumpLogs(oc *exutil.CLI, t *exutil.BuildResult) (string, error) {
 	return log, nil
 }
 func CreateTempFile(data string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

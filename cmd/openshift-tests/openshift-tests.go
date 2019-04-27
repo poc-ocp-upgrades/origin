@@ -38,6 +38,8 @@ func main() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logs.InitLogs()
 	defer logs.FlushLogs()
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -79,6 +81,8 @@ func newRunMonitorCommand() *cobra.Command {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	monitorOpt := &monitor.Options{Out: os.Stdout, ErrOut: os.Stderr}
 	cmd := &cobra.Command{Use: "run-monitor", Short: "Continuously verify the cluster is functional", Long: templates.LongDesc(`
 		Run a continuous verification process
@@ -89,6 +93,8 @@ func newRunMonitorCommand() *cobra.Command {
 	return cmd
 }
 func newRunCommand() *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +135,8 @@ func newRunCommand() *cobra.Command {
 	return cmd
 }
 func newRunUpgradeCommand() *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +204,8 @@ func newRunTestCommand() *cobra.Command {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testOpt := &testginkgo.TestOptions{Out: os.Stdout, ErrOut: os.Stderr}
 	cmd := &cobra.Command{Use: "run-test NAME", Short: "Run a single test by name", Long: templates.LongDesc(`
 		Execute a single test
@@ -216,6 +226,8 @@ func newRunTestCommand() *cobra.Command {
 	return cmd
 }
 func mirrorToFile(opt *testginkgo.Options, fn func() error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -264,6 +276,8 @@ func bindOptions(opt *testginkgo.Options, flags *pflag.FlagSet) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.BoolVar(&opt.DryRun, "dry-run", opt.DryRun, "Print the tests to run without executing them.")
 	flags.StringVar(&opt.JUnitDir, "junit-dir", opt.JUnitDir, "The directory to write test reports to.")
 	flags.StringVar(&opt.Provider, "provider", opt.Provider, "The cluster infrastructure provider. Will automatically default to the correct value.")
@@ -273,6 +287,8 @@ func bindOptions(opt *testginkgo.Options, flags *pflag.FlagSet) {
 	flags.BoolVar(&opt.IncludeSuccessOutput, "include-success", opt.IncludeSuccessOutput, "Print output from successful tests.")
 }
 func initProvider(provider string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,6 +317,8 @@ func initProvider(provider string) error {
 	return nil
 }
 func decodeProviderTo(provider string, testContext *e2e.TestContextType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

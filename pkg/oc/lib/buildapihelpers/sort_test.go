@@ -23,6 +23,8 @@ func TestSortBuildSliceByCreationTimestamp(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	present := metav1.Now()
 	past := metav1.NewTime(present.Add(-time.Minute))
 	builds := []buildv1.Build{{ObjectMeta: metav1.ObjectMeta{Name: "present", CreationTimestamp: present}}, {ObjectMeta: metav1.ObjectMeta{Name: "past", CreationTimestamp: past}}}
@@ -32,6 +34,8 @@ func TestSortBuildSliceByCreationTimestamp(t *testing.T) {
 	}
 }
 func TestSortBuildPtrSliceByCreationTimestamp(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func MakeEtcdClientV3Config(etcdClientInfo configapi.EtcdConnectionInfo) (*clien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tlsConfig, err := restclient.TLSConfigFor(&restclient.Config{TLSClientConfig: restclient.TLSClientConfig{CertFile: etcdClientInfo.ClientCert.CertFile, KeyFile: etcdClientInfo.ClientCert.KeyFile, CAFile: etcdClientInfo.CA}})
 	if err != nil {
 		return nil, err
@@ -46,6 +48,8 @@ func MakeEtcdClientV3(etcdClientInfo configapi.EtcdConnectionInfo) (*clientv3.Cl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cfg, err := MakeEtcdClientV3Config(etcdClientInfo)
 	if err != nil {
 		return nil, err
@@ -53,6 +57,8 @@ func MakeEtcdClientV3(etcdClientInfo configapi.EtcdConnectionInfo) (*clientv3.Cl
 	return clientv3.New(*cfg)
 }
 func TestEtcdClientV3(etcdClient *clientv3.Client) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

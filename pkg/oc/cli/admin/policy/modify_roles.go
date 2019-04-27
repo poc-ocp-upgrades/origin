@@ -108,9 +108,13 @@ func NewRoleModificationOptions(streams genericclioptions.IOStreams) *RoleModifi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &RoleModificationOptions{PrintFlags: genericclioptions.NewPrintFlags("added").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdAddRoleToGroup(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +142,8 @@ func NewCmdAddRoleToGroup(name, fullName string, f kcmdutil.Factory, streams gen
 	return cmd
 }
 func NewCmdAddRoleToUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +187,8 @@ func NewCmdRemoveRoleFromGroup(name, fullName string, f kcmdutil.Factory, stream
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewRoleModificationOptions(streams)
 	cmd := &cobra.Command{Use: name + " ROLE GROUP [GROUP ...]", Short: "Remove a role from groups for the current project", Long: `Remove a role from groups for the current project`, Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args, &o.Groups, "group"))
@@ -194,6 +202,8 @@ func NewCmdRemoveRoleFromGroup(name, fullName string, f kcmdutil.Factory, stream
 	return cmd
 }
 func NewCmdRemoveRoleFromUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -237,6 +247,8 @@ func NewCmdAddClusterRoleToGroup(name, fullName string, f kcmdutil.Factory, stre
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewRoleModificationOptions(streams)
 	o.RoleKind = "ClusterRole"
 	cmd := &cobra.Command{Use: name + " <role> <group> [group]...", Short: "Add a role to groups for all projects in the cluster", Long: addClusterRoleToGroupLongDesc, Run: func(cmd *cobra.Command, args []string) {
@@ -249,6 +261,8 @@ func NewCmdAddClusterRoleToGroup(name, fullName string, f kcmdutil.Factory, stre
 	return cmd
 }
 func NewCmdAddClusterRoleToUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -291,6 +305,8 @@ func NewCmdRemoveClusterRoleFromGroup(name, fullName string, f kcmdutil.Factory,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewRoleModificationOptions(streams)
 	o.RoleKind = "ClusterRole"
 	cmd := &cobra.Command{Use: name + " <role> <group> [group]...", Short: "Remove a role from groups for all projects in the cluster", Long: `Remove a role from groups for all projects in the cluster`, Run: func(cmd *cobra.Command, args []string) {
@@ -303,6 +319,8 @@ func NewCmdRemoveClusterRoleFromGroup(name, fullName string, f kcmdutil.Factory,
 	return cmd
 }
 func NewCmdRemoveClusterRoleFromUser(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -331,6 +349,8 @@ func NewCmdRemoveClusterRoleFromUser(name, fullName string, f kcmdutil.Factory, 
 	return cmd
 }
 func (o *RoleModificationOptions) checkRoleBindingNamespace(f kcmdutil.Factory) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -375,6 +395,8 @@ func (o *RoleModificationOptions) innerComplete(f kcmdutil.Factory, cmd *cobra.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -398,6 +420,8 @@ func (o *RoleModificationOptions) innerComplete(f kcmdutil.Factory, cmd *cobra.C
 	return nil
 }
 func (o *RoleModificationOptions) CompleteUserWithSA(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -466,6 +490,8 @@ func (o *RoleModificationOptions) Complete(f kcmdutil.Factory, cmd *cobra.Comman
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) < 2 {
 		return fmt.Errorf("you must specify at least two arguments: <role> <%s> [%s]...", targetName, targetName)
 	}
@@ -482,6 +508,8 @@ func (o *RoleModificationOptions) Complete(f kcmdutil.Factory, cmd *cobra.Comman
 	return nil
 }
 func (o *RoleModificationOptions) getRoleBinding() (*roleBindingAbstraction, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,6 +554,8 @@ func (o *RoleModificationOptions) newRoleBinding() (*roleBindingAbstraction, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var roleBindingName string
 	if len(o.RoleBindingName) > 0 {
 		roleBindingName = o.RoleBindingName
@@ -543,6 +573,8 @@ func (o *RoleModificationOptions) newRoleBinding() (*roleBindingAbstraction, err
 	return roleBinding, nil
 }
 func (o *RoleModificationOptions) AddRole() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -662,6 +694,8 @@ func addSubjects(users []string, groups []string, subjects []rbacv1.Subject, exi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	subjectsToAdd := authorizationutil.BuildRBACSubjects(users, groups)
 	subjectsToAdd = append(subjectsToAdd, subjects...)
 	newSubjects := make([]rbacv1.Subject, len(existingSubjects))
@@ -678,6 +712,8 @@ subjectCheck:
 	return newSubjects
 }
 func (o *RoleModificationOptions) checkRolebindingAutoupdate(roleBinding *roleBindingAbstraction) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -713,6 +749,8 @@ func (o *RoleModificationOptions) roleObjectToPrint() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var roleToPrint runtime.Object
 	if len(o.RoleBindingNamespace) == 0 {
 		roleToPrint = &rbacv1.ClusterRole{TypeMeta: metav1.TypeMeta{APIVersion: rbacv1.SchemeGroupVersion.String(), Kind: o.RoleKind}, ObjectMeta: metav1.ObjectMeta{Name: o.RoleName}}
@@ -722,6 +760,8 @@ func (o *RoleModificationOptions) roleObjectToPrint() runtime.Object {
 	return roleToPrint
 }
 func (o *RoleModificationOptions) RemoveRole() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -837,6 +877,8 @@ func removeSubjects(haystack, needles []rbacv1.Subject) ([]rbacv1.Subject, int) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newSubjects := []rbacv1.Subject{}
 	found := 0
 existingLoop:
@@ -852,6 +894,8 @@ existingLoop:
 	return newSubjects, found
 }
 func getSuccessMessage(dryRun bool, operation string, targets []string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

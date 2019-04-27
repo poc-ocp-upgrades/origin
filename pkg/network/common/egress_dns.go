@@ -36,9 +36,13 @@ func NewEgressDNS() *EgressDNS {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &EgressDNS{pdMap: map[ktypes.UID]*DNS{}, namespaces: map[ktypes.UID]string{}, added: make(chan bool), Updates: make(chan EgressDNSUpdate)}
 }
 func (e *EgressDNS) Add(policy networkapi.EgressNetworkPolicy) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func (e *EgressDNS) Delete(policy networkapi.EgressNetworkPolicy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	if _, ok := e.pdMap[policy.UID]; ok {
@@ -109,6 +115,8 @@ func (e *EgressDNS) Update(policyUID ktypes.UID) (error, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	if dnsInfo, ok := e.pdMap[policyUID]; ok {
@@ -117,6 +125,8 @@ func (e *EgressDNS) Update(policyUID ktypes.UID) (error, bool) {
 	return nil, false
 }
 func (e *EgressDNS) Sync() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +182,8 @@ func (e *EgressDNS) GetMinQueryTime() (time.Time, ktypes.UID, string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e.lock.Lock()
 	defer e.lock.Unlock()
 	timeSet := false
@@ -191,6 +203,8 @@ func (e *EgressDNS) GetMinQueryTime() (time.Time, ktypes.UID, string, bool) {
 	return minTime, uid, e.namespaces[uid], timeSet
 }
 func (e *EgressDNS) GetIPs(policy networkapi.EgressNetworkPolicy, dnsName string) []net.IP {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +242,8 @@ func (e *EgressDNS) GetNetCIDRs(policy networkapi.EgressNetworkPolicy, dnsName s
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cidrs := []net.IPNet{}
 	for _, ip := range e.GetIPs(policy, dnsName) {
 		cidrs = append(cidrs, net.IPNet{IP: ip, Mask: net.CIDRMask(32, 32)})
@@ -235,6 +251,8 @@ func (e *EgressDNS) GetNetCIDRs(policy networkapi.EgressNetworkPolicy, dnsName s
 	return cidrs
 }
 func (e *EgressDNS) signalAdded() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

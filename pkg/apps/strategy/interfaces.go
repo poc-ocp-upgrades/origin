@@ -29,6 +29,8 @@ func NewConditionReachedErr(msg string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &errConditionReached{msg: msg}
 }
 func (e *errConditionReached) Error() string {
@@ -46,9 +48,13 @@ func (e *errConditionReached) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.msg
 }
 func IsConditionReached(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +87,8 @@ func PercentageBetween(until string, min, max int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !strings.HasSuffix(until, "%") {
 		return false
 	}
@@ -92,6 +100,8 @@ func PercentageBetween(until string, min, max int) bool {
 	return i >= min && i <= max
 }
 func Percentage(until string) (int, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

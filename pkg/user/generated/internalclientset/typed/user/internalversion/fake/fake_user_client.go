@@ -23,9 +23,13 @@ func (c *FakeUser) Groups() internalversion.GroupInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeGroups{c}
 }
 func (c *FakeUser) Identities() internalversion.IdentityInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (c *FakeUser) Users() internalversion.UserResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeUsers{c}
 }
 func (c *FakeUser) UserIdentityMappings() internalversion.UserIdentityMappingInterface {
@@ -74,9 +80,13 @@ func (c *FakeUser) UserIdentityMappings() internalversion.UserIdentityMappingInt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeUserIdentityMappings{c}
 }
 func (c *FakeUser) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

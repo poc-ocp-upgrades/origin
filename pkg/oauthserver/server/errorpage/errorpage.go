@@ -27,9 +27,13 @@ func NewErrorPageHandler(renderer ErrorPageRenderer) *ErrorPage {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ErrorPage{render: renderer}
 }
 func (p *ErrorPage) AuthenticationError(err error, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -55,6 +59,8 @@ func (p *ErrorPage) AuthenticationError(err error, w http.ResponseWriter, req *h
 	return true, nil
 }
 func (p *ErrorPage) GrantError(err error, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,6 +110,8 @@ func NewErrorPageTemplateRenderer(templateFile string) (ErrorPageRenderer, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &errorPageTemplateRenderer{}
 	if len(templateFile) > 0 {
 		customTemplate, err := template.ParseFiles(templateFile)
@@ -131,6 +139,8 @@ func (r *errorPageTemplateRenderer) Render(data ErrorData, w http.ResponseWriter
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Add("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := r.errorPageTemplate.Execute(w, data); err != nil {
@@ -138,6 +148,8 @@ func (r *errorPageTemplateRenderer) Render(data ErrorData, w http.ResponseWriter
 	}
 }
 func ValidateErrorPageTemplate(templateContent []byte) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -28,6 +28,8 @@ func TestClusterRoleReaper(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name			string
 		role			*rbacv1.ClusterRole
@@ -58,6 +60,8 @@ func TestClusterRoleReaper(t *testing.T) {
 	}
 }
 func TestClusterRoleReaperAgainstNamespacedBindings(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -19,6 +19,8 @@ func TestMultipleEdgeKindsBetweenTheSameNodes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := New()
 	fooNode := makeTestNode(g, "foo")
 	barNode := makeTestNode(g, "bar")

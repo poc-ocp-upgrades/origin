@@ -29,6 +29,8 @@ func TestGitProxyDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defaultsConfig := &openshiftcontrolplanev1.BuildDefaultsConfig{GitHTTPProxy: "http", GitHTTPSProxy: "https", GitNoProxy: "no"}
 	admitter := BuildDefaults{defaultsConfig, nil}
 	pod := testutil.Pod().WithBuild(t, testutil.Build().WithDockerStrategy().AsBuild())
@@ -51,6 +53,8 @@ func TestGitProxyDefaults(t *testing.T) {
 	}
 }
 func TestEnvDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,6 +148,8 @@ func TestEnvDefaults(t *testing.T) {
 	}
 }
 func TestGlobalProxyDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -329,6 +335,8 @@ func TestIncrementalDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bool_t := true
 	defaultsConfig := &openshiftcontrolplanev1.BuildDefaultsConfig{SourceStrategyDefaults: &openshiftcontrolplanev1.SourceStrategyDefaultsConfig{Incremental: &bool_t}}
 	admitter := BuildDefaults{defaultsConfig, nil}
@@ -361,6 +369,8 @@ func TestIncrementalDefaults(t *testing.T) {
 	}
 }
 func TestLabelDefaults(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -413,6 +423,8 @@ func TestBuildDefaultsNodeSelector(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		build		*buildv1.Build
@@ -438,6 +450,8 @@ func TestBuildDefaultsNodeSelector(t *testing.T) {
 	}
 }
 func TestBuildDefaultsAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -492,6 +506,8 @@ func TestResourceDefaults(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		DefaultResource		corev1.ResourceRequirements
 		BuildResource		corev1.ResourceRequirements
@@ -529,6 +545,8 @@ func TestResourceDefaults(t *testing.T) {
 	}
 }
 func TestSetBuildLogLevel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

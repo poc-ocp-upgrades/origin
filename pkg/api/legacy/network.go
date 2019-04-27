@@ -23,11 +23,15 @@ func InstallInternalLegacyNetwork(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyNetwork(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalNetworkTypes, networkv1helpers.RegisterDefaults, networkv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func InstallExternalLegacyNetwork(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,11 +64,15 @@ func addUngroupifiedNetworkTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	types := []runtime.Object{&networkv1.ClusterNetwork{}, &networkv1.ClusterNetworkList{}, &networkv1.HostSubnet{}, &networkv1.HostSubnetList{}, &networkv1.NetNamespace{}, &networkv1.NetNamespaceList{}, &networkv1.EgressNetworkPolicy{}, &networkv1.EgressNetworkPolicyList{}}
 	scheme.AddKnownTypes(GroupVersion, types...)
 	return nil
 }
 func addUngroupifiedInternalNetworkTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

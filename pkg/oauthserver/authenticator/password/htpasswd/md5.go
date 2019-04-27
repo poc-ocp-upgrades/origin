@@ -22,6 +22,8 @@ func aprMD5(password, salt []byte) []byte {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := md5.New()
 	ctx.Write(password)
 	ctx.Write(magic)
@@ -82,6 +84,8 @@ func aprMD5(password, salt []byte) []byte {
 	return result
 }
 func to64(v uint64, n int) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

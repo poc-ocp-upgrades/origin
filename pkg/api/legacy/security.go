@@ -26,11 +26,15 @@ func InstallInternalLegacySecurity(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacySecurity(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalSecurityTypes, core.AddToScheme, corev1conversions.AddToScheme, securityv1helpers.AddConversionFuncs, securityv1helpers.AddDefaultingFuncs, securityv1helpers.RegisterDefaults, securityv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func InstallExternalLegacySecurity(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,11 +67,15 @@ func addUngroupifiedSecurityTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	types := []runtime.Object{&securityv1.SecurityContextConstraints{}, &securityv1.SecurityContextConstraintsList{}, &securityv1.PodSecurityPolicySubjectReview{}, &securityv1.PodSecurityPolicySelfSubjectReview{}, &securityv1.PodSecurityPolicyReview{}}
 	scheme.AddKnownTypes(GroupVersion, types...)
 	return nil
 }
 func addUngroupifiedInternalSecurityTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

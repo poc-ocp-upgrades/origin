@@ -23,12 +23,16 @@ func GetStringSourceFileReferences(s *StringSource) []*string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if s == nil {
 		return nil
 	}
 	return []*string{&s.File, &s.KeyFile}
 }
 func ResolveStringValue(s StringSource) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

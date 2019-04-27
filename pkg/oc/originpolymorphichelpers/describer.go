@@ -24,6 +24,8 @@ func NewDescriberFn(delegate describe.DescriberFunc) describe.DescriberFunc {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(restClientGetter genericclioptions.RESTClientGetter, mapping *meta.RESTMapping) (describe.Describer, error) {
 		clientConfig, err := restClientGetter.ToRESTConfig()
 		if err != nil {

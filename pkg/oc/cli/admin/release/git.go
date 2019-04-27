@@ -38,6 +38,8 @@ func (g *git) exec(command ...string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buf := &bytes.Buffer{}
 	bufErr := &bytes.Buffer{}
 	cmd := exec.Command("git", command...)
@@ -66,6 +68,8 @@ func (g *git) streamExec(out, errOut io.Writer, command ...string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command("git", command...)
 	cmd.Dir = g.path
 	cmd.Stdout = out
@@ -73,6 +77,8 @@ func (g *git) streamExec(out, errOut io.Writer, command ...string) error {
 	return cmd.Run()
 }
 func (g *git) ChangeContext(path string) (*git, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -111,12 +117,16 @@ func (g *git) Clone(repository string, out, errOut io.Writer) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd := exec.Command("git", "clone", repository, g.path)
 	cmd.Stdout = out
 	cmd.Stderr = errOut
 	return cmd.Run()
 }
 func (g *git) parent() *git {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -148,9 +158,13 @@ func (g *git) basename() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return filepath.Base(g.path)
 }
 func (g *git) CheckoutCommit(repo, commit string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -197,12 +211,16 @@ func sourceLocationAsURL(location string) (*url.URL, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if matches := reMatch.FindStringSubmatch(location); matches != nil {
 		return &url.URL{Scheme: "git", User: url.UserPassword(matches[1], ""), Host: matches[2], Path: matches[3]}, nil
 	}
 	return url.Parse(location)
 }
 func sourceLocationAsRelativePath(dir, location string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -254,6 +272,8 @@ func gitOutputToError(err error, out string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out = strings.TrimSpace(out)
 	if strings.HasPrefix(out, "fatal: ") {
 		out = strings.TrimPrefix(out, "fatal: ")
@@ -264,6 +284,8 @@ func gitOutputToError(err error, out string) error {
 	return fmt.Errorf(out)
 }
 func mergeLogForRepo(g *git, repo string, from, to string) ([]MergeCommit, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -371,6 +393,8 @@ func ensureCloneForRepo(dir string, repo string, alternateRepos []string, out, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	basePath, err := sourceLocationAsRelativePath(dir, repo)
 	if err != nil {
 		return nil, err
@@ -429,11 +453,15 @@ func remoteNameForRepo(repo string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sum := md5.Sum([]byte(repo))
 	repoName := fmt.Sprintf("up-%s", base64.RawURLEncoding.EncodeToString(sum[:])[:10])
 	return repoName
 }
 func ensureRemoteForRepo(g *git, repo string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -455,6 +483,8 @@ func ensureRemoteForRepo(g *git, repo string) error {
 	return nil
 }
 func ensureFetchedRemoteForRepo(g *git, repo string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

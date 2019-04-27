@@ -21,6 +21,8 @@ func templateScorer(template templatev1.Template, term string) (float32, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	score := stringProximityScorer(template.Name, term)
 	return score, score < 0.3
 }
@@ -39,10 +41,14 @@ func imageStreamScorer(imageStream imagev1.ImageStream, term string) (float32, b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	score := stringProximityScorer(imageStream.Name, term)
 	return score, score < 0.3
 }
 func stringProximityScorer(s, query string) float32 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -81,6 +87,8 @@ func stringProximityScorer(s, query string) float32 {
 	return score
 }
 func partialScorer(a, b string, prefix bool, partial, none float32) (bool, float32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

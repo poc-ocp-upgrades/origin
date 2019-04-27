@@ -29,6 +29,8 @@ func AllDeployments(g osgraph.Graph, excludeNodeIDs IntSet) ([]Deployment, IntSe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	covered := IntSet{}
 	views := []Deployment{}
 	for _, uncastNode := range g.NodesByKind(kubegraph.DeploymentNodeKind) {
@@ -42,6 +44,8 @@ func AllDeployments(g osgraph.Graph, excludeNodeIDs IntSet) ([]Deployment, IntSe
 	return views, covered
 }
 func NewDeployment(g osgraph.Graph, node *kubegraph.DeploymentNode) (Deployment, IntSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

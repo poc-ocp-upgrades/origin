@@ -24,6 +24,8 @@ func TestIsErrorQuotaExceeded(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, tc := range []struct {
 		name		string
 		err		error
@@ -39,6 +41,8 @@ func TestIsErrorQuotaExceeded(t *testing.T) {
 	}
 }
 func TestIsErrorLimitExceeded(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

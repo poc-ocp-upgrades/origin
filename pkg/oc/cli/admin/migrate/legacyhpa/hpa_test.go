@@ -21,6 +21,8 @@ func TestDefaultMigrations(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct {
 		name	string
 		input	metav1.TypeMeta

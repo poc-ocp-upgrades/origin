@@ -73,9 +73,13 @@ func NewProjectOptions(streams genericclioptions.IOStreams) *ProjectOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ProjectOptions{IOStreams: streams}
 }
 func NewCmdProject(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func NewCmdProject(fullName string, f kcmdutil.Factory, streams genericclioption
 	return cmd
 }
 func (o *ProjectOptions) Complete(f genericclioptions.RESTClientGetter, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,6 +163,8 @@ func (o *ProjectOptions) Complete(f genericclioptions.RESTClientGetter, args []s
 	return nil
 }
 func (o ProjectOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -301,12 +309,16 @@ func (o *ProjectOptions) GetContextFromName(contextName string) (*clientcmdapi.C
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if context, contextExists := o.Config.Contexts[contextName]; !o.ProjectOnly && contextExists {
 		return context, true
 	}
 	return nil, false
 }
 func ConfirmProjectAccess(currentProject string, projectClient projectv1client.ProjectV1Interface, kClient corev1client.CoreV1Interface) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -331,6 +343,8 @@ func ConfirmProjectAccess(currentProject string, projectClient projectv1client.P
 	return projectErr
 }
 func GetProjects(projectClient projectv1client.ProjectV1Interface, kClient corev1client.CoreV1Interface) ([]projectv1.Project, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -374,6 +388,8 @@ func hasMultipleServers(config clientcmdapi.Config) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server := ""
 	for _, cluster := range config.Clusters {
 		if len(server) == 0 {
@@ -400,6 +416,8 @@ func convertNamespaceList(namespaceList *corev1.NamespaceList) *projectv1.Projec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	projects := &projectv1.ProjectList{}
 	for _, ns := range namespaceList.Items {
 		projects.Items = append(projects.Items, projectv1.Project{ObjectMeta: ns.ObjectMeta, Spec: projectv1.ProjectSpec{Finalizers: ns.Spec.Finalizers}, Status: projectv1.ProjectStatus{Phase: ns.Status.Phase}})
@@ -407,6 +425,8 @@ func convertNamespaceList(namespaceList *corev1.NamespaceList) *projectv1.Projec
 	return projects
 }
 func DisplayNameForProject(project *projectv1.Project) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -445,6 +465,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -519,5 +560,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

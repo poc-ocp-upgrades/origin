@@ -34,6 +34,8 @@ func TestBuildAdmission(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name			string
 		kind			schema.GroupKind
@@ -110,9 +112,13 @@ func (*fakeObject) GetObjectKind() schema.ObjectKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func (*fakeObject) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -144,9 +150,13 @@ func fakeUser() user.Info {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &user.DefaultInfo{Name: "testuser"}
 }
 func internalTestBuild(strategy buildapi.BuildStrategy) *buildapi.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,9 +188,13 @@ func v1TestBuild(strategy buildapiv1.BuildStrategy) *buildapiv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapiv1.Build{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "test-build"}, Spec: buildapiv1.BuildSpec{CommonSpec: buildapiv1.CommonSpec{Strategy: strategy}}}
 }
 func internalTestBuildConfig(strategy buildapi.BuildStrategy) *buildapi.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,6 +226,8 @@ func v1TestBuildConfig(strategy buildapiv1.BuildStrategy) *buildapiv1.BuildConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapiv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "test-buildconfig"}, Spec: buildapiv1.BuildConfigSpec{CommonSpec: buildapiv1.CommonSpec{Strategy: strategy}}}
 }
 func reviewResponse(allowed bool, msg string) *authorizationv1.SubjectAccessReview {
@@ -229,9 +245,13 @@ func reviewResponse(allowed bool, msg string) *authorizationv1.SubjectAccessRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authorizationv1.SubjectAccessReview{Status: authorizationv1.SubjectAccessReviewStatus{Allowed: allowed, Reason: msg}}
 }
 func testBuildRequest(name string) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

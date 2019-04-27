@@ -21,6 +21,8 @@ func ReadLines(fileName string) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open(fileName)
 	if err != nil {
 		return nil, err
@@ -34,6 +36,8 @@ func ReadLines(fileName string) ([]string, error) {
 	return lines, scanner.Err()
 }
 func LoadData(file string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

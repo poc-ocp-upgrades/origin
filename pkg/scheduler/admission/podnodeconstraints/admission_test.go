@@ -41,6 +41,8 @@ func TestPodNodeConstraints(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := metav1.NamespaceDefault
 	tests := []struct {
 		config			*podnodeconstraints.PodNodeConstraintsConfig
@@ -85,6 +87,8 @@ func TestPodNodeConstraintsPodUpdate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := metav1.NamespaceDefault
 	var expectedError error
 	errPrefix := "PodUpdate"
@@ -114,6 +118,8 @@ func TestPodNodeConstraintsNonHandledResources(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := metav1.NamespaceDefault
 	errPrefix := "ResourceQuotaTest"
 	var expectedError error
@@ -129,6 +135,8 @@ func TestPodNodeConstraintsNonHandledResources(t *testing.T) {
 	checkAdmitError(t, err, expectedError, errPrefix)
 }
 func TestPodNodeConstraintsResources(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,9 +208,13 @@ func emptyConfig() *podnodeconstraints.PodNodeConstraintsConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &podnodeconstraints.PodNodeConstraintsConfig{}
 }
 func testConfig() *podnodeconstraints.PodNodeConstraintsConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,10 +246,14 @@ func defaultPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	return pod
 }
 func pod(ns bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -273,6 +289,8 @@ func nodeNameNodeSelectorPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.NodeName = "frank"
 	pod.Spec.NodeSelector = map[string]string{"bogus": "frank"}
@@ -293,11 +311,15 @@ func nodeNamePod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.NodeName = "frank"
 	return pod
 }
 func nodeNameMirrorPod() *kapi.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -332,6 +354,8 @@ func nodeSelectorPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.NodeSelector = map[string]string{"bogus": "frank"}
 	return pod
@@ -351,11 +375,15 @@ func emptyNodeSelectorPod() *kapi.Pod {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &kapi.Pod{}
 	pod.Spec.NodeSelector = map[string]string{}
 	return pod
 }
 func podSpec(setNodeSelector bool) *kapi.PodSpec {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -391,6 +419,8 @@ func podTemplateSpec(setNodeSelector bool) *kapi.PodTemplateSpec {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pts := &kapi.PodTemplateSpec{}
 	if setNodeSelector {
 		pts.Spec.NodeSelector = map[string]string{"bogus": "frank"}
@@ -398,6 +428,8 @@ func podTemplateSpec(setNodeSelector bool) *kapi.PodTemplateSpec {
 	return pts
 }
 func podTemplate(setNodeSelector bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -431,11 +463,15 @@ func replicationController(setNodeSelector bool) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rc := &kapi.ReplicationController{}
 	rc.Spec.Template = podTemplateSpec(setNodeSelector)
 	return rc
 }
 func deployment(setNodeSelector bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,11 +505,15 @@ func replicaSet(setNodeSelector bool) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rs := &apps.ReplicaSet{}
 	rs.Spec.Template = *podTemplateSpec(setNodeSelector)
 	return rs
 }
 func job(setNodeSelector bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -507,10 +547,14 @@ func resourceQuota() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rq := &kapi.ResourceQuota{}
 	return rq
 }
 func deploymentConfig(setNodeSelector bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -544,11 +588,15 @@ func podSecurityPolicySubjectReview(setNodeSelector bool) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pspsr := &securityapi.PodSecurityPolicySubjectReview{}
 	pspsr.Spec.Template.Spec = *podSpec(setNodeSelector)
 	return pspsr
 }
 func podSecurityPolicySelfSubjectReview(setNodeSelector bool) runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -582,11 +630,15 @@ func podSecurityPolicyReview(setNodeSelector bool) runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pspr := &securityapi.PodSecurityPolicyReview{}
 	pspr.Spec.Template.Spec = *podSpec(setNodeSelector)
 	return pspr
 }
 func checkAdmitError(t *testing.T, err error, expectedError error, prefix string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -629,9 +681,13 @@ func fakeAuthorizer(t *testing.T) authorizer.Authorizer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &fakeTestAuthorizer{t: t}
 }
 func (a *fakeTestAuthorizer) Authorize(attributes authorizer.Attributes) (authorizer.Decision, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -670,9 +726,13 @@ func reviewResponse(allowed bool, msg string) *authorizationapi.SubjectAccessRev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authorizationapi.SubjectAccessReviewResponse{Allowed: allowed, Reason: msg}
 }
 func TestReadConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

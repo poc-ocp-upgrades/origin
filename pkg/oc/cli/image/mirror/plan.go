@@ -34,6 +34,8 @@ func (e retrieverError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e.err.Error()
 }
 
@@ -44,6 +46,8 @@ type repositoryWork struct {
 }
 
 func (w *repositoryWork) calculateStats(existing sets.String) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -88,11 +92,15 @@ func (p *phase) Failed() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	p.failed = true
 }
 func (p *phase) ExecutionFailure(err ...error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -127,6 +135,8 @@ func (p *phase) IsFailed() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	return p.failed
@@ -146,11 +156,15 @@ func (p *phase) ExecutionFailures() []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	return p.errs
 }
 func (p *phase) calculateStats(existingBlobs map[string]sets.String) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -195,6 +209,8 @@ func (w *workPlan) calculateStats() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	blobs := make(map[string]sets.String)
 	for i := range w.phases {
 		w.phases[i].calculateStats(blobs)
@@ -215,11 +231,15 @@ func (w *workPlan) BytesCopied(bytes int64) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.lock.Lock()
 	defer w.lock.Unlock()
 	w.stats.bytes += bytes
 }
 func (w *workPlan) Print(out io.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -270,9 +290,13 @@ func newPlan() *plan {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &plan{registries: make(map[string]*registryPlan), manifests: make(map[godigest.Digest]distribution.Manifest), blobs: make(map[godigest.Digest]distribution.Descriptor)}
 }
 func (p *plan) AddError(errs ...error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +316,8 @@ func (p *plan) AddError(errs ...error) {
 	p.errs = append(p.errs, errs...)
 }
 func (p *plan) RegistryPlan(name string) *registryPlan {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -331,6 +357,8 @@ func (p *plan) CacheManifest(digest godigest.Digest, manifest distribution.Manif
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	if _, ok := p.manifests[digest]; ok {
@@ -353,12 +381,16 @@ func (p *plan) GetManifest(digest godigest.Digest) (distribution.Manifest, bool)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	existing, ok := p.manifests[digest]
 	return existing, ok
 }
 func (p *plan) CacheBlob(blob distribution.Descriptor) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,11 +427,15 @@ func (p *plan) GetBlob(digest godigest.Digest) distribution.Descriptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	return p.blobs[digest]
 }
 func (p *plan) RegistryNames() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -423,6 +459,8 @@ func (p *plan) RegistryNames() sets.String {
 	return names
 }
 func (p *plan) Errors() []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -461,6 +499,8 @@ func (p *plan) BlobDescriptors(blobs sets.String) []distribution.Descriptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	descriptors := make([]distribution.Descriptor, 0, len(blobs))
 	for s := range blobs {
 		if desc, ok := p.blobs[godigest.Digest(s)]; ok {
@@ -472,6 +512,8 @@ func (p *plan) BlobDescriptors(blobs sets.String) []distribution.Descriptor {
 	return descriptors
 }
 func (p *plan) Print(w io.Writer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -546,6 +588,8 @@ func (p *plan) trim() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for name, registry := range p.registries {
 		if registry.trim() {
 			delete(p.registries, name)
@@ -553,6 +597,8 @@ func (p *plan) trim() {
 	}
 }
 func (p *plan) calculateStats() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -602,11 +648,15 @@ func (p *registryPlan) AssociateBlob(digest godigest.Digest, repo string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	p.blobsByRepo[digest] = repo
 }
 func (p *registryPlan) SavedManifest(srcDigest, dstDigest godigest.Digest) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -644,12 +694,16 @@ func (p *registryPlan) MountFrom(digest godigest.Digest) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	repo, ok := p.blobsByRepo[digest]
 	return repo, ok
 }
 func (p *registryPlan) RepositoryNames() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -673,6 +727,8 @@ func (p *registryPlan) RepositoryNames() sets.String {
 	return names
 }
 func (p *registryPlan) RepositoryPlan(name string) *repositoryPlan {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -715,6 +771,8 @@ func (p *registryPlan) trim() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for name, plan := range p.repositories {
 		if plan.trim() {
 			delete(p.repositories, name)
@@ -723,6 +781,8 @@ func (p *registryPlan) trim() bool {
 	return len(p.repositories) == 0
 }
 func (p *registryPlan) calculateStats() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -788,11 +848,15 @@ func (p *repositoryPlan) AddError(errs ...error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	p.errs = append(p.errs, errs...)
 }
 func (p *repositoryPlan) Blobs(from reference.DockerImageReference, t DestinationType, location string) *repositoryBlobCopy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -832,12 +896,16 @@ func (p *repositoryPlan) ExpectBlob(digest godigest.Digest) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	p.absentBlobs.Delete(digest.String())
 	p.existingBlobs.Insert(digest.String())
 }
 func (p *repositoryPlan) Manifests(destinationType DestinationType) *repositoryManifestPlan {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -874,6 +942,8 @@ func (p *repositoryPlan) blobCounts(registryCounts map[string]int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range p.blobs {
 		for digest := range p.blobs[i].blobs {
 			registryCounts[digest]++
@@ -881,6 +951,8 @@ func (p *repositoryPlan) blobCounts(registryCounts map[string]int) {
 	}
 }
 func (p *repositoryPlan) trim() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -911,6 +983,8 @@ func (p *repositoryPlan) trim() bool {
 	return len(p.blobs) == 0 && p.manifests == nil
 }
 func (p *repositoryPlan) calculateStats(registryCounts map[string]int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -977,6 +1051,8 @@ func (p *repositoryBlobCopy) AlreadyExists(blob distribution.Descriptor) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.parent.parent.parent.CacheBlob(blob)
 	p.parent.parent.AssociateBlob(blob.Digest, p.parent.name)
 	p.parent.ExpectBlob(blob.Digest)
@@ -985,6 +1061,8 @@ func (p *repositoryBlobCopy) AlreadyExists(blob distribution.Descriptor) {
 	p.blobs.Delete(blob.Digest.String())
 }
 func (p *repositoryBlobCopy) Copy(blob distribution.Descriptor, from, to distribution.BlobService) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1025,9 +1103,13 @@ func (p *repositoryBlobCopy) trim() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(p.blobs) == 0
 }
 func (p *repositoryBlobCopy) calculateStats() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1077,6 +1159,8 @@ func (p *repositoryManifestPlan) Copy(srcDigest godigest.Digest, srcManifest dis
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.parent.parent.parent.CacheManifest(srcDigest, srcManifest)
 	p.lock.Lock()
 	defer p.lock.Unlock()
@@ -1098,6 +1182,8 @@ func (p *repositoryManifestPlan) Copy(srcDigest godigest.Digest, srcManifest dis
 	allTags.Insert(tags...)
 }
 func (p *repositoryManifestPlan) inputDigests() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1135,6 +1221,8 @@ func (p *repositoryManifestPlan) trim() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for digest, tags := range p.digestsToTags {
 		if len(tags) == 0 {
 			delete(p.digestsToTags, digest)
@@ -1157,12 +1245,16 @@ func (p *repositoryManifestPlan) calculateStats() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p.stats.count += len(p.digestCopies)
 	for _, tags := range p.digestsToTags {
 		p.stats.count += len(tags)
 	}
 }
 func Greedy(plan *plan) *workPlan {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1227,6 +1319,8 @@ func takeIndependent(all map[string]repositoryWork) []repositoryWork {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var work []repositoryWork
 	for k, v := range all {
 		if v.repository.stats.sharedCount == 0 {
@@ -1243,6 +1337,8 @@ type keysWithCount struct {
 }
 
 func takeMostSharedWithoutOverlap(all map[string]repositoryWork, alreadyUploaded sets.String) []repositoryWork {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1296,6 +1392,8 @@ func repositoryPlanAddAllExcept(plan *repositoryPlan, blobs sets.String, ignore 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range plan.blobs {
 		for key := range plan.blobs[i].blobs {
 			if !ignore.Has(key) {
@@ -1305,6 +1403,8 @@ func repositoryPlanAddAllExcept(plan *repositoryPlan, blobs sets.String, ignore 
 	}
 }
 func repositoryPlanHasAnyBlobs(plan *repositoryPlan, blobs sets.String) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1341,6 +1441,8 @@ func stringsIntersects(a, b sets.String) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for key := range a {
 		if _, ok := b[key]; ok {
 			return true
@@ -1349,6 +1451,8 @@ func stringsIntersects(a, b sets.String) bool {
 	return false
 }
 func takeOne(all map[string]repositoryWork) []repositoryWork {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

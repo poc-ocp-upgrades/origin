@@ -32,6 +32,8 @@ func (r *defaultReview) Users() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.users
 }
 func (r *defaultReview) Groups() []string {
@@ -49,9 +51,13 @@ func (r *defaultReview) Groups() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.groups
 }
 func (r *defaultReview) EvaluationError() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,9 +95,13 @@ func NewAuthorizerReviewer(policyChecker rbac.SubjectLocator) Reviewer {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authorizerReviewer{policyChecker: policyChecker}
 }
 func (r *authorizerReviewer) Review(namespaceName string) (Review, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

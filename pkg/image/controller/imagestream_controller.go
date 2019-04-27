@@ -52,9 +52,13 @@ func (c *ImageStreamController) SetNotifier(n Notifier) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.notifier = n
 }
 func (c *ImageStreamController) Run(workers int, stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,11 +102,15 @@ func (c *ImageStreamController) addImageStream(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if stream, ok := obj.(*imagev1.ImageStream); ok {
 		c.enqueueImageStream(stream)
 	}
 }
 func (c *ImageStreamController) updateImageStream(old, cur interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +153,8 @@ func (c *ImageStreamController) enqueueImageStream(stream *imagev1.ImageStream) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, err := kcontroller.KeyFunc(stream)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("Couldn't get key for image stream %#v: %v", stream, err))
@@ -153,6 +163,8 @@ func (c *ImageStreamController) enqueueImageStream(stream *imagev1.ImageStream) 
 	c.queue.Add(key)
 }
 func (c *ImageStreamController) worker() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,6 +197,8 @@ func (c *ImageStreamController) processNextWorkItem() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, quit := c.queue.Get()
 	if quit {
 		return false
@@ -200,6 +214,8 @@ func (c *ImageStreamController) processNextWorkItem() bool {
 	return true
 }
 func (c *ImageStreamController) syncImageStream(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,9 +266,13 @@ func tagImportable(tagRef imagev1.TagReference) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !(tagRef.From == nil || tagRef.From.Kind != "DockerImage" || tagRef.Reference)
 }
 func tagNeedsImport(stream *imagev1.ImageStream, tagRef imagev1.TagReference, importWhenGenerationNil bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +310,8 @@ func needsImport(stream *imagev1.ImageStream) (ok bool, partial bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if stream.Annotations == nil || len(stream.Annotations[imageapi.DockerImageRepositoryCheckAnnotation]) == 0 {
 		if len(stream.Spec.DockerImageRepository) > 0 {
 			return true, false
@@ -308,6 +330,8 @@ func needsImport(stream *imagev1.ImageStream) (ok bool, partial bool) {
 	return false, false
 }
 func handleImageStream(stream *imagev1.ImageStream, client rest.Interface, notifier Notifier) (*imagev1.ImageStreamImport, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,6 +381,8 @@ func handleImageStream(stream *imagev1.ImageStream, client rest.Interface, notif
 	return result, nil
 }
 func isStatusErrorKind(err error, kind string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

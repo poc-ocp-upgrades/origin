@@ -31,9 +31,13 @@ func newImageSignatures(c *ImageClient) *imageSignatures {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageSignatures{client: c.RESTClient()}
 }
 func (c *imageSignatures) Create(imageSignature *image.ImageSignature) (result *image.ImageSignature, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -53,6 +57,8 @@ func (c *imageSignatures) Create(imageSignature *image.ImageSignature) (result *
 	return
 }
 func (c *imageSignatures) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

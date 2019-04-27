@@ -25,9 +25,13 @@ func RefType(s *spec.Schema) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.TrimPrefix(s.Ref.String(), "#/definitions/")
 }
 func FriendlyTypeName(s *spec.Schema) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -64,6 +68,8 @@ func EscapeMediaTypes(mediatypes []string) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rv := make([]string, len(mediatypes))
 	for i, mediatype := range mediatypes {
 		rv[i] = mediatype
@@ -74,6 +80,8 @@ func EscapeMediaTypes(mediatypes []string) []string {
 	return rv
 }
 func GroupVersionKinds(s spec.Schema) []schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -117,6 +125,8 @@ func Operations(path spec.PathItem) map[string]*spec.Operation {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ops := make(map[string]*spec.Operation, len(opNames))
 	v := reflect.ValueOf(path)
 	for _, opName := range opNames {
@@ -145,6 +155,8 @@ func EnvStyle(s string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return envStyleRegexp.ReplaceAllStringFunc(s, func(s string) string {
 		return "$" + strings.ToUpper(s[1:len(s)-1])
 	})
@@ -153,6 +165,8 @@ func EnvStyle(s string) string {
 var alreadyPluralSuffixes = []string{"versions", "constraints", "endpoints"}
 
 func Pluralise(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -196,6 +210,8 @@ func SortedKeys(m interface{}, t reflect.Type) interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v := reflect.ValueOf(m)
 	if v.Kind() != reflect.Map {
 		panic("wrong type")
@@ -223,11 +239,15 @@ func ToUpper(s string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := []rune(s)
 	r[0] = unicode.ToUpper(r[0])
 	return string(r)
 }
 func ReverseStringSlice(s []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

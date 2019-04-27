@@ -42,6 +42,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register("quota.openshift.io/ClusterResourceQuota", func(config io.Reader) (admission.Interface, error) {
 		return NewClusterResourceQuota()
 	})
@@ -86,9 +88,13 @@ func NewClusterResourceQuota() (admission.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &clusterQuotaAdmission{Handler: admission.NewHandler(admission.Create, admission.Update), lockFactory: NewDefaultLockFactory()}, nil
 }
 func (q *clusterQuotaAdmission) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +139,8 @@ func (q *clusterQuotaAdmission) lockAquisition(quotas []corev1.ResourceQuota) fu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	locks := []sync.Locker{}
 	sort.Sort(ByName(quotas))
 	for _, quota := range quotas {
@@ -147,6 +155,8 @@ func (q *clusterQuotaAdmission) lockAquisition(quotas []corev1.ResourceQuota) fu
 	}
 }
 func (q *clusterQuotaAdmission) waitForSyncedStore(timeout <-chan time.Time) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -185,9 +195,13 @@ func (q *clusterQuotaAdmission) SetOriginQuotaRegistry(registry quota.Registry) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.registry = registry
 }
 func (q *clusterQuotaAdmission) SetExternalKubeInformerFactory(informers informers.SharedInformerFactory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -206,6 +220,8 @@ func (q *clusterQuotaAdmission) SetExternalKubeInformerFactory(informers informe
 	q.namespaceSynced = informers.Core().V1().Namespaces().Informer().HasSynced
 }
 func (q *clusterQuotaAdmission) SetRESTClientConfig(restClientConfig rest.Config) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -245,11 +261,15 @@ func (q *clusterQuotaAdmission) SetClusterQuota(clusterQuotaMapper clusterquotam
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.clusterQuotaMapper = clusterQuotaMapper
 	q.clusterQuotaLister = informers.Lister()
 	q.clusterQuotaSynced = informers.Informer().HasSynced
 }
 func (q *clusterQuotaAdmission) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -299,9 +319,13 @@ func (v ByName) Len() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(v)
 }
 func (v ByName) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -333,12 +357,16 @@ func (v ByName) Less(i, j int) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return v[i].Name < v[j].Name
 }
 
 var ignoredResources = map[schema.GroupResource]struct{}{}
 
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

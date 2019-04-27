@@ -21,6 +21,8 @@ func TestAdmissionRegistration(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := admissionregistrationtesting.AdmissionRegistrationTest(OriginAdmissionPlugins, OpenShiftAdmissionPlugins, sets.String{})
 	if err != nil {
 		t.Fatal(err)

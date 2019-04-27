@@ -36,6 +36,8 @@ func TestReadConfig(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		config		string
 		expected	requestlimitapi.ProjectRequestLimitConfig
@@ -97,6 +99,8 @@ func TestMaxProjectByRequester(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		userLabels	map[string]string
 		expectUnlimited	bool
@@ -144,6 +148,8 @@ func TestProjectCountByRequester(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsLister := fakeNamespaceLister(map[string]projectCount{"user1": {1, 5}, "user2": {5, 1}, "user3": {1, 0}})
 	reqLimit := &projectRequestLimit{nsLister: nsLister, nsListerSynced: func() bool {
 		return true
@@ -163,6 +169,8 @@ func TestProjectCountByRequester(t *testing.T) {
 	}
 }
 func TestAdmit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -223,9 +231,13 @@ func intp(n int) *int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &n
 }
 func selectorEquals(a, b map[string]string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +263,8 @@ func selectorEquals(a, b map[string]string) bool {
 	return true
 }
 func configEquals(a, b *requestlimitapi.ProjectRequestLimitConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -300,6 +314,8 @@ func fakeNs(name string, terminating bool) *corev1.Namespace {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := &corev1.Namespace{}
 	ns.Name = names.SimpleNameGenerator.GenerateName("testns")
 	ns.Annotations = map[string]string{"openshift.io/requester": name}
@@ -309,6 +325,8 @@ func fakeNs(name string, terminating bool) *corev1.Namespace {
 	return ns
 }
 func fakeUser(name string, labels map[string]string) *userapi.User {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -349,6 +367,8 @@ func fakeNamespaceLister(requesters map[string]projectCount) corev1listers.Names
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	indexer := cache.NewIndexer(cache.MetaNamespaceKeyFunc, cache.Indexers{})
 	for requester, count := range requesters {
 		for i := 0; i < count.active; i++ {
@@ -361,6 +381,8 @@ func fakeNamespaceLister(requesters map[string]projectCount) corev1listers.Names
 	return corev1listers.NewNamespaceLister(indexer)
 }
 func userFn(usersAndLabels map[string]labels.Set) clientgotesting.ReactionFunc {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,6 +417,8 @@ func multiLevelConfig() *requestlimitapi.ProjectRequestLimitConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &requestlimitapi.ProjectRequestLimitConfig{Limits: []requestlimitapi.ProjectLimitBySelector{{Selector: map[string]string{"platinum": "yes"}, MaxProjects: nil}, {Selector: map[string]string{"gold": "yes"}, MaxProjects: intp(10)}, {Selector: map[string]string{"silver": "yes"}, MaxProjects: intp(3)}, {Selector: map[string]string{"bronze": "yes"}, MaxProjects: intp(2)}, {Selector: map[string]string{}, MaxProjects: intp(1)}}}
 }
 func emptyConfig() *requestlimitapi.ProjectRequestLimitConfig {
@@ -412,9 +436,13 @@ func emptyConfig() *requestlimitapi.ProjectRequestLimitConfig {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &requestlimitapi.ProjectRequestLimitConfig{}
 }
 func singleDefaultConfig() *requestlimitapi.ProjectRequestLimitConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -38,10 +38,14 @@ func machineClient(dc dynamic.Interface) dynamic.ResourceInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	machineClient := dc.Resource(schema.GroupVersionResource{Group: "machine.openshift.io", Resource: "machines", Version: "v1beta1"})
 	return machineClient.Namespace(machineAPINamespace)
 }
 func listMachines(dc dynamic.Interface, labelSelector string) ([]objx.Map, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -80,6 +84,8 @@ func deleteMachine(dc dynamic.Interface, machineName string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mc := machineClient(dc)
 	return mc.Delete(machineName, &metav1.DeleteOptions{})
 }
@@ -98,9 +104,13 @@ func machineName(item objx.Map) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return item.Get("metadata.name").String()
 }
 func nodeNames(nodes []corev1.Node) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,6 +146,8 @@ func machineNames(machines []objx.Map) sets.String {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := sets.NewString()
 	for i := range machines {
 		result.Insert(machineName(machines[i]))
@@ -143,6 +155,8 @@ func machineNames(machines []objx.Map) sets.String {
 	return result
 }
 func mapNodeNameToMachine(nodes []corev1.Node, machines []objx.Map) (map[string]objx.Map, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,6 +183,8 @@ func mapNodeNameToMachine(nodes []corev1.Node, machines []objx.Map) (map[string]
 	return result, len(nodes) == len(result)
 }
 func isNodeReady(node corev1.Node) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

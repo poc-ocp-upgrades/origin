@@ -26,9 +26,13 @@ func Kind(kind string) schema.GroupKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.GroupKind{Group: GroupName, Kind: kind}
 }
 func GroupVersionKind(kind string) schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -60,9 +64,13 @@ func Resource(resource string) schema.GroupResource {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return schema.GroupResource{Group: GroupName, Resource: resource}
 }
 func InstallInternalLegacyAll(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,6 +99,8 @@ func InstallInternalLegacyAll(scheme *runtime.Scheme) {
 	InstallInternalLegacyUser(scheme)
 }
 func InstallExternalLegacyAll(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

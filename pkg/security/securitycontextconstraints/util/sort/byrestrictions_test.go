@@ -21,6 +21,8 @@ func TestPointValue(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newSCC := func(priv bool, seLinuxStrategy securityv1.SELinuxContextStrategyType, userStrategy securityv1.RunAsUserStrategyType) *securityv1.SecurityContextConstraints {
 		return &securityv1.SecurityContextConstraints{AllowPrivilegedContainer: priv, SELinuxContext: securityv1.SELinuxContextStrategyOptions{Type: seLinuxStrategy}, RunAsUser: securityv1.RunAsUserStrategyOptions{Type: userStrategy}}
 	}
@@ -65,6 +67,8 @@ func TestVolumePointValue(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newSCC := func(host, nonTrivial, trivial bool) *securityv1.SecurityContextConstraints {
 		volumes := []securityv1.FSType{}
 		if host {
@@ -92,6 +96,8 @@ func TestVolumePointValue(t *testing.T) {
 	}
 }
 func TestCapabilitiesPointValue(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

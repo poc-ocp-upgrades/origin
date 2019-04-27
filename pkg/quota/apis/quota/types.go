@@ -59,9 +59,13 @@ func (o *ResourceQuotasStatusByNamespace) Insert(key string, value core.Resource
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.orderedMap.Insert(key, value)
 }
 func (o *ResourceQuotasStatusByNamespace) Get(key string) (core.ResourceQuotaStatus, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -97,9 +101,13 @@ func (o *ResourceQuotasStatusByNamespace) Remove(key string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.orderedMap.Remove(key)
 }
 func (o *ResourceQuotasStatusByNamespace) OrderedKeys() *list.List {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +139,8 @@ func (o ResourceQuotasStatusByNamespace) DeepCopy() ResourceQuotasStatusByNamesp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := ResourceQuotasStatusByNamespace{}
 	for e := o.OrderedKeys().Front(); e != nil; e = e.Next() {
 		namespace := e.Value.(string)
@@ -141,6 +151,8 @@ func (o ResourceQuotasStatusByNamespace) DeepCopy() ResourceQuotasStatusByNamesp
 	return out
 }
 func init() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -190,6 +202,8 @@ func (o *orderedMap) Insert(key string, value interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.backingMap == nil {
 		o.backingMap = map[string]interface{}{}
 	}
@@ -202,6 +216,8 @@ func (o *orderedMap) Insert(key string, value interface{}) {
 	o.backingMap[key] = value
 }
 func (o *orderedMap) Get(key string) (interface{}, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +250,8 @@ func (o *orderedMap) Remove(key string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	delete(o.backingMap, key)
 	if o.orderedKeys == nil {
 		return
@@ -246,6 +264,8 @@ func (o *orderedMap) Remove(key string) {
 	}
 }
 func (o *orderedMap) OrderedKeys() *list.List {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

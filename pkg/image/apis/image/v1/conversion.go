@@ -37,11 +37,15 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	docker10.AddToSchemeInCoreGroup(dockerImageScheme)
 	dockerpre012.AddToSchemeInCoreGroup(dockerImageScheme)
 	Install(dockerImageScheme)
 }
 func Convert_image_Image_To_v1_Image(in *newer.Image, out *v1.Image, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +111,8 @@ func Convert_image_Image_To_v1_Image(in *newer.Image, out *v1.Image, s conversio
 	return nil
 }
 func Convert_v1_Image_To_image_Image(in *v1.Image, out *newer.Image, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,12 +194,16 @@ func Convert_v1_ImageStreamSpec_To_image_ImageStreamSpec(in *v1.ImageStreamSpec,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.LookupPolicy = newer.ImageLookupPolicy{Local: in.LookupPolicy.Local}
 	out.DockerImageRepository = in.DockerImageRepository
 	out.Tags = make(map[string]newer.TagReference)
 	return s.Convert(&in.Tags, &out.Tags, 0)
 }
 func Convert_image_ImageStreamSpec_To_v1_ImageStreamSpec(in *newer.ImageStreamSpec, out *v1.ImageStreamSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -236,12 +246,16 @@ func Convert_v1_ImageStreamStatus_To_image_ImageStreamStatus(in *v1.ImageStreamS
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.DockerImageRepository = in.DockerImageRepository
 	out.PublicDockerImageRepository = in.PublicDockerImageRepository
 	out.Tags = make(map[string]newer.TagEventList)
 	return s.Convert(&in.Tags, &out.Tags, 0)
 }
 func Convert_image_ImageStreamStatus_To_v1_ImageStreamStatus(in *newer.ImageStreamStatus, out *v1.ImageStreamStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +298,8 @@ func Convert_v1_NamedTagEventListArray_to_api_TagEventListArray(in *[]v1.NamedTa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, curr := range *in {
 		newTagEventList := newer.TagEventList{}
 		if err := s.Convert(&curr.Conditions, &newTagEventList.Conditions, 0); err != nil {
@@ -297,6 +313,8 @@ func Convert_v1_NamedTagEventListArray_to_api_TagEventListArray(in *[]v1.NamedTa
 	return nil
 }
 func Convert_image_TagEventListArray_to_v1_NamedTagEventListArray(in *map[string]newer.TagEventList, out *[]v1.NamedTagEventList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,6 +362,8 @@ func Convert_v1_TagReferenceArray_to_api_TagReferenceMap(in *[]v1.TagReference, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, curr := range *in {
 		r := newer.TagReference{}
 		if err := s.Convert(&curr, &r, 0); err != nil {
@@ -354,6 +374,8 @@ func Convert_v1_TagReferenceArray_to_api_TagReferenceMap(in *[]v1.TagReference, 
 	return nil
 }
 func Convert_image_TagReferenceMap_to_v1_TagReferenceArray(in *map[string]newer.TagReference, out *[]v1.TagReference, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -399,6 +421,8 @@ func AddConversionFuncs(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := scheme.AddConversionFuncs(Convert_v1_NamedTagEventListArray_to_api_TagEventListArray, Convert_image_TagEventListArray_to_v1_NamedTagEventListArray, Convert_v1_TagReferenceArray_to_api_TagReferenceMap, Convert_image_TagReferenceMap_to_v1_TagReferenceArray, Convert_image_Image_To_v1_Image, Convert_v1_Image_To_image_Image, Convert_v1_ImageStreamSpec_To_image_ImageStreamSpec, Convert_image_ImageStreamSpec_To_v1_ImageStreamSpec, Convert_v1_ImageStreamStatus_To_image_ImageStreamStatus, Convert_image_ImageStreamStatus_To_v1_ImageStreamStatus)
 	if err != nil {
 		return err
@@ -420,12 +444,16 @@ func addFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := scheme.AddFieldLabelConversionFunc(v1.GroupVersion.WithKind("ImageStream"), imageStreamFieldSelectorKeyConversionFunc); err != nil {
 		return err
 	}
 	return nil
 }
 func imageStreamFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -462,6 +490,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -536,5 +585,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

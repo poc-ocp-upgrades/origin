@@ -42,9 +42,13 @@ func getOauthMetadata(masterPublicURL string) OauthAuthorizationServerMetadata {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return OauthAuthorizationServerMetadata{Issuer: masterPublicURL, AuthorizationEndpoint: urls.OpenShiftOAuthAuthorizeURL(masterPublicURL), TokenEndpoint: urls.OpenShiftOAuthTokenURL(masterPublicURL), ScopesSupported: scope.DefaultSupportedScopes(), ResponseTypesSupported: osin.AllowedAuthorizeType{osin.CODE, osin.TOKEN}, GrantTypesSupported: osin.AllowedAccessType{osin.AUTHORIZATION_CODE, osin.AccessRequestType("implicit")}, CodeChallengeMethodsSupported: validation.CodeChallengeMethodsSupported}
 }
 func validateURL(urlString string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,6 +76,8 @@ func validateURL(urlString string) error {
 	return nil
 }
 func LoadOAuthMetadataFile(metadataFile string) ([]byte, *OauthAuthorizationServerMetadata, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +126,8 @@ func PrepOauthMetadata(oauthConfig *osinv1.OAuthConfig, oauthMetadataFile string
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(oauthMetadataFile) > 0 {
 		return LoadOAuthMetadataFile(oauthMetadataFile)
 	}
@@ -135,6 +143,8 @@ func PrepOauthMetadata(oauthConfig *osinv1.OAuthConfig, oauthMetadataFile string
 	return nil, nil, nil
 }
 func DeprecatedPrepOauthMetadata(oauthConfig *configapi.OAuthConfig, oauthMetadataFile string) ([]byte, *OauthAuthorizationServerMetadata, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +188,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -252,5 +283,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

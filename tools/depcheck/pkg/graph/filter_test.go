@@ -26,6 +26,8 @@ func getVendorNodes() []*testFilterNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*testFilterNode{{name: "github.com/test/repo/vendor/github.com/testvendor/prefix", outboundEdges: []string{"github.com/test/repo/vendor/github.com/testvendor/prefix/one"}}, {name: "github.com/test/repo/vendor/github.com/testvendor/prefix/one", outboundEdges: []string{"github.com/test/repo/vendor/github.com/testvendor/prefix2/one"}}, {name: "github.com/test/repo/vendor/github.com/testvendor/prefix2", outboundEdges: []string{"github.com/test/repo/vendor/github.com/testvendor/prefix2/one"}}, {name: "github.com/test/repo/vendor/github.com/testvendor/prefix2/one", outboundEdges: []string{}}, {name: "github.com/test/repo/vendor/github.com/docker/docker-test-util", outboundEdges: []string{"github.com/test/repo/vendor/github.com/docker/docker-test-util/api"}}, {name: "github.com/test/repo/vendor/github.com/docker/docker-test-util/api", outboundEdges: []string{"github.com/test/repo/vendor/github.com/google/glog"}}, {name: "github.com/test/repo/vendor/github.com/google/glog", outboundEdges: []string{}}}
 }
 func getNonVendorNodes() []*testFilterNode {
@@ -43,9 +45,13 @@ func getNonVendorNodes() []*testFilterNode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*testFilterNode{{name: "github.com/test/repo/pkg/prefix", outboundEdges: []string{"github.com/test/repo/pkg/prefix/one"}}, {name: "github.com/test/repo/pkg/prefix/one", outboundEdges: []string{"github.com/test/repo/vendor/github.com/testvendor/prefix"}}, {name: "github.com/test/repo/pkg/prefix2", outboundEdges: []string{}}}
 }
 func buildTestGraph(nodes []*testFilterNode) (*MutableDirectedGraph, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +89,8 @@ func buildTestGraph(nodes []*testFilterNode) (*MutableDirectedGraph, error) {
 	return g, nil
 }
 func TestVendorPackagesCollapsedIntoRepo(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +186,8 @@ func TestVendorPackagesCollapsedIntoRepo(t *testing.T) {
 	}
 }
 func TestCollapsedGraphPreservesNonVendorNodes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

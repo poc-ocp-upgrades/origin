@@ -29,9 +29,13 @@ func (t testAllocator) AllocateRouterShard(*routeapi.Route) (*routeapi.RouterSha
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &routeapi.RouterShard{}, nil
 }
 func (t testAllocator) GenerateHostname(*routeapi.Route, *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,10 +74,14 @@ func (t *testSAR) Create(subjectAccessReview *authorizationapi.SubjectAccessRevi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.sar = subjectAccessReview
 	return &authorizationapi.SubjectAccessReview{Status: authorizationapi.SubjectAccessReviewStatus{Allowed: t.allow}}, t.err
 }
 func TestEmptyHostDefaulting(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +126,8 @@ func TestEmptyDefaultCACertificate(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := []struct{ route *routeapi.Route }{{route: &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Namespace: "foo", Name: "myroute", UID: types.UID("abc"), ResourceVersion: "1"}, Spec: routeapi.RouteSpec{Host: "myhost.com"}}}}
 	for i, testCase := range testCases {
 		copied := testCase.route.DeepCopy()
@@ -142,6 +152,8 @@ func TestEmptyDefaultCACertificate(t *testing.T) {
 	}
 }
 func TestHostWithWildcardPolicies(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

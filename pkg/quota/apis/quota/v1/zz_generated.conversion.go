@@ -25,9 +25,13 @@ func init() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	localSchemeBuilder.Register(RegisterConversions)
 }
 func RegisterConversions(s *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +143,8 @@ func autoConvert_v1_AppliedClusterResourceQuota_To_quota_AppliedClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out.ObjectMeta = in.ObjectMeta
 	if err := Convert_v1_ClusterResourceQuotaSpec_To_quota_ClusterResourceQuotaSpec(&in.Spec, &out.Spec, s); err != nil {
 		return err
@@ -163,9 +169,13 @@ func Convert_v1_AppliedClusterResourceQuota_To_quota_AppliedClusterResourceQuota
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AppliedClusterResourceQuota_To_quota_AppliedClusterResourceQuota(in, out, s)
 }
 func autoConvert_quota_AppliedClusterResourceQuota_To_v1_AppliedClusterResourceQuota(in *quota.AppliedClusterResourceQuota, out *v1.AppliedClusterResourceQuota, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -204,9 +214,13 @@ func Convert_quota_AppliedClusterResourceQuota_To_v1_AppliedClusterResourceQuota
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_AppliedClusterResourceQuota_To_v1_AppliedClusterResourceQuota(in, out, s)
 }
 func autoConvert_v1_AppliedClusterResourceQuotaList_To_quota_AppliedClusterResourceQuotaList(in *v1.AppliedClusterResourceQuotaList, out *quota.AppliedClusterResourceQuotaList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -250,9 +264,13 @@ func Convert_v1_AppliedClusterResourceQuotaList_To_quota_AppliedClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_AppliedClusterResourceQuotaList_To_quota_AppliedClusterResourceQuotaList(in, out, s)
 }
 func autoConvert_quota_AppliedClusterResourceQuotaList_To_v1_AppliedClusterResourceQuotaList(in *quota.AppliedClusterResourceQuotaList, out *v1.AppliedClusterResourceQuotaList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -296,9 +314,13 @@ func Convert_quota_AppliedClusterResourceQuotaList_To_v1_AppliedClusterResourceQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_AppliedClusterResourceQuotaList_To_v1_AppliedClusterResourceQuotaList(in, out, s)
 }
 func autoConvert_v1_ClusterResourceQuota_To_quota_ClusterResourceQuota(in *v1.ClusterResourceQuota, out *quota.ClusterResourceQuota, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -337,9 +359,13 @@ func Convert_v1_ClusterResourceQuota_To_quota_ClusterResourceQuota(in *v1.Cluste
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterResourceQuota_To_quota_ClusterResourceQuota(in, out, s)
 }
 func autoConvert_quota_ClusterResourceQuota_To_v1_ClusterResourceQuota(in *quota.ClusterResourceQuota, out *v1.ClusterResourceQuota, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,9 +404,13 @@ func Convert_quota_ClusterResourceQuota_To_v1_ClusterResourceQuota(in *quota.Clu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_ClusterResourceQuota_To_v1_ClusterResourceQuota(in, out, s)
 }
 func autoConvert_v1_ClusterResourceQuotaList_To_quota_ClusterResourceQuotaList(in *v1.ClusterResourceQuotaList, out *quota.ClusterResourceQuotaList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -424,9 +454,13 @@ func Convert_v1_ClusterResourceQuotaList_To_quota_ClusterResourceQuotaList(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterResourceQuotaList_To_quota_ClusterResourceQuotaList(in, out, s)
 }
 func autoConvert_quota_ClusterResourceQuotaList_To_v1_ClusterResourceQuotaList(in *quota.ClusterResourceQuotaList, out *v1.ClusterResourceQuotaList, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -470,9 +504,13 @@ func Convert_quota_ClusterResourceQuotaList_To_v1_ClusterResourceQuotaList(in *q
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_ClusterResourceQuotaList_To_v1_ClusterResourceQuotaList(in, out, s)
 }
 func autoConvert_v1_ClusterResourceQuotaSelector_To_quota_ClusterResourceQuotaSelector(in *v1.ClusterResourceQuotaSelector, out *quota.ClusterResourceQuotaSelector, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -506,9 +544,13 @@ func Convert_v1_ClusterResourceQuotaSelector_To_quota_ClusterResourceQuotaSelect
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterResourceQuotaSelector_To_quota_ClusterResourceQuotaSelector(in, out, s)
 }
 func autoConvert_quota_ClusterResourceQuotaSelector_To_v1_ClusterResourceQuotaSelector(in *quota.ClusterResourceQuotaSelector, out *v1.ClusterResourceQuotaSelector, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -542,9 +584,13 @@ func Convert_quota_ClusterResourceQuotaSelector_To_v1_ClusterResourceQuotaSelect
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_ClusterResourceQuotaSelector_To_v1_ClusterResourceQuotaSelector(in, out, s)
 }
 func autoConvert_v1_ClusterResourceQuotaSpec_To_quota_ClusterResourceQuotaSpec(in *v1.ClusterResourceQuotaSpec, out *quota.ClusterResourceQuotaSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -582,9 +628,13 @@ func Convert_v1_ClusterResourceQuotaSpec_To_quota_ClusterResourceQuotaSpec(in *v
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterResourceQuotaSpec_To_quota_ClusterResourceQuotaSpec(in, out, s)
 }
 func autoConvert_quota_ClusterResourceQuotaSpec_To_v1_ClusterResourceQuotaSpec(in *quota.ClusterResourceQuotaSpec, out *v1.ClusterResourceQuotaSpec, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -622,9 +672,13 @@ func Convert_quota_ClusterResourceQuotaSpec_To_v1_ClusterResourceQuotaSpec(in *q
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_quota_ClusterResourceQuotaSpec_To_v1_ClusterResourceQuotaSpec(in, out, s)
 }
 func autoConvert_v1_ClusterResourceQuotaStatus_To_quota_ClusterResourceQuotaStatus(in *v1.ClusterResourceQuotaStatus, out *quota.ClusterResourceQuotaStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -662,9 +716,13 @@ func Convert_v1_ClusterResourceQuotaStatus_To_quota_ClusterResourceQuotaStatus(i
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return autoConvert_v1_ClusterResourceQuotaStatus_To_quota_ClusterResourceQuotaStatus(in, out, s)
 }
 func autoConvert_quota_ClusterResourceQuotaStatus_To_v1_ClusterResourceQuotaStatus(in *quota.ClusterResourceQuotaStatus, out *v1.ClusterResourceQuotaStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -688,6 +746,8 @@ func autoConvert_quota_ClusterResourceQuotaStatus_To_v1_ClusterResourceQuotaStat
 	return nil
 }
 func Convert_quota_ClusterResourceQuotaStatus_To_v1_ClusterResourceQuotaStatus(in *quota.ClusterResourceQuotaStatus, out *v1.ClusterResourceQuotaStatus, s conversion.Scope) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

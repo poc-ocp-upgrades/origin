@@ -41,9 +41,13 @@ func newClusterRoleBindings(c *AuthorizationClient) *clusterRoleBindings {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &clusterRoleBindings{client: c.RESTClient()}
 }
 func (c *clusterRoleBindings) Get(name string, options v1.GetOptions) (result *authorization.ClusterRoleBinding, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ func (c *clusterRoleBindings) Get(name string, options v1.GetOptions) (result *a
 	return
 }
 func (c *clusterRoleBindings) List(opts v1.ListOptions) (result *authorization.ClusterRoleBindingList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +106,8 @@ func (c *clusterRoleBindings) Watch(opts v1.ListOptions) (watch.Interface, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if opts.TimeoutSeconds != nil {
 		timeout = time.Duration(*opts.TimeoutSeconds) * time.Second
@@ -108,6 +116,8 @@ func (c *clusterRoleBindings) Watch(opts v1.ListOptions) (watch.Interface, error
 	return c.client.Get().Resource("clusterrolebindings").VersionedParams(&opts, scheme.ParameterCodec).Timeout(timeout).Watch()
 }
 func (c *clusterRoleBindings) Create(clusterRoleBinding *authorization.ClusterRoleBinding) (result *authorization.ClusterRoleBinding, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -141,11 +151,15 @@ func (c *clusterRoleBindings) Update(clusterRoleBinding *authorization.ClusterRo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result = &authorization.ClusterRoleBinding{}
 	err = c.client.Put().Resource("clusterrolebindings").Name(clusterRoleBinding.Name).Body(clusterRoleBinding).Do().Into(result)
 	return
 }
 func (c *clusterRoleBindings) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -177,6 +191,8 @@ func (c *clusterRoleBindings) DeleteCollection(options *v1.DeleteOptions, listOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if listOptions.TimeoutSeconds != nil {
 		timeout = time.Duration(*listOptions.TimeoutSeconds) * time.Second
@@ -184,6 +200,8 @@ func (c *clusterRoleBindings) DeleteCollection(options *v1.DeleteOptions, listOp
 	return c.client.Delete().Resource("clusterrolebindings").VersionedParams(&listOptions, scheme.ParameterCodec).Timeout(timeout).Body(options).Do().Error()
 }
 func (c *clusterRoleBindings) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *authorization.ClusterRoleBinding, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

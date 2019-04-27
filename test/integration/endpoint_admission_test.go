@@ -31,6 +31,8 @@ func testOne(t *testing.T, client kubernetes.Interface, namespace, addrType stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testEndpoint := &corev1.Endpoints{}
 	testEndpoint.GenerateName = "test"
 	testEndpoint.Subsets = []corev1.EndpointSubset{{Addresses: []corev1.EndpointAddress{{IP: exampleAddresses[addrType]}}, Ports: []corev1.EndpointPort{{Port: 9999, Protocol: corev1.ProtocolTCP}}}}
@@ -43,6 +45,8 @@ func testOne(t *testing.T, client kubernetes.Interface, namespace, addrType stri
 	return ep
 }
 func TestEndpointAdmission(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

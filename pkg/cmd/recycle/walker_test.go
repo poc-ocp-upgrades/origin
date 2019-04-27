@@ -23,6 +23,8 @@ func TestStatUID(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	root, err := ioutil.TempDir("", "walker-test-")
 	if err != nil {
 		t.Fatal(err)

@@ -32,6 +32,8 @@ func NewEtcdMutationCache(backingCache cache.Store) MutationCache {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	lru, err := lru.New(100)
 	if err != nil {
 		panic(err)
@@ -46,6 +48,8 @@ type mutationCache struct {
 }
 
 func (c *mutationCache) GetByKey(key string) (interface{}, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,6 +90,8 @@ func (c *mutationCache) GetByKey(key string) (interface{}, bool, error) {
 	return mutatedObj, true, nil
 }
 func (c *mutationCache) Mutation(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

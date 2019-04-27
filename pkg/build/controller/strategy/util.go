@@ -61,9 +61,13 @@ func (e *FatalError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("fatal error: %s", e.Reason)
 }
 func IsFatal(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,6 +86,8 @@ func IsFatal(err error) bool {
 	return isFatal
 }
 func setupDockerSocket(pod *corev1.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,6 +128,8 @@ func mountConfigMapVolume(pod *corev1.Pod, container *corev1.Container, configMa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mountVolume(pod, container, configMapName, mountPath, volumeSuffix, policy.ConfigMap)
 }
 func mountSecretVolume(pod *corev1.Pod, container *corev1.Container, secretName, mountPath, volumeSuffix string) {
@@ -139,9 +147,13 @@ func mountSecretVolume(pod *corev1.Pod, container *corev1.Container, secretName,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mountVolume(pod, container, secretName, mountPath, volumeSuffix, policy.Secret)
 }
 func mountVolume(pod *corev1.Pod, container *corev1.Container, objName, mountPath, volumeSuffix string, fsType policy.FSType) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +200,8 @@ func makeVolume(volumeName, refName string, mode int32, fsType policy.FSType) co
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	vol := corev1.Volume{Name: volumeName, VolumeSource: corev1.VolumeSource{}}
 	switch fsType {
 	case policy.ConfigMap:
@@ -203,6 +217,8 @@ func makeVolume(volumeName, refName string, mode int32, fsType policy.FSType) co
 	return vol
 }
 func setupDockerSecrets(pod *corev1.Pod, container *corev1.Container, pushSecret, pullSecret *corev1.LocalObjectReference, imageSources []buildv1.ImageSource) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -252,6 +268,8 @@ func setupSourceSecrets(pod *corev1.Pod, container *corev1.Container, sourceSecr
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if sourceSecret == nil {
 		return
 	}
@@ -260,6 +278,8 @@ func setupSourceSecrets(pod *corev1.Pod, container *corev1.Container, sourceSecr
 	container.Env = append(container.Env, []corev1.EnvVar{{Name: "SOURCE_SECRET_PATH", Value: sourceSecretMountPath}}...)
 }
 func setupInputConfigMaps(pod *corev1.Pod, container *corev1.Container, configs []buildv1.ConfigMapBuildSource) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -294,12 +314,16 @@ func setupInputSecrets(pod *corev1.Pod, container *corev1.Container, secrets []b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, s := range secrets {
 		mountSecretVolume(pod, container, s.Secret.Name, filepath.Join(SecretBuildSourceBaseMountPath, s.Secret.Name), "build")
 		klog.V(3).Infof("%s will be used as a build secret in %s", s.Secret.Name, SecretBuildSourceBaseMountPath)
 	}
 }
 func addSourceEnvVars(source buildv1.BuildSource, output *[]corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -328,6 +352,8 @@ func addSourceEnvVars(source buildv1.BuildSource, output *[]corev1.EnvVar) {
 	*output = append(*output, sourceVars...)
 }
 func addOutputEnvVars(buildOutput *corev1.ObjectReference, output *[]corev1.EnvVar) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -374,6 +400,8 @@ func setupAdditionalSecrets(pod *corev1.Pod, container *corev1.Container, secret
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, secretSpec := range secrets {
 		mountSecretVolume(pod, container, secretSpec.SecretSource.Name, secretSpec.MountPath, "secret")
 		klog.V(3).Infof("Installed additional secret in %s, in Pod %s/%s", secretSpec.MountPath, pod.Namespace, pod.Name)
@@ -394,9 +422,13 @@ func getPodLabels(build *buildv1.Build) map[string]string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return map[string]string{buildutil.BuildLabel: buildapihelpers.LabelValue(build.Name)}
 }
 func makeOwnerReference(build *buildv1.Build) metav1.OwnerReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -429,9 +461,13 @@ func setOwnerReference(pod *corev1.Pod, build *buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod.OwnerReferences = []metav1.OwnerReference{makeOwnerReference(build)}
 }
 func HasOwnerReference(pod *corev1.Pod, build *buildv1.Build) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -469,11 +505,15 @@ func copyEnvVarSlice(in []corev1.EnvVar) []corev1.EnvVar {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := make([]corev1.EnvVar, len(in))
 	copy(out, in)
 	return out
 }
 func setupContainersConfigs(build *buildv1.Build, pod *corev1.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -529,6 +569,8 @@ func updateConfigsForContainer(c corev1.Container, volumeName string, configDir 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.VolumeMounts = append(c.VolumeMounts, corev1.VolumeMount{Name: volumeName, MountPath: configDir, ReadOnly: true})
 	registriesConfPath := filepath.Join(configDir, buildutil.RegistryConfKey)
 	signaturePolicyPath := filepath.Join(configDir, buildutil.SignaturePolicyKey)
@@ -541,6 +583,8 @@ func updateConfigsForContainer(c corev1.Container, volumeName string, configDir 
 	return c
 }
 func setupContainersStorage(pod *corev1.Pod, container *corev1.Container) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -584,6 +628,8 @@ func setupContainersNodeStorage(pod *corev1.Pod, container *corev1.Container) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	exists := false
 	for _, v := range pod.Spec.Volumes {
 		if v.Name == "node-storage-root" {
@@ -599,6 +645,8 @@ func setupContainersNodeStorage(pod *corev1.Pod, container *corev1.Container) {
 	container.Env = append(container.Env, corev1.EnvVar{Name: "BUILD_ISOLATION", Value: "chroot"})
 }
 func setupBuildCAs(build *buildv1.Build, pod *corev1.Pod, additionalCAs map[string]string, internalRegistryHost string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -636,6 +684,8 @@ func setupBuildCAs(build *buildv1.Build, pod *corev1.Pod, additionalCAs map[stri
 	}
 }
 func setupBlobCache(pod *corev1.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

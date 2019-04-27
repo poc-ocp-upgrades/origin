@@ -35,9 +35,13 @@ func NewMultiTenantPlugin() osdnPolicy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &multiTenantPlugin{}
 }
 func (mp *multiTenantPlugin) Name() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -69,9 +73,13 @@ func (mp *multiTenantPlugin) SupportsVNIDs() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func (mp *multiTenantPlugin) Start(node *OsdnNode) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +109,8 @@ func (mp *multiTenantPlugin) Start(node *OsdnNode) error {
 	return nil
 }
 func (mp *multiTenantPlugin) updatePodNetwork(namespace string, oldNetID, netID uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,9 +169,13 @@ func (mp *multiTenantPlugin) AddNetNamespace(netns *networkv1.NetNamespace) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mp.updatePodNetwork(netns.Name, 0, netns.NetID)
 }
 func (mp *multiTenantPlugin) UpdateNetNamespace(netns *networkv1.NetNamespace, oldNetID uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,9 +207,13 @@ func (mp *multiTenantPlugin) DeleteNetNamespace(netns *networkv1.NetNamespace) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	mp.updatePodNetwork(netns.Name, netns.NetID, 0)
 }
 func (mp *multiTenantPlugin) GetVNID(namespace string) (uint32, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -227,9 +245,13 @@ func (mp *multiTenantPlugin) GetNamespaces(vnid uint32) []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return mp.vnids.GetNamespaces(vnid)
 }
 func (mp *multiTenantPlugin) GetMulticastEnabled(vnid uint32) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -261,6 +283,8 @@ func (mp *multiTenantPlugin) EnsureVNIDRules(vnid uint32) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if vnid == 0 {
 		return
 	}
@@ -278,6 +302,8 @@ func (mp *multiTenantPlugin) EnsureVNIDRules(vnid uint32) {
 	}
 }
 func (mp *multiTenantPlugin) SyncVNIDRules() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -37,6 +37,8 @@ func (r fakeTagRetriever) ImageStreamTag(namespace, name string) (string, int64,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, resp := range r {
 		if resp.Namespace != namespace || resp.Name != name {
 			continue
@@ -46,6 +48,8 @@ func (r fakeTagRetriever) ImageStreamTag(namespace, name string) (string, int64,
 	return "", 0, false
 }
 func testDeploymentConfig(params []appsv1.DeploymentTriggerImageChangeParams, containers map[string]string) *appsv1.DeploymentConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -75,6 +79,8 @@ func testDeploymentConfig(params []appsv1.DeploymentTriggerImageChangeParams, co
 	return obj
 }
 func TestDeploymentConfigReactor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

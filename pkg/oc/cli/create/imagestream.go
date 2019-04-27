@@ -51,6 +51,8 @@ func NewCmdCreateImageStream(name, fullName string, f genericclioptions.RESTClie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateImageStreamOptions{CreateSubcommandOptions: NewCreateSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: name + " NAME", Short: "Create a new empty image stream.", Long: imageStreamLong, Example: fmt.Sprintf(imageStreamExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		cmdutil.CheckErr(o.Complete(cmd, f, args))
@@ -76,6 +78,8 @@ func (o *CreateImageStreamOptions) Complete(cmd *cobra.Command, f genericcliopti
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -87,6 +91,8 @@ func (o *CreateImageStreamOptions) Complete(cmd *cobra.Command, f genericcliopti
 	return o.CreateSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreateImageStreamOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

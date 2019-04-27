@@ -30,9 +30,13 @@ func NewMultiHandler(handlers ...ChallengeHandler) ChallengeHandler {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MultiHandler{possibleHandlers: handlers, allHandlers: handlers}
 }
 func (h *MultiHandler) CanHandle(headers http.Header) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -58,6 +62,8 @@ func (h *MultiHandler) CanHandle(headers http.Header) bool {
 	return false
 }
 func (h *MultiHandler) HandleChallenge(requestURL string, headers http.Header) (http.Header, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -114,12 +120,16 @@ func (h *MultiHandler) CompleteChallenge(requestURL string, headers http.Header)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if h.handler != nil {
 		return h.handler.CompleteChallenge(requestURL, headers)
 	}
 	return nil
 }
 func (h *MultiHandler) Release() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

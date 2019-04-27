@@ -22,6 +22,8 @@ func AddDefaultingFuncs(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	RegisterDefaults(scheme)
 	scheme.AddTypeDefaultingFunc(&v1.SecurityContextConstraints{}, func(obj interface{}) {
 		SetDefaults_SCC(obj.(*v1.SecurityContextConstraints))
@@ -29,6 +31,8 @@ func AddDefaultingFuncs(scheme *runtime.Scheme) error {
 	return nil
 }
 func SetDefaults_SCC(scc *v1.SecurityContextConstraints) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -100,6 +104,8 @@ func StringSetToFSType(set sets.String) []v1.FSType {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if set == nil {
 		return nil
 	}
@@ -110,6 +116,8 @@ func StringSetToFSType(set sets.String) []v1.FSType {
 	return volumes
 }
 func fsTypeToStringSet(volumes []v1.FSType) sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

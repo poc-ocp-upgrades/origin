@@ -37,6 +37,8 @@ func NewClientBuildConfigClient(client buildclient.Interface) *ClientBuildConfig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildConfigClient{Client: client}
 }
 func (c ClientBuildConfigClient) Get(namespace, name string, options metav1.GetOptions) (*buildv1.BuildConfig, error) {
@@ -54,9 +56,13 @@ func (c ClientBuildConfigClient) Get(namespace, name string, options metav1.GetO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Client.BuildV1().BuildConfigs(namespace).Get(name, options)
 }
 func (c ClientBuildConfigClient) Update(buildConfig *buildv1.BuildConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -104,9 +110,13 @@ func NewClientBuildClient(client buildclient.Interface) *ClientBuildClient {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildClient{Client: client}
 }
 func (c ClientBuildClient) Update(namespace string, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +149,8 @@ func (c ClientBuildClient) Patch(namespace, name string, patch []byte) (*buildv1
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Client.BuildV1().Builds(namespace).Patch(name, types.StrategicMergePatchType, patch)
 }
 func (c ClientBuildClient) List(namespace string, opts metav1.ListOptions) (*buildv1.BuildList, error) {
@@ -156,9 +168,13 @@ func (c ClientBuildClient) List(namespace string, opts metav1.ListOptions) (*bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Client.BuildV1().Builds(namespace).List(opts)
 }
 func (c ClientBuildClient) DeleteBuild(build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,9 +209,13 @@ func NewClientBuildLister(client buildclienttyped.BuildsGetter) buildlister.Buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildLister{client: client}
 }
 func (c *ClientBuildLister) List(label labels.Selector) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -214,6 +234,8 @@ func (c *ClientBuildLister) List(label labels.Selector) ([]*buildv1.Build, error
 	return buildListToPointerArray(list), err
 }
 func (c *ClientBuildLister) Builds(ns string) buildlister.BuildNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +273,8 @@ func (c ClientBuildListerNamespacer) List(label labels.Selector) ([]*buildv1.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := c.client.Builds(c.ns).List(metav1.ListOptions{LabelSelector: label.String()})
 	return buildListToPointerArray(list), err
 }
@@ -269,9 +293,13 @@ func (c ClientBuildListerNamespacer) Get(name string) (*buildv1.Build, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.client.Builds(c.ns).Get(name, metav1.GetOptions{})
 }
 func buildListToPointerArray(list *buildv1.BuildList) []*buildv1.Build {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,9 +343,13 @@ func NewClientBuildConfigLister(client buildclienttyped.BuildConfigsGetter) buil
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildConfigLister{client: client}
 }
 func (c *ClientBuildConfigLister) List(label labels.Selector) ([]*buildv1.BuildConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -336,6 +368,8 @@ func (c *ClientBuildConfigLister) List(label labels.Selector) ([]*buildv1.BuildC
 	return buildConfigListToPointerArray(list), err
 }
 func (c *ClientBuildConfigLister) BuildConfigs(ns string) buildlister.BuildConfigNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -373,6 +407,8 @@ func (c ClientBuildConfigListerNamespacer) List(label labels.Selector) ([]*build
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := c.client.BuildConfigs(c.ns).List(metav1.ListOptions{LabelSelector: label.String()})
 	return buildConfigListToPointerArray(list), err
 }
@@ -391,9 +427,13 @@ func (c ClientBuildConfigListerNamespacer) Get(name string) (*buildv1.BuildConfi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.client.BuildConfigs(c.ns).Get(name, metav1.GetOptions{})
 }
 func buildConfigListToPointerArray(list *buildv1.BuildConfigList) []*buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -438,9 +478,13 @@ func NewClientBuildClonerClient(client buildclient.Interface) *ClientBuildCloner
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildClonerClient{Client: client}
 }
 func (c ClientBuildClonerClient) Clone(namespace string, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -478,9 +522,13 @@ func NewClientBuildConfigInstantiatorClient(client buildclient.Interface) *Clien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ClientBuildConfigInstantiatorClient{Client: client}
 }
 func (c ClientBuildConfigInstantiatorClient) Instantiate(namespace string, request *buildv1.BuildRequest) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -517,6 +565,8 @@ func (c BuildConfigInstantiatorClient) Instantiate(namespace string, request *bu
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Client.BuildConfigs(namespace).Instantiate(request.Name, request)
 }
 func _logClusterCodePath() {
@@ -534,6 +584,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -608,5 +679,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

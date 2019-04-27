@@ -20,6 +20,8 @@ func TestMissingImports(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	yamlFile := &YamlFile{Package: "test", Imports: []*YamlFileImport{{Package: "pkg/one", Version: "1"}, {Package: "pkg/two", Version: "2"}}}
 	lockFile := &LockFile{Hash: "hash", Updated: time.Now(), Imports: []*LockFileImport{{Name: "pkg/one", Version: "1"}, {Name: "pkg/two", Version: "2"}, {Name: "pkg/three", Version: "3"}, {Name: "pkg/four", Repo: "repo", Version: "4"}}}
 	tests := []struct {

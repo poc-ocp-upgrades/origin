@@ -21,6 +21,8 @@ func TestOpenID(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p, err := NewProvider("openid", nil, Config{ClientID: "foo", ClientSecret: "secret", AuthorizeURL: "https://foo", TokenURL: "https://foo", Scopes: []string{"openid"}, IDClaims: []string{"sub"}})
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
@@ -28,6 +30,8 @@ func TestOpenID(t *testing.T) {
 	_ = external.Provider(p)
 }
 func TestDecodeJWT(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -29,6 +29,8 @@ func TestPolicyAggregation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	policyData := Policy()
 	clusterRoles := policyData.ClusterRoles
 	clusterRolesToAggregate := policyData.ClusterRolesToAggregate

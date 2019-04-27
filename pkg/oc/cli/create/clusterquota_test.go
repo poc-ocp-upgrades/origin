@@ -20,6 +20,8 @@ func TestParseAnnotationSelector(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		input		string
 		parsed		map[string]string

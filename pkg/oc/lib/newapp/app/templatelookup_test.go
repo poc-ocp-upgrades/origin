@@ -25,6 +25,8 @@ func testTemplateClient(templates *templatev1.TemplateList) templatev1client.Tem
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fake := &templatefake.Clientset{}
 	fake.AddReactor("list", "templates", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		if len(action.GetNamespace()) > 0 {
@@ -42,6 +44,8 @@ func testTemplateClient(templates *templatev1.TemplateList) templatev1client.Tem
 	return fake.TemplateV1()
 }
 func TestTemplateSearcher(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func TestTemplateSearcher(t *testing.T) {
 	}
 }
 func fakeTemplates(testData map[string][]string) *templatev1.TemplateList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

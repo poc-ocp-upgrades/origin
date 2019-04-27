@@ -77,9 +77,13 @@ func NewDefaultReconcileSCCOptions(streams genericclioptions.IOStreams) *Reconci
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ReconcileSCCOptions{PrintFlags: genericclioptions.NewPrintFlags("").WithTypeSetter(scheme.Scheme).WithDefaultOutput("yaml"), Union: true, InfraNamespace: bootstrappolicy.DefaultOpenShiftInfraNamespace, IOStreams: streams}
 }
 func NewCmdReconcileSCC(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +111,8 @@ func NewCmdReconcileSCC(name, fullName string, f kcmdutil.Factory, streams gener
 	return cmd
 }
 func (o *ReconcileSCCOptions) Complete(cmd *cobra.Command, f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,6 +165,8 @@ func (o *ReconcileSCCOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.SCCClient == nil {
 		return errors.New("a SCC client is required")
 	}
@@ -168,6 +176,8 @@ func (o *ReconcileSCCOptions) Validate() error {
 	return nil
 }
 func (o *ReconcileSCCOptions) RunReconcileSCCs(cmd *cobra.Command, f kcmdutil.Factory) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -221,6 +231,8 @@ func printObjectList(objs []runtime.Object, printer printers.ResourcePrinter, ou
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list := &unstructured.UnstructuredList{Object: map[string]interface{}{"kind": "List", "apiVersion": "v1", "metadata": map[string]interface{}{}}}
 	for _, obj := range objs {
 		unstrObj, err := runtime.DefaultUnstructuredConverter.ToUnstructured(obj)
@@ -232,6 +244,8 @@ func printObjectList(objs []runtime.Object, printer printers.ResourcePrinter, ou
 	return printer.PrintObj(list, out)
 }
 func (o *ReconcileSCCOptions) ChangedSCCs() ([]*securityv1.SecurityContextConstraints, []*securityv1.SecurityContextConstraints, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +298,8 @@ func (o *ReconcileSCCOptions) ReplaceChangedSCCs(newSCCs, changedSCCs []*securit
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	applyOnConstraints := func(sccs []*securityv1.SecurityContextConstraints, fn func(*securityv1.SecurityContextConstraints) (*securityv1.SecurityContextConstraints, error)) error {
 		for i := range sccs {
 			updatedSCC, err := fn(sccs[i])
@@ -301,6 +317,8 @@ func (o *ReconcileSCCOptions) ReplaceChangedSCCs(newSCCs, changedSCCs []*securit
 	return applyOnConstraints(changedSCCs, o.SCCClient.Update)
 }
 func (o *ReconcileSCCOptions) computeUpdatedSCC(expected securityv1.SecurityContextConstraints, actual securityv1.SecurityContextConstraints) (*securityv1.SecurityContextConstraints, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -359,6 +377,8 @@ func sortVolumes(scc *securityv1.SecurityContextConstraints) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if scc.Volumes == nil || len(scc.Volumes) == 0 {
 		return
 	}
@@ -381,6 +401,8 @@ func sliceToFSType(s []string) []securityv1.FSType {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fsTypes := []securityv1.FSType{}
 	for _, v := range s {
 		fsTypes = append(fsTypes, securityv1.FSType(v))
@@ -388,6 +410,8 @@ func sliceToFSType(s []string) []securityv1.FSType {
 	return fsTypes
 }
 func MergeMaps(a, b map[string]string) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

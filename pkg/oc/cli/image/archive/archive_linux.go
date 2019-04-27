@@ -25,6 +25,8 @@ func getWhiteoutConverter(format archive.WhiteoutFormat) tarWhiteoutConverter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if format == archive.OverlayWhiteoutFormat {
 		return overlayWhiteoutConverter{}
 	}
@@ -34,6 +36,8 @@ func getWhiteoutConverter(format archive.WhiteoutFormat) tarWhiteoutConverter {
 type overlayWhiteoutConverter struct{}
 
 func (overlayWhiteoutConverter) ConvertWrite(hdr *tar.Header, path string, fi os.FileInfo) (wo *tar.Header, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func (overlayWhiteoutConverter) ConvertWrite(hdr *tar.Header, path string, fi os
 	return
 }
 func (overlayWhiteoutConverter) ConvertRead(hdr *tar.Header, path string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

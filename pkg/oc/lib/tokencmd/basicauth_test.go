@@ -37,6 +37,8 @@ func TestHandleChallenge(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	basicChallenge := http.Header{WWW_AUTHENTICATE: []string{`Basic realm="myrealm"`}}
 	testCases := map[string]struct {
 		Handler		*BasicChallengeHandler
@@ -74,6 +76,8 @@ Password: `}}}}
 	}
 }
 func TestBasicRealm(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

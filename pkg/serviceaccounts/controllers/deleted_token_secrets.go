@@ -32,6 +32,8 @@ func NewDockercfgTokenDeletedController(secrets informers.SecretInformer, cl kcl
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &DockercfgTokenDeletedController{client: cl}
 	e.secretController = secrets.Informer().GetController()
 	secrets.Informer().AddEventHandlerWithResyncPeriod(cache.FilteringResourceEventHandler{FilterFunc: func(obj interface{}) bool {
@@ -52,6 +54,8 @@ type DockercfgTokenDeletedController struct {
 }
 
 func (e *DockercfgTokenDeletedController) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -90,6 +94,8 @@ func (e *DockercfgTokenDeletedController) secretDeleted(obj interface{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tokenSecret, ok := obj.(*v1.Secret)
 	if !ok {
 		return
@@ -109,6 +115,8 @@ func (e *DockercfgTokenDeletedController) secretDeleted(obj interface{}) {
 	}
 }
 func (e *DockercfgTokenDeletedController) findDockercfgSecrets(tokenSecret *v1.Secret) ([]*v1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

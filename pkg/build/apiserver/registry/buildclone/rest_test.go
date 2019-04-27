@@ -27,6 +27,8 @@ func TestCreateClone(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rest := CloneREST{&generator.BuildGenerator{Client: generator.TestingClient{CreateBuildFunc: func(ctx context.Context, build *buildv1.Build) error {
 		return nil
 	}, GetBuildFunc: func(ctx context.Context, name string, options *metav1.GetOptions) (*buildv1.Build, error) {
@@ -38,6 +40,8 @@ func TestCreateClone(t *testing.T) {
 	}
 }
 func TestCreateCloneValidationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

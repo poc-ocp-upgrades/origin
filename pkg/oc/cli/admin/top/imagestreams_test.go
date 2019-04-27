@@ -24,6 +24,8 @@ func TestImageStreamsTop(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		images		*imagev1.ImageList
 		streams		*imagev1.ImageStreamList
@@ -38,6 +40,8 @@ func TestImageStreamsTop(t *testing.T) {
 	}
 }
 func infosEqual(actual, expected []Info) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

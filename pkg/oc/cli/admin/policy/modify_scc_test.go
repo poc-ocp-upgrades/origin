@@ -28,6 +28,8 @@ func TestModifySCC(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
 		startingSCC	*securityv1.SecurityContextConstraints
 		subjects	[]corev1.ObjectReference

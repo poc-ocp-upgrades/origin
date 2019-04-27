@@ -34,6 +34,8 @@ func ActsAsRootCommand(cmd *cobra.Command, filters []string, groups ...ktemplate
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if cmd == nil {
 		panic("nil root command")
 	}
@@ -43,6 +45,8 @@ func ActsAsRootCommand(cmd *cobra.Command, filters []string, groups ...ktemplate
 	return templater
 }
 func mainUsageTemplate() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,10 +88,14 @@ func (templater *templater) ExposeFlags(cmd *cobra.Command, flags ...string) Fla
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cmd.SetUsageFunc(templater.UsageFunc(flags...))
 	return templater
 }
 func (templater *templater) HelpFunc() func(*cobra.Command, []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func (templater *templater) UsageFunc(exposedFlags ...string) func(*cobra.Comman
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(c *cobra.Command) error {
 		t := template.New("usage")
 		t.Funcs(templater.templateFuncs(exposedFlags...))
@@ -137,6 +147,8 @@ func (templater *templater) UsageFunc(exposedFlags ...string) func(*cobra.Comman
 	}
 }
 func (templater *templater) templateFuncs(exposedFlags ...string) template.FuncMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +194,8 @@ func (templater *templater) cmdGroups(c *cobra.Command, all []*cobra.Command) []
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(templater.CommandGroups) > 0 && c == templater.RootCmd {
 		all = filter(all, templater.Filtered...)
 		return ktemplates.AddAdditionalCommands(templater.CommandGroups, "Other Commands:", all)
@@ -190,6 +204,8 @@ func (templater *templater) cmdGroups(c *cobra.Command, all []*cobra.Command) []
 	return []ktemplates.CommandGroup{{Message: "Available Commands:", Commands: all}}
 }
 func (t *templater) cmdGroupsString(c *cobra.Command) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -231,9 +247,13 @@ func (t *templater) rootCmdName(c *cobra.Command) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return t.rootCmd(c).CommandPath()
 }
 func (t *templater) isRootCmd(c *cobra.Command) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,6 +285,8 @@ func (t *templater) rootCmd(c *cobra.Command) *cobra.Command {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c != nil && !c.HasParent() {
 		return c
 	}
@@ -274,6 +296,8 @@ func (t *templater) rootCmd(c *cobra.Command) *cobra.Command {
 	return t.RootCmd
 }
 func (t *templater) optionsCmdFor(c *cobra.Command) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -321,6 +345,8 @@ func (t *templater) usageLine(c *cobra.Command) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	usage := c.UseLine()
 	suffix := "[flags]"
 	if c.HasFlags() && !strings.Contains(usage, suffix) {
@@ -329,6 +355,8 @@ func (t *templater) usageLine(c *cobra.Command) string {
 	return usage
 }
 func flagsUsages(f *flag.FlagSet) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -376,10 +404,14 @@ func rpad(s string, padding int) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	template := fmt.Sprintf("%%-%ds", padding)
 	return fmt.Sprintf(template, s)
 }
 func appendIfNotPresent(s, stringToAppend string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -400,6 +432,8 @@ func appendIfNotPresent(s, stringToAppend string) string {
 	return s + " " + stringToAppend
 }
 func flagsNotIntersected(l *flag.FlagSet, r *flag.FlagSet) *flag.FlagSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -437,6 +471,8 @@ func visibleFlags(l *flag.FlagSet) *flag.FlagSet {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hidden := "help"
 	f := flag.NewFlagSet("visible", flag.ContinueOnError)
 	l.VisitAll(func(flag *flag.Flag) {
@@ -447,6 +483,8 @@ func visibleFlags(l *flag.FlagSet) *flag.FlagSet {
 	return f
 }
 func filter(cmds []*cobra.Command, names ...string) []*cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,6 +533,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -569,5 +628,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

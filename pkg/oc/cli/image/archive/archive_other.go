@@ -17,5 +17,7 @@ func getWhiteoutConverter(format archive.WhiteoutFormat) tarWhiteoutConverter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }

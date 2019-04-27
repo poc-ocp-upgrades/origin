@@ -33,6 +33,8 @@ func NewDockercfgDeletedController(secrets informers.SecretInformer, cl kclients
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := &DockercfgDeletedController{client: cl}
 	e.secretController = secrets.Informer().GetController()
 	secrets.Informer().AddEventHandlerWithResyncPeriod(cache.FilteringResourceEventHandler{FilterFunc: func(obj interface{}) bool {
@@ -67,6 +69,8 @@ func (e *DockercfgDeletedController) Run(stopCh <-chan struct{}) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	klog.Infof("Starting DockercfgDeletedController controller")
 	defer klog.Infof("Shutting down DockercfgDeletedController controller")
@@ -77,6 +81,8 @@ func (e *DockercfgDeletedController) Run(stopCh <-chan struct{}) {
 	<-stopCh
 }
 func (e *DockercfgDeletedController) secretDeleted(obj interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +134,8 @@ func (e *DockercfgDeletedController) removeDockercfgSecretReference(dockercfgSec
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceAccount, err := e.getServiceAccount(dockercfgSecret)
 	if kapierrors.IsNotFound(err) {
 		return nil
@@ -163,6 +171,8 @@ func (e *DockercfgDeletedController) removeDockercfgSecretReference(dockercfgSec
 	return nil
 }
 func (e *DockercfgDeletedController) getServiceAccount(secret *v1.Secret) (*v1.ServiceAccount, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

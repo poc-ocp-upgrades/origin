@@ -21,10 +21,14 @@ func addDefaultingFuncs(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	RegisterDefaults(scheme)
 	return nil
 }
 func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -145,6 +149,8 @@ func SetDefaults_KubernetesMasterConfig(obj *legacyconfigv1.KubernetesMasterConf
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.MasterEndpointReconcileTTL == 0 {
 		obj.MasterEndpointReconcileTTL = 15
 	}
@@ -159,6 +165,8 @@ func SetDefaults_KubernetesMasterConfig(obj *legacyconfigv1.KubernetesMasterConf
 	}
 }
 func SetDefaults_NodeConfig(obj *legacyconfigv1.NodeConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +226,8 @@ func SetDefaults_EtcdStorageConfig(obj *legacyconfigv1.EtcdStorageConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.KubernetesStorageVersion) == 0 {
 		obj.KubernetesStorageVersion = "v1"
 	}
@@ -232,6 +242,8 @@ func SetDefaults_EtcdStorageConfig(obj *legacyconfigv1.EtcdStorageConfig) {
 	}
 }
 func SetDefaults_DockerConfig(obj *legacyconfigv1.DockerConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -271,11 +283,15 @@ func SetDefaults_ServingInfo(obj *legacyconfigv1.ServingInfo) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.BindNetwork) == 0 {
 		obj.BindNetwork = "tcp4"
 	}
 }
 func SetDefaults_ImagePolicyConfig(obj *legacyconfigv1.ImagePolicyConfig) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,11 +331,15 @@ func SetDefaults_DNSConfig(obj *legacyconfigv1.DNSConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.BindNetwork) == 0 {
 		obj.BindNetwork = "tcp4"
 	}
 }
 func SetDefaults_SecurityAllocator(obj *legacyconfigv1.SecurityAllocator) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -359,6 +379,8 @@ func SetDefaults_IdentityProvider(obj *legacyconfigv1.IdentityProvider) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.MappingMethod) == 0 {
 		obj.MappingMethod = "claim"
 	}
@@ -378,11 +400,15 @@ func SetDefaults_GrantConfig(obj *legacyconfigv1.GrantConfig) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(obj.ServiceAccountMethod) == 0 {
 		obj.ServiceAccountMethod = legacyconfigv1.GrantHandlerPrompt
 	}
 }
 func SetDefaults_ClientConnectionOverrides(overrides *legacyconfigv1.ClientConnectionOverrides) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -24,10 +24,14 @@ func TestFilterBuilds_withEmptyArray(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	actual := FilterBuilds([]buildv1.Build{}, nil)
 	assertThatArrayIsEmpty(t, actual)
 }
 func TestFilterBuilds_withAllElementsAccepted(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -50,6 +54,8 @@ func TestFilterBuilds_withAllElementsAccepted(t *testing.T) {
 	assertThatArraysAreEquals(t, actual, expected)
 }
 func TestFilterBuilds_withFilteredElements(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +93,8 @@ func TestByBuildConfigPredicate_withBuildConfigAnnotation(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := []buildv1.Build{{ObjectMeta: metav1.ObjectMeta{Name: "build1-abc", Annotations: map[string]string{buildapi.BuildConfigAnnotation: "foo"}}}, {ObjectMeta: metav1.ObjectMeta{Name: "build2-abc", Labels: map[string]string{"bar": "baz"}}}}
 	expected := []buildv1.Build{input[0]}
 	actual := FilterBuilds(input, ByBuildConfigPredicate("foo"))
@@ -95,6 +103,8 @@ func TestByBuildConfigPredicate_withBuildConfigAnnotation(t *testing.T) {
 	assertThatArrayIsEmpty(t, actual)
 }
 func TestByBuildConfigPredicate_withBuildConfigLabel(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,6 +141,8 @@ func TestByBuildConfigPredicate_withBothBuildConfigLabels(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	input := []buildv1.Build{{ObjectMeta: metav1.ObjectMeta{Name: "build1-abc", Labels: map[string]string{buildapi.BuildConfigLabel: "foo"}}}, {ObjectMeta: metav1.ObjectMeta{Name: "build2-abc", Labels: map[string]string{"bar": "baz"}}}}
 	expected := []buildv1.Build{input[0]}
 	actual := FilterBuilds(input, ByBuildConfigPredicate("foo"))
@@ -139,6 +151,8 @@ func TestByBuildConfigPredicate_withBothBuildConfigLabels(t *testing.T) {
 	assertThatArrayIsEmpty(t, actual)
 }
 func TestByBuildConfigPredicate_withoutBuildConfigLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,11 +186,15 @@ func assertThatArraysAreEquals(t *testing.T, expected, actual []buildv1.Build) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("Expected: %v\ngot: %v", expected, actual)
 	}
 }
 func assertThatArrayIsEmpty(t *testing.T, array []buildv1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

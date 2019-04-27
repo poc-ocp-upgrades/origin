@@ -23,6 +23,8 @@ func SyncStatusError(ctx context.Context, err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return nil
 	}

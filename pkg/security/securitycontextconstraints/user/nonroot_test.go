@@ -21,6 +21,8 @@ func TestNonRootOptions(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := NewRunAsNonRoot(nil)
 	if err != nil {
 		t.Fatalf("unexpected error initializing NewRunAsNonRoot %v", err)
@@ -31,6 +33,8 @@ func TestNonRootOptions(t *testing.T) {
 	}
 }
 func TestNonRootGenerate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -58,6 +62,8 @@ func TestNonRootGenerate(t *testing.T) {
 	}
 }
 func TestNonRootValidate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

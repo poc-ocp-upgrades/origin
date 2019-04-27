@@ -24,9 +24,13 @@ func (p *TestAllocationPlugin) Allocate(route *routeapi.Route) (*routeapi.Router
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &routeapi.RouterShard{ShardName: "test", DNSSuffix: "openshift.test"}, nil
 }
 func (p *TestAllocationPlugin) GenerateHostname(route *routeapi.Route, shard *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -47,6 +51,8 @@ func (p *TestAllocationPlugin) GenerateHostname(route *routeapi.Route, shard *ro
 	return "test-test-test.openshift.test"
 }
 func TestRouteAllocationController(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

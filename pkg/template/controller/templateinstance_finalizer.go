@@ -52,6 +52,8 @@ func NewTemplateInstanceFinalizerController(dynamicRestMapper meta.RESTMapper, d
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c := &TemplateInstanceFinalizerController{dynamicRestMapper: dynamicRestMapper, templateClient: templateClient, client: dynamicClient, lister: informer.Lister(), informerSynced: informer.Informer().HasSynced, queue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "openshift_template_instance_finalizer_controller"), readinessLimiter: workqueue.NewItemFastSlowRateLimiter(5*time.Second, 20*time.Second, 200), clock: clock.RealClock{}, recorder: record.NewBroadcaster().NewRecorder(legacyscheme.Scheme, corev1.EventSource{Component: "template-instance-finalizer-controller"})}
 	informer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{AddFunc: func(obj interface{}) {
 		t := obj.(*templatev1.TemplateInstance)
@@ -81,6 +83,8 @@ func (c *TemplateInstanceFinalizerController) getTemplateInstance(key string) (*
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace, name, err := cache.SplitMetaNamespaceKey(key)
 	if err != nil {
 		return nil, err
@@ -88,6 +92,8 @@ func (c *TemplateInstanceFinalizerController) getTemplateInstance(key string) (*
 	return c.lister.TemplateInstances(namespace).Get(name)
 }
 func (c *TemplateInstanceFinalizerController) sync(key string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -186,6 +192,8 @@ func (c *TemplateInstanceFinalizerController) Run(workers int, stopCh <-chan str
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
 	klog.V(2).Infof("TemplateInstanceFinalizer controller waiting for cache sync")
@@ -200,6 +208,8 @@ func (c *TemplateInstanceFinalizerController) Run(workers int, stopCh <-chan str
 	klog.V(2).Infof("Stopping TemplateInstanceFinalizer controller")
 }
 func (c *TemplateInstanceFinalizerController) runWorker() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -232,6 +242,8 @@ func (c *TemplateInstanceFinalizerController) processNextWorkItem() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	key, quit := c.queue.Get()
 	if quit {
 		return false
@@ -247,6 +259,8 @@ func (c *TemplateInstanceFinalizerController) processNextWorkItem() bool {
 	return true
 }
 func (c *TemplateInstanceFinalizerController) enqueue(templateInstance *templatev1.TemplateInstance) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

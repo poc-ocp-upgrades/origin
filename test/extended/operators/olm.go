@@ -43,6 +43,8 @@ func isResourceItemsEmpty(resourceList map[string]interface{}) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	items, err := resourceList["items"].([]interface{})
 	o.Expect(err).To(o.BeTrue(), "Unable to verify items is a slice")
 	if reflect.ValueOf(items).Len() > 0 {

@@ -19,6 +19,8 @@ func TestRejectNonAbsolutePathsThatRequireBacksteps(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	path := "../foo"
 	paths := []*string{}
 	paths = append(paths, &path)
@@ -28,6 +30,8 @@ func TestRejectNonAbsolutePathsThatRequireBacksteps(t *testing.T) {
 	}
 }
 func TestAcceptAbsolutePath(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

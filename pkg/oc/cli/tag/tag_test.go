@@ -31,9 +31,13 @@ func testData() []*imagev1.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []*imagev1.ImageStream{{ObjectMeta: metav1.ObjectMeta{Name: "rails", Namespace: "yourproject", ResourceVersion: "10", CreationTimestamp: metav1.Now()}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: "", Tags: []imagev1.TagReference{}}}, {ObjectMeta: metav1.ObjectMeta{Name: "rails", Namespace: "yourproject", ResourceVersion: "11", CreationTimestamp: metav1.Now()}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: "", Tags: []imagev1.TagReference{{Name: "tip", From: &corev1.ObjectReference{Name: "ruby", Namespace: "openshift", Kind: "ImageStreamTag"}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "rails", Namespace: "myproject", ResourceVersion: "10", CreationTimestamp: metav1.Now()}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: "", Tags: []imagev1.TagReference{{Name: "latest", From: &corev1.ObjectReference{Name: "ruby", Namespace: "openshift", Kind: "ImageStreamTag"}}}}}, {ObjectMeta: metav1.ObjectMeta{Name: "django", Namespace: "yourproject", ResourceVersion: "11", CreationTimestamp: metav1.Now()}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: "", Tags: []imagev1.TagReference{{Name: "tip", From: &corev1.ObjectReference{Name: "python", Namespace: "openshift", Kind: "ImageStreamTag"}}}}}}
 }
 func TestTag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -103,6 +107,8 @@ func TestRunTag_DeleteOld(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	streams := testData()
 	client := fakeimagev1client.NewSimpleClientset(streams[1])
 	client.PrependReactor("delete", "imagestreamtags", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
@@ -133,6 +139,8 @@ func TestRunTag_DeleteOld(t *testing.T) {
 	}
 }
 func TestRunTag_AddNew(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -181,6 +189,8 @@ func TestRunTag_AddRestricted(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	client := fakeimagev1client.NewSimpleClientset()
 	client.PrependReactor("create", "imagestreamtags", func(action clientgotesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, action.(clientgotesting.CreateAction).GetObject(), nil
@@ -207,6 +217,8 @@ func TestRunTag_AddRestricted(t *testing.T) {
 	}
 }
 func TestRunTag_DeleteNew(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

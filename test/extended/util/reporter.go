@@ -32,9 +32,13 @@ func NewSimpleReporter() *SimpleReporter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SimpleReporter{Output: os.Stdout, stenographer: stenographer.New(!config.DefaultReporterConfig.NoColor, false)}
 }
 func (r *SimpleReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, summary *types.SuiteSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,8 +70,12 @@ func (r *SimpleReporter) BeforeSuiteDidRun(*types.SetupSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *SimpleReporter) SpecWillRun(spec *types.SpecSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +93,8 @@ func (r *SimpleReporter) SpecWillRun(spec *types.SpecSummary) {
 	r.printRunLine(spec)
 }
 func (r *SimpleReporter) SpecDidComplete(spec *types.SpecSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -117,6 +127,8 @@ func (r *SimpleReporter) AfterSuiteDidRun(setupSummary *types.SetupSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *SimpleReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	_logClusterCodePath()
@@ -133,8 +145,12 @@ func (r *SimpleReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
 func (r *SimpleReporter) handleSpecFailure(spec *types.SpecSummary) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -173,6 +189,8 @@ func (r *SimpleReporter) printStatusLine(spec *types.SpecSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runTime := ""
 	if runTime = fmt.Sprintf(" (%v)", spec.RunTime); runTime == " (0)" {
 		runTime = ""
@@ -194,9 +212,13 @@ func (r *SimpleReporter) printRunLine(spec *types.SpecSummary) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(r.Output, "=== RUN %s:\n", trimLocation(spec.ComponentCodeLocations[1]))
 }
 func specDescription(spec *types.SpecSummary) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -235,6 +257,8 @@ func short(s string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	runes := []rune(s)
 	if len(runes) > maxDescriptionLength {
 		return string(runes[:maxDescriptionLength]) + " ..."
@@ -242,6 +266,8 @@ func short(s string) string {
 	return s
 }
 func bold(v string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -273,6 +299,8 @@ func red(v string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "\033[31m" + v + "\033[0m"
 }
 func magenta(v string) string {
@@ -290,9 +318,13 @@ func magenta(v string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "\033[35m" + v + "\033[0m"
 }
 func stateToString(s types.SpecState) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -325,6 +357,8 @@ func stateToString(s types.SpecState) string {
 	}
 }
 func trimLocation(l types.CodeLocation) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

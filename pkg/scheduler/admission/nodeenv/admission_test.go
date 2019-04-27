@@ -27,6 +27,8 @@ func TestPodAdmission(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	namespace := &corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: "testProject", Namespace: ""}}
 	handler := &podNodeEnvironment{}
 	pod := &kapi.Pod{ObjectMeta: metav1.ObjectMeta{Name: "testPod"}}
@@ -74,6 +76,8 @@ func TestPodAdmission(t *testing.T) {
 	}
 }
 func TestHandles(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

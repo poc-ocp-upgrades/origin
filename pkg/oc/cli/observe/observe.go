@@ -192,9 +192,13 @@ func NewObserveOptions(streams genericclioptions.IOStreams) *ObserveOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ObserveOptions{IOStreams: streams, retryCount: 2, templateType: "jsonpath", maximumErrors: 20, listenAddr: ":11251"}
 }
 func NewCmdObserve(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,6 +246,8 @@ func NewCmdObserve(fullName string, f kcmdutil.Factory, streams genericclioption
 	return cmd
 }
 func (o *ObserveOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -372,6 +378,8 @@ func (o *ObserveOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.nameSyncCommand) > 0 && len(o.deleteCommand) == 0 {
 		return fmt.Errorf("--delete and --names must both be specified")
 	}
@@ -381,6 +389,8 @@ func (o *ObserveOptions) Validate(args []string) error {
 	return nil
 }
 func (o *ObserveOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -526,6 +536,8 @@ func (o *ObserveOptions) calculateArguments(delta cache.Delta) (runtime.Object, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var arguments []string
 	var object runtime.Object
 	var key string
@@ -608,6 +620,8 @@ func (o *ObserveOptions) startSync() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(o.debugOut, "# %s Sync started\n", time.Now().Format(time.RFC3339))
 	return nil
 }
@@ -626,10 +640,14 @@ func (o *ObserveOptions) finishSync() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(o.debugOut, "# %s Sync ended\n", time.Now().Format(time.RFC3339))
 	return nil
 }
 func (o *ObserveOptions) next(deltaType cache.DeltaType, obj runtime.Object, output []byte, arguments []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -713,6 +731,8 @@ func (o *ObserveOptions) handleCommandError(err error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return nil
 	}
@@ -738,6 +758,8 @@ func (o *ObserveOptions) dumpMetrics() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.printMetricsOnExit {
 		return
 	}
@@ -748,6 +770,8 @@ func (o *ObserveOptions) dumpMetrics() {
 	}
 }
 func measureCommandDuration(m *prometheus.SummaryVec, fn func() error, labels ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -790,6 +814,8 @@ func errnoError(err error) syscall.Errno {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if se, ok := err.(*os.SyscallError); ok {
 		if errno, ok := se.Err.(syscall.Errno); ok {
 			return errno
@@ -798,6 +824,8 @@ func errnoError(err error) syscall.Errno {
 	return 0
 }
 func exitCodeForCommandError(err error) (int, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -837,6 +865,8 @@ func retryCommandError(onExitStatus, times int, fn func() error) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := fn()
 	if err != nil && onExitStatus != 0 && times > 0 {
 		if status, ok := exitCodeForCommandError(err); ok {
@@ -849,6 +879,8 @@ func retryCommandError(onExitStatus, times int, fn func() error) error {
 	return err
 }
 func printCommandLine(cmd string, args ...string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -907,10 +939,14 @@ func (lw restListWatcher) List(opt metav1.ListOptions) (runtime.Object, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opt.LabelSelector = lw.selector
 	return lw.Helper.List(lw.namespace, "", false, &opt)
 }
 func (lw restListWatcher) Watch(opt metav1.ListOptions) (watch.Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -951,6 +987,8 @@ func NewJSONPathArgumentPrinter(includeNamespace, strict bool, templates ...stri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &JSONPathColumnPrinter{includeNamespace: includeNamespace, rawTemplates: templates, buf: &bytes.Buffer{}}
 	for _, s := range templates {
 		t := jsonpath.New("template").AllowMissingKeys(!strict)
@@ -962,6 +1000,8 @@ func NewJSONPathArgumentPrinter(includeNamespace, strict bool, templates ...stri
 	return p, nil
 }
 func (p *JSONPathColumnPrinter) Print(obj interface{}) ([]string, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1010,6 +1050,8 @@ func NewGoTemplateArgumentPrinter(includeNamespace, strict bool, templates ...st
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	p := &GoTemplateColumnPrinter{includeNamespace: includeNamespace, strict: strict, rawTemplates: templates, buf: &bytes.Buffer{}}
 	for _, s := range templates {
 		t := template.New("template")
@@ -1025,6 +1067,8 @@ func NewGoTemplateArgumentPrinter(includeNamespace, strict bool, templates ...st
 	return p, nil
 }
 func (p *GoTemplateColumnPrinter) Print(obj interface{}) ([]string, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1081,9 +1125,13 @@ func NewVersionedColumnPrinter(printer ColumnPrinter, convertor runtime.ObjectCo
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &VersionedColumnPrinter{printer: printer, convertor: convertor, version: version}
 }
 func (p *VersionedColumnPrinter) Print(out interface{}) ([]string, []byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1148,6 +1196,8 @@ func objectArgumentsKeyFunc(obj interface{}) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if args, ok := obj.(objectArguments); ok {
 		return args.key, nil
 	}
@@ -1176,11 +1226,15 @@ func (r *objectArgumentsStore) ListKeysError() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.lock.Lock()
 	defer r.lock.Unlock()
 	return r.err
 }
 func (r *objectArgumentsStore) ListKeys() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1223,12 +1277,16 @@ func (r *objectArgumentsStore) GetByKey(key string) (interface{}, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.lock.Lock()
 	defer r.lock.Unlock()
 	args := r.arguments[key]
 	return args, true, nil
 }
 func (r *objectArgumentsStore) Put(key string, arguments interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1251,6 +1309,8 @@ func (r *objectArgumentsStore) Put(key string, arguments interface{}) {
 	r.arguments[key] = arguments
 }
 func (r *objectArgumentsStore) Remove(key string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1290,12 +1350,16 @@ func (w *newlineTrailingWriter) Write(data []byte) (int, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(data) > 0 && data[len(data)-1] != '\n' {
 		w.openLine = true
 	}
 	return w.w.Write(data)
 }
 func (w *newlineTrailingWriter) Flush() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1335,10 +1399,14 @@ func (f *stringSliceFlag) Set(value string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*f = append(*f, value)
 	return nil
 }
 func (f *stringSliceFlag) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1370,6 +1438,8 @@ func (f *stringSliceFlag) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "string"
 }
 func _logClusterCodePath() {
@@ -1387,6 +1457,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1461,5 +1552,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -27,6 +27,8 @@ func (m *mergeResolver) Resolve() ([]*buildv1.Build, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*buildv1.Build{}
 	for _, resolver := range m.resolvers {
 		builds, err := resolver.Resolve()
@@ -38,6 +40,8 @@ func (m *mergeResolver) Resolve() ([]*buildv1.Build, error) {
 	return results, nil
 }
 func NewOrphanBuildResolver(dataSet DataSet, BuildPhaseFilter []buildv1.BuildPhase) Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,6 +69,8 @@ type orphanBuildResolver struct {
 }
 
 func (o *orphanBuildResolver) Resolve() ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,9 +129,13 @@ func NewPerBuildConfigResolver(dataSet DataSet, keepComplete int, keepFailed int
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &perBuildConfigResolver{dataSet: dataSet, keepComplete: keepComplete, keepFailed: keepFailed}
 }
 func (o *perBuildConfigResolver) Resolve() ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -32,9 +32,13 @@ func saSCC() *securityv1.SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &securityv1.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{SelfLink: "/api/version/securitycontextconstraints/scc-sa", Name: "scc-sa"}, RunAsUser: securityv1.RunAsUserStrategyOptions{Type: securityv1.RunAsUserStrategyMustRunAsRange}, SELinuxContext: securityv1.SELinuxContextStrategyOptions{Type: securityv1.SELinuxStrategyMustRunAs}, FSGroup: securityv1.FSGroupStrategyOptions{Type: securityv1.FSGroupStrategyMustRunAs}, SupplementalGroups: securityv1.SupplementalGroupsStrategyOptions{Type: securityv1.SupplementalGroupsStrategyMustRunAs}, Groups: []string{"system:serviceaccounts"}}
 }
 func TestAllowed(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -117,6 +121,8 @@ func TestRequests(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
 		request		*securityapi.PodSecurityPolicySubjectReview
 		sccs		[]*securityv1.SecurityContextConstraints
@@ -152,6 +158,8 @@ func TestRequests(t *testing.T) {
 type noopTestAuthorizer struct{}
 
 func (s *noopTestAuthorizer) Authorize(a authorizer.Attributes) (authorizer.Decision, string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

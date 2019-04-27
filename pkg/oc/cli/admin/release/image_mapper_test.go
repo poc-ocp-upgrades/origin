@@ -20,6 +20,8 @@ func TestNewImageMapper(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type args struct{ images map[string]ImageReference }
 	tests := []struct {
 		name	string
@@ -75,6 +77,8 @@ func TestNewExactMapper(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	type args struct{ mappings map[string]string }
 	tests := []struct {
 		name	string
@@ -106,6 +110,8 @@ func TestNewExactMapper(t *testing.T) {
 	}
 }
 func TestNewComponentVersionsMapper(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

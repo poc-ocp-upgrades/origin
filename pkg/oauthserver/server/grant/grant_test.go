@@ -42,9 +42,13 @@ func (t *testAuth) AuthenticateRequest(req *http.Request) (*authenticator.Respon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &authenticator.Response{User: t.User}, t.Success, t.Err
 }
 func goodAuth(username string) *testAuth {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -76,6 +80,8 @@ func badAuth(err error) *testAuth {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &testAuth{Success: false, User: nil, Err: err}
 }
 func emptyClientRegistry() api.OAuthClientGetter {
@@ -93,9 +99,13 @@ func emptyClientRegistry() api.OAuthClientGetter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return oauthfake.NewSimpleClientset().OauthV1().OAuthClients()
 }
 func goodClientRegistry(clientID string, redirectURIs []string, literalScopes []string) api.OAuthClientGetter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -133,6 +143,8 @@ func badClientRegistry(err error) api.OAuthClientGetter {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeOAuthClient := oauthfake.NewSimpleClientset()
 	fakeOAuthClient.PrependReactor("get", "oauthclients", func(action clienttesting.Action) (handled bool, ret runtime.Object, err error) {
 		return true, nil, err
@@ -140,6 +152,8 @@ func badClientRegistry(err error) api.OAuthClientGetter {
 	return fakeOAuthClient.OauthV1().OAuthClients()
 }
 func emptyAuthRegistry() *oauthfake.Clientset {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -171,11 +185,15 @@ func existingAuthRegistry(scopes []string) *oauthfake.Clientset {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	auth := &oapi.OAuthClientAuthorization{UserName: "existingUserName", UserUID: "existingUserUID", ClientName: "existingClientName", Scopes: scopes}
 	auth.Name = "username:myclient"
 	return oauthfake.NewSimpleClientset(auth)
 }
 func TestGrant(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -298,6 +316,8 @@ func postForm(url string, body url.Values) (resp *http.Response, err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tr := knet.SetTransportDefaults(&http.Transport{})
 	req, err := http.NewRequest("POST", url, strings.NewReader(body.Encode()))
 	if err != nil {
@@ -307,6 +327,8 @@ func postForm(url string, body url.Values) (resp *http.Response, err error) {
 	return tr.RoundTrip(req)
 }
 func getURL(url string) (resp *http.Response, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

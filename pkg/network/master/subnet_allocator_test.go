@@ -21,6 +21,8 @@ func TestAllocateSubnet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 8)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
@@ -48,6 +50,8 @@ func TestAllocateSubnet(t *testing.T) {
 	}
 }
 func TestAllocateSubnetLargeHostBits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -110,6 +114,8 @@ func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 6)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
@@ -141,6 +147,8 @@ func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
 	}
 }
 func TestAllocateSubnetOverlapping(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -200,6 +208,8 @@ func TestAllocateSubnetNoSubnetBits(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 16)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
@@ -231,6 +241,8 @@ func TestAllocateSubnetInvalidHostBitsOrCIDR(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := newSubnetAllocator("10.1.0.0/16", 18)
 	if err == nil {
 		t.Fatal("Unexpectedly succeeded in initializing subnet allocator")
@@ -245,6 +257,8 @@ func TestAllocateSubnetInvalidHostBitsOrCIDR(t *testing.T) {
 	}
 }
 func TestMarkAllocatedNetwork(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -307,6 +321,8 @@ func TestAllocateReleaseSubnet(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 14)
 	if err != nil {
 		t.Fatal("Failed to initialize IP allocator: ", err)
@@ -344,6 +360,8 @@ func TestAllocateReleaseSubnet(t *testing.T) {
 	}
 }
 func TestIPUint32Conversion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

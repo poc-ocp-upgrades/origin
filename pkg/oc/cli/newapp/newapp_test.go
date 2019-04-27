@@ -32,6 +32,8 @@ func TestNewAppDefaultFlags(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := newcmd.NewAppConfig()
 	config.Deploy = true
 	tests := map[string]struct {
@@ -50,6 +52,8 @@ func TestNewAppDefaultFlags(t *testing.T) {
 	}
 }
 func TestNewAppRunFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -83,6 +87,8 @@ func TestNewAppRunFailure(t *testing.T) {
 	}
 }
 func TestNewAppRunQueryActions(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -168,9 +174,13 @@ func fakeTemplateList() []runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []runtime.Object{&templatev1.Template{ObjectMeta: metav1.ObjectMeta{Name: "test", Namespace: "openshift"}}}
 }
 func fakeImagestreamList() *imagev1.ImageStreamList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -207,9 +217,13 @@ func (m MockSearcher) Type() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
 func (m MockSearcher) Search(precise bool, terms ...string) (app.ComponentMatches, []error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

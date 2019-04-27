@@ -23,9 +23,13 @@ func (c *FakeOauth) OAuthAccessTokens() internalversion.OAuthAccessTokenInterfac
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeOAuthAccessTokens{c}
 }
 func (c *FakeOauth) OAuthAuthorizeTokens() internalversion.OAuthAuthorizeTokenInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,6 +61,8 @@ func (c *FakeOauth) OAuthClients() internalversion.OAuthClientInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeOAuthClients{c}
 }
 func (c *FakeOauth) OAuthClientAuthorizations() internalversion.OAuthClientAuthorizationInterface {
@@ -74,9 +80,13 @@ func (c *FakeOauth) OAuthClientAuthorizations() internalversion.OAuthClientAutho
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeOAuthClientAuthorizations{c}
 }
 func (c *FakeOauth) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

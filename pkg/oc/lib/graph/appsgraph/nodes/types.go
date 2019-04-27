@@ -25,6 +25,8 @@ func DeploymentConfigNodeName(o *appsv1.DeploymentConfig) osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.GetUniqueRuntimeObjectNodeName(DeploymentConfigNodeKind, o)
 }
 
@@ -35,6 +37,8 @@ type DeploymentConfigNode struct {
 }
 
 func (n DeploymentConfigNode) Found() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,6 +70,8 @@ func (n DeploymentConfigNode) Object() interface{} {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.DeploymentConfig
 }
 func (n DeploymentConfigNode) String() string {
@@ -83,9 +89,13 @@ func (n DeploymentConfigNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(DeploymentConfigNodeName(n.DeploymentConfig))
 }
 func (*DeploymentConfigNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

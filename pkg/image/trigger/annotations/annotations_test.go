@@ -39,6 +39,8 @@ func (r fakeTagRetriever) ImageStreamTag(namespace, name string) (string, int64,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, resp := range r {
 		if resp.Namespace != namespace || resp.Name != name {
 			continue
@@ -68,10 +70,14 @@ func (u *fakeUpdater) Update(obj runtime.Object) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	u.Object = obj
 	return u.Err
 }
 func testStatefulSet(params []triggerapi.ObjectFieldTrigger, containers map[string]string) *kapps.StatefulSet {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -122,12 +128,16 @@ func TestAnnotationJSONPath(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := jsonpath.Parse("field_path", "spec.template.spec.containers[?(@.name==\"test\")].image")
 	if err != nil {
 		t.Error(err)
 	}
 }
 func TestAnnotationsReactor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

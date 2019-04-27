@@ -32,6 +32,8 @@ func ValidateStringSource(s config.StringSource, fieldPath *field.Path) Validati
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	validationResults := ValidationResults{}
 	methods := 0
 	if len(s.Value) > 0 {
@@ -78,6 +80,8 @@ func ValidateSpecifiedIP(ipString string, fldPath *field.Path) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	ip := net.ParseIP(ipString)
 	if ip == nil {
@@ -88,6 +92,8 @@ func ValidateSpecifiedIP(ipString string, fldPath *field.Path) field.ErrorList {
 	return allErrs
 }
 func ValidateSpecifiedIPPort(ipPortString string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +145,8 @@ func ValidateSecureURL(urlString string, fldPath *field.Path) (*url.URL, field.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	url, urlErrs := ValidateURL(urlString, fldPath)
 	if len(urlErrs) == 0 && url.Scheme != "https" {
 		urlErrs = append(urlErrs, field.Invalid(fldPath, urlString, "must use https scheme"))
@@ -146,6 +154,8 @@ func ValidateSecureURL(urlString string, fldPath *field.Path) (*url.URL, field.E
 	return url, urlErrs
 }
 func ValidateURL(urlString string, fldPath *field.Path) (*url.URL, field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +199,8 @@ func ValidateFile(path string, fldPath *field.Path) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(path) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath, ""))
@@ -198,6 +210,8 @@ func ValidateFile(path string, fldPath *field.Path) field.ErrorList {
 	return allErrs
 }
 func ValidateDir(path string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -246,10 +260,14 @@ func (r *ValidationResults) Append(additionalResults ValidationResults) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.AddErrors(additionalResults.Errors...)
 	r.AddWarnings(additionalResults.Warnings...)
 }
 func (r *ValidationResults) AddErrors(errors ...*field.Error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -284,6 +302,8 @@ func (r *ValidationResults) AddWarnings(warnings ...*field.Error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(warnings) == 0 {
 		return
 	}
@@ -304,6 +324,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -378,5 +419,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

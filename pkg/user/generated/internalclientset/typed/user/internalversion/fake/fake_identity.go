@@ -30,6 +30,8 @@ func (c *FakeIdentities) Get(name string, options v1.GetOptions) (result *user.I
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(identitiesResource, name), &user.Identity{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeIdentities) Get(name string, options v1.GetOptions) (result *user.I
 	return obj.(*user.Identity), err
 }
 func (c *FakeIdentities) List(opts v1.ListOptions) (result *user.IdentityList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeIdentities) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(identitiesResource, opts))
 }
 func (c *FakeIdentities) Create(identity *user.Identity) (result *user.Identity, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeIdentities) Update(identity *user.Identity) (result *user.Identity,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(identitiesResource, identity), &user.Identity{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeIdentities) Update(identity *user.Identity) (result *user.Identity,
 	return obj.(*user.Identity), err
 }
 func (c *FakeIdentities) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeIdentities) DeleteCollection(options *v1.DeleteOptions, listOptions
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(identitiesResource, listOptions)
 	_, err := c.Fake.Invokes(action, &user.IdentityList{})
 	return err
 }
 func (c *FakeIdentities) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *user.Identity, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

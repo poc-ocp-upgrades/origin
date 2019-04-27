@@ -19,11 +19,15 @@ func (in *AdmissionPluginTestConfig) DeepCopyInto(out *AdmissionPluginTestConfig
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *AdmissionPluginTestConfig) DeepCopy() *AdmissionPluginTestConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (in *AdmissionPluginTestConfig) DeepCopy() *AdmissionPluginTestConfig {
 	return out
 }
 func (in *AdmissionPluginTestConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

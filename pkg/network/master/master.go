@@ -57,6 +57,8 @@ func Start(networkConfig openshiftcontrolplanev1.NetworkControllerConfig, networ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.Infof("Initializing SDN master of type %q", networkConfig.NetworkPluginName)
 	master := &OsdnMaster{kClient: kClient, networkClient: networkClient, nodeInformer: kubeInformers.Core().V1().Nodes(), namespaceInformer: kubeInformers.Core().V1().Namespaces(), hostSubnetInformer: networkInformers.Network().V1().HostSubnets(), netNamespaceInformer: networkInformers.Network().V1().NetNamespaces(), subnetAllocatorMap: map[common.ClusterNetwork]*SubnetAllocator{}, hostSubnetNodeIPs: map[ktypes.UID]string{}}
 	var err error
@@ -145,6 +147,8 @@ func (master *OsdnMaster) startSubSystems(pluginName string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !cache.WaitForCacheSync(wait.NeverStop, master.nodeInformer.Informer().GetController().HasSynced, master.namespaceInformer.Informer().GetController().HasSynced, master.hostSubnetInformer.Informer().GetController().HasSynced, master.netNamespaceInformer.Informer().GetController().HasSynced) {
 		klog.Fatalf("failed to sync SDN master informers")
 	}
@@ -180,6 +184,8 @@ func (master *OsdnMaster) checkClusterNetworkAgainstLocalNetworks() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostIPNets, _, err := netutils.GetHostIPNetworks([]string{tun0})
 	if err != nil {
 		return err
@@ -187,6 +193,8 @@ func (master *OsdnMaster) checkClusterNetworkAgainstLocalNetworks() error {
 	return master.networkInfo.CheckHostNetworks(hostIPNets)
 }
 func (master *OsdnMaster) checkClusterNetworkAgainstClusterObjects() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -216,6 +224,8 @@ func (master *OsdnMaster) checkClusterNetworkAgainstClusterObjects() error {
 	return master.networkInfo.CheckClusterObjects(subnets, pods, services)
 }
 func clusterNetworkChanged(obj *networkapi.ClusterNetwork, old *networkapi.ClusterNetwork) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

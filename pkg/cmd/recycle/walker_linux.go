@@ -23,6 +23,8 @@ func getuid(info os.FileInfo) (int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	stat_t, ok := info.Sys().(*syscall.Stat_t)
 	if !ok {
 		return 0, StatError
@@ -30,6 +32,8 @@ func getuid(info os.FileInfo) (int64, error) {
 	return int64(stat_t.Uid), nil
 }
 func setfsuid(uid int) (err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

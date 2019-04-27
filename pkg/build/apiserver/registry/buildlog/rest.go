@@ -54,6 +54,8 @@ func NewREST(buildClient buildtypedclient.BuildsGetter, podClient kubetypedclien
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &REST{BuildClient: buildClient, PodClient: podClient, Timeout: defaultTimeout}
 	r.getSimpleLogsFn = r.getSimpleLogs
 	return r
@@ -62,6 +64,8 @@ func NewREST(buildClient buildtypedclient.BuildsGetter, podClient kubetypedclien
 var _ = rest.GetterWithOptions(&REST{})
 
 func (r *REST) Get(ctx context.Context, name string, opts runtime.Object) (runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -240,6 +244,8 @@ func (r *REST) NewGetOptions() (runtime.Object, bool, string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapi.BuildLogOptions{}, false, ""
 }
 func (r *REST) New() runtime.Object {
@@ -257,9 +263,13 @@ func (r *REST) New() runtime.Object {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapi.BuildLog{}
 }
 func (r *REST) pipeLogs(ctx context.Context, namespace, buildPodName string, containerLogOpts *kapi.PodLogOptions, writer io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -300,6 +310,8 @@ func podLogOptionsToV1(options *kapi.PodLogOptions) *corev1.PodLogOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newOptions := &corev1.PodLogOptions{}
 	if err := legacyscheme.Scheme.Convert(options, newOptions, nil); err != nil {
 		panic(err)
@@ -307,6 +319,8 @@ func podLogOptionsToV1(options *kapi.PodLogOptions) *corev1.PodLogOptions {
 	return newOptions
 }
 func selectBuilderContainer(containers []corev1.Container) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -345,6 +359,8 @@ func (r *REST) getSimpleLogs(podNamespace, podName string, logOpts *kapi.PodLogO
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logRequest := r.PodClient.Pods(podNamespace).GetLogs(podName, podLogOptionsToV1(logOpts))
 	readerCloser, err := logRequest.Stream()
 	if err != nil {
@@ -353,6 +369,8 @@ func (r *REST) getSimpleLogs(podNamespace, podName string, logOpts *kapi.PodLogO
 	return &apiserverrest.PassThroughStreamer{In: readerCloser, Flush: logOpts.Follow, ContentType: "text/plain"}, nil
 }
 func versionForBuild(build *buildv1.Build) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

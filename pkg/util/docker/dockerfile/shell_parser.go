@@ -27,9 +27,13 @@ func NewShellLex(escapeToken rune) *ShellLex {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ShellLex{escapeToken: escapeToken}
 }
 func (s *ShellLex) ProcessWord(word string, env []string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,10 +66,14 @@ func (s *ShellLex) ProcessWords(word string, env []string) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, words, err := s.process(word, env)
 	return words, err
 }
 func (s *ShellLex) process(word string, env []string) (string, []string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +100,8 @@ type shellWord struct {
 }
 
 func (sw *shellWord) process(source string) (string, []string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -134,6 +144,8 @@ func (w *wordsStruct) addChar(ch rune) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if unicode.IsSpace(ch) && w.inWord {
 		if len(w.word) != 0 {
 			w.words = append(w.words, w.word)
@@ -159,10 +171,14 @@ func (w *wordsStruct) addRawChar(ch rune) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.word += string(ch)
 	w.inWord = true
 }
 func (w *wordsStruct) addString(str string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -198,10 +214,14 @@ func (w *wordsStruct) addRawString(str string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.word += str
 	w.inWord = true
 }
 func (w *wordsStruct) getWords() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -224,6 +244,8 @@ func (w *wordsStruct) getWords() []string {
 	return w.words
 }
 func (sw *shellWord) processStopOn(stopChar rune) (string, []string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +311,8 @@ func (sw *shellWord) processSingleQuote() (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result bytes.Buffer
 	sw.scanner.Next()
 	for {
@@ -303,6 +327,8 @@ func (sw *shellWord) processSingleQuote() (string, error) {
 	}
 }
 func (sw *shellWord) processDoubleQuote() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -347,6 +373,8 @@ func (sw *shellWord) processDoubleQuote() (string, error) {
 	}
 }
 func (sw *shellWord) processDollar() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -416,6 +444,8 @@ func (sw *shellWord) processName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var name bytes.Buffer
 	for sw.scanner.Peek() != scanner.EOF {
 		ch := sw.scanner.Peek()
@@ -432,6 +462,8 @@ func (sw *shellWord) processName() string {
 	return name.String()
 }
 func (sw *shellWord) getEnv(name string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -477,6 +509,8 @@ func normalizeWorkdir(_ string, current string, requested string) (string, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if requested == "" {
 		return "", errors.New("cannot normalize nothing")
 	}
@@ -488,6 +522,8 @@ func normalizeWorkdir(_ string, current string, requested string) (string, error
 	return requested, nil
 }
 func equalEnvKeys(from, to string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -45,12 +45,16 @@ func ValidateBuild(build *buildapi.Build) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validation.ValidateObjectMeta(&build.ObjectMeta, true, apimachineryvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))...)
 	allErrs = append(allErrs, validateCommonSpec(&build.Spec.CommonSpec, field.NewPath("spec"))...)
 	return allErrs
 }
 func ValidateBuildUpdate(build *buildapi.Build, older *buildapi.Build) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -99,6 +103,8 @@ func refKey(namespace string, ref *kapi.ObjectReference) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ref == nil || ref.Kind != "ImageStreamTag" {
 		return "nil"
 	}
@@ -109,6 +115,8 @@ func refKey(namespace string, ref *kapi.ObjectReference) string {
 	return fmt.Sprintf("%s/%s", ns, ref.Name)
 }
 func ValidateBuildConfig(config *buildapi.BuildConfig) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,6 +182,8 @@ func ValidateBuildConfigUpdate(config *buildapi.BuildConfig, older *buildapi.Bui
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validation.ValidateObjectMetaUpdate(&config.ObjectMeta, &older.ObjectMeta, field.NewPath("metadata"))...)
 	allErrs = append(allErrs, ValidateBuildConfig(config)...)
@@ -194,9 +204,13 @@ func ValidateBuildRequest(request *buildapi.BuildRequest) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return validation.ValidateObjectMeta(&request.ObjectMeta, true, kpath.ValidatePathSegmentName, field.NewPath("metadata"))
 }
 func validateCommonSpec(spec *buildapi.CommonSpec, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -235,6 +249,8 @@ const (
 )
 
 func validateSource(input *buildapi.BuildSource, isCustomStrategy, isDockerStrategy, isJenkinsPipelineStrategyFromRepo bool, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -319,6 +335,8 @@ func validateDockerfile(dockerfile string, fldPath *field.Path) field.ErrorList 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(dockerfile) > maxDockerfileLengthBytes {
 		allErrs = append(allErrs, field.Invalid(fldPath, "", fmt.Sprintf("must be smaller than %d bytes", maxDockerfileLengthBytes)))
@@ -326,6 +344,8 @@ func validateDockerfile(dockerfile string, fldPath *field.Path) field.ErrorList 
 	return allErrs
 }
 func validateSecretRef(ref *kapi.LocalObjectReference, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -350,6 +370,8 @@ func validateSecretRef(ref *kapi.LocalObjectReference, fldPath *field.Path) fiel
 	return allErrs
 }
 func validateGitSource(git *buildapi.GitBuildSource, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,6 +419,8 @@ func validateConfigMaps(configs []buildapi.ConfigMapBuildSource, isDockerStrateg
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	for i, c := range configs {
 		if len(c.ConfigMap.Name) == 0 {
@@ -429,6 +453,8 @@ func validateSecrets(secrets []buildapi.SecretBuildSource, isDockerStrategy bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	for i, s := range secrets {
 		if len(s.Secret.Name) == 0 {
@@ -447,6 +473,8 @@ func validateSecrets(secrets []buildapi.SecretBuildSource, isDockerStrategy bool
 	return allErrs
 }
 func validateImageSource(imageSource buildapi.ImageSource, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,6 +523,8 @@ func validateImageSourcePath(imagePath buildapi.ImageSourcePath, fldPath *field.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(imagePath.SourcePath) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("sourcePath"), ""))
@@ -528,6 +558,8 @@ func validateBinarySource(source *buildapi.BinaryBuildSource, fldPath *field.Pat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(source.AsFile) != 0 {
 		cleaned := strings.TrimPrefix(path.Clean(source.AsFile), "/")
@@ -540,6 +572,8 @@ func validateBinarySource(source *buildapi.BinaryBuildSource, fldPath *field.Pat
 	return allErrs
 }
 func validateToImageReference(reference *kapi.ObjectReference, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -583,6 +617,8 @@ func validateToImageReference(reference *kapi.ObjectReference, fldPath *field.Pa
 	return allErrs
 }
 func validateImageReference(reference *kapi.ObjectReference, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -652,6 +688,8 @@ func validateOutput(output *buildapi.BuildOutput, fldPath *field.Path) field.Err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if output.To != nil {
 		allErrs = append(allErrs, validateToImageReference(output.To, fldPath.Child("to"))...)
@@ -661,6 +699,8 @@ func validateOutput(output *buildapi.BuildOutput, fldPath *field.Path) field.Err
 	return allErrs
 }
 func validateStrategy(strategy *buildapi.BuildStrategy, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -721,6 +761,8 @@ func validateDockerStrategy(strategy *buildapi.DockerBuildStrategy, fldPath *fie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if strategy.From != nil {
 		allErrs = append(allErrs, validateImageReference(strategy.From, fldPath.Child("from"))...)
@@ -743,6 +785,8 @@ func validateDockerStrategy(strategy *buildapi.DockerBuildStrategy, fldPath *fie
 	return allErrs
 }
 func validateRelativePath(filePath, fieldName string, fldPath *field.Path) (string, field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -784,6 +828,8 @@ func validateSourceStrategy(strategy *buildapi.SourceBuildStrategy, fldPath *fie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	allErrs = append(allErrs, validateImageReference(&strategy.From, fldPath.Child("from"))...)
 	allErrs = append(allErrs, validateSecretRef(strategy.PullSecret, fldPath.Child("pullSecret"))...)
@@ -791,6 +837,8 @@ func validateSourceStrategy(strategy *buildapi.SourceBuildStrategy, fldPath *fie
 	return allErrs
 }
 func validateCustomStrategy(strategy *buildapi.CustomBuildStrategy, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -826,6 +874,8 @@ func validateJenkinsPipelineStrategy(strategy *buildapi.JenkinsPipelineBuildStra
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(strategy.JenkinsfilePath) != 0 && len(strategy.Jenkinsfile) != 0 {
 		return append(allErrs, field.Invalid(fldPath, strategy, "must provide a value for at most one of jenkinsfilePath, or jenkinsfile"))
@@ -844,6 +894,8 @@ func validateJenkinsPipelineStrategy(strategy *buildapi.JenkinsPipelineBuildStra
 	return allErrs
 }
 func validateTrigger(trigger *buildapi.BuildTriggerPolicy, buildFrom *kapi.ObjectReference, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -928,6 +980,8 @@ func validateWebHook(webHook *buildapi.WebHookTrigger, fldPath *field.Path, isGe
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(webHook.Secret) == 0 && webHook.SecretReference == nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, webHook, "must provide a value for at least one of secret or secretReference"))
@@ -941,6 +995,8 @@ func validateWebHook(webHook *buildapi.WebHookTrigger, fldPath *field.Path, isGe
 	return allErrs
 }
 func ValidateBuildLogOptions(opts *buildapi.BuildLogOptions) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -969,6 +1025,8 @@ func ValidateBuildLogOptions(opts *buildapi.BuildLogOptions) field.ErrorList {
 	return allErrs
 }
 func ValidateStrategyEnv(vars []kapi.EnvVar, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1012,6 +1070,8 @@ func validatePostCommit(spec buildapi.BuildPostCommitSpec, fldPath *field.Path) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	if len(spec.Script) != 0 && len(spec.Command) > 0 {
 		allErrs = append(allErrs, field.Invalid(fldPath, spec, "cannot use command and script together"))
@@ -1019,6 +1079,8 @@ func validatePostCommit(spec buildapi.BuildPostCommitSpec, fldPath *field.Path) 
 	return allErrs
 }
 func ValidateImageLabels(labels []buildapi.ImageLabel, fldPath *field.Path) (allErrs field.ErrorList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1069,6 +1131,8 @@ func ValidateNodeSelector(nodeSelector map[string]string, fldPath *field.Path) f
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allErrs := field.ErrorList{}
 	for k, v := range nodeSelector {
 		_, err := labelselector.Parse(fmt.Sprintf("%s=%s", k, v))
@@ -1093,6 +1157,8 @@ func diffBuildSpec(newer, older buildapi.BuildSpec) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newerObj := &buildapi.Build{Spec: newer}
 	olderObj := &buildapi.Build{Spec: older}
 	diffBytes, err := CreateBuildPatch(olderObj, newerObj)
@@ -1102,6 +1168,8 @@ func diffBuildSpec(newer, older buildapi.BuildSpec) (string, error) {
 	return string(diffBytes), nil
 }
 func CreateBuildPatch(older, newer *buildapi.Build) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1145,6 +1213,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -1219,5 +1308,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

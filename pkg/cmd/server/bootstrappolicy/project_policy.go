@@ -22,6 +22,8 @@ func GetBootstrapServiceAccountProjectRoleBindings(namespace string) []rbacv1.Ro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imagePuller := newOriginRoleBindingForClusterRole(ImagePullerRoleBindingName, ImagePullerRoleName, namespace).Groups(serviceaccount.MakeNamespaceGroupName(namespace)).BindingOrDie()
 	if imagePuller.Annotations == nil {
 		imagePuller.Annotations = map[string]string{}
@@ -40,6 +42,8 @@ func GetBootstrapServiceAccountProjectRoleBindings(namespace string) []rbacv1.Ro
 	return []rbacv1.RoleBinding{imagePuller, imageBuilder, deployer}
 }
 func GetBootstrapServiceAccountProjectRoleBindingNames() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

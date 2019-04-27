@@ -29,6 +29,8 @@ func (n Node) ID() int {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return n.Id
 }
 func (n Node) String() string {
@@ -46,9 +48,13 @@ func (n Node) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labelNameForNode(n.UniqueName)
 }
 func (n Node) DOTAttributes() []dot.Attribute {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -84,6 +90,8 @@ func labelNameForNode(importPath string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	segs := strings.Split(importPath, "/vendor/")
 	if len(segs) > 1 {
 		return segs[1]
@@ -91,6 +99,8 @@ func labelNameForNode(importPath string) string {
 	return importPath
 }
 func NewMutableDirectedGraph(roots []string) *MutableDirectedGraph {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -129,6 +139,8 @@ func (g *MutableDirectedGraph) AddNode(n *Node) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, exists := g.nodesByName[n.UniqueName]; exists {
 		return fmt.Errorf("node .UniqueName collision: %s", n.UniqueName)
 	}
@@ -137,6 +149,8 @@ func (g *MutableDirectedGraph) AddNode(n *Node) error {
 	return nil
 }
 func (g *MutableDirectedGraph) RemoveNode(n *Node) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -169,10 +183,14 @@ func (g *MutableDirectedGraph) NodeByName(name string) (graph.Node, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	n, exists := g.nodesByName[name]
 	return n, exists && g.DirectedGraph.Has(n)
 }
 func (g *MutableDirectedGraph) PruneOrphans() []*Node {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -222,6 +240,8 @@ func contains(needle string, haystack []string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, str := range haystack {
 		if needle == str {
 			return true
@@ -230,6 +250,8 @@ func contains(needle string, haystack []string) bool {
 	return false
 }
 func (g *MutableDirectedGraph) Copy() *MutableDirectedGraph {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

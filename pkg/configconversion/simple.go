@@ -27,6 +27,8 @@ func ToHTTPServingInfo(in *legacyconfigv1.HTTPServingInfo) (out configv1.HTTPSer
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_HTTPServingInfo_to_configv1_HTTPServingInfo(in, &out, nil)
 	if err != nil {
 		return configv1.HTTPServingInfo{}, err
@@ -51,6 +53,8 @@ func ToKubeClientConfig(in *legacyconfigv1.MasterClients) (out configv1.KubeClie
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_MasterClients_to_configv1_KubeClientConfig(in, &out, nil)
 	if err != nil {
 		return configv1.KubeClientConfig{}, err
@@ -58,6 +62,8 @@ func ToKubeClientConfig(in *legacyconfigv1.MasterClients) (out configv1.KubeClie
 	return out, nil
 }
 func ToAuditConfig(in *legacyconfigv1.AuditConfig) (out configv1.AuditConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +100,8 @@ func ToEtcdConnectionInfo(in *legacyconfigv1.EtcdConnectionInfo) (out configv1.E
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_EtcdConnectionInfo_to_configv1_EtcdConnectionInfo(in, &out, nil)
 	if err != nil {
 		return configv1.EtcdConnectionInfo{}, err
@@ -115,6 +123,8 @@ func ToAdmissionPluginConfig(in *legacyconfigv1.AdmissionPluginConfig) (*configv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := &configv1.AdmissionPluginConfig{}
 	if err := Convert_legacyconfigv1_AdmissionPluginConfig_to_configv1_AdmissionPluginConfig(in, out, nil); err != nil {
 		return nil, err
@@ -122,6 +132,8 @@ func ToAdmissionPluginConfig(in *legacyconfigv1.AdmissionPluginConfig) (*configv
 	return out, nil
 }
 func ToOpenShiftAdmissionPluginConfigMap(in map[string]*legacyconfigv1.AdmissionPluginConfig) (out map[string]configv1.AdmissionPluginConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +179,8 @@ func ToOpenShiftAdmissionPluginList(in []string) (out []string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -179,6 +193,8 @@ func ToOpenShiftAdmissionPluginList(in []string) (out []string) {
 	return out
 }
 func ToKubeAdmissionPluginList(in []string) (out []string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -219,6 +235,8 @@ func isKnownOpenShiftAdmissionPlugin(pluginName string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, plugin := range openshiftadmission.OpenShiftAdmissionPlugins {
 		if pluginName == plugin {
 			return true
@@ -227,6 +245,8 @@ func isKnownOpenShiftAdmissionPlugin(pluginName string) bool {
 	return false
 }
 func ToKubeAdmissionPluginConfigMap(in map[string]*legacyconfigv1.AdmissionPluginConfig) (out map[string]configv1.AdmissionPluginConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -272,6 +292,8 @@ func isKnownKubeAdmissionPlugin(pluginName string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, plugin := range kubeadmission.NewOrderedKubeAdmissionPlugins(options.AllOrderedPlugins) {
 		if pluginName == plugin {
 			return true
@@ -280,6 +302,8 @@ func isKnownKubeAdmissionPlugin(pluginName string) bool {
 	return false
 }
 func ToMasterAuthConfig(in *legacyconfigv1.MasterAuthConfig) (out kubecontrolplanev1.MasterAuthConfig, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -315,6 +339,8 @@ func ToAggregatorConfig(in *legacyconfigv1.AggregatorConfig) (out kubecontrolpla
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_AggregatorConfig_to_kubecontrolplanev1_AggregatorConfig(in, &out, nil)
 	if err != nil {
 		return kubecontrolplanev1.AggregatorConfig{}, err
@@ -322,6 +348,8 @@ func ToAggregatorConfig(in *legacyconfigv1.AggregatorConfig) (out kubecontrolpla
 	return out, nil
 }
 func ToKubeletConnectionInfo(in *legacyconfigv1.KubeletConnectionInfo) (out kubecontrolplanev1.KubeletConnectionInfo, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -357,6 +385,8 @@ func ToUserAgentMatchingConfig(in *legacyconfigv1.UserAgentMatchingConfig) (out 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_UserAgentMatchingConfig_to_kubecontrolplanev1_UserAgentMatchingConfig(in, &out, nil)
 	if err != nil {
 		return kubecontrolplanev1.UserAgentMatchingConfig{}, err
@@ -364,6 +394,8 @@ func ToUserAgentMatchingConfig(in *legacyconfigv1.UserAgentMatchingConfig) (out 
 	return out, nil
 }
 func ToOAuthConfig(in *legacyconfigv1.OAuthConfig) (*osinv1.OAuthConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -402,6 +434,8 @@ func ToJenkinsPipelineConfig(in *legacyconfigv1.JenkinsPipelineConfig) (out open
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err = Convert_legacyconfigv1_JenkinsPipelineConfig_to_kubecontrolplanev1_JenkinsPipelineConfig(in, &out, nil)
 	if err != nil {
 		return openshiftcontrolplanev1.JenkinsPipelineConfig{}, err
@@ -409,6 +443,8 @@ func ToJenkinsPipelineConfig(in *legacyconfigv1.JenkinsPipelineConfig) (out open
 	return out, nil
 }
 func ToAllowedRegistries(in *legacyconfigv1.AllowedRegistries) (openshiftcontrolplanev1.AllowedRegistries, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func newTestAugmentedADLDAPInterface(client ldap.Client) *AugmentedADLDAPInterfa
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userQuery := ldaputil.LDAPQuery{BaseDN: "ou=users,dc=example,dc=com", Scope: ldaputil.ScopeWholeSubtree, DerefAliases: ldaputil.DerefAliasesAlways, TimeLimit: 0, Filter: "objectClass=inetOrgPerson"}
 	groupMembershipAttributes := []string{"memberOf"}
 	userNameAttributes := []string{"cn"}
@@ -47,9 +49,13 @@ func newTestGroup(CN string) *ldap.Entry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ldap.NewEntry(fmt.Sprintf("cn=%s,ou=groups,dc=example,dc=com", CN), map[string][]string{"cn": {CN}})
 }
 func TestGroupEntryFor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -22,6 +22,8 @@ func ValidateProvisionRequest(preq *api.ProvisionRequest) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var allErrs field.ErrorList
 	for key := range preq.Parameters {
 		if !templatevalidation.ParameterNameRegexp.MatchString(key) {
@@ -31,6 +33,8 @@ func ValidateProvisionRequest(preq *api.ProvisionRequest) field.ErrorList {
 	return allErrs
 }
 func ValidateBindRequest(breq *api.BindRequest) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

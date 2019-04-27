@@ -24,6 +24,8 @@ func TestDeepCopy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	make := func() *quotaapi.ClusterResourceQuota {
 		q := resource.Quantity{}
 		q.Set(100)

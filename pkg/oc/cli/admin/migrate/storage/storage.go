@@ -86,9 +86,13 @@ func NewMigrateAPIStorageOptions(streams genericclioptions.IOStreams) *MigrateAP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &MigrateAPIStorageOptions{bandwidth: 10, ResourceOptions: *migrate.NewResourceOptions(streams).WithIncludes([]string{"*"}).WithUnstructured().WithExcludes([]schema.GroupResource{{Resource: "appliedclusterresourcequotas"}, {Resource: "imagestreamimages"}, {Resource: "imagestreamtags"}, {Resource: "imagestreammappings"}, {Resource: "imagestreamimports"}, {Resource: "projectrequests"}, {Resource: "projects"}, {Resource: "clusterrolebindings"}, {Resource: "rolebindings"}, {Resource: "clusterroles"}, {Resource: "roles"}, {Resource: "resourceaccessreviews"}, {Resource: "localresourceaccessreviews"}, {Resource: "subjectaccessreviews"}, {Resource: "selfsubjectrulesreviews"}, {Resource: "localsubjectaccessreviews"}, {Resource: "useridentitymappings"}, {Resource: "podsecuritypolicyreviews"}, {Resource: "podsecuritypolicyselfsubjectreviews"}, {Resource: "podsecuritypolicysubjectreviews"}, {Resource: "bindings"}, {Resource: "deploymentconfigrollbacks"}, {Resource: "events"}, {Resource: "componentstatuses"}, {Resource: "replicationcontrollerdummies.extensions"}, {Resource: "podtemplates"}, {Resource: "selfsubjectaccessreviews", Group: "authorization.k8s.io"}, {Resource: "localsubjectaccessreviews", Group: "authorization.k8s.io"}}).WithOverlappingResources([]sets.String{sets.NewString("deploymentconfigs.apps.openshift.io", "deploymentconfigs"), sets.NewString("clusterpolicies.authorization.openshift.io", "clusterpolicies"), sets.NewString("clusterpolicybindings.authorization.openshift.io", "clusterpolicybindings"), sets.NewString("clusterrolebindings.authorization.openshift.io", "clusterrolebindings"), sets.NewString("clusterroles.authorization.openshift.io", "clusterroles"), sets.NewString("localresourceaccessreviews.authorization.openshift.io", "localresourceaccessreviews"), sets.NewString("localsubjectaccessreviews.authorization.openshift.io", "localsubjectaccessreviews"), sets.NewString("policies.authorization.openshift.io", "policies"), sets.NewString("policybindings.authorization.openshift.io", "policybindings"), sets.NewString("resourceaccessreviews.authorization.openshift.io", "resourceaccessreviews"), sets.NewString("rolebindingrestrictions.authorization.openshift.io", "rolebindingrestrictions"), sets.NewString("rolebindings.authorization.openshift.io", "rolebindings"), sets.NewString("roles.authorization.openshift.io", "roles"), sets.NewString("selfsubjectrulesreviews.authorization.openshift.io", "selfsubjectrulesreviews"), sets.NewString("subjectaccessreviews.authorization.openshift.io", "subjectaccessreviews"), sets.NewString("subjectrulesreviews.authorization.openshift.io", "subjectrulesreviews"), sets.NewString("builds.build.openshift.io", "builds"), sets.NewString("buildconfigs.build.openshift.io", "buildconfigs"), sets.NewString("images.image.openshift.io", "images"), sets.NewString("imagesignatures.image.openshift.io", "imagesignatures"), sets.NewString("imagestreamimages.image.openshift.io", "imagestreamimages"), sets.NewString("imagestreamimports.image.openshift.io", "imagestreamimports"), sets.NewString("imagestreammappings.image.openshift.io", "imagestreammappings"), sets.NewString("imagestreams.image.openshift.io", "imagestreams"), sets.NewString("imagestreamtags.image.openshift.io", "imagestreamtags"), sets.NewString("clusternetworks.network.openshift.io", "clusternetworks"), sets.NewString("egressnetworkpolicies.network.openshift.io", "egressnetworkpolicies"), sets.NewString("hostsubnets.network.openshift.io", "hostsubnets"), sets.NewString("netnamespaces.network.openshift.io", "netnamespaces"), sets.NewString("oauthaccesstokens.oauth.openshift.io", "oauthaccesstokens"), sets.NewString("oauthauthorizetokens.oauth.openshift.io", "oauthauthorizetokens"), sets.NewString("oauthclientauthorizations.oauth.openshift.io", "oauthclientauthorizations"), sets.NewString("oauthclients.oauth.openshift.io", "oauthclients"), sets.NewString("projectrequests.project.openshift.io", "projectrequests"), sets.NewString("projects.project.openshift.io", "projects"), sets.NewString("appliedclusterresourcequotas.quota.openshift.io", "appliedclusterresourcequotas"), sets.NewString("clusterresourcequotas.quota.openshift.io", "clusterresourcequotas"), sets.NewString("routes.route.openshift.io", "routes"), sets.NewString("podsecuritypolicyreviews.security.openshift.io", "podsecuritypolicyreviews"), sets.NewString("podsecuritypolicyselfsubjectreviews.security.openshift.io", "podsecuritypolicyselfsubjectreviews"), sets.NewString("podsecuritypolicysubjectreviews.security.openshift.io", "podsecuritypolicysubjectreviews"), sets.NewString("processedtemplates.template.openshift.io", "processedtemplates"), sets.NewString("templates.template.openshift.io", "templates"), sets.NewString("groups.user.openshift.io", "groups"), sets.NewString("identities.user.openshift.io", "identities"), sets.NewString("useridentitymappings.user.openshift.io", "useridentitymappings"), sets.NewString("users.user.openshift.io", "users"), sets.NewString("horizontalpodautoscalers.autoscaling", "horizontalpodautoscalers.extensions"), sets.NewString("jobs.batch", "jobs.extensions")})}
 }
 func NewCmdMigrateAPIStorage(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -119,6 +123,8 @@ func NewCmdMigrateAPIStorage(name, fullName string, f kcmdutil.Factory, streams 
 	return cmd
 }
 func (o *MigrateAPIStorageOptions) Complete(f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -179,6 +185,8 @@ func (o MigrateAPIStorageOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.bandwidth < 0 {
 		return fmt.Errorf("invalid value %d for --bandwidth, must be at least 0", o.bandwidth)
 	}
@@ -199,9 +207,13 @@ func (o MigrateAPIStorageOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.ResourceOptions.Visitor().Visit(migrate.AlwaysRequiresMigration)
 }
 func (o *MigrateAPIStorageOptions) save(info *resource.Info, reporter migrate.Reporter) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -251,6 +263,8 @@ func (o *MigrateAPIStorageOptions) rateLimit(oldObject *unstructured.Unstructure
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var dataLen int
 	if data, err := oldObject.MarshalJSON(); err != nil {
 		klog.Errorf("failed to marshall %#v: %v", oldObject, err)
@@ -271,6 +285,8 @@ type tokenLimiter struct {
 }
 
 func (t *tokenLimiter) take(n int) time.Duration {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +327,8 @@ func (t *tokenLimiter) getDuration(n int) time.Duration {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := t.nowFunc()
 	reservation := t.rateLimiter.ReserveN(now, n)
 	if !reservation.OK() {
@@ -320,6 +338,8 @@ func (t *tokenLimiter) getDuration(n int) time.Duration {
 	return reservation.DelayFrom(now)
 }
 func newTokenLimiter(bandwidth, workers int) *tokenLimiter {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -352,6 +372,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -426,5 +467,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

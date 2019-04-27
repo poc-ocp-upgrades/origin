@@ -23,6 +23,8 @@ func NewObjectResumerFn(delegate polymorphichelpers.ObjectResumerFunc) polymorph
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(obj runtime.Object) ([]byte, error) {
 		switch t := obj.(type) {
 		case *appsv1.DeploymentConfig:

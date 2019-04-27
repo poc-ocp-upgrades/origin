@@ -20,6 +20,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.ClusterRole{}, func(obj interface{}) {
 		SetObjectDefaults_ClusterRole(obj.(*v1.ClusterRole))
 	})
@@ -55,12 +57,16 @@ func SetObjectDefaults_ClusterRole(in *v1.ClusterRole) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Rules {
 		a := &in.Rules[i]
 		SetDefaults_PolicyRule(a)
 	}
 }
 func SetObjectDefaults_ClusterRoleList(in *v1.ClusterRoleList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,12 +101,16 @@ func SetObjectDefaults_Role(in *v1.Role) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Rules {
 		a := &in.Rules[i]
 		SetDefaults_PolicyRule(a)
 	}
 }
 func SetObjectDefaults_RoleList(in *v1.RoleList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,12 +145,16 @@ func SetObjectDefaults_SelfSubjectRulesReview(in *v1.SelfSubjectRulesReview) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range in.Status.Rules {
 		a := &in.Status.Rules[i]
 		SetDefaults_PolicyRule(a)
 	}
 }
 func SetObjectDefaults_SubjectRulesReview(in *v1.SubjectRulesReview) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

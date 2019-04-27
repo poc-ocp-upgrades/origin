@@ -37,6 +37,8 @@ func (s *LDAPGroupPruner) Prune() []error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errors []error
 	klog.V(1).Infof("LDAPGroupPruner listing groups to prune with %v", s.GroupLister)
 	ldapGroupUIDs, err := s.GroupLister.ListGroups()

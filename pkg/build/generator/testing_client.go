@@ -33,9 +33,13 @@ func (c TestingClient) GetBuildConfig(ctx context.Context, name string, options 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.GetBuildConfigFunc(ctx, name, options)
 }
 func (c TestingClient) UpdateBuildConfig(ctx context.Context, buildConfig *buildv1.BuildConfig) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -67,9 +71,13 @@ func (c TestingClient) GetBuild(ctx context.Context, name string, options *metav
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.GetBuildFunc(ctx, name, options)
 }
 func (c TestingClient) CreateBuild(ctx context.Context, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,9 +109,13 @@ func (c TestingClient) UpdateBuild(ctx context.Context, build *buildv1.Build) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.UpdateBuildFunc(ctx, build)
 }
 func (c TestingClient) GetImageStream(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -135,9 +147,13 @@ func (c TestingClient) GetImageStreamImage(ctx context.Context, name string, opt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.GetImageStreamImageFunc(ctx, name, options)
 }
 func (c TestingClient) GetImageStreamTag(ctx context.Context, name string, options *metav1.GetOptions) (*imagev1.ImageStreamTag, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

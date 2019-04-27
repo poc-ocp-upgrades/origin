@@ -38,9 +38,13 @@ func (fi bindataFileInfo) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fi.name
 }
 func (fi bindataFileInfo) Size() int64 {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,9 +76,13 @@ func (fi bindataFileInfo) Mode() os.FileMode {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fi.mode
 }
 func (fi bindataFileInfo) ModTime() time.Time {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,9 +114,13 @@ func (fi bindataFileInfo) IsDir() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false
 }
 func (fi bindataFileInfo) Sys() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -157,9 +169,13 @@ func testExtendedTestdataAggregatorKubeSystemAuthReaderYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorKubeSystemAuthReaderYaml, nil
 }
 func testExtendedTestdataAggregatorKubeSystemAuthReaderYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -212,9 +228,13 @@ func testExtendedTestdataAggregatorSampleApiserverApiserviceYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverApiserviceYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverApiserviceYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -265,9 +285,13 @@ func testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYamlBytes() ([]by
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -320,9 +344,13 @@ func testExtendedTestdataAggregatorSampleApiserverAuthreaderYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -392,9 +420,13 @@ func testExtendedTestdataAggregatorSampleApiserverRcYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverRcYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverRcYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -440,9 +472,13 @@ func testExtendedTestdataAggregatorSampleApiserverSaYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverSaYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverSaYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -495,9 +531,13 @@ func testExtendedTestdataAggregatorSampleApiserverServiceYamlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataAggregatorSampleApiserverServiceYaml, nil
 }
 func testExtendedTestdataAggregatorSampleApiserverServiceYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1029,9 +1069,13 @@ func testExtendedTestdataBuildsApplicationTemplateCustombuildJsonBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsApplicationTemplateCustombuildJson, nil
 }
 func testExtendedTestdataBuildsApplicationTemplateCustombuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1144,9 +1188,13 @@ func testExtendedTestdataBuildsBuildPostcommitDockerYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPostcommitDockerYaml, nil
 }
 func testExtendedTestdataBuildsBuildPostcommitDockerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1199,9 +1247,13 @@ func testExtendedTestdataBuildsBuildPostcommitImagestreamsYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPostcommitImagestreamsYaml, nil
 }
 func testExtendedTestdataBuildsBuildPostcommitImagestreamsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1305,9 +1357,13 @@ func testExtendedTestdataBuildsBuildPostcommitStiYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPostcommitStiYaml, nil
 }
 func testExtendedTestdataBuildsBuildPostcommitStiYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1364,9 +1420,13 @@ func testExtendedTestdataBuildsBuildPruningDefaultGroupBuildConfigYamlBytes() ([
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningDefaultGroupBuildConfigYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningDefaultGroupBuildConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1431,9 +1491,13 @@ func testExtendedTestdataBuildsBuildPruningDefaultLegacyBuildConfigYamlBytes() (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningDefaultLegacyBuildConfigYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningDefaultLegacyBuildConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1497,9 +1561,13 @@ func testExtendedTestdataBuildsBuildPruningErroredBuildConfigYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningErroredBuildConfigYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningErroredBuildConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1561,9 +1629,13 @@ func testExtendedTestdataBuildsBuildPruningFailedBuildConfigYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningFailedBuildConfigYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningFailedBuildConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1617,9 +1689,13 @@ func testExtendedTestdataBuildsBuildPruningFailedPipelineYamlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningFailedPipelineYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningFailedPipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1664,9 +1740,13 @@ func testExtendedTestdataBuildsBuildPruningImagestreamYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningImagestreamYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningImagestreamYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1722,9 +1802,13 @@ func testExtendedTestdataBuildsBuildPruningSuccessfulBuildConfigYamlBytes() ([]b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningSuccessfulBuildConfigYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningSuccessfulBuildConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1778,9 +1862,13 @@ func testExtendedTestdataBuildsBuildPruningSuccessfulPipelineYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildPruningSuccessfulPipelineYaml, nil
 }
 func testExtendedTestdataBuildsBuildPruningSuccessfulPipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1847,9 +1935,13 @@ func testExtendedTestdataBuildsBuildQuotaS2iBinAssembleBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildQuotaS2iBinAssemble, nil
 }
 func testExtendedTestdataBuildsBuildQuotaS2iBinAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1899,9 +1991,13 @@ func testExtendedTestdataBuildsBuildQuotaDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildQuotaDockerfile, nil
 }
 func testExtendedTestdataBuildsBuildQuotaDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1959,9 +2055,13 @@ func testExtendedTestdataBuildsBuildSecretsDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsDockerfile, nil
 }
 func testExtendedTestdataBuildsBuildSecretsDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2041,9 +2141,13 @@ func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinAssembleBytes() ([]
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinAssemble, nil
 }
 func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2128,9 +2232,13 @@ func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinRunBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinRun, nil
 }
 func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinRun() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2174,9 +2282,13 @@ func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirGemfileBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsS2iBinaryDirGemfile, nil
 }
 func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirGemfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2218,9 +2330,13 @@ func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirConfigRuBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsS2iBinaryDirConfigRu, nil
 }
 func testExtendedTestdataBuildsBuildSecretsS2iBinaryDirConfigRu() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2274,9 +2390,13 @@ func testExtendedTestdataBuildsBuildSecretsTestConfigmap2JsonBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestConfigmap2Json, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestConfigmap2Json() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2329,9 +2449,13 @@ func testExtendedTestdataBuildsBuildSecretsTestConfigmapJsonBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestConfigmapJson, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestConfigmapJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2435,9 +2559,13 @@ func testExtendedTestdataBuildsBuildSecretsTestDockerBuildJsonBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestDockerBuildJson, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestDockerBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2485,9 +2613,13 @@ func testExtendedTestdataBuildsBuildSecretsTestIsJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestIsJson, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestIsJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2592,9 +2724,13 @@ func testExtendedTestdataBuildsBuildSecretsTestS2iBuildJsonBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestS2iBuildJson, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestS2iBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2649,9 +2785,13 @@ func testExtendedTestdataBuildsBuildSecretsTestSecret2JsonBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestSecret2Json, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestSecret2Json() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2706,9 +2846,13 @@ func testExtendedTestdataBuildsBuildSecretsTestSecretJsonBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildSecretsTestSecretJson, nil
 }
 func testExtendedTestdataBuildsBuildSecretsTestSecretJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2752,9 +2896,13 @@ func testExtendedTestdataBuildsBuildTimingDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingDockerfile, nil
 }
 func testExtendedTestdataBuildsBuildTimingDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2797,9 +2945,13 @@ func testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinAssembleBytes() ([]b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinAssemble, nil
 }
 func testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2842,9 +2994,13 @@ func testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinRunBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinRun, nil
 }
 func testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinRun() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2888,9 +3044,13 @@ func testExtendedTestdataBuildsBuildTimingS2iBinaryDirGemfileBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingS2iBinaryDirGemfile, nil
 }
 func testExtendedTestdataBuildsBuildTimingS2iBinaryDirGemfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -2932,9 +3092,13 @@ func testExtendedTestdataBuildsBuildTimingS2iBinaryDirConfigRuBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingS2iBinaryDirConfigRu, nil
 }
 func testExtendedTestdataBuildsBuildTimingS2iBinaryDirConfigRu() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3014,9 +3178,13 @@ func testExtendedTestdataBuildsBuildTimingTestDockerBuildJsonBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingTestDockerBuildJson, nil
 }
 func testExtendedTestdataBuildsBuildTimingTestDockerBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3064,9 +3232,13 @@ func testExtendedTestdataBuildsBuildTimingTestIsJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingTestIsJson, nil
 }
 func testExtendedTestdataBuildsBuildTimingTestIsJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3145,9 +3317,13 @@ func testExtendedTestdataBuildsBuildTimingTestS2iBuildJsonBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsBuildTimingTestS2iBuildJson, nil
 }
 func testExtendedTestdataBuildsBuildTimingTestS2iBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3197,9 +3373,13 @@ func testExtendedTestdataBuildsClusterConfigRegistryBlacklistYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsClusterConfigRegistryBlacklistYaml, nil
 }
 func testExtendedTestdataBuildsClusterConfigRegistryBlacklistYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3248,9 +3428,13 @@ func testExtendedTestdataBuildsClusterConfigRegistryWhitelistYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsClusterConfigRegistryWhitelistYaml, nil
 }
 func testExtendedTestdataBuildsClusterConfigRegistryWhitelistYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3296,9 +3480,13 @@ func testExtendedTestdataBuildsClusterConfigYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsClusterConfigYaml, nil
 }
 func testExtendedTestdataBuildsClusterConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3354,9 +3542,13 @@ func testExtendedTestdataBuildsGradlePipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsGradlePipelineYaml, nil
 }
 func testExtendedTestdataBuildsGradlePipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3509,9 +3701,13 @@ func testExtendedTestdataBuildsIncrementalAuthBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsIncrementalAuthBuildJson, nil
 }
 func testExtendedTestdataBuildsIncrementalAuthBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3553,9 +3749,13 @@ func testExtendedTestdataBuildsS2iEnvironmentBuildAppS2iEnvironmentBytes() ([]by
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsS2iEnvironmentBuildAppS2iEnvironment, nil
 }
 func testExtendedTestdataBuildsS2iEnvironmentBuildAppS2iEnvironment() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3599,9 +3799,13 @@ func testExtendedTestdataBuildsS2iEnvironmentBuildAppGemfileBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsS2iEnvironmentBuildAppGemfile, nil
 }
 func testExtendedTestdataBuildsS2iEnvironmentBuildAppGemfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3643,9 +3847,13 @@ func testExtendedTestdataBuildsS2iEnvironmentBuildAppConfigRuBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsS2iEnvironmentBuildAppConfigRu, nil
 }
 func testExtendedTestdataBuildsS2iEnvironmentBuildAppConfigRu() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3689,9 +3897,13 @@ func testExtendedTestdataBuildsStatusfailAssembleS2iBinAssembleBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailAssembleS2iBinAssemble, nil
 }
 func testExtendedTestdataBuildsStatusfailAssembleS2iBinAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3747,9 +3959,13 @@ func testExtendedTestdataBuildsStatusfailBadcontextdirs2iYamlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailBadcontextdirs2iYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailBadcontextdirs2iYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3803,9 +4019,13 @@ func testExtendedTestdataBuildsStatusfailFailedassembleYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailFailedassembleYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailFailedassembleYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3860,9 +4080,13 @@ func testExtendedTestdataBuildsStatusfailFetchbuilderimageYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailFetchbuilderimageYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailFetchbuilderimageYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3917,9 +4141,13 @@ func testExtendedTestdataBuildsStatusfailFetchsourcedockerYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailFetchsourcedockerYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailFetchsourcedockerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -3974,9 +4202,13 @@ func testExtendedTestdataBuildsStatusfailFetchsources2iYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailFetchsources2iYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailFetchsources2iYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4035,9 +4267,13 @@ func testExtendedTestdataBuildsStatusfailGenericreasonYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailGenericreasonYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailGenericreasonYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4096,9 +4332,13 @@ func testExtendedTestdataBuildsStatusfailOomkilledYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailOomkilledYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailOomkilledYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4156,9 +4396,13 @@ func testExtendedTestdataBuildsStatusfailPostcommithookYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailPostcommithookYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailPostcommithookYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4217,9 +4461,13 @@ func testExtendedTestdataBuildsStatusfailPushtoregistryYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsStatusfailPushtoregistryYaml, nil
 }
 func testExtendedTestdataBuildsStatusfailPushtoregistryYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4304,9 +4552,13 @@ func testExtendedTestdataBuildsTestAuthBuildYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestAuthBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestAuthBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4400,9 +4652,13 @@ func testExtendedTestdataBuildsTestBcWithPrRefYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBcWithPrRefYaml, nil
 }
 func testExtendedTestdataBuildsTestBcWithPrRefYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4453,9 +4709,13 @@ func testExtendedTestdataBuildsTestBuildAppDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildAppDockerfile, nil
 }
 func testExtendedTestdataBuildsTestBuildAppDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4499,9 +4759,13 @@ func testExtendedTestdataBuildsTestBuildAppGemfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildAppGemfile, nil
 }
 func testExtendedTestdataBuildsTestBuildAppGemfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4543,9 +4807,13 @@ func testExtendedTestdataBuildsTestBuildAppConfigRuBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildAppConfigRu, nil
 }
 func testExtendedTestdataBuildsTestBuildAppConfigRu() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4642,9 +4910,13 @@ func testExtendedTestdataBuildsTestBuildPodsvcJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildPodsvcJson, nil
 }
 func testExtendedTestdataBuildsTestBuildPodsvcJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4777,9 +5049,13 @@ func testExtendedTestdataBuildsTestBuildProxyYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildProxyYaml, nil
 }
 func testExtendedTestdataBuildsTestBuildProxyYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -4856,9 +5132,13 @@ func testExtendedTestdataBuildsTestBuildRevisionJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildRevisionJson, nil
 }
 func testExtendedTestdataBuildsTestBuildRevisionJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5124,9 +5404,13 @@ func testExtendedTestdataBuildsTestBuildYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5257,9 +5541,13 @@ func testExtendedTestdataBuildsTestBuildconfigsecretinjectorYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestBuildconfigsecretinjectorYaml, nil
 }
 func testExtendedTestdataBuildsTestBuildconfigsecretinjectorYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5324,9 +5612,13 @@ func testExtendedTestdataBuildsTestCdsDockerbuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestCdsDockerbuildJson, nil
 }
 func testExtendedTestdataBuildsTestCdsDockerbuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5409,9 +5701,13 @@ func testExtendedTestdataBuildsTestCdsSourcebuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestCdsSourcebuildJson, nil
 }
 func testExtendedTestdataBuildsTestCdsSourcebuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5605,9 +5901,13 @@ func testExtendedTestdataBuildsTestContextBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestContextBuildJson, nil
 }
 func testExtendedTestdataBuildsTestContextBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5649,9 +5949,13 @@ func testExtendedTestdataBuildsTestDockerAppDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestDockerAppDockerfile, nil
 }
 func testExtendedTestdataBuildsTestDockerAppDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5764,9 +6068,13 @@ func testExtendedTestdataBuildsTestDockerBuildPullsecretJsonBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestDockerBuildPullsecretJson, nil
 }
 func testExtendedTestdataBuildsTestDockerBuildPullsecretJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5855,9 +6163,13 @@ func testExtendedTestdataBuildsTestDockerBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestDockerBuildJson, nil
 }
 func testExtendedTestdataBuildsTestDockerBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -5929,9 +6241,13 @@ func testExtendedTestdataBuildsTestDockerNoOutputnameJsonBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestDockerNoOutputnameJson, nil
 }
 func testExtendedTestdataBuildsTestDockerNoOutputnameJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6003,9 +6319,13 @@ func testExtendedTestdataBuildsTestEnvBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestEnvBuildJson, nil
 }
 func testExtendedTestdataBuildsTestEnvBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6136,9 +6456,13 @@ func testExtendedTestdataBuildsTestImagechangetriggersYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestImagechangetriggersYaml, nil
 }
 func testExtendedTestdataBuildsTestImagechangetriggersYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6209,9 +6533,13 @@ func testExtendedTestdataBuildsTestImageresolutionCustomBuildYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestImageresolutionCustomBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestImageresolutionCustomBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6282,9 +6610,13 @@ func testExtendedTestdataBuildsTestImageresolutionDockerBuildYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestImageresolutionDockerBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestImageresolutionDockerBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6355,9 +6687,13 @@ func testExtendedTestdataBuildsTestImageresolutionS2iBuildYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestImageresolutionS2iBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestImageresolutionS2iBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6585,9 +6921,13 @@ func testExtendedTestdataBuildsTestImagesourceBuildconfigYamlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestImagesourceBuildconfigYaml, nil
 }
 func testExtendedTestdataBuildsTestImagesourceBuildconfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6670,9 +7010,13 @@ func testExtendedTestdataBuildsTestNosrcBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestNosrcBuildJson, nil
 }
 func testExtendedTestdataBuildsTestNosrcBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6752,9 +7096,13 @@ func testExtendedTestdataBuildsTestS2iBuildQuotaJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestS2iBuildQuotaJson, nil
 }
 func testExtendedTestdataBuildsTestS2iBuildQuotaJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6849,9 +7197,13 @@ func testExtendedTestdataBuildsTestS2iBuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestS2iBuildJson, nil
 }
 func testExtendedTestdataBuildsTestS2iBuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6925,9 +7277,13 @@ func testExtendedTestdataBuildsTestS2iNoOutputnameJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestS2iNoOutputnameJson, nil
 }
 func testExtendedTestdataBuildsTestS2iNoOutputnameJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -6994,9 +7350,13 @@ func testExtendedTestdataBuildsTestSymlinkBuildYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsTestSymlinkBuildYaml, nil
 }
 func testExtendedTestdataBuildsTestSymlinkBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7083,9 +7443,13 @@ func testExtendedTestdataBuildsValuefromFailedDockerBuildValueFromConfigYamlByte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromFailedDockerBuildValueFromConfigYaml, nil
 }
 func testExtendedTestdataBuildsValuefromFailedDockerBuildValueFromConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7174,9 +7538,13 @@ func testExtendedTestdataBuildsValuefromFailedStiBuildValueFromConfigYamlBytes()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromFailedStiBuildValueFromConfigYaml, nil
 }
 func testExtendedTestdataBuildsValuefromFailedStiBuildValueFromConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7271,9 +7639,13 @@ func testExtendedTestdataBuildsValuefromSuccessfulDockerBuildValueFromConfigYaml
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromSuccessfulDockerBuildValueFromConfigYaml, nil
 }
 func testExtendedTestdataBuildsValuefromSuccessfulDockerBuildValueFromConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7370,9 +7742,13 @@ func testExtendedTestdataBuildsValuefromSuccessfulStiBuildValueFromConfigYamlByt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromSuccessfulStiBuildValueFromConfigYaml, nil
 }
 func testExtendedTestdataBuildsValuefromSuccessfulStiBuildValueFromConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7419,9 +7795,13 @@ func testExtendedTestdataBuildsValuefromTestConfigmapYamlBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromTestConfigmapYaml, nil
 }
 func testExtendedTestdataBuildsValuefromTestConfigmapYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7469,9 +7849,13 @@ func testExtendedTestdataBuildsValuefromTestIsJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromTestIsJson, nil
 }
 func testExtendedTestdataBuildsValuefromTestIsJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7520,9 +7904,13 @@ func testExtendedTestdataBuildsValuefromTestSecretYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataBuildsValuefromTestSecretYaml, nil
 }
 func testExtendedTestdataBuildsValuefromTestSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7615,9 +8003,13 @@ func testExtendedTestdataClusterMasterVertYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataClusterMasterVertYaml, nil
 }
 func testExtendedTestdataClusterMasterVertYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7702,9 +8094,13 @@ func testExtendedTestdataConfigMapJenkinsSlavePodsYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataConfigMapJenkinsSlavePodsYaml, nil
 }
 func testExtendedTestdataConfigMapJenkinsSlavePodsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7748,9 +8144,13 @@ func testExtendedTestdataCustomSecretBuilderDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataCustomSecretBuilderDockerfile, nil
 }
 func testExtendedTestdataCustomSecretBuilderDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7837,9 +8237,13 @@ func testExtendedTestdataCustomSecretBuilderBuildShBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataCustomSecretBuilderBuildSh, nil
 }
 func testExtendedTestdataCustomSecretBuilderBuildSh() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -7924,9 +8328,13 @@ func testExtendedTestdataDeploymentsCustomDeploymentYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsCustomDeploymentYaml, nil
 }
 func testExtendedTestdataDeploymentsCustomDeploymentYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8018,9 +8426,13 @@ func testExtendedTestdataDeploymentsDeploymentExampleYamlBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentExampleYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentExampleYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8084,9 +8496,13 @@ func testExtendedTestdataDeploymentsDeploymentHistoryLimitYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8150,9 +8566,13 @@ func testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8210,9 +8630,13 @@ func testExtendedTestdataDeploymentsDeploymentImageResolutionIsYamlBytes() ([]by
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentImageResolutionIsYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentImageResolutionIsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8298,9 +8722,13 @@ func testExtendedTestdataDeploymentsDeploymentImageResolutionYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentImageResolutionYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentImageResolutionYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8363,9 +8791,13 @@ func testExtendedTestdataDeploymentsDeploymentMinReadySecondsYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8435,9 +8867,13 @@ func testExtendedTestdataDeploymentsDeploymentSimpleYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentSimpleYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentSimpleYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8507,9 +8943,13 @@ func testExtendedTestdataDeploymentsDeploymentTriggerYamlBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentTriggerYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentTriggerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8583,9 +9023,13 @@ func testExtendedTestdataDeploymentsDeploymentWithRefEnvYamlBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml, nil
 }
 func testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8658,9 +9102,13 @@ func testExtendedTestdataDeploymentsFailingPreHookYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsFailingPreHookYaml, nil
 }
 func testExtendedTestdataDeploymentsFailingPreHookYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8733,9 +9181,13 @@ func testExtendedTestdataDeploymentsGenerationTestYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsGenerationTestYaml, nil
 }
 func testExtendedTestdataDeploymentsGenerationTestYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8819,9 +9271,13 @@ func testExtendedTestdataDeploymentsMultiIctDeploymentYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsMultiIctDeploymentYaml, nil
 }
 func testExtendedTestdataDeploymentsMultiIctDeploymentYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8881,9 +9337,13 @@ func testExtendedTestdataDeploymentsPausedDeploymentYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsPausedDeploymentYaml, nil
 }
 func testExtendedTestdataDeploymentsPausedDeploymentYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -8951,9 +9411,13 @@ func testExtendedTestdataDeploymentsReadinessTestYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsReadinessTestYaml, nil
 }
 func testExtendedTestdataDeploymentsReadinessTestYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9030,9 +9494,13 @@ func testExtendedTestdataDeploymentsTagImagesDeploymentYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsTagImagesDeploymentYaml, nil
 }
 func testExtendedTestdataDeploymentsTagImagesDeploymentYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9104,9 +9572,13 @@ func testExtendedTestdataDeploymentsTestDeploymentBrokenYamlBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsTestDeploymentBrokenYaml, nil
 }
 func testExtendedTestdataDeploymentsTestDeploymentBrokenYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9184,9 +9656,13 @@ func testExtendedTestdataDeploymentsTestDeploymentTestYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataDeploymentsTestDeploymentTestYaml, nil
 }
 func testExtendedTestdataDeploymentsTestDeploymentTestYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9350,9 +9826,13 @@ func testExtendedTestdataForcepullTestJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataForcepullTestJson, nil
 }
 func testExtendedTestdataForcepullTestJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9408,9 +9888,13 @@ func testExtendedTestdataGssapiConfigKubeconfigBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiConfigKubeconfig, nil
 }
 func testExtendedTestdataGssapiConfigKubeconfig() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9466,9 +9950,13 @@ func testExtendedTestdataGssapiConfigOauth_configJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiConfigOauth_configJson, nil
 }
 func testExtendedTestdataGssapiConfigOauth_configJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9537,9 +10025,13 @@ func testExtendedTestdataGssapiFedoraBaseDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiFedoraBaseDockerfile, nil
 }
 func testExtendedTestdataGssapiFedoraBaseDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9585,9 +10077,13 @@ func testExtendedTestdataGssapiFedoraKerberosDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiFedoraKerberosDockerfile, nil
 }
 func testExtendedTestdataGssapiFedoraKerberosDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9635,9 +10131,13 @@ func testExtendedTestdataGssapiFedoraKerberos_configuredDockerfileBytes() ([]byt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiFedoraKerberos_configuredDockerfile, nil
 }
 func testExtendedTestdataGssapiFedoraKerberos_configuredDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9711,9 +10211,13 @@ func testExtendedTestdataGssapiProxyDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyDockerfile, nil
 }
 func testExtendedTestdataGssapiProxyDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9806,9 +10310,13 @@ func testExtendedTestdataGssapiProxyConfigureShBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyConfigureSh, nil
 }
 func testExtendedTestdataGssapiProxyConfigureSh() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9874,9 +10382,13 @@ func testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml, nil
 }
 func testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -9983,9 +10495,13 @@ func testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYamlBytes() ([]by
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml, nil
 }
 func testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10031,9 +10547,13 @@ func testExtendedTestdataGssapiProxyGssapiproxyImagestreamYamlBytes() ([]byte, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml, nil
 }
 func testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10111,9 +10631,13 @@ func testExtendedTestdataGssapiProxyGssapiproxyServiceYamlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyGssapiproxyServiceYaml, nil
 }
 func testExtendedTestdataGssapiProxyGssapiproxyServiceYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10155,9 +10679,13 @@ func testExtendedTestdataGssapiProxyHealthzBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyHealthz, nil
 }
 func testExtendedTestdataGssapiProxyHealthz() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10199,9 +10727,13 @@ func testExtendedTestdataGssapiProxyKadm5AclBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyKadm5Acl, nil
 }
 func testExtendedTestdataGssapiProxyKadm5Acl() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10254,9 +10786,13 @@ func testExtendedTestdataGssapiProxyKdcConfBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyKdcConf, nil
 }
 func testExtendedTestdataGssapiProxyKdcConf() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10333,9 +10869,13 @@ func testExtendedTestdataGssapiProxyKrb5ConfBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyKrb5Conf, nil
 }
 func testExtendedTestdataGssapiProxyKrb5Conf() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10415,9 +10955,13 @@ func testExtendedTestdataGssapiProxyProxyConfBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiProxyProxyConf, nil
 }
 func testExtendedTestdataGssapiProxyProxyConf() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10719,9 +11263,13 @@ func testExtendedTestdataGssapiScriptsGssapiTestsShBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiScriptsGssapiTestsSh, nil
 }
 func testExtendedTestdataGssapiScriptsGssapiTestsSh() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10783,9 +11331,13 @@ func testExtendedTestdataGssapiScriptsTestWrapperShBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiScriptsTestWrapperSh, nil
 }
 func testExtendedTestdataGssapiScriptsTestWrapperSh() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10852,9 +11404,13 @@ func testExtendedTestdataGssapiUbuntuBaseDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiUbuntuBaseDockerfile, nil
 }
 func testExtendedTestdataGssapiUbuntuBaseDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10900,9 +11456,13 @@ func testExtendedTestdataGssapiUbuntuKerberosDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiUbuntuKerberosDockerfile, nil
 }
 func testExtendedTestdataGssapiUbuntuKerberosDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10950,9 +11510,13 @@ func testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfileBytes() ([]byt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfile, nil
 }
 func testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -10999,9 +11563,13 @@ func testExtendedTestdataHelloBuilderDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataHelloBuilderDockerfile, nil
 }
 func testExtendedTestdataHelloBuilderDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11047,9 +11615,13 @@ func testExtendedTestdataHelloBuilderScriptsAssembleBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataHelloBuilderScriptsAssemble, nil
 }
 func testExtendedTestdataHelloBuilderScriptsAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11092,9 +11664,13 @@ func testExtendedTestdataHelloBuilderScriptsRunBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataHelloBuilderScriptsRun, nil
 }
 func testExtendedTestdataHelloBuilderScriptsRun() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11184,9 +11760,13 @@ func testExtendedTestdataIdlingEchoServerRcYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataIdlingEchoServerRcYaml, nil
 }
 func testExtendedTestdataIdlingEchoServerRcYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11326,9 +11906,13 @@ func testExtendedTestdataIdlingEchoServerYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataIdlingEchoServerYaml, nil
 }
 func testExtendedTestdataIdlingEchoServerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11395,9 +11979,13 @@ func testExtendedTestdataImageDeploymentWithAnnotationTriggerYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImageDeploymentWithAnnotationTriggerYaml, nil
 }
 func testExtendedTestdataImageDeploymentWithAnnotationTriggerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11471,9 +12059,13 @@ func testExtendedTestdataImagePullSecretsDcWithNewPullSecretYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml, nil
 }
 func testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11547,9 +12139,13 @@ func testExtendedTestdataImagePullSecretsDcWithOldPullSecretYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml, nil
 }
 func testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11608,9 +12204,13 @@ func testExtendedTestdataImagePullSecretsPodWithNewPullSecretYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml, nil
 }
 func testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11667,9 +12267,13 @@ func testExtendedTestdataImagePullSecretsPodWithNoPullSecretYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml, nil
 }
 func testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11728,9 +12332,13 @@ func testExtendedTestdataImagePullSecretsPodWithOldPullSecretYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml, nil
 }
 func testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11785,9 +12393,13 @@ func testExtendedTestdataImage_ecosystemPerlHotdeployIndexPlBytes() ([]byte, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImage_ecosystemPerlHotdeployIndexPl, nil
 }
 func testExtendedTestdataImage_ecosystemPerlHotdeployIndexPl() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -11841,9 +12453,13 @@ func testExtendedTestdataImage_ecosystemPerlHotdeployLibMyTestPmBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImage_ecosystemPerlHotdeployLibMyTestPm, nil
 }
 func testExtendedTestdataImage_ecosystemPerlHotdeployLibMyTestPm() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12019,9 +12635,13 @@ func testExtendedTestdataImage_ecosystemPerlHotdeployPerlJsonBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImage_ecosystemPerlHotdeployPerlJson, nil
 }
 func testExtendedTestdataImage_ecosystemPerlHotdeployPerlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12078,9 +12698,13 @@ func testExtendedTestdataImagestreamJenkinsSlavePodsYamlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagestreamJenkinsSlavePodsYaml, nil
 }
 func testExtendedTestdataImagestreamJenkinsSlavePodsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12138,9 +12762,13 @@ func testExtendedTestdataImagestreamtagJenkinsSlavePodsYamlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml, nil
 }
 func testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12285,9 +12913,13 @@ func testExtendedTestdataIngressYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataIngressYaml, nil
 }
 func testExtendedTestdataIngressYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12352,9 +12984,13 @@ func testExtendedTestdataJenkinsPluginBuildJobCloneXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginBuildJobCloneXml, nil
 }
 func testExtendedTestdataJenkinsPluginBuildJobCloneXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12467,9 +13103,13 @@ func testExtendedTestdataJenkinsPluginBuildJobSlaveXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginBuildJobSlaveXml, nil
 }
 func testExtendedTestdataJenkinsPluginBuildJobSlaveXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12580,9 +13220,13 @@ func testExtendedTestdataJenkinsPluginBuildJobXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginBuildJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginBuildJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12666,9 +13310,13 @@ func testExtendedTestdataJenkinsPluginBuildWithEnvJobXmlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginBuildWithEnvJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginBuildWithEnvJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12767,9 +13415,13 @@ func testExtendedTestdataJenkinsPluginBuildWithExecStepsXmlBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginBuildWithExecStepsXml, nil
 }
 func testExtendedTestdataJenkinsPluginBuildWithExecStepsXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12889,9 +13541,13 @@ func testExtendedTestdataJenkinsPluginCreateJobXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginCreateJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginCreateJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -12956,9 +13612,13 @@ func testExtendedTestdataJenkinsPluginDeleteJobKeysXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginDeleteJobKeysXml, nil
 }
 func testExtendedTestdataJenkinsPluginDeleteJobKeysXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13024,9 +13684,13 @@ func testExtendedTestdataJenkinsPluginDeleteJobLabelsXmlBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginDeleteJobLabelsXml, nil
 }
 func testExtendedTestdataJenkinsPluginDeleteJobLabelsXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13143,9 +13807,13 @@ func testExtendedTestdataJenkinsPluginDeleteJobXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginDeleteJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginDeleteJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13214,9 +13882,13 @@ func testExtendedTestdataJenkinsPluginImagestreamScmDslJobXmlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13307,9 +13979,13 @@ func testExtendedTestdataJenkinsPluginImagestreamScmJobXmlBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginImagestreamScmJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginImagestreamScmJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13423,9 +14099,13 @@ func testExtendedTestdataJenkinsPluginMultitagJobXmlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginMultitagJobXml, nil
 }
 func testExtendedTestdataJenkinsPluginMultitagJobXml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13530,9 +14210,13 @@ func testExtendedTestdataJenkinsPluginMultitagTemplateJsonBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginMultitagTemplateJson, nil
 }
 func testExtendedTestdataJenkinsPluginMultitagTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13900,9 +14584,13 @@ func testExtendedTestdataJenkinsPluginSharedResourcesTemplateJsonBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson, nil
 }
 func testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -13972,9 +14660,13 @@ func testExtendedTestdataJenkinsSlaveTemplateYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJenkinsSlaveTemplateYaml, nil
 }
 func testExtendedTestdataJenkinsSlaveTemplateYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14031,9 +14723,13 @@ func testExtendedTestdataJobsV1YamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataJobsV1Yaml, nil
 }
 func testExtendedTestdataJobsV1Yaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14109,9 +14805,13 @@ func testExtendedTestdataLdapLdapserverBuildconfigJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLdapLdapserverBuildconfigJson, nil
 }
 func testExtendedTestdataLdapLdapserverBuildconfigJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14229,9 +14929,13 @@ func testExtendedTestdataLdapLdapserverDeploymentconfigJsonBytes() ([]byte, erro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLdapLdapserverDeploymentconfigJson, nil
 }
 func testExtendedTestdataLdapLdapserverDeploymentconfigJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14283,9 +14987,13 @@ func testExtendedTestdataLdapLdapserverImagestreamTestenvJsonBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLdapLdapserverImagestreamTestenvJson, nil
 }
 func testExtendedTestdataLdapLdapserverImagestreamTestenvJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14350,9 +15058,13 @@ func testExtendedTestdataLdapLdapserverImagestreamJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLdapLdapserverImagestreamJson, nil
 }
 func testExtendedTestdataLdapLdapserverImagestreamJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14419,9 +15131,13 @@ func testExtendedTestdataLdapLdapserverServiceJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLdapLdapserverServiceJson, nil
 }
 func testExtendedTestdataLdapLdapserverServiceJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14465,9 +15181,13 @@ func testExtendedTestdataLong_namesDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLong_namesDockerfile, nil
 }
 func testExtendedTestdataLong_namesDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14572,9 +15292,13 @@ func testExtendedTestdataLong_namesFixtureJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataLong_namesFixtureJson, nil
 }
 func testExtendedTestdataLong_namesFixtureJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14695,9 +15419,13 @@ func testExtendedTestdataMultiNamespacePipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataMultiNamespacePipelineYaml, nil
 }
 func testExtendedTestdataMultiNamespacePipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14927,9 +15655,13 @@ func testExtendedTestdataMultiNamespaceTemplateYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataMultiNamespaceTemplateYaml, nil
 }
 func testExtendedTestdataMultiNamespaceTemplateYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -14980,9 +15712,13 @@ func testExtendedTestdataOpenshiftSecretToJenkinsCredentialYamlBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataOpenshiftSecretToJenkinsCredentialYaml, nil
 }
 func testExtendedTestdataOpenshiftSecretToJenkinsCredentialYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15114,9 +15850,13 @@ func testExtendedTestdataReencryptServingCertYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReencryptServingCertYaml, nil
 }
 func testExtendedTestdataReencryptServingCertYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15165,9 +15905,13 @@ func testExtendedTestdataReleasesPayload1EtcdOperatorImageReferencesBytes() ([]b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReleasesPayload1EtcdOperatorImageReferences, nil
 }
 func testExtendedTestdataReleasesPayload1EtcdOperatorImageReferences() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15224,9 +15968,13 @@ func testExtendedTestdataReleasesPayload1EtcdOperatorManifestYamlBytes() ([]byte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReleasesPayload1EtcdOperatorManifestYaml, nil
 }
 func testExtendedTestdataReleasesPayload1EtcdOperatorManifestYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15270,9 +16018,13 @@ func testExtendedTestdataReleasesPayload1ImageRegistry10_imageRegistry_crdYamlBy
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReleasesPayload1ImageRegistry10_imageRegistry_crdYaml, nil
 }
 func testExtendedTestdataReleasesPayload1ImageRegistry10_imageRegistry_crdYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15321,9 +16073,13 @@ func testExtendedTestdataReleasesPayload1ImageRegistryImageReferencesBytes() ([]
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReleasesPayload1ImageRegistryImageReferences, nil
 }
 func testExtendedTestdataReleasesPayload1ImageRegistryImageReferences() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15380,9 +16136,13 @@ func testExtendedTestdataReleasesPayload1ImageRegistryManifestYamlBytes() ([]byt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataReleasesPayload1ImageRegistryManifestYaml, nil
 }
 func testExtendedTestdataReleasesPayload1ImageRegistryManifestYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15427,9 +16187,13 @@ func testExtendedTestdataRolesEmptyRoleYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRolesEmptyRoleYaml, nil
 }
 func testExtendedTestdataRolesEmptyRoleYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15527,9 +16291,13 @@ func testExtendedTestdataRolesPolicyClusterrolesYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRolesPolicyClusterrolesYaml, nil
 }
 func testExtendedTestdataRolesPolicyClusterrolesYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15635,9 +16403,13 @@ func testExtendedTestdataRolesPolicyRolesYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRolesPolicyRolesYaml, nil
 }
 func testExtendedTestdataRolesPolicyRolesYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -15786,9 +16558,13 @@ func testExtendedTestdataRouterCommonYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterCommonYaml, nil
 }
 func testExtendedTestdataRouterCommonYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16103,9 +16879,13 @@ func testExtendedTestdataRouterConfigManagerYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterConfigManagerYaml, nil
 }
 func testExtendedTestdataRouterConfigManagerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16202,9 +16982,13 @@ func testExtendedTestdataRouterHttpEchoServerYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterHttpEchoServerYaml, nil
 }
 func testExtendedTestdataRouterHttpEchoServerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16350,9 +17134,13 @@ func testExtendedTestdataRouterMetricsYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterMetricsYaml, nil
 }
 func testExtendedTestdataRouterMetricsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16434,9 +17222,13 @@ func testExtendedTestdataRouterOverrideDomainsYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterOverrideDomainsYaml, nil
 }
 func testExtendedTestdataRouterOverrideDomainsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16518,9 +17310,13 @@ func testExtendedTestdataRouterOverrideYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterOverrideYaml, nil
 }
 func testExtendedTestdataRouterOverrideYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16601,9 +17397,13 @@ func testExtendedTestdataRouterScopedYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRouterScopedYaml, nil
 }
 func testExtendedTestdataRouterScopedYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16683,9 +17483,13 @@ func testExtendedTestdataRun_policyParallelBcYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRun_policyParallelBcYaml, nil
 }
 func testExtendedTestdataRun_policyParallelBcYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16773,9 +17577,13 @@ func testExtendedTestdataRun_policySerialBcYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRun_policySerialBcYaml, nil
 }
 func testExtendedTestdataRun_policySerialBcYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16846,9 +17654,13 @@ func testExtendedTestdataRun_policySerialLatestOnlyBcYamlBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataRun_policySerialLatestOnlyBcYaml, nil
 }
 func testExtendedTestdataRun_policySerialLatestOnlyBcYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16925,9 +17737,13 @@ func testExtendedTestdataS2iDropcapsRootAccessBuildYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataS2iDropcapsRootAccessBuildYaml, nil
 }
 func testExtendedTestdataS2iDropcapsRootAccessBuildYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -16975,9 +17791,13 @@ func testExtendedTestdataS2iDropcapsRootableRubyDockerfileBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataS2iDropcapsRootableRubyDockerfile, nil
 }
 func testExtendedTestdataS2iDropcapsRootableRubyDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17034,9 +17854,13 @@ func testExtendedTestdataS2iDropcapsRootableRubyAdduserBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataS2iDropcapsRootableRubyAdduser, nil
 }
 func testExtendedTestdataS2iDropcapsRootableRubyAdduser() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17082,9 +17906,13 @@ func testExtendedTestdataS2iDropcapsRootableRubyAssembleBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataS2iDropcapsRootableRubyAssemble, nil
 }
 func testExtendedTestdataS2iDropcapsRootableRubyAssemble() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17136,9 +17964,13 @@ func testExtendedTestdataSampleImageStreamJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataSampleImageStreamJson, nil
 }
 func testExtendedTestdataSampleImageStreamJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17208,9 +18040,13 @@ func testExtendedTestdataSamplepipelineWithenvsYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataSamplepipelineWithenvsYaml, nil
 }
 func testExtendedTestdataSamplepipelineWithenvsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17299,9 +18135,13 @@ func testExtendedTestdataServiceServingCertNginxServingCertConfBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataServiceServingCertNginxServingCertConf, nil
 }
 func testExtendedTestdataServiceServingCertNginxServingCertConf() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17386,9 +18226,13 @@ func testExtendedTestdataSignerBuildconfigYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataSignerBuildconfigYaml, nil
 }
 func testExtendedTestdataSignerBuildconfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17460,9 +18304,13 @@ func testExtendedTestdataTemplatesTemplateinstance_badobjectYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTemplatesTemplateinstance_badobjectYaml, nil
 }
 func testExtendedTestdataTemplatesTemplateinstance_badobjectYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17565,9 +18413,13 @@ func testExtendedTestdataTemplatesTemplateinstance_objectkindsYamlBytes() ([]byt
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml, nil
 }
 func testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17715,9 +18567,13 @@ func testExtendedTestdataTemplatesTemplateinstance_readinessYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTemplatesTemplateinstance_readinessYaml, nil
 }
 func testExtendedTestdataTemplatesTemplateinstance_readinessYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -17842,9 +18698,13 @@ func testExtendedTestdataTemplatesTemplateservicebroker_bindYamlBytes() ([]byte,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTemplatesTemplateservicebroker_bindYaml, nil
 }
 func testExtendedTestdataTemplatesTemplateservicebroker_bindYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18005,9 +18865,13 @@ func testExtendedTestdataTestCliDebugYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTestCliDebugYaml, nil
 }
 func testExtendedTestdataTestCliDebugYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18098,9 +18962,13 @@ func testExtendedTestdataTestEnvPodJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTestEnvPodJson, nil
 }
 func testExtendedTestdataTestEnvPodJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18319,9 +19187,13 @@ func testExtendedTestdataTestGitserverYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTestGitserverYaml, nil
 }
 func testExtendedTestdataTestGitserverYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18373,9 +19245,13 @@ func testExtendedTestdataTestSecretJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataTestSecretJson, nil
 }
 func testExtendedTestdataTestSecretJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18580,9 +19456,13 @@ func testExtendedTestdataWeightedRouterYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testExtendedTestdataWeightedRouterYaml, nil
 }
 func testExtendedTestdataWeightedRouterYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18737,9 +19617,13 @@ func testIntegrationTestdataProjectRequestTemplateWithQuotaYamlBytes() ([]byte, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataProjectRequestTemplateWithQuotaYaml, nil
 }
 func testIntegrationTestdataProjectRequestTemplateWithQuotaYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -18890,9 +19774,13 @@ func testIntegrationTestdataTestBuildcliBeta2JsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestBuildcliBeta2Json, nil
 }
 func testIntegrationTestdataTestBuildcliBeta2Json() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19043,9 +19931,13 @@ func testIntegrationTestdataTestBuildcliJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestBuildcliJson, nil
 }
 func testIntegrationTestdataTestBuildcliJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19129,9 +20021,13 @@ func testIntegrationTestdataTestDeploymentConfigYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestDeploymentConfigYaml, nil
 }
 func testIntegrationTestdataTestDeploymentConfigYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19195,9 +20091,13 @@ func testIntegrationTestdataTestEgressNetworkPolicyJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestEgressNetworkPolicyJson, nil
 }
 func testIntegrationTestdataTestEgressNetworkPolicyJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19263,9 +20163,13 @@ func testIntegrationTestdataTestImageStreamMappingJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestImageStreamMappingJson, nil
 }
 func testIntegrationTestdataTestImageStreamMappingJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19320,9 +20224,13 @@ func testIntegrationTestdataTestImageStreamJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestImageStreamJson, nil
 }
 func testIntegrationTestdataTestImageStreamJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19380,9 +20288,13 @@ func testIntegrationTestdataTestImageJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestImageJson, nil
 }
 func testIntegrationTestdataTestImageJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19454,9 +20366,13 @@ func testIntegrationTestdataTestReplicationControllerYamlBytes() ([]byte, error)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestReplicationControllerYaml, nil
 }
 func testIntegrationTestdataTestReplicationControllerYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19516,9 +20432,13 @@ func testIntegrationTestdataTestRouteJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestRouteJson, nil
 }
 func testIntegrationTestdataTestRouteJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19588,9 +20508,13 @@ func testIntegrationTestdataTestServiceWithFinalizerJsonBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestServiceWithFinalizerJson, nil
 }
 func testIntegrationTestdataTestServiceWithFinalizerJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19659,9 +20583,13 @@ func testIntegrationTestdataTestServiceJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _testIntegrationTestdataTestServiceJson, nil
 }
 func testIntegrationTestdataTestServiceJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -19959,9 +20887,13 @@ func examplesDbTemplatesMariadbEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMariadbEphemeralTemplateJson, nil
 }
 func examplesDbTemplatesMariadbEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -20283,9 +21215,13 @@ func examplesDbTemplatesMariadbPersistentTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMariadbPersistentTemplateJson, nil
 }
 func examplesDbTemplatesMariadbPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -20602,9 +21538,13 @@ func examplesDbTemplatesMongodbEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMongodbEphemeralTemplateJson, nil
 }
 func examplesDbTemplatesMongodbEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -20945,9 +21885,13 @@ func examplesDbTemplatesMongodbPersistentTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMongodbPersistentTemplateJson, nil
 }
 func examplesDbTemplatesMongodbPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -21264,9 +22208,13 @@ func examplesDbTemplatesMysqlEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMysqlEphemeralTemplateJson, nil
 }
 func examplesDbTemplatesMysqlEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -21588,9 +22536,13 @@ func examplesDbTemplatesMysqlPersistentTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesMysqlPersistentTemplateJson, nil
 }
 func examplesDbTemplatesMysqlPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -21888,9 +22840,13 @@ func examplesDbTemplatesPostgresqlEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesPostgresqlEphemeralTemplateJson, nil
 }
 func examplesDbTemplatesPostgresqlEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -22212,9 +23168,13 @@ func examplesDbTemplatesPostgresqlPersistentTemplateJsonBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesPostgresqlPersistentTemplateJson, nil
 }
 func examplesDbTemplatesPostgresqlPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -22475,9 +23435,13 @@ func examplesDbTemplatesRedisEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesRedisEphemeralTemplateJson, nil
 }
 func examplesDbTemplatesRedisEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -22762,9 +23726,13 @@ func examplesDbTemplatesRedisPersistentTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesDbTemplatesRedisPersistentTemplateJson, nil
 }
 func examplesDbTemplatesRedisPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -24390,9 +25358,13 @@ func examplesImageStreamsImageStreamsCentos7JsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesImageStreamsImageStreamsCentos7Json, nil
 }
 func examplesImageStreamsImageStreamsCentos7Json() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -25858,9 +26830,13 @@ func examplesImageStreamsImageStreamsRhel7JsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesImageStreamsImageStreamsRhel7Json, nil
 }
 func examplesImageStreamsImageStreamsRhel7Json() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -26341,9 +27317,13 @@ func examplesSampleAppApplicationTemplateDockerbuildJsonBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesSampleAppApplicationTemplateDockerbuildJson, nil
 }
 func examplesSampleAppApplicationTemplateDockerbuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -26864,9 +27844,13 @@ func examplesSampleAppApplicationTemplatePullspecbuildJsonBytes() ([]byte, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesSampleAppApplicationTemplatePullspecbuildJson, nil
 }
 func examplesSampleAppApplicationTemplatePullspecbuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -27397,9 +28381,13 @@ func examplesSampleAppApplicationTemplateStibuildJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesSampleAppApplicationTemplateStibuildJson, nil
 }
 func examplesSampleAppApplicationTemplateStibuildJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -27455,9 +28443,13 @@ func examplesSampleAppCleanupShBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesSampleAppCleanupSh, nil
 }
 func examplesSampleAppCleanupSh() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -27626,9 +28618,13 @@ func examplesSampleAppGithubWebhookExampleJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesSampleAppGithubWebhookExampleJson, nil
 }
 func examplesSampleAppGithubWebhookExampleJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -28252,9 +29248,13 @@ func examplesQuickstartsCakephpMysqlPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsCakephpMysqlPersistentJson, nil
 }
 func examplesQuickstartsCakephpMysqlPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -28852,9 +29852,13 @@ func examplesQuickstartsCakephpMysqlJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsCakephpMysqlJson, nil
 }
 func examplesQuickstartsCakephpMysqlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -29430,9 +30434,13 @@ func examplesQuickstartsDancerMysqlPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDancerMysqlPersistentJson, nil
 }
 func examplesQuickstartsDancerMysqlPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -29982,9 +30990,13 @@ func examplesQuickstartsDancerMysqlJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDancerMysqlJson, nil
 }
 func examplesQuickstartsDancerMysqlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -30584,9 +31596,13 @@ func examplesQuickstartsDjangoPostgresqlPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDjangoPostgresqlPersistentJson, nil
 }
 func examplesQuickstartsDjangoPostgresqlPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -31160,9 +32176,13 @@ func examplesQuickstartsDjangoPostgresqlJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDjangoPostgresqlJson, nil
 }
 func examplesQuickstartsDjangoPostgresqlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -31770,9 +32790,13 @@ func examplesQuickstartsDotnetPgsqlPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDotnetPgsqlPersistentJson, nil
 }
 func examplesQuickstartsDotnetPgsqlPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -32159,9 +33183,13 @@ func examplesQuickstartsDotnetJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsDotnetJson, nil
 }
 func examplesQuickstartsDotnetJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -32470,9 +33498,13 @@ func examplesQuickstartsHttpdJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsHttpdJson, nil
 }
 func examplesQuickstartsHttpdJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -32789,9 +33821,13 @@ func examplesQuickstartsNginxJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsNginxJson, nil
 }
 func examplesQuickstartsNginxJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -33394,9 +34430,13 @@ func examplesQuickstartsNodejsMongodbPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsNodejsMongodbPersistentJson, nil
 }
 func examplesQuickstartsNodejsMongodbPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -33976,9 +35016,13 @@ func examplesQuickstartsNodejsMongodbJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsNodejsMongodbJson, nil
 }
 func examplesQuickstartsNodejsMongodbJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -34630,9 +35674,13 @@ func examplesQuickstartsRailsPostgresqlPersistentJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsRailsPostgresqlPersistentJson, nil
 }
 func examplesQuickstartsRailsPostgresqlPersistentJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -35258,9 +36306,13 @@ func examplesQuickstartsRailsPostgresqlJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsRailsPostgresqlJson, nil
 }
 func examplesQuickstartsRailsPostgresqlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36061,9 +37113,13 @@ func examplesPrometheusPrometheusYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesPrometheusPrometheusYaml, nil
 }
 func examplesPrometheusPrometheusYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36110,9 +37166,13 @@ func examplesHelloOpenshiftDockerfileBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesHelloOpenshiftDockerfile, nil
 }
 func examplesHelloOpenshiftDockerfile() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36202,9 +37262,13 @@ func examplesHelloOpenshiftHelloPodJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesHelloOpenshiftHelloPodJson, nil
 }
 func examplesHelloOpenshiftHelloPodJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36262,9 +37326,13 @@ func examplesHelloOpenshiftHelloProjectJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesHelloOpenshiftHelloProjectJson, nil
 }
 func examplesHelloOpenshiftHelloProjectJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36640,9 +37708,13 @@ func examplesJenkinsApplicationTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsApplicationTemplateJson, nil
 }
 func examplesJenkinsApplicationTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -36979,9 +38051,13 @@ func examplesJenkinsJenkinsEphemeralTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsJenkinsEphemeralTemplateJson, nil
 }
 func examplesJenkinsJenkinsEphemeralTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -37352,9 +38428,13 @@ func examplesJenkinsJenkinsPersistentTemplateJsonBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsJenkinsPersistentTemplateJson, nil
 }
 func examplesJenkinsJenkinsPersistentTemplateJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -37862,9 +38942,13 @@ func examplesJenkinsPipelineBluegreenPipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsPipelineBluegreenPipelineYaml, nil
 }
 func examplesJenkinsPipelineBluegreenPipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -38177,9 +39261,13 @@ func examplesJenkinsPipelineMavenPipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsPipelineMavenPipelineYaml, nil
 }
 func examplesJenkinsPipelineMavenPipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -38332,9 +39420,13 @@ func examplesJenkinsPipelineNodejsSamplePipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsPipelineNodejsSamplePipelineYaml, nil
 }
 func examplesJenkinsPipelineNodejsSamplePipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -38390,9 +39482,13 @@ func examplesJenkinsPipelineOpenshiftClientPluginPipelineYamlBytes() ([]byte, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml, nil
 }
 func examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -38783,9 +39879,13 @@ func examplesJenkinsPipelineSamplepipelineYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesJenkinsPipelineSamplepipelineYaml, nil
 }
 func examplesJenkinsPipelineSamplepipelineYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39383,9 +40483,13 @@ func examplesQuickstartsCakephpMysqlJsonCakephpMysqlJsonBytes() ([]byte, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _examplesQuickstartsCakephpMysqlJsonCakephpMysqlJson, nil
 }
 func examplesQuickstartsCakephpMysqlJsonCakephpMysqlJson() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39467,9 +40571,13 @@ func installEtcdEtcdYamlBytes() ([]byte, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return _installEtcdEtcdYaml, nil
 }
 func installEtcdEtcdYaml() (*asset, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39493,6 +40601,8 @@ func installEtcdEtcdYaml() (*asset, error) {
 	return a, nil
 }
 func Asset(name string) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39532,6 +40642,8 @@ func MustAsset(name string) []byte {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a, err := Asset(name)
 	if err != nil {
 		panic("asset: Asset(" + name + "): " + err.Error())
@@ -39539,6 +40651,8 @@ func MustAsset(name string) []byte {
 	return a
 }
 func AssetInfo(name string) (os.FileInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39578,6 +40692,8 @@ func AssetNames() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	names := make([]string, 0, len(_bindata))
 	for name := range _bindata {
 		names = append(names, name)
@@ -39588,6 +40704,8 @@ func AssetNames() []string {
 var _bindata = map[string]func() (*asset, error){"test/extended/testdata/aggregator/kube-system-auth-reader.yaml": testExtendedTestdataAggregatorKubeSystemAuthReaderYaml, "test/extended/testdata/aggregator/sample-apiserver-apiservice.yaml": testExtendedTestdataAggregatorSampleApiserverApiserviceYaml, "test/extended/testdata/aggregator/sample-apiserver-authdelegator.yaml": testExtendedTestdataAggregatorSampleApiserverAuthdelegatorYaml, "test/extended/testdata/aggregator/sample-apiserver-authreader.yaml": testExtendedTestdataAggregatorSampleApiserverAuthreaderYaml, "test/extended/testdata/aggregator/sample-apiserver-rc.yaml": testExtendedTestdataAggregatorSampleApiserverRcYaml, "test/extended/testdata/aggregator/sample-apiserver-sa.yaml": testExtendedTestdataAggregatorSampleApiserverSaYaml, "test/extended/testdata/aggregator/sample-apiserver-service.yaml": testExtendedTestdataAggregatorSampleApiserverServiceYaml, "test/extended/testdata/builds/application-template-custombuild.json": testExtendedTestdataBuildsApplicationTemplateCustombuildJson, "test/extended/testdata/builds/build-postcommit/docker.yaml": testExtendedTestdataBuildsBuildPostcommitDockerYaml, "test/extended/testdata/builds/build-postcommit/imagestreams.yaml": testExtendedTestdataBuildsBuildPostcommitImagestreamsYaml, "test/extended/testdata/builds/build-postcommit/sti.yaml": testExtendedTestdataBuildsBuildPostcommitStiYaml, "test/extended/testdata/builds/build-pruning/default-group-build-config.yaml": testExtendedTestdataBuildsBuildPruningDefaultGroupBuildConfigYaml, "test/extended/testdata/builds/build-pruning/default-legacy-build-config.yaml": testExtendedTestdataBuildsBuildPruningDefaultLegacyBuildConfigYaml, "test/extended/testdata/builds/build-pruning/errored-build-config.yaml": testExtendedTestdataBuildsBuildPruningErroredBuildConfigYaml, "test/extended/testdata/builds/build-pruning/failed-build-config.yaml": testExtendedTestdataBuildsBuildPruningFailedBuildConfigYaml, "test/extended/testdata/builds/build-pruning/failed-pipeline.yaml": testExtendedTestdataBuildsBuildPruningFailedPipelineYaml, "test/extended/testdata/builds/build-pruning/imagestream.yaml": testExtendedTestdataBuildsBuildPruningImagestreamYaml, "test/extended/testdata/builds/build-pruning/successful-build-config.yaml": testExtendedTestdataBuildsBuildPruningSuccessfulBuildConfigYaml, "test/extended/testdata/builds/build-pruning/successful-pipeline.yaml": testExtendedTestdataBuildsBuildPruningSuccessfulPipelineYaml, "test/extended/testdata/builds/build-quota/.s2i/bin/assemble": testExtendedTestdataBuildsBuildQuotaS2iBinAssemble, "test/extended/testdata/builds/build-quota/Dockerfile": testExtendedTestdataBuildsBuildQuotaDockerfile, "test/extended/testdata/builds/build-secrets/Dockerfile": testExtendedTestdataBuildsBuildSecretsDockerfile, "test/extended/testdata/builds/build-secrets/s2i-binary-dir/.s2i/bin/assemble": testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinAssemble, "test/extended/testdata/builds/build-secrets/s2i-binary-dir/.s2i/bin/run": testExtendedTestdataBuildsBuildSecretsS2iBinaryDirS2iBinRun, "test/extended/testdata/builds/build-secrets/s2i-binary-dir/Gemfile": testExtendedTestdataBuildsBuildSecretsS2iBinaryDirGemfile, "test/extended/testdata/builds/build-secrets/s2i-binary-dir/config.ru": testExtendedTestdataBuildsBuildSecretsS2iBinaryDirConfigRu, "test/extended/testdata/builds/build-secrets/test-configmap-2.json": testExtendedTestdataBuildsBuildSecretsTestConfigmap2Json, "test/extended/testdata/builds/build-secrets/test-configmap.json": testExtendedTestdataBuildsBuildSecretsTestConfigmapJson, "test/extended/testdata/builds/build-secrets/test-docker-build.json": testExtendedTestdataBuildsBuildSecretsTestDockerBuildJson, "test/extended/testdata/builds/build-secrets/test-is.json": testExtendedTestdataBuildsBuildSecretsTestIsJson, "test/extended/testdata/builds/build-secrets/test-s2i-build.json": testExtendedTestdataBuildsBuildSecretsTestS2iBuildJson, "test/extended/testdata/builds/build-secrets/test-secret-2.json": testExtendedTestdataBuildsBuildSecretsTestSecret2Json, "test/extended/testdata/builds/build-secrets/test-secret.json": testExtendedTestdataBuildsBuildSecretsTestSecretJson, "test/extended/testdata/builds/build-timing/Dockerfile": testExtendedTestdataBuildsBuildTimingDockerfile, "test/extended/testdata/builds/build-timing/s2i-binary-dir/.s2i/bin/assemble": testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinAssemble, "test/extended/testdata/builds/build-timing/s2i-binary-dir/.s2i/bin/run": testExtendedTestdataBuildsBuildTimingS2iBinaryDirS2iBinRun, "test/extended/testdata/builds/build-timing/s2i-binary-dir/Gemfile": testExtendedTestdataBuildsBuildTimingS2iBinaryDirGemfile, "test/extended/testdata/builds/build-timing/s2i-binary-dir/config.ru": testExtendedTestdataBuildsBuildTimingS2iBinaryDirConfigRu, "test/extended/testdata/builds/build-timing/test-docker-build.json": testExtendedTestdataBuildsBuildTimingTestDockerBuildJson, "test/extended/testdata/builds/build-timing/test-is.json": testExtendedTestdataBuildsBuildTimingTestIsJson, "test/extended/testdata/builds/build-timing/test-s2i-build.json": testExtendedTestdataBuildsBuildTimingTestS2iBuildJson, "test/extended/testdata/builds/cluster-config/registry-blacklist.yaml": testExtendedTestdataBuildsClusterConfigRegistryBlacklistYaml, "test/extended/testdata/builds/cluster-config/registry-whitelist.yaml": testExtendedTestdataBuildsClusterConfigRegistryWhitelistYaml, "test/extended/testdata/builds/cluster-config.yaml": testExtendedTestdataBuildsClusterConfigYaml, "test/extended/testdata/builds/gradle-pipeline.yaml": testExtendedTestdataBuildsGradlePipelineYaml, "test/extended/testdata/builds/incremental-auth-build.json": testExtendedTestdataBuildsIncrementalAuthBuildJson, "test/extended/testdata/builds/s2i-environment-build-app/.s2i/environment": testExtendedTestdataBuildsS2iEnvironmentBuildAppS2iEnvironment, "test/extended/testdata/builds/s2i-environment-build-app/Gemfile": testExtendedTestdataBuildsS2iEnvironmentBuildAppGemfile, "test/extended/testdata/builds/s2i-environment-build-app/config.ru": testExtendedTestdataBuildsS2iEnvironmentBuildAppConfigRu, "test/extended/testdata/builds/statusfail-assemble/.s2i/bin/assemble": testExtendedTestdataBuildsStatusfailAssembleS2iBinAssemble, "test/extended/testdata/builds/statusfail-badcontextdirs2i.yaml": testExtendedTestdataBuildsStatusfailBadcontextdirs2iYaml, "test/extended/testdata/builds/statusfail-failedassemble.yaml": testExtendedTestdataBuildsStatusfailFailedassembleYaml, "test/extended/testdata/builds/statusfail-fetchbuilderimage.yaml": testExtendedTestdataBuildsStatusfailFetchbuilderimageYaml, "test/extended/testdata/builds/statusfail-fetchsourcedocker.yaml": testExtendedTestdataBuildsStatusfailFetchsourcedockerYaml, "test/extended/testdata/builds/statusfail-fetchsources2i.yaml": testExtendedTestdataBuildsStatusfailFetchsources2iYaml, "test/extended/testdata/builds/statusfail-genericreason.yaml": testExtendedTestdataBuildsStatusfailGenericreasonYaml, "test/extended/testdata/builds/statusfail-oomkilled.yaml": testExtendedTestdataBuildsStatusfailOomkilledYaml, "test/extended/testdata/builds/statusfail-postcommithook.yaml": testExtendedTestdataBuildsStatusfailPostcommithookYaml, "test/extended/testdata/builds/statusfail-pushtoregistry.yaml": testExtendedTestdataBuildsStatusfailPushtoregistryYaml, "test/extended/testdata/builds/test-auth-build.yaml": testExtendedTestdataBuildsTestAuthBuildYaml, "test/extended/testdata/builds/test-bc-with-pr-ref.yaml": testExtendedTestdataBuildsTestBcWithPrRefYaml, "test/extended/testdata/builds/test-build-app/Dockerfile": testExtendedTestdataBuildsTestBuildAppDockerfile, "test/extended/testdata/builds/test-build-app/Gemfile": testExtendedTestdataBuildsTestBuildAppGemfile, "test/extended/testdata/builds/test-build-app/config.ru": testExtendedTestdataBuildsTestBuildAppConfigRu, "test/extended/testdata/builds/test-build-podsvc.json": testExtendedTestdataBuildsTestBuildPodsvcJson, "test/extended/testdata/builds/test-build-proxy.yaml": testExtendedTestdataBuildsTestBuildProxyYaml, "test/extended/testdata/builds/test-build-revision.json": testExtendedTestdataBuildsTestBuildRevisionJson, "test/extended/testdata/builds/test-build.yaml": testExtendedTestdataBuildsTestBuildYaml, "test/extended/testdata/builds/test-buildconfigsecretinjector.yaml": testExtendedTestdataBuildsTestBuildconfigsecretinjectorYaml, "test/extended/testdata/builds/test-cds-dockerbuild.json": testExtendedTestdataBuildsTestCdsDockerbuildJson, "test/extended/testdata/builds/test-cds-sourcebuild.json": testExtendedTestdataBuildsTestCdsSourcebuildJson, "test/extended/testdata/builds/test-context-build.json": testExtendedTestdataBuildsTestContextBuildJson, "test/extended/testdata/builds/test-docker-app/Dockerfile": testExtendedTestdataBuildsTestDockerAppDockerfile, "test/extended/testdata/builds/test-docker-build-pullsecret.json": testExtendedTestdataBuildsTestDockerBuildPullsecretJson, "test/extended/testdata/builds/test-docker-build.json": testExtendedTestdataBuildsTestDockerBuildJson, "test/extended/testdata/builds/test-docker-no-outputname.json": testExtendedTestdataBuildsTestDockerNoOutputnameJson, "test/extended/testdata/builds/test-env-build.json": testExtendedTestdataBuildsTestEnvBuildJson, "test/extended/testdata/builds/test-imagechangetriggers.yaml": testExtendedTestdataBuildsTestImagechangetriggersYaml, "test/extended/testdata/builds/test-imageresolution-custom-build.yaml": testExtendedTestdataBuildsTestImageresolutionCustomBuildYaml, "test/extended/testdata/builds/test-imageresolution-docker-build.yaml": testExtendedTestdataBuildsTestImageresolutionDockerBuildYaml, "test/extended/testdata/builds/test-imageresolution-s2i-build.yaml": testExtendedTestdataBuildsTestImageresolutionS2iBuildYaml, "test/extended/testdata/builds/test-imagesource-buildconfig.yaml": testExtendedTestdataBuildsTestImagesourceBuildconfigYaml, "test/extended/testdata/builds/test-nosrc-build.json": testExtendedTestdataBuildsTestNosrcBuildJson, "test/extended/testdata/builds/test-s2i-build-quota.json": testExtendedTestdataBuildsTestS2iBuildQuotaJson, "test/extended/testdata/builds/test-s2i-build.json": testExtendedTestdataBuildsTestS2iBuildJson, "test/extended/testdata/builds/test-s2i-no-outputname.json": testExtendedTestdataBuildsTestS2iNoOutputnameJson, "test/extended/testdata/builds/test-symlink-build.yaml": testExtendedTestdataBuildsTestSymlinkBuildYaml, "test/extended/testdata/builds/valuefrom/failed-docker-build-value-from-config.yaml": testExtendedTestdataBuildsValuefromFailedDockerBuildValueFromConfigYaml, "test/extended/testdata/builds/valuefrom/failed-sti-build-value-from-config.yaml": testExtendedTestdataBuildsValuefromFailedStiBuildValueFromConfigYaml, "test/extended/testdata/builds/valuefrom/successful-docker-build-value-from-config.yaml": testExtendedTestdataBuildsValuefromSuccessfulDockerBuildValueFromConfigYaml, "test/extended/testdata/builds/valuefrom/successful-sti-build-value-from-config.yaml": testExtendedTestdataBuildsValuefromSuccessfulStiBuildValueFromConfigYaml, "test/extended/testdata/builds/valuefrom/test-configmap.yaml": testExtendedTestdataBuildsValuefromTestConfigmapYaml, "test/extended/testdata/builds/valuefrom/test-is.json": testExtendedTestdataBuildsValuefromTestIsJson, "test/extended/testdata/builds/valuefrom/test-secret.yaml": testExtendedTestdataBuildsValuefromTestSecretYaml, "test/extended/testdata/cluster/master-vert.yaml": testExtendedTestdataClusterMasterVertYaml, "test/extended/testdata/config-map-jenkins-slave-pods.yaml": testExtendedTestdataConfigMapJenkinsSlavePodsYaml, "test/extended/testdata/custom-secret-builder/Dockerfile": testExtendedTestdataCustomSecretBuilderDockerfile, "test/extended/testdata/custom-secret-builder/build.sh": testExtendedTestdataCustomSecretBuilderBuildSh, "test/extended/testdata/deployments/custom-deployment.yaml": testExtendedTestdataDeploymentsCustomDeploymentYaml, "test/extended/testdata/deployments/deployment-example.yaml": testExtendedTestdataDeploymentsDeploymentExampleYaml, "test/extended/testdata/deployments/deployment-history-limit.yaml": testExtendedTestdataDeploymentsDeploymentHistoryLimitYaml, "test/extended/testdata/deployments/deployment-ignores-deployer.yaml": testExtendedTestdataDeploymentsDeploymentIgnoresDeployerYaml, "test/extended/testdata/deployments/deployment-image-resolution-is.yaml": testExtendedTestdataDeploymentsDeploymentImageResolutionIsYaml, "test/extended/testdata/deployments/deployment-image-resolution.yaml": testExtendedTestdataDeploymentsDeploymentImageResolutionYaml, "test/extended/testdata/deployments/deployment-min-ready-seconds.yaml": testExtendedTestdataDeploymentsDeploymentMinReadySecondsYaml, "test/extended/testdata/deployments/deployment-simple.yaml": testExtendedTestdataDeploymentsDeploymentSimpleYaml, "test/extended/testdata/deployments/deployment-trigger.yaml": testExtendedTestdataDeploymentsDeploymentTriggerYaml, "test/extended/testdata/deployments/deployment-with-ref-env.yaml": testExtendedTestdataDeploymentsDeploymentWithRefEnvYaml, "test/extended/testdata/deployments/failing-pre-hook.yaml": testExtendedTestdataDeploymentsFailingPreHookYaml, "test/extended/testdata/deployments/generation-test.yaml": testExtendedTestdataDeploymentsGenerationTestYaml, "test/extended/testdata/deployments/multi-ict-deployment.yaml": testExtendedTestdataDeploymentsMultiIctDeploymentYaml, "test/extended/testdata/deployments/paused-deployment.yaml": testExtendedTestdataDeploymentsPausedDeploymentYaml, "test/extended/testdata/deployments/readiness-test.yaml": testExtendedTestdataDeploymentsReadinessTestYaml, "test/extended/testdata/deployments/tag-images-deployment.yaml": testExtendedTestdataDeploymentsTagImagesDeploymentYaml, "test/extended/testdata/deployments/test-deployment-broken.yaml": testExtendedTestdataDeploymentsTestDeploymentBrokenYaml, "test/extended/testdata/deployments/test-deployment-test.yaml": testExtendedTestdataDeploymentsTestDeploymentTestYaml, "test/extended/testdata/forcepull-test.json": testExtendedTestdataForcepullTestJson, "test/extended/testdata/gssapi/config/kubeconfig": testExtendedTestdataGssapiConfigKubeconfig, "test/extended/testdata/gssapi/config/oauth_config.json": testExtendedTestdataGssapiConfigOauth_configJson, "test/extended/testdata/gssapi/fedora/base/Dockerfile": testExtendedTestdataGssapiFedoraBaseDockerfile, "test/extended/testdata/gssapi/fedora/kerberos/Dockerfile": testExtendedTestdataGssapiFedoraKerberosDockerfile, "test/extended/testdata/gssapi/fedora/kerberos_configured/Dockerfile": testExtendedTestdataGssapiFedoraKerberos_configuredDockerfile, "test/extended/testdata/gssapi/proxy/Dockerfile": testExtendedTestdataGssapiProxyDockerfile, "test/extended/testdata/gssapi/proxy/configure.sh": testExtendedTestdataGssapiProxyConfigureSh, "test/extended/testdata/gssapi/proxy/gssapiproxy-buildconfig.yaml": testExtendedTestdataGssapiProxyGssapiproxyBuildconfigYaml, "test/extended/testdata/gssapi/proxy/gssapiproxy-deploymentconfig.yaml": testExtendedTestdataGssapiProxyGssapiproxyDeploymentconfigYaml, "test/extended/testdata/gssapi/proxy/gssapiproxy-imagestream.yaml": testExtendedTestdataGssapiProxyGssapiproxyImagestreamYaml, "test/extended/testdata/gssapi/proxy/gssapiproxy-service.yaml": testExtendedTestdataGssapiProxyGssapiproxyServiceYaml, "test/extended/testdata/gssapi/proxy/healthz": testExtendedTestdataGssapiProxyHealthz, "test/extended/testdata/gssapi/proxy/kadm5.acl": testExtendedTestdataGssapiProxyKadm5Acl, "test/extended/testdata/gssapi/proxy/kdc.conf": testExtendedTestdataGssapiProxyKdcConf, "test/extended/testdata/gssapi/proxy/krb5.conf": testExtendedTestdataGssapiProxyKrb5Conf, "test/extended/testdata/gssapi/proxy/proxy.conf": testExtendedTestdataGssapiProxyProxyConf, "test/extended/testdata/gssapi/scripts/gssapi-tests.sh": testExtendedTestdataGssapiScriptsGssapiTestsSh, "test/extended/testdata/gssapi/scripts/test-wrapper.sh": testExtendedTestdataGssapiScriptsTestWrapperSh, "test/extended/testdata/gssapi/ubuntu/base/Dockerfile": testExtendedTestdataGssapiUbuntuBaseDockerfile, "test/extended/testdata/gssapi/ubuntu/kerberos/Dockerfile": testExtendedTestdataGssapiUbuntuKerberosDockerfile, "test/extended/testdata/gssapi/ubuntu/kerberos_configured/Dockerfile": testExtendedTestdataGssapiUbuntuKerberos_configuredDockerfile, "test/extended/testdata/hello-builder/Dockerfile": testExtendedTestdataHelloBuilderDockerfile, "test/extended/testdata/hello-builder/scripts/assemble": testExtendedTestdataHelloBuilderScriptsAssemble, "test/extended/testdata/hello-builder/scripts/run": testExtendedTestdataHelloBuilderScriptsRun, "test/extended/testdata/idling-echo-server-rc.yaml": testExtendedTestdataIdlingEchoServerRcYaml, "test/extended/testdata/idling-echo-server.yaml": testExtendedTestdataIdlingEchoServerYaml, "test/extended/testdata/image/deployment-with-annotation-trigger.yaml": testExtendedTestdataImageDeploymentWithAnnotationTriggerYaml, "test/extended/testdata/image-pull-secrets/dc-with-new-pull-secret.yaml": testExtendedTestdataImagePullSecretsDcWithNewPullSecretYaml, "test/extended/testdata/image-pull-secrets/dc-with-old-pull-secret.yaml": testExtendedTestdataImagePullSecretsDcWithOldPullSecretYaml, "test/extended/testdata/image-pull-secrets/pod-with-new-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithNewPullSecretYaml, "test/extended/testdata/image-pull-secrets/pod-with-no-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithNoPullSecretYaml, "test/extended/testdata/image-pull-secrets/pod-with-old-pull-secret.yaml": testExtendedTestdataImagePullSecretsPodWithOldPullSecretYaml, "test/extended/testdata/image_ecosystem/perl-hotdeploy/index.pl": testExtendedTestdataImage_ecosystemPerlHotdeployIndexPl, "test/extended/testdata/image_ecosystem/perl-hotdeploy/lib/My/Test.pm": testExtendedTestdataImage_ecosystemPerlHotdeployLibMyTestPm, "test/extended/testdata/image_ecosystem/perl-hotdeploy/perl.json": testExtendedTestdataImage_ecosystemPerlHotdeployPerlJson, "test/extended/testdata/imagestream-jenkins-slave-pods.yaml": testExtendedTestdataImagestreamJenkinsSlavePodsYaml, "test/extended/testdata/imagestreamtag-jenkins-slave-pods.yaml": testExtendedTestdataImagestreamtagJenkinsSlavePodsYaml, "test/extended/testdata/ingress.yaml": testExtendedTestdataIngressYaml, "test/extended/testdata/jenkins-plugin/build-job-clone.xml": testExtendedTestdataJenkinsPluginBuildJobCloneXml, "test/extended/testdata/jenkins-plugin/build-job-slave.xml": testExtendedTestdataJenkinsPluginBuildJobSlaveXml, "test/extended/testdata/jenkins-plugin/build-job.xml": testExtendedTestdataJenkinsPluginBuildJobXml, "test/extended/testdata/jenkins-plugin/build-with-env-job.xml": testExtendedTestdataJenkinsPluginBuildWithEnvJobXml, "test/extended/testdata/jenkins-plugin/build-with-exec-steps.xml": testExtendedTestdataJenkinsPluginBuildWithExecStepsXml, "test/extended/testdata/jenkins-plugin/create-job.xml": testExtendedTestdataJenkinsPluginCreateJobXml, "test/extended/testdata/jenkins-plugin/delete-job-keys.xml": testExtendedTestdataJenkinsPluginDeleteJobKeysXml, "test/extended/testdata/jenkins-plugin/delete-job-labels.xml": testExtendedTestdataJenkinsPluginDeleteJobLabelsXml, "test/extended/testdata/jenkins-plugin/delete-job.xml": testExtendedTestdataJenkinsPluginDeleteJobXml, "test/extended/testdata/jenkins-plugin/imagestream-scm-dsl-job.xml": testExtendedTestdataJenkinsPluginImagestreamScmDslJobXml, "test/extended/testdata/jenkins-plugin/imagestream-scm-job.xml": testExtendedTestdataJenkinsPluginImagestreamScmJobXml, "test/extended/testdata/jenkins-plugin/multitag-job.xml": testExtendedTestdataJenkinsPluginMultitagJobXml, "test/extended/testdata/jenkins-plugin/multitag-template.json": testExtendedTestdataJenkinsPluginMultitagTemplateJson, "test/extended/testdata/jenkins-plugin/shared-resources-template.json": testExtendedTestdataJenkinsPluginSharedResourcesTemplateJson, "test/extended/testdata/jenkins-slave-template.yaml": testExtendedTestdataJenkinsSlaveTemplateYaml, "test/extended/testdata/jobs/v1.yaml": testExtendedTestdataJobsV1Yaml, "test/extended/testdata/ldap/ldapserver-buildconfig.json": testExtendedTestdataLdapLdapserverBuildconfigJson, "test/extended/testdata/ldap/ldapserver-deploymentconfig.json": testExtendedTestdataLdapLdapserverDeploymentconfigJson, "test/extended/testdata/ldap/ldapserver-imagestream-testenv.json": testExtendedTestdataLdapLdapserverImagestreamTestenvJson, "test/extended/testdata/ldap/ldapserver-imagestream.json": testExtendedTestdataLdapLdapserverImagestreamJson, "test/extended/testdata/ldap/ldapserver-service.json": testExtendedTestdataLdapLdapserverServiceJson, "test/extended/testdata/long_names/Dockerfile": testExtendedTestdataLong_namesDockerfile, "test/extended/testdata/long_names/fixture.json": testExtendedTestdataLong_namesFixtureJson, "test/extended/testdata/multi-namespace-pipeline.yaml": testExtendedTestdataMultiNamespacePipelineYaml, "test/extended/testdata/multi-namespace-template.yaml": testExtendedTestdataMultiNamespaceTemplateYaml, "test/extended/testdata/openshift-secret-to-jenkins-credential.yaml": testExtendedTestdataOpenshiftSecretToJenkinsCredentialYaml, "test/extended/testdata/reencrypt-serving-cert.yaml": testExtendedTestdataReencryptServingCertYaml, "test/extended/testdata/releases/payload-1/etcd-operator/image-references": testExtendedTestdataReleasesPayload1EtcdOperatorImageReferences, "test/extended/testdata/releases/payload-1/etcd-operator/manifest.yaml": testExtendedTestdataReleasesPayload1EtcdOperatorManifestYaml, "test/extended/testdata/releases/payload-1/image-registry/10_image-registry_crd.yaml": testExtendedTestdataReleasesPayload1ImageRegistry10_imageRegistry_crdYaml, "test/extended/testdata/releases/payload-1/image-registry/image-references": testExtendedTestdataReleasesPayload1ImageRegistryImageReferences, "test/extended/testdata/releases/payload-1/image-registry/manifest.yaml": testExtendedTestdataReleasesPayload1ImageRegistryManifestYaml, "test/extended/testdata/roles/empty-role.yaml": testExtendedTestdataRolesEmptyRoleYaml, "test/extended/testdata/roles/policy-clusterroles.yaml": testExtendedTestdataRolesPolicyClusterrolesYaml, "test/extended/testdata/roles/policy-roles.yaml": testExtendedTestdataRolesPolicyRolesYaml, "test/extended/testdata/router-common.yaml": testExtendedTestdataRouterCommonYaml, "test/extended/testdata/router-config-manager.yaml": testExtendedTestdataRouterConfigManagerYaml, "test/extended/testdata/router-http-echo-server.yaml": testExtendedTestdataRouterHttpEchoServerYaml, "test/extended/testdata/router-metrics.yaml": testExtendedTestdataRouterMetricsYaml, "test/extended/testdata/router-override-domains.yaml": testExtendedTestdataRouterOverrideDomainsYaml, "test/extended/testdata/router-override.yaml": testExtendedTestdataRouterOverrideYaml, "test/extended/testdata/router-scoped.yaml": testExtendedTestdataRouterScopedYaml, "test/extended/testdata/run_policy/parallel-bc.yaml": testExtendedTestdataRun_policyParallelBcYaml, "test/extended/testdata/run_policy/serial-bc.yaml": testExtendedTestdataRun_policySerialBcYaml, "test/extended/testdata/run_policy/serial-latest-only-bc.yaml": testExtendedTestdataRun_policySerialLatestOnlyBcYaml, "test/extended/testdata/s2i-dropcaps/root-access-build.yaml": testExtendedTestdataS2iDropcapsRootAccessBuildYaml, "test/extended/testdata/s2i-dropcaps/rootable-ruby/Dockerfile": testExtendedTestdataS2iDropcapsRootableRubyDockerfile, "test/extended/testdata/s2i-dropcaps/rootable-ruby/adduser": testExtendedTestdataS2iDropcapsRootableRubyAdduser, "test/extended/testdata/s2i-dropcaps/rootable-ruby/assemble": testExtendedTestdataS2iDropcapsRootableRubyAssemble, "test/extended/testdata/sample-image-stream.json": testExtendedTestdataSampleImageStreamJson, "test/extended/testdata/samplepipeline-withenvs.yaml": testExtendedTestdataSamplepipelineWithenvsYaml, "test/extended/testdata/service-serving-cert/nginx-serving-cert.conf": testExtendedTestdataServiceServingCertNginxServingCertConf, "test/extended/testdata/signer-buildconfig.yaml": testExtendedTestdataSignerBuildconfigYaml, "test/extended/testdata/templates/templateinstance_badobject.yaml": testExtendedTestdataTemplatesTemplateinstance_badobjectYaml, "test/extended/testdata/templates/templateinstance_objectkinds.yaml": testExtendedTestdataTemplatesTemplateinstance_objectkindsYaml, "test/extended/testdata/templates/templateinstance_readiness.yaml": testExtendedTestdataTemplatesTemplateinstance_readinessYaml, "test/extended/testdata/templates/templateservicebroker_bind.yaml": testExtendedTestdataTemplatesTemplateservicebroker_bindYaml, "test/extended/testdata/test-cli-debug.yaml": testExtendedTestdataTestCliDebugYaml, "test/extended/testdata/test-env-pod.json": testExtendedTestdataTestEnvPodJson, "test/extended/testdata/test-gitserver.yaml": testExtendedTestdataTestGitserverYaml, "test/extended/testdata/test-secret.json": testExtendedTestdataTestSecretJson, "test/extended/testdata/weighted-router.yaml": testExtendedTestdataWeightedRouterYaml, "test/integration/testdata/project-request-template-with-quota.yaml": testIntegrationTestdataProjectRequestTemplateWithQuotaYaml, "test/integration/testdata/test-buildcli-beta2.json": testIntegrationTestdataTestBuildcliBeta2Json, "test/integration/testdata/test-buildcli.json": testIntegrationTestdataTestBuildcliJson, "test/integration/testdata/test-deployment-config.yaml": testIntegrationTestdataTestDeploymentConfigYaml, "test/integration/testdata/test-egress-network-policy.json": testIntegrationTestdataTestEgressNetworkPolicyJson, "test/integration/testdata/test-image-stream-mapping.json": testIntegrationTestdataTestImageStreamMappingJson, "test/integration/testdata/test-image-stream.json": testIntegrationTestdataTestImageStreamJson, "test/integration/testdata/test-image.json": testIntegrationTestdataTestImageJson, "test/integration/testdata/test-replication-controller.yaml": testIntegrationTestdataTestReplicationControllerYaml, "test/integration/testdata/test-route.json": testIntegrationTestdataTestRouteJson, "test/integration/testdata/test-service-with-finalizer.json": testIntegrationTestdataTestServiceWithFinalizerJson, "test/integration/testdata/test-service.json": testIntegrationTestdataTestServiceJson, "examples/db-templates/mariadb-ephemeral-template.json": examplesDbTemplatesMariadbEphemeralTemplateJson, "examples/db-templates/mariadb-persistent-template.json": examplesDbTemplatesMariadbPersistentTemplateJson, "examples/db-templates/mongodb-ephemeral-template.json": examplesDbTemplatesMongodbEphemeralTemplateJson, "examples/db-templates/mongodb-persistent-template.json": examplesDbTemplatesMongodbPersistentTemplateJson, "examples/db-templates/mysql-ephemeral-template.json": examplesDbTemplatesMysqlEphemeralTemplateJson, "examples/db-templates/mysql-persistent-template.json": examplesDbTemplatesMysqlPersistentTemplateJson, "examples/db-templates/postgresql-ephemeral-template.json": examplesDbTemplatesPostgresqlEphemeralTemplateJson, "examples/db-templates/postgresql-persistent-template.json": examplesDbTemplatesPostgresqlPersistentTemplateJson, "examples/db-templates/redis-ephemeral-template.json": examplesDbTemplatesRedisEphemeralTemplateJson, "examples/db-templates/redis-persistent-template.json": examplesDbTemplatesRedisPersistentTemplateJson, "examples/image-streams/image-streams-centos7.json": examplesImageStreamsImageStreamsCentos7Json, "examples/image-streams/image-streams-rhel7.json": examplesImageStreamsImageStreamsRhel7Json, "examples/sample-app/application-template-dockerbuild.json": examplesSampleAppApplicationTemplateDockerbuildJson, "examples/sample-app/application-template-pullspecbuild.json": examplesSampleAppApplicationTemplatePullspecbuildJson, "examples/sample-app/application-template-stibuild.json": examplesSampleAppApplicationTemplateStibuildJson, "examples/sample-app/cleanup.sh": examplesSampleAppCleanupSh, "examples/sample-app/github-webhook-example.json": examplesSampleAppGithubWebhookExampleJson, "examples/quickstarts/cakephp-mysql-persistent.json": examplesQuickstartsCakephpMysqlPersistentJson, "examples/quickstarts/cakephp-mysql.json": examplesQuickstartsCakephpMysqlJson, "examples/quickstarts/dancer-mysql-persistent.json": examplesQuickstartsDancerMysqlPersistentJson, "examples/quickstarts/dancer-mysql.json": examplesQuickstartsDancerMysqlJson, "examples/quickstarts/django-postgresql-persistent.json": examplesQuickstartsDjangoPostgresqlPersistentJson, "examples/quickstarts/django-postgresql.json": examplesQuickstartsDjangoPostgresqlJson, "examples/quickstarts/dotnet-pgsql-persistent.json": examplesQuickstartsDotnetPgsqlPersistentJson, "examples/quickstarts/dotnet.json": examplesQuickstartsDotnetJson, "examples/quickstarts/httpd.json": examplesQuickstartsHttpdJson, "examples/quickstarts/nginx.json": examplesQuickstartsNginxJson, "examples/quickstarts/nodejs-mongodb-persistent.json": examplesQuickstartsNodejsMongodbPersistentJson, "examples/quickstarts/nodejs-mongodb.json": examplesQuickstartsNodejsMongodbJson, "examples/quickstarts/rails-postgresql-persistent.json": examplesQuickstartsRailsPostgresqlPersistentJson, "examples/quickstarts/rails-postgresql.json": examplesQuickstartsRailsPostgresqlJson, "examples/prometheus/prometheus.yaml": examplesPrometheusPrometheusYaml, "examples/hello-openshift/Dockerfile": examplesHelloOpenshiftDockerfile, "examples/hello-openshift/hello-pod.json": examplesHelloOpenshiftHelloPodJson, "examples/hello-openshift/hello-project.json": examplesHelloOpenshiftHelloProjectJson, "examples/jenkins/application-template.json": examplesJenkinsApplicationTemplateJson, "examples/jenkins/jenkins-ephemeral-template.json": examplesJenkinsJenkinsEphemeralTemplateJson, "examples/jenkins/jenkins-persistent-template.json": examplesJenkinsJenkinsPersistentTemplateJson, "examples/jenkins/pipeline/bluegreen-pipeline.yaml": examplesJenkinsPipelineBluegreenPipelineYaml, "examples/jenkins/pipeline/maven-pipeline.yaml": examplesJenkinsPipelineMavenPipelineYaml, "examples/jenkins/pipeline/nodejs-sample-pipeline.yaml": examplesJenkinsPipelineNodejsSamplePipelineYaml, "examples/jenkins/pipeline/openshift-client-plugin-pipeline.yaml": examplesJenkinsPipelineOpenshiftClientPluginPipelineYaml, "examples/jenkins/pipeline/samplepipeline.yaml": examplesJenkinsPipelineSamplepipelineYaml, "examples/quickstarts/cakephp-mysql.json/cakephp-mysql.json": examplesQuickstartsCakephpMysqlJsonCakephpMysqlJson, "install/etcd/etcd.yaml": installEtcdEtcdYaml}
 
 func AssetDir(name string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39645,6 +40763,8 @@ func RestoreAsset(dir, name string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := Asset(name)
 	if err != nil {
 		return err
@@ -39668,6 +40788,8 @@ func RestoreAsset(dir, name string) error {
 	return nil
 }
 func RestoreAssets(dir, name string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -39709,6 +40831,8 @@ func _filePath(dir, name string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cannonicalName := strings.Replace(name, "\\", "/", -1)
 	return filepath.Join(append([]string{dir}, strings.Split(cannonicalName, "/")...)...)
 }
@@ -39727,6 +40851,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -39801,5 +40946,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

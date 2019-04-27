@@ -19,6 +19,8 @@ func (in *ExternalIPRangerAdmissionConfig) DeepCopyInto(out *ExternalIPRangerAdm
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	if in.ExternalIPNetworkCIDRs != nil {
@@ -43,6 +45,8 @@ func (in *ExternalIPRangerAdmissionConfig) DeepCopy() *ExternalIPRangerAdmission
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if in == nil {
 		return nil
 	}
@@ -51,6 +55,8 @@ func (in *ExternalIPRangerAdmissionConfig) DeepCopy() *ExternalIPRangerAdmission
 	return out
 }
 func (in *ExternalIPRangerAdmissionConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

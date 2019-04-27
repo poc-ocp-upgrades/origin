@@ -45,6 +45,8 @@ func (a *testAuthorizer) Authorize(passedAttributes kauthorizer.Attributes) (aut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if passedAttributes.GetResource() == "localsubjectaccessreviews" {
 		return kauthorizer.DecisionAllow, "", nil
 	}
@@ -55,6 +57,8 @@ func (a *testAuthorizer) Authorize(passedAttributes kauthorizer.Attributes) (aut
 	return a.allowed, a.reason, errors.New(a.err)
 }
 func (a *testAuthorizer) GetAllowedSubjects(passedAttributes kauthorizer.Attributes) (sets.String, sets.String, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -86,10 +90,14 @@ func TestNoNamespace(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionNoOpinion}, reviewRequest: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Namespace: "", Verb: "get", Resource: "pods"}, User: "foo", Groups: sets.NewString()}, expectedError: "namespace is required on this type: "}
 	test.runTest(t)
 }
 func TestConflictingNamespace(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -131,10 +139,14 @@ func TestEmptyReturn(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionNoOpinion, reason: "because reasons"}, reviewRequest: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "get", Resource: "pods"}, User: "foo", Groups: sets.NewString()}, expectedUserInfo: &user.DefaultInfo{Name: "foo", Groups: []string{}, Extra: map[string][]string{}}}
 	test.runTest(t)
 }
 func TestNoErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,10 +179,14 @@ func TestErrors(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{err: "some-random-failure"}, reviewRequest: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "get", Resource: "pods"}, User: "foo", Groups: sets.NewString("first", "second")}, expectedUserInfo: &user.DefaultInfo{Name: "foo", Groups: []string{"first", "second"}, Extra: map[string][]string{}}}
 	test.runTest(t)
 }
 func TestRegularWithScopes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -203,6 +219,8 @@ func TestSelfWithDefaultScopes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionAllow, reason: "because good things"}, reviewRequest: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "delete", Resource: "deploymentConfigs"}}, expectedUserInfo: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}, requestingUser: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}}
 	test.runTest(t)
 }
@@ -221,10 +239,14 @@ func TestSelfWithClearedScopes(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	test := &subjectAccessTest{authorizer: &testAuthorizer{allowed: kauthorizer.DecisionAllow, reason: "because good things"}, reviewRequest: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Namespace: "unittest", Verb: "delete", Resource: "deploymentConfigs"}, Scopes: []string{}}, expectedUserInfo: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{}}, requestingUser: &user.DefaultInfo{Name: "me", Groups: []string{"group"}, Extra: map[string][]string{authorizationapi.ScopesKey: {"scope-02"}}}}
 	test.runTest(t)
 }
 func (r *subjectAccessTest) runTest(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

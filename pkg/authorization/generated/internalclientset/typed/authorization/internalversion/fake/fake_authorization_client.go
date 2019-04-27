@@ -23,9 +23,13 @@ func (c *FakeAuthorization) ClusterRoles() internalversion.ClusterRoleInterface 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeClusterRoles{c}
 }
 func (c *FakeAuthorization) ClusterRoleBindings() internalversion.ClusterRoleBindingInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,9 +61,13 @@ func (c *FakeAuthorization) LocalResourceAccessReviews(namespace string) interna
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeLocalResourceAccessReviews{c, namespace}
 }
 func (c *FakeAuthorization) LocalSubjectAccessReviews(namespace string) internalversion.LocalSubjectAccessReviewInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -91,9 +99,13 @@ func (c *FakeAuthorization) ResourceAccessReviews() internalversion.ResourceAcce
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeResourceAccessReviews{c}
 }
 func (c *FakeAuthorization) Roles(namespace string) internalversion.RoleInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -125,9 +137,13 @@ func (c *FakeAuthorization) RoleBindings(namespace string) internalversion.RoleB
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeRoleBindings{c, namespace}
 }
 func (c *FakeAuthorization) RoleBindingRestrictions(namespace string) internalversion.RoleBindingRestrictionInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,9 +175,13 @@ func (c *FakeAuthorization) SelfSubjectRulesReviews(namespace string) internalve
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeSelfSubjectRulesReviews{c, namespace}
 }
 func (c *FakeAuthorization) SubjectAccessReviews() internalversion.SubjectAccessReviewInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,9 +213,13 @@ func (c *FakeAuthorization) SubjectRulesReviews(namespace string) internalversio
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeSubjectRulesReviews{c, namespace}
 }
 func (c *FakeAuthorization) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

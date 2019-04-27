@@ -36,6 +36,8 @@ func TestOAuthRequestHeader(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("skipping until auth team figures this out in the new split API setup, see https://bugzilla.redhat.com/show_bug.cgi?id=1640351")
 	users := map[string]string{"myusername": "mypassword"}
 	caFile, err := ioutil.TempFile("", "test.crt")

@@ -24,6 +24,8 @@ func NewADLDAPInterface(clientConfig ldapclient.Config, userQuery ldaputil.LDAPQ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ADLDAPInterface{clientConfig: clientConfig, userQuery: userQuery, userNameAttributes: userNameAttributes, groupMembershipAttributes: groupMembershipAttributes, ldapGroupToLDAPMembers: map[string][]*ldap.Entry{}}
 }
 
@@ -40,6 +42,8 @@ var _ interfaces.LDAPMemberExtractor = &ADLDAPInterface{}
 var _ interfaces.LDAPGroupLister = &ADLDAPInterface{}
 
 func (e *ADLDAPInterface) ExtractMembers(ldapGroupUID string) ([]*ldap.Entry, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,12 +96,16 @@ func (e *ADLDAPInterface) ListGroups() ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := e.populateCache(); err != nil {
 		return nil, err
 	}
 	return sets.StringKeySet(e.ldapGroupToLDAPMembers).List(), nil
 }
 func (e *ADLDAPInterface) populateCache() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -153,6 +161,8 @@ func isEntryPresent(haystack []*ldap.Entry, needle *ldap.Entry) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, curr := range haystack {
 		if curr.DN == needle.DN {
 			return true
@@ -175,11 +185,15 @@ func (e *ADLDAPInterface) requiredUserAttributes() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allAttributes := sets.NewString(e.userNameAttributes...)
 	allAttributes.Insert(e.groupMembershipAttributes...)
 	return allAttributes.List()
 }
 func (e *ADLDAPInterface) Exists(ldapGrouUID string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

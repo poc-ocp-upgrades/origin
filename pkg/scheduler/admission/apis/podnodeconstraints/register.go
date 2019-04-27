@@ -22,9 +22,13 @@ func Kind(kind string) schema.GroupKind {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GroupVersion.WithKind(kind).GroupKind()
 }
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -62,10 +66,14 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(GroupVersion, &PodNodeConstraintsConfig{})
 	return nil
 }
 func (obj *PodNodeConstraintsConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

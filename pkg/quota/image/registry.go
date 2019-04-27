@@ -28,6 +28,8 @@ func NewReplenishmentEvaluators(f quota.ListerForResourceFunc, isInformer imagev
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := []quota.Evaluator{NewImageStreamTagEvaluator(isInformer.Lister(), imageClient), NewImageStreamImportEvaluator(isInformer.Lister())}
 	for gvr, alias := range legacyObjectCountAliases {
 		result = append(result, generic.NewObjectCountEvaluator(gvr.GroupResource(), generic.ListResourceUsingListerFunc(f, gvr), alias))
@@ -35,6 +37,8 @@ func NewReplenishmentEvaluators(f quota.ListerForResourceFunc, isInformer imagev
 	return result
 }
 func NewReplenishmentEvaluatorsForAdmission(isInformer imagev1informer.ImageStreamInformer, imageClient imagev1typedclient.ImageStreamTagsGetter) []quota.Evaluator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -63,6 +67,8 @@ type evaluatorForLegacyResource struct {
 }
 
 func (e *evaluatorForLegacyResource) GroupResource() schema.GroupResource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

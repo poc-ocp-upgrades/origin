@@ -25,6 +25,8 @@ func RouteNodeName(o *routev1.Route) osgraph.UniqueName {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return osgraph.GetUniqueRuntimeObjectNodeName(RouteNodeKind, o)
 }
 
@@ -34,6 +36,8 @@ type RouteNode struct {
 }
 
 func (n RouteNode) Object() interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -65,9 +69,13 @@ func (n RouteNode) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return string(RouteNodeName(n.Route))
 }
 func (*RouteNode) Kind() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

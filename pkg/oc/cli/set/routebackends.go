@@ -101,9 +101,13 @@ func NewBackendsOptions(streams genericclioptions.IOStreams) *BackendsOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &BackendsOptions{PrintFlags: genericclioptions.NewPrintFlags("backends updated").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
 func NewCmdRouteBackends(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -137,6 +141,8 @@ func NewCmdRouteBackends(fullName string, f kcmdutil.Factory, streams genericcli
 	return cmd
 }
 func (o *BackendsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -206,9 +212,13 @@ func (o *BackendsOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.Transform.Validate()
 }
 func (o *BackendsOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +302,8 @@ func (o *BackendsOptions) printBackends(infos []*resource.Info) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(o.Out, 0, 2, 2, ' ', 0)
 	defer w.Flush()
 	fmt.Fprintf(w, "NAME\tKIND\tTO\tWEIGHT\n")
@@ -344,9 +356,13 @@ func (t BackendTransform) Empty() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !(t.Zero || t.Equal || len(t.Inputs) > 0)
 }
 func (t BackendTransform) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -401,6 +417,8 @@ func (t BackendTransform) Validate() error {
 	return nil
 }
 func (t BackendTransform) Apply(b *Backends) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -474,6 +492,8 @@ type BackendInput struct {
 }
 
 func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends []routev1.RouteTargetReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -574,6 +594,8 @@ func ParseBackendInput(s string) (*BackendInput, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(s, "=", 2)
 	switch {
 	case len(parts) != 2, len(parts[0]) == 0, len(parts[1]) == 0:
@@ -622,6 +644,8 @@ func (b *Backends) Names() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, backend := range b.Backends {
 		names = append(names, backend.Name)
@@ -629,6 +653,8 @@ func (b *Backends) Names() []string {
 	return names
 }
 func UpdateBackendsForObject(obj runtime.Object, fn func(*Backends) error) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

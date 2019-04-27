@@ -23,9 +23,13 @@ func (c *FakeTemplate) BrokerTemplateInstances() internalversion.BrokerTemplateI
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeBrokerTemplateInstances{c}
 }
 func (c *FakeTemplate) Templates(namespace string) internalversion.TemplateResourceInterface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -57,9 +61,13 @@ func (c *FakeTemplate) TemplateInstances(namespace string) internalversion.Templ
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &FakeTemplateInstances{c, namespace}
 }
 func (c *FakeTemplate) RESTClient() rest.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

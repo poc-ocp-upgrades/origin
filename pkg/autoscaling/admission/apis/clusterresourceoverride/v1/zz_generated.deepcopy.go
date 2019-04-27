@@ -19,11 +19,15 @@ func (in *ClusterResourceOverrideConfig) DeepCopyInto(out *ClusterResourceOverri
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	*out = *in
 	out.TypeMeta = in.TypeMeta
 	return
 }
 func (in *ClusterResourceOverrideConfig) DeepCopy() *ClusterResourceOverrideConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -46,6 +50,8 @@ func (in *ClusterResourceOverrideConfig) DeepCopy() *ClusterResourceOverrideConf
 	return out
 }
 func (in *ClusterResourceOverrideConfig) DeepCopyObject() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

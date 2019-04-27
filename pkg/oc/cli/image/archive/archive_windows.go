@@ -20,9 +20,13 @@ func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
 func handleLChmod(hdr *tar.Header, path string, hdrInfo os.FileInfo) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

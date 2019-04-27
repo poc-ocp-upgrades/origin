@@ -17,6 +17,8 @@ func GetCloudProviderConfigFile(args map[string][]string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filenames, ok := args["cloud-config"]
 	if !ok {
 		return "", nil

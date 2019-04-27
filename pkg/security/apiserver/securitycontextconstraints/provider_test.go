@@ -28,6 +28,8 @@ func TestCreatePodSecurityContextNonmutating(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	createPod := func() *api.Pod {
 		return &api.Pod{Spec: api.PodSpec{SecurityContext: &api.PodSecurityContext{}}}
 	}
@@ -67,6 +69,8 @@ func TestCreateContainerSecurityContextNonmutating(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	createPod := func() *api.Pod {
 		return &api.Pod{Spec: api.PodSpec{Containers: []api.Container{{SecurityContext: &api.SecurityContext{}}}}}
 	}
@@ -92,6 +96,8 @@ func TestCreateContainerSecurityContextNonmutating(t *testing.T) {
 	}
 }
 func TestValidatePodSecurityContextFailures(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -182,6 +188,8 @@ func TestValidateContainerSecurityContextFailures(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failUserSCC := defaultSCC()
 	var uid int64 = 999
 	var badUID int64 = 1
@@ -233,6 +241,8 @@ func TestValidateContainerSecurityContextFailures(t *testing.T) {
 	}
 }
 func TestValidatePodSecurityContextSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,6 +320,8 @@ func TestValidatePodSecurityContextSuccess(t *testing.T) {
 	}
 }
 func TestValidateContainerSecurityContextSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -402,6 +414,8 @@ func TestGenerateContainerSecurityContextReadOnlyRootFS(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	trueSCC := defaultSCC()
 	trueSCC.ReadOnlyRootFilesystem = true
 	trueVal := true
@@ -454,9 +468,13 @@ func defaultSCC() *securityapi.SecurityContextConstraints {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "scc-sa", Annotations: map[string]string{}}, RunAsUser: securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyRunAsAny}, SELinuxContext: securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyRunAsAny}, FSGroup: securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyRunAsAny}, SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyRunAsAny}}
 }
 func defaultPod() *api.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -489,6 +507,8 @@ func allowFlexVolumesSCC(allowAllFlexVolumes, allowAllVolumes bool) *securityapi
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc := defaultSCC()
 	allowedVolumes := []securityapi.AllowedFlexVolume{{Driver: "example/foo"}, {Driver: "example/bar"}}
 	if allowAllFlexVolumes {
@@ -503,6 +523,8 @@ func allowFlexVolumesSCC(allowAllFlexVolumes, allowAllVolumes bool) *securityapi
 	return scc
 }
 func TestValidateAllowedVolumes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -558,6 +580,8 @@ func TestValidateAllowedVolumes(t *testing.T) {
 	}
 }
 func TestValidateAllowPrivilegeEscalation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

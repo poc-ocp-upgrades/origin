@@ -24,6 +24,8 @@ func BuildByBuildConfigIndexFunc(obj interface{}) ([]string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build, ok := obj.(*buildv1.Build)
 	if !ok {
 		return nil, fmt.Errorf("not a build: %v", build)
@@ -55,6 +57,8 @@ func (a *andFilter) Filter(builds []*buildv1.Build) []*buildv1.Build {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*buildv1.Build{}
 	for _, build := range builds {
 		include := true
@@ -71,6 +75,8 @@ func (a *andFilter) Filter(builds []*buildv1.Build) []*buildv1.Build {
 type FilterPredicate func(build *buildv1.Build) bool
 
 func NewFilterBeforePredicate(d time.Duration) FilterPredicate {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -118,6 +124,8 @@ func NewDataSet(buildConfigs []*buildv1.BuildConfig, builds []*buildv1.Build) Da
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildConfigStore := cache.NewStore(cache.MetaNamespaceKeyFunc)
 	for _, buildConfig := range buildConfigs {
 		buildConfigStore.Add(buildConfig)
@@ -129,6 +137,8 @@ func NewDataSet(buildConfigs []*buildv1.BuildConfig, builds []*buildv1.Build) Da
 	return &dataSet{buildConfigStore: buildConfigStore, buildIndexer: buildIndexer}
 }
 func (d *dataSet) GetBuildConfig(build *buildv1.Build) (*buildv1.BuildConfig, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -170,6 +180,8 @@ func (d *dataSet) ListBuildConfigs() ([]*buildv1.BuildConfig, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*buildv1.BuildConfig{}
 	for _, item := range d.buildConfigStore.List() {
 		results = append(results, item.(*buildv1.BuildConfig))
@@ -191,6 +203,8 @@ func (d *dataSet) ListBuilds() ([]*buildv1.Build, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	results := []*buildv1.Build{}
 	for _, item := range d.buildIndexer.List() {
 		results = append(results, item.(*buildv1.Build))
@@ -198,6 +212,8 @@ func (d *dataSet) ListBuilds() ([]*buildv1.Build, error) {
 	return results, nil
 }
 func (d *dataSet) ListBuildsByBuildConfig(buildConfig *buildv1.BuildConfig) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

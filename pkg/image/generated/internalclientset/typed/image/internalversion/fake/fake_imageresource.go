@@ -30,6 +30,8 @@ func (c *FakeImages) Get(name string, options v1.GetOptions) (result *image.Imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootGetAction(imagesResource, name), &image.Image{})
 	if obj == nil {
 		return nil, err
@@ -37,6 +39,8 @@ func (c *FakeImages) Get(name string, options v1.GetOptions) (result *image.Imag
 	return obj.(*image.Image), err
 }
 func (c *FakeImages) List(opts v1.ListOptions) (result *image.ImageList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,9 +86,13 @@ func (c *FakeImages) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewRootWatchAction(imagesResource, opts))
 }
 func (c *FakeImages) Create(imageResource *image.Image) (result *image.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +128,8 @@ func (c *FakeImages) Update(imageResource *image.Image) (result *image.Image, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewRootUpdateAction(imagesResource, imageResource), &image.Image{})
 	if obj == nil {
 		return nil, err
@@ -127,6 +137,8 @@ func (c *FakeImages) Update(imageResource *image.Image) (result *image.Image, er
 	return obj.(*image.Image), err
 }
 func (c *FakeImages) Delete(name string, options *v1.DeleteOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -159,11 +171,15 @@ func (c *FakeImages) DeleteCollection(options *v1.DeleteOptions, listOptions v1.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	action := testing.NewRootDeleteCollectionAction(imagesResource, listOptions)
 	_, err := c.Fake.Invokes(action, &image.ImageList{})
 	return err
 }
 func (c *FakeImages) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *image.Image, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

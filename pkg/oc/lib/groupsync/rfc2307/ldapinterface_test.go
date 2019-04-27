@@ -27,6 +27,8 @@ func newTestLDAPInterface(client ldap.Client) *LDAPInterface {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	groupQuery := ldaputil.LDAPQueryOnAttribute{LDAPQuery: ldaputil.LDAPQuery{BaseDN: "ou=groups,dc=example,dc=com", Scope: ldaputil.ScopeWholeSubtree, DerefAliases: ldaputil.DerefAliasesAlways, TimeLimit: 0, Filter: "objectClass=groupOfNames"}, QueryAttribute: "dn"}
 	groupNameAttributes := []string{"cn"}
 	groupMembershipAttributes := []string{"member"}
@@ -50,9 +52,13 @@ func newTestUser(CN string) *ldap.Entry {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ldap.NewEntry(fmt.Sprintf("cn=%s,ou=users,dc=example,dc=com", CN), map[string][]string{"cn": {CN}})
 }
 func newTestGroup(CN, member string) *ldap.Entry {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +95,8 @@ func TestExtractMembers(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name		string
 		client		ldap.Client
@@ -107,6 +115,8 @@ func TestExtractMembers(t *testing.T) {
 	}
 }
 func TestGroupEntryFor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -161,6 +171,8 @@ func TestListGroups(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var testCases = []struct {
 		name			string
 		client			ldap.Client
@@ -183,6 +195,8 @@ func TestListGroups(t *testing.T) {
 	}
 }
 func TestUserEntryFor(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -27,6 +27,8 @@ func NewPostgreSQL(podName, masterPodName string) util.Database {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if masterPodName == "" {
 		masterPodName = podName
 	}
@@ -47,9 +49,13 @@ func (m PostgreSQL) PodName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m.podName
 }
 func (m PostgreSQL) IsReady(oc *util.CLI) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -94,6 +100,8 @@ func (m PostgreSQL) Query(oc *util.CLI, query string) (string, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	container, err := firstContainerName(oc.KubeClient().CoreV1().Pods(oc.Namespace()), m.podName)
 	if err != nil {
 		return "", err
@@ -119,6 +127,8 @@ func (m PostgreSQL) QueryPrivileged(oc *util.CLI, query string) (string, error) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	container, err := firstContainerName(oc.KubeClient().CoreV1().Pods(oc.Namespace()), m.podName)
 	if err != nil {
 		return "", err
@@ -130,6 +140,8 @@ func (m PostgreSQL) QueryPrivileged(oc *util.CLI, query string) (string, error) 
 	return oc.Run("exec").Args(m.podName, "-c", container, "--", "bash", "-c", fmt.Sprintf("psql postgres://postgres:%s@127.0.0.1/%s -x -c \"%s\"", masterConf.Env["POSTGRESQL_ADMIN_PASSWORD"], masterConf.Env["POSTGRESQL_DATABASE"], query)).Output()
 }
 func (m PostgreSQL) TestRemoteLogin(oc *util.CLI, hostAddress string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

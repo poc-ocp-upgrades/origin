@@ -52,9 +52,13 @@ func NewLinkSecretOptions(streams genericclioptions.IOStreams) *LinkSecretOption
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &LinkSecretOptions{SecretOptions: SecretOptions{}}
 }
 func NewCmdLinkSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -89,6 +93,8 @@ func NewCmdLinkSecret(name, fullName string, f kcmdutil.Factory, streams generic
 	return cmd
 }
 func (o *LinkSecretOptions) Complete(f kcmdutil.Factory, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -138,6 +144,8 @@ func (o LinkSecretOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.SecretOptions.Validate(); err != nil {
 		return err
 	}
@@ -147,6 +155,8 @@ func (o LinkSecretOptions) Validate() error {
 	return nil
 }
 func (o LinkSecretOptions) LinkSecrets() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +182,8 @@ func (o LinkSecretOptions) LinkSecrets() error {
 	return nil
 }
 func (o LinkSecretOptions) linkSecretsToServiceAccount(serviceaccount *coreapiv1.ServiceAccount) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -218,6 +230,8 @@ func (o LinkSecretOptions) linkSecretsToServiceAccount(serviceaccount *coreapiv1
 	return nil
 }
 func printDeprecationWarning(command, alias string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

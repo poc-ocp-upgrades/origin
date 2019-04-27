@@ -22,6 +22,8 @@ func ValidateClusterNetwork(cn *networkapi.ClusterNetwork) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	icn := &internalnetworkapi.ClusterNetwork{}
 	if err := internalnetworkv1.Convert_v1_ClusterNetwork_To_network_ClusterNetwork(cn, icn, nil); err != nil {
 		return err
@@ -33,6 +35,8 @@ func ValidateClusterNetwork(cn *networkapi.ClusterNetwork) error {
 	}
 }
 func ValidateHostSubnet(hs *networkapi.HostSubnet) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

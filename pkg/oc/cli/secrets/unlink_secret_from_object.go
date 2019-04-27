@@ -46,9 +46,13 @@ func NewUnlinkSecretOptions(streams genericclioptions.IOStreams) *UnlinkSecretOp
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &UnlinkSecretOptions{PrintFlags: genericclioptions.NewPrintFlags("updated").WithTypeSetter(scheme.Scheme), SecretOptions: SecretOptions{}, IOStreams: streams}
 }
 func NewCmdUnlinkSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func (o *UnlinkSecretOptions) Complete(f kcmdutil.Factory, args []string) error 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.SecretOptions.Complete(f, args); err != nil {
 		return err
 	}
@@ -118,6 +124,8 @@ func (o UnlinkSecretOptions) Run() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceaccount, err := o.GetServiceAccount()
 	if err != nil {
 		return err
@@ -128,6 +136,8 @@ func (o UnlinkSecretOptions) Run() error {
 	return o.Printer.PrintObj(serviceaccount, o.Out)
 }
 func (o UnlinkSecretOptions) unlinkSecretsFromServiceAccount(serviceaccount *coreapiv1.ServiceAccount) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

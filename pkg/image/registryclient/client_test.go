@@ -41,6 +41,8 @@ func (r *mockRetriever) Repository(ctx context.Context, registry *url.URL, repoN
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.insecure = insecure
 	return r.repo, r.err
 }
@@ -67,9 +69,13 @@ func (r *mockRepository) Name() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "test"
 }
 func (r *mockRepository) Named() reference.Named {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -102,9 +108,13 @@ func (r *mockRepository) Manifests(ctx context.Context, options ...distribution.
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r, r.repoErr
 }
 func (r *mockRepository) Blobs(ctx context.Context) distribution.BlobStore {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -136,9 +146,13 @@ func (r *mockRepository) Exists(ctx context.Context, dgst digest.Digest) (bool, 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false, r.getErr
 }
 func (r *mockRepository) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -175,6 +189,8 @@ func (r *mockRepository) Delete(ctx context.Context, dgst digest.Digest) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Errorf("not implemented")
 }
 func (r *mockRepository) Put(ctx context.Context, manifest distribution.Manifest, options ...distribution.ManifestServiceOption) (digest.Digest, error) {
@@ -192,9 +208,13 @@ func (r *mockRepository) Put(ctx context.Context, manifest distribution.Manifest
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "", fmt.Errorf("not implemented")
 }
 func (r *mockRepository) Tags(ctx context.Context) distribution.TagService {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -233,9 +253,13 @@ func (r *mockBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return distribution.Descriptor{}, r.statErr
 }
 func (r *mockBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, req *http.Request, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -267,9 +291,13 @@ func (r *mockBlobStore) Open(ctx context.Context, dgst digest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, r.openErr
 }
 func (r *mockBlobStore) Get(ctx context.Context, dgst digest.Digest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,6 +339,8 @@ func (r *mockTagService) Get(ctx context.Context, tag string) (distribution.Desc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v, ok := r.repo.tags[tag]
 	if !ok {
 		return distribution.Descriptor{}, r.repo.getTagErr
@@ -322,6 +352,8 @@ func (r *mockTagService) Get(ctx context.Context, tag string) (distribution.Desc
 	return distribution.Descriptor{Digest: dgst}, r.repo.getTagErr
 }
 func (r *mockTagService) Tag(ctx context.Context, tag string, desc distribution.Descriptor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -354,12 +386,16 @@ func (r *mockTagService) Untag(ctx context.Context, tag string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := r.repo.tags[tag]; ok {
 		delete(r.repo.tags, tag)
 	}
 	return r.repo.untagErr
 }
 func (r *mockTagService) All(ctx context.Context) (res []string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,9 +431,13 @@ func (r *mockTagService) Lookup(ctx context.Context, digest distribution.Descrip
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("not implemented")
 }
 func TestPing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -486,9 +526,13 @@ func (temporaryError) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "temporary"
 }
 func (temporaryError) Timeout() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -520,9 +564,13 @@ func (temporaryError) Temporary() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
 func TestShouldRetry(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -574,6 +622,8 @@ func TestShouldRetry(t *testing.T) {
 	}
 }
 func TestRetryFailure(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -668,6 +718,8 @@ func Test_verifyManifest_Get(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		dgst		digest.Digest
@@ -725,9 +777,13 @@ func (m *fakeManifest) References() []distribution.Descriptor {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (m *fakeManifest) Payload() (mediaType string, payload []byte, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -765,9 +821,13 @@ func (s *fakeManifestService) Exists(ctx context.Context, dgst digest.Digest) (b
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (s *fakeManifestService) Get(ctx context.Context, dgst digest.Digest, options ...distribution.ManifestServiceOption) (distribution.Manifest, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -799,6 +859,8 @@ func (s *fakeManifestService) Put(ctx context.Context, manifest distribution.Man
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (s *fakeManifestService) Delete(ctx context.Context, dgst digest.Digest) error {
@@ -816,9 +878,13 @@ func (s *fakeManifestService) Delete(ctx context.Context, dgst digest.Digest) er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func Test_blobStoreVerifier_Get(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -858,6 +924,8 @@ func Test_blobStoreVerifier_Get(t *testing.T) {
 	}
 }
 func Test_blobStoreVerifier_Open(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -951,9 +1019,13 @@ func (f fakeSeekCloser) Seek(offset int64, whence int) (int64, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return 0, fmt.Errorf("invoked seek")
 }
 func (f fakeSeekCloser) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -991,9 +1063,13 @@ func (s *fakeBlobStore) Stat(ctx context.Context, dgst digest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (s *fakeBlobStore) Get(ctx context.Context, dgst digest.Digest) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1025,9 +1101,13 @@ func (s *fakeBlobStore) Open(ctx context.Context, dgst digest.Digest) (distribut
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeSeekCloser{bytes.NewBuffer(s.bytes)}, s.err
 }
 func (s *fakeBlobStore) Put(ctx context.Context, mediaType string, p []byte) (distribution.Descriptor, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1059,9 +1139,13 @@ func (s *fakeBlobStore) Create(ctx context.Context, options ...distribution.Blob
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (s *fakeBlobStore) Resume(ctx context.Context, id string) (distribution.BlobWriter, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -1093,9 +1177,13 @@ func (s *fakeBlobStore) ServeBlob(ctx context.Context, w http.ResponseWriter, r 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	panic("not implemented")
 }
 func (s *fakeBlobStore) Delete(ctx context.Context, dgst digest.Digest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

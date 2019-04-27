@@ -53,6 +53,8 @@ func prettyPrintAction(act *authorizationapi.Action, defaultNamespaceStr string)
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsStr := fmt.Sprintf("in namespace %q", act.Namespace)
 	if act.Namespace == "" {
 		nsStr = defaultNamespaceStr
@@ -90,6 +92,8 @@ func prettyPrintReviewResponse(resp *authorizationapi.ResourceAccessReviewRespon
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsStr := fmt.Sprintf("(in the namespace %q)\n", resp.Namespace)
 	if resp.Namespace == "" {
 		nsStr = "(in all namespaces)\n"
@@ -113,6 +117,8 @@ func prettyPrintReviewResponse(resp *authorizationapi.ResourceAccessReviewRespon
 	return fmt.Sprintf(nsStr + usersStr + groupsStr)
 }
 func TestClusterReaderCoverage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -193,6 +199,8 @@ func waitForProject(t *testing.T, client projectv1client.ProjectV1Interface, pro
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i <= numRetries; i++ {
 		projects, err := client.Projects().List(metav1.ListOptions{})
 		if err != nil {
@@ -221,6 +229,8 @@ type resourceAccessReviewTest struct {
 }
 
 func (test resourceAccessReviewTest) run(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -290,6 +300,8 @@ func (test localResourceAccessReviewTest) run(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failMessage := ""
 	err := wait.Poll(testutil.PolicyCachePollInterval, testutil.PolicyCachePollTimeout, func() (bool, error) {
 		actualResponse, err := test.clientInterface.Create(test.review)
@@ -334,6 +346,8 @@ func (test localResourceAccessReviewTest) run(t *testing.T) {
 	}
 }
 func TestAuthorizationResourceAccessReview(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -436,6 +450,8 @@ type subjectAccessReviewTest struct {
 }
 
 func (test subjectAccessReviewTest) run(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -583,9 +599,13 @@ func toKubeSelfSAR(testNS string, sar *authorizationapi.LocalSubjectAccessReview
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kubeauthorizationv1.SelfSubjectAccessReview{Spec: kubeauthorizationv1.SelfSubjectAccessReviewSpec{ResourceAttributes: &kubeauthorizationv1.ResourceAttributes{Namespace: testNS, Verb: sar.Verb, Group: sar.Group, Version: sar.Version, Resource: sar.Resource, Name: sar.ResourceName}}}
 }
 func toKubeLocalSAR(testNS string, sar *authorizationapi.LocalSubjectAccessReview) *kubeauthorizationv1.LocalSubjectAccessReview {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -617,9 +637,13 @@ func toKubeClusterSAR(sar *authorizationapi.SubjectAccessReview) *kubeauthorizat
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kubeauthorizationv1.SubjectAccessReview{Spec: kubeauthorizationv1.SubjectAccessReviewSpec{User: sar.User, Groups: sar.Groups.List(), ResourceAttributes: &kubeauthorizationv1.ResourceAttributes{Verb: sar.Verb, Group: sar.Group, Version: sar.Version, Resource: sar.Resource, Name: sar.ResourceName}}}
 }
 func TestAuthorizationSubjectAccessReviewAPIGroup(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -663,6 +687,8 @@ func TestAuthorizationSubjectAccessReviewAPIGroup(t *testing.T) {
 	subjectAccessReviewTest{description: "cluster admin told they can get horizontalpodautoscalers (with * API group) in project any-project", localInterface: clusterAdminAuthorizationClient.LocalSubjectAccessReviews("any-project"), localReview: &authorizationapi.LocalSubjectAccessReview{Action: authorizationapi.Action{Verb: "get", Group: "*", Resource: "horizontalpodautoscalers"}}, kubeAuthInterface: clusterAdminSARGetter, response: authorizationapi.SubjectAccessReviewResponse{Allowed: true, Reason: "", Namespace: "any-project"}}.run(t)
 }
 func TestAuthorizationSubjectAccessReview(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -779,6 +805,8 @@ func TestAuthorizationSubjectAccessReview(t *testing.T) {
 	subjectAccessReviewTest{description: "harold told he can create policybindings in project hammer-project", localInterface: haroldAuthorizationClient.LocalSubjectAccessReviews("hammer-project"), kubeAuthInterface: haroldSARGetter, localReview: askCanICreatePolicyBindings, response: authorizationapi.SubjectAccessReviewResponse{Allowed: false, Reason: "", Namespace: "hammer-project"}}.run(t)
 }
 func TestBrowserSafeAuthorizer(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

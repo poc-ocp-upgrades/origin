@@ -42,10 +42,14 @@ func createRouteSpecTo(name string, kind string) routeapi.RouteTargetReference {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svc := routeapi.RouteTargetReference{Name: name, Kind: kind}
 	return svc
 }
 func TestValidateRoute(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -87,6 +91,8 @@ func TestValidateTLS(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		route		*routeapi.Route
@@ -100,6 +106,8 @@ func TestValidateTLS(t *testing.T) {
 	}
 }
 func TestValidatePassthroughInsecureEdgeTerminationPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -128,6 +136,8 @@ func TestValidatePassthroughInsecureEdgeTerminationPolicy(t *testing.T) {
 	}
 }
 func TestValidateRouteUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -178,6 +188,8 @@ func TestValidateInsecureEdgeTerminationPolicy(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
 		name		string
 		insecure	routeapi.InsecureEdgeTerminationPolicyType
@@ -192,6 +204,8 @@ func TestValidateInsecureEdgeTerminationPolicy(t *testing.T) {
 	}
 }
 func TestValidateEdgeReencryptInsecureEdgeTerminationPolicy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

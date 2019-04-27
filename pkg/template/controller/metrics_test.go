@@ -35,6 +35,8 @@ func (f *fakeLister) List(labels.Selector) ([]*templateapi.TemplateInstance, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	list, err := f.templateClient.TemplateV1().TemplateInstances("").List(metav1.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -60,9 +62,13 @@ func (f *fakeLister) Get(name string) (*templateapi.TemplateInstance, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.templateClient.TemplateV1().TemplateInstances("").Get(name, metav1.GetOptions{})
 }
 func (f *fakeLister) TemplateInstances(string) templatelister.TemplateInstanceNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -101,6 +107,8 @@ func (f *fakeResponseWriter) Header() http.Header {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f.header
 }
 func (f *fakeResponseWriter) WriteHeader(statusCode int) {
@@ -118,9 +126,13 @@ func (f *fakeResponseWriter) WriteHeader(statusCode int) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.statusCode = statusCode
 }
 func TestMetrics(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

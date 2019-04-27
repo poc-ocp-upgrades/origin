@@ -27,9 +27,13 @@ func (v *WrappingValidator) Validate(obj runtime.Object) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return callValidate(reflect.ValueOf(obj), *v.validate)
 }
 func (v *WrappingValidator) ValidateUpdate(obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -50,6 +54,8 @@ func (v *WrappingValidator) ValidateUpdate(obj, old runtime.Object) field.ErrorL
 	return callValidateUpdate(reflect.ValueOf(obj), reflect.ValueOf(old), *v.validateUpdate)
 }
 func NewValidationWrapper(validateFunction interface{}, validateUpdateFunction interface{}) (*WrappingValidator, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +101,8 @@ func verifyValidateFunctionSignature(ft reflect.Type) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ft.Kind() != reflect.Func {
 		return fmt.Errorf("expected func, got: %v", ft)
 	}
@@ -114,6 +122,8 @@ func verifyValidateFunctionSignature(ft reflect.Type) error {
 	return nil
 }
 func verifyValidateUpdateFunctionSignature(ft reflect.Type) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -164,6 +174,8 @@ func callValidate(obj, validateMethod reflect.Value) field.ErrorList {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := []reflect.Value{obj}
 	ret := validateMethod.Call(args)[0].Interface()
 	if ret == nil {
@@ -172,6 +184,8 @@ func callValidate(obj, validateMethod reflect.Value) field.ErrorList {
 	return ret.(field.ErrorList)
 }
 func callValidateUpdate(obj, old, validateMethod reflect.Value) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

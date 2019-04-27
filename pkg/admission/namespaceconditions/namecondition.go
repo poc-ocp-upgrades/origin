@@ -29,9 +29,13 @@ func (p pluginHandlerWithNamespaceNameConditions) Handles(operation admission.Op
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.admissionPlugin.Handles(operation)
 }
 func (p pluginHandlerWithNamespaceNameConditions) Admit(a admission.Attributes) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -70,6 +74,8 @@ func (p pluginHandlerWithNamespaceNameConditions) Validate(a admission.Attribute
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !p.shouldRunAdmission(a) {
 		return nil
 	}
@@ -80,6 +86,8 @@ func (p pluginHandlerWithNamespaceNameConditions) Validate(a admission.Attribute
 	return validatingHandler.Validate(a)
 }
 func (p pluginHandlerWithNamespaceNameConditions) shouldRunAdmission(attr admission.Attributes) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

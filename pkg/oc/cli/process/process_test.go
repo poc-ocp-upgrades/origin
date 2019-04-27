@@ -21,6 +21,8 @@ func TestInjectUserVars(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	template := &templatev1.Template{Parameters: []templatev1.Parameter{{Name: "parameter_foo_bar_exist", Value: "value_foo_bar_exist_old"}, {Name: "parameter_foo_bar_2", Value: "value_foo_bar_2"}}}
 	oldParameterNum := len(template.Parameters)
 	testParam := map[string]string{"parameter_foo_bar_exist": "value_foo_bar_exist_new", "parameter_foo_bar_no_exist": "value_foo_bar_no_exist", "parameter_foo_bar_error": "value_foo_bar_error=value_foo_bar_error"}

@@ -29,11 +29,15 @@ func InstallInternalLegacyAuthorization(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyAuthorization(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalAuthorizationTypes, core.AddToScheme, rbac.AddToScheme, corev1conversions.AddToScheme, rbacv1conversions.AddToScheme, authorizationv1helpers.AddConversionFuncs, authorizationv1helpers.AddFieldSelectorKeyConversions, authorizationv1helpers.RegisterDefaults, authorizationv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func InstallExternalLegacyAuthorization(scheme *runtime.Scheme) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -66,11 +70,15 @@ func addUngroupifiedAuthorizationTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	types := []runtime.Object{&authorizationv1.Role{}, &authorizationv1.RoleBinding{}, &authorizationv1.RoleBindingList{}, &authorizationv1.RoleList{}, &authorizationv1.SelfSubjectRulesReview{}, &authorizationv1.SubjectRulesReview{}, &authorizationv1.ResourceAccessReview{}, &authorizationv1.SubjectAccessReview{}, &authorizationv1.LocalResourceAccessReview{}, &authorizationv1.LocalSubjectAccessReview{}, &authorizationv1.ResourceAccessReviewResponse{}, &authorizationv1.SubjectAccessReviewResponse{}, &authorizationv1.IsPersonalSubjectAccessReview{}, &authorizationv1.ClusterRole{}, &authorizationv1.ClusterRoleBinding{}, &authorizationv1.ClusterRoleBindingList{}, &authorizationv1.ClusterRoleList{}, &authorizationv1.RoleBindingRestriction{}, &authorizationv1.RoleBindingRestrictionList{}}
 	scheme.AddKnownTypes(GroupVersion, types...)
 	return nil
 }
 func addUngroupifiedInternalAuthorizationTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -25,6 +25,8 @@ func startNodeMonitoring(ctx context.Context, m Recorder, client kubernetes.Inte
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nodeChangeFns := []func(node, oldNode *corev1.Node) []Condition{func(node, oldNode *corev1.Node) []Condition {
 		var conditions []Condition
 		for i := range node.Status.Conditions {

@@ -28,10 +28,14 @@ func (v Values) GetString(key string) (string, bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	str, _ := v[key].(string)
 	return str, len(str) != 0
 }
 func (v Values) GetInt64(key string) (int64, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

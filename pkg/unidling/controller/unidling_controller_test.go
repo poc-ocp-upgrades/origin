@@ -39,6 +39,8 @@ func prepFakeClient(t *testing.T, nowTime time.Time, scales ...autoscalingv1.Sca
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeClient := &kexternalfake.Clientset{}
 	fakeDeployClient := &appsfake.Clientset{}
 	nowTimeStr := nowTime.Format(time.RFC3339)
@@ -153,6 +155,8 @@ func TestControllerHandlesStaleEvents(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("failing because of missing client")
 	nowTime := time.Now().Truncate(time.Second)
 	fakeClient, fakeDeployClient, res := prepFakeClient(t, nowTime)
@@ -169,6 +173,8 @@ func TestControllerHandlesStaleEvents(t *testing.T) {
 	}
 }
 func TestControllerIgnoresAlreadyScaledObjects(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -266,6 +272,8 @@ func TestControllerUnidlesProperly(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("failing because of missing client")
 	nowTime := time.Now().Truncate(time.Second)
 	baseScales := []autoscalingv1.Scale{{ObjectMeta: metav1.ObjectMeta{Name: "somerc"}, TypeMeta: metav1.TypeMeta{Kind: "ReplicationController"}, Spec: autoscalingv1.ScaleSpec{Replicas: 0}}, {ObjectMeta: metav1.ObjectMeta{Name: "somedc"}, TypeMeta: metav1.TypeMeta{Kind: "DeploymentConfig", APIVersion: "apps.openshift.io/v1"}, Spec: autoscalingv1.ScaleSpec{Replicas: 0}}}
@@ -317,6 +325,8 @@ type failureTestInfo struct {
 }
 
 func prepareFakeClientForFailureTest(test failureTestInfo) (*kexternalfake.Clientset, *appsfake.Clientset) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -395,6 +405,8 @@ func prepareFakeClientForFailureTest(test failureTestInfo) (*kexternalfake.Clien
 	return fakeClient, fakeDeployClient
 }
 func TestControllerPerformsCorrectlyOnFailures(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

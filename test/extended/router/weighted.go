@@ -107,6 +107,8 @@ func parseStats(stats string, backendSubstr string, statsField int) ([]string, e
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := csv.NewReader(strings.NewReader(stats))
 	records, err := r.ReadAll()
 	if err != nil {
@@ -121,6 +123,8 @@ func parseStats(stats string, backendSubstr string, statsField int) ([]string, e
 	return fieldValues, nil
 }
 func dumpWeightedRouterLogs(oc *exutil.CLI, name string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

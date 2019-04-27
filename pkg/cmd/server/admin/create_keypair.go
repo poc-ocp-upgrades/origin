@@ -51,9 +51,13 @@ func NewCreateKeyPairOptions(streams genericclioptions.IOStreams) *CreateKeyPair
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &CreateKeyPairOptions{IOStreams: streams}
 }
 func NewCommandCreateKeyPair(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func (o CreateKeyPairOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -110,6 +116,8 @@ func (o CreateKeyPairOptions) Validate(args []string) error {
 	return nil
 }
 func (o CreateKeyPairOptions) CreateKeyPair() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -163,6 +171,8 @@ func writePublicKeyFile(path string, key *rsa.PublicKey) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := os.MkdirAll(filepath.Dir(path), os.FileMode(0755)); err != nil {
 		return err
 	}
@@ -177,6 +187,8 @@ func writePublicKeyFile(path string, key *rsa.PublicKey) error {
 	return ioutil.WriteFile(path, b.Bytes(), os.FileMode(0600))
 }
 func writePrivateKeyFile(path string, key *rsa.PrivateKey) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -34,6 +34,8 @@ func (o CreateClientCertOptions) Validate(args []string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -58,6 +60,8 @@ func (o CreateClientCertOptions) Validate(args []string) error {
 	return nil
 }
 func (o CreateClientCertOptions) CreateClientCert() (*crypto.TLSCertificateConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

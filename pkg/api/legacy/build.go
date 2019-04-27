@@ -26,6 +26,8 @@ func InstallInternalLegacyBuild(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	InstallExternalLegacyBuild(scheme)
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedInternalBuildTypes, core.AddToScheme, addLegacyBuildFieldSelectorKeyConversions, buildv1helpers.AddConversionFuncs, buildv1helpers.RegisterDefaults, buildv1helpers.RegisterConversions)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
@@ -45,10 +47,14 @@ func InstallExternalLegacyBuild(scheme *runtime.Scheme) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	schemeBuilder := runtime.NewSchemeBuilder(addUngroupifiedBuildTypes, corev1.AddToScheme)
 	utilruntime.Must(schemeBuilder.AddToScheme(scheme))
 }
 func addUngroupifiedBuildTypes(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -82,10 +88,14 @@ func addUngroupifiedInternalBuildTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(InternalGroupVersion, &build.Build{}, &build.BuildList{}, &build.BuildConfig{}, &build.BuildConfigList{}, &build.BuildLog{}, &build.BuildRequest{}, &build.BuildLogOptions{}, &build.BinaryBuildRequestOptions{})
 	return nil
 }
 func addLegacyBuildFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +119,8 @@ func addLegacyBuildFieldSelectorKeyConversions(scheme *runtime.Scheme) error {
 	return nil
 }
 func legacyBuildFieldSelectorKeyConversionFunc(label, value string) (internalLabel, internalValue string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

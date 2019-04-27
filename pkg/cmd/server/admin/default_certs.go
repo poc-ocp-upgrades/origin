@@ -38,9 +38,13 @@ func DefaultSignerName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s@%d", "openshift-signer", time.Now().Unix())
 }
 func DefaultCABundleFile(certDir string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -72,9 +76,13 @@ func DefaultServiceServingCertSignerName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s@%d", "openshift-service-serving-signer", time.Now().Unix())
 }
 func DefaultRootCAFile(certDir string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -106,9 +114,13 @@ func DefaultKubeletClientCAFile(certDir string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DefaultRootCAFile(certDir)
 }
 func DefaultKubeletClientCerts(certDir string) []ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -140,9 +152,13 @@ func DefaultFrontProxySignerName() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s@%d", "aggregator-proxy-ca", time.Now().Unix())
 }
 func DefaultMasterKubeletClientCertInfo(certDir string) ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -174,9 +190,13 @@ func DefaultEtcdClientCAFile(certDir string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return DefaultRootCAFile(certDir)
 }
 func DefaultEtcdClientCerts(certDir string) []ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -208,9 +228,13 @@ func DefaultMasterEtcdClientCertInfo(certDir string) ClientCertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ClientCertInfo{CertLocation: configapi.CertInfo{CertFile: path.Join(certDir, MasterFilePrefix+".etcd-client.crt"), KeyFile: path.Join(certDir, MasterFilePrefix+".etcd-client.key")}, User: "system:master"}
 }
 func DefaultProxyClientCerts(certDir string) []ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -242,9 +266,13 @@ func DefaultProxyClientCertInfo(certDir string) ClientCertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ClientCertInfo{CertLocation: configapi.CertInfo{CertFile: path.Join(certDir, MasterFilePrefix+".proxy-client.crt"), KeyFile: path.Join(certDir, MasterFilePrefix+".proxy-client.key")}, User: bootstrappolicy.MasterProxyUsername}
 }
 func DefaultAPIClientCAFile(certDir string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -276,9 +304,13 @@ func DefaultAPIClientCerts(certDir string) []ClientCertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []ClientCertInfo{DefaultOpenshiftLoopbackClientCertInfo(certDir), DefaultClusterAdminClientCertInfo(certDir)}
 }
 func DefaultOpenshiftLoopbackClientCertInfo(certDir string) ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -310,9 +342,13 @@ func DefaultAggregatorClientCertInfo(certDir string) ClientCertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ClientCertInfo{CertLocation: configapi.CertInfo{CertFile: DefaultCertFilename(certDir, bootstrappolicy.AggregatorUnqualifiedUsername), KeyFile: DefaultKeyFilename(certDir, bootstrappolicy.AggregatorUnqualifiedUsername)}, UnqualifiedUser: bootstrappolicy.AggregatorUnqualifiedUsername, User: bootstrappolicy.AggregatorUsername, Groups: sets.String{}}
 }
 func DefaultClusterAdminClientCertInfo(certDir string) ClientCertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -344,9 +380,13 @@ func DefaultServerCerts(certDir string) []configapi.CertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []configapi.CertInfo{DefaultMasterServingCertInfo(certDir), DefaultEtcdServingCertInfo(certDir)}
 }
 func DefaultMasterServingCertInfo(certDir string) configapi.CertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -378,9 +418,13 @@ func DefaultEtcdServingCertInfo(certDir string) configapi.CertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return configapi.CertInfo{CertFile: path.Join(certDir, "etcd.server.crt"), KeyFile: path.Join(certDir, "etcd.server.key")}
 }
 func DefaultServiceAccountPrivateKeyFile(certDir string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -412,9 +456,13 @@ func DefaultServiceAccountPublicKeyFile(certDir string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(certDir, "serviceaccounts.public.key")
 }
 func DefaultNodeDir(nodeName string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -446,9 +494,13 @@ func DefaultNodeServingCertInfo(nodeDir string) configapi.CertInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return configapi.CertInfo{CertFile: path.Join(nodeDir, "server.crt"), KeyFile: path.Join(nodeDir, "server.key")}
 }
 func DefaultNodeClientCertInfo(nodeDir string) configapi.CertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -480,9 +532,13 @@ func DefaultNodeKubeConfigFile(nodeDir string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(nodeDir, "node.kubeconfig")
 }
 func DefaultServiceSignerCAInfo(certDir string) configapi.CertInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -517,9 +573,13 @@ func DefaultCAFilename(certDir, prefix string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(certDir, prefix+".crt")
 }
 func DefaultCertFilename(certDir, prefix string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -551,6 +611,8 @@ func DefaultKeyFilename(certDir, prefix string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(certDir, prefix+".key")
 }
 func DefaultSerialFilename(certDir, prefix string) string {
@@ -568,9 +630,13 @@ func DefaultSerialFilename(certDir, prefix string) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return path.Join(certDir, prefix+".serial.txt")
 }
 func DefaultKubeConfigFilename(certDir, prefix string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -20,6 +20,8 @@ func RegisterDefaults(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddTypeDefaultingFunc(&v1.OAuthAuthorizeToken{}, func(obj interface{}) {
 		SetObjectDefaults_OAuthAuthorizeToken(obj.(*v1.OAuthAuthorizeToken))
 	})
@@ -43,9 +45,13 @@ func SetObjectDefaults_OAuthAuthorizeToken(in *v1.OAuthAuthorizeToken) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	SetDefaults_OAuthAuthorizeToken(in)
 }
 func SetObjectDefaults_OAuthAuthorizeTokenList(in *v1.OAuthAuthorizeTokenList) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -33,6 +33,8 @@ func serviceFromTemplate(template *templateapiv1.Template) *api.Service {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	metadata := make(map[string]interface{})
 	for srcname, dstname := range annotationMap {
 		if value, ok := template.Annotations[srcname]; ok {
@@ -60,6 +62,8 @@ func serviceFromTemplate(template *templateapiv1.Template) *api.Service {
 	return &api.Service{Name: template.Name, ID: string(template.UID), Description: description, Tags: strings.Split(template.Annotations["tags"], ","), Bindable: bindable, Metadata: metadata, Plans: []api.Plan{plan}}
 }
 func (b *Broker) Catalog() *api.Response {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

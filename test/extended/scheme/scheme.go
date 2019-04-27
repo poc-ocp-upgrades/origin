@@ -24,5 +24,7 @@ func DefaultJSONEncoder() runtime.Encoder {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return unstructured.JSONFallbackEncoder{Encoder: Codecs.LegacyCodec(Scheme.PrioritizedVersionsAllGroups()...)}
 }

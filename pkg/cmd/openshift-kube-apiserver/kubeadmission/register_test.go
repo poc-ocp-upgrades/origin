@@ -24,6 +24,8 @@ func TestAdmissionRegistration(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	orderedAdmissionChain := NewOrderedKubeAdmissionPlugins(options.AllOrderedPlugins)
 	defaultOffPlugins := NewDefaultOffPluginsFunc(options.DefaultOffAdmissionPlugins())()
 	registerAllAdmissionPlugins := func(plugins *admission.Plugins) {

@@ -26,6 +26,8 @@ func TestWaitForRunningDeploymentSuccess(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakeController := &corev1.ReplicationController{}
 	fakeController.Name = "test-1"
 	fakeController.Namespace = "test"

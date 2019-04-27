@@ -51,9 +51,13 @@ func NewProjectOptions(streams genericclioptions.IOStreams) *ProjectOptions {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ProjectOptions{IOStreams: streams}
 }
 func (p *ProjectOptions) Complete(f kcmdutil.Factory, c *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -107,6 +111,8 @@ func (p *ProjectOptions) Validate() error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errList := []error{}
 	if p.CheckSelector {
 		if len(p.Selector) > 0 {
@@ -133,6 +139,8 @@ func (p *ProjectOptions) Validate() error {
 	return kerrors.NewAggregate(errList)
 }
 func (p *ProjectOptions) GetProjects() ([]*projectv1.Project, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -189,6 +197,8 @@ func (p *ProjectOptions) GetProjects() ([]*projectv1.Project, error) {
 	return projectList, nil
 }
 func (p *ProjectOptions) UpdatePodNetwork(nsName string, action networkapihelpers.PodNetworkAction, args string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

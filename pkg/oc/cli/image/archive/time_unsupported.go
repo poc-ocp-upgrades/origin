@@ -20,6 +20,8 @@ func timeToTimespec(time time.Time) (ts syscall.Timespec) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nsec := int64(0)
 	if !time.IsZero() {
 		nsec = time.UnixNano()

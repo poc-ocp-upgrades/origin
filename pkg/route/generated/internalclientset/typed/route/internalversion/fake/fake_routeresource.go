@@ -33,6 +33,8 @@ func (c *FakeRoutes) Get(name string, options v1.GetOptions) (result *route.Rout
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewGetAction(routesResource, c.ns, name), &route.Route{})
 	if obj == nil {
 		return nil, err
@@ -40,6 +42,8 @@ func (c *FakeRoutes) Get(name string, options v1.GetOptions) (result *route.Rout
 	return obj.(*route.Route), err
 }
 func (c *FakeRoutes) List(opts v1.ListOptions) (result *route.RouteList, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,9 +89,13 @@ func (c *FakeRoutes) Watch(opts v1.ListOptions) (watch.Interface, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Fake.InvokesWatch(testing.NewWatchAction(routesResource, c.ns, opts))
 }
 func (c *FakeRoutes) Create(routeResource *route.Route) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -123,6 +131,8 @@ func (c *FakeRoutes) Update(routeResource *route.Route) (result *route.Route, er
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	obj, err := c.Fake.Invokes(testing.NewUpdateAction(routesResource, c.ns, routeResource), &route.Route{})
 	if obj == nil {
 		return nil, err
@@ -130,6 +140,8 @@ func (c *FakeRoutes) Update(routeResource *route.Route) (result *route.Route, er
 	return obj.(*route.Route), err
 }
 func (c *FakeRoutes) UpdateStatus(routeResource *route.Route) (*route.Route, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -165,10 +177,14 @@ func (c *FakeRoutes) Delete(name string, options *v1.DeleteOptions) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := c.Fake.Invokes(testing.NewDeleteAction(routesResource, c.ns, name), &route.Route{})
 	return err
 }
 func (c *FakeRoutes) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +204,8 @@ func (c *FakeRoutes) DeleteCollection(options *v1.DeleteOptions, listOptions v1.
 	return err
 }
 func (c *FakeRoutes) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *route.Route, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

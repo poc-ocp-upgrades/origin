@@ -44,6 +44,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagSTI(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	_, _, projectAdminConfig, fn := setup(t)
 	defer fn()
@@ -54,6 +56,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagSTI(t *testing.T) {
 	runTest(t, "SimpleImageChangeBuildTriggerFromImageStreamTagSTI", projectAdminConfig, imageStream, imageStreamMapping, config, tag)
 }
 func TestSimpleImageChangeBuildTriggerFromImageStreamTagSTIWithConfigChange(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -92,6 +96,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagDocker(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	_, _, projectAdminConfig, fn := setup(t)
 	defer fn()
@@ -116,6 +122,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagDockerWithConfigChange(t
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	_, _, projectAdminConfig, fn := setup(t)
 	defer fn()
@@ -126,6 +134,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagDockerWithConfigChange(t
 	runTest(t, "SimpleImageChangeBuildTriggerFromImageStreamTagDocker", projectAdminConfig, imageStream, imageStreamMapping, config, tag)
 }
 func TestSimpleImageChangeBuildTriggerFromImageStreamTagCustom(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -172,6 +182,8 @@ func TestSimpleImageChangeBuildTriggerFromImageStreamTagCustomWithConfigChange(t
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	clusterAdminClientConfig, projectAdminKubeClient, projectAdminConfig, fn := setup(t)
 	defer fn()
@@ -204,9 +216,13 @@ func dockerStrategy(kind, name string) buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: kind, Name: name}}}
 }
 func stiStrategy(kind, name string) buildv1.BuildStrategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -238,6 +254,8 @@ func customStrategy(kind, name string) buildv1.BuildStrategy {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return buildv1.BuildStrategy{CustomStrategy: &buildv1.CustomBuildStrategy{From: corev1.ObjectReference{Kind: kind, Name: name}}}
 }
 func imageChangeBuildConfig(name string, strategy buildv1.BuildStrategy) *buildv1.BuildConfig {
@@ -255,9 +273,13 @@ func imageChangeBuildConfig(name string, strategy buildv1.BuildStrategy) *buildv
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: name, Namespace: testutil.Namespace(), Labels: map[string]string{"testlabel": "testvalue"}}, Spec: buildv1.BuildConfigSpec{RunPolicy: buildv1.BuildRunPolicyParallel, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "git://github.com/openshift/ruby-hello-world.git"}, ContextDir: "contextimage"}, Strategy: strategy, Output: buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "test-image-trigger-repo:outputtag"}}}, Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.ImageChangeBuildTriggerType, ImageChange: &buildv1.ImageChangeTrigger{}}}}}
 }
 func imageChangeBuildConfigWithConfigChange(name string, strategy buildv1.BuildStrategy) *buildv1.BuildConfig {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -291,9 +313,13 @@ func mockImageStream2(tag string) *imageapi.ImageStream {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "test-image-trigger-repo"}, Spec: imageapi.ImageStreamSpec{DockerImageRepository: registryHostname + "/openshift/test-image-trigger", Tags: map[string]imageapi.TagReference{tag: {From: &kapi.ObjectReference{Kind: "DockerImage", Name: registryHostname + "/openshift/test-image-trigger:" + tag}}}}}
 }
 func mockImageStreamMapping(stream, image, tag, reference string) *imageapi.ImageStreamMapping {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -325,6 +351,8 @@ func setup(t *testing.T) (*rest.Config, kubernetes.Interface, *rest.Config, func
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfigFile, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -342,6 +370,8 @@ func setup(t *testing.T) (*rest.Config, kubernetes.Interface, *rest.Config, func
 	}
 }
 func runTest(t *testing.T, testname string, projectAdminClientConfig *rest.Config, imageStream *imageapi.ImageStream, imageStreamMapping *imageapi.ImageStreamMapping, config *buildv1.BuildConfig, tag string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -500,6 +530,8 @@ func TestMultipleImageChangeBuildTriggers(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testutil.SetAdditionalAllowedRegistries("registry:5000")
 	mockImageStream := func(name, tag string) *imageapi.ImageStream {
 		return &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: name}, Spec: imageapi.ImageStreamSpec{DockerImageRepository: "registry:5000/openshift/" + name, Tags: map[string]imageapi.TagReference{tag: {From: &kapi.ObjectReference{Kind: "DockerImage", Name: "registry:5000/openshift/" + name + ":" + tag}}}}}
@@ -599,6 +631,8 @@ func TestMultipleImageChangeBuildTriggers(t *testing.T) {
 	}
 }
 func filterEvents(t *testing.T, ignoreBuilds map[string]struct{}, buildWatch watchapi.Interface) (newBuild *buildv1.Build, event watchapi.Event) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

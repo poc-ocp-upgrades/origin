@@ -34,6 +34,8 @@ func FindRestartingPods(g osgraph.Graph, f osgraph.Namer, logsCommandName, secur
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	markers := []osgraph.Marker{}
 	for _, uncastPodNode := range g.NodesByKind(kubegraph.PodNodeKind) {
 		podNode := uncastPodNode.(*kubegraph.PodNode)
@@ -96,6 +98,8 @@ func containerIsNonRoot(pod *corev1.Pod, container string) bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range pod.Spec.Containers {
 		if c.Name != container || c.SecurityContext == nil {
 			continue
@@ -108,6 +112,8 @@ func containerIsNonRoot(pod *corev1.Pod, container string) bool {
 	return false
 }
 func containerCrashLoopBackOff(status corev1.ContainerStatus) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -139,6 +145,8 @@ func ContainerRestartedRecently(status corev1.ContainerStatus, now metav1.Time) 
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if status.RestartCount == 0 {
 		return false
 	}
@@ -148,6 +156,8 @@ func ContainerRestartedRecently(status corev1.ContainerStatus, now metav1.Time) 
 	return false
 }
 func containerRestartedFrequently(status corev1.ContainerStatus) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

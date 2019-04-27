@@ -41,6 +41,8 @@ func NewDockerfileFromFile(path string) (Dockerfile, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -51,6 +53,8 @@ func NewDockerfileFromFile(path string) (Dockerfile, error) {
 	return NewDockerfile(string(data))
 }
 func NewDockerfile(contents string) (Dockerfile, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -95,6 +99,8 @@ func (d dockerfileContents) AST() *parser.Node {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.ast
 }
 func (d dockerfileContents) Contents() string {
@@ -112,9 +118,13 @@ func (d dockerfileContents) Contents() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return d.contents
 }
 func IsRemoteRepository(s string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -188,6 +198,8 @@ func NewSourceRepository(s string, strategy newapp.Strategy) (*SourceRepository,
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	location, err := s2igit.Parse(s)
 	if err != nil {
 		return nil, err
@@ -195,6 +207,8 @@ func NewSourceRepository(s string, strategy newapp.Strategy) (*SourceRepository,
 	return &SourceRepository{location: s, url: *location, strategy: strategy}, nil
 }
 func NewSourceRepositoryWithDockerfile(s, dockerfilePath string) (*SourceRepository, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -241,11 +255,15 @@ func NewSourceRepositoryForDockerfile(contents string) (*SourceRepository, error
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s := &SourceRepository{ignoreRepository: true, strategy: newapp.StrategyDocker}
 	err := s.AddDockerfile(contents)
 	return s, err
 }
 func NewBinarySourceRepository(strategy newapp.Strategy) *SourceRepository {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -277,9 +295,13 @@ func NewImageSourceRepository(compRef ComponentReference, from, to string) *Sour
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &SourceRepository{sourceImage: compRef, sourceImageFrom: from, sourceImageTo: to, ignoreRepository: true, location: compRef.Input().From, strategy: newapp.StrategySource}
 }
 func (r *SourceRepository) UsedBy(ref ComponentReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -311,9 +333,13 @@ func (r *SourceRepository) Remote() bool {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !r.url.IsLocal()
 }
 func (r *SourceRepository) InUse() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -345,9 +371,13 @@ func (r *SourceRepository) SetStrategy(strategy newapp.Strategy) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.strategy = strategy
 }
 func (r *SourceRepository) GetStrategy() newapp.Strategy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -379,9 +409,13 @@ func (r *SourceRepository) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.location
 }
 func (r *SourceRepository) Detect(d Detector, dockerStrategy bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -427,6 +461,8 @@ func (r *SourceRepository) SetInfo(info *SourceRepositoryInfo) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.info = info
 }
 func (r *SourceRepository) Info() *SourceRepositoryInfo {
@@ -444,9 +480,13 @@ func (r *SourceRepository) Info() *SourceRepositoryInfo {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.info
 }
 func (r *SourceRepository) LocalPath() (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -483,6 +523,8 @@ func (r *SourceRepository) LocalPath() (string, error) {
 	return r.localDir, nil
 }
 func (r *SourceRepository) DetectAuth() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -542,6 +584,8 @@ func (r *SourceRepository) RemoteURL() (*s2igit.URL, bool, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if r.remoteURL != nil {
 		return r.remoteURL, true, nil
 	}
@@ -581,9 +625,13 @@ func (r *SourceRepository) SetContextDir(dir string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.contextDir = dir
 }
 func (r *SourceRepository) ContextDir() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -615,9 +663,13 @@ func (r *SourceRepository) ConfigMaps() []buildv1.ConfigMapBuildSource {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return r.configMaps
 }
 func (r *SourceRepository) Secrets() []buildv1.SecretBuildSource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -649,9 +701,13 @@ func (r *SourceRepository) SetSourceImage(c ComponentReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r.sourceImage = c
 }
 func (r *SourceRepository) SetSourceImagePath(source, dest string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -684,6 +740,8 @@ func (r *SourceRepository) AddDockerfile(contents string) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dockerfile, err := NewDockerfile(contents)
 	if err != nil {
 		return err
@@ -697,6 +755,8 @@ func (r *SourceRepository) AddDockerfile(contents string) error {
 	return nil
 }
 func (r *SourceRepository) AddBuildConfigMaps(configMaps []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -741,6 +801,8 @@ func (r *SourceRepository) AddBuildConfigMaps(configMaps []string) error {
 	return nil
 }
 func (r *SourceRepository) AddBuildSecrets(secrets []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -802,6 +864,8 @@ func (rr SourceRepositories) String() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repos := []string{}
 	for _, r := range rr {
 		repos = append(repos, r.String())
@@ -809,6 +873,8 @@ func (rr SourceRepositories) String() string {
 	return strings.Join(repos, ",")
 }
 func (rr SourceRepositories) NotUsed() SourceRepositories {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -854,6 +920,8 @@ func (info *SourceRepositoryInfo) Terms() []string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	terms := []string{}
 	for i := range info.Types {
 		terms = append(terms, info.Types[i].Term())
@@ -867,6 +935,8 @@ type SourceLanguageType struct {
 }
 
 func (t *SourceLanguageType) Term() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -897,6 +967,8 @@ type SourceRepositoryEnumerator struct {
 }
 
 func (e SourceRepositoryEnumerator) Detect(dir string, noSourceDetection bool) (*SourceRepositoryInfo, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -946,6 +1018,8 @@ func StrategyAndSourceForRepository(repo *SourceRepository, image *ImageRef) (*B
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := &BuildStrategyRef{Base: image, Strategy: repo.strategy}
 	source := &SourceRef{Binary: repo.binary, Secrets: repo.secrets, ConfigMaps: repo.configMaps, RequiresAuth: repo.requiresAuth}
 	if repo.sourceImage != nil {
@@ -975,6 +1049,8 @@ func StrategyAndSourceForRepository(repo *SourceRepository, image *ImageRef) (*B
 	return strategy, source, nil
 }
 func CloneAndCheckoutSources(repo git.Repository, remote, ref, localDir, contextDir string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

@@ -31,6 +31,8 @@ func TestOriginClusterRoleFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		ocr := &authorizationapi.ClusterRole{}
 		ocr2 := &authorizationapi.ClusterRole{}
@@ -48,6 +50,8 @@ func TestOriginClusterRoleFidelity(t *testing.T) {
 	}
 }
 func TestOriginRoleFidelity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -93,6 +97,8 @@ func TestOriginClusterRoleBindingFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		ocrb := &authorizationapi.ClusterRoleBinding{}
 		ocrb2 := &authorizationapi.ClusterRoleBinding{}
@@ -110,6 +116,8 @@ func TestOriginClusterRoleBindingFidelity(t *testing.T) {
 	}
 }
 func TestOriginRoleBindingFidelity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -155,6 +163,8 @@ func TestRBACClusterRoleFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		rcr := &rbac.ClusterRole{}
 		rcr2 := &rbac.ClusterRole{}
@@ -172,6 +182,8 @@ func TestRBACClusterRoleFidelity(t *testing.T) {
 	}
 }
 func TestRBACRoleFidelity(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -217,6 +229,8 @@ func TestRBACClusterRoleBindingFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		rcrb := &rbac.ClusterRoleBinding{}
 		rcrb2 := &rbac.ClusterRoleBinding{}
@@ -248,6 +262,8 @@ func TestRBACRoleBindingFidelity(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := 0; i < 100; i++ {
 		rrb := &rbac.RoleBinding{}
 		rrb2 := &rbac.RoleBinding{}
@@ -265,6 +281,8 @@ func TestRBACRoleBindingFidelity(t *testing.T) {
 	}
 }
 func TestConversionErrors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -314,6 +332,8 @@ func TestAttributeRestrictionsRuleLoss(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ocr := &authorizationapi.ClusterRole{Rules: []authorizationapi.PolicyRule{{Verbs: sets.NewString("get"), Resources: sets.NewString("a")}, {Verbs: sets.NewString("create"), Resources: sets.NewString("b"), AttributeRestrictions: &authorizationapi.Role{}}, {Verbs: sets.NewString("update"), Resources: sets.NewString("c")}, {Verbs: sets.NewString("delete"), Resources: sets.NewString("d"), AttributeRestrictions: &authorizationapi.IsPersonalSubjectAccessReview{}}}}
 	ocr2 := &authorizationapi.ClusterRole{}
 	rcr := &rbac.ClusterRole{}
@@ -331,6 +351,8 @@ func TestAttributeRestrictionsRuleLoss(t *testing.T) {
 	}
 }
 func TestResourceAndNonResourceRuleSplit(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -366,6 +388,8 @@ func TestResourceAndNonResourceRuleSplit(t *testing.T) {
 	}
 }
 func TestAnnotationsConversion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -471,6 +495,8 @@ func setOriginRuleType(in []authorizationapi.PolicyRule, isResourceRule bool) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if isResourceRule {
 		for i := range in {
 			rule := &in[i]
@@ -486,6 +512,8 @@ func setOriginRuleType(in []authorizationapi.PolicyRule, isResourceRule bool) {
 	}
 }
 func setRBACRuleType(in []rbac.PolicyRule, isResourceRule bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -529,6 +557,8 @@ func setRandomRBACRoleBindingData(subjects []rbac.Subject, roleRef *rbac.RoleRef
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range subjects {
 		subject := &subjects[i]
 		subject.APIGroup = rbac.GroupName
@@ -538,6 +568,8 @@ func setRandomRBACRoleBindingData(subjects []rbac.Subject, roleRef *rbac.RoleRef
 	roleRef.Kind = getRBACRoleRefKind(getRandomScope(namespace, c))
 }
 func setValidRBACKindAndNamespace(subject *rbac.Subject, i int, c fuzz.Continue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -579,6 +611,8 @@ func setRandomOriginRoleBindingData(subjects []api.ObjectReference, roleRef *api
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range subjects {
 		subject := &subjects[i]
 		unsetUnusedOriginFields(subject)
@@ -603,12 +637,16 @@ func getRandomScope(namespace string, c fuzz.Continue) string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if c.RandBool() {
 		return ""
 	}
 	return namespace
 }
 func setValidOriginKindAndNamespace(subject *api.ObjectReference, i int, c fuzz.Continue) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -663,12 +701,16 @@ func unsetUnusedOriginFields(ref *api.ObjectReference) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ref.UID = ""
 	ref.ResourceVersion = ""
 	ref.FieldPath = ""
 	ref.APIVersion = ""
 }
 func sortAndDeduplicateRBACRulesFields(in []rbac.PolicyRule) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

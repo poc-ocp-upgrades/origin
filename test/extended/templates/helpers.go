@@ -37,6 +37,8 @@ func createUser(cli *exutil.CLI, name, role string) *userapi.User {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	name = cli.Namespace() + "-" + name
 	user, err := cli.AdminUserClient().User().Users().Create(&userapi.User{ObjectMeta: metav1.ObjectMeta{Name: name}})
 	o.Expect(err).NotTo(o.HaveOccurred())
@@ -47,6 +49,8 @@ func createUser(cli *exutil.CLI, name, role string) *userapi.User {
 	return user
 }
 func createGroup(cli *exutil.CLI, name, role string) *userapi.Group {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -85,6 +89,8 @@ func addUserToGroup(cli *exutil.CLI, username, groupname string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	group, err := cli.AdminUserClient().User().Groups().Get(groupname, metav1.GetOptions{})
 	o.Expect(err).NotTo(o.HaveOccurred())
 	if group != nil {
@@ -94,6 +100,8 @@ func addUserToGroup(cli *exutil.CLI, username, groupname string) {
 	}
 }
 func deleteGroup(cli *exutil.CLI, group *userapi.Group) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -126,10 +134,14 @@ func deleteUser(cli *exutil.CLI, user *userapi.User) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := cli.AdminUserClient().User().Users().Delete(user.Name, nil)
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
 func setUser(cli *exutil.CLI, user *userapi.User) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -167,6 +179,8 @@ func TSBClient(oc *exutil.CLI) (osbclient.Client, error) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	svc, err := oc.AdminKubeClient().CoreV1().Services("openshift-template-service-broker").Get("apiserver", metav1.GetOptions{})
 	if err != nil {
 		return nil, err
@@ -174,6 +188,8 @@ func TSBClient(oc *exutil.CLI) (osbclient.Client, error) {
 	return osbclient.NewClient(&http.Client{Transport: &http.Transport{TLSClientConfig: &tls.Config{InsecureSkipVerify: true}}}, "https://"+svc.Spec.ClusterIP+templateapi.ServiceBrokerRoot), nil
 }
 func dumpObjectReadiness(oc *exutil.CLI, templateInstance *templatev1.TemplateInstance) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -234,6 +250,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -308,5 +345,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

@@ -24,6 +24,8 @@ func TestSelectAuthentication(t *testing.T) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
 		ForceInterstitial	bool
 		Providers		[]api.ProviderInfo
@@ -65,6 +67,8 @@ func TestSelectAuthentication(t *testing.T) {
 	}
 }
 func TestValidateSelectProviderTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

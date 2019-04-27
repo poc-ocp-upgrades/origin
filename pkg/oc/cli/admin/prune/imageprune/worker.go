@@ -31,6 +31,8 @@ func (cr ComponentRetentions) add(comp *imagegraph.ImageComponentNode) *Componen
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := cr[comp]; ok {
 		return cr[comp]
 	}
@@ -52,11 +54,15 @@ func (cr ComponentRetentions) Add(comp *imagegraph.ImageComponentNode, globallyP
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := cr.add(comp)
 	r.PrunableGlobally = globallyPrunable
 	return r
 }
 func (cr ComponentRetentions) AddReferencingStreams(comp *imagegraph.ImageComponentNode, prunable bool, streams ...*imagegraph.ImageStreamNode) *ComponentRetention {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -98,6 +104,8 @@ func enumerateImageComponents(crs ComponentRetentions, compType *imagegraph.Imag
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for c, retention := range crs {
 		if !withPreserved && !retention.PrunableGlobally {
 			continue
@@ -109,6 +117,8 @@ func enumerateImageComponents(crs ComponentRetentions, compType *imagegraph.Imag
 	}
 }
 func enumerateImageStreamComponents(crs ComponentRetentions, compType *imagegraph.ImageComponentType, withPreserved bool, handler func(comp *imagegraph.ImageComponentNode, stream *imagegraph.ImageStreamNode, prunable bool)) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -162,9 +172,13 @@ func (pf *Failure) Error() string {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return pf.String()
 }
 func (pf *Failure) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -228,6 +242,8 @@ func (jr *JobResult) update(deletions []Deletion, failures []Failure) *JobResult
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	jr.Deletions = append(jr.Deletions, deletions...)
 	jr.Failures = append(jr.Failures, failures...)
 	return jr
@@ -250,6 +266,8 @@ type worker struct {
 var _ Worker = &worker{}
 
 func NewWorker(algorithm pruneAlgorithm, registryClientFactory RegistryClientFactoryFunc, registryURL *url.URL, imagePrunerFactory ImagePrunerFactoryFunc, streamPruner ImageStreamDeleter, layerLinkPruner LayerLinkDeleter, blobPruner BlobDeleter, manifestPruner ManifestDeleter) (Worker, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -289,6 +307,8 @@ func (w *worker) Run(in <-chan *Job, out chan<- JobResult) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		job, more := <-in
 		if !more {
@@ -298,6 +318,8 @@ func (w *worker) Run(in <-chan *Job, out chan<- JobResult) {
 	}
 }
 func (w *worker) prune(job *Job) *JobResult {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -340,6 +362,8 @@ func pruneImages(imageNode *imagegraph.ImageNode, imagePruner ImageDeleter) (del
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := imagePruner.DeleteImage(imageNode.Image)
 	if err != nil {
 		if kerrapi.IsNotFound(err) {
@@ -353,6 +377,8 @@ func pruneImages(imageNode *imagegraph.ImageNode, imagePruner ImageDeleter) (del
 	return
 }
 func pruneImageComponents(registryClient *http.Client, registryURL *url.URL, crs ComponentRetentions, layerLinkDeleter LayerLinkDeleter) (deletions []Deletion, failures []Failure) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -397,6 +423,8 @@ func pruneBlobs(registryClient *http.Client, registryURL *url.URL, crs Component
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	enumerateImageComponents(crs, nil, false, func(comp *imagegraph.ImageComponentNode, prunable bool) {
 		err := blobPruner.DeleteBlob(registryClient, registryURL, comp.Component)
 		if err != nil {
@@ -408,6 +436,8 @@ func pruneBlobs(registryClient *http.Client, registryURL *url.URL, crs Component
 	return
 }
 func pruneManifests(registryClient *http.Client, registryURL *url.URL, crs ComponentRetentions, manifestPruner ManifestDeleter) (deletions []Deletion, failures []Failure) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

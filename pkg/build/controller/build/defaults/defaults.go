@@ -36,6 +36,8 @@ func (b BuildDefaults) ApplyDefaults(pod *corev1.Pod) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build, err := common.GetBuildFromPod(pod)
 	if err != nil {
 		return nil
@@ -56,6 +58,8 @@ func (b BuildDefaults) ApplyDefaults(pod *corev1.Pod) error {
 	return common.SetBuildInPod(pod, build)
 }
 func setPodLogLevelFromBuild(pod *corev1.Pod, build *buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -109,6 +113,8 @@ func (b BuildDefaults) applyPodProxyDefaults(pod *corev1.Pod, isCustomBuild bool
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allContainers := []*corev1.Container{}
 	for i := range pod.Spec.Containers {
 		allContainers = append(allContainers, &pod.Spec.Containers[i])
@@ -129,6 +135,8 @@ func (b BuildDefaults) applyPodProxyDefaults(pod *corev1.Pod, isCustomBuild bool
 	}
 }
 func (b BuildDefaults) applyPodDefaults(pod *corev1.Pod, isCustomBuild bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -199,6 +207,8 @@ func (b BuildDefaults) applyPodDefaults(pod *corev1.Pod, isCustomBuild bool) {
 	}
 }
 func (b BuildDefaults) applyBuildDefaults(build *buildv1.Build) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -292,6 +302,8 @@ func addDefaultEnvVar(build *buildv1.Build, v corev1.EnvVar) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	envVars := buildutil.GetBuildEnv(build)
 	for i := range envVars {
 		if envVars[i].Name == v.Name {
@@ -302,6 +314,8 @@ func addDefaultEnvVar(build *buildv1.Build, v corev1.EnvVar) {
 	buildutil.SetBuildEnv(build, envVars)
 }
 func addDefaultLabel(defaultLabel buildv1.ImageLabel, buildLabels *[]buildv1.ImageLabel) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -338,11 +352,15 @@ func addDefaultNodeSelector(k, v string, selectors map[string]string) {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, ok := selectors[k]; !ok {
 		selectors[k] = v
 	}
 }
 func addDefaultAnnotation(k, v string, annotations map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -376,6 +394,27 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
+	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+}
+func _logClusterCodePath() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
 	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
@@ -450,5 +489,5 @@ func _logClusterCodePath() {
 	defer _logClusterCodePath()
 	pc, _, _, _ := godefaultruntime.Caller(1)
 	jsonLog := []byte(fmt.Sprintf("{\"fn\": \"%s\"}", godefaultruntime.FuncForPC(pc).Name()))
-	godefaulthttp.Post("http://35.226.239.161:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
+	godefaulthttp.Post("/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

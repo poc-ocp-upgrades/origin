@@ -57,6 +57,8 @@ func NewCmdCreateEdgeRoute(fullName string, f kcmdutil.Factory, streams genericc
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := &CreateEdgeRouteOptions{CreateRouteSubcommandOptions: NewCreateRouteSubcommandOptions(streams)}
 	cmd := &cobra.Command{Use: "edge [NAME] --service=SERVICE", Short: "Create a route that uses edge TLS termination", Long: edgeRouteLong, Example: fmt.Sprintf(edgeRouteExample, fullName), Run: func(cmd *cobra.Command, args []string) {
 		kcmdutil.CheckErr(o.Complete(f, cmd, args))
@@ -95,9 +97,13 @@ func (o *CreateEdgeRouteOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.CreateRouteSubcommandOptions.Complete(f, cmd, args)
 }
 func (o *CreateEdgeRouteOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()
@@ -154,6 +160,8 @@ func (o *CreateEdgeRouteOptions) Run() error {
 	return o.CreateRouteSubcommandOptions.Printer.PrintObj(route, o.CreateRouteSubcommandOptions.Out)
 }
 func resolveServiceName(mapper meta.RESTMapper, resource string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
 	_logClusterCodePath()

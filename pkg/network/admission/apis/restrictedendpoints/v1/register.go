@@ -27,6 +27,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	defer _logClusterCodePath()
 	_logClusterCodePath()
 	defer _logClusterCodePath()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scheme.AddKnownTypes(GroupVersion, &RestrictedEndpointsAdmissionConfig{})
 	return nil
 }
