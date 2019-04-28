@@ -4,13 +4,11 @@ import (
 	"net/http"
 	"reflect"
 	"testing"
-
 	templatev1 "github.com/openshift/api/template/v1"
 	faketemplatev1 "github.com/openshift/client-go/template/clientset/versioned/typed/template/v1/fake"
 	templateapi "github.com/openshift/origin/pkg/template/apis/template"
 	"github.com/openshift/origin/pkg/templateservicebroker/openservicebroker/api"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-
 	authorizationv1 "k8s.io/api/authorization/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -22,116 +20,26 @@ import (
 )
 
 func TestEvaluateJSONPathExpression(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i := 1
 	obj := struct {
-		Int            int
-		PointerToInt   *int
-		InterfaceToInt interface{}
-		NullPointer    *int
-		NullInterface  interface{}
-		IntSlice       []int
-		ByteSlice      []byte
-		String         string
-		Nested         struct {
-			NestedInt int
-		}
-	}{
-		Int:            i,
-		PointerToInt:   &i,
-		InterfaceToInt: i,
-		IntSlice:       []int{1, 2, 3},
-		ByteSlice:      []byte("testbytes"),
-		String:         "teststring",
-		Nested: struct {
-			NestedInt int
-		}{
-			NestedInt: 2,
-		},
-	}
-
+		Int		int
+		PointerToInt	*int
+		InterfaceToInt	interface{}
+		NullPointer	*int
+		NullInterface	interface{}
+		IntSlice	[]int
+		ByteSlice	[]byte
+		String		string
+		Nested		struct{ NestedInt int }
+	}{Int: i, PointerToInt: &i, InterfaceToInt: i, IntSlice: []int{1, 2, 3}, ByteSlice: []byte("testbytes"), String: "teststring", Nested: struct{ NestedInt int }{NestedInt: 2}}
 	tests := []struct {
-		expression     string
-		base64encode   bool
-		expectedError  string
-		expectedResult string
-	}{
-		{
-			expression:    "{",
-			expectedError: "failed to parse annotation a: unclosed action",
-		},
-		{
-			expression:    "{.DoesntExist}",
-			expectedError: "FindResults failed on annotation a: DoesntExist is not found",
-		},
-		{
-			expression:     "http://{.String}/{.DoesntExist}",
-			expectedResult: "http://teststring/",
-		},
-		{
-			expression:    "{.IntSlice[*]}",
-			expectedError: "3 JSONPath results found on annotation a",
-		},
-		{
-			expression:    "{.NullPointer}",
-			expectedError: "nil kind ptr found in JSONPath result on annotation a",
-		},
-		{
-			expression:    "{.NullInterface}",
-			expectedError: "nil kind interface found in JSONPath result on annotation a",
-		},
-		{
-			expression:     "{.Int}",
-			expectedResult: "1",
-		},
-		{
-			expression:     "{.PointerToInt}",
-			expectedResult: "1",
-		},
-		{
-			expression:     "{.InterfaceToInt}",
-			expectedResult: "1",
-		},
-		{
-			expression:     "{.String}",
-			expectedResult: "teststring",
-		},
-		{
-			expression:     "{.String}",
-			expectedResult: "teststring",
-			base64encode:   true,
-		},
-		{
-			expression:     "{.ByteSlice}",
-			expectedResult: "testbytes",
-		},
-		{
-			expression:     "{.ByteSlice}",
-			expectedResult: "dGVzdGJ5dGVz",
-			base64encode:   true,
-		},
-		{
-			expression:    "{.IntSlice}",
-			expectedError: "unrepresentable kind slice found in JSONPath result on annotation a",
-		},
-		{
-			expression:    "{.Nested}",
-			expectedError: "unrepresentable kind struct found in JSONPath result on annotation a",
-		},
-		{
-			expression:     "{.Nested.NestedInt}",
-			expectedResult: "2",
-		},
-		{
-			expression:     "foo/{.ByteSlice}",
-			expectedResult: "foo/testbytes",
-		},
-		{
-			expression:     "foo/{.ByteSlice}",
-			expectedResult: "foo/dGVzdGJ5dGVz",
-			base64encode:   true,
-		},
-	}
-
+		expression	string
+		base64encode	bool
+		expectedError	string
+		expectedResult	string
+	}{{expression: "{", expectedError: "failed to parse annotation a: unclosed action"}, {expression: "{.DoesntExist}", expectedError: "FindResults failed on annotation a: DoesntExist is not found"}, {expression: "http://{.String}/{.DoesntExist}", expectedResult: "http://teststring/"}, {expression: "{.IntSlice[*]}", expectedError: "3 JSONPath results found on annotation a"}, {expression: "{.NullPointer}", expectedError: "nil kind ptr found in JSONPath result on annotation a"}, {expression: "{.NullInterface}", expectedError: "nil kind interface found in JSONPath result on annotation a"}, {expression: "{.Int}", expectedResult: "1"}, {expression: "{.PointerToInt}", expectedResult: "1"}, {expression: "{.InterfaceToInt}", expectedResult: "1"}, {expression: "{.String}", expectedResult: "teststring"}, {expression: "{.String}", expectedResult: "teststring", base64encode: true}, {expression: "{.ByteSlice}", expectedResult: "testbytes"}, {expression: "{.ByteSlice}", expectedResult: "dGVzdGJ5dGVz", base64encode: true}, {expression: "{.IntSlice}", expectedError: "unrepresentable kind slice found in JSONPath result on annotation a"}, {expression: "{.Nested}", expectedError: "unrepresentable kind struct found in JSONPath result on annotation a"}, {expression: "{.Nested.NestedInt}", expectedResult: "2"}, {expression: "foo/{.ByteSlice}", expectedResult: "foo/testbytes"}, {expression: "foo/{.ByteSlice}", expectedResult: "foo/dGVzdGJ5dGVz", base64encode: true}}
 	for i, test := range tests {
 		result, err := evaluateJSONPathExpression(obj, "a", test.expression, test.base64encode)
 		if err != nil {
@@ -145,8 +53,9 @@ func TestEvaluateJSONPathExpression(t *testing.T) {
 		}
 	}
 }
-
 func TestBase64AndString(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Skip("this test is demonstrating the generic failure of the export value code for base64.  You can't generic identify the base64 fields.")
 	data := []byte(`{
   "apiVersion": "v1",
@@ -163,14 +72,12 @@ func TestBase64AndString(t *testing.T) {
   },
   "type": "Opaque"
 }`)
-
 	uncastObj, err := runtime.Decode(unstructured.UnstructuredJSONScheme, data)
 	if err != nil {
 		t.Fatal(err)
 	}
 	obj := uncastObj.(*unstructured.Unstructured)
 	t.Logf("%T", obj.Object["data"].(map[string]interface{})["password"])
-
 	actualString, err := evaluateJSONPathExpression(obj.Object, "dummy", "{.data.password}", false)
 	if err != nil {
 		t.Fatal(err)
@@ -178,7 +85,6 @@ func TestBase64AndString(t *testing.T) {
 	if e, a := "secretcredsync", actualString; e != a {
 		t.Errorf("expected %q, got %q", e, a)
 	}
-
 	actualStringAsBase64, err := evaluateJSONPathExpression(obj.Object, "dummy", "{.data.password}", true)
 	if err != nil {
 		t.Fatal(err)
@@ -186,37 +92,26 @@ func TestBase64AndString(t *testing.T) {
 	if e, a := "c2VjcmV0Y3JlZHN5bmMK", actualStringAsBase64; e != a {
 		t.Errorf("expected %q, got %q", e, a)
 	}
-
 }
-
 func TestDuplicateCredentialKeys(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	credentials := map[string]interface{}{}
-	err := updateCredentialsForObject(credentials, &kapi.Secret{
-		ObjectMeta: v1.ObjectMeta{
-			Annotations: map[string]string{
-				templateapi.ExposeAnnotationPrefix + "test":       "",
-				templateapi.Base64ExposeAnnotationPrefix + "test": "",
-			},
-		},
-	})
+	err := updateCredentialsForObject(credentials, &kapi.Secret{ObjectMeta: v1.ObjectMeta{Annotations: map[string]string{templateapi.ExposeAnnotationPrefix + "test": "", templateapi.Base64ExposeAnnotationPrefix + "test": ""}}})
 	if err.Error() != `credential with key "test" already exists` {
 		t.Errorf("unexpected error %q", err)
 	}
 }
-
 func TestBindConflict(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fakekc := &fake.Clientset{}
 	fakekc.AddReactor("create", "subjectaccessreviews", func(action clienttesting.Action) (bool, runtime.Object, error) {
 		return true, &authorizationv1.SubjectAccessReview{Status: authorizationv1.SubjectAccessReviewStatus{Allowed: true}}, nil
 	})
-
 	faketemplateclient := &faketemplatev1.FakeTemplateV1{Fake: &clienttesting.Fake{}}
 	faketemplateclient.AddReactor("get", "brokertemplateinstances", func(action clienttesting.Action) (bool, runtime.Object, error) {
-		return true, &templatev1.BrokerTemplateInstance{
-			Spec: templatev1.BrokerTemplateInstanceSpec{
-				BindingIDs: []string{"alreadyexists"},
-			},
-		}, nil
+		return true, &templatev1.BrokerTemplateInstance{Spec: templatev1.BrokerTemplateInstanceSpec{BindingIDs: []string{"alreadyexists"}}}, nil
 	})
 	var conflict int
 	faketemplateclient.AddReactor("update", "brokertemplateinstances", func(action clienttesting.Action) (bool, runtime.Object, error) {
@@ -226,27 +121,17 @@ func TestBindConflict(t *testing.T) {
 		}
 		return true, &templatev1.BrokerTemplateInstance{}, nil
 	})
-
-	b := &Broker{
-		templateclient: faketemplateclient,
-		kc:             fakekc,
-	}
-
-	// after 5 conflicts we give up and return ConcurrencyError
+	b := &Broker{templateclient: faketemplateclient, kc: fakekc}
 	conflict = 5
 	resp := b.Bind(&user.DefaultInfo{}, "", "bindingid", &api.BindRequest{})
 	if !reflect.DeepEqual(resp, api.NewResponse(http.StatusUnprocessableEntity, &api.ConcurrencyError, nil)) {
 		t.Errorf("got response %#v, expected 422/ConcurrencyError", *resp)
 	}
-
-	// with fewer conflicts, we should get there in the end
 	conflict = 4
 	resp = b.Bind(&user.DefaultInfo{}, "", "bindingid", &api.BindRequest{})
 	if !reflect.DeepEqual(resp, api.NewResponse(http.StatusCreated, &api.BindResponse{Credentials: map[string]interface{}{}}, nil)) {
 		t.Errorf("got response %#v, expected 201", *resp)
 	}
-
-	// also check that OK is returned appropriately
 	resp = b.Bind(&user.DefaultInfo{}, "", "alreadyexists", &api.BindRequest{})
 	if !reflect.DeepEqual(resp, api.NewResponse(http.StatusOK, &api.BindResponse{Credentials: map[string]interface{}{}}, nil)) {
 		t.Errorf("got response %#v, expected 200", *resp)

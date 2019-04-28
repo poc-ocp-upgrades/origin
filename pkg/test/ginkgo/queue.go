@@ -7,39 +7,39 @@ import (
 	"sync"
 )
 
-// parallelByFileTestQueue runs tests in parallel unless they have
-// the `[Serial]` tag on their name or if another test with the
-// testExclusion field is currently running. Serial tests are
-// defered until all other tests are completed.
 type parallelByFileTestQueue struct {
-	cond   *sync.Cond
-	lock   sync.Mutex
-	queue  *ring.Ring
-	active map[string]struct{}
+	cond	*sync.Cond
+	lock	sync.Mutex
+	queue	*ring.Ring
+	active	map[string]struct{}
 }
-
 type nopLock struct{}
 
-func (nopLock) Lock()   {}
-func (nopLock) Unlock() {}
+func (nopLock) Lock() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
+func (nopLock) Unlock() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+}
 
 type TestFunc func(ctx context.Context, test *testCase)
 
 func newParallelTestQueue(tests []*testCase) *parallelByFileTestQueue {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := ring.New(len(tests))
 	for _, test := range tests {
 		r.Value = test
 		r = r.Next()
 	}
-	q := &parallelByFileTestQueue{
-		cond:   sync.NewCond(nopLock{}),
-		queue:  r,
-		active: make(map[string]struct{}),
-	}
+	q := &parallelByFileTestQueue{cond: sync.NewCond(nopLock{}), queue: r, active: make(map[string]struct{})}
 	return q
 }
-
 func (q *parallelByFileTestQueue) pop() (*testCase, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	r := q.queue
@@ -67,23 +67,26 @@ func (q *parallelByFileTestQueue) pop() (*testCase, bool) {
 	}
 	return nil, false
 }
-
 func (q *parallelByFileTestQueue) done(t *testCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	delete(q.active, t.testExclusion)
 	q.cond.Broadcast()
 }
-
 func (q *parallelByFileTestQueue) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	q.lock.Lock()
 	defer q.lock.Unlock()
 	q.queue = nil
 	q.active = make(map[string]struct{})
 	q.cond.Broadcast()
 }
-
 func (q *parallelByFileTestQueue) Take(ctx context.Context, fn TestFunc) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for {
 		test, ok := q.pop()
 		if !ok {
@@ -98,8 +101,9 @@ func (q *parallelByFileTestQueue) Take(ctx context.Context, fn TestFunc) bool {
 		return true
 	}
 }
-
 func (q *parallelByFileTestQueue) Execute(parentCtx context.Context, parallelism int, fn TestFunc) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	go func() {
 		<-parentCtx.Done()
 		q.Close()
@@ -119,7 +123,6 @@ func (q *parallelByFileTestQueue) Execute(parentCtx context.Context, parallelism
 				}
 				fn(ctx, test)
 			}) {
-				// no-op
 			}
 			wg.Done()
 		}(i)
@@ -134,8 +137,9 @@ func (q *parallelByFileTestQueue) Execute(parentCtx context.Context, parallelism
 		fn(parentCtx, test)
 	}
 }
-
 func setTestExclusion(tests []*testCase, fn func(suitePath string, t *testCase) bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, test := range tests {
 		summary := test.spec.Summary("")
 		var suitePath string
@@ -151,8 +155,9 @@ func setTestExclusion(tests []*testCase, fn func(suitePath string, t *testCase) 
 		}
 	}
 }
-
 func splitTests(tests []*testCase, fn func(*testCase) bool) (a, b []*testCase) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, t := range tests {
 		if fn(t) {
 			a = append(a, t)

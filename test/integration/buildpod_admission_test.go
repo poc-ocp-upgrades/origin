@@ -5,7 +5,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -14,7 +13,6 @@ import (
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 	kapiv1 "k8s.io/kubernetes/pkg/apis/core/v1"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildclient "github.com/openshift/client-go/build/clientset/versioned"
 	buildapi "github.com/openshift/origin/pkg/build/apis/build"
@@ -29,46 +27,34 @@ import (
 var buildPodAdmissionTestTimeout = 30 * time.Second
 
 func TestBuildDefaultGitHTTPProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	httpProxy := "http://my.test.proxy:12345"
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		GitHTTPProxy: httpProxy,
-	})
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{GitHTTPProxy: httpProxy})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := build.Spec.Source.Git.HTTPProxy; actual == nil || *actual != httpProxy {
 		t.Errorf("Resulting build did not get expected HTTP proxy: %v", actual)
 	}
 }
-
 func TestBuildDefaultGitHTTPSProxy(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	httpsProxy := "https://my.test.proxy:12345"
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		GitHTTPSProxy: httpsProxy,
-	})
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{GitHTTPSProxy: httpsProxy})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := build.Spec.Source.Git.HTTPSProxy; actual == nil || *actual != httpsProxy {
 		t.Errorf("Resulting build did not get expected HTTPS proxy: %v", actual)
 	}
 }
-
 func TestBuildDefaultEnvironment(t *testing.T) {
-	env := []kapi.EnvVar{
-		{
-			Name:  "VAR1",
-			Value: "VALUE1",
-		},
-		{
-			Name:  "VAR2",
-			Value: "VALUE2",
-		},
-	}
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		Env: env,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	env := []kapi.EnvVar{{Name: "VAR1", Value: "VALUE1"}, {Name: "VAR2", Value: "VALUE2"}}
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{Env: env})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
-
 	internalDockerStrategy := &buildapi.DockerBuildStrategy{}
 	if err := legacyscheme.Scheme.Convert(build.Spec.Strategy.DockerStrategy, internalDockerStrategy, nil); err != nil {
 		t.Errorf("Failed to convert build strategy: %v", err)
@@ -77,15 +63,13 @@ func TestBuildDefaultEnvironment(t *testing.T) {
 		t.Errorf("Resulting build did not get expected environment: %+#v", actual)
 	}
 }
-
 func TestBuildDefaultLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labels := []buildapi.ImageLabel{{Name: "KEY", Value: "VALUE"}}
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		ImageLabels: labels,
-	})
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{ImageLabels: labels})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
-
 	internalOutput := &buildapi.BuildOutput{}
 	if err := legacyscheme.Scheme.Convert(&build.Spec.Output, internalOutput, nil); err != nil {
 		t.Errorf("Failed to convert build output: %v", err)
@@ -94,53 +78,34 @@ func TestBuildDefaultLabels(t *testing.T) {
 		t.Errorf("Resulting build did not get expected labels: %v", actual)
 	}
 }
-
 func TestBuildDefaultNodeSelectors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selectors := map[string]string{"KEY": "VALUE"}
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		NodeSelector: selectors,
-	})
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{NodeSelector: selectors})
 	defer fn()
 	_, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := pod.Spec.NodeSelector; !reflect.DeepEqual(selectors, actual) {
 		t.Errorf("Resulting pod did not get expected nodeselectors: %v", actual)
 	}
 }
-
 func TestBuildDefaultAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotations := map[string]string{"KEY": "VALUE"}
-	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{
-		Annotations: annotations,
-	})
+	oclient, kclientset, fn := setupBuildDefaultsAdmissionTest(t, &configapi.BuildDefaultsConfig{Annotations: annotations})
 	defer fn()
 	_, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := pod.Annotations; strings.Compare(actual["KEY"], annotations["KEY"]) != 0 {
 		t.Errorf("Resulting pod did not get expected annotations: actual: %v, expected: %v", actual["KEY"], annotations["KEY"])
 	}
 }
-
 func TestBuildOverrideTolerations(t *testing.T) {
-	tolerations := []kapi.Toleration{
-		{
-			Key:      "mykey1",
-			Value:    "myvalue1",
-			Effect:   "NoSchedule",
-			Operator: "Equal",
-		},
-		{
-			Key:      "mykey2",
-			Value:    "myvalue2",
-			Effect:   "NoSchedule",
-			Operator: "Equal",
-		},
-	}
-
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		Tolerations: tolerations,
-	})
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tolerations := []kapi.Toleration{{Key: "mykey1", Value: "myvalue1", Effect: "NoSchedule", Operator: "Equal"}, {Key: "mykey2", Value: "myvalue2", Effect: "NoSchedule", Operator: "Equal"}}
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{Tolerations: tolerations})
 	defer fn()
-
 	_, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	for i, toleration := range tolerations {
 		tol := v1.Toleration{}
@@ -152,22 +117,20 @@ func TestBuildOverrideTolerations(t *testing.T) {
 		}
 	}
 }
-
 func TestBuildOverrideForcePull(t *testing.T) {
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		ForcePull: true,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{ForcePull: true})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if !build.Spec.Strategy.DockerStrategy.ForcePull {
 		t.Errorf("ForcePull was not set on resulting build")
 	}
 }
-
 func TestBuildOverrideForcePullCustomStrategy(t *testing.T) {
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		ForcePull: true,
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{ForcePull: true})
 	defer fn()
 	build, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestCustomBuild())
 	if pod.Spec.Containers[0].ImagePullPolicy != v1.PullAlways {
@@ -177,12 +140,11 @@ func TestBuildOverrideForcePullCustomStrategy(t *testing.T) {
 		t.Errorf("ForcePull was not set on resulting build")
 	}
 }
-
 func TestBuildOverrideLabels(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labels := []buildapi.ImageLabel{{Name: "KEY", Value: "VALUE"}}
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		ImageLabels: labels,
-	})
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{ImageLabels: labels})
 	defer fn()
 	build, _ := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	internalOutput := &buildapi.BuildOutput{}
@@ -193,38 +155,32 @@ func TestBuildOverrideLabels(t *testing.T) {
 		t.Errorf("Resulting build did not get expected labels: %v", actual)
 	}
 }
-
 func TestBuildOverrideNodeSelectors(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	selectors := map[string]string{"KEY": "VALUE"}
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		NodeSelector: selectors,
-	})
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{NodeSelector: selectors})
 	defer fn()
 	_, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := pod.Spec.NodeSelector; !reflect.DeepEqual(selectors, actual) {
 		t.Errorf("Resulting build did not get expected nodeselectors: %v", actual)
 	}
 }
-
 func TestBuildOverrideAnnotations(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	annotations := map[string]string{"KEY": "VALUE"}
-	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{
-		Annotations: annotations,
-	})
+	oclient, kclientset, fn := setupBuildOverridesAdmissionTest(t, &configapi.BuildOverridesConfig{Annotations: annotations})
 	defer fn()
 	_, pod := runBuildPodAdmissionTest(t, oclient, kclientset, buildPodAdmissionTestDockerBuild())
 	if actual := pod.Annotations; strings.Compare(actual["KEY"], annotations["KEY"]) != 0 {
 		t.Errorf("Resulting build did not get expected annotations: %v", actual)
 	}
 }
-
 func buildPodAdmissionTestCustomBuild() *buildv1.Build {
-	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{
-		Labels: map[string]string{
-			buildutil.BuildConfigLabel:    "mock-build-config",
-			buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel),
-		},
-	}}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}}}
 	build.Name = "test-custom-build"
 	build.Spec.Source.Git = &buildv1.GitBuildSource{URI: "http://test/src"}
 	build.Spec.Strategy.CustomStrategy = &buildv1.CustomBuildStrategy{}
@@ -232,42 +188,31 @@ func buildPodAdmissionTestCustomBuild() *buildv1.Build {
 	build.Spec.Strategy.CustomStrategy.From.Name = "test/image"
 	return build
 }
-
 func buildPodAdmissionTestDockerBuild() *buildv1.Build {
-	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{
-		Labels: map[string]string{
-			buildutil.BuildConfigLabel:    "mock-build-config",
-			buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel),
-		},
-	}}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	build := &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Labels: map[string]string{buildutil.BuildConfigLabel: "mock-build-config", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel)}}}
 	build.Name = "test-build"
 	build.Spec.Source.Git = &buildv1.GitBuildSource{URI: "http://test/src"}
 	build.Spec.Strategy.DockerStrategy = &buildv1.DockerBuildStrategy{}
 	return build
 }
-
-func runBuildPodAdmissionTest(t *testing.T, client buildclient.Interface, kclientset kclientset.Interface, build *buildv1.Build) (*buildv1.Build,
-	*v1.Pod) {
-
+func runBuildPodAdmissionTest(t *testing.T, client buildclient.Interface, kclientset kclientset.Interface, build *buildv1.Build) (*buildv1.Build, *v1.Pod) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ns := testutil.Namespace()
 	_, err := client.BuildV1().Builds(ns).Create(build)
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
-
-	watchOpt := metav1.ListOptions{
-		FieldSelector: fields.OneTermEqualSelector(
-			"metadata.name",
-			buildutil.GetBuildPodName(build),
-		).String(),
-	}
+	watchOpt := metav1.ListOptions{FieldSelector: fields.OneTermEqualSelector("metadata.name", buildutil.GetBuildPodName(build)).String()}
 	podWatch, err := kclientset.CoreV1().Pods(ns).Watch(watchOpt)
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
 	type resultObjs struct {
-		build *buildv1.Build
-		pod   *v1.Pod
+		build	*buildv1.Build
+		pod	*v1.Pod
 	}
 	result := make(chan resultObjs)
 	defer podWatch.Stop()
@@ -283,7 +228,6 @@ func runBuildPodAdmissionTest(t *testing.T, client buildclient.Interface, kclien
 			}
 		}
 	}()
-
 	select {
 	case <-time.After(buildPodAdmissionTestTimeout):
 		t.Fatalf("timed out after %v", buildPodAdmissionTestTimeout)
@@ -292,24 +236,19 @@ func runBuildPodAdmissionTest(t *testing.T, client buildclient.Interface, kclien
 	}
 	return nil, nil
 }
-
 func setupBuildDefaultsAdmissionTest(t *testing.T, defaultsConfig *configapi.BuildDefaultsConfig) (buildclient.Interface, kclientset.Interface, func()) {
-	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{
-		"BuildDefaults": {
-			Configuration: defaultsConfig,
-		},
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{"BuildDefaults": {Configuration: defaultsConfig}})
 }
-
 func setupBuildOverridesAdmissionTest(t *testing.T, overridesConfig *configapi.BuildOverridesConfig) (buildclient.Interface, kclientset.Interface, func()) {
-	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{
-		"BuildOverrides": {
-			Configuration: overridesConfig,
-		},
-	})
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return setupBuildPodAdmissionTest(t, map[string]*configapi.AdmissionPluginConfig{"BuildOverrides": {Configuration: overridesConfig}})
 }
-
 func setupBuildPodAdmissionTest(t *testing.T, pluginConfig map[string]*configapi.AdmissionPluginConfig) (buildclient.Interface, kclientset.Interface, func()) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatal(err)
@@ -323,30 +262,18 @@ func setupBuildPodAdmissionTest(t *testing.T, pluginConfig map[string]*configapi
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	clusterAdminKubeClientset, err := kclientset.NewForConfig(clientConfig)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	_, err = clusterAdminKubeClientset.CoreV1().Namespaces().Create(&v1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()},
-	})
+	_, err = clusterAdminKubeClientset.CoreV1().Namespaces().Create(&v1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()}})
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
-
-	err = testserver.WaitForServiceAccounts(
-		clusterAdminKubeClientset,
-		testutil.Namespace(),
-		[]string{
-			bootstrappolicy.BuilderServiceAccountName,
-			bootstrappolicy.DefaultServiceAccountName,
-		})
+	err = testserver.WaitForServiceAccounts(clusterAdminKubeClientset, testutil.Namespace(), []string{bootstrappolicy.BuilderServiceAccountName, bootstrappolicy.DefaultServiceAccountName})
 	if err != nil {
 		t.Fatalf("%v", err)
 	}
-
 	return buildclient.NewForConfigOrDie(clientConfig), clusterAdminKubeClientset, func() {
 		testserver.CleanupMasterEtcd(t, master)
 	}

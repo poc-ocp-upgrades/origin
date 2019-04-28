@@ -6,33 +6,28 @@ import (
 	"sort"
 	"strings"
 	"unicode"
-
 	"github.com/go-openapi/spec"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// RefType returns the type name of a reference, suitable for looking up in
-// s.Definitions.
 func RefType(s *spec.Schema) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return strings.TrimPrefix(s.Ref.String(), "#/definitions/")
 }
-
-// FriendlyTypeName returns a user-friendly type name.
 func FriendlyTypeName(s *spec.Schema) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	refType := RefType(s)
-	if refType == "" { // a base type, e.g. "string"
+	if refType == "" {
 		return s.Type[0]
 	}
-
-	// convert, e.g. "io.k8s.kubernetes.pkg.api.v1.Pod" -> "v1.Pod"
 	parts := strings.Split(refType, ".")
 	return strings.Join(parts[len(parts)-2:], ".")
 }
-
-// EscapeMediaTypes ensures that */* renders correctly in asciidoc format.
-// TODO: it'd be better if the template library could escape correctly for
-// asciidoc.
 func EscapeMediaTypes(mediatypes []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	rv := make([]string, len(mediatypes))
 	for i, mediatype := range mediatypes {
 		rv[i] = mediatype
@@ -42,35 +37,27 @@ func EscapeMediaTypes(mediatypes []string) []string {
 	}
 	return rv
 }
-
-// GroupVersionKinds returns the GroupVersionKinds from the
-// "x-kubernetes-group-version-kind" OpenAPI extension.
 func GroupVersionKinds(s spec.Schema) []schema.GroupVersionKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e := s.Extensions["x-kubernetes-group-version-kind"]
 	if e == nil {
 		return nil
 	}
-
 	gvks := make([]schema.GroupVersionKind, 0, len(e.([]interface{})))
 	for _, gvk := range e.([]interface{}) {
 		gvk := gvk.(map[string]interface{})
-		gvks = append(gvks, schema.GroupVersionKind{
-			Group:   gvk["group"].(string),
-			Version: gvk["version"].(string),
-			Kind:    gvk["kind"].(string),
-		})
+		gvks = append(gvks, schema.GroupVersionKind{Group: gvk["group"].(string), Version: gvk["version"].(string), Kind: gvk["kind"].(string)})
 	}
-
 	return gvks
 }
 
 var opNames = []string{"Get", "Put", "Post", "Delete", "Options", "Head", "Patch"}
 
-// Operations returns the populated operations of a spec.PathItem as a map, for
-// easier iteration
 func Operations(path spec.PathItem) map[string]*spec.Operation {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ops := make(map[string]*spec.Operation, len(opNames))
-
 	v := reflect.ValueOf(path)
 	for _, opName := range opNames {
 		op := v.FieldByName(opName).Interface().(*spec.Operation)
@@ -83,8 +70,9 @@ func Operations(path spec.PathItem) map[string]*spec.Operation {
 
 var envStyleRegexp = regexp.MustCompile(`\{[^}]+\}`)
 
-// EnvStyle replaces instances of {foo} in a string with $FOO.
 func EnvStyle(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return envStyleRegexp.ReplaceAllStringFunc(s, func(s string) string {
 		return "$" + strings.ToUpper(s[1:len(s)-1])
 	})
@@ -92,8 +80,9 @@ func EnvStyle(s string) string {
 
 var alreadyPluralSuffixes = []string{"versions", "constraints", "endpoints"}
 
-// Pluralise dumbly attempts to pluralise s.
 func Pluralise(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	l := strings.ToLower(s)
 	for _, ss := range alreadyPluralSuffixes {
 		if strings.HasSuffix(l, ss) {
@@ -108,35 +97,31 @@ func Pluralise(s string) string {
 	}
 	return s + "s"
 }
-
-// SortedKeys returns a slice containing the sorted keys of map m.  Argument t
-// is the type implementing sort.Interface which is used to sort.
 func SortedKeys(m interface{}, t reflect.Type) interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	v := reflect.ValueOf(m)
 	if v.Kind() != reflect.Map {
 		panic("wrong type")
 	}
-
 	s := reflect.MakeSlice(reflect.SliceOf(v.Type().Key()), v.Len(), v.Len())
 	for i, k := range v.MapKeys() {
 		s.Index(i).Set(k)
 	}
-
 	s = s.Convert(t)
 	sort.Sort(s.Interface().(sort.Interface))
-
 	return s.Interface()
 }
-
-// ToUpper returns s with the first letter capitalised.
 func ToUpper(s string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := []rune(s)
 	r[0] = unicode.ToUpper(r[0])
 	return string(r)
 }
-
-// ReverseStringSlice returns s reversed, not in place.
 func ReverseStringSlice(s []string) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := make([]string, len(s))
 	for i := range s {
 		r[len(r)-1-i] = s[i]

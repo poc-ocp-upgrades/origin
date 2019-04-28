@@ -4,11 +4,9 @@ import (
 	"errors"
 	"reflect"
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clienttesting "k8s.io/client-go/testing"
-
 	userv1 "github.com/openshift/api/user/v1"
 	fakeuserclient "github.com/openshift/client-go/user/clientset/versioned/fake"
 	fakeuserv1client "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1/fake"
@@ -17,80 +15,17 @@ import (
 )
 
 func TestListAllOpenShiftGroups(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		startingGroups []runtime.Object
-		blacklist      []string
-		expectedName   string
-		expectedErr    string
-	}{
-		"good": {
-			startingGroups: []runtime.Object{
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			expectedName: "alpha-uid",
-		},
-		"no url annotation": {
-			startingGroups: []runtime.Object{
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{ldaputil.LDAPUIDAnnotation: "alpha-uid"},
-					Labels:      map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.url annotation`,
-		},
-		"no uid annotation": {
-			startingGroups: []runtime.Object{
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port"},
-					Labels:      map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.uid annotation`,
-		},
-		"no match: different port": {
-			startingGroups: []runtime.Object{
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port2",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "beta",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "beta-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			expectedName: "beta-uid",
-		},
-		"blacklist": {
-			startingGroups: []runtime.Object{
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-				&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "beta",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "beta-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			blacklist:    []string{"alpha"},
-			expectedName: "beta-uid",
-		},
-	}
-
+		startingGroups	[]runtime.Object
+		blacklist	[]string
+		expectedName	string
+		expectedErr	string
+	}{"good": {startingGroups: []runtime.Object{&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, expectedName: "alpha-uid"}, "no url annotation": {startingGroups: []runtime.Object{&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.url annotation`}, "no uid annotation": {startingGroups: []runtime.Object{&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.uid annotation`}, "no match: different port": {startingGroups: []runtime.Object{&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port2", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}, &userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "beta", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "beta-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, expectedName: "beta-uid"}, "blacklist": {startingGroups: []runtime.Object{&userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}, &userv1.Group{ObjectMeta: metav1.ObjectMeta{Name: "beta", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "beta-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, blacklist: []string{"alpha"}, expectedName: "beta-uid"}}
 	for name, testCase := range testCases {
 		fakeClient := &fakeuserv1client.FakeUserV1{Fake: &(fakeuserclient.NewSimpleClientset(testCase.startingGroups...).Fake)}
 		lister := NewAllOpenShiftGroupLister(testCase.blacklist, "test-host:port", fakeClient.Groups())
-
 		groupNames, err := lister.ListGroups()
 		if err != nil {
 			if len(testCase.expectedErr) == 0 {
@@ -109,13 +44,13 @@ func TestListAllOpenShiftGroups(t *testing.T) {
 		}
 	}
 }
-
 func TestListAllOpenShiftGroupsListErr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listFailClient := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 	listFailClient.PrependReactor("list", "groups", func(action clienttesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.New("fail")
 	})
-
 	lister := NewAllOpenShiftGroupLister([]string{}, "test-host:port", listFailClient.Groups())
 	groupUIDs, err := lister.ListGroups()
 	if err == nil {
@@ -129,78 +64,16 @@ func TestListAllOpenShiftGroupsListErr(t *testing.T) {
 		}
 	}
 }
-
 func TestListWhitelistOpenShiftGroups(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		startingGroups []*userv1.Group
-		whitelist      []string
-		blacklist      []string
-		expectedName   string
-		expectedErr    string
-	}{
-		"good": {
-			startingGroups: []*userv1.Group{
-				{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			whitelist:    []string{"alpha"},
-			expectedName: "alpha-uid",
-		},
-		"no url annotation": {
-			startingGroups: []*userv1.Group{
-				{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{ldaputil.LDAPUIDAnnotation: "alpha-uid"},
-					Labels:      map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			whitelist:   []string{"alpha"},
-			expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.url annotation`,
-		},
-		"no uid annotation": {
-			startingGroups: []*userv1.Group{
-				{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port"},
-					Labels:      map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			whitelist:   []string{"alpha"},
-			expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.uid annotation`,
-		},
-		"no match: different port": {
-			startingGroups: []*userv1.Group{
-				{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port2",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			whitelist:   []string{"alpha"},
-			expectedErr: `group "alpha" was not synchronized from: test-host:port`,
-		},
-		"blacklist": {
-			startingGroups: []*userv1.Group{
-				{ObjectMeta: metav1.ObjectMeta{Name: "alpha",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "alpha-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-				{ObjectMeta: metav1.ObjectMeta{Name: "beta",
-					Annotations: map[string]string{
-						ldaputil.LDAPURLAnnotation: "test-host:port",
-						ldaputil.LDAPUIDAnnotation: "beta-uid",
-					},
-					Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}},
-			},
-			whitelist:    []string{"alpha", "beta"},
-			blacklist:    []string{"alpha"},
-			expectedName: "beta-uid",
-		},
-	}
-
+		startingGroups	[]*userv1.Group
+		whitelist	[]string
+		blacklist	[]string
+		expectedName	string
+		expectedErr	string
+	}{"good": {startingGroups: []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, whitelist: []string{"alpha"}, expectedName: "alpha-uid"}, "no url annotation": {startingGroups: []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, whitelist: []string{"alpha"}, expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.url annotation`}, "no uid annotation": {startingGroups: []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, whitelist: []string{"alpha"}, expectedErr: `group "alpha" marked as having been synced did not have an openshift.io/ldap.uid annotation`}, "no match: different port": {startingGroups: []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port2", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, whitelist: []string{"alpha"}, expectedErr: `group "alpha" was not synchronized from: test-host:port`}, "blacklist": {startingGroups: []*userv1.Group{{ObjectMeta: metav1.ObjectMeta{Name: "alpha", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "alpha-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}, {ObjectMeta: metav1.ObjectMeta{Name: "beta", Annotations: map[string]string{ldaputil.LDAPURLAnnotation: "test-host:port", ldaputil.LDAPUIDAnnotation: "beta-uid"}, Labels: map[string]string{ldaputil.LDAPHostLabel: "test-host"}}}}, whitelist: []string{"alpha", "beta"}, blacklist: []string{"alpha"}, expectedName: "beta-uid"}}
 	for name, testCase := range testCases {
 		fakeClient := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 		fakeClient.PrependReactor("get", "groups", func(action clienttesting.Action) (bool, runtime.Object, error) {
@@ -214,7 +87,6 @@ func TestListWhitelistOpenShiftGroups(t *testing.T) {
 			return false, nil, nil
 		})
 		lister := NewOpenShiftGroupLister(testCase.whitelist, testCase.blacklist, "test-host:port", fakeClient.Groups())
-
 		groupNames, err := lister.ListGroups()
 		if err != nil {
 			if len(testCase.expectedErr) == 0 {
@@ -233,13 +105,13 @@ func TestListWhitelistOpenShiftGroups(t *testing.T) {
 		}
 	}
 }
-
 func TestListOpenShiftGroupsListErr(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listFailClient := &fakeuserv1client.FakeUserV1{Fake: &clienttesting.Fake{}}
 	listFailClient.PrependReactor("get", "groups", func(action clienttesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.New("fail")
 	})
-
 	lister := NewOpenShiftGroupLister([]string{"alpha", "beta"}, []string{"beta"}, "", listFailClient.Groups())
 	groupUIDs, err := lister.ListGroups()
 	if err == nil {
@@ -253,11 +125,11 @@ func TestListOpenShiftGroupsListErr(t *testing.T) {
 		}
 	}
 }
-
 func TestLDAPBlacklistFilter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	whitelister := NewLDAPWhitelistGroupLister([]string{"rebecca", "valerie"})
 	blacklister := NewLDAPBlacklistGroupLister([]string{"rebecca"}, whitelister)
-
 	result, err := blacklister.ListGroups()
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)

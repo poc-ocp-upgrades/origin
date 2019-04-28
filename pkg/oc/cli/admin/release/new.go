@@ -17,14 +17,12 @@ import (
 	"strings"
 	"sync"
 	"time"
-
 	"github.com/blang/semver"
 	"github.com/docker/docker/pkg/archive"
 	"github.com/ghodss/yaml"
 	digest "github.com/opencontainers/go-digest"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -32,7 +30,6 @@ import (
 	"k8s.io/client-go/pkg/version"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imageapi "github.com/openshift/api/image/v1"
 	imageclient "github.com/openshift/client-go/image/clientset/versioned"
 	"github.com/openshift/origin/pkg/image/apis/image/docker10"
@@ -43,27 +40,15 @@ import (
 )
 
 func NewNewOptions(streams genericclioptions.IOStreams) *NewOptions {
-	return &NewOptions{
-		IOStreams:       streams,
-		ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 4},
-		// TODO: only cluster-version-operator and maybe CLI should be in this list,
-		//   the others should always be referenced by the cluster-bootstrap or
-		//   another operator.
-		AlwaysInclude:  []string{"cluster-version-operator", "cli", "installer"},
-		ToImageBaseTag: "cluster-version-operator",
-		// We strongly control the set of allowed component versions to prevent confusion
-		// about what component versions may be used for. Changing this list requires
-		// approval from the release architects.
-		AllowedComponents: []string{"kubernetes"},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &NewOptions{IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 4}, AlwaysInclude: []string{"cluster-version-operator", "cli", "installer"}, ToImageBaseTag: "cluster-version-operator", AllowedComponents: []string{"kubernetes"}}
 }
-
 func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewNewOptions(streams)
-	cmd := &cobra.Command{
-		Use:   "new [SRC=DST ...]",
-		Short: "Create a new OpenShift release",
-		Long: templates.LongDesc(`
+	cmd := &cobra.Command{Use: "new [SRC=DST ...]", Short: "Create a new OpenShift release", Long: templates.LongDesc(`
 			Build a new OpenShift release image that will update a cluster
 
 			OpenShift uses long-running active management processes called "operators" to
@@ -93,8 +78,7 @@ func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions
 
 			will override the default cluster-version-operator image with one pulled from
 			registry.example.com.
-		`),
-		Example: templates.Examples(fmt.Sprintf(`
+		`), Example: templates.Examples(fmt.Sprintf(`
 			# Create a release from the latest origin images and push to a DockerHub repo
 			%[1]s new --from-image-stream=origin-v4.0 -n openshift --to-image docker.io/mycompany/myrepo:latest
 
@@ -105,18 +89,14 @@ func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions
 			# Create a new release and override a single image
 			%[1]s new --from-release registry.svc.ci.openshift.org/openshift/origin-release:v4.0 \
 			  cli=docker.io/mycompany/cli:latest
-				`, parentName)),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+				`, parentName)), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flags := cmd.Flags()
 	o.SecurityOptions.Bind(flags)
 	o.ParallelOptions.Bind(flags)
-
-	// image inputs
 	flags.StringSliceVar(&o.MappingFilenames, "mapping-file", o.MappingFilenames, "A file defining a mapping of input images to use to build the release")
 	flags.StringVar(&o.FromImageStream, "from-image-stream", o.FromImageStream, "Look at all tags in the provided image stream and build a release payload from them.")
 	flags.StringVarP(&o.FromImageStreamFile, "from-image-stream-file", "f", o.FromImageStreamFile, "Take the provided image stream on disk and build a release payload from it.")
@@ -124,21 +104,14 @@ func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions
 	flags.StringVar(&o.FromReleaseImage, "from-release", o.FromReleaseImage, "Use an existing release image as input.")
 	flags.StringVar(&o.ReferenceMode, "reference-mode", o.ReferenceMode, "By default, the image reference from an image stream points to the public registry for the stream and the image digest. Pass 'source' to build references to the originating image.")
 	flags.StringVar(&o.ExtraComponentVersions, "component-versions", o.ExtraComponentVersions, "Supply additional version strings to the release in key=value[,key=value] form.")
-
-	// properties of the release
 	flags.StringVar(&o.Name, "name", o.Name, "The name of the release. Will default to the current time.")
 	flags.StringSliceVar(&o.PreviousVersions, "previous", o.PreviousVersions, "A list of semantic versions that should preceed this version in the release manifest.")
 	flags.StringVar(&o.ReleaseMetadata, "metadata", o.ReleaseMetadata, "A JSON object to attach as the metadata for the release manifest.")
 	flags.BoolVar(&o.ForceManifest, "release-manifest", o.ForceManifest, "If true, a release manifest will be created using --name as the semantic version.")
-
-	// validation
 	flags.BoolVar(&o.AllowMissingImages, "allow-missing-images", o.AllowMissingImages, "Ignore errors when an operator references a release image that is not included.")
 	flags.BoolVar(&o.SkipManifestCheck, "skip-manifest-check", o.SkipManifestCheck, "Ignore errors when an operator includes a yaml/yml/json file that is not parseable.")
-
 	flags.StringSliceVar(&o.Exclude, "exclude", o.Exclude, "A list of image names or tags to exclude. It is applied after all inputs. Comma separated or individual arguments.")
 	flags.StringSliceVar(&o.AlwaysInclude, "include", o.AlwaysInclude, "A list of image tags that should not be pruned. Excluding a tag takes precedence. Comma separated or individual arguments.")
-
-	// destination
 	flags.BoolVar(&o.DryRun, "dry-run", o.DryRun, "Skips changes to external registries via mirroring or pushing images.")
 	flags.StringVar(&o.Mirror, "mirror", o.Mirror, "Mirror the contents of the release to this repository.")
 	flags.StringVar(&o.ToDir, "to-dir", o.ToDir, "Output the release manifests to a directory instead of creating an image.")
@@ -147,65 +120,50 @@ func NewRelease(f kcmdutil.Factory, parentName string, streams genericclioptions
 	flags.StringVar(&o.ToImageBase, "to-image-base", o.ToImageBase, "If specified, the image to add the release layer on top of.")
 	flags.StringVar(&o.ToImageBaseTag, "to-image-base-tag", o.ToImageBaseTag, "If specified, the image tag in the input to add the release layer on top of. Defaults to cluster-version-operator.")
 	flags.StringVar(&o.ToSignature, "to-signature", o.ToSignature, "If specified, output a message that can be signed that describes this release. Requires --to-image.")
-
-	// misc
 	flags.StringVarP(&o.Output, "output", "o", o.Output, "Output the mapping definition in this format.")
 	flags.StringVar(&o.Directory, "dir", o.Directory, "Directory to write release contents to, will default to a temporary directory.")
-
 	return cmd
 }
 
 type NewOptions struct {
 	genericclioptions.IOStreams
-
-	SecurityOptions imagemanifest.SecurityOptions
-	ParallelOptions imagemanifest.ParallelOptions
-
-	FromDirectory    string
-	Directory        string
-	MappingFilenames []string
-	Output           string
-	Name             string
-
-	FromReleaseImage string
-
-	FromImageStream     string
-	FromImageStreamFile string
-	Namespace           string
-	ReferenceMode       string
-
-	ExtraComponentVersions string
-	AllowedComponents      []string
-
-	Exclude       []string
-	AlwaysInclude []string
-
-	ForceManifest    bool
-	ReleaseMetadata  string
-	PreviousVersions []string
-
-	DryRun bool
-
-	ToFile         string
-	ToDir          string
-	ToImage        string
-	ToImageBase    string
-	ToImageBaseTag string
-	ToSignature    string
-
-	Mirror string
-
-	AllowMissingImages bool
-	SkipManifestCheck  bool
-
-	Mappings []Mapping
-
-	ImageClient imageclient.Interface
-
-	cleanupFns []func()
+	SecurityOptions		imagemanifest.SecurityOptions
+	ParallelOptions		imagemanifest.ParallelOptions
+	FromDirectory		string
+	Directory		string
+	MappingFilenames	[]string
+	Output			string
+	Name			string
+	FromReleaseImage	string
+	FromImageStream		string
+	FromImageStreamFile	string
+	Namespace		string
+	ReferenceMode		string
+	ExtraComponentVersions	string
+	AllowedComponents	[]string
+	Exclude			[]string
+	AlwaysInclude		[]string
+	ForceManifest		bool
+	ReleaseMetadata		string
+	PreviousVersions	[]string
+	DryRun			bool
+	ToFile			string
+	ToDir			string
+	ToImage			string
+	ToImageBase		string
+	ToImageBaseTag		string
+	ToSignature		string
+	Mirror			string
+	AllowMissingImages	bool
+	SkipManifestCheck	bool
+	Mappings		[]Mapping
+	ImageClient		imageclient.Interface
+	cleanupFns		[]func()
 }
 
 func (o *NewOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	overlap := make(map[string]string)
 	var mappings []Mapping
 	for _, filename := range o.MappingFilenames {
@@ -221,7 +179,6 @@ func (o *NewOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []str
 	}
 	mappings = append(mappings, argMappings...)
 	o.Mappings = mappings
-
 	if len(o.FromImageStream) > 0 {
 		cfg, err := f.ToRESTConfig()
 		if err != nil {
@@ -242,8 +199,9 @@ func (o *NewOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []str
 	}
 	return nil
 }
-
 func (o *NewOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sources := 0
 	if len(o.FromImageStream) > 0 {
 		sources++
@@ -275,14 +233,16 @@ func (o *NewOptions) Validate() error {
 }
 
 type imageData struct {
-	Ref           imagereference.DockerImageReference
-	Config        *docker10.DockerImageConfig
-	Digest        digest.Digest
-	ContentDigest digest.Digest
-	Directory     string
+	Ref		imagereference.DockerImageReference
+	Config		*docker10.DockerImageConfig
+	Digest		digest.Digest
+	ContentDigest	digest.Digest
+	Directory	string
 }
 
 func findStatusTagEvents(tags []imageapi.NamedTagEventList, name string) *imageapi.NamedTagEventList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range tags {
 		tag := &tags[i]
 		if tag.Tag != name {
@@ -292,16 +252,18 @@ func findStatusTagEvents(tags []imageapi.NamedTagEventList, name string) *imagea
 	}
 	return nil
 }
-
 func findStatusTagEvent(tags []imageapi.NamedTagEventList, name string) *imageapi.TagEvent {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	events := findStatusTagEvents(tags, name)
 	if events == nil || len(events.Items) == 0 {
 		return nil
 	}
 	return &events.Items[0]
 }
-
 func findSpecTag(tags []imageapi.TagReference, name string) *imageapi.TagReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, tag := range tags {
 		if tag.Name != name {
 			continue
@@ -312,37 +274,34 @@ func findSpecTag(tags []imageapi.TagReference, name string) *imageapi.TagReferen
 }
 
 type CincinnatiMetadata struct {
-	Kind string `json:"kind"`
-
-	Version  string   `json:"version"`
-	Previous []string `json:"previous"`
-
-	Metadata map[string]interface{} `json:"metadata,omitempty"`
+	Kind		string			`json:"kind"`
+	Version		string			`json:"version"`
+	Previous	[]string		`json:"previous"`
+	Metadata	map[string]interface{}	`json:"metadata,omitempty"`
 }
 
 func (o *NewOptions) cleanup() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, fn := range o.cleanupFns {
 		fn()
 	}
 	o.cleanupFns = nil
 }
-
 func (o *NewOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	defer o.cleanup()
-
 	extraComponentVersions, err := parseComponentVersionsLabel(o.ExtraComponentVersions)
 	if err != nil {
 		return fmt.Errorf("--component-versions is invalid: %v", err)
 	}
-
 	now := time.Now().UTC()
 	name := o.Name
 	if len(name) == 0 {
 		name = "0.0.1-" + now.Format("2006-01-02-150405")
 	}
-
 	var cm *CincinnatiMetadata
-	// TODO: remove this once all code creates semantic versions
 	if _, err := semver.Parse(name); err == nil {
 		o.ForceManifest = true
 	}
@@ -376,37 +335,27 @@ func (o *NewOptions) Run() error {
 		}
 	}
 	klog.V(4).Infof("Release metadata:\n%s", toJSONString(cm))
-
 	exclude := sets.NewString()
 	for _, s := range o.Exclude {
 		exclude.Insert(s)
 	}
-
 	metadata := make(map[string]imageData)
 	var ordered []string
 	var is *imageapi.ImageStream
-
 	switch {
 	case len(o.FromReleaseImage) > 0:
 		ref, err := imagereference.Parse(o.FromReleaseImage)
 		if err != nil {
 			return fmt.Errorf("--from-release was not a valid pullspec: %v", err)
 		}
-
 		verifier := imagemanifest.NewVerifier()
 		var baseDigest string
 		var imageReferencesData, releaseMetadata []byte
-
 		buf := &bytes.Buffer{}
 		extractOpts := extract.NewOptions(genericclioptions.IOStreams{Out: buf, ErrOut: o.ErrOut})
 		extractOpts.SecurityOptions = o.SecurityOptions
 		extractOpts.OnlyFiles = true
-		extractOpts.Mappings = []extract.Mapping{
-			{
-				ImageRef: ref,
-				From:     "release-manifests/",
-			},
-		}
+		extractOpts.Mappings = []extract.Mapping{{ImageRef: ref, From: "release-manifests/"}}
 		extractOpts.ImageMetadataCallback = func(m *extract.Mapping, dgst, contentDigest digest.Digest, config *docker10.DockerImageConfig) {
 			verifier.Verify(dgst, contentDigest)
 			if config.Config != nil {
@@ -446,7 +395,6 @@ func (o *NewOptions) Run() error {
 			}
 			fmt.Fprintf(o.ErrOut, "warning: %v\n", err)
 		}
-
 		inputIS, err := readReleaseImageReferences(imageReferencesData)
 		if err != nil {
 			return fmt.Errorf("unable to load image-references from release contents: %v", err)
@@ -456,17 +404,13 @@ func (o *NewOptions) Run() error {
 			is.Annotations = map[string]string{}
 		}
 		is.Annotations[annotationReleaseFromRelease] = o.FromReleaseImage
-
 		if inputIS.Annotations == nil {
 			inputIS.Annotations = make(map[string]string)
 		}
 		inputIS.Annotations[annotationBuildVersions] = extraComponentVersions.String()
-
 		for _, tag := range is.Spec.Tags {
 			ordered = append(ordered, tag.Name)
 		}
-
-		// default the base image to a matching release payload digest or error
 		if len(o.ToImageBase) == 0 && len(baseDigest) > 0 {
 			for _, tag := range is.Spec.Tags {
 				if tag.From == nil || tag.From.Kind != "DockerImage" {
@@ -485,20 +429,16 @@ func (o *NewOptions) Run() error {
 				return fmt.Errorf("unable to find an image within the release that matches the base image manifest %q, please specify --to-image-base", baseDigest)
 			}
 		}
-
 		if len(o.Name) == 0 {
 			o.Name = is.Name
 		}
-
 		fmt.Fprintf(o.ErrOut, "info: Found %d images in release\n", len(is.Spec.Tags))
-
 	case len(o.FromImageStream) > 0, len(o.FromImageStreamFile) > 0:
 		is = &imageapi.ImageStream{}
 		is.Annotations = map[string]string{}
 		if len(o.FromImageStream) > 0 && len(o.Namespace) > 0 {
 			is.Annotations[annotationReleaseFromImageStream] = fmt.Sprintf("%s/%s", o.Namespace, o.FromImageStream)
 		}
-
 		var inputIS *imageapi.ImageStream
 		if len(o.FromImageStreamFile) > 0 {
 			data, err := filenameContents(o.FromImageStreamFile, o.IOStreams.In)
@@ -516,7 +456,6 @@ func (o *NewOptions) Run() error {
 				return fmt.Errorf("unrecognized input image stream file, must be an ImageStream in image.openshift.io/v1")
 			}
 			inputIS = is
-
 		} else {
 			is, err := o.ImageClient.ImageV1().ImageStreams(o.Namespace).Get(o.FromImageStream, metav1.GetOptions{})
 			if err != nil {
@@ -524,22 +463,17 @@ func (o *NewOptions) Run() error {
 			}
 			inputIS = is
 		}
-
 		if inputIS.Annotations == nil {
 			inputIS.Annotations = make(map[string]string)
 		}
 		inputIS.Annotations[annotationBuildVersions] = extraComponentVersions.String()
-
 		if err := resolveImageStreamTagsToReferenceMode(inputIS, is, o.ReferenceMode, exclude); err != nil {
 			return err
 		}
-
 		for _, tag := range is.Spec.Tags {
 			ordered = append(ordered, tag.Name)
 		}
-
 		fmt.Fprintf(o.ErrOut, "info: Found %d images in image stream\n", len(is.Spec.Tags))
-
 	case len(o.FromDirectory) > 0:
 		fmt.Fprintf(o.ErrOut, "info: Using %s as the input to the release\n", o.FromDirectory)
 		files, err := ioutil.ReadDir(o.FromDirectory)
@@ -573,7 +507,6 @@ func (o *NewOptions) Run() error {
 			}
 		}
 		fmt.Fprintf(o.ErrOut, "info: Found %d operator manifest directories on disk\n", len(ordered))
-
 	default:
 		for _, m := range o.Mappings {
 			if exclude.Has(m.Source) {
@@ -583,21 +516,15 @@ func (o *NewOptions) Run() error {
 			ordered = append(ordered, m.Source)
 		}
 	}
-
 	if is == nil {
-		is = &imageapi.ImageStream{
-			ObjectMeta: metav1.ObjectMeta{},
-		}
+		is = &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{}}
 	}
-
 	is.TypeMeta = metav1.TypeMeta{APIVersion: "image.openshift.io/v1", Kind: "ImageStream"}
 	is.CreationTimestamp = metav1.Time{Time: now}
 	is.Name = name
 	if is.Annotations == nil {
 		is.Annotations = make(map[string]string)
 	}
-
-	// update any custom mappings and then sort the spec tags
 	for _, m := range o.Mappings {
 		if exclude.Has(m.Source) {
 			klog.V(2).Infof("Excluded mapping %s", m.Source)
@@ -605,27 +532,20 @@ func (o *NewOptions) Run() error {
 		}
 		tag := hasTag(is.Spec.Tags, m.Source)
 		if tag == nil {
-			is.Spec.Tags = append(is.Spec.Tags, imageapi.TagReference{
-				Name: m.Source,
-			})
+			is.Spec.Tags = append(is.Spec.Tags, imageapi.TagReference{Name: m.Source})
 			tag = &is.Spec.Tags[len(is.Spec.Tags)-1]
 		} else {
-			// when we override the spec, we have to reset any annotations
 			tag.Annotations = nil
 		}
 		if tag.Annotations == nil {
 			tag.Annotations = make(map[string]string)
 		}
 		tag.Annotations[annotationReleaseOverride] = "true"
-		tag.From = &corev1.ObjectReference{
-			Name: m.Destination,
-			Kind: "DockerImage",
-		}
+		tag.From = &corev1.ObjectReference{Name: m.Destination, Kind: "DockerImage"}
 	}
 	sort.Slice(is.Spec.Tags, func(i, j int) bool {
 		return is.Spec.Tags[i].Name < is.Spec.Tags[j].Name
 	})
-
 	if o.Output == "json" {
 		data, err := json.MarshalIndent(is, "", "  ")
 		if err != nil {
@@ -634,12 +554,10 @@ func (o *NewOptions) Run() error {
 		fmt.Fprintf(o.Out, "%s\n", string(data))
 		return nil
 	}
-
 	if len(o.FromDirectory) == 0 {
 		if err := o.extractManifests(is, name, metadata); err != nil {
 			return err
 		}
-
 		var filteredNames []string
 		for _, s := range ordered {
 			if _, ok := metadata[s]; ok {
@@ -648,13 +566,11 @@ func (o *NewOptions) Run() error {
 		}
 		ordered = filteredNames
 	}
-
 	if len(o.Mirror) > 0 {
 		if err := o.mirrorImages(is); err != nil {
 			return err
 		}
 	}
-
 	var verifiers []PayloadVerifier
 	if !o.SkipManifestCheck {
 		verifiers = append(verifiers, func(filename string, data []byte) error {
@@ -664,7 +580,6 @@ func (o *NewOptions) Run() error {
 				}
 				var obj interface{}
 				if err := yaml.Unmarshal(data, &obj); err != nil {
-					// strip the slightly verbose prefix for the error message
 					msg := err.Error()
 					for _, s := range []string{"error converting YAML to JSON: ", "error unmarshaling JSON: ", "yaml: "} {
 						msg = strings.TrimPrefix(msg, s)
@@ -690,17 +605,11 @@ func (o *NewOptions) Run() error {
 			return nil
 		})
 	}
-
-	// any input image with content, referenced in AlwaysInclude, or referenced from image-references is
-	// included, which guarantees the content of a payload can be reproduced
 	forceInclude := append(append([]string{}, o.AlwaysInclude...), ordered...)
 	if err := pruneUnreferencedImageStreams(o.ErrOut, is, metadata, forceInclude); err != nil {
 		return err
 	}
-
-	// use a stable ordering for operators
 	sort.Strings(ordered)
-
 	var operators []string
 	pr, pw := io.Pipe()
 	go func() {
@@ -708,16 +617,13 @@ func (o *NewOptions) Run() error {
 		operators, err = writePayload(pw, is, cm, ordered, metadata, o.AllowMissingImages, verifiers)
 		pw.CloseWithError(err)
 	}()
-
 	br := bufio.NewReaderSize(pr, 500*1024)
 	if _, err := br.Peek(br.Size()); err != nil && err != io.EOF {
 		return fmt.Errorf("unable to create a release: %v", err)
 	}
-
 	if err := o.write(br, is, now); err != nil {
 		return err
 	}
-
 	sort.Strings(operators)
 	switch {
 	case operators == nil:
@@ -726,11 +632,11 @@ func (o *NewOptions) Run() error {
 	default:
 		fmt.Fprintf(o.Out, "Built release image from %d operators\n", len(operators))
 	}
-
 	return nil
 }
-
 func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, referenceMode string, exclude sets.String) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch referenceMode {
 	case "public", "", "source":
 		forceExternal := referenceMode == "public" || referenceMode == ""
@@ -739,44 +645,36 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 		if forceExternal && len(external) == 0 {
 			return fmt.Errorf("only image streams or releases with public image repositories can be the source for releases when using the default --reference-mode")
 		}
-
 		externalFn := func(source, image string) string {
-			// filter source URLs
 			if len(source) > 0 && len(internal) > 0 && strings.HasPrefix(source, internal) {
 				klog.V(2).Infof("Can't use source %s because it points to the internal registry", source)
 				source = ""
 			}
-			// default to the external registry name
 			if (forceExternal || len(source) == 0) && len(external) > 0 {
 				return external + "@" + image
 			}
 			return source
 		}
-
 		covered := sets.NewString()
 		for _, ref := range inputIS.Spec.Tags {
 			if exclude.Has(ref.Name) {
 				klog.V(2).Infof("Excluded spec tag %s", ref.Name)
 				continue
 			}
-
 			if ref.From != nil && ref.From.Kind == "DockerImage" {
 				switch from, err := imagereference.Parse(ref.From.Name); {
 				case err != nil:
 					return err
-
 				case len(from.ID) > 0:
 					source := externalFn(ref.From.Name, from.ID)
 					if len(source) == 0 {
 						klog.V(2).Infof("Can't use spec tag %q because we cannot locate or calculate a source location", ref.Name)
 						continue
 					}
-
 					ref := ref.DeepCopy()
 					ref.From = &corev1.ObjectReference{Kind: "DockerImage", Name: source}
 					is.Spec.Tags = append(is.Spec.Tags, *ref)
 					covered.Insert(ref.Name)
-
 				case len(from.Tag) > 0:
 					tag := findStatusTagEvents(inputIS.Status.Tags, ref.Name)
 					if tag == nil {
@@ -796,7 +694,6 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 					if len(tag.Items[0].Image) == 0 {
 						return fmt.Errorf("the tag %q in the source input stream has no image id", tag.Tag)
 					}
-
 					source := externalFn(tag.Items[0].DockerImageReference, tag.Items[0].Image)
 					ref := ref.DeepCopy()
 					ref.From = &corev1.ObjectReference{Kind: "DockerImage", Name: source}
@@ -805,9 +702,7 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 				}
 				continue
 			}
-			// TODO: support ImageStreamTag and ImageStreamImage
 		}
-
 		for _, tag := range inputIS.Status.Tags {
 			if covered.Has(tag.Tag) {
 				continue
@@ -816,8 +711,6 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 				klog.V(2).Infof("Excluded status tag %s", tag.Tag)
 				continue
 			}
-
-			// error if we haven't imported anything to this tag, or skip otherwise
 			if len(tag.Items) == 0 {
 				for _, condition := range tag.Conditions {
 					if condition.Type == imageapi.ImportSuccess && condition.Status != metav1.StatusSuccess {
@@ -826,13 +719,10 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 				}
 				continue
 			}
-			// skip rather than error (user created a reference spec tag, then deleted it)
 			if len(tag.Items[0].Image) == 0 {
 				klog.V(2).Infof("the tag %q in the source input stream has no image id", tag.Tag)
 				continue
 			}
-
-			// attempt to identify the source image
 			source := externalFn(tag.Items[0].DockerImageReference, tag.Items[0].Image)
 			if len(source) == 0 {
 				klog.V(2).Infof("Can't use tag %q because we cannot locate or calculate a source location", tag.Tag)
@@ -845,7 +735,6 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 			sourceRef.Tag = ""
 			sourceRef.ID = tag.Items[0].Image
 			source = sourceRef.Exact()
-
 			ref := &imageapi.TagReference{Name: tag.Tag}
 			ref.From = &corev1.ObjectReference{Kind: "DockerImage", Name: source}
 			is.Spec.Tags = append(is.Spec.Tags, *ref)
@@ -855,14 +744,13 @@ func resolveImageStreamTagsToReferenceMode(inputIS, is *imageapi.ImageStream, re
 		return fmt.Errorf("supported reference modes are: \"public\" (default) and \"source\"")
 	}
 }
-
 func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, metadata map[string]imageData) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(is.Spec.Tags) == 0 {
 		return fmt.Errorf("no component images defined, unable to build a release payload")
 	}
-
 	klog.V(4).Infof("Extracting manifests for release from input images")
-
 	dir := o.Directory
 	if len(dir) == 0 {
 		var err error
@@ -870,10 +758,11 @@ func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, met
 		if err != nil {
 			return err
 		}
-		o.cleanupFns = append(o.cleanupFns, func() { os.RemoveAll(dir) })
+		o.cleanupFns = append(o.cleanupFns, func() {
+			os.RemoveAll(dir)
+		})
 		fmt.Fprintf(o.ErrOut, "info: Manifests will be extracted to %s\n", dir)
 	}
-
 	verifier := imagemanifest.NewVerifier()
 	var lock sync.Mutex
 	opts := extract.NewOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
@@ -882,18 +771,10 @@ func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, met
 	opts.ParallelOptions = o.ParallelOptions
 	opts.ImageMetadataCallback = func(m *extract.Mapping, dgst, contentDigest digest.Digest, config *docker10.DockerImageConfig) {
 		verifier.Verify(dgst, contentDigest)
-
 		lock.Lock()
 		defer lock.Unlock()
-		metadata[m.Name] = imageData{
-			Directory:     m.To,
-			Ref:           m.ImageRef,
-			Config:        config,
-			Digest:        dgst,
-			ContentDigest: contentDigest,
-		}
+		metadata[m.Name] = imageData{Directory: m.To, Ref: m.ImageRef, Config: config, Digest: dgst, ContentDigest: contentDigest}
 	}
-
 	for i := range is.Spec.Tags {
 		tag := &is.Spec.Tags[i]
 		dstDir := filepath.Join(dir, tag.Name)
@@ -905,73 +786,54 @@ func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, met
 		if err != nil {
 			return err
 		}
-
-		// when the user provides an override, look at all layers for manifests
-		// in case the user did a layered build and overrode only one. This is
-		// an unsupported release configuration
 		var custom bool
 		filter := extract.NewPositionLayerFilter(-1)
 		if tag.Annotations[annotationReleaseOverride] == "true" {
 			custom = true
 			filter = nil
 		}
-
-		opts.Mappings = append(opts.Mappings, extract.Mapping{
-			Name:     tag.Name,
-			ImageRef: ref,
-
-			From: "manifests/",
-			To:   dstDir,
-
-			LayerFilter: filter,
-
-			ConditionFn: func(m *extract.Mapping, dgst digest.Digest, imageConfig *docker10.DockerImageConfig) (bool, error) {
-				var labels map[string]string
-				if imageConfig.Config != nil {
-					labels = imageConfig.Config.Labels
+		opts.Mappings = append(opts.Mappings, extract.Mapping{Name: tag.Name, ImageRef: ref, From: "manifests/", To: dstDir, LayerFilter: filter, ConditionFn: func(m *extract.Mapping, dgst digest.Digest, imageConfig *docker10.DockerImageConfig) (bool, error) {
+			var labels map[string]string
+			if imageConfig.Config != nil {
+				labels = imageConfig.Config.Labels
+			}
+			if tag.Annotations == nil {
+				tag.Annotations = make(map[string]string)
+			}
+			tag.Annotations[annotationBuildSourceCommit] = labels[annotationBuildSourceCommit]
+			tag.Annotations[annotationBuildSourceRef] = labels[annotationBuildSourceRef]
+			tag.Annotations[annotationBuildSourceLocation] = labels[annotationBuildSourceLocation]
+			if versions := labels[annotationBuildVersions]; len(versions) > 0 {
+				components, err := parseComponentVersionsLabel(versions)
+				if err != nil {
+					return false, fmt.Errorf("tag %q has an invalid %s label: %v", tag.Name, annotationBuildVersions, err)
 				}
-				if tag.Annotations == nil {
-					tag.Annotations = make(map[string]string)
-				}
-				tag.Annotations[annotationBuildSourceCommit] = labels[annotationBuildSourceCommit]
-				tag.Annotations[annotationBuildSourceRef] = labels[annotationBuildSourceRef]
-				tag.Annotations[annotationBuildSourceLocation] = labels[annotationBuildSourceLocation]
-
-				if versions := labels[annotationBuildVersions]; len(versions) > 0 {
-					components, err := parseComponentVersionsLabel(versions)
-					if err != nil {
-						return false, fmt.Errorf("tag %q has an invalid %s label: %v", tag.Name, annotationBuildVersions, err)
+				for component := range components {
+					if !stringArrContains(o.AllowedComponents, component) {
+						return false, fmt.Errorf("tag %q references a component version %q which is not in the allowed list", tag.Name, component)
 					}
-					// TODO: eventually this can be relaxed
-					for component := range components {
-						if !stringArrContains(o.AllowedComponents, component) {
-							return false, fmt.Errorf("tag %q references a component version %q which is not in the allowed list", tag.Name, component)
-						}
-					}
-					tag.Annotations[annotationBuildVersions] = versions
 				}
-
-				if len(labels[annotationReleaseOperator]) == 0 {
-					klog.V(2).Infof("Image %s has no %s label, skipping", m.ImageRef, annotationReleaseOperator)
-					return false, nil
-				}
-				if err := os.MkdirAll(dstDir, 0777); err != nil {
-					return false, err
-				}
-				if custom {
-					fmt.Fprintf(o.Out, "Loading override manifests from %s: %s ...\n", tag.Name, m.ImageRef.Exact())
-				} else {
-					fmt.Fprintf(o.Out, "Loading manifests from %s: %s ...\n", tag.Name, m.ImageRef.ID)
-				}
-				return true, nil
-			},
-		})
+				tag.Annotations[annotationBuildVersions] = versions
+			}
+			if len(labels[annotationReleaseOperator]) == 0 {
+				klog.V(2).Infof("Image %s has no %s label, skipping", m.ImageRef, annotationReleaseOperator)
+				return false, nil
+			}
+			if err := os.MkdirAll(dstDir, 0777); err != nil {
+				return false, err
+			}
+			if custom {
+				fmt.Fprintf(o.Out, "Loading override manifests from %s: %s ...\n", tag.Name, m.ImageRef.Exact())
+			} else {
+				fmt.Fprintf(o.Out, "Loading manifests from %s: %s ...\n", tag.Name, m.ImageRef.ID)
+			}
+			return true, nil
+		}})
 	}
 	klog.V(4).Infof("Manifests will be extracted from:\n%#v", opts.Mappings)
 	if err := opts.Run(); err != nil {
 		return err
 	}
-
 	if !verifier.Verified() {
 		err := fmt.Errorf("one or more input images failed content verification and may have been tampered with")
 		if !o.SecurityOptions.SkipVerification {
@@ -979,7 +841,6 @@ func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, met
 		}
 		fmt.Fprintf(o.ErrOut, "warning: %v\n", err)
 	}
-
 	if len(is.Spec.Tags) > 0 {
 		if err := os.MkdirAll(dir, 0777); err != nil {
 			return err
@@ -994,8 +855,9 @@ func (o *NewOptions) extractManifests(is *imageapi.ImageStream, name string, met
 	}
 	return nil
 }
-
 func (o *NewOptions) mirrorImages(is *imageapi.ImageStream) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Mirroring release contents to %s", o.Mirror)
 	copied := is.DeepCopy()
 	opts := NewMirrorOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
@@ -1004,16 +866,13 @@ func (o *NewOptions) mirrorImages(is *imageapi.ImageStream) error {
 	opts.To = o.Mirror
 	opts.SkipRelease = true
 	opts.SecurityOptions = o.SecurityOptions
-
 	if err := opts.Run(); err != nil {
 		return err
 	}
-
 	targetFn, err := ComponentReferencesForImageStream(copied)
 	if err != nil {
 		return err
 	}
-
 	replacements, err := ReplacementsForImageStream(is, false, targetFn)
 	if err != nil {
 		return err
@@ -1031,11 +890,11 @@ func (o *NewOptions) mirrorImages(is *imageapi.ImageStream) error {
 		data, _ := json.MarshalIndent(is, "", "  ")
 		klog.Infof("Image references updated to:\n%s", string(data))
 	}
-
 	return nil
 }
-
 func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case len(o.ToDir) > 0:
 		klog.V(4).Infof("Writing release contents to directory %s", o.ToDir)
@@ -1121,7 +980,6 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 				return fmt.Errorf("--to-image-base-tag did not point to a tag in the input")
 			}
 		}
-
 		verifier := imagemanifest.NewVerifier()
 		options := imageappend.NewAppendImageOptions(genericclioptions.IOStreams{Out: o.Out, ErrOut: o.ErrOut})
 		options.SecurityOptions = o.SecurityOptions
@@ -1129,7 +987,6 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 		options.From = toImageBase
 		options.ConfigurationCallback = func(dgst, contentDigest digest.Digest, config *docker10.DockerImageConfig) error {
 			verifier.Verify(dgst, contentDigest)
-			// reset any base image info
 			if len(config.OS) == 0 {
 				config.OS = "linux"
 			}
@@ -1141,18 +998,13 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 			config.Created = now
 			config.ContainerConfig = docker10.DockerConfig{}
 			config.Config.Labels = make(map[string]string)
-
-			// explicitly set release info
 			config.Config.Labels["io.openshift.release"] = is.Name
-			config.History = []docker10.DockerConfigHistory{
-				{Comment: "Release image for OpenShift", Created: is.CreationTimestamp.Time},
-			}
+			config.History = []docker10.DockerConfigHistory{{Comment: "Release image for OpenShift", Created: is.CreationTimestamp.Time}}
 			if len(dgst) > 0 {
 				config.Config.Labels[annotationReleaseBaseImageDigest] = dgst.String()
 			}
 			return nil
 		}
-
 		options.LayerStream = r
 		options.To = toRef.Exact()
 		if err := options.Run(); err != nil {
@@ -1165,8 +1017,6 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 			}
 			fmt.Fprintf(o.ErrOut, "warning: %v\n", err)
 		}
-
-		// TODO: support a dry run that doesn't push the image, but requires append to have a dry-run mode
 		toRefWithDigest := toRef
 		toRefWithDigest.Tag = ""
 		toRefWithDigest.ID = options.ToDigest.String()
@@ -1181,7 +1031,6 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 		} else {
 			klog.V(2).Infof("Signature for output:\n%s", string(msg))
 		}
-
 	default:
 		fmt.Fprintf(o.ErrOut, "info: Extracting operator contents to disk without building a release artifact\n")
 		if _, err := io.Copy(ioutil.Discard, r); err != nil {
@@ -1190,8 +1039,9 @@ func (o *NewOptions) write(r io.Reader, is *imageapi.ImageStream, now time.Time)
 	}
 	return nil
 }
-
 func toJSONString(obj interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := json.Marshal(obj)
 	if err != nil {
 		panic(err)
@@ -1199,15 +1049,16 @@ func toJSONString(obj interface{}) string {
 	return string(data)
 }
 
-type nopCloser struct {
-	io.Writer
+type nopCloser struct{ io.Writer }
+
+func (_ nopCloser) Close() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return nil
 }
-
-func (_ nopCloser) Close() error { return nil }
-
-// writeNestedTarHeader writes a series of nested tar headers, starting with parts[0] and joining each
-// successive part, but only if the path does not exist already.
 func writeNestedTarHeader(tw *tar.Writer, parts []string, existing map[string]struct{}, hdr tar.Header) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range parts {
 		componentDir := path.Join(parts[:i+1]...)
 		if _, ok := existing[componentDir]; ok {
@@ -1221,15 +1072,13 @@ func writeNestedTarHeader(tw *tar.Writer, parts []string, existing map[string]st
 	}
 	return nil
 }
-
 func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata, ordered []string, metadata map[string]imageData, allowMissingImages bool, verifiers []PayloadVerifier) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var operators []string
 	directories := make(map[string]struct{})
 	files := make(map[string]int)
-
 	parts := []string{"release-manifests"}
-
-	// find the newest content date in the input
 	var newest time.Time
 	if err := iterateExtractedManifests(ordered, metadata, func(contents []os.FileInfo, name string, image imageData) error {
 		for _, fi := range contents {
@@ -1247,16 +1096,11 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 	newest = newest.UTC().Truncate(time.Second)
 	is.CreationTimestamp.Time = newest
 	klog.V(4).Infof("Most recent content has date %s", newest.Format(time.RFC3339))
-
 	gw := gzip.NewWriter(w)
 	tw := tar.NewWriter(gw)
-
-	// ensure the directory exists in the tar bundle
 	if err := writeNestedTarHeader(tw, parts, directories, tar.Header{Mode: 0777, ModTime: newest, Typeflag: tar.TypeDir}); err != nil {
 		return nil, err
 	}
-
-	// write image metadata to release-manifests/image-references
 	data, err := json.MarshalIndent(is, "", "  ")
 	if err != nil {
 		return nil, err
@@ -1267,8 +1111,6 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 	if _, err := tw.Write(data); err != nil {
 		return nil, err
 	}
-
-	// write cincinnati metadata to release-manifests/release-metadata
 	if cm != nil {
 		data, err := json.MarshalIndent(cm, "", "  ")
 		if err != nil {
@@ -1281,11 +1123,8 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 			return nil, err
 		}
 	}
-
-	// read each directory, processing the manifests in order and updating the contents into the tar output
 	if err := iterateExtractedManifests(ordered, metadata, func(contents []os.FileInfo, name string, image imageData) error {
 		transform := NopManifestMapper
-
 		if fi := takeFileByName(&contents, "image-references"); fi != nil {
 			path := filepath.Join(image.Directory, fi.Name())
 			klog.V(2).Infof("Perform image replacement based on inclusion of %s", path)
@@ -1294,16 +1133,11 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 				return fmt.Errorf("operator %q failed to map images: %s", name, err)
 			}
 		}
-
 		for _, fi := range contents {
 			if fi.IsDir() {
 				continue
 			}
 			filename := fi.Name()
-
-			// components that don't declare that they need to be part of the global order
-			// get put in a scoped bucket at the end. Only a few components should need to
-			// be in the global order.
 			if !strings.HasPrefix(filename, "0000_") {
 				filename = fmt.Sprintf("0000_50_%s_%s", name, filename)
 			}
@@ -1318,18 +1152,15 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 			src := filepath.Join(image.Directory, fi.Name())
 			dst := path.Join(append(append([]string{}, parts...), filename)...)
 			klog.V(4).Infof("Copying %s to %s", src, dst)
-
 			data, err := ioutil.ReadFile(src)
 			if err != nil {
 				return err
 			}
-
 			for _, fn := range verifiers {
 				if err := fn(filepath.Join(filepath.Base(image.Directory), fi.Name()), data); err != nil {
 					return err
 				}
 			}
-
 			modified, err := transform(data)
 			if err != nil {
 				return err
@@ -1347,7 +1178,6 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 	}); err != nil {
 		return nil, err
 	}
-
 	if err := tw.Close(); err != nil {
 		return nil, err
 	}
@@ -1356,15 +1186,14 @@ func writePayload(w io.Writer, is *imageapi.ImageStream, cm *CincinnatiMetadata,
 	}
 	return operators, nil
 }
-
 func iterateExtractedManifests(ordered []string, metadata map[string]imageData, fn func(contents []os.FileInfo, name string, image imageData) error) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, name := range ordered {
 		image, ok := metadata[name]
 		if !ok {
 			return fmt.Errorf("missing image data %s", name)
 		}
-
-		// process each manifest in the given directory
 		contents, err := ioutil.ReadDir(image.Directory)
 		if err != nil {
 			return err
@@ -1372,15 +1201,15 @@ func iterateExtractedManifests(ordered []string, metadata map[string]imageData, 
 		if len(contents) == 0 {
 			continue
 		}
-
 		if err := fn(contents, name, image); err != nil {
 			return err
 		}
 	}
 	return nil
 }
-
 func hasTag(tags []imageapi.TagReference, tag string) *imageapi.TagReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range tags {
 		if tag == tags[i].Name {
 			return &tags[i]
@@ -1388,8 +1217,9 @@ func hasTag(tags []imageapi.TagReference, tag string) *imageapi.TagReference {
 	}
 	return nil
 }
-
 func pruneEmptyDirectories(dir string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return filepath.Walk(dir, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -1410,11 +1240,13 @@ func pruneEmptyDirectories(dir string) error {
 }
 
 type Mapping struct {
-	Source      string
-	Destination string
+	Source		string
+	Destination	string
 }
 
 func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var mappings []Mapping
 	for _, s := range args {
 		parts := strings.SplitN(s, "=", 2)
@@ -1430,13 +1262,13 @@ func parseArgs(args []string, overlap map[string]string) ([]Mapping, error) {
 			return nil, fmt.Errorf("each source tag may only be specified once: %s", dst)
 		}
 		overlap[dst] = src
-
 		mappings = append(mappings, Mapping{Source: src, Destination: dst})
 	}
 	return mappings, nil
 }
-
 func parseFile(filename string, overlap map[string]string) ([]Mapping, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var fileMappings []Mapping
 	f, err := os.Open(filename)
 	if err != nil {
@@ -1448,8 +1280,6 @@ func parseFile(filename string, overlap map[string]string) ([]Mapping, error) {
 	for s.Scan() {
 		line := s.Text()
 		lineNumber++
-
-		// remove comments and whitespace
 		if i := strings.Index(line, "#"); i != -1 {
 			line = line[0:i]
 		}
@@ -1457,7 +1287,6 @@ func parseFile(filename string, overlap map[string]string) ([]Mapping, error) {
 		if len(line) == 0 {
 			continue
 		}
-
 		args := strings.Split(line, " ")
 		mappings, err := parseArgs(args, overlap)
 		if err != nil {
@@ -1470,8 +1299,9 @@ func parseFile(filename string, overlap map[string]string) ([]Mapping, error) {
 	}
 	return fileMappings, nil
 }
-
 func takeFileByName(files *[]os.FileInfo, name string) os.FileInfo {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i, fi := range *files {
 		if fi.IsDir() || fi.Name() != name {
 			continue
@@ -1485,6 +1315,8 @@ func takeFileByName(files *[]os.FileInfo, name string) os.FileInfo {
 type PayloadVerifier func(filename string, data []byte) error
 
 func pruneUnreferencedImageStreams(out io.Writer, is *imageapi.ImageStream, metadata map[string]imageData, include []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	referenced := make(map[string]struct{})
 	for _, v := range metadata {
 		is, err := parseImageStream(filepath.Join(v.Directory, "image-references"))
@@ -1516,8 +1348,9 @@ func pruneUnreferencedImageStreams(out io.Writer, is *imageapi.ImageStream, meta
 	}
 	return nil
 }
-
 func filenameContents(s string, in io.Reader) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case s == "-":
 		return ioutil.ReadAll(in)

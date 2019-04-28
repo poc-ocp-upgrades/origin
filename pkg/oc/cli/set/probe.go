@@ -6,10 +6,8 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -28,7 +26,7 @@ import (
 )
 
 var (
-	probeLong = templates.LongDesc(`
+	probeLong	= templates.LongDesc(`
 		Set or remove a liveness or readiness probe from a pod or pod template
 
 		Each container in a pod may define one or more probes that are used for general health
@@ -48,8 +46,7 @@ var (
 		Containers that take a variable amount of time to start should set generous
 		initial-delay-seconds values, otherwise as your application evolves you may suddenly begin
 		to fail.`)
-
-	probeExample = templates.Examples(`
+	probeExample	= templates.Examples(`
 		# Clear both readiness and liveness probes off all containers
 	  %[1]s probe dc/registry --remove --readiness --liveness
 
@@ -70,72 +67,52 @@ var (
 )
 
 type ProbeOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	ContainerSelector string
-	Selector          string
-	All               bool
-	Readiness         bool
-	Liveness          bool
-	Remove            bool
-	Local             bool
-	OpenTCPSocket     string
-	HTTPGet           string
-
-	Mapper                 meta.RESTMapper
-	Client                 dynamic.Interface
-	Printer                printers.ResourcePrinter
-	Builder                func() *resource.Builder
-	Encoder                runtime.Encoder
-	Namespace              string
-	ExplicitNamespace      bool
-	UpdatePodSpecForObject polymorphichelpers.UpdatePodSpecForObjectFunc
-	Command                []string
-	Resources              []string
-	DryRun                 bool
-
-	FlagSet       func(string) bool
-	HTTPGetAction *corev1.HTTPGetAction
-
-	// Length of time before health checking is activated.  In seconds.
-	InitialDelaySeconds *int
-	// Length of time before health checking times out.  In seconds.
-	TimeoutSeconds *int
-	// How often (in seconds) to perform the probe.
-	PeriodSeconds *int
-	// Minimum consecutive successes for the probe to be considered successful after having failed.
-	// Must be 1 for liveness.
-	SuccessThreshold *int
-	// Minimum consecutive failures for the probe to be considered failed after having succeeded.
-	FailureThreshold *int
-
+	PrintFlags		*genericclioptions.PrintFlags
+	ContainerSelector	string
+	Selector		string
+	All			bool
+	Readiness		bool
+	Liveness		bool
+	Remove			bool
+	Local			bool
+	OpenTCPSocket		string
+	HTTPGet			string
+	Mapper			meta.RESTMapper
+	Client			dynamic.Interface
+	Printer			printers.ResourcePrinter
+	Builder			func() *resource.Builder
+	Encoder			runtime.Encoder
+	Namespace		string
+	ExplicitNamespace	bool
+	UpdatePodSpecForObject	polymorphichelpers.UpdatePodSpecForObjectFunc
+	Command			[]string
+	Resources		[]string
+	DryRun			bool
+	FlagSet			func(string) bool
+	HTTPGetAction		*corev1.HTTPGetAction
+	InitialDelaySeconds	*int
+	TimeoutSeconds		*int
+	PeriodSeconds		*int
+	SuccessThreshold	*int
+	FailureThreshold	*int
 	resource.FilenameOptions
 	genericclioptions.IOStreams
 }
 
 func NewProbeOptions(streams genericclioptions.IOStreams) *ProbeOptions {
-	return &ProbeOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("probes updated").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-
-		ContainerSelector: "*",
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &ProbeOptions{PrintFlags: genericclioptions.NewPrintFlags("probes updated").WithTypeSetter(scheme.Scheme), IOStreams: streams, ContainerSelector: "*"}
 }
-
-// NewCmdProbe implements the set probe command
 func NewCmdProbe(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewProbeOptions(streams)
-	cmd := &cobra.Command{
-		Use:     "probe RESOURCE/NAME --readiness|--liveness [flags] (--get-url=URL|--open-tcp=PORT|-- CMD)",
-		Short:   "Update a probe on a pod template",
-		Long:    probeLong,
-		Example: fmt.Sprintf(probeExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+	cmd := &cobra.Command{Use: "probe RESOURCE/NAME --readiness|--liveness [flags] (--get-url=URL|--open-tcp=PORT|-- CMD)", Short: "Update a probe on a pod template", Long: probeLong, Example: fmt.Sprintf(probeExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	usage := "to use to edit the resource"
 	kcmdutil.AddFilenameOptionFlags(cmd, &o.FilenameOptions, usage)
 	cmd.Flags().StringVarP(&o.ContainerSelector, "containers", "c", o.ContainerSelector, "The names of containers in the selected pod templates to change - may use wildcards")
@@ -147,20 +124,18 @@ func NewCmdProbe(fullName string, f kcmdutil.Factory, streams genericclioptions.
 	cmd.Flags().BoolVar(&o.Local, "local", o.Local, "If true, set image will NOT contact api-server but run locally.")
 	cmd.Flags().StringVar(&o.OpenTCPSocket, "open-tcp", o.OpenTCPSocket, "A port number or port name to attempt to open via TCP.")
 	cmd.Flags().StringVar(&o.HTTPGet, "get-url", o.HTTPGet, "A URL to perform an HTTP GET on (you can omit the host, have a string port, or omit the scheme.")
-
 	o.InitialDelaySeconds = cmd.Flags().Int("initial-delay-seconds", 0, "The time in seconds to wait before the probe begins checking")
 	o.SuccessThreshold = cmd.Flags().Int("success-threshold", 0, "The number of successes required before the probe is considered successful")
 	o.FailureThreshold = cmd.Flags().Int("failure-threshold", 0, "The number of failures before the probe is considered to have failed")
 	o.PeriodSeconds = cmd.Flags().Int("period-seconds", 0, "The time in seconds between attempts")
 	o.TimeoutSeconds = cmd.Flags().Int("timeout-seconds", 0, "The time in seconds to wait before considering the probe to have failed")
-
 	o.PrintFlags.AddFlags(cmd)
 	kcmdutil.AddDryRunFlag(cmd)
-
 	return cmd
 }
-
 func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o.Resources = args
 	if i := cmd.ArgsLenAtDash(); i != -1 {
 		o.Resources = args[:i]
@@ -169,20 +144,17 @@ func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	if len(o.Filenames) == 0 && len(args) < 1 {
 		return kcmdutil.UsageErrorf(cmd, "one or more resources must be specified as <resource> <name> or <resource>/<name>")
 	}
-
 	var err error
 	o.Namespace, o.ExplicitNamespace, err = f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
 	}
-
 	o.Mapper, err = f.ToRESTMapper()
 	if err != nil {
 		return err
 	}
 	o.Builder = f.NewBuilder
 	o.UpdatePodSpecForObject = polymorphichelpers.UpdatePodSpecForObjectFn
-
 	o.DryRun = kcmdutil.GetDryRunFlag(cmd)
 	if o.DryRun {
 		o.PrintFlags.Complete("%s (dry run)")
@@ -191,7 +163,6 @@ func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	if err != nil {
 		return err
 	}
-
 	if !cmd.Flags().Lookup("initial-delay-seconds").Changed {
 		o.InitialDelaySeconds = nil
 	}
@@ -207,7 +178,6 @@ func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	if !cmd.Flags().Lookup("failure-threshold").Changed {
 		o.FailureThreshold = nil
 	}
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -216,7 +186,6 @@ func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 	if err != nil {
 		return err
 	}
-
 	if len(o.HTTPGet) > 0 {
 		url, err := url.Parse(o.HTTPGet)
 		if err != nil {
@@ -231,18 +200,13 @@ func (o *ProbeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []s
 		if host == "localhost" {
 			host = ""
 		}
-		o.HTTPGetAction = &corev1.HTTPGetAction{
-			Scheme: corev1.URIScheme(strings.ToUpper(url.Scheme)),
-			Host:   host,
-			Port:   intOrString(port),
-			Path:   url.Path,
-		}
+		o.HTTPGetAction = &corev1.HTTPGetAction{Scheme: corev1.URIScheme(strings.ToUpper(url.Scheme)), Host: host, Port: intOrString(port), Path: url.Path}
 	}
-
 	return nil
 }
-
 func (o *ProbeOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !o.Readiness && !o.Liveness {
 		return fmt.Errorf("you must specify one of --readiness, --liveness or both")
 	}
@@ -256,7 +220,6 @@ func (o *ProbeOptions) Validate() error {
 	if len(o.HTTPGet) > 0 {
 		count++
 	}
-
 	switch {
 	case o.Remove && count != 0:
 		return fmt.Errorf("--remove may not be used with any flag except --readiness or --liveness")
@@ -283,32 +246,20 @@ func (o *ProbeOptions) Validate() error {
 	if len(o.HTTPGet) > 0 && len(o.HTTPGetAction.Port.String()) == 0 {
 		return fmt.Errorf("port must be specified as part of a url")
 	}
-
 	return nil
 }
-
 func (o *ProbeOptions) Run() error {
-	b := o.Builder().
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		LocalParam(o.Local).
-		ContinueOnError().
-		NamespaceParam(o.Namespace).DefaultNamespace().
-		FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).
-		Flatten()
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	b := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).LocalParam(o.Local).ContinueOnError().NamespaceParam(o.Namespace).DefaultNamespace().FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).Flatten()
 	if !o.Local {
-		b = b.
-			LabelSelectorParam(o.Selector).
-			ResourceTypeOrNameArgs(o.All, o.Resources...).
-			Latest()
+		b = b.LabelSelectorParam(o.Selector).ResourceTypeOrNameArgs(o.All, o.Resources...).Latest()
 	}
-
 	singleItemImplied := false
 	infos, err := b.Do().IntoSingleItemImplied(&singleItemImplied).Infos()
 	if err != nil {
 		return err
 	}
-
 	patches := CalculatePatchesExternal(infos, func(info *resource.Info) (bool, error) {
 		transformed := false
 		name := getObjectName(info)
@@ -318,7 +269,6 @@ func (o *ProbeOptions) Run() error {
 				fmt.Fprintf(o.ErrOut, "warning: %s does not have any containers matching %q\n", name, o.ContainerSelector)
 				return nil
 			}
-			// perform updates
 			transformed = true
 			for _, container := range containers {
 				o.updateContainer(container)
@@ -330,7 +280,6 @@ func (o *ProbeOptions) Run() error {
 	if singleItemImplied && len(patches) == 0 {
 		return fmt.Errorf("%s/%s is not a pod or does not have a pod template", infos[0].Mapping.Resource, infos[0].Name)
 	}
-
 	allErrs := []error{}
 	for _, patch := range patches {
 		info := patch.Info
@@ -339,34 +288,30 @@ func (o *ProbeOptions) Run() error {
 			allErrs = append(allErrs, fmt.Errorf("error: %s %v\n", name, patch.Err))
 			continue
 		}
-
 		if string(patch.Patch) == "{}" || len(patch.Patch) == 0 {
 			klog.V(1).Infof("info: %s was not changed\n", name)
 			continue
 		}
-
 		if o.Local || o.DryRun {
 			if err := o.Printer.PrintObj(info.Object, o.Out); err != nil {
 				allErrs = append(allErrs, err)
 			}
 			continue
 		}
-
 		actual, err := o.Client.Resource(info.Mapping.Resource).Namespace(info.Namespace).Patch(info.Name, types.StrategicMergePatchType, patch.Patch, metav1.UpdateOptions{})
 		if err != nil {
 			allErrs = append(allErrs, err)
 			continue
 		}
-
 		if err := o.Printer.PrintObj(actual, o.Out); err != nil {
 			allErrs = append(allErrs, err)
 		}
 	}
 	return utilerrors.NewAggregate(allErrs)
-
 }
-
 func (o *ProbeOptions) updateContainer(container *corev1.Container) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.Remove {
 		if o.Readiness {
 			container.ReadinessProbe = nil
@@ -389,9 +334,9 @@ func (o *ProbeOptions) updateContainer(container *corev1.Container) {
 		o.updateProbe(container.LivenessProbe)
 	}
 }
-
-// updateProbe updates only those fields with flags set by the user
 func (o *ProbeOptions) updateProbe(probe *corev1.Probe) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case o.Command != nil:
 		probe.Handler = corev1.Handler{Exec: &corev1.ExecAction{Command: o.Command}}
@@ -416,8 +361,9 @@ func (o *ProbeOptions) updateProbe(probe *corev1.Probe) {
 		probe.PeriodSeconds = int32(*o.PeriodSeconds)
 	}
 }
-
 func intOrString(s string) intstr.IntOrString {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if i, err := strconv.Atoi(s); err == nil {
 		return intstr.FromInt(i)
 	}

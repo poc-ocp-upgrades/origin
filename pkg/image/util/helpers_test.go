@@ -3,212 +3,20 @@ package util
 import (
 	"testing"
 	"time"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/diff"
 	kapihelper "k8s.io/kubernetes/pkg/apis/core/helper"
-
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 )
 
 func TestImageWithMetadata(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		image         imageapi.Image
-		expectedImage imageapi.Image
-		expectError   bool
-	}{
-		"no manifest data": {
-			image:         imageapi.Image{},
-			expectedImage: imageapi.Image{},
-		},
-		"error unmarshalling manifest data": {
-			image: imageapi.Image{
-				DockerImageManifest: "{ no {{{ json here!!!",
-			},
-			expectedImage: imageapi.Image{},
-			expectError:   true,
-		},
-		"no history": {
-			image: imageapi.Image{
-				DockerImageManifest: `{"name": "library/ubuntu", "tag": "latest"}`,
-			},
-			expectedImage: imageapi.Image{
-				DockerImageManifest: `{"name": "library/ubuntu", "tag": "latest"}`,
-			},
-			expectError: true,
-		},
-		"error unmarshalling v1 compat": {
-			image: imageapi.Image{
-				DockerImageManifest: "{\"name\": \"library/ubuntu\", \"tag\": \"latest\", \"history\": [\"v1Compatibility\": \"{ not valid {{ json\" }",
-			},
-			expectError: true,
-		},
-		"happy path": {
-			image: validImageWithManifestData(),
-			expectedImage: imageapi.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "id",
-					Annotations: map[string]string{
-						imageapi.DockerImageLayersOrderAnnotation: imageapi.DockerImageLayersOrderAscending,
-					},
-				},
-				DockerImageManifest: validImageWithManifestData().DockerImageManifest,
-				DockerImageLayers: []imageapi.ImageLayer{
-					{Name: "tarsum.dev+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 0},
-					{Name: "tarsum.dev+sha256:2aaacc362ac6be2b9e9ae8c6029f6f616bb50aec63746521858e47841b90fabd", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 188097705},
-					{Name: "tarsum.dev+sha256:c937c4bb1c1a21cc6d94340812262c6472092028972ae69b551b1a70d4276171", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 194533},
-					{Name: "tarsum.dev+sha256:b194de3772ebbcdc8f244f663669799ac1cb141834b7cb8b69100285d357a2b0", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 1895},
-					{Name: "tarsum.dev+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 0},
-				},
-				DockerImageManifestMediaType: "application/vnd.docker.distribution.manifest.v1+json",
-				DockerImageMetadata: imageapi.DockerImage{
-					ID:        "2d24f826cb16146e2016ff349a8a33ed5830f3b938d45c0f82943f4ab8c097e7",
-					Parent:    "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c",
-					Comment:   "",
-					Created:   metav1.Date(2015, 2, 21, 2, 11, 6, 735146646, time.UTC),
-					Container: "c9a3eda5951d28aa8dbe5933be94c523790721e4f80886d0a8e7a710132a38ec",
-					ContainerConfig: imageapi.DockerConfig{
-						Hostname:        "43bd710ec89a",
-						Domainname:      "",
-						User:            "",
-						Memory:          0,
-						MemorySwap:      0,
-						CPUShares:       0,
-						CPUSet:          "",
-						AttachStdin:     false,
-						AttachStdout:    false,
-						AttachStderr:    false,
-						PortSpecs:       nil,
-						ExposedPorts:    nil,
-						Tty:             false,
-						OpenStdin:       false,
-						StdinOnce:       false,
-						Env:             []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"},
-						Cmd:             []string{"/bin/sh", "-c", "#(nop) CMD [/bin/bash]"},
-						Image:           "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c",
-						Volumes:         nil,
-						WorkingDir:      "",
-						Entrypoint:      nil,
-						NetworkDisabled: false,
-						SecurityOpts:    nil,
-						OnBuild:         []string{},
-					},
-					DockerVersion: "1.4.1",
-					Author:        "",
-					Config: &imageapi.DockerConfig{
-						Hostname:        "43bd710ec89a",
-						Domainname:      "",
-						User:            "",
-						Memory:          0,
-						MemorySwap:      0,
-						CPUShares:       0,
-						CPUSet:          "",
-						AttachStdin:     false,
-						AttachStdout:    false,
-						AttachStderr:    false,
-						PortSpecs:       nil,
-						ExposedPorts:    nil,
-						Tty:             false,
-						OpenStdin:       false,
-						StdinOnce:       false,
-						Env:             []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"},
-						Cmd:             []string{"/bin/bash"},
-						Image:           "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c",
-						Volumes:         nil,
-						WorkingDir:      "",
-						Entrypoint:      nil,
-						NetworkDisabled: false,
-						OnBuild:         []string{},
-					},
-					Architecture: "amd64",
-					Size:         188294133,
-				},
-			},
-		},
-		"valid metadata size": {
-			image: validImageWithManifestV2Data(),
-			expectedImage: imageapi.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "id",
-					Annotations: map[string]string{
-						imageapi.DockerImageLayersOrderAnnotation: imageapi.DockerImageLayersOrderAscending,
-					},
-				},
-				DockerImageConfig:            validImageWithManifestV2Data().DockerImageConfig,
-				DockerImageManifest:          validImageWithManifestV2Data().DockerImageManifest,
-				DockerImageManifestMediaType: "application/vnd.docker.distribution.manifest.v2+json",
-				DockerImageLayers: []imageapi.ImageLayer{
-					{Name: "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 5312},
-					{Name: "sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 235231},
-					{Name: "sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 235231},
-					{Name: "sha256:b4ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 639152},
-				},
-				DockerImageMetadata: imageapi.DockerImage{
-					ID:            "sha256:815d06b56f4138afacd0009b8e3799fcdce79f0507bf8d0588e219b93ab6fd4d",
-					Parent:        "",
-					Comment:       "",
-					Created:       metav1.Date(2015, 2, 21, 2, 11, 6, 735146646, time.UTC),
-					Container:     "e91032eb0403a61bfe085ff5a5a48e3659e5a6deae9f4d678daa2ae399d5a001",
-					DockerVersion: "1.9.0-dev",
-					Author:        "",
-					Architecture:  "amd64",
-					Size:          882848,
-					ContainerConfig: imageapi.DockerConfig{
-						Hostname:        "23304fc829f9",
-						Domainname:      "",
-						User:            "",
-						Memory:          0,
-						MemorySwap:      0,
-						CPUShares:       0,
-						CPUSet:          "",
-						AttachStdin:     false,
-						AttachStdout:    false,
-						AttachStderr:    false,
-						PortSpecs:       nil,
-						ExposedPorts:    nil,
-						Tty:             false,
-						OpenStdin:       false,
-						StdinOnce:       false,
-						Env:             []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "derived=true", "asdf=true"},
-						Cmd:             []string{"/bin/sh", "-c", "#(nop) CMD [\"/bin/sh\" \"-c\" \"echo hi\"]"},
-						Image:           "sha256:4ab15c48b859c2920dd5224f92aabcd39a52794c5b3cf088fb3bbb438756c246",
-						Volumes:         nil,
-						WorkingDir:      "",
-						Entrypoint:      nil,
-						NetworkDisabled: false,
-						SecurityOpts:    nil,
-						OnBuild:         []string{},
-					},
-					Config: &imageapi.DockerConfig{
-						Hostname:        "23304fc829f9",
-						Domainname:      "",
-						User:            "",
-						Memory:          0,
-						MemorySwap:      0,
-						CPUShares:       0,
-						CPUSet:          "",
-						AttachStdin:     false,
-						AttachStdout:    false,
-						AttachStderr:    false,
-						PortSpecs:       nil,
-						ExposedPorts:    nil,
-						Tty:             false,
-						OpenStdin:       false,
-						StdinOnce:       false,
-						Env:             []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "derived=true", "asdf=true"},
-						Cmd:             []string{"/bin/sh", "-c", "echo hi"},
-						Image:           "sha256:4ab15c48b859c2920dd5224f92aabcd39a52794c5b3cf088fb3bbb438756c246",
-						Volumes:         nil,
-						WorkingDir:      "",
-						Entrypoint:      nil,
-						NetworkDisabled: false,
-						OnBuild:         []string{},
-					},
-				},
-			},
-		},
-	}
-
+		image		imageapi.Image
+		expectedImage	imageapi.Image
+		expectError	bool
+	}{"no manifest data": {image: imageapi.Image{}, expectedImage: imageapi.Image{}}, "error unmarshalling manifest data": {image: imageapi.Image{DockerImageManifest: "{ no {{{ json here!!!"}, expectedImage: imageapi.Image{}, expectError: true}, "no history": {image: imageapi.Image{DockerImageManifest: `{"name": "library/ubuntu", "tag": "latest"}`}, expectedImage: imageapi.Image{DockerImageManifest: `{"name": "library/ubuntu", "tag": "latest"}`}, expectError: true}, "error unmarshalling v1 compat": {image: imageapi.Image{DockerImageManifest: "{\"name\": \"library/ubuntu\", \"tag\": \"latest\", \"history\": [\"v1Compatibility\": \"{ not valid {{ json\" }"}, expectError: true}, "happy path": {image: validImageWithManifestData(), expectedImage: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "id", Annotations: map[string]string{imageapi.DockerImageLayersOrderAnnotation: imageapi.DockerImageLayersOrderAscending}}, DockerImageManifest: validImageWithManifestData().DockerImageManifest, DockerImageLayers: []imageapi.ImageLayer{{Name: "tarsum.dev+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 0}, {Name: "tarsum.dev+sha256:2aaacc362ac6be2b9e9ae8c6029f6f616bb50aec63746521858e47841b90fabd", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 188097705}, {Name: "tarsum.dev+sha256:c937c4bb1c1a21cc6d94340812262c6472092028972ae69b551b1a70d4276171", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 194533}, {Name: "tarsum.dev+sha256:b194de3772ebbcdc8f244f663669799ac1cb141834b7cb8b69100285d357a2b0", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 1895}, {Name: "tarsum.dev+sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", MediaType: "application/vnd.docker.container.image.rootfs.diff+x-gtar", LayerSize: 0}}, DockerImageManifestMediaType: "application/vnd.docker.distribution.manifest.v1+json", DockerImageMetadata: imageapi.DockerImage{ID: "2d24f826cb16146e2016ff349a8a33ed5830f3b938d45c0f82943f4ab8c097e7", Parent: "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c", Comment: "", Created: metav1.Date(2015, 2, 21, 2, 11, 6, 735146646, time.UTC), Container: "c9a3eda5951d28aa8dbe5933be94c523790721e4f80886d0a8e7a710132a38ec", ContainerConfig: imageapi.DockerConfig{Hostname: "43bd710ec89a", Domainname: "", User: "", Memory: 0, MemorySwap: 0, CPUShares: 0, CPUSet: "", AttachStdin: false, AttachStdout: false, AttachStderr: false, PortSpecs: nil, ExposedPorts: nil, Tty: false, OpenStdin: false, StdinOnce: false, Env: []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"}, Cmd: []string{"/bin/sh", "-c", "#(nop) CMD [/bin/bash]"}, Image: "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c", Volumes: nil, WorkingDir: "", Entrypoint: nil, NetworkDisabled: false, SecurityOpts: nil, OnBuild: []string{}}, DockerVersion: "1.4.1", Author: "", Config: &imageapi.DockerConfig{Hostname: "43bd710ec89a", Domainname: "", User: "", Memory: 0, MemorySwap: 0, CPUShares: 0, CPUSet: "", AttachStdin: false, AttachStdout: false, AttachStderr: false, PortSpecs: nil, ExposedPorts: nil, Tty: false, OpenStdin: false, StdinOnce: false, Env: []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"}, Cmd: []string{"/bin/bash"}, Image: "117ee323aaa9d1b136ea55e4421f4ce413dfc6c0cc6b2186dea6c88d93e1ad7c", Volumes: nil, WorkingDir: "", Entrypoint: nil, NetworkDisabled: false, OnBuild: []string{}}, Architecture: "amd64", Size: 188294133}}}, "valid metadata size": {image: validImageWithManifestV2Data(), expectedImage: imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "id", Annotations: map[string]string{imageapi.DockerImageLayersOrderAnnotation: imageapi.DockerImageLayersOrderAscending}}, DockerImageConfig: validImageWithManifestV2Data().DockerImageConfig, DockerImageManifest: validImageWithManifestV2Data().DockerImageManifest, DockerImageManifestMediaType: "application/vnd.docker.distribution.manifest.v2+json", DockerImageLayers: []imageapi.ImageLayer{{Name: "sha256:a3ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 5312}, {Name: "sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 235231}, {Name: "sha256:86e0e091d0da6bde2456dbb48306f3956bbeb2eae1b5b9a43045843f69fe4aaa", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 235231}, {Name: "sha256:b4ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4", MediaType: "application/vnd.docker.image.rootfs.diff.tar.gzip", LayerSize: 639152}}, DockerImageMetadata: imageapi.DockerImage{ID: "sha256:815d06b56f4138afacd0009b8e3799fcdce79f0507bf8d0588e219b93ab6fd4d", Parent: "", Comment: "", Created: metav1.Date(2015, 2, 21, 2, 11, 6, 735146646, time.UTC), Container: "e91032eb0403a61bfe085ff5a5a48e3659e5a6deae9f4d678daa2ae399d5a001", DockerVersion: "1.9.0-dev", Author: "", Architecture: "amd64", Size: 882848, ContainerConfig: imageapi.DockerConfig{Hostname: "23304fc829f9", Domainname: "", User: "", Memory: 0, MemorySwap: 0, CPUShares: 0, CPUSet: "", AttachStdin: false, AttachStdout: false, AttachStderr: false, PortSpecs: nil, ExposedPorts: nil, Tty: false, OpenStdin: false, StdinOnce: false, Env: []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "derived=true", "asdf=true"}, Cmd: []string{"/bin/sh", "-c", "#(nop) CMD [\"/bin/sh\" \"-c\" \"echo hi\"]"}, Image: "sha256:4ab15c48b859c2920dd5224f92aabcd39a52794c5b3cf088fb3bbb438756c246", Volumes: nil, WorkingDir: "", Entrypoint: nil, NetworkDisabled: false, SecurityOpts: nil, OnBuild: []string{}}, Config: &imageapi.DockerConfig{Hostname: "23304fc829f9", Domainname: "", User: "", Memory: 0, MemorySwap: 0, CPUShares: 0, CPUSet: "", AttachStdin: false, AttachStdout: false, AttachStderr: false, PortSpecs: nil, ExposedPorts: nil, Tty: false, OpenStdin: false, StdinOnce: false, Env: []string{"PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin", "derived=true", "asdf=true"}, Cmd: []string{"/bin/sh", "-c", "echo hi"}, Image: "sha256:4ab15c48b859c2920dd5224f92aabcd39a52794c5b3cf088fb3bbb438756c246", Volumes: nil, WorkingDir: "", Entrypoint: nil, NetworkDisabled: false, OnBuild: []string{}}}}}}
 	for name, test := range tests {
 		imageWithMetadata := test.image
 		err := InternalImageWithMetadata(&imageWithMetadata)
@@ -224,13 +32,10 @@ func TestImageWithMetadata(t *testing.T) {
 		}
 	}
 }
-
 func validImageWithManifestData() imageapi.Image {
-	return imageapi.Image{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "id",
-		},
-		DockerImageManifest: `{
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "id"}, DockerImageManifest: `{
    "name": "library/ubuntu",
    "tag": "latest",
    "architecture": "amd64",
@@ -285,16 +90,12 @@ func validImageWithManifestData() imageapi.Image {
          "protected": "eyJmb3JtYXRMZW5ndGgiOjEwMDc2LCJmb3JtYXRUYWlsIjoiQ24wIiwidGltZSI6IjIwMTUtMDMtMDdUMTI6Mzk6MjJaIn0"
       }
    ]
-}`,
-	}
+}`}
 }
-
 func validImageWithManifestV2Data() imageapi.Image {
-	return imageapi.Image{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "id",
-		},
-		DockerImageConfig: `{
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "id"}, DockerImageConfig: `{
     "architecture": "amd64",
     "config": {
         "AttachStderr": false,
@@ -391,8 +192,7 @@ func validImageWithManifestV2Data() imageapi.Image {
         ],
         "type": "layers"
     }
-}`,
-		DockerImageManifest: `{
+}`, DockerImageManifest: `{
     "schemaVersion": 2,
     "mediaType": "application/vnd.docker.distribution.manifest.v2+json",
     "config": {
@@ -422,6 +222,5 @@ func validImageWithManifestV2Data() imageapi.Image {
             "digest": "sha256:b4ed95caeb02ffe68cdd9fd84406680ae93d633cb16422d00e8a7c22955b46d4"
         }
     ]
-}`,
-	}
+}`}
 }

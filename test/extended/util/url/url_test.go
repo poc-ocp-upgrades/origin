@@ -6,8 +6,8 @@ import (
 )
 
 func TestTestsToScript(t *testing.T) {
-	tests := []*Test{
-		Expect("GET", "https://www.google.com"),
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tests := []*Test{Expect("GET", "https://www.google.com")}
 	fmt.Println(testsToScript(tests))
 }

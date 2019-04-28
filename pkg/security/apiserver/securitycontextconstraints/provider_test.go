@@ -5,7 +5,6 @@ import (
 	"reflect"
 	"strings"
 	"testing"
-
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
 	sccutil "github.com/openshift/origin/pkg/security/securitycontextconstraints/util"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -15,40 +14,16 @@ import (
 )
 
 func TestCreatePodSecurityContextNonmutating(t *testing.T) {
-	// Create a pod with a security context that needs filling in
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	createPod := func() *api.Pod {
-		return &api.Pod{
-			Spec: api.PodSpec{
-				SecurityContext: &api.PodSecurityContext{},
-			},
-		}
+		return &api.Pod{Spec: api.PodSpec{SecurityContext: &api.PodSecurityContext{}}}
 	}
-
-	// Create an SCC with strategies that will populate a blank psc
 	createSCC := func() *securityapi.SecurityContextConstraints {
-		return &securityapi.SecurityContextConstraints{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "scc-sa",
-			},
-			SeccompProfiles: []string{"foo"},
-			RunAsUser: securityapi.RunAsUserStrategyOptions{
-				Type: securityapi.RunAsUserStrategyRunAsAny,
-			},
-			SELinuxContext: securityapi.SELinuxContextStrategyOptions{
-				Type: securityapi.SELinuxStrategyRunAsAny,
-			},
-			FSGroup: securityapi.FSGroupStrategyOptions{
-				Type: securityapi.FSGroupStrategyRunAsAny,
-			},
-			SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{
-				Type: securityapi.SupplementalGroupsStrategyRunAsAny,
-			},
-		}
+		return &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "scc-sa"}, SeccompProfiles: []string{"foo"}, RunAsUser: securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyRunAsAny}, SELinuxContext: securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyRunAsAny}, FSGroup: securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyRunAsAny}, SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyRunAsAny}}
 	}
-
 	pod := createPod()
 	scc := createSCC()
-
 	provider, err := NewSimpleProvider(scc)
 	if err != nil {
 		t.Fatalf("unable to create provider %v", err)
@@ -57,9 +32,6 @@ func TestCreatePodSecurityContextNonmutating(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unable to create psc %v", err)
 	}
-
-	// Creating the provider or the security context should not have mutated the scc or pod
-	// since all the strategies were permissive
 	if !reflect.DeepEqual(createPod(), pod) {
 		diff := diff.ObjectDiff(createPod(), pod)
 		t.Errorf("pod was mutated by CreatePodSecurityContext. diff:\n%s", diff)
@@ -68,43 +40,17 @@ func TestCreatePodSecurityContextNonmutating(t *testing.T) {
 		t.Error("scc was mutated by CreatePodSecurityContext")
 	}
 }
-
 func TestCreateContainerSecurityContextNonmutating(t *testing.T) {
-	// Create a pod with a security context that needs filling in
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	createPod := func() *api.Pod {
-		return &api.Pod{
-			Spec: api.PodSpec{
-				Containers: []api.Container{{
-					SecurityContext: &api.SecurityContext{},
-				}},
-			},
-		}
+		return &api.Pod{Spec: api.PodSpec{Containers: []api.Container{{SecurityContext: &api.SecurityContext{}}}}}
 	}
-
-	// Create an SCC with strategies that will populate a blank security context
 	createSCC := func() *securityapi.SecurityContextConstraints {
-		return &securityapi.SecurityContextConstraints{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "scc-sa",
-			},
-			RunAsUser: securityapi.RunAsUserStrategyOptions{
-				Type: securityapi.RunAsUserStrategyRunAsAny,
-			},
-			SELinuxContext: securityapi.SELinuxContextStrategyOptions{
-				Type: securityapi.SELinuxStrategyRunAsAny,
-			},
-			FSGroup: securityapi.FSGroupStrategyOptions{
-				Type: securityapi.FSGroupStrategyRunAsAny,
-			},
-			SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{
-				Type: securityapi.SupplementalGroupsStrategyRunAsAny,
-			},
-		}
+		return &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "scc-sa"}, RunAsUser: securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyRunAsAny}, SELinuxContext: securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyRunAsAny}, FSGroup: securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyRunAsAny}, SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyRunAsAny}}
 	}
-
 	pod := createPod()
 	scc := createSCC()
-
 	provider, err := NewSimpleProvider(scc)
 	if err != nil {
 		t.Fatalf("unable to create provider %v", err)
@@ -113,9 +59,6 @@ func TestCreateContainerSecurityContextNonmutating(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unable to create container security context %v", err)
 	}
-
-	// Creating the provider or the security context should not have mutated the scc or pod
-	// since all the strategies were permissive
 	if !reflect.DeepEqual(createPod(), pod) {
 		diff := diff.ObjectDiff(createPod(), pod)
 		t.Errorf("pod was mutated by CreateContainerSecurityContext. diff:\n%s", diff)
@@ -124,197 +67,55 @@ func TestCreateContainerSecurityContextNonmutating(t *testing.T) {
 		t.Error("scc was mutated by CreateContainerSecurityContext")
 	}
 }
-
 func TestValidatePodSecurityContextFailures(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failHostNetworkPod := defaultPod()
 	failHostNetworkPod.Spec.SecurityContext.HostNetwork = true
-
 	failHostPIDPod := defaultPod()
 	failHostPIDPod.Spec.SecurityContext.HostPID = true
-
 	failHostIPCPod := defaultPod()
 	failHostIPCPod.Spec.SecurityContext.HostIPC = true
-
 	failSupplementalGroupPod := defaultPod()
 	failSupplementalGroupPod.Spec.SecurityContext.SupplementalGroups = []int64{999}
 	failSupplementalGroupSCC := defaultSCC()
-	failSupplementalGroupSCC.SupplementalGroups = securityapi.SupplementalGroupsStrategyOptions{
-		Type: securityapi.SupplementalGroupsStrategyMustRunAs,
-		Ranges: []securityapi.IDRange{
-			{Min: 1, Max: 1},
-		},
-	}
-
+	failSupplementalGroupSCC.SupplementalGroups = securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyMustRunAs, Ranges: []securityapi.IDRange{{Min: 1, Max: 1}}}
 	failFSGroupPod := defaultPod()
 	fsGroup := int64(999)
 	failFSGroupPod.Spec.SecurityContext.FSGroup = &fsGroup
 	failFSGroupSCC := defaultSCC()
-	failFSGroupSCC.FSGroup = securityapi.FSGroupStrategyOptions{
-		Type: securityapi.FSGroupStrategyMustRunAs,
-		Ranges: []securityapi.IDRange{
-			{Min: 1, Max: 1},
-		},
-	}
-
+	failFSGroupSCC.FSGroup = securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyMustRunAs, Ranges: []securityapi.IDRange{{Min: 1, Max: 1}}}
 	failNilSELinuxPod := defaultPod()
 	failSELinuxSCC := defaultSCC()
 	failSELinuxSCC.SELinuxContext.Type = securityapi.SELinuxStrategyMustRunAs
-	failSELinuxSCC.SELinuxContext.SELinuxOptions = &api.SELinuxOptions{
-		Level: "foo",
-	}
-
+	failSELinuxSCC.SELinuxContext.SELinuxOptions = &api.SELinuxOptions{Level: "foo"}
 	failInvalidSELinuxPod := defaultPod()
-	failInvalidSELinuxPod.Spec.SecurityContext.SELinuxOptions = &api.SELinuxOptions{
-		Level: "bar",
-	}
-
+	failInvalidSELinuxPod.Spec.SecurityContext.SELinuxOptions = &api.SELinuxOptions{Level: "bar"}
 	failNoSeccompAllowed := defaultPod()
 	failNoSeccompAllowed.Annotations[api.SeccompPodAnnotationKey] = "bar"
-
 	failInvalidSeccompProfile := defaultPod()
 	failInvalidSeccompProfile.Annotations[api.SeccompPodAnnotationKey] = "bar"
-
 	failInvalidSeccompProfileSCC := defaultSCC()
 	failInvalidSeccompProfileSCC.SeccompProfiles = []string{"foo"}
-
 	failHostDirPod := defaultPod()
-	failHostDirPod.Spec.Volumes = []api.Volume{
-		{
-			Name: "bad volume",
-			VolumeSource: api.VolumeSource{
-				HostPath: &api.HostPathVolumeSource{},
-			},
-		},
-	}
-
+	failHostDirPod.Spec.Volumes = []api.Volume{{Name: "bad volume", VolumeSource: api.VolumeSource{HostPath: &api.HostPathVolumeSource{}}}}
 	podWithInvalidFlexVolumeDriver := defaultPod()
-	podWithInvalidFlexVolumeDriver.Spec.Volumes = []api.Volume{
-		{
-			Name: "flex-volume",
-			VolumeSource: api.VolumeSource{
-				FlexVolume: &api.FlexVolumeSource{
-					Driver: "example/unknown",
-				},
-			},
-		},
-	}
-
+	podWithInvalidFlexVolumeDriver.Spec.Volumes = []api.Volume{{Name: "flex-volume", VolumeSource: api.VolumeSource{FlexVolume: &api.FlexVolumeSource{Driver: "example/unknown"}}}}
 	failSysctlDisallowedSCC := defaultSCC()
 	failSysctlDisallowedSCC.ForbiddenSysctls = []string{"kernel.shm_rmid_forced"}
-
 	failNoSafeSysctlAllowedSCC := defaultSCC()
 	failNoSafeSysctlAllowedSCC.ForbiddenSysctls = []string{"*"}
-
 	failAllUnsafeSysctlsSCC := defaultSCC()
 	failAllUnsafeSysctlsSCC.AllowedUnsafeSysctls = []string{}
-
 	failSafeSysctlKernelPod := defaultPod()
-	failSafeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{
-		{
-			Name:  "kernel.shm_rmid_forced",
-			Value: "1",
-		},
-	}
-
+	failSafeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{{Name: "kernel.shm_rmid_forced", Value: "1"}}
 	failUnsafeSysctlPod := defaultPod()
-	failUnsafeSysctlPod.Spec.SecurityContext.Sysctls = []api.Sysctl{
-		{
-			Name:  "kernel.sem",
-			Value: "32000",
-		},
-	}
-
+	failUnsafeSysctlPod.Spec.SecurityContext.Sysctls = []api.Sysctl{{Name: "kernel.sem", Value: "32000"}}
 	errorCases := map[string]struct {
-		pod           *api.Pod
-		scc           *securityapi.SecurityContextConstraints
-		expectedError string
-	}{
-		"failHostNetworkSCC": {
-			pod:           failHostNetworkPod,
-			scc:           defaultSCC(),
-			expectedError: "Host network is not allowed to be used",
-		},
-		"failHostPIDSCC": {
-			pod:           failHostPIDPod,
-			scc:           defaultSCC(),
-			expectedError: "Host PID is not allowed to be used",
-		},
-		"failHostIPCSCC": {
-			pod:           failHostIPCPod,
-			scc:           defaultSCC(),
-			expectedError: "Host IPC is not allowed to be used",
-		},
-		"failSupplementalGroupOutOfRange": {
-			pod:           failSupplementalGroupPod,
-			scc:           failSupplementalGroupSCC,
-			expectedError: "999 is not an allowed group",
-		},
-		"failSupplementalGroupEmpty": {
-			pod:           defaultPod(),
-			scc:           failSupplementalGroupSCC,
-			expectedError: "unable to validate empty groups against required ranges",
-		},
-		"failFSGroupOutOfRange": {
-			pod:           failFSGroupPod,
-			scc:           failFSGroupSCC,
-			expectedError: "999 is not an allowed group",
-		},
-		"failFSGroupEmpty": {
-			pod:           defaultPod(),
-			scc:           failFSGroupSCC,
-			expectedError: "unable to validate empty groups against required ranges",
-		},
-		"failNilSELinux": {
-			pod:           failNilSELinuxPod,
-			scc:           failSELinuxSCC,
-			expectedError: "seLinuxOptions: Required",
-		},
-		"failInvalidSELinux": {
-			pod:           failInvalidSELinuxPod,
-			scc:           failSELinuxSCC,
-			expectedError: "seLinuxOptions.level: Invalid value",
-		},
-		"failNoSeccomp": {
-			pod:           failNoSeccompAllowed,
-			scc:           defaultSCC(),
-			expectedError: "seccomp may not be set",
-		},
-		"failInvalidSeccompPod": {
-			pod:           failInvalidSeccompProfile,
-			scc:           failInvalidSeccompProfileSCC,
-			expectedError: "bar is not a valid seccomp profile",
-		},
-		"failHostDirSCC": {
-			pod:           failHostDirPod,
-			scc:           defaultSCC(),
-			expectedError: "hostPath volumes are not allowed to be used",
-		},
-		"fail pod with disallowed flexVolume when flex volumes are allowed": {
-			pod:           podWithInvalidFlexVolumeDriver,
-			scc:           allowFlexVolumesSCC(false, false),
-			expectedError: "Flexvolume driver is not allowed to be used",
-		},
-		"fail pod with disallowed flexVolume when all volumes are allowed": {
-			pod:           podWithInvalidFlexVolumeDriver,
-			scc:           allowFlexVolumesSCC(false, true),
-			expectedError: "Flexvolume driver is not allowed to be used",
-		},
-		"failSafeSysctlKernelPod with failNoSafeSysctlAllowedSCC": {
-			pod:           failSafeSysctlKernelPod,
-			scc:           failNoSafeSysctlAllowedSCC,
-			expectedError: "sysctl \"kernel.shm_rmid_forced\" is not allowed",
-		},
-		"failSafeSysctlKernelPod with failSysctlDisallowedSCC": {
-			pod:           failSafeSysctlKernelPod,
-			scc:           failSysctlDisallowedSCC,
-			expectedError: "sysctl \"kernel.shm_rmid_forced\" is not allowed",
-		},
-		"failUnsafeSysctlPod with failAllUnsafeSysctlsSCC": {
-			pod:           failUnsafeSysctlPod,
-			scc:           failAllUnsafeSysctlsSCC,
-			expectedError: "unsafe sysctl \"kernel.sem\" is not allowed",
-		},
-	}
+		pod		*api.Pod
+		scc		*securityapi.SecurityContextConstraints
+		expectedError	string
+	}{"failHostNetworkSCC": {pod: failHostNetworkPod, scc: defaultSCC(), expectedError: "Host network is not allowed to be used"}, "failHostPIDSCC": {pod: failHostPIDPod, scc: defaultSCC(), expectedError: "Host PID is not allowed to be used"}, "failHostIPCSCC": {pod: failHostIPCPod, scc: defaultSCC(), expectedError: "Host IPC is not allowed to be used"}, "failSupplementalGroupOutOfRange": {pod: failSupplementalGroupPod, scc: failSupplementalGroupSCC, expectedError: "999 is not an allowed group"}, "failSupplementalGroupEmpty": {pod: defaultPod(), scc: failSupplementalGroupSCC, expectedError: "unable to validate empty groups against required ranges"}, "failFSGroupOutOfRange": {pod: failFSGroupPod, scc: failFSGroupSCC, expectedError: "999 is not an allowed group"}, "failFSGroupEmpty": {pod: defaultPod(), scc: failFSGroupSCC, expectedError: "unable to validate empty groups against required ranges"}, "failNilSELinux": {pod: failNilSELinuxPod, scc: failSELinuxSCC, expectedError: "seLinuxOptions: Required"}, "failInvalidSELinux": {pod: failInvalidSELinuxPod, scc: failSELinuxSCC, expectedError: "seLinuxOptions.level: Invalid value"}, "failNoSeccomp": {pod: failNoSeccompAllowed, scc: defaultSCC(), expectedError: "seccomp may not be set"}, "failInvalidSeccompPod": {pod: failInvalidSeccompProfile, scc: failInvalidSeccompProfileSCC, expectedError: "bar is not a valid seccomp profile"}, "failHostDirSCC": {pod: failHostDirPod, scc: defaultSCC(), expectedError: "hostPath volumes are not allowed to be used"}, "fail pod with disallowed flexVolume when flex volumes are allowed": {pod: podWithInvalidFlexVolumeDriver, scc: allowFlexVolumesSCC(false, false), expectedError: "Flexvolume driver is not allowed to be used"}, "fail pod with disallowed flexVolume when all volumes are allowed": {pod: podWithInvalidFlexVolumeDriver, scc: allowFlexVolumesSCC(false, true), expectedError: "Flexvolume driver is not allowed to be used"}, "failSafeSysctlKernelPod with failNoSafeSysctlAllowedSCC": {pod: failSafeSysctlKernelPod, scc: failNoSafeSysctlAllowedSCC, expectedError: "sysctl \"kernel.shm_rmid_forced\" is not allowed"}, "failSafeSysctlKernelPod with failSysctlDisallowedSCC": {pod: failSafeSysctlKernelPod, scc: failSysctlDisallowedSCC, expectedError: "sysctl \"kernel.shm_rmid_forced\" is not allowed"}, "failUnsafeSysctlPod with failAllUnsafeSysctlsSCC": {pod: failUnsafeSysctlPod, scc: failAllUnsafeSysctlsSCC, expectedError: "unsafe sysctl \"kernel.sem\" is not allowed"}}
 	for k, v := range errorCases {
 		provider, err := NewSimpleProvider(v.scc)
 		if err != nil {
@@ -330,113 +131,44 @@ func TestValidatePodSecurityContextFailures(t *testing.T) {
 		}
 	}
 }
-
 func TestValidateContainerSecurityContextFailures(t *testing.T) {
-	// fail user strat
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	failUserSCC := defaultSCC()
 	var uid int64 = 999
 	var badUID int64 = 1
-	failUserSCC.RunAsUser = securityapi.RunAsUserStrategyOptions{
-		Type: securityapi.RunAsUserStrategyMustRunAs,
-		UID:  &uid,
-	}
+	failUserSCC.RunAsUser = securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyMustRunAs, UID: &uid}
 	failUserPod := defaultPod()
 	failUserPod.Spec.Containers[0].SecurityContext.RunAsUser = &badUID
-
-	// fail selinux strat
 	failSELinuxSCC := defaultSCC()
-	failSELinuxSCC.SELinuxContext = securityapi.SELinuxContextStrategyOptions{
-		Type: securityapi.SELinuxStrategyMustRunAs,
-		SELinuxOptions: &api.SELinuxOptions{
-			Level: "foo",
-		},
-	}
+	failSELinuxSCC.SELinuxContext = securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyMustRunAs, SELinuxOptions: &api.SELinuxOptions{Level: "foo"}}
 	failSELinuxPod := defaultPod()
-	failSELinuxPod.Spec.Containers[0].SecurityContext.SELinuxOptions = &api.SELinuxOptions{
-		Level: "bar",
-	}
-
+	failSELinuxPod.Spec.Containers[0].SecurityContext.SELinuxOptions = &api.SELinuxOptions{Level: "bar"}
 	failPrivPod := defaultPod()
 	var priv bool = true
 	failPrivPod.Spec.Containers[0].SecurityContext.Privileged = &priv
-
 	failCapsPod := defaultPod()
-	failCapsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{
-		Add: []api.Capability{"foo"},
-	}
-
+	failCapsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{Add: []api.Capability{"foo"}}
 	failHostPortPod := defaultPod()
 	failHostPortPod.Spec.Containers[0].Ports = []api.ContainerPort{{HostPort: 1}}
-
 	readOnlyRootFSSCC := defaultSCC()
 	readOnlyRootFSSCC.ReadOnlyRootFilesystem = true
-
 	readOnlyRootFSPodFalse := defaultPod()
 	readOnlyRootFS := false
 	readOnlyRootFSPodFalse.Spec.Containers[0].SecurityContext.ReadOnlyRootFilesystem = &readOnlyRootFS
-
 	failNoSeccompAllowed := defaultPod()
 	failNoSeccompAllowed.Annotations[api.SeccompContainerAnnotationKeyPrefix+failNoSeccompAllowed.Spec.Containers[0].Name] = "bar"
 	failNoSeccompAllowedSCC := defaultSCC()
 	failNoSeccompAllowedSCC.SeccompProfiles = nil
-
 	failInvalidSeccompProfile := defaultPod()
 	failInvalidSeccompProfile.Annotations[api.SeccompContainerAnnotationKeyPrefix+failNoSeccompAllowed.Spec.Containers[0].Name] = "bar"
 	failInvalidSeccompProfileSCC := defaultSCC()
 	failInvalidSeccompProfileSCC.SeccompProfiles = []string{"foo"}
-
 	errorCases := map[string]struct {
-		pod           *api.Pod
-		scc           *securityapi.SecurityContextConstraints
-		expectedError string
-	}{
-		"failUserSCC": {
-			pod:           failUserPod,
-			scc:           failUserSCC,
-			expectedError: "runAsUser: Invalid value",
-		},
-		"failSELinuxSCC": {
-			pod:           failSELinuxPod,
-			scc:           failSELinuxSCC,
-			expectedError: "seLinuxOptions.level: Invalid value",
-		},
-		"failPrivSCC": {
-			pod:           failPrivPod,
-			scc:           defaultSCC(),
-			expectedError: "Privileged containers are not allowed",
-		},
-		"failCapsSCC": {
-			pod:           failCapsPod,
-			scc:           defaultSCC(),
-			expectedError: "capability may not be added",
-		},
-		"failHostPortSCC": {
-			pod:           failHostPortPod,
-			scc:           defaultSCC(),
-			expectedError: "Host ports are not allowed to be used",
-		},
-		"failReadOnlyRootFS - nil": {
-			pod:           defaultPod(),
-			scc:           readOnlyRootFSSCC,
-			expectedError: "ReadOnlyRootFilesystem may not be nil and must be set to true",
-		},
-		"failReadOnlyRootFS - false": {
-			pod:           readOnlyRootFSPodFalse,
-			scc:           readOnlyRootFSSCC,
-			expectedError: "ReadOnlyRootFilesystem must be set to true",
-		},
-		"failNoSeccompAllowed": {
-			pod:           failNoSeccompAllowed,
-			scc:           failNoSeccompAllowedSCC,
-			expectedError: "seccomp may not be set",
-		},
-		"failInvalidSeccompPod": {
-			pod:           failInvalidSeccompProfile,
-			scc:           failInvalidSeccompProfileSCC,
-			expectedError: "bar is not a valid seccomp profile",
-		},
-	}
-
+		pod		*api.Pod
+		scc		*securityapi.SecurityContextConstraints
+		expectedError	string
+	}{"failUserSCC": {pod: failUserPod, scc: failUserSCC, expectedError: "runAsUser: Invalid value"}, "failSELinuxSCC": {pod: failSELinuxPod, scc: failSELinuxSCC, expectedError: "seLinuxOptions.level: Invalid value"}, "failPrivSCC": {pod: failPrivPod, scc: defaultSCC(), expectedError: "Privileged containers are not allowed"}, "failCapsSCC": {pod: failCapsPod, scc: defaultSCC(), expectedError: "capability may not be added"}, "failHostPortSCC": {pod: failHostPortPod, scc: defaultSCC(), expectedError: "Host ports are not allowed to be used"}, "failReadOnlyRootFS - nil": {pod: defaultPod(), scc: readOnlyRootFSSCC, expectedError: "ReadOnlyRootFilesystem may not be nil and must be set to true"}, "failReadOnlyRootFS - false": {pod: readOnlyRootFSPodFalse, scc: readOnlyRootFSSCC, expectedError: "ReadOnlyRootFilesystem must be set to true"}, "failNoSeccompAllowed": {pod: failNoSeccompAllowed, scc: failNoSeccompAllowedSCC, expectedError: "seccomp may not be set"}, "failInvalidSeccompPod": {pod: failInvalidSeccompProfile, scc: failInvalidSeccompProfileSCC, expectedError: "bar is not a valid seccomp profile"}}
 	for k, v := range errorCases {
 		provider, err := NewSimpleProvider(v.scc)
 		if err != nil {
@@ -452,178 +184,59 @@ func TestValidateContainerSecurityContextFailures(t *testing.T) {
 		}
 	}
 }
-
 func TestValidatePodSecurityContextSuccess(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	hostNetworkSCC := defaultSCC()
 	hostNetworkSCC.AllowHostNetwork = true
 	hostNetworkPod := defaultPod()
 	hostNetworkPod.Spec.SecurityContext.HostNetwork = true
-
 	hostPIDSCC := defaultSCC()
 	hostPIDSCC.AllowHostPID = true
 	hostPIDPod := defaultPod()
 	hostPIDPod.Spec.SecurityContext.HostPID = true
-
 	hostIPCSCC := defaultSCC()
 	hostIPCSCC.AllowHostIPC = true
 	hostIPCPod := defaultPod()
 	hostIPCPod.Spec.SecurityContext.HostIPC = true
-
 	supGroupSCC := defaultSCC()
-	supGroupSCC.SupplementalGroups = securityapi.SupplementalGroupsStrategyOptions{
-		Type: securityapi.SupplementalGroupsStrategyMustRunAs,
-		Ranges: []securityapi.IDRange{
-			{Min: 1, Max: 5},
-		},
-	}
+	supGroupSCC.SupplementalGroups = securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyMustRunAs, Ranges: []securityapi.IDRange{{Min: 1, Max: 5}}}
 	supGroupPod := defaultPod()
 	supGroupPod.Spec.SecurityContext.SupplementalGroups = []int64{3}
-
 	fsGroupSCC := defaultSCC()
-	fsGroupSCC.FSGroup = securityapi.FSGroupStrategyOptions{
-		Type: securityapi.FSGroupStrategyMustRunAs,
-		Ranges: []securityapi.IDRange{
-			{Min: 1, Max: 5},
-		},
-	}
+	fsGroupSCC.FSGroup = securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyMustRunAs, Ranges: []securityapi.IDRange{{Min: 1, Max: 5}}}
 	fsGroupPod := defaultPod()
 	fsGroup := int64(3)
 	fsGroupPod.Spec.SecurityContext.FSGroup = &fsGroup
-
 	seLinuxPod := defaultPod()
-	seLinuxPod.Spec.SecurityContext.SELinuxOptions = &api.SELinuxOptions{
-		User:  "user",
-		Role:  "role",
-		Type:  "type",
-		Level: "level",
-	}
+	seLinuxPod.Spec.SecurityContext.SELinuxOptions = &api.SELinuxOptions{User: "user", Role: "role", Type: "type", Level: "level"}
 	seLinuxSCC := defaultSCC()
 	seLinuxSCC.SELinuxContext.Type = securityapi.SELinuxStrategyMustRunAs
-	seLinuxSCC.SELinuxContext.SELinuxOptions = &api.SELinuxOptions{
-		User:  "user",
-		Role:  "role",
-		Type:  "type",
-		Level: "level",
-	}
-
+	seLinuxSCC.SELinuxContext.SELinuxOptions = &api.SELinuxOptions{User: "user", Role: "role", Type: "type", Level: "level"}
 	seccompNilWithNoProfiles := defaultPod()
 	seccompNilWithNoProfilesSCC := defaultSCC()
 	seccompNilWithNoProfilesSCC.SeccompProfiles = nil
-
 	seccompEmpty := defaultPod()
 	seccompEmpty.Annotations[api.SeccompPodAnnotationKey] = ""
-
 	seccompAllowAnySCC := defaultSCC()
 	seccompAllowAnySCC.SeccompProfiles = []string{"*"}
-
 	seccompAllowFooSCC := defaultSCC()
 	seccompAllowFooSCC.SeccompProfiles = []string{"foo"}
-
 	seccompFooPod := defaultPod()
 	seccompFooPod.Annotations[api.SeccompPodAnnotationKey] = "foo"
-
 	flexVolumePod := defaultPod()
-	flexVolumePod.Spec.Volumes = []api.Volume{
-		{
-			Name: "flex-volume",
-			VolumeSource: api.VolumeSource{
-				FlexVolume: &api.FlexVolumeSource{
-					Driver: "example/bar",
-				},
-			},
-		},
-	}
-
+	flexVolumePod.Spec.Volumes = []api.Volume{{Name: "flex-volume", VolumeSource: api.VolumeSource{FlexVolume: &api.FlexVolumeSource{Driver: "example/bar"}}}}
 	sysctlAllowAllSCC := defaultSCC()
 	sysctlAllowAllSCC.ForbiddenSysctls = []string{}
 	sysctlAllowAllSCC.AllowedUnsafeSysctls = []string{"*"}
-
 	safeSysctlKernelPod := defaultPod()
-	safeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{
-		{
-			Name:  "kernel.shm_rmid_forced",
-			Value: "1",
-		},
-	}
-
+	safeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{{Name: "kernel.shm_rmid_forced", Value: "1"}}
 	unsafeSysctlKernelPod := defaultPod()
-	unsafeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{
-		{
-			Name:  "kernel.sem",
-			Value: "32000",
-		},
-	}
-
+	unsafeSysctlKernelPod.Spec.SecurityContext.Sysctls = []api.Sysctl{{Name: "kernel.sem", Value: "32000"}}
 	successCases := map[string]struct {
-		pod *api.Pod
-		scc *securityapi.SecurityContextConstraints
-	}{
-		"pass hostNetwork validating SCC": {
-			pod: hostNetworkPod,
-			scc: hostNetworkSCC,
-		},
-		"pass hostPID validating SCC": {
-			pod: hostPIDPod,
-			scc: hostPIDSCC,
-		},
-		"pass hostIPC validating SCC": {
-			pod: hostIPCPod,
-			scc: hostIPCSCC,
-		},
-		"pass supplemental group validating SCC": {
-			pod: supGroupPod,
-			scc: supGroupSCC,
-		},
-		"pass fs group validating SCC": {
-			pod: fsGroupPod,
-			scc: fsGroupSCC,
-		},
-		"pass selinux validating SCC": {
-			pod: seLinuxPod,
-			scc: seLinuxSCC,
-		},
-		"pass seccomp nil with no profiles": {
-			pod: seccompNilWithNoProfiles,
-			scc: seccompNilWithNoProfilesSCC,
-		},
-		"pass seccomp empty with no profiles": {
-			pod: seccompEmpty,
-			scc: seccompNilWithNoProfilesSCC,
-		},
-		"pass seccomp wild card": {
-			pod: seccompFooPod,
-			scc: seccompAllowAnySCC,
-		},
-		"pass seccomp specific profile": {
-			pod: seccompFooPod,
-			scc: seccompAllowFooSCC,
-		},
-		"flex volume driver in a whitelist (all volumes are allowed)": {
-			pod: flexVolumePod,
-			scc: allowFlexVolumesSCC(false, true),
-		},
-		"flex volume driver with empty whitelist (all volumes are allowed)": {
-			pod: flexVolumePod,
-			scc: allowFlexVolumesSCC(true, true),
-		},
-		"flex volume driver in a whitelist (only flex volumes are allowed)": {
-			pod: flexVolumePod,
-			scc: allowFlexVolumesSCC(false, false),
-		},
-		"flex volume driver with empty whitelist (only flex volumes volumes are allowed)": {
-			pod: flexVolumePod,
-			scc: allowFlexVolumesSCC(true, false),
-		},
-		"pass sysctl specific profile with safe kernel sysctl": {
-			pod: safeSysctlKernelPod,
-			scc: sysctlAllowAllSCC,
-		},
-		"pass sysctl specific profile with unsafe kernel sysctl": {
-			pod: unsafeSysctlKernelPod,
-			scc: sysctlAllowAllSCC,
-		},
-	}
-
+		pod	*api.Pod
+		scc	*securityapi.SecurityContextConstraints
+	}{"pass hostNetwork validating SCC": {pod: hostNetworkPod, scc: hostNetworkSCC}, "pass hostPID validating SCC": {pod: hostPIDPod, scc: hostPIDSCC}, "pass hostIPC validating SCC": {pod: hostIPCPod, scc: hostIPCSCC}, "pass supplemental group validating SCC": {pod: supGroupPod, scc: supGroupSCC}, "pass fs group validating SCC": {pod: fsGroupPod, scc: fsGroupSCC}, "pass selinux validating SCC": {pod: seLinuxPod, scc: seLinuxSCC}, "pass seccomp nil with no profiles": {pod: seccompNilWithNoProfiles, scc: seccompNilWithNoProfilesSCC}, "pass seccomp empty with no profiles": {pod: seccompEmpty, scc: seccompNilWithNoProfilesSCC}, "pass seccomp wild card": {pod: seccompFooPod, scc: seccompAllowAnySCC}, "pass seccomp specific profile": {pod: seccompFooPod, scc: seccompAllowFooSCC}, "flex volume driver in a whitelist (all volumes are allowed)": {pod: flexVolumePod, scc: allowFlexVolumesSCC(false, true)}, "flex volume driver with empty whitelist (all volumes are allowed)": {pod: flexVolumePod, scc: allowFlexVolumesSCC(true, true)}, "flex volume driver in a whitelist (only flex volumes are allowed)": {pod: flexVolumePod, scc: allowFlexVolumesSCC(false, false)}, "flex volume driver with empty whitelist (only flex volumes volumes are allowed)": {pod: flexVolumePod, scc: allowFlexVolumesSCC(true, false)}, "pass sysctl specific profile with safe kernel sysctl": {pod: safeSysctlKernelPod, scc: sysctlAllowAllSCC}, "pass sysctl specific profile with unsafe kernel sysctl": {pod: unsafeSysctlKernelPod, scc: sysctlAllowAllSCC}}
 	for k, v := range successCases {
 		provider, err := NewSimpleProvider(v.scc)
 		if err != nil {
@@ -636,155 +249,60 @@ func TestValidatePodSecurityContextSuccess(t *testing.T) {
 		}
 	}
 }
-
 func TestValidateContainerSecurityContextSuccess(t *testing.T) {
-	// fail user strat
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	userSCC := defaultSCC()
 	var uid int64 = 999
-	userSCC.RunAsUser = securityapi.RunAsUserStrategyOptions{
-		Type: securityapi.RunAsUserStrategyMustRunAs,
-		UID:  &uid,
-	}
+	userSCC.RunAsUser = securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyMustRunAs, UID: &uid}
 	userPod := defaultPod()
 	userPod.Spec.Containers[0].SecurityContext.RunAsUser = &uid
-
-	// fail selinux strat
 	seLinuxSCC := defaultSCC()
-	seLinuxSCC.SELinuxContext = securityapi.SELinuxContextStrategyOptions{
-		Type: securityapi.SELinuxStrategyMustRunAs,
-		SELinuxOptions: &api.SELinuxOptions{
-			Level: "foo",
-		},
-	}
+	seLinuxSCC.SELinuxContext = securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyMustRunAs, SELinuxOptions: &api.SELinuxOptions{Level: "foo"}}
 	seLinuxPod := defaultPod()
-	seLinuxPod.Spec.Containers[0].SecurityContext.SELinuxOptions = &api.SELinuxOptions{
-		Level: "foo",
-	}
-
+	seLinuxPod.Spec.Containers[0].SecurityContext.SELinuxOptions = &api.SELinuxOptions{Level: "foo"}
 	privSCC := defaultSCC()
 	privSCC.AllowPrivilegedContainer = true
 	privPod := defaultPod()
 	var priv bool = true
 	privPod.Spec.Containers[0].SecurityContext.Privileged = &priv
-
 	capsSCC := defaultSCC()
 	capsSCC.AllowedCapabilities = []api.Capability{"foo"}
 	capsPod := defaultPod()
-	capsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{
-		Add: []api.Capability{"foo"},
-	}
-
-	// pod should be able to request caps that are in the required set even if not specified in the allowed set
+	capsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{Add: []api.Capability{"foo"}}
 	requiredCapsSCC := defaultSCC()
 	requiredCapsSCC.DefaultAddCapabilities = []api.Capability{"foo"}
 	requiredCapsPod := defaultPod()
-	requiredCapsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{
-		Add: []api.Capability{"foo"},
-	}
-
+	requiredCapsPod.Spec.Containers[0].SecurityContext.Capabilities = &api.Capabilities{Add: []api.Capability{"foo"}}
 	hostDirSCC := defaultSCC()
 	hostDirSCC.Volumes = []securityapi.FSType{securityapi.FSTypeHostPath}
 	hostDirPod := defaultPod()
-	hostDirPod.Spec.Volumes = []api.Volume{
-		{
-			Name: "bad volume",
-			VolumeSource: api.VolumeSource{
-				HostPath: &api.HostPathVolumeSource{},
-			},
-		},
-	}
-
+	hostDirPod.Spec.Volumes = []api.Volume{{Name: "bad volume", VolumeSource: api.VolumeSource{HostPath: &api.HostPathVolumeSource{}}}}
 	hostPortSCC := defaultSCC()
 	hostPortSCC.AllowHostPorts = true
 	hostPortPod := defaultPod()
 	hostPortPod.Spec.Containers[0].Ports = []api.ContainerPort{{HostPort: 1}}
-
 	readOnlyRootFSPodFalse := defaultPod()
 	readOnlyRootFSFalse := false
 	readOnlyRootFSPodFalse.Spec.Containers[0].SecurityContext.ReadOnlyRootFilesystem = &readOnlyRootFSFalse
-
 	readOnlyRootFSPodTrue := defaultPod()
 	readOnlyRootFSTrue := true
 	readOnlyRootFSPodTrue.Spec.Containers[0].SecurityContext.ReadOnlyRootFilesystem = &readOnlyRootFSTrue
-
 	seccompNilWithNoProfiles := defaultPod()
 	seccompNilWithNoProfilesSCC := defaultSCC()
 	seccompNilWithNoProfilesSCC.SeccompProfiles = nil
-
 	seccompEmptyWithNoProfiles := defaultPod()
 	seccompEmptyWithNoProfiles.Annotations[api.SeccompContainerAnnotationKeyPrefix+seccompEmptyWithNoProfiles.Spec.Containers[0].Name] = ""
-
 	seccompAllowAnySCC := defaultSCC()
 	seccompAllowAnySCC.SeccompProfiles = []string{"*"}
-
 	seccompAllowFooSCC := defaultSCC()
 	seccompAllowFooSCC.SeccompProfiles = []string{"foo"}
-
 	seccompFooPod := defaultPod()
 	seccompFooPod.Annotations[api.SeccompContainerAnnotationKeyPrefix+seccompFooPod.Spec.Containers[0].Name] = "foo"
-
 	successCases := map[string]struct {
-		pod *api.Pod
-		scc *securityapi.SecurityContextConstraints
-	}{
-		"pass user must run as SCC": {
-			pod: userPod,
-			scc: userSCC,
-		},
-		"pass seLinux must run as SCC": {
-			pod: seLinuxPod,
-			scc: seLinuxSCC,
-		},
-		"pass priv validating SCC": {
-			pod: privPod,
-			scc: privSCC,
-		},
-		"pass allowed caps validating SCC": {
-			pod: capsPod,
-			scc: capsSCC,
-		},
-		"pass required caps validating SCC": {
-			pod: requiredCapsPod,
-			scc: requiredCapsSCC,
-		},
-		"pass hostDir validating SCC": {
-			pod: hostDirPod,
-			scc: hostDirSCC,
-		},
-		"pass hostPort validating SCC": {
-			pod: hostPortPod,
-			scc: hostPortSCC,
-		},
-		"pass read only root fs - nil": {
-			pod: defaultPod(),
-			scc: defaultSCC(),
-		},
-		"pass read only root fs - false": {
-			pod: readOnlyRootFSPodFalse,
-			scc: defaultSCC(),
-		},
-		"pass read only root fs - true": {
-			pod: readOnlyRootFSPodTrue,
-			scc: defaultSCC(),
-		},
-		"pass seccomp nil with no profiles": {
-			pod: seccompNilWithNoProfiles,
-			scc: seccompNilWithNoProfilesSCC,
-		},
-		"pass seccomp empty with no profiles": {
-			pod: seccompEmptyWithNoProfiles,
-			scc: seccompNilWithNoProfilesSCC,
-		},
-		"pass seccomp wild card": {
-			pod: seccompFooPod,
-			scc: seccompAllowAnySCC,
-		},
-		"pass seccomp specific profile": {
-			pod: seccompFooPod,
-			scc: seccompAllowFooSCC,
-		},
-	}
-
+		pod	*api.Pod
+		scc	*securityapi.SecurityContextConstraints
+	}{"pass user must run as SCC": {pod: userPod, scc: userSCC}, "pass seLinux must run as SCC": {pod: seLinuxPod, scc: seLinuxSCC}, "pass priv validating SCC": {pod: privPod, scc: privSCC}, "pass allowed caps validating SCC": {pod: capsPod, scc: capsSCC}, "pass required caps validating SCC": {pod: requiredCapsPod, scc: requiredCapsSCC}, "pass hostDir validating SCC": {pod: hostDirPod, scc: hostDirSCC}, "pass hostPort validating SCC": {pod: hostPortPod, scc: hostPortSCC}, "pass read only root fs - nil": {pod: defaultPod(), scc: defaultSCC()}, "pass read only root fs - false": {pod: readOnlyRootFSPodFalse, scc: defaultSCC()}, "pass read only root fs - true": {pod: readOnlyRootFSPodTrue, scc: defaultSCC()}, "pass seccomp nil with no profiles": {pod: seccompNilWithNoProfiles, scc: seccompNilWithNoProfilesSCC}, "pass seccomp empty with no profiles": {pod: seccompEmptyWithNoProfiles, scc: seccompNilWithNoProfilesSCC}, "pass seccomp wild card": {pod: seccompFooPod, scc: seccompAllowAnySCC}, "pass seccomp specific profile": {pod: seccompFooPod, scc: seccompAllowFooSCC}}
 	for k, v := range successCases {
 		provider, err := NewSimpleProvider(v.scc)
 		if err != nil {
@@ -797,61 +315,24 @@ func TestValidateContainerSecurityContextSuccess(t *testing.T) {
 		}
 	}
 }
-
 func TestGenerateContainerSecurityContextReadOnlyRootFS(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	trueSCC := defaultSCC()
 	trueSCC.ReadOnlyRootFilesystem = true
-
 	trueVal := true
 	expectTrue := &trueVal
 	falseVal := false
 	expectFalse := &falseVal
-
 	falsePod := defaultPod()
 	falsePod.Spec.Containers[0].SecurityContext.ReadOnlyRootFilesystem = expectFalse
-
 	truePod := defaultPod()
 	truePod.Spec.Containers[0].SecurityContext.ReadOnlyRootFilesystem = expectTrue
-
 	tests := map[string]struct {
-		pod      *api.Pod
-		scc      *securityapi.SecurityContextConstraints
-		expected *bool
-	}{
-		"false scc, nil sc": {
-			scc:      defaultSCC(),
-			pod:      defaultPod(),
-			expected: nil,
-		},
-		"false scc, false sc": {
-			scc:      defaultSCC(),
-			pod:      falsePod,
-			expected: expectFalse,
-		},
-		"false scc, true sc": {
-			scc:      defaultSCC(),
-			pod:      truePod,
-			expected: expectTrue,
-		},
-		"true scc, nil sc": {
-			scc:      trueSCC,
-			pod:      defaultPod(),
-			expected: expectTrue,
-		},
-		"true scc, false sc": {
-			scc: trueSCC,
-			pod: falsePod,
-			// expect false even though it defaults to true to ensure it doesn't change set values
-			// validation catches the mismatch, not generation
-			expected: expectFalse,
-		},
-		"true scc, true sc": {
-			scc:      trueSCC,
-			pod:      truePod,
-			expected: expectTrue,
-		},
-	}
-
+		pod		*api.Pod
+		scc		*securityapi.SecurityContextConstraints
+		expected	*bool
+	}{"false scc, nil sc": {scc: defaultSCC(), pod: defaultPod(), expected: nil}, "false scc, false sc": {scc: defaultSCC(), pod: falsePod, expected: expectFalse}, "false scc, true sc": {scc: defaultSCC(), pod: truePod, expected: expectTrue}, "true scc, nil sc": {scc: trueSCC, pod: defaultPod(), expected: expectTrue}, "true scc, false sc": {scc: trueSCC, pod: falsePod, expected: expectFalse}, "true scc, true sc": {scc: trueSCC, pod: truePod, expected: expectTrue}}
 	for k, v := range tests {
 		provider, err := NewSimpleProvider(v.scc)
 		if err != nil {
@@ -863,7 +344,6 @@ func TestGenerateContainerSecurityContextReadOnlyRootFS(t *testing.T) {
 			t.Errorf("%s unable to create container security context %v", k, err)
 			continue
 		}
-
 		if v.expected == nil && sc.ReadOnlyRootFilesystem != nil {
 			t.Errorf("%s expected a nil ReadOnlyRootFilesystem but got %t", k, *sc.ReadOnlyRootFilesystem)
 		}
@@ -873,111 +353,58 @@ func TestGenerateContainerSecurityContextReadOnlyRootFS(t *testing.T) {
 		if v.expected != nil && sc.ReadOnlyRootFilesystem != nil && (*v.expected != *sc.ReadOnlyRootFilesystem) {
 			t.Errorf("%s expected a non nil ReadOnlyRootFilesystem set to %t but got %t", k, *v.expected, *sc.ReadOnlyRootFilesystem)
 		}
-
 	}
 }
-
 func defaultSCC() *securityapi.SecurityContextConstraints {
-	return &securityapi.SecurityContextConstraints{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:        "scc-sa",
-			Annotations: map[string]string{},
-		},
-		RunAsUser: securityapi.RunAsUserStrategyOptions{
-			Type: securityapi.RunAsUserStrategyRunAsAny,
-		},
-		SELinuxContext: securityapi.SELinuxContextStrategyOptions{
-			Type: securityapi.SELinuxStrategyRunAsAny,
-		},
-		FSGroup: securityapi.FSGroupStrategyOptions{
-			Type: securityapi.FSGroupStrategyRunAsAny,
-		},
-		SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{
-			Type: securityapi.SupplementalGroupsStrategyRunAsAny,
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &securityapi.SecurityContextConstraints{ObjectMeta: metav1.ObjectMeta{Name: "scc-sa", Annotations: map[string]string{}}, RunAsUser: securityapi.RunAsUserStrategyOptions{Type: securityapi.RunAsUserStrategyRunAsAny}, SELinuxContext: securityapi.SELinuxContextStrategyOptions{Type: securityapi.SELinuxStrategyRunAsAny}, FSGroup: securityapi.FSGroupStrategyOptions{Type: securityapi.FSGroupStrategyRunAsAny}, SupplementalGroups: securityapi.SupplementalGroupsStrategyOptions{Type: securityapi.SupplementalGroupsStrategyRunAsAny}}
 }
-
 func defaultPod() *api.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var notPriv bool = false
-	return &api.Pod{
-		ObjectMeta: metav1.ObjectMeta{Annotations: map[string]string{}},
-		Spec: api.PodSpec{
-			SecurityContext: &api.PodSecurityContext{
-				// fill in for test cases
-			},
-			Containers: []api.Container{
-				{
-					SecurityContext: &api.SecurityContext{
-						// expected to be set by defaulting mechanisms
-						Privileged: &notPriv,
-						// fill in the rest for test cases
-					},
-				},
-			},
-		},
-	}
+	return &api.Pod{ObjectMeta: metav1.ObjectMeta{Annotations: map[string]string{}}, Spec: api.PodSpec{SecurityContext: &api.PodSecurityContext{}, Containers: []api.Container{{SecurityContext: &api.SecurityContext{Privileged: &notPriv}}}}}
 }
-
 func allowFlexVolumesSCC(allowAllFlexVolumes, allowAllVolumes bool) *securityapi.SecurityContextConstraints {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	scc := defaultSCC()
-
-	allowedVolumes := []securityapi.AllowedFlexVolume{
-		{Driver: "example/foo"},
-		{Driver: "example/bar"},
-	}
+	allowedVolumes := []securityapi.AllowedFlexVolume{{Driver: "example/foo"}, {Driver: "example/bar"}}
 	if allowAllFlexVolumes {
 		allowedVolumes = []securityapi.AllowedFlexVolume{}
 	}
-
 	allowedVolumeType := securityapi.FSTypeFlexVolume
 	if allowAllVolumes {
 		allowedVolumeType = securityapi.FSTypeAll
 	}
-
 	scc.AllowedFlexVolumes = allowedVolumes
 	scc.Volumes = []securityapi.FSType{allowedVolumeType}
-
 	return scc
 }
-
-// TestValidateAllowedVolumes will test that for every field of VolumeSource we can create
-// a pod with that type of volume and deny it, accept it explicitly, or accept it with
-// the FSTypeAll wildcard.
 func TestValidateAllowedVolumes(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	val := reflect.ValueOf(api.VolumeSource{})
-
 	for i := 0; i < val.NumField(); i++ {
-		// reflectively create the volume source
 		fieldVal := val.Type().Field(i)
-
 		volumeSource := api.VolumeSource{}
 		volumeSourceVolume := reflect.New(fieldVal.Type.Elem())
-
 		reflect.ValueOf(&volumeSource).Elem().FieldByName(fieldVal.Name).Set(volumeSourceVolume)
 		volume := api.Volume{VolumeSource: volumeSource}
-
-		// sanity check before moving on
 		fsType, err := sccutil.GetVolumeFSType(volume)
 		if err != nil {
 			t.Errorf("error getting FSType for %s: %s", fieldVal.Name, err.Error())
 			continue
 		}
-
-		// add the volume to the pod
 		pod := defaultPod()
 		pod.Spec.Volumes = []api.Volume{volume}
-
-		// create an SCC that allows no volumes
 		scc := defaultSCC()
-
 		provider, err := NewSimpleProvider(scc)
 		if err != nil {
 			t.Errorf("error creating provider for %s: %s", fieldVal.Name, err.Error())
 			continue
 		}
-
-		// expect a denial for this SCC and test the error message to ensure it's related to the volumesource
 		errs := provider.ValidatePodSecurityContext(pod, field.NewPath(""))
 		if len(errs) != 1 {
 			t.Errorf("expected exactly 1 error for %s but got %v", fieldVal.Name, errs)
@@ -986,15 +413,11 @@ func TestValidateAllowedVolumes(t *testing.T) {
 				t.Errorf("did not find the expected error, received: %v", errs)
 			}
 		}
-
-		// now add the fstype directly to the scc and it should validate
 		scc.Volumes = []securityapi.FSType{fsType}
 		errs = provider.ValidatePodSecurityContext(pod, field.NewPath(""))
 		if len(errs) != 0 {
 			t.Errorf("directly allowing volume expected no errors for %s but got %v", fieldVal.Name, errs)
 		}
-
-		// now change the scc to allow any volumes and the pod should still validate
 		scc.Volumes = []securityapi.FSType{securityapi.FSTypeAll}
 		errs = provider.ValidatePodSecurityContext(pod, field.NewPath(""))
 		if len(errs) != 0 {
@@ -1002,27 +425,19 @@ func TestValidateAllowedVolumes(t *testing.T) {
 		}
 	}
 }
-
-// TestValidateAllowPrivilegeEscalation will test that when the SecurityContextConstraints
-// AllowPrivilegeEscalation is false we cannot set a container's securityContext
-// to allowPrivilegeEscalation, but when it is true we can.
 func TestValidateAllowPrivilegeEscalation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	yes := true
 	no := false
-
 	pod := defaultPod()
 	pod.Spec.Containers[0].SecurityContext.AllowPrivilegeEscalation = &yes
-
-	// create a SCC that does not allow privilege escalation
 	scc := defaultSCC()
 	scc.AllowPrivilegeEscalation = &no
-
 	provider, err := NewSimpleProvider(scc)
 	if err != nil {
 		t.Errorf("error creating provider: %v", err.Error())
 	}
-
-	// expect a denial for this SCC and test the error message to ensure it's related to allowPrivilegeEscalation
 	errs := provider.ValidateContainerSecurityContext(pod, &pod.Spec.Containers[0], field.NewPath(""))
 	if len(errs) != 1 {
 		t.Errorf("expected exactly 1 error but got %v", errs)
@@ -1031,15 +446,11 @@ func TestValidateAllowPrivilegeEscalation(t *testing.T) {
 			t.Errorf("did not find the expected error, received: %v", errs)
 		}
 	}
-
-	// Now set AllowPrivilegeEscalation
 	scc.AllowPrivilegeEscalation = &yes
 	errs = provider.ValidateContainerSecurityContext(pod, &pod.Spec.Containers[0], field.NewPath(""))
 	if len(errs) != 0 {
 		t.Errorf("directly allowing privilege escalation expected no errors but got %v", errs)
 	}
-
-	// Now set the scc spec to false and reset AllowPrivilegeEscalation
 	scc.AllowPrivilegeEscalation = &no
 	pod.Spec.Containers[0].SecurityContext.AllowPrivilegeEscalation = nil
 	errs = provider.ValidateContainerSecurityContext(pod, &pod.Spec.Containers[0], field.NewPath(""))
@@ -1050,8 +461,6 @@ func TestValidateAllowPrivilegeEscalation(t *testing.T) {
 			t.Errorf("did not find the expected error, received: %v", errs)
 		}
 	}
-
-	// Now unset both AllowPrivilegeEscalation
 	scc.AllowPrivilegeEscalation = &yes
 	pod.Spec.Containers[0].SecurityContext.AllowPrivilegeEscalation = nil
 	errs = provider.ValidateContainerSecurityContext(pod, &pod.Spec.Containers[0], field.NewPath(""))

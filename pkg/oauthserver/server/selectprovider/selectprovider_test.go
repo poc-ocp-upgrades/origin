@@ -6,70 +6,19 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
-
 	"github.com/openshift/origin/pkg/oauthserver/api"
 )
 
 func TestSelectAuthentication(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		ForceInterstitial      bool
-		Providers              []api.ProviderInfo
-		ExpectSelectedProvider bool
-		ExpectHandled          bool
-		ExpectContains         []string
-	}{
-		"should select single provider": {
-			ForceInterstitial: false,
-			Providers: []api.ProviderInfo{
-				{
-					Name: "provider_1",
-					URL:  "http://example.com/redirect_1/",
-				},
-			},
-			ExpectSelectedProvider: true,
-			ExpectHandled:          false,
-		},
-		"should return empty provider info when no providers": {
-			ForceInterstitial:      false,
-			Providers:              []api.ProviderInfo{},
-			ExpectSelectedProvider: false,
-			ExpectHandled:          false,
-		},
-		"should render select provider when forced": {
-			ForceInterstitial: true,
-			Providers: []api.ProviderInfo{
-				{
-					Name: "provider_1",
-					URL:  "http://example.com/redirect_1/",
-				},
-			},
-			ExpectSelectedProvider: false,
-			ExpectHandled:          true,
-			ExpectContains: []string{
-				`http://example.com/redirect_1/`,
-			},
-		},
-		"should render select provider when multiple providers": {
-			ForceInterstitial: false,
-			Providers: []api.ProviderInfo{
-				{
-					Name: "provider_1",
-					URL:  "http://example.com/redirect_1/",
-				},
-				{
-					Name: "provider_2",
-					URL:  "http://example.com/redirect_2/",
-				},
-			},
-			ExpectSelectedProvider: false,
-			ExpectHandled:          true,
-			ExpectContains: []string{
-				`http://example.com/redirect_1/`,
-				`http://example.com/redirect_2/`,
-			},
-		},
-	}
-
+		ForceInterstitial	bool
+		Providers		[]api.ProviderInfo
+		ExpectSelectedProvider	bool
+		ExpectHandled		bool
+		ExpectContains		[]string
+	}{"should select single provider": {ForceInterstitial: false, Providers: []api.ProviderInfo{{Name: "provider_1", URL: "http://example.com/redirect_1/"}}, ExpectSelectedProvider: true, ExpectHandled: false}, "should return empty provider info when no providers": {ForceInterstitial: false, Providers: []api.ProviderInfo{}, ExpectSelectedProvider: false, ExpectHandled: false}, "should render select provider when forced": {ForceInterstitial: true, Providers: []api.ProviderInfo{{Name: "provider_1", URL: "http://example.com/redirect_1/"}}, ExpectSelectedProvider: false, ExpectHandled: true, ExpectContains: []string{`http://example.com/redirect_1/`}}, "should render select provider when multiple providers": {ForceInterstitial: false, Providers: []api.ProviderInfo{{Name: "provider_1", URL: "http://example.com/redirect_1/"}, {Name: "provider_2", URL: "http://example.com/redirect_2/"}}, ExpectSelectedProvider: false, ExpectHandled: true, ExpectContains: []string{`http://example.com/redirect_1/`, `http://example.com/redirect_2/`}}}
 	for k, testCase := range testCases {
 		selectProviderRenderer, err := NewSelectProviderRenderer("")
 		if err != nil {
@@ -79,22 +28,18 @@ func TestSelectAuthentication(t *testing.T) {
 		selectProvider := NewSelectProvider(selectProviderRenderer, testCase.ForceInterstitial)
 		resp := httptest.NewRecorder()
 		provider, handled, err := selectProvider.SelectAuthentication(testCase.Providers, resp, &http.Request{})
-
 		if err != nil {
 			t.Errorf("%s: unexpected error: %#v", k, err)
 			continue
 		}
-
 		if testCase.ExpectHandled != handled {
 			t.Errorf("%s: unexpected value for 'handled': %#v", k, handled)
 			continue
 		}
-
 		if testCase.ExpectSelectedProvider && provider == nil {
 			t.Errorf("%s: expected a provider to be selected", k)
 			continue
 		}
-
 		if len(testCase.ExpectContains) > 0 {
 			data, _ := ioutil.ReadAll(resp.Body)
 			body := string(data)
@@ -107,30 +52,13 @@ func TestSelectAuthentication(t *testing.T) {
 		}
 	}
 }
-
 func TestValidateSelectProviderTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		Template      string
-		TemplateValid bool
-	}{
-		"default provider selection template": {
-			Template:      defaultSelectProviderTemplateString,
-			TemplateValid: true,
-		},
-		"provider selection template example": {
-			Template:      SelectProviderTemplateExample,
-			TemplateValid: true,
-		},
-		"original provider selection template example": {
-			Template:      originalSelectProviderTemplateExample,
-			TemplateValid: true,
-		},
-		"template only prints first provider URL": {
-			Template:      invalidSelectProviderTemplate,
-			TemplateValid: false,
-		},
-	}
-
+		Template	string
+		TemplateValid	bool
+	}{"default provider selection template": {Template: defaultSelectProviderTemplateString, TemplateValid: true}, "provider selection template example": {Template: SelectProviderTemplateExample, TemplateValid: true}, "original provider selection template example": {Template: originalSelectProviderTemplateExample, TemplateValid: true}, "template only prints first provider URL": {Template: invalidSelectProviderTemplate, TemplateValid: false}}
 	for k, testCase := range testCases {
 		allErrs := ValidateSelectProviderTemplate([]byte(testCase.Template))
 		if testCase.TemplateValid {
@@ -143,8 +71,6 @@ func TestValidateSelectProviderTemplate(t *testing.T) {
 	}
 }
 
-// Make sure the original version of the default template always validates
-// this is to avoid breaking existing customized templates.
 const originalSelectProviderTemplateExample = `<!DOCTYPE html>
 <!--
 
@@ -186,8 +112,6 @@ the example below.  The Name matches the name of an identity provider in the mas
   </body>
 </html>
 `
-
-// This template only prints the first provider URL and should fail validation.
 const invalidSelectProviderTemplate = `<!DOCTYPE html>
 <!--
 

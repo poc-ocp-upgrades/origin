@@ -2,9 +2,7 @@ package nodes
 
 import (
 	"testing"
-
 	"github.com/gonum/graph/topo"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	appstest "github.com/openshift/origin/pkg/apps/util/test"
 	osgraph "github.com/openshift/origin/pkg/oc/lib/graph/genericgraph"
@@ -12,15 +10,14 @@ import (
 )
 
 func TestDCPodTemplateSpecNode(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	g := osgraph.New()
-
 	dc := &appsv1.DeploymentConfig{}
 	dc.Namespace = "ns"
 	dc.Name = "foo"
 	dc.Spec.Template = appstest.OkPodTemplate()
-
 	_ = EnsureDeploymentConfigNode(g, dc)
-
 	edges := g.Edges()
 	if len(edges) != 2 {
 		t.Errorf("expected 2 edges, got %d", len(edges))
@@ -32,7 +29,6 @@ func TestDCPodTemplateSpecNode(t *testing.T) {
 			return
 		}
 	}
-
 	nodes := g.Nodes()
 	if len(nodes) != 3 {
 		t.Errorf("expected 3 nodes, got %d", len(nodes))
@@ -43,7 +39,6 @@ func TestDCPodTemplateSpecNode(t *testing.T) {
 		t.Errorf("unexpected error: %v", err)
 		return
 	}
-	// Just to be sure
 	if len(sorted) != 3 {
 		t.Errorf("expected 3 nodes, got %d", len(sorted))
 		return

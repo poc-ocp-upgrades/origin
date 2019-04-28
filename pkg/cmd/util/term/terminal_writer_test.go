@@ -9,16 +9,12 @@ import (
 const test = "Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin Origin"
 
 func TestWordWrapWriter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
-		input    string
-		maxWidth uint
-	}{
-		"max 10":   {input: test, maxWidth: 10},
-		"max 80":   {input: test, maxWidth: 80},
-		"max 120":  {input: test, maxWidth: 120},
-		"max 5000": {input: test, maxWidth: 5000},
-		"max 8":    {input: "Origin    Origin", maxWidth: 8},
-	}
+		input		string
+		maxWidth	uint
+	}{"max 10": {input: test, maxWidth: 10}, "max 80": {input: test, maxWidth: 80}, "max 120": {input: test, maxWidth: 120}, "max 5000": {input: test, maxWidth: 5000}, "max 8": {input: "Origin    Origin", maxWidth: 8}}
 	for k, tc := range testcases {
 		b := bytes.NewBufferString("")
 		w := NewWordWrapWriter(b, tc.maxWidth)
@@ -45,17 +41,13 @@ func TestWordWrapWriter(t *testing.T) {
 		}
 	}
 }
-
 func TestMaxWidthWriter(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testcases := map[string]struct {
-		input    string
-		maxWidth uint
-	}{
-		"max 10":   {input: test, maxWidth: 10},
-		"max 80":   {input: test, maxWidth: 80},
-		"max 120":  {input: test, maxWidth: 120},
-		"max 5000": {input: test, maxWidth: 5000},
-	}
+		input		string
+		maxWidth	uint
+	}{"max 10": {input: test, maxWidth: 10}, "max 80": {input: test, maxWidth: 80}, "max 120": {input: test, maxWidth: 120}, "max 5000": {input: test, maxWidth: 5000}}
 	for k, tc := range testcases {
 		b := bytes.NewBufferString("")
 		w := NewMaxWidthWriter(b, tc.maxWidth)

@@ -5,11 +5,9 @@ import (
 	"reflect"
 	"testing"
 	"time"
-
 	"github.com/containers/image/signature"
 	"github.com/google/uuid"
 	toml "github.com/pelletier/go-toml"
-
 	"github.com/openshift/origin/pkg/build/buildscheme"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/equality"
@@ -28,7 +26,6 @@ import (
 	clientgotesting "k8s.io/client-go/testing"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/record"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	configv1 "github.com/openshift/api/config/v1"
 	imagev1 "github.com/openshift/api/image/v1"
@@ -41,7 +38,6 @@ import (
 	imagev1client "github.com/openshift/client-go/image/clientset/versioned"
 	fakeimagev1client "github.com/openshift/client-go/image/clientset/versioned/fake"
 	imagev1informer "github.com/openshift/client-go/image/informers/externalversions"
-
 	"github.com/openshift/origin/pkg/build/buildapihelpers"
 	builddefaults "github.com/openshift/origin/pkg/build/controller/build/defaults"
 	buildoverrides "github.com/openshift/origin/pkg/build/controller/build/overrides"
@@ -52,12 +48,11 @@ import (
 )
 
 const (
-	dummyCA = `---- BEGIN CERTIFICATE ----
+	dummyCA	= `---- BEGIN CERTIFICATE ----
 	VEhJUyBJUyBBIEJBRCBDRVJUSUZJQ0FURQo=
 	---- END CERTIFICATE ----
 	`
-
-	dummyRegistryConf = `registries:
+	dummyRegistryConf	= `registries:
 	- registry.redhat.io
 	- quay.io
 	- docker.io
@@ -68,13 +63,10 @@ const (
 	`
 )
 
-// TestHandleBuild is the main test for build updates through the controller
 func TestHandleBuild(t *testing.T) {
-
-	// patch appears to drop sub-second accuracy from times, which causes problems
-	// during equality testing later, so start with a rounded number of seconds for a time.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	now := metav1.NewTime(time.Now().Round(time.Second))
-
 	build := func(phase buildv1.BuildPhase) *buildv1.Build {
 		b := dockerStrategy(mockBuild(phase, buildv1.BuildOutput{}))
 		if phase != buildv1.BuildPhaseNew {
@@ -91,28 +83,10 @@ func TestHandleBuild(t *testing.T) {
 			p.Status.StartTime = &now
 		case corev1.PodFailed:
 			p.Status.StartTime = &now
-			p.Status.ContainerStatuses = []corev1.ContainerStatus{
-				{
-					Name: "container",
-					State: corev1.ContainerState{
-						Terminated: &corev1.ContainerStateTerminated{
-							ExitCode: 1,
-						},
-					},
-				},
-			}
+			p.Status.ContainerStatuses = []corev1.ContainerStatus{{Name: "container", State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{ExitCode: 1}}}}
 		case corev1.PodSucceeded:
 			p.Status.StartTime = &now
-			p.Status.ContainerStatuses = []corev1.ContainerStatus{
-				{
-					Name: "container",
-					State: corev1.ContainerState{
-						Terminated: &corev1.ContainerStateTerminated{
-							ExitCode: 0,
-						},
-					},
-				},
-			}
+			p.Status.ContainerStatuses = []corev1.ContainerStatus{{Name: "container", State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{ExitCode: 0}}}}
 		}
 		return p
 	}
@@ -122,15 +96,9 @@ func TestHandleBuild(t *testing.T) {
 	}
 	withOwnerReference := func(pod *corev1.Pod, build *buildv1.Build) *corev1.Pod {
 		t := true
-		pod.OwnerReferences = []metav1.OwnerReference{{
-			APIVersion: buildv1.SchemeGroupVersion.String(),
-			Kind:       "Build",
-			Name:       build.Name,
-			Controller: &t,
-		}}
+		pod.OwnerReferences = []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &t}}
 		return pod
 	}
-
 	cancelled := func(build *buildv1.Build) *buildv1.Build {
 		build.Status.Cancelled = true
 		return build
@@ -143,212 +111,39 @@ func TestHandleBuild(t *testing.T) {
 		build.Status.LogSnippet = "termination message"
 		return build
 	}
-
 	tests := []struct {
-		name string
-
-		// Conditions
-		build                  *buildv1.Build
-		pod                    *corev1.Pod
-		runPolicy              *fakeRunPolicy
-		errorOnPodDelete       bool
-		errorOnPodCreate       bool
-		errorOnBuildUpdate     bool
-		errorOnConfigMapCreate bool
-
-		// Expected Result
-		expectUpdate           *buildUpdate
-		expectPodCreated       bool
-		expectPodDeleted       bool
-		expectError            bool
-		expectConfigMapCreated bool
-	}{
-		{
-			name:  "cancel running build",
-			build: cancelled(build(buildv1.BuildPhaseRunning)),
-			pod:   pod(corev1.PodRunning),
-			expectUpdate: newUpdate().phase(buildv1.BuildPhaseCancelled).
-				reason(buildv1.StatusReasonCancelledBuild).
-				message(buildutil.StatusMessageCancelledBuild).
-				completionTime(now).
-				startTime(now).update,
-			expectPodDeleted: true,
-		},
-		{
-			name:         "cancel build in terminal state",
-			build:        cancelled(withCompletionTS(build(buildv1.BuildPhaseComplete))),
-			pod:          pod(corev1.PodRunning),
-			expectUpdate: nil,
-		},
-		{
-			name:             "cancel build with delete pod error",
-			build:            cancelled(build(buildv1.BuildPhaseRunning)),
-			errorOnPodDelete: true,
-			expectUpdate:     nil,
-			expectError:      true,
-		},
-		{
-			name:  "new -> pending",
-			build: build(buildv1.BuildPhaseNew),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhasePending).
-				reason("").
-				message("").
-				podNameAnnotation(pod(corev1.PodPending).Name).
-				update,
-			expectPodCreated:       true,
-			expectConfigMapCreated: true,
-		},
-		{
-			name:  "new with existing related pod",
-			build: build(buildv1.BuildPhaseNew),
-			pod:   withOwnerReference(pod(corev1.PodRunning), build(buildv1.BuildPhaseNew)),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseRunning).
-				reason("").
-				message("").
-				startTime(now).
-				podNameAnnotation(pod(corev1.PodRunning).Name).
-				update,
-		},
-		{
-			name:  "new with existing unrelated pod",
-			build: build(buildv1.BuildPhaseNew),
-			pod:   pod(corev1.PodRunning),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseError).
-				reason(buildv1.StatusReasonBuildPodExists).
-				message(buildutil.StatusMessageBuildPodExists).
-				podNameAnnotation(pod(corev1.PodRunning).Name).
-				startTime(now).
-				completionTime(now).
-				update,
-		},
-		{
-			name:         "new not runnable by policy",
-			build:        build(buildv1.BuildPhaseNew),
-			runPolicy:    &fakeRunPolicy{notRunnable: true},
-			expectUpdate: nil,
-		},
-		{
-			name:                   "new -> pending with update error",
-			build:                  build(buildv1.BuildPhaseNew),
-			errorOnBuildUpdate:     true,
-			expectUpdate:           nil,
-			expectPodCreated:       true,
-			expectConfigMapCreated: true,
-			expectError:            true,
-		},
-		{
-			name:  "pending -> running",
-			build: build(buildv1.BuildPhasePending),
-			pod:   pod(corev1.PodRunning),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseRunning).
-				reason("").
-				message("").
-				startTime(now).
-				update,
-		},
-		{
-			name:               "pending -> running with update error",
-			build:              build(buildv1.BuildPhasePending),
-			pod:                pod(corev1.PodRunning),
-			errorOnBuildUpdate: true,
-			expectUpdate:       nil,
-			expectError:        true,
-		},
-		{
-			name:  "pending -> failed",
-			build: build(buildv1.BuildPhasePending),
-			pod:   pod(corev1.PodFailed),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseFailed).
-				reason(buildv1.StatusReasonGenericBuildFailed).
-				message(buildutil.StatusMessageGenericBuildFailed).
-				startTime(now).
-				completionTime(now).
-				update,
-		},
-		{
-			name:         "pending -> pending",
-			build:        build(buildv1.BuildPhasePending),
-			pod:          pod(corev1.PodPending),
-			expectUpdate: nil,
-		},
-		{
-			name:  "running -> complete",
-			build: build(buildv1.BuildPhaseRunning),
-			pod:   pod(corev1.PodSucceeded),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseComplete).
-				reason("").
-				message("").
-				startTime(now).
-				completionTime(now).
-				update,
-		},
-		{
-			name:         "running -> running",
-			build:        build(buildv1.BuildPhaseRunning),
-			pod:          pod(corev1.PodRunning),
-			expectUpdate: nil,
-		},
-		{
-			name:  "running with missing pod",
-			build: build(buildv1.BuildPhaseRunning),
-			expectUpdate: newUpdate().
-				phase(buildv1.BuildPhaseError).
-				reason(buildv1.StatusReasonBuildPodDeleted).
-				message(buildutil.StatusMessageBuildPodDeleted).
-				startTime(now).
-				completionTime(now).
-				update,
-		},
-		{
-			name:  "failed -> failed with no completion timestamp",
-			build: build(buildv1.BuildPhaseFailed),
-			pod:   pod(corev1.PodFailed),
-			expectUpdate: newUpdate().
-				startTime(now).
-				completionTime(now).
-				update,
-		},
-		{
-			name:  "failed -> failed with completion timestamp+message and no logsnippet",
-			build: withCompletionTS(build(buildv1.BuildPhaseFailed)),
-			pod:   withTerminationMessage(pod(corev1.PodFailed)),
-			expectUpdate: newUpdate().
-				startTime(now).
-				logSnippet("termination message").
-				update,
-		},
-		{
-			name:  "failed -> failed with completion timestamp+message and logsnippet",
-			build: withLogSnippet(withCompletionTS(build(buildv1.BuildPhaseFailed))),
-			pod:   withTerminationMessage(pod(corev1.PodFailed)),
-		},
-	}
-
+		name			string
+		build			*buildv1.Build
+		pod			*corev1.Pod
+		runPolicy		*fakeRunPolicy
+		errorOnPodDelete	bool
+		errorOnPodCreate	bool
+		errorOnBuildUpdate	bool
+		errorOnConfigMapCreate	bool
+		expectUpdate		*buildUpdate
+		expectPodCreated	bool
+		expectPodDeleted	bool
+		expectError		bool
+		expectConfigMapCreated	bool
+	}{{name: "cancel running build", build: cancelled(build(buildv1.BuildPhaseRunning)), pod: pod(corev1.PodRunning), expectUpdate: newUpdate().phase(buildv1.BuildPhaseCancelled).reason(buildv1.StatusReasonCancelledBuild).message(buildutil.StatusMessageCancelledBuild).completionTime(now).startTime(now).update, expectPodDeleted: true}, {name: "cancel build in terminal state", build: cancelled(withCompletionTS(build(buildv1.BuildPhaseComplete))), pod: pod(corev1.PodRunning), expectUpdate: nil}, {name: "cancel build with delete pod error", build: cancelled(build(buildv1.BuildPhaseRunning)), errorOnPodDelete: true, expectUpdate: nil, expectError: true}, {name: "new -> pending", build: build(buildv1.BuildPhaseNew), expectUpdate: newUpdate().phase(buildv1.BuildPhasePending).reason("").message("").podNameAnnotation(pod(corev1.PodPending).Name).update, expectPodCreated: true, expectConfigMapCreated: true}, {name: "new with existing related pod", build: build(buildv1.BuildPhaseNew), pod: withOwnerReference(pod(corev1.PodRunning), build(buildv1.BuildPhaseNew)), expectUpdate: newUpdate().phase(buildv1.BuildPhaseRunning).reason("").message("").startTime(now).podNameAnnotation(pod(corev1.PodRunning).Name).update}, {name: "new with existing unrelated pod", build: build(buildv1.BuildPhaseNew), pod: pod(corev1.PodRunning), expectUpdate: newUpdate().phase(buildv1.BuildPhaseError).reason(buildv1.StatusReasonBuildPodExists).message(buildutil.StatusMessageBuildPodExists).podNameAnnotation(pod(corev1.PodRunning).Name).startTime(now).completionTime(now).update}, {name: "new not runnable by policy", build: build(buildv1.BuildPhaseNew), runPolicy: &fakeRunPolicy{notRunnable: true}, expectUpdate: nil}, {name: "new -> pending with update error", build: build(buildv1.BuildPhaseNew), errorOnBuildUpdate: true, expectUpdate: nil, expectPodCreated: true, expectConfigMapCreated: true, expectError: true}, {name: "pending -> running", build: build(buildv1.BuildPhasePending), pod: pod(corev1.PodRunning), expectUpdate: newUpdate().phase(buildv1.BuildPhaseRunning).reason("").message("").startTime(now).update}, {name: "pending -> running with update error", build: build(buildv1.BuildPhasePending), pod: pod(corev1.PodRunning), errorOnBuildUpdate: true, expectUpdate: nil, expectError: true}, {name: "pending -> failed", build: build(buildv1.BuildPhasePending), pod: pod(corev1.PodFailed), expectUpdate: newUpdate().phase(buildv1.BuildPhaseFailed).reason(buildv1.StatusReasonGenericBuildFailed).message(buildutil.StatusMessageGenericBuildFailed).startTime(now).completionTime(now).update}, {name: "pending -> pending", build: build(buildv1.BuildPhasePending), pod: pod(corev1.PodPending), expectUpdate: nil}, {name: "running -> complete", build: build(buildv1.BuildPhaseRunning), pod: pod(corev1.PodSucceeded), expectUpdate: newUpdate().phase(buildv1.BuildPhaseComplete).reason("").message("").startTime(now).completionTime(now).update}, {name: "running -> running", build: build(buildv1.BuildPhaseRunning), pod: pod(corev1.PodRunning), expectUpdate: nil}, {name: "running with missing pod", build: build(buildv1.BuildPhaseRunning), expectUpdate: newUpdate().phase(buildv1.BuildPhaseError).reason(buildv1.StatusReasonBuildPodDeleted).message(buildutil.StatusMessageBuildPodDeleted).startTime(now).completionTime(now).update}, {name: "failed -> failed with no completion timestamp", build: build(buildv1.BuildPhaseFailed), pod: pod(corev1.PodFailed), expectUpdate: newUpdate().startTime(now).completionTime(now).update}, {name: "failed -> failed with completion timestamp+message and no logsnippet", build: withCompletionTS(build(buildv1.BuildPhaseFailed)), pod: withTerminationMessage(pod(corev1.PodFailed)), expectUpdate: newUpdate().startTime(now).logSnippet("termination message").update}, {name: "failed -> failed with completion timestamp+message and logsnippet", build: withLogSnippet(withCompletionTS(build(buildv1.BuildPhaseFailed))), pod: withTerminationMessage(pod(corev1.PodFailed))}}
 	for _, tc := range tests {
 		func() {
 			var patchedBuild *buildv1.Build
 			var appliedPatch string
 			buildClient := fakeBuildClient(tc.build)
-			buildClient.(*fakebuildv1client.Clientset).PrependReactor("patch", "builds",
-				func(action clientgotesting.Action) (bool, runtime.Object, error) {
-					if tc.errorOnBuildUpdate {
-						return true, nil, fmt.Errorf("error")
-					}
-					var err error
-					patchAction := action.(clientgotesting.PatchActionImpl)
-					appliedPatch = string(patchAction.Patch)
-					patchedBuild, err = applyBuildPatch(tc.build, patchAction.Patch)
-					if err != nil {
-						panic(fmt.Sprintf("unexpected error: %v", err))
-					}
-					return true, patchedBuild, nil
-				})
+			buildClient.(*fakebuildv1client.Clientset).PrependReactor("patch", "builds", func(action clientgotesting.Action) (bool, runtime.Object, error) {
+				if tc.errorOnBuildUpdate {
+					return true, nil, fmt.Errorf("error")
+				}
+				var err error
+				patchAction := action.(clientgotesting.PatchActionImpl)
+				appliedPatch = string(patchAction.Patch)
+				patchedBuild, err = applyBuildPatch(tc.build, patchAction.Patch)
+				if err != nil {
+					panic(fmt.Sprintf("unexpected error: %v", err))
+				}
+				return true, patchedBuild, nil
+			})
 			var kubeClient kubernetes.Interface
 			if tc.pod != nil {
 				kubeClient = fakeKubeExternalClientSet(tc.pod)
@@ -357,46 +152,41 @@ func TestHandleBuild(t *testing.T) {
 			}
 			podCreated := false
 			var newPod *corev1.Pod
-			kubeClient.(*fake.Clientset).PrependReactor("delete", "pods",
-				func(action clientgotesting.Action) (bool, runtime.Object, error) {
-					if tc.errorOnPodDelete {
-						return true, nil, fmt.Errorf("error")
-					}
-					return true, nil, nil
-				})
-			kubeClient.(*fake.Clientset).PrependReactor("create", "pods",
-				func(action clientgotesting.Action) (bool, runtime.Object, error) {
-					if tc.errorOnPodCreate {
-						return true, nil, fmt.Errorf("error")
-					}
-					podCreated = true
-					newPod = mockBuildPod(tc.build)
-					newPod.UID = types.UID(uuid.New().String())
-					return true, newPod, nil
-				})
+			kubeClient.(*fake.Clientset).PrependReactor("delete", "pods", func(action clientgotesting.Action) (bool, runtime.Object, error) {
+				if tc.errorOnPodDelete {
+					return true, nil, fmt.Errorf("error")
+				}
+				return true, nil, nil
+			})
+			kubeClient.(*fake.Clientset).PrependReactor("create", "pods", func(action clientgotesting.Action) (bool, runtime.Object, error) {
+				if tc.errorOnPodCreate {
+					return true, nil, fmt.Errorf("error")
+				}
+				podCreated = true
+				newPod = mockBuildPod(tc.build)
+				newPod.UID = types.UID(uuid.New().String())
+				return true, newPod, nil
+			})
 			caConfigMapCreated := false
 			registryConfigMapCreated := false
-			kubeClient.(*fake.Clientset).PrependReactor("create", "configmaps",
-				func(action clientgotesting.Action) (bool, runtime.Object, error) {
-					if !caConfigMapCreated {
-						caConfigMapCreated = true
-						return true, mockBuildCAConfigMap(tc.build, newPod), nil
-					}
-					if !registryConfigMapCreated {
-						registryConfigMapCreated = true
-						return true, mockBuildSystemConfigMap(tc.build, newPod), nil
-					}
-					return false, nil, nil
-				})
+			kubeClient.(*fake.Clientset).PrependReactor("create", "configmaps", func(action clientgotesting.Action) (bool, runtime.Object, error) {
+				if !caConfigMapCreated {
+					caConfigMapCreated = true
+					return true, mockBuildCAConfigMap(tc.build, newPod), nil
+				}
+				if !registryConfigMapCreated {
+					registryConfigMapCreated = true
+					return true, mockBuildSystemConfigMap(tc.build, newPod), nil
+				}
+				return false, nil, nil
+			})
 			bc := newFakeBuildController(buildClient, nil, kubeClient, nil, nil)
 			defer bc.stop()
-
 			runPolicy := tc.runPolicy
 			if runPolicy == nil {
 				runPolicy = &fakeRunPolicy{}
 			}
 			bc.runPolicies = []policy.RunPolicy{runPolicy}
-
 			err := bc.handleBuild(tc.build)
 			if err != nil {
 				if !tc.expectError {
@@ -425,8 +215,6 @@ func TestHandleBuild(t *testing.T) {
 				}
 				expectedBuild := tc.build.DeepCopy()
 				tc.expectUpdate.apply(expectedBuild)
-
-				// For start/completion/duration fields, simply validate that they are set/not set
 				if tc.expectUpdate.startTime != nil && patchedBuild.Status.StartTimestamp != nil {
 					expectedBuild.Status.StartTimestamp = patchedBuild.Status.StartTimestamp
 				}
@@ -435,78 +223,60 @@ func TestHandleBuild(t *testing.T) {
 					expectedBuild.Status.Duration = patchedBuild.Status.Duration
 				}
 				expectedBuild.CreationTimestamp = patchedBuild.CreationTimestamp
-
-				// TODO: For some reason the external builds does not with with this check. The output is correct, we should investigate later.
-				/*
-					if !apiequality.Semantic.DeepEqual(*expectedBuild, *patchedBuild) {
-						t.Errorf("%s: did not get expected update on build. \nUpdate: %v\nPatch: %s\n", tc.name, tc.expectUpdate, appliedPatch)
-					}
-				*/
 			}
 		}()
 	}
-
 }
-
-// TestWork - High-level test of the work function to ensure that a build
-// in the queue will be handled by updating the build status to pending
 func TestWorkWithNewBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
 	var patchedBuild *buildv1.Build
 	buildClient := fakeBuildClient(build)
 	buildClient.(*fakebuildv1client.Clientset).PrependReactor("patch", "builds", applyBuildPatchReaction(t, build, &patchedBuild))
-
 	bc := newFakeBuildController(buildClient, nil, nil, nil, nil)
 	defer bc.stop()
 	bc.enqueueBuild(build)
-
 	bc.buildWork()
-
 	if bc.buildQueue.Len() > 0 {
 		t.Errorf("Expected queue to be empty")
 	}
 	if patchedBuild == nil {
 		t.Errorf("Expected patched build not to be nil")
 	}
-
 	if patchedBuild != nil && patchedBuild.Status.Phase != buildv1.BuildPhasePending {
 		t.Errorf("Expected patched build status set to Pending. It is %s", patchedBuild.Status.Phase)
 	}
 }
-
 func TestCreateBuildPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fakeKubeExternalClientSet()
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 		return
 	}
 	podName := buildapihelpers.GetBuildPodName(build)
-	// Validate update
 	expected := &buildUpdate{}
 	expected.setPodNameAnnotation(podName)
 	expected.setPhase(buildv1.BuildPhasePending)
 	expected.setReason("")
 	expected.setMessage("")
 	validateUpdate(t, "create build pod", expected, update)
-	// Make sure that a pod was created
 	pod, err := kubeClient.CoreV1().Pods("namespace").Get(podName, metav1.GetOptions{})
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-	// Make sure that a configMap was created, with an ownerRef
 	configMapName := buildapihelpers.GetBuildCAConfigMapName(build)
 	configMap, err := kubeClient.CoreV1().ConfigMaps("namespace").Get(configMapName, metav1.GetOptions{})
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
 	if configMap == nil {
-		// ConfigMap was not found
 		return
 	}
 	if len(configMap.ObjectMeta.OwnerReferences) == 0 {
@@ -522,7 +292,6 @@ func TestCreateBuildPod(t *testing.T) {
 	if !foundOwner {
 		t.Errorf("expected configMap %s to reference owner %s", configMapName, podName)
 	}
-	// Make sure that the pod references the configMap
 	foundVolume := false
 	for _, v := range pod.Spec.Volumes {
 		if v.ConfigMap != nil && v.ConfigMap.Name == configMapName {
@@ -534,8 +303,9 @@ func TestCreateBuildPod(t *testing.T) {
 		t.Errorf("configMap %s should exist exist as a volume in the build pod, but was not found.", configMapName)
 	}
 }
-
 func TestCreateBuildPodWithImageStreamOutput(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream := &imagev1.ImageStream{}
 	imageStream.Namespace = "isnamespace"
 	imageStream.Name = "isname"
@@ -546,7 +316,6 @@ func TestCreateBuildPodWithImageStreamOutput(t *testing.T) {
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{To: imageStreamRef, PushSecret: &corev1.LocalObjectReference{}}))
 	podName := buildapihelpers.GetBuildPodName(build)
-
 	update, err := bc.createBuildPod(build)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -562,15 +331,14 @@ func TestCreateBuildPodWithImageStreamOutput(t *testing.T) {
 		t.Errorf("should not have queued build update")
 	}
 }
-
 func TestCreateBuildPodWithOutputImageStreamMissing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStreamRef := &corev1.ObjectReference{Name: "isname:latest", Namespace: "isnamespace", Kind: "ImageStreamTag"}
 	bc := newFakeBuildController(nil, nil, nil, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{To: imageStreamRef, PushSecret: &corev1.LocalObjectReference{}}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Fatalf("Expected no error")
 	}
@@ -582,14 +350,14 @@ func TestCreateBuildPodWithOutputImageStreamMissing(t *testing.T) {
 		t.Errorf("should have queued build update: %#v", bc.imageStreamQueue)
 	}
 }
-
 func TestCreateBuildPodWithImageStreamMissing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStreamRef := &corev1.ObjectReference{Name: "isname:latest", Kind: "DockerImage"}
 	bc := newFakeBuildController(nil, nil, nil, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{To: imageStreamRef, PushSecret: &corev1.LocalObjectReference{}}))
 	build.Spec.Strategy.DockerStrategy.From = &corev1.ObjectReference{Kind: "ImageStreamTag", Name: "isname:latest"}
-
 	update, err := bc.createBuildPod(build)
 	if err != nil {
 		t.Fatalf("Expected no error: %v", err)
@@ -602,8 +370,9 @@ func TestCreateBuildPodWithImageStreamMissing(t *testing.T) {
 		t.Errorf("should have queued build update: %#v", bc.imageStreamQueue)
 	}
 }
-
 func TestCreateBuildPodWithImageStreamUnresolved(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	imageStream := &imagev1.ImageStream{}
 	imageStream.Namespace = "isnamespace"
 	imageStream.Name = "isname"
@@ -613,9 +382,7 @@ func TestCreateBuildPodWithImageStreamUnresolved(t *testing.T) {
 	bc := newFakeBuildController(nil, imageClient, nil, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{To: imageStreamRef, PushSecret: &corev1.LocalObjectReference{}}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err == nil {
 		t.Fatalf("Expected error")
 	}
@@ -631,17 +398,18 @@ func TestCreateBuildPodWithImageStreamUnresolved(t *testing.T) {
 type errorStrategy struct{}
 
 func (*errorStrategy) CreateBuildPod(build *buildv1.Build, additionalCAs map[string]string, internalRegistryHost string) (*corev1.Pod, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
-
 func TestCreateBuildPodWithPodSpecCreationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := newFakeBuildController(nil, nil, nil, nil, nil)
 	defer bc.stop()
 	bc.createStrategy = &errorStrategy{}
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
@@ -650,27 +418,12 @@ func TestCreateBuildPodWithPodSpecCreationError(t *testing.T) {
 	expected.setMessage(buildutil.StatusMessageCannotCreateBuildPodSpec)
 	validateUpdate(t, "create build pod with pod spec creation error", expected, update)
 }
-
 func TestCreateBuildPodWithExistingRelatedPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tru := true
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
-	existingPod := &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      buildapihelpers.GetBuildPodName(build),
-			Namespace: build.Namespace,
-			UID:       types.UID(uuid.New().String()),
-			OwnerReferences: []metav1.OwnerReference{
-				{
-					APIVersion: buildv1.SchemeGroupVersion.String(),
-					Kind:       "Build",
-					Name:       build.Name,
-					Controller: &tru,
-				},
-			},
-		},
-	}
-
+	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace, UID: types.UID(uuid.New().String()), OwnerReferences: []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &tru}}}}
 	kubeClient := fakeKubeExternalClientSet(existingPod)
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.NewAlreadyExists(schema.GroupResource{Group: "", Resource: "pods"}, existingPod.Name)
@@ -679,13 +432,10 @@ func TestCreateBuildPodWithExistingRelatedPod(t *testing.T) {
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	bc.start()
 	defer bc.stop()
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
 	expected := &buildUpdate{}
 	expected.setPhase(buildv1.BuildPhasePending)
 	expected.setReason("")
@@ -693,26 +443,12 @@ func TestCreateBuildPodWithExistingRelatedPod(t *testing.T) {
 	expected.setPodNameAnnotation(buildapihelpers.GetBuildPodName(build))
 	validateUpdate(t, "create build pod with existing related pod error", expected, update)
 }
-
 func TestCreateBuildPodWithExistingRelatedPodMissingCA(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tru := true
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
-	existingPod := &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      buildapihelpers.GetBuildPodName(build),
-			Namespace: build.Namespace,
-			UID:       types.UID(uuid.New().String()),
-			OwnerReferences: []metav1.OwnerReference{
-				{
-					APIVersion: buildv1.SchemeGroupVersion.String(),
-					Kind:       "Build",
-					Name:       build.Name,
-					Controller: &tru,
-				},
-			},
-		},
-	}
+	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace, UID: types.UID(uuid.New().String()), OwnerReferences: []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &tru}}}}
 	caMapName := buildapihelpers.GetBuildCAConfigMapName(build)
 	kubeClient := fakeKubeExternalClientSet(existingPod)
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
@@ -723,17 +459,13 @@ func TestCreateBuildPodWithExistingRelatedPodMissingCA(t *testing.T) {
 	}
 	kubeClient.(*fake.Clientset).PrependReactor("create", "pods", errorReaction)
 	kubeClient.(*fake.Clientset).PrependReactor("get", "configmaps", notFoundReaction)
-
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	bc.start()
 	defer bc.stop()
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
 	expected := &buildUpdate{}
 	expected.setPhase(buildv1.BuildPhasePending)
 	expected.setReason("")
@@ -741,41 +473,14 @@ func TestCreateBuildPodWithExistingRelatedPodMissingCA(t *testing.T) {
 	expected.setPodNameAnnotation(buildapihelpers.GetBuildPodName(build))
 	validateUpdate(t, "create build pod with existing related pod and missing CA configMap error", expected, update)
 }
-
 func TestCreateBuildPodWithExistingRelatedPodBadCA(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tru := true
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
-	existingPod := &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      buildapihelpers.GetBuildPodName(build),
-			Namespace: build.Namespace,
-			UID:       types.UID(uuid.New().String()),
-			OwnerReferences: []metav1.OwnerReference{
-				{
-					APIVersion: buildv1.SchemeGroupVersion.String(),
-					Kind:       "Build",
-					Name:       build.Name,
-					Controller: &tru,
-				},
-			},
-		},
-	}
+	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace, UID: types.UID(uuid.New().String()), OwnerReferences: []metav1.OwnerReference{{APIVersion: buildv1.SchemeGroupVersion.String(), Kind: "Build", Name: build.Name, Controller: &tru}}}}
 	badPod := mockBuildPod(build)
-	existingCA := &corev1.ConfigMap{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      buildapihelpers.GetBuildCAConfigMapName(build),
-			Namespace: build.Namespace,
-			OwnerReferences: []metav1.OwnerReference{
-				{
-					APIVersion: "v1",
-					Kind:       "Pod",
-					Name:       badPod.Name,
-					UID:        badPod.UID,
-				},
-			},
-		},
-	}
+	existingCA := &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildCAConfigMapName(build), Namespace: build.Namespace, OwnerReferences: []metav1.OwnerReference{{APIVersion: "v1", Kind: "Pod", Name: badPod.Name, UID: badPod.UID}}}}
 	kubeClient := fakeKubeExternalClientSet(existingPod)
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.NewAlreadyExists(schema.GroupResource{Group: "", Resource: "pods"}, existingPod.Name)
@@ -785,31 +490,21 @@ func TestCreateBuildPodWithExistingRelatedPodBadCA(t *testing.T) {
 	}
 	kubeClient.(*fake.Clientset).PrependReactor("create", "pods", errorReaction)
 	kubeClient.(*fake.Clientset).PrependReactor("get", "configmaps", getCAReaction)
-
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	bc.start()
 	defer bc.stop()
-
 	update, err := bc.createBuildPod(build)
-
 	if err == nil {
 		t.Error("expected error")
 	}
-
 	expected := &buildUpdate{}
 	validateUpdate(t, "create build pod with existing related pod and bad CA configMap error", expected, update)
 }
-
 func TestCreateBuildPodWithExistingUnrelatedPod(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
-	existingPod := &corev1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      buildapihelpers.GetBuildPodName(build),
-			Namespace: build.Namespace,
-		},
-	}
-
+	existingPod := &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: buildapihelpers.GetBuildPodName(build), Namespace: build.Namespace}}
 	kubeClient := fakeKubeExternalClientSet(existingPod)
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, errors.NewAlreadyExists(schema.GroupResource{Group: "", Resource: "pods"}, existingPod.Name)
@@ -817,21 +512,19 @@ func TestCreateBuildPodWithExistingUnrelatedPod(t *testing.T) {
 	kubeClient.(*fake.Clientset).PrependReactor("create", "pods", errorReaction)
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	defer bc.stop()
-
 	update, err := bc.createBuildPod(build)
-
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
 	expected := &buildUpdate{}
 	expected.setPhase(buildv1.BuildPhaseError)
 	expected.setReason(buildv1.StatusReasonBuildPodExists)
 	expected.setMessage(buildutil.StatusMessageBuildPodExists)
 	validateUpdate(t, "create build pod with pod with older existing pod", expected, update)
 }
-
 func TestCreateBuildPodWithPodCreationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fakeKubeExternalClientSet()
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, fmt.Errorf("error")
@@ -840,20 +533,18 @@ func TestCreateBuildPodWithPodCreationError(t *testing.T) {
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err == nil {
 		t.Errorf("expected error")
 	}
-
 	expected := &buildUpdate{}
 	expected.setReason(buildv1.StatusReasonCannotCreateBuildPod)
 	expected.setMessage(buildutil.StatusMessageCannotCreateBuildPod)
 	validateUpdate(t, "create build pod with pod creation error", expected, update)
 }
-
 func TestCreateBuildPodWithCACreationError(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient := fakeKubeExternalClientSet()
 	errorReaction := func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		return true, nil, fmt.Errorf("error")
@@ -862,20 +553,18 @@ func TestCreateBuildPodWithCACreationError(t *testing.T) {
 	bc := newFakeBuildController(nil, nil, kubeClient, nil, nil)
 	defer bc.stop()
 	build := dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{}))
-
 	update, err := bc.createBuildPod(build)
-
 	if err == nil {
 		t.Errorf("expected error")
 	}
-
 	expected := &buildUpdate{}
 	expected.setReason("CannotCreateCAConfigMap")
 	expected.setMessage(buildutil.StatusMessageCannotCreateCAConfigMap)
 	validateUpdate(t, "create build pod with CA ConfigMap creation error", expected, update)
 }
-
 func TestCancelBuild(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	build := mockBuild(buildv1.BuildPhaseRunning, buildv1.BuildOutput{})
 	build.Name = "canceltest"
 	build.Namespace = "testns"
@@ -883,9 +572,7 @@ func TestCancelBuild(t *testing.T) {
 	pod.Name = "canceltest-build"
 	pod.Namespace = "testns"
 	client := fake.NewSimpleClientset(pod).CoreV1()
-	bc := BuildController{
-		podClient: client,
-	}
+	bc := BuildController{podClient: client}
 	update, err := bc.cancelBuild(build)
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
@@ -903,76 +590,30 @@ func TestCancelBuild(t *testing.T) {
 		t.Errorf("expected status message to be set to %s", buildutil.StatusMessageCancelledBuild)
 	}
 }
-
 func TestShouldIgnore(t *testing.T) {
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	setCompletionTimestamp := func(build *buildv1.Build) *buildv1.Build {
 		now := metav1.Now()
 		build.Status.CompletionTimestamp = &now
 		return build
 	}
-
 	tests := []struct {
-		name         string
-		build        *buildv1.Build
-		expectIgnore bool
-	}{
-		{
-			name:         "new docker build",
-			build:        dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{})),
-			expectIgnore: false,
-		},
-		{
-			name:         "running docker build",
-			build:        dockerStrategy(mockBuild(buildv1.BuildPhaseRunning, buildv1.BuildOutput{})),
-			expectIgnore: false,
-		},
-		{
-			name:         "cancelled docker build",
-			build:        dockerStrategy(mockBuild(buildv1.BuildPhaseCancelled, buildv1.BuildOutput{})),
-			expectIgnore: true,
-		},
-		{
-			name:         "completed docker build with no completion timestamp",
-			build:        dockerStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{})),
-			expectIgnore: false,
-		},
-		{
-			name:         "completed docker build with completion timestamp",
-			build:        setCompletionTimestamp(dockerStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{}))),
-			expectIgnore: true,
-		},
-		{
-			name:         "running pipeline build",
-			build:        pipelineStrategy(mockBuild(buildv1.BuildPhaseRunning, buildv1.BuildOutput{})),
-			expectIgnore: true,
-		},
-		{
-			name:         "completed pipeline build",
-			build:        pipelineStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{})),
-			expectIgnore: true,
-		},
-	}
-
+		name		string
+		build		*buildv1.Build
+		expectIgnore	bool
+	}{{name: "new docker build", build: dockerStrategy(mockBuild(buildv1.BuildPhaseNew, buildv1.BuildOutput{})), expectIgnore: false}, {name: "running docker build", build: dockerStrategy(mockBuild(buildv1.BuildPhaseRunning, buildv1.BuildOutput{})), expectIgnore: false}, {name: "cancelled docker build", build: dockerStrategy(mockBuild(buildv1.BuildPhaseCancelled, buildv1.BuildOutput{})), expectIgnore: true}, {name: "completed docker build with no completion timestamp", build: dockerStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{})), expectIgnore: false}, {name: "completed docker build with completion timestamp", build: setCompletionTimestamp(dockerStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{}))), expectIgnore: true}, {name: "running pipeline build", build: pipelineStrategy(mockBuild(buildv1.BuildPhaseRunning, buildv1.BuildOutput{})), expectIgnore: true}, {name: "completed pipeline build", build: pipelineStrategy(mockBuild(buildv1.BuildPhaseComplete, buildv1.BuildOutput{})), expectIgnore: true}}
 	for _, test := range tests {
 		actual := shouldIgnore(test.build)
 		if expected := test.expectIgnore; actual != expected {
 			t.Errorf("%s: expected result: %v, actual: %v", test.name, expected, actual)
 		}
 	}
-
 }
-
 func TestIsValidTransition(t *testing.T) {
-	phases := []buildv1.BuildPhase{
-		buildv1.BuildPhaseNew,
-		buildv1.BuildPhasePending,
-		buildv1.BuildPhaseRunning,
-		buildv1.BuildPhaseComplete,
-		buildv1.BuildPhaseFailed,
-		buildv1.BuildPhaseError,
-		buildv1.BuildPhaseCancelled,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	phases := []buildv1.BuildPhase{buildv1.BuildPhaseNew, buildv1.BuildPhasePending, buildv1.BuildPhaseRunning, buildv1.BuildPhaseComplete, buildv1.BuildPhaseFailed, buildv1.BuildPhaseError, buildv1.BuildPhaseCancelled}
 	for _, fromPhase := range phases {
 		for _, toPhase := range phases {
 			if buildutil.IsTerminalPhase(fromPhase) && fromPhase != toPhase {
@@ -993,90 +634,45 @@ func TestIsValidTransition(t *testing.T) {
 				}
 				continue
 			}
-
 			if !isValidTransition(fromPhase, toPhase) {
 				t.Errorf("transition %v -> %v should be valid", fromPhase, toPhase)
 			}
 		}
 	}
 }
-
 func TestIsTerminal(t *testing.T) {
-	tests := map[buildv1.BuildPhase]bool{
-		buildv1.BuildPhaseNew:       false,
-		buildv1.BuildPhasePending:   false,
-		buildv1.BuildPhaseRunning:   false,
-		buildv1.BuildPhaseComplete:  true,
-		buildv1.BuildPhaseFailed:    true,
-		buildv1.BuildPhaseError:     true,
-		buildv1.BuildPhaseCancelled: true,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	tests := map[buildv1.BuildPhase]bool{buildv1.BuildPhaseNew: false, buildv1.BuildPhasePending: false, buildv1.BuildPhaseRunning: false, buildv1.BuildPhaseComplete: true, buildv1.BuildPhaseFailed: true, buildv1.BuildPhaseError: true, buildv1.BuildPhaseCancelled: true}
 	for phase, expected := range tests {
 		if actual := buildutil.IsTerminalPhase(phase); actual != expected {
 			t.Errorf("unexpected response for %s: %v", phase, actual)
 		}
 	}
 }
-
 func TestSetBuildCompletionTimestampAndDuration(t *testing.T) {
-	// set start time to 2 seconds ago to have some significant duration
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	startTime := metav1.NewTime(time.Now().Add(time.Second * -2))
 	earlierTime := metav1.NewTime(startTime.Add(time.Hour * -1))
-
-	// Marker times used for validation
 	afterStartTimeBeforeNow := metav1.NewTime(time.Time{})
-
-	// Marker durations used for validation
 	greaterThanZeroLessThanSinceStartTime := time.Duration(0)
 	atLeastOneHour := time.Duration(0)
 	zeroDuration := time.Duration(0)
-
 	buildWithStartTime := &buildv1.Build{}
 	buildWithStartTime.Status.StartTimestamp = &startTime
 	buildWithNoStartTime := &buildv1.Build{}
 	tests := []struct {
-		name         string
-		build        *buildv1.Build
-		podStartTime *metav1.Time
-		expected     *buildUpdate
-	}{
-		{
-			name:         "build with start time",
-			build:        buildWithStartTime,
-			podStartTime: &earlierTime,
-			expected: &buildUpdate{
-				completionTime: &afterStartTimeBeforeNow,
-				duration:       &greaterThanZeroLessThanSinceStartTime,
-			},
-		},
-		{
-			name:         "build with no start time",
-			build:        buildWithNoStartTime,
-			podStartTime: &earlierTime,
-			expected: &buildUpdate{
-				startTime:      &earlierTime,
-				completionTime: &afterStartTimeBeforeNow,
-				duration:       &atLeastOneHour,
-			},
-		},
-		{
-			name:         "build with no start time, no pod start time",
-			build:        buildWithNoStartTime,
-			podStartTime: nil,
-			expected: &buildUpdate{
-				startTime:      &afterStartTimeBeforeNow,
-				completionTime: &afterStartTimeBeforeNow,
-				duration:       &zeroDuration,
-			},
-		},
-	}
-
+		name		string
+		build		*buildv1.Build
+		podStartTime	*metav1.Time
+		expected	*buildUpdate
+	}{{name: "build with start time", build: buildWithStartTime, podStartTime: &earlierTime, expected: &buildUpdate{completionTime: &afterStartTimeBeforeNow, duration: &greaterThanZeroLessThanSinceStartTime}}, {name: "build with no start time", build: buildWithNoStartTime, podStartTime: &earlierTime, expected: &buildUpdate{startTime: &earlierTime, completionTime: &afterStartTimeBeforeNow, duration: &atLeastOneHour}}, {name: "build with no start time, no pod start time", build: buildWithNoStartTime, podStartTime: nil, expected: &buildUpdate{startTime: &afterStartTimeBeforeNow, completionTime: &afterStartTimeBeforeNow, duration: &zeroDuration}}}
 	for _, test := range tests {
 		update := &buildUpdate{}
 		pod := &corev1.Pod{}
 		pod.Status.StartTime = test.podStartTime
 		setBuildCompletionData(test.build, pod, update)
-		// Ensure that only the fields in the expected update are set
 		if test.expected.podNameAnnotation == nil && (test.expected.podNameAnnotation != update.podNameAnnotation) {
 			t.Errorf("%s: podNameAnnotation should not be set", test.name)
 			continue
@@ -1172,32 +768,13 @@ func TestSetBuildCompletionTimestampAndDuration(t *testing.T) {
 		}
 	}
 }
-
 func TestCreateBuildCAConfigMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name       string
-		addlCAData map[string]string
-	}{
-		{
-			name: "no CAs",
-		},
-		{
-			name: "addl CA data",
-			addlCAData: map[string]string{
-				"mydomain":    dummyCA,
-				"otherdomain": dummyCA,
-				"third":       dummyCA,
-			},
-		},
-		{
-			name: "everything",
-			addlCAData: map[string]string{
-				"mydomain":    dummyCA,
-				"otherdomain": dummyCA,
-				"third":       dummyCA,
-			},
-		},
-	}
+		name		string
+		addlCAData	map[string]string
+	}{{name: "no CAs"}, {name: "addl CA data", addlCAData: map[string]string{"mydomain": dummyCA, "otherdomain": dummyCA, "third": dummyCA}}, {name: "everything", addlCAData: map[string]string{"mydomain": dummyCA, "otherdomain": dummyCA, "third": dummyCA}}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			bc := newFakeBuildController(nil, nil, nil, nil, nil)
@@ -1212,7 +789,6 @@ func TestCreateBuildCAConfigMap(t *testing.T) {
 			if !hasBuildPodOwnerRef(pod, caMap) {
 				t.Error("build CA configMap is missing owner ref to the build pod")
 			}
-
 			injectAnnotation := "service.alpha.openshift.io/inject-cabundle"
 			val, exists := caMap.Annotations[injectAnnotation]
 			if !exists {
@@ -1221,196 +797,41 @@ func TestCreateBuildCAConfigMap(t *testing.T) {
 			if val != "true" {
 				t.Errorf("expected annotation %s to be %s; got %s", injectAnnotation, "true", val)
 			}
-
 			expectedData := make(map[string]string)
 			for k, v := range tc.addlCAData {
 				expectedData[k] = v
 			}
-
 			if len(expectedData) == 0 {
 				if len(caMap.Data) != 0 {
 					t.Errorf("expected empty CA configMap, got %v", caMap.Data)
 				}
 				return
 			}
-
 			if !reflect.DeepEqual(expectedData, caMap.Data) {
 				t.Errorf("expected CA configMap %v\ngot:\n%v", expectedData, caMap.Data)
 			}
 		})
 	}
 }
-
 func TestHandleControllerConfig(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := []struct {
-		name string
-		// Conditions
-		build         *configv1.Build
-		image         *configv1.Image
-		casMap        *corev1.ConfigMap
-		errorGetBuild bool
-		errorGetImage bool
-		errorGetCA    bool
-		// Results
-		expectError bool
-	}{
-		{
-			name: "no cas",
-		},
-		{
-			name: "ca exists",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					AdditionalTrustedCA: configv1.ConfigMapNameReference{
-						Name: "cluster-cas",
-					},
-				},
-			},
-			casMap: &corev1.ConfigMap{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "cluster-cas",
-					Namespace: "openshift-config",
-				},
-				Data: map[string]string{
-					"mydomain":    dummyCA,
-					"otherdomain": dummyCA,
-				},
-			},
-		},
-		{
-			name: "ca configMap removed",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					AdditionalTrustedCA: configv1.ConfigMapNameReference{
-						Name: "cluster-cas",
-					},
-				},
-			},
-		},
-		{
-			name: "get image CRD error",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					AdditionalTrustedCA: configv1.ConfigMapNameReference{
-						Name: "cluster-cas",
-					},
-				},
-			},
-			errorGetImage: true,
-			expectError:   true,
-		},
-		{
-			name: "get configMap error",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					AdditionalTrustedCA: configv1.ConfigMapNameReference{
-						Name: "cluster-cas",
-					},
-				},
-			},
-			casMap: &corev1.ConfigMap{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "cluster-cas",
-					Namespace: "openshift-config",
-				},
-				Data: map[string]string{
-					"mydomain": dummyCA,
-				},
-			},
-			errorGetCA:  true,
-			expectError: true,
-		},
-		{
-			name: "insecure registries",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					RegistrySources: configv1.RegistrySources{
-						InsecureRegistries: []string{"my-local.registry:5000", "omni.corp.org:5000"},
-					},
-				},
-			},
-		},
-		{
-			name: "allowed registries",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					RegistrySources: configv1.RegistrySources{
-						AllowedRegistries: []string{"quay.io"},
-					},
-				},
-			},
-		},
-		{
-			name: "blocked registries",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					RegistrySources: configv1.RegistrySources{
-						BlockedRegistries: []string{"docker.io"},
-					},
-				},
-			},
-		},
-		{
-			name: "allowed and blocked registries",
-			image: &configv1.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.ImageSpec{
-					RegistrySources: configv1.RegistrySources{
-						AllowedRegistries: []string{"quay.io"},
-						BlockedRegistries: []string{"docker.io"},
-					},
-				},
-			},
-			expectError: true,
-		},
-		{
-			name: "default proxy",
-			build: &configv1.Build{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "cluster",
-				},
-				Spec: configv1.BuildSpec{
-					BuildDefaults: configv1.BuildDefaults{
-						DefaultProxy: &configv1.ProxySpec{
-							HTTPProxy:  "http://my-proxy.org",
-							HTTPSProxy: "https://my-proxy.org",
-							NoProxy:    "mydomain",
-						},
-					},
-				},
-			},
-		},
-	}
+		name		string
+		build		*configv1.Build
+		image		*configv1.Image
+		casMap		*corev1.ConfigMap
+		errorGetBuild	bool
+		errorGetImage	bool
+		errorGetCA	bool
+		expectError	bool
+	}{{name: "no cas"}, {name: "ca exists", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{AdditionalTrustedCA: configv1.ConfigMapNameReference{Name: "cluster-cas"}}}, casMap: &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "cluster-cas", Namespace: "openshift-config"}, Data: map[string]string{"mydomain": dummyCA, "otherdomain": dummyCA}}}, {name: "ca configMap removed", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{AdditionalTrustedCA: configv1.ConfigMapNameReference{Name: "cluster-cas"}}}}, {name: "get image CRD error", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{AdditionalTrustedCA: configv1.ConfigMapNameReference{Name: "cluster-cas"}}}, errorGetImage: true, expectError: true}, {name: "get configMap error", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{AdditionalTrustedCA: configv1.ConfigMapNameReference{Name: "cluster-cas"}}}, casMap: &corev1.ConfigMap{ObjectMeta: metav1.ObjectMeta{Name: "cluster-cas", Namespace: "openshift-config"}, Data: map[string]string{"mydomain": dummyCA}}, errorGetCA: true, expectError: true}, {name: "insecure registries", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{RegistrySources: configv1.RegistrySources{InsecureRegistries: []string{"my-local.registry:5000", "omni.corp.org:5000"}}}}}, {name: "allowed registries", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{RegistrySources: configv1.RegistrySources{AllowedRegistries: []string{"quay.io"}}}}}, {name: "blocked registries", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{RegistrySources: configv1.RegistrySources{BlockedRegistries: []string{"docker.io"}}}}}, {name: "allowed and blocked registries", image: &configv1.Image{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.ImageSpec{RegistrySources: configv1.RegistrySources{AllowedRegistries: []string{"quay.io"}, BlockedRegistries: []string{"docker.io"}}}}, expectError: true}, {name: "default proxy", build: &configv1.Build{ObjectMeta: metav1.ObjectMeta{Name: "cluster"}, Spec: configv1.BuildSpec{BuildDefaults: configv1.BuildDefaults{DefaultProxy: &configv1.ProxySpec{HTTPProxy: "http://my-proxy.org", HTTPSProxy: "https://my-proxy.org", NoProxy: "mydomain"}}}}}}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			var configClient configv1client.Interface
 			objs := []runtime.Object{}
 			if tc.build != nil {
 				objs = append(objs, tc.build)
-
 			}
 			if tc.image != nil {
 				objs = append(objs, tc.image)
@@ -1427,10 +848,8 @@ func TestHandleControllerConfig(t *testing.T) {
 					return true, nil, fmt.Errorf("error")
 				})
 			}
-
 			bc := newFakeBuildController(nil, nil, kubeClient, nil, configClient)
 			defer bc.stop()
-
 			if tc.errorGetBuild {
 				bc.buildControllerConfigLister = &errorBuildLister{}
 			}
@@ -1440,7 +859,6 @@ func TestHandleControllerConfig(t *testing.T) {
 			if tc.errorGetCA {
 				bc.openShiftConfigConfigMapStore = &errorConfigMapLister{}
 			}
-
 			errs := bc.handleControllerConfig()
 			if tc.expectError {
 				if len(errs) == 0 {
@@ -1455,20 +873,15 @@ func TestHandleControllerConfig(t *testing.T) {
 				}
 				t.Fatalf("error handling controller config change: %v", msgs)
 			}
-
 			if tc.build == nil {
 				if bc.buildDefaults.DefaultProxy != nil {
 					t.Errorf("expected no default proxy, got %v", bc.buildDefaults.DefaultProxy)
 				}
 			} else {
 				if !reflect.DeepEqual(tc.build.Spec.BuildDefaults.DefaultProxy, bc.buildDefaults.DefaultProxy) {
-					t.Errorf("expected default proxy %v, got %v",
-						tc.build.Spec.BuildDefaults.DefaultProxy,
-						bc.buildDefaults.DefaultProxy)
+					t.Errorf("expected default proxy %v, got %v", tc.build.Spec.BuildDefaults.DefaultProxy, bc.buildDefaults.DefaultProxy)
 				}
 			}
-
-			// Test additional certificate authorities
 			if tc.image == nil {
 				if len(bc.additionalTrustedCAData) > 0 {
 					t.Errorf("expected empty additional CAs data, got %v", bc.additionalTrustedCAData)
@@ -1481,7 +894,6 @@ func TestHandleControllerConfig(t *testing.T) {
 				}
 				return
 			}
-
 			if tc.casMap == nil {
 				if len(bc.additionalTrustedCAData) > 0 {
 					t.Errorf("expected empty additional CAs data, got %v", bc.additionalTrustedCAData)
@@ -1489,9 +901,7 @@ func TestHandleControllerConfig(t *testing.T) {
 			} else if tc.image != nil && !reflect.DeepEqual(tc.casMap.Data, bc.additionalTrustedCAData) {
 				t.Errorf("expected ca data:\n  %v\ngot:\n  %v", tc.casMap.Data, bc.additionalTrustedCAData)
 			}
-
 			buildRegistriesConfig := tc.image.Spec.RegistrySources
-
 			if isRegistryConfigEmpty(buildRegistriesConfig) {
 				if len(bc.registryConfData) > 0 {
 					t.Errorf("expected empty registries config, got %s", bc.registryConfData)
@@ -1501,26 +911,16 @@ func TestHandleControllerConfig(t *testing.T) {
 			if err != nil {
 				t.Errorf("unexpected error decoding registries config: %v", err)
 			}
-
-			if !equality.Semantic.DeepEqual(registriesConfig.Registries.Insecure.Registries,
-				buildRegistriesConfig.InsecureRegistries) {
-				t.Errorf("expected insecure registries to equal %v, got %v",
-					buildRegistriesConfig.InsecureRegistries,
-					registriesConfig.Registries.Insecure.Registries)
+			if !equality.Semantic.DeepEqual(registriesConfig.Registries.Insecure.Registries, buildRegistriesConfig.InsecureRegistries) {
+				t.Errorf("expected insecure registries to equal %v, got %v", buildRegistriesConfig.InsecureRegistries, registriesConfig.Registries.Insecure.Registries)
 			}
-
 			expectedSearchRegistries := []string{}
-			// If only insecure registries are specified, default search should be docker.io
 			if len(buildRegistriesConfig.InsecureRegistries) > 0 {
 				expectedSearchRegistries = []string{"docker.io"}
 			}
-			if !equality.Semantic.DeepEqual(registriesConfig.Registries.Search.Registries,
-				expectedSearchRegistries) {
-				t.Errorf("expected search registries to equal %v, got %v",
-					expectedSearchRegistries,
-					registriesConfig.Registries.Search.Registries)
+			if !equality.Semantic.DeepEqual(registriesConfig.Registries.Search.Registries, expectedSearchRegistries) {
+				t.Errorf("expected search registries to equal %v, got %v", expectedSearchRegistries, registriesConfig.Registries.Search.Registries)
 			}
-
 			if isSignaturePolicyConfigEmpty(buildRegistriesConfig) {
 				if len(bc.signaturePolicyData) > 0 {
 					t.Errorf("expected empty signature policy config, got %s", bc.signaturePolicyData)
@@ -1528,7 +928,6 @@ func TestHandleControllerConfig(t *testing.T) {
 				return
 			}
 			if len(buildRegistriesConfig.AllowedRegistries) > 0 && len(buildRegistriesConfig.BlockedRegistries) > 0 {
-				// Condition is not allowed - no policy should be set
 				if len(bc.signaturePolicyData) > 0 {
 					t.Errorf("signature policy should be empty if both allowed and blocked registries are set, got %v", bc.signaturePolicyData)
 				}
@@ -1538,45 +937,30 @@ func TestHandleControllerConfig(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unexpected error decoding signature policy config: %v", err)
 			}
-
 			if len(buildRegistriesConfig.AllowedRegistries) > 0 {
-				expectedDefaults := signature.PolicyRequirements{
-					signature.NewPRReject(),
-				}
+				expectedDefaults := signature.PolicyRequirements{signature.NewPRReject()}
 				if !reflect.DeepEqual(expectedDefaults, policy.Default) {
 					t.Errorf("expected signature defaults %v, got %v", expectedDefaults, policy.Default)
 				}
 				expectedRepos := make(signature.PolicyTransportScopes)
 				for _, reg := range buildRegistriesConfig.AllowedRegistries {
-					expectedRepos[reg] = signature.PolicyRequirements{
-						signature.NewPRInsecureAcceptAnything(),
-					}
+					expectedRepos[reg] = signature.PolicyRequirements{signature.NewPRInsecureAcceptAnything()}
 				}
-				expectedScopes := map[string]signature.PolicyTransportScopes{
-					"atomic": expectedRepos,
-					"docker": expectedRepos,
-				}
+				expectedScopes := map[string]signature.PolicyTransportScopes{"atomic": expectedRepos, "docker": expectedRepos}
 				if !reflect.DeepEqual(expectedScopes, policy.Transports) {
 					t.Errorf("expected transport scopes %v, got %v", expectedScopes, policy.Transports)
 				}
 			}
 			if len(buildRegistriesConfig.BlockedRegistries) > 0 {
-				expectedDefaults := signature.PolicyRequirements{
-					signature.NewPRInsecureAcceptAnything(),
-				}
+				expectedDefaults := signature.PolicyRequirements{signature.NewPRInsecureAcceptAnything()}
 				if !reflect.DeepEqual(expectedDefaults, policy.Default) {
 					t.Errorf("expected signature defaults %v, got %v", expectedDefaults, policy.Default)
 				}
 				expectedRepos := make(signature.PolicyTransportScopes)
 				for _, reg := range buildRegistriesConfig.BlockedRegistries {
-					expectedRepos[reg] = signature.PolicyRequirements{
-						signature.NewPRReject(),
-					}
+					expectedRepos[reg] = signature.PolicyRequirements{signature.NewPRReject()}
 				}
-				expectedScopes := map[string]signature.PolicyTransportScopes{
-					"atomic": expectedRepos,
-					"docker": expectedRepos,
-				}
+				expectedScopes := map[string]signature.PolicyTransportScopes{"atomic": expectedRepos, "docker": expectedRepos}
 				if !reflect.DeepEqual(expectedScopes, policy.Transports) {
 					t.Errorf("expected transport scopes %v, got %v", expectedScopes, policy.Transports)
 				}
@@ -1584,22 +968,26 @@ func TestHandleControllerConfig(t *testing.T) {
 		})
 	}
 }
-
 func isRegistryConfigEmpty(config configv1.RegistrySources) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(config.InsecureRegistries) == 0
 }
-
 func decodeRegistries(configTOML string) (*tomlConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config := &tomlConfig{}
 	err := toml.Unmarshal([]byte(configTOML), config)
 	return config, err
 }
-
 func isSignaturePolicyConfigEmpty(config configv1.RegistrySources) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return len(config.AllowedRegistries) == 0 && len(config.BlockedRegistries) == 0
 }
-
 func decodePolicyConfig(configJSON string) (*signature.Policy, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(configJSON) == 0 {
 		return &signature.Policy{}, nil
 	}
@@ -1609,38 +997,49 @@ func decodePolicyConfig(configJSON string) (*signature.Policy, error) {
 type errorBuildLister struct{}
 
 func (e *errorBuildLister) List(selector labels.Selector) ([]*configv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
-
 func (e *errorBuildLister) Get(name string) (*configv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 
 type errorImageLister struct{}
 
 func (e *errorImageLister) List(selector labels.Selector) ([]*configv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
-
 func (e *errorImageLister) Get(name string) (*configv1.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
 
 type errorConfigMapLister struct{}
 
 func (e *errorConfigMapLister) List(selector labels.Selector) ([]*corev1.ConfigMap, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
-
 func (e *errorConfigMapLister) Get(name string) (*corev1.ConfigMap, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, fmt.Errorf("error")
 }
-
 func (e *errorConfigMapLister) ConfigMaps(namespace string) v1lister.ConfigMapNamespaceLister {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return e
 }
-
 func TestCreateBuildRegistryConfConfigMap(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bc := newFakeBuildController(nil, nil, nil, nil, nil)
 	bc.registryConfData = dummyRegistryConf
 	defer bc.stop()
@@ -1657,130 +1056,90 @@ func TestCreateBuildRegistryConfConfigMap(t *testing.T) {
 		t.Errorf("expected build system config configMap to have key %s", buildutil.RegistryConfKey)
 	}
 	if caMap.Data[buildutil.RegistryConfKey] != dummyRegistryConf {
-		t.Errorf("expected build system config configMap.%s to contain\n%s\ngot:\n%s",
-			buildutil.RegistryConfKey,
-			dummyCA,
-			caMap.Data[buildutil.RegistryConfKey])
+		t.Errorf("expected build system config configMap.%s to contain\n%s\ngot:\n%s", buildutil.RegistryConfKey, dummyCA, caMap.Data[buildutil.RegistryConfKey])
 	}
 }
-
 func mockBuild(phase buildv1.BuildPhase, output buildv1.BuildOutput) *buildv1.Build {
-	return &buildv1.Build{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "data-build",
-			Namespace: "namespace",
-			Annotations: map[string]string{
-				buildutil.BuildConfigAnnotation: "test-bc",
-			},
-			Labels: map[string]string{
-				"name":                        "dataBuild",
-				buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel),
-				buildutil.BuildConfigLabel:    "test-bc",
-			},
-		},
-		Spec: buildv1.BuildSpec{
-			CommonSpec: buildv1.CommonSpec{
-				Source: buildv1.BuildSource{
-					Git: &buildv1.GitBuildSource{
-						URI: "http://my.build.com/the/build/Dockerfile",
-					},
-					ContextDir: "contextimage",
-				},
-				Output: output,
-			},
-		},
-		Status: buildv1.BuildStatus{
-			Phase: phase,
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &buildv1.Build{ObjectMeta: metav1.ObjectMeta{Name: "data-build", Namespace: "namespace", Annotations: map[string]string{buildutil.BuildConfigAnnotation: "test-bc"}, Labels: map[string]string{"name": "dataBuild", buildutil.BuildRunPolicyLabel: string(buildv1.BuildRunPolicyParallel), buildutil.BuildConfigLabel: "test-bc"}}, Spec: buildv1.BuildSpec{CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.build.com/the/build/Dockerfile"}, ContextDir: "contextimage"}, Output: output}}, Status: buildv1.BuildStatus{Phase: phase}}
 }
-
 func dockerStrategy(build *buildv1.Build) *buildv1.Build {
-	build.Spec.Strategy = buildv1.BuildStrategy{
-		DockerStrategy: &buildv1.DockerBuildStrategy{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	build.Spec.Strategy = buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{}}
 	return build
 }
-
 func pipelineStrategy(build *buildv1.Build) *buildv1.Build {
-	build.Spec.Strategy = buildv1.BuildStrategy{
-		JenkinsPipelineStrategy: &buildv1.JenkinsPipelineBuildStrategy{},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	build.Spec.Strategy = buildv1.BuildStrategy{JenkinsPipelineStrategy: &buildv1.JenkinsPipelineBuildStrategy{}}
 	return build
 }
-
 func fakeImageClient(objects ...runtime.Object) imagev1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeimagev1client.NewSimpleClientset(objects...)
 }
-
 func fakeBuildClient(objects ...runtime.Object) buildv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakebuildv1client.NewSimpleClientset(objects...)
 }
-
 func fakeConfigClient(objects ...runtime.Object) configv1client.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fakeconfigv1client.NewSimpleClientset(objects...)
 }
-
 func fakeKubeExternalClientSet(objects ...runtime.Object) kubernetes.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builderSA := &corev1.ServiceAccount{}
 	builderSA.Name = "builder"
 	builderSA.Namespace = "namespace"
-	builderSA.Secrets = []corev1.ObjectReference{
-		{
-			Name: "secret",
-		},
-	}
-
-	secret := &corev1.Secret{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "secret",
-			Namespace: "namespace",
-		},
-		Type: corev1.SecretTypeDockerConfigJson,
-	}
+	builderSA.Secrets = []corev1.ObjectReference{{Name: "secret"}}
+	secret := &corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: "secret", Namespace: "namespace"}, Type: corev1.SecretTypeDockerConfigJson}
 	return fake.NewSimpleClientset(append(objects, builderSA, secret)...)
 }
-
 func fakeKubeInternalClientSet(objects ...runtime.Object) kubernetes.Interface {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fake.NewSimpleClientset(objects...)
 }
-
 func fakeKubeExternalInformers(clientSet kubernetes.Interface) informers.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return informers.NewSharedInformerFactory(clientSet, 0)
 }
 
 type fakeBuildController struct {
 	*BuildController
-	kubeExternalInformers informers.SharedInformerFactory
-	buildInformers        buildv1informer.SharedInformerFactory
-	imageInformers        imagev1informer.SharedInformerFactory
-	configInformers       configv1informer.SharedInformerFactory
-	stopChan              chan struct{}
+	kubeExternalInformers	informers.SharedInformerFactory
+	buildInformers		buildv1informer.SharedInformerFactory
+	imageInformers		imagev1informer.SharedInformerFactory
+	configInformers		configv1informer.SharedInformerFactory
+	stopChan		chan struct{}
 }
 
 func (c *fakeBuildController) start() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c.kubeExternalInformers.Start(c.stopChan)
 	c.imageInformers.Start(c.stopChan)
 	c.buildInformers.Start(c.stopChan)
 	c.configInformers.Start(c.stopChan)
-
-	if !cache.WaitForCacheSync(wait.NeverStop,
-		c.buildStoreSynced,
-		c.podStoreSynced,
-		c.secretStoreSynced,
-		c.imageStreamStoreSynced,
-		c.buildControllerConfigStoreSynced,
-		c.imageConfigStoreSynced,
-		c.configMapStoreSynced) {
+	if !cache.WaitForCacheSync(wait.NeverStop, c.buildStoreSynced, c.podStoreSynced, c.secretStoreSynced, c.imageStreamStoreSynced, c.buildControllerConfigStoreSynced, c.imageConfigStoreSynced, c.configMapStoreSynced) {
 		panic("cannot sync cache")
 	}
 }
-
 func (c *fakeBuildController) stop() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	close(c.stopChan)
 }
-
 func newFakeBuildController(buildClient buildv1client.Interface, imageClient imagev1client.Interface, kubeExternalClient kubernetes.Interface, kubeInternalClient kubernetes.Interface, configClient configv1client.Interface) *fakeBuildController {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if buildClient == nil {
 		buildClient = fakeBuildClient()
 	}
@@ -1790,54 +1149,23 @@ func newFakeBuildController(buildClient buildv1client.Interface, imageClient ima
 	if kubeExternalClient == nil {
 		kubeExternalClient = fakeKubeExternalClientSet()
 	}
-
 	if configClient == nil {
 		configClient = fakeConfigClient()
 	}
-
 	kubeExternalInformers := fakeKubeExternalInformers(kubeExternalClient)
 	buildInformers := buildv1informer.NewSharedInformerFactory(buildClient, 0)
 	imageInformers := imagev1informer.NewSharedInformerFactory(imageClient, 0)
 	configInformers := configv1informer.NewSharedInformerFactory(configClient, 0)
 	stopChan := make(chan struct{})
-
-	// For tests, use the kubeExternalInformers for pods, secrets, and configMaps.
-	// The actual build controller uses a separate informer for configMaps that is namespaced to `openshif-config`
-	params := &BuildControllerParams{
-		BuildInformer:                    buildInformers.Build().V1().Builds(),
-		BuildConfigInformer:              buildInformers.Build().V1().BuildConfigs(),
-		ImageStreamInformer:              imageInformers.Image().V1().ImageStreams(),
-		PodInformer:                      kubeExternalInformers.Core().V1().Pods(),
-		SecretInformer:                   kubeExternalInformers.Core().V1().Secrets(),
-		OpenshiftConfigConfigMapInformer: kubeExternalInformers.Core().V1().ConfigMaps(),
-		BuildControllerConfigInformer:    configInformers.Config().V1().Builds(),
-		ImageConfigInformer:              configInformers.Config().V1().Images(),
-		KubeClient:                       kubeExternalClient,
-		BuildClient:                      buildClient,
-		DockerBuildStrategy: &strategy.DockerBuildStrategy{
-			Image: "test/image:latest",
-		},
-		SourceBuildStrategy: &strategy.SourceBuildStrategy{
-			Image: "test/image:latest",
-		},
-		CustomBuildStrategy: &strategy.CustomBuildStrategy{},
-		BuildDefaults:       builddefaults.BuildDefaults{},
-		BuildOverrides:      buildoverrides.BuildOverrides{},
-	}
-	bc := &fakeBuildController{
-		BuildController:       NewBuildController(params),
-		stopChan:              stopChan,
-		kubeExternalInformers: kubeExternalInformers,
-		buildInformers:        buildInformers,
-		imageInformers:        imageInformers,
-		configInformers:       configInformers,
-	}
+	params := &BuildControllerParams{BuildInformer: buildInformers.Build().V1().Builds(), BuildConfigInformer: buildInformers.Build().V1().BuildConfigs(), ImageStreamInformer: imageInformers.Image().V1().ImageStreams(), PodInformer: kubeExternalInformers.Core().V1().Pods(), SecretInformer: kubeExternalInformers.Core().V1().Secrets(), OpenshiftConfigConfigMapInformer: kubeExternalInformers.Core().V1().ConfigMaps(), BuildControllerConfigInformer: configInformers.Config().V1().Builds(), ImageConfigInformer: configInformers.Config().V1().Images(), KubeClient: kubeExternalClient, BuildClient: buildClient, DockerBuildStrategy: &strategy.DockerBuildStrategy{Image: "test/image:latest"}, SourceBuildStrategy: &strategy.SourceBuildStrategy{Image: "test/image:latest"}, CustomBuildStrategy: &strategy.CustomBuildStrategy{}, BuildDefaults: builddefaults.BuildDefaults{}, BuildOverrides: buildoverrides.BuildOverrides{}}
+	bc := &fakeBuildController{BuildController: NewBuildController(params), stopChan: stopChan, kubeExternalInformers: kubeExternalInformers, buildInformers: buildInformers, imageInformers: imageInformers, configInformers: configInformers}
 	bc.BuildController.recorder = &record.FakeRecorder{}
 	bc.start()
 	return bc
 }
-
 func validateUpdate(t *testing.T, name string, expected, actual *buildUpdate) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if expected.podNameAnnotation == nil {
 		if actual.podNameAnnotation != nil {
 			t.Errorf("%s: podNameAnnotation should be nil. Actual: %s", name, *actual.podNameAnnotation)
@@ -1943,8 +1271,9 @@ func validateUpdate(t *testing.T, name string, expected, actual *buildUpdate) {
 		}
 	}
 }
-
 func applyBuildPatch(build *buildv1.Build, patch []byte) (*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildJSON, err := runtime.Encode(buildscheme.Encoder, build)
 	if err != nil {
 		return nil, err
@@ -1959,8 +1288,9 @@ func applyBuildPatch(build *buildv1.Build, patch []byte) (*buildv1.Build, error)
 	}
 	return patchedVersionedBuild.(*buildv1.Build), nil
 }
-
 func applyBuildPatchReaction(t *testing.T, build *buildv1.Build, buildPtr **buildv1.Build) func(action clientgotesting.Action) (bool, runtime.Object, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return func(action clientgotesting.Action) (bool, runtime.Object, error) {
 		patchAction := action.(clientgotesting.PatchActionImpl)
 		var err error
@@ -1973,78 +1303,92 @@ func applyBuildPatchReaction(t *testing.T, build *buildv1.Build, buildPtr **buil
 	}
 }
 
-type updateBuilder struct {
-	update *buildUpdate
-}
+type updateBuilder struct{ update *buildUpdate }
 
 func newUpdate() *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &updateBuilder{update: &buildUpdate{}}
 }
-
 func (b *updateBuilder) phase(phase buildv1.BuildPhase) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setPhase(phase)
 	return b
 }
-
 func (b *updateBuilder) reason(reason buildv1.StatusReason) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setReason(reason)
 	return b
 }
-
 func (b *updateBuilder) message(message string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setMessage(message)
 	return b
 }
-
 func (b *updateBuilder) startTime(startTime metav1.Time) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setStartTime(startTime)
 	return b
 }
-
 func (b *updateBuilder) completionTime(completionTime metav1.Time) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setCompletionTime(completionTime)
 	return b
 }
-
 func (b *updateBuilder) duration(duration time.Duration) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setDuration(duration)
 	return b
 }
-
 func (b *updateBuilder) outputRef(ref string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setOutputRef(ref)
 	return b
 }
-
 func (b *updateBuilder) podNameAnnotation(podName string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setPodNameAnnotation(podName)
 	return b
 }
-
 func (b *updateBuilder) logSnippet(message string) *updateBuilder {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	b.update.setLogSnippet(message)
 	return b
 }
 
 type fakeRunPolicy struct {
-	notRunnable      bool
-	onCompleteCalled bool
+	notRunnable		bool
+	onCompleteCalled	bool
 }
 
 func (f *fakeRunPolicy) IsRunnable(*buildv1.Build) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !f.notRunnable, nil
 }
-
 func (f *fakeRunPolicy) OnComplete(*buildv1.Build) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	f.onCompleteCalled = true
 	return nil
 }
-
 func (f *fakeRunPolicy) Handles(buildv1.BuildRunPolicy) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
-
 func mockBuildPod(build *buildv1.Build) *corev1.Pod {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pod := &corev1.Pod{}
 	pod.Name = buildapihelpers.GetBuildPodName(build)
 	pod.Namespace = build.Namespace
@@ -2052,193 +1396,37 @@ func mockBuildPod(build *buildv1.Build) *corev1.Pod {
 	pod.Annotations[buildutil.BuildAnnotation] = build.Name
 	return pod
 }
-
 func mockBuildCAConfigMap(build *buildv1.Build, pod *corev1.Pod) *corev1.ConfigMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cm := &corev1.ConfigMap{}
 	cm.Name = buildapihelpers.GetBuildCAConfigMapName(build)
 	cm.Namespace = build.Namespace
 	if pod != nil {
-		pod.OwnerReferences = []metav1.OwnerReference{
-			{
-				APIVersion: "v1",
-				Kind:       "Pod",
-				Name:       pod.Name,
-				UID:        pod.UID,
-			},
-		}
+		pod.OwnerReferences = []metav1.OwnerReference{{APIVersion: "v1", Kind: "Pod", Name: pod.Name, UID: pod.UID}}
 	}
 	return cm
 }
-
 func mockBuildSystemConfigMap(build *buildv1.Build, pod *corev1.Pod) *corev1.ConfigMap {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cm := &corev1.ConfigMap{}
 	cm.Name = buildapihelpers.GetBuildSystemConfigMapName(build)
 	cm.Namespace = build.Namespace
 	if pod != nil {
-		pod.OwnerReferences = []metav1.OwnerReference{
-			{
-				APIVersion: "v1",
-				Kind:       "Pod",
-				Name:       pod.Name,
-				UID:        pod.UID,
-			},
-		}
+		pod.OwnerReferences = []metav1.OwnerReference{{APIVersion: "v1", Kind: "Pod", Name: pod.Name, UID: pod.UID}}
 	}
 	return cm
 }
-
 func TestPodStatusReporting(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	cases := []struct {
-		name        string
-		pod         *corev1.Pod
-		isOOMKilled bool
-		isEvicted   bool
-	}{
-		{
-			name: "running",
-			pod: &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "running-pod",
-					Namespace: "default",
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Name:  "test",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-				},
-				Status: corev1.PodStatus{
-					Phase:   corev1.PodRunning,
-					Reason:  "Running",
-					Message: "Running...",
-				},
-			},
-		},
-		{
-			name: "oomkilled-pod",
-			pod: &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "oom-pod",
-					Namespace: "default",
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Name:  "test",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-				},
-				Status: corev1.PodStatus{
-					Phase:   corev1.PodFailed,
-					Reason:  "OOMKilled",
-					Message: "OOMKilled...",
-				},
-			},
-			isOOMKilled: true,
-		},
-		{
-			name: "oomkilled-init",
-			pod: &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "oom-pod",
-					Namespace: "default",
-				},
-				Spec: corev1.PodSpec{
-					InitContainers: []corev1.Container{
-						{
-							Name:  "init-1",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-					Containers: []corev1.Container{
-						{
-							Name:  "test",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-				},
-				Status: corev1.PodStatus{
-					Phase:   corev1.PodPending,
-					Reason:  "Pending",
-					Message: "Waiting on init containers...",
-					InitContainerStatuses: []corev1.ContainerStatus{
-						{
-							Name: "init-1",
-							State: corev1.ContainerState{
-								Terminated: &corev1.ContainerStateTerminated{
-									ExitCode: 123,
-									Signal:   9,
-									Reason:   "OOMKilled",
-								},
-							},
-						},
-					},
-				},
-			},
-			isOOMKilled: true,
-		},
-		{
-			name: "oomkilled-container",
-			pod: &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "oom-pod",
-					Namespace: "default",
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Name:  "test",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-				},
-				Status: corev1.PodStatus{
-					Phase:   corev1.PodFailed,
-					Reason:  "Failed",
-					Message: "Failed due to OOMKill...",
-					ContainerStatuses: []corev1.ContainerStatus{
-						{
-							Name: "test",
-							State: corev1.ContainerState{
-								Terminated: &corev1.ContainerStateTerminated{
-									ExitCode: 123,
-									Signal:   9,
-									Reason:   "OOMKilled",
-								},
-							},
-						},
-					},
-				},
-			},
-			isOOMKilled: true,
-		},
-		{
-			name: "pod-evicted",
-			pod: &corev1.Pod{
-				ObjectMeta: metav1.ObjectMeta{
-					Name:      "evicted-pod",
-					Namespace: "default",
-				},
-				Spec: corev1.PodSpec{
-					Containers: []corev1.Container{
-						{
-							Name:  "test",
-							Image: "quay.io/coreos/coreos:latest",
-						},
-					},
-				},
-				Status: corev1.PodStatus{
-					Phase:   corev1.PodFailed,
-					Reason:  "Evicted",
-					Message: "The pod was evicted due to no memory available.",
-				},
-			},
-			isEvicted: true,
-		},
-	}
+		name		string
+		pod		*corev1.Pod
+		isOOMKilled	bool
+		isEvicted	bool
+	}{{name: "running", pod: &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "running-pod", Namespace: "default"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "test", Image: "quay.io/coreos/coreos:latest"}}}, Status: corev1.PodStatus{Phase: corev1.PodRunning, Reason: "Running", Message: "Running..."}}}, {name: "oomkilled-pod", pod: &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "oom-pod", Namespace: "default"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "test", Image: "quay.io/coreos/coreos:latest"}}}, Status: corev1.PodStatus{Phase: corev1.PodFailed, Reason: "OOMKilled", Message: "OOMKilled..."}}, isOOMKilled: true}, {name: "oomkilled-init", pod: &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "oom-pod", Namespace: "default"}, Spec: corev1.PodSpec{InitContainers: []corev1.Container{{Name: "init-1", Image: "quay.io/coreos/coreos:latest"}}, Containers: []corev1.Container{{Name: "test", Image: "quay.io/coreos/coreos:latest"}}}, Status: corev1.PodStatus{Phase: corev1.PodPending, Reason: "Pending", Message: "Waiting on init containers...", InitContainerStatuses: []corev1.ContainerStatus{{Name: "init-1", State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{ExitCode: 123, Signal: 9, Reason: "OOMKilled"}}}}}}, isOOMKilled: true}, {name: "oomkilled-container", pod: &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "oom-pod", Namespace: "default"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "test", Image: "quay.io/coreos/coreos:latest"}}}, Status: corev1.PodStatus{Phase: corev1.PodFailed, Reason: "Failed", Message: "Failed due to OOMKill...", ContainerStatuses: []corev1.ContainerStatus{{Name: "test", State: corev1.ContainerState{Terminated: &corev1.ContainerStateTerminated{ExitCode: 123, Signal: 9, Reason: "OOMKilled"}}}}}}, isOOMKilled: true}, {name: "pod-evicted", pod: &corev1.Pod{ObjectMeta: metav1.ObjectMeta{Name: "evicted-pod", Namespace: "default"}, Spec: corev1.PodSpec{Containers: []corev1.Container{{Name: "test", Image: "quay.io/coreos/coreos:latest"}}}, Status: corev1.PodStatus{Phase: corev1.PodFailed, Reason: "Evicted", Message: "The pod was evicted due to no memory available."}}, isEvicted: true}}
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			isOOM := isOOMKilled(tc.pod)

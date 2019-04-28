@@ -7,11 +7,12 @@ import (
 )
 
 func TestAllocateSubnet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 8)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -34,14 +35,13 @@ func TestAllocateSubnet(t *testing.T) {
 		t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", 2, sn.String())
 	}
 }
-
-// 10.1.SSSSSSHH.HHHHHHHH
 func TestAllocateSubnetLargeHostBits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 10)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -71,14 +71,13 @@ func TestAllocateSubnetLargeHostBits(t *testing.T) {
 		t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", 3, sn.String())
 	}
 }
-
-// 10.1.SSSSSSSS.SSHHHHHH
 func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 6)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
 	}
-
 	for n := 0; n < 256; n++ {
 		sn, err := sna.allocateNetwork()
 		if err != nil {
@@ -88,7 +87,6 @@ func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
 			t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", n, sn.String())
 		}
 	}
-
 	for n := 0; n < 256; n++ {
 		sn, err := sna.allocateNetwork()
 		if err != nil {
@@ -98,7 +96,6 @@ func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
 			t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", n+256, sn.String())
 		}
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -107,14 +104,13 @@ func TestAllocateSubnetLargeSubnetBits(t *testing.T) {
 		t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", 512, sn.String())
 	}
 }
-
-// 10.000000SS.SSSSSSHH.HHHHHHHH
 func TestAllocateSubnetOverlapping(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.0.0.0/14", 10)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
 	}
-
 	for n := 0; n < 4; n++ {
 		sn, err := sna.allocateNetwork()
 		if err != nil {
@@ -124,7 +120,6 @@ func TestAllocateSubnetOverlapping(t *testing.T) {
 			t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", n, sn.String())
 		}
 	}
-
 	for n := 0; n < 4; n++ {
 		sn, err := sna.allocateNetwork()
 		if err != nil {
@@ -134,7 +129,6 @@ func TestAllocateSubnetOverlapping(t *testing.T) {
 			t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", n+4, sn.String())
 		}
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -143,14 +137,13 @@ func TestAllocateSubnetOverlapping(t *testing.T) {
 		t.Fatalf("Did not get expected subnet (n=%d, sn=%s)", 8, sn.String())
 	}
 }
-
-// 10.1.HHHHHHHH.HHHHHHHH
 func TestAllocateSubnetNoSubnetBits(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 16)
 	if err != nil {
 		t.Fatal("Failed to initialize subnet allocator: ", err)
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -158,43 +151,40 @@ func TestAllocateSubnetNoSubnetBits(t *testing.T) {
 	if sn.String() != "10.1.0.0/16" {
 		t.Fatalf("Did not get expected subnet (sn=%s)", sn.String())
 	}
-
 	sn, err = sna.allocateNetwork()
 	if err == nil {
 		t.Fatalf("Unexpectedly succeeded in allocating network (sn=%s)", sn.String())
 	}
 }
-
 func TestAllocateSubnetInvalidHostBitsOrCIDR(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := newSubnetAllocator("10.1.0.0/16", 18)
 	if err == nil {
 		t.Fatal("Unexpectedly succeeded in initializing subnet allocator")
 	}
-
 	_, err = newSubnetAllocator("10.1.0.0/16", 0)
 	if err == nil {
 		t.Fatal("Unexpectedly succeeded in initializing subnet allocator")
 	}
-
 	_, err = newSubnetAllocator("10.1.0.0/33", 16)
 	if err == nil {
 		t.Fatal("Unexpectedly succeeded in initializing subnet allocator")
 	}
 }
-
 func TestMarkAllocatedNetwork(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 14)
 	if err != nil {
 		t.Fatal("Failed to initialize IP allocator: ", err)
 	}
-
 	allocSubnets := make([]*net.IPNet, 4)
 	for i := 0; i < 4; i++ {
 		if allocSubnets[i], err = sna.allocateNetwork(); err != nil {
 			t.Fatal("Failed to allocate network: ", err)
 		}
 	}
-
 	if sn, err := sna.allocateNetwork(); err == nil {
 		t.Fatalf("Unexpectedly succeeded in allocating network (sn=%s)", sn.String())
 	}
@@ -209,8 +199,6 @@ func TestMarkAllocatedNetwork(t *testing.T) {
 	if sn, err := sna.allocateNetwork(); err == nil {
 		t.Fatalf("Unexpectedly succeeded in allocating network (sn=%s)", sn.String())
 	}
-
-	// Test subnet that does not belong to network
 	var sn *net.IPNet
 	_, sn, err = net.ParseCIDR("10.2.3.4/24")
 	if err != nil {
@@ -220,15 +208,14 @@ func TestMarkAllocatedNetwork(t *testing.T) {
 		t.Fatalf("Unexpectedly succeeded in marking allocated subnet that doesn't belong to network (sn=%s)", sn.String())
 	}
 }
-
 func TestAllocateReleaseSubnet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	sna, err := newSubnetAllocator("10.1.0.0/16", 14)
 	if err != nil {
 		t.Fatal("Failed to initialize IP allocator: ", err)
 	}
-
 	var releaseSn *net.IPNet
-
 	for i := 0; i < 4; i++ {
 		sn, err := sna.allocateNetwork()
 		if err != nil {
@@ -241,16 +228,13 @@ func TestAllocateReleaseSubnet(t *testing.T) {
 			releaseSn = sn
 		}
 	}
-
 	sn, err := sna.allocateNetwork()
 	if err == nil {
 		t.Fatalf("Unexpectedly succeeded in allocating network (sn=%s)", sn.String())
 	}
-
 	if err := sna.releaseNetwork(releaseSn); err != nil {
 		t.Fatalf("Failed to release the subnet (releaseSn=%s): %v", releaseSn.String(), err)
 	}
-
 	sn, err = sna.allocateNetwork()
 	if err != nil {
 		t.Fatal("Failed to allocate network: ", err)
@@ -258,24 +242,22 @@ func TestAllocateReleaseSubnet(t *testing.T) {
 	if sn.String() != releaseSn.String() {
 		t.Fatalf("Did not get expected subnet (sn=%s)", sn.String())
 	}
-
 	sn, err = sna.allocateNetwork()
 	if err == nil {
 		t.Fatalf("Unexpectedly succeeded in allocating network (sn=%s)", sn.String())
 	}
 }
-
 func TestIPUint32Conversion(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ip := net.ParseIP("10.1.2.3")
 	if ip == nil {
 		t.Fatal("Failed to parse IP")
 	}
-
 	u := IPToUint32(ip)
 	t.Log(u)
 	ip2 := Uint32ToIP(u)
 	t.Log(ip2)
-
 	if !ip2.Equal(ip) {
 		t.Fatal("Conversion back and forth failed")
 	}

@@ -3,15 +3,15 @@ package builds
 import (
 	"path/filepath"
 	"time"
-
 	g "github.com/onsi/ginkgo"
 	o "github.com/onsi/gomega"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	exutil "github.com/openshift/origin/test/extended/util"
 )
 
 func verifyStages(stages []buildv1.StageInfo, expectedStages map[string][]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, stage := range stages {
 		expectedDurations, ok := expectedStages[string(stage.Name)]
 		if !ok {
@@ -30,20 +30,18 @@ func verifyStages(stages []buildv1.StageInfo, expectedStages map[string][]string
 
 var _ = g.Describe("[Feature:Builds][timing] capture build stages and durations", func() {
 	var (
-		buildTimingBaseDir    = exutil.FixturePath("testdata", "builds", "build-timing")
-		isFixture             = filepath.Join(buildTimingBaseDir, "test-is.json")
-		dockerBuildFixture    = filepath.Join(buildTimingBaseDir, "test-docker-build.json")
-		dockerBuildDockerfile = filepath.Join(buildTimingBaseDir, "Dockerfile")
-		sourceBuildFixture    = filepath.Join(buildTimingBaseDir, "test-s2i-build.json")
-		sourceBuildBinDir     = filepath.Join(buildTimingBaseDir, "s2i-binary-dir")
-		oc                    = exutil.NewCLI("build-timing", exutil.KubeConfigPath())
+		buildTimingBaseDir	= exutil.FixturePath("testdata", "builds", "build-timing")
+		isFixture		= filepath.Join(buildTimingBaseDir, "test-is.json")
+		dockerBuildFixture	= filepath.Join(buildTimingBaseDir, "test-docker-build.json")
+		dockerBuildDockerfile	= filepath.Join(buildTimingBaseDir, "Dockerfile")
+		sourceBuildFixture	= filepath.Join(buildTimingBaseDir, "test-s2i-build.json")
+		sourceBuildBinDir	= filepath.Join(buildTimingBaseDir, "s2i-binary-dir")
+		oc			= exutil.NewCLI("build-timing", exutil.KubeConfigPath())
 	)
-
 	g.Context("", func() {
 		g.BeforeEach(func() {
 			exutil.PreTestDump()
 		})
-
 		g.AfterEach(func() {
 			if g.CurrentGinkgoTestDescription().Failed {
 				exutil.DumpPodStates(oc)
@@ -51,48 +49,37 @@ var _ = g.Describe("[Feature:Builds][timing] capture build stages and durations"
 				exutil.DumpPodLogsStartingWith("", oc)
 			}
 		})
-
 		g.It("should record build stages and durations for s2i", func() {
 			expectedBuildStages := make(map[string][]string)
 			expectedBuildStages["PullImages"] = []string{"", "1000s"}
 			expectedBuildStages["Build"] = []string{"10ms", "1000s"}
 			expectedBuildStages["PushImage"] = []string{"100ms", "1000s"}
-
 			g.By("creating test image stream")
 			err := oc.Run("create").Args("-f", isFixture).Execute()
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("creating test build config")
 			err = oc.Run("create").Args("-f", sourceBuildFixture).Execute()
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("starting the test source build")
 			br, _ := exutil.StartBuildAndWait(oc, "test", "--from-dir", sourceBuildBinDir)
 			br.AssertSuccess()
-
 			verifyStages(br.Build.Status.Stages, expectedBuildStages)
 		})
-
 		g.It("should record build stages and durations for docker", func() {
 			expectedBuildStages := make(map[string][]string)
 			expectedBuildStages["PullImages"] = []string{"", "1000s"}
 			expectedBuildStages["Build"] = []string{"10ms", "1000s"}
 			expectedBuildStages["PushImage"] = []string{"100ms", "1000s"}
-
 			g.By("creating test image stream")
 			err := oc.Run("create").Args("-f", isFixture).Execute()
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("creating test build config")
 			err = oc.Run("create").Args("-f", dockerBuildFixture).Execute()
 			o.Expect(err).NotTo(o.HaveOccurred())
-
 			g.By("starting the test docker build")
 			br, _ := exutil.StartBuildAndWait(oc, "test", "--from-file", dockerBuildDockerfile)
 			br.AssertSuccess()
-
 			verifyStages(br.Build.Status.Stages, expectedBuildStages)
-
 		})
 	})
 })

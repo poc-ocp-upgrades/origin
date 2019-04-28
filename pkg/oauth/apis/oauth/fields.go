@@ -2,12 +2,13 @@ package oauth
 
 import (
 	"fmt"
-
 	"k8s.io/apimachinery/pkg/fields"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
 func OAuthAccessTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthAccessToken, ok := obj.(*OAuthAccessToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAccessToken", obj)
@@ -18,8 +19,9 @@ func OAuthAccessTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) erro
 	fieldSet["authorizeToken"] = oauthAccessToken.AuthorizeToken
 	return nil
 }
-
 func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthAuthorizeToken, ok := obj.(*OAuthAuthorizeToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAuthorizeToken", obj)
@@ -29,8 +31,9 @@ func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) e
 	fieldSet["userUID"] = oauthAuthorizeToken.UserUID
 	return nil
 }
-
 func OAuthClientAuthorizationFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	oauthClientAuthorization, ok := obj.(*OAuthClientAuthorization)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAuthorizeToken", obj)

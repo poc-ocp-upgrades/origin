@@ -6,40 +6,37 @@ import (
 	"io/ioutil"
 	"mime"
 	"net/http"
-
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/errors"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/build/buildapihelpers"
 	"github.com/openshift/origin/pkg/build/webhook"
 )
 
-// WebHookPlugin used for processing github webhook requests.
 type WebHookPlugin struct{}
 
-// New returns github webhook plugin.
 func New() *WebHookPlugin {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WebHookPlugin{}
 }
 
 type commit struct {
-	ID        string                    `json:"id,omitempty"`
-	Author    buildv1.SourceControlUser `json:"author,omitempty"`
-	Committer buildv1.SourceControlUser `json:"committer,omitempty"`
-	Message   string                    `json:"message,omitempty"`
+	ID		string				`json:"id,omitempty"`
+	Author		buildv1.SourceControlUser	`json:"author,omitempty"`
+	Committer	buildv1.SourceControlUser	`json:"committer,omitempty"`
+	Message		string				`json:"message,omitempty"`
 }
-
 type pushEvent struct {
-	Ref        string `json:"ref,omitempty"`
-	After      string `json:"after,omitempty"`
-	HeadCommit commit `json:"head_commit,omitempty"`
+	Ref		string	`json:"ref,omitempty"`
+	After		string	`json:"after,omitempty"`
+	HeadCommit	commit	`json:"head_commit,omitempty"`
 }
 
-// Extract services webhooks from github.com
 func (p *WebHookPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.WebHookTrigger, req *http.Request) (revision *buildv1.SourceRevision, envvars []corev1.EnvVar, dockerStrategyOptions *buildv1.DockerStrategyOptions, proceed bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Verifying build request for BuildConfig %s/%s", buildCfg.Namespace, buildCfg.Name)
 	if err = verifyRequest(req); err != nil {
 		return revision, envvars, dockerStrategyOptions, proceed, err
@@ -63,20 +60,12 @@ func (p *WebHookPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.
 		klog.V(2).Infof("Skipping build for BuildConfig %s/%s.  Branch reference from '%s' does not match configuration", buildCfg.Namespace, buildCfg.Name, event)
 		return revision, envvars, dockerStrategyOptions, proceed, err
 	}
-
-	revision = &buildv1.SourceRevision{
-		Git: &buildv1.GitSourceRevision{
-			Commit:    event.HeadCommit.ID,
-			Author:    event.HeadCommit.Author,
-			Committer: event.HeadCommit.Committer,
-			Message:   event.HeadCommit.Message,
-		},
-	}
+	revision = &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Commit: event.HeadCommit.ID, Author: event.HeadCommit.Author, Committer: event.HeadCommit.Committer, Message: event.HeadCommit.Message}}
 	return revision, envvars, dockerStrategyOptions, true, err
 }
-
-// GetTriggers retrieves the WebHookTriggers for this webhook type (if any)
 func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv1.WebHookTrigger, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	triggers := buildapihelpers.FindTriggerPolicy(buildv1.GitHubWebHookBuildTriggerType, buildConfig)
 	webhookTriggers := []*buildv1.WebHookTrigger{}
 	for _, trigger := range triggers {
@@ -89,8 +78,9 @@ func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv
 	}
 	return webhookTriggers, nil
 }
-
 func verifyRequest(req *http.Request) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if method := req.Method; method != "POST" {
 		return webhook.MethodNotSupported
 	}
@@ -107,8 +97,9 @@ func verifyRequest(req *http.Request) error {
 	}
 	return nil
 }
-
 func getEvent(header http.Header) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	event := header.Get("X-GitHub-Event")
 	if len(event) == 0 {
 		event = header.Get("X-Gogs-Event")

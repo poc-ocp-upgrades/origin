@@ -2,10 +2,8 @@ package imagestreamimage
 
 import (
 	"testing"
-
 	etcd "github.com/coreos/etcd/clientv3"
 	"golang.org/x/net/context"
-
 	authorizationapi "k8s.io/api/authorization/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -15,7 +13,6 @@ import (
 	"k8s.io/apiserver/pkg/storage/etcd/etcdtest"
 	etcdtesting "k8s.io/apiserver/pkg/storage/etcd/testing"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	imagev1 "github.com/openshift/api/image/v1"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	"github.com/openshift/origin/pkg/image/apis/image/validation/fake"
@@ -25,25 +22,27 @@ import (
 	"github.com/openshift/origin/pkg/image/apiserver/registry/imagestream"
 	imagestreametcd "github.com/openshift/origin/pkg/image/apiserver/registry/imagestream/etcd"
 	"github.com/openshift/origin/pkg/image/apiserver/registryhostname"
-
 	_ "github.com/openshift/origin/pkg/api/install"
 )
 
-var testDefaultRegistry = func() (string, bool) { return "defaultregistry:5000", true }
-
-type fakeSubjectAccessReviewRegistry struct {
+var testDefaultRegistry = func() (string, bool) {
+	return "defaultregistry:5000", true
 }
+
+type fakeSubjectAccessReviewRegistry struct{}
 
 func (f *fakeSubjectAccessReviewRegistry) Create(subjectAccessReview *authorizationapi.SubjectAccessReview) (*authorizationapi.SubjectAccessReview, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil, nil
 }
-
 func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, etcdStorage := etcdtesting.NewUnsecuredEtcd3TestClientServer(t)
 	etcdStorage.Codec = legacyscheme.Codecs.LegacyCodec(schema.GroupVersion{Group: "image.openshift.io", Version: "v1"})
 	etcdClient := etcd.NewKV(server.V3Client)
 	imageRESTOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "images"}
-
 	imageStorage, err := imageetcd.NewREST(imageRESTOptions)
 	if err != nil {
 		t.Fatal(err)
@@ -54,91 +53,20 @@ func setup(t *testing.T) (etcd.KV, *etcdtesting.EtcdTestServer, *REST) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	imageRegistry := image.NewRegistry(imageStorage)
 	imageStreamRegistry := imagestream.NewRegistry(imageStreamStorage, imageStreamStatus, internalStorage)
-
 	storage := NewREST(imageRegistry, imageStreamRegistry)
-
 	return etcdClient, server, storage
 }
-
 func TestGet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	tests := map[string]struct {
-		input       string
-		repo        *imageapi.ImageStream
-		image       *imageapi.Image
-		expectError bool
-	}{
-		"empty string": {
-			input:       "",
-			expectError: true,
-		},
-		"one part": {
-			input:       "a",
-			expectError: true,
-		},
-		"more than 2 parts": {
-			input:       "a@b@c",
-			expectError: true,
-		},
-		"empty name part": {
-			input:       "@id",
-			expectError: true,
-		},
-		"empty id part": {
-			input:       "name@",
-			expectError: true,
-		},
-		"repo not found": {
-			input:       "repo@id",
-			repo:        nil,
-			expectError: true,
-		},
-		"nil tags": {
-			input:       "repo@id",
-			repo:        &imageapi.ImageStream{},
-			expectError: true,
-		},
-		"image not found": {
-			input: "repo@id",
-			repo: &imageapi.ImageStream{
-				Status: imageapi.ImageStreamStatus{
-					Tags: map[string]imageapi.TagEventList{
-						"latest": {
-							Items: []imageapi.TagEvent{
-								{Image: "anotherid"},
-							},
-						},
-					},
-				},
-			},
-			expectError: true,
-		},
-		"happy path": {
-			input: "repo@id",
-			repo: &imageapi.ImageStream{
-				ObjectMeta: metav1.ObjectMeta{
-					Namespace: "ns",
-					Name:      "repo",
-				},
-				Status: imageapi.ImageStreamStatus{
-					Tags: map[string]imageapi.TagEventList{
-						"latest": {
-							Items: []imageapi.TagEvent{
-								{Image: "anotherid"},
-								{Image: "anotherid2"},
-								{Image: "id"},
-							},
-						},
-					},
-				},
-			},
-			image: &imageapi.Image{
-				ObjectMeta: metav1.ObjectMeta{
-					Name: "id",
-				},
-				DockerImageManifest: `{
+		input		string
+		repo		*imageapi.ImageStream
+		image		*imageapi.Image
+		expectError	bool
+	}{"empty string": {input: "", expectError: true}, "one part": {input: "a", expectError: true}, "more than 2 parts": {input: "a@b@c", expectError: true}, "empty name part": {input: "@id", expectError: true}, "empty id part": {input: "name@", expectError: true}, "repo not found": {input: "repo@id", repo: nil, expectError: true}, "nil tags": {input: "repo@id", repo: &imageapi.ImageStream{}, expectError: true}, "image not found": {input: "repo@id", repo: &imageapi.ImageStream{Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{Image: "anotherid"}}}}}}, expectError: true}, "happy path": {input: "repo@id", repo: &imageapi.ImageStream{ObjectMeta: metav1.ObjectMeta{Namespace: "ns", Name: "repo"}, Status: imageapi.ImageStreamStatus{Tags: map[string]imageapi.TagEventList{"latest": {Items: []imageapi.TagEvent{{Image: "anotherid"}, {Image: "anotherid2"}, {Image: "id"}}}}}}, image: &imageapi.Image{ObjectMeta: metav1.ObjectMeta{Name: "id"}, DockerImageManifest: `{
    "name": "library/ubuntu",
    "tag": "latest",
    "architecture": "amd64",
@@ -193,42 +121,27 @@ func TestGet(t *testing.T) {
          "protected": "eyJmb3JtYXRMZW5ndGgiOjEwMDc2LCJmb3JtYXRUYWlsIjoiQ24wIiwidGltZSI6IjIwMTUtMDMtMDdUMTI6Mzk6MjJaIn0"
       }
    ]
-}`,
-			},
-		},
-	}
-
+}`}}}
 	for name, test := range tests {
-		// Wrap in a func so we clean up the test etcd after every loop
 		func() {
 			client, server, storage := setup(t)
 			defer server.Terminate(t)
-
 			ctx := apirequest.NewDefaultContext()
 			if test.repo != nil {
 				ctx = apirequest.WithNamespace(apirequest.NewContext(), test.repo.Namespace)
-				_, err := client.Put(
-					context.TODO(),
-					etcdtest.AddPrefix("/imagestreams/"+test.repo.Namespace+"/"+test.repo.Name),
-					runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), test.repo),
-				)
+				_, err := client.Put(context.TODO(), etcdtest.AddPrefix("/imagestreams/"+test.repo.Namespace+"/"+test.repo.Name), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), test.repo))
 				if err != nil {
 					t.Errorf("Unexpected error: %v", err)
 					return
 				}
 			}
 			if test.image != nil {
-				_, err := client.Put(
-					context.TODO(),
-					etcdtest.AddPrefix("/images/"+test.image.Name),
-					runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), test.image),
-				)
+				_, err := client.Put(context.TODO(), etcdtest.AddPrefix("/images/"+test.image.Name), runtime.EncodeOrDie(legacyscheme.Codecs.LegacyCodec(imagev1.SchemeGroupVersion), test.image))
 				if err != nil {
 					t.Errorf("Unexpected error: %v", err)
 					return
 				}
 			}
-
 			obj, err := storage.Get(ctx, test.input, &metav1.GetOptions{})
 			gotError := err != nil
 			if e, a := test.expectError, gotError; e != a {
@@ -238,9 +151,7 @@ func TestGet(t *testing.T) {
 			if test.expectError {
 				return
 			}
-
 			imageStreamImage := obj.(*imageapi.ImageStreamImage)
-			// validate a couple of the fields
 			if e, a := test.repo.Namespace, "ns"; e != a {
 				t.Errorf("%s: namespace: expected %q, got %q", name, e, a)
 			}

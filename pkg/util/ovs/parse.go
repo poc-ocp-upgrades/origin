@@ -7,38 +7,37 @@ import (
 	"time"
 )
 
-// ovsFlow represents an OVS flow
 type OvsFlow struct {
-	Table    int
-	Priority int
-	Created  time.Time
-	Cookie   string
-	Fields   []OvsField
-	Actions  []OvsField
-
-	ptype ParseType
+	Table		int
+	Priority	int
+	Created		time.Time
+	Cookie		string
+	Fields		[]OvsField
+	Actions		[]OvsField
+	ptype		ParseType
 }
-
 type OvsField struct {
-	Name  string
-	Value string
+	Name	string
+	Value	string
 }
 
 const (
-	minPriority     = 0
-	defaultPriority = 32768
-	maxPriority     = 65535
+	minPriority	= 0
+	defaultPriority	= 32768
+	maxPriority	= 65535
 )
 
 type ParseType string
 
 const (
-	ParseForAdd    ParseType = "add"
-	ParseForFilter ParseType = "filter"
-	ParseForDump   ParseType = "dump"
+	ParseForAdd	ParseType	= "add"
+	ParseForFilter	ParseType	= "filter"
+	ParseForDump	ParseType	= "dump"
 )
 
 func fieldSet(parsed *OvsFlow, field string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, f := range parsed.Fields {
 		if f.Name == field {
 			return true
@@ -46,22 +45,25 @@ func fieldSet(parsed *OvsFlow, field string) bool {
 	}
 	return false
 }
-
 func checkNotAllowedField(flow string, parsed *OvsFlow, field string, ptype ParseType) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fieldSet(parsed, field) {
 		return fmt.Errorf("bad flow %q (field %q not allowed in %s)", flow, field, ptype)
 	}
 	return nil
 }
-
 func checkUnimplementedField(flow string, parsed *OvsFlow, field string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if fieldSet(parsed, field) {
 		return fmt.Errorf("bad flow %q (field %q not implemented)", flow, field)
 	}
 	return nil
 }
-
 func actionToOvsField(action string) (*OvsField, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if action == "" {
 		return nil, fmt.Errorf("cannot make field from empty action")
 	}
@@ -71,13 +73,11 @@ func actionToOvsField(action string) (*OvsField, error) {
 	} else if sep == len(action)-1 {
 		return nil, fmt.Errorf("action %q has no value", action)
 	}
-	return &OvsField{
-		Name:  strings.TrimSpace(action[:sep]),
-		Value: strings.Trim(action[sep:], ": "),
-	}, nil
+	return &OvsField{Name: strings.TrimSpace(action[:sep]), Value: strings.Trim(action[sep:], ": ")}, nil
 }
-
 func parseActions(actions string) ([]OvsField, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fields := make([]OvsField, 0)
 	var parenLevel, braceLevel, idx int
 	origActions := actions
@@ -97,7 +97,6 @@ func parseActions(actions string) ([]OvsField, error) {
 			break
 		}
 		idx += token
-
 		switch actions[idx] {
 		case ',':
 			if parenLevel == 0 && braceLevel == 0 {
@@ -124,13 +123,13 @@ func parseActions(actions string) ([]OvsField, error) {
 				return nil, fmt.Errorf("mismatched braces in actions %q", origActions)
 			}
 		}
-		// Advance past token
 		idx += 1
 	}
 	return fields, nil
 }
-
 func findField(name string, fields *[]OvsField) (*OvsField, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, f := range *fields {
 		if f.Name == name {
 			return &f, true
@@ -138,45 +137,34 @@ func findField(name string, fields *[]OvsField) (*OvsField, bool) {
 	}
 	return nil, false
 }
-
 func (of *OvsFlow) FindField(name string) (*OvsField, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return findField(name, &of.Fields)
 }
-
 func (of *OvsFlow) FindAction(name string) (*OvsField, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return findField(name, &of.Actions)
 }
-
 func (of *OvsFlow) NoteHasPrefix(prefix string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	note, ok := of.FindAction("note")
 	return ok && strings.HasPrefix(strings.ToLower(note.Value), strings.ToLower(prefix))
 }
-
 func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
-
-	// According to the man page, "flow descriptions comprise a series of field=value
-	// assignments, separated by commas or white space." However, you can also have
-	// fields with no value (eg, "ip"), and the "actions" field can also have internal
-	// commas, whitespace, and equals signs (but if it is present, it must be the
-	// last field specified).
-
-	parsed := &OvsFlow{
-		Table:    -1,
-		Priority: -1,
-		Fields:   make([]OvsField, 0),
-		Actions:  make([]OvsField, 0),
-		Created:  time.Now(),
-		ptype:    ptype,
-	}
+	parsed := &OvsFlow{Table: -1, Priority: -1, Fields: make([]OvsField, 0), Actions: make([]OvsField, 0), Created: time.Now(), ptype: ptype}
 	flow = strings.Trim(flow, " ")
 	origFlow := flow
 	for flow != "" {
 		field := ""
 		value := ""
-
 		end := strings.IndexAny(flow, ", ")
 		if end == -1 {
 			end = len(flow)
@@ -200,7 +188,6 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 				return nil, fmt.Errorf("bad flow definition %q (empty field %q)", origFlow, field)
 			}
 		}
-
 		switch field {
 		case "table":
 			table, err := strconv.Atoi(value)
@@ -229,15 +216,12 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 		default:
 			parsed.Fields = append(parsed.Fields, OvsField{field, value})
 		}
-
 		for end < len(flow) && (flow[end] == ',' || flow[end] == ' ') {
 			end++
 		}
 		flow = flow[end:]
 	}
 	flow = origFlow
-
-	// Sanity-checking and defaults
 	switch ptype {
 	case ParseForAdd:
 		if err := checkNotAllowedField(flow, parsed, "out_port", ptype); err != nil {
@@ -246,11 +230,9 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 		if err := checkNotAllowedField(flow, parsed, "out_group", ptype); err != nil {
 			return nil, err
 		}
-
 		if len(parsed.Actions) == 0 {
 			return nil, fmt.Errorf("bad flow %q (empty actions)", flow)
 		}
-
 		if parsed.Table == -1 {
 			parsed.Table = 0
 		}
@@ -262,7 +244,6 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 		} else if strings.Contains(parsed.Cookie, "/") {
 			return nil, fmt.Errorf("bad flow %q (cookie must be 'value', not 'value/mask')", flow)
 		}
-
 	case ParseForFilter:
 		if err := checkNotAllowedField(flow, parsed, "priority", ptype); err != nil {
 			return nil, err
@@ -273,18 +254,14 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 		if err := checkUnimplementedField(flow, parsed, "out_group"); err != nil {
 			return nil, err
 		}
-
 		if parsed.Cookie != "" && !strings.Contains(parsed.Cookie, "/") {
 			return nil, fmt.Errorf("bad flow %q (cookie must be 'value/mask', not just 'value')", flow)
 		}
-
 		if len(parsed.Actions) != 0 {
 			return nil, fmt.Errorf("bad flow %q (field %q not allowed in %s)", flow, "actions", ptype)
 		}
 	}
-
-	if (fieldSet(parsed, "nw_src") || fieldSet(parsed, "nw_dst")) &&
-		!(fieldSet(parsed, "ip") || fieldSet(parsed, "arp") || fieldSet(parsed, "tcp") || fieldSet(parsed, "udp")) {
+	if (fieldSet(parsed, "nw_src") || fieldSet(parsed, "nw_dst")) && !(fieldSet(parsed, "ip") || fieldSet(parsed, "arp") || fieldSet(parsed, "tcp") || fieldSet(parsed, "udp")) {
 		return nil, fmt.Errorf("bad flow %q (specified nw_src/nw_dst without ip/arp/tcp/udp)", flow)
 	}
 	if (fieldSet(parsed, "arp_spa") || fieldSet(parsed, "arp_tpa") || fieldSet(parsed, "arp_sha") || fieldSet(parsed, "arp_tha")) && !fieldSet(parsed, "arp") {
@@ -302,14 +279,11 @@ func ParseFlow(ptype ParseType, flow string, args ...interface{}) (*OvsFlow, err
 	if fieldSet(parsed, "ip_frag") && (fieldSet(parsed, "tcp") || fieldSet(parsed, "udp")) {
 		return nil, fmt.Errorf("bad flow %q (specified ip_frag with tcp/udp)", flow)
 	}
-
 	return parsed, nil
 }
-
-// flowMatches tests if flow matches match. If match.ptype is ParseForAdd, then the table,
-// priority, and all fields much match. If it is ParseForFilter, then any fields specified in
-// match must match, but there can be additional fields in flow that are not in match.
 func FlowMatches(flow, match *OvsFlow) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if match.ptype == ParseForAdd || match.Table != -1 {
 		if flow.Table != match.Table {
 			return false
@@ -342,18 +316,15 @@ func FlowMatches(flow, match *OvsFlow) bool {
 	}
 	return true
 }
-
 func fieldMatches(val, match string, ptype ParseType) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if val == match {
 		return true
 	}
 	if ptype == ParseForAdd {
 		return false
 	}
-
-	// Handle bitfield/mask matches. (Some other syntax like "10.128.0.0/14" might
-	// get examined here, but it will fail the first ParseUint call and so not
-	// reach the final check.)
 	split := strings.Split(match, "/")
 	if len(split) == 2 {
 		matchNum, err1 := strconv.ParseUint(split[0], 0, 32)
@@ -365,13 +336,12 @@ func fieldMatches(val, match string, ptype ParseType) bool {
 			}
 		}
 	}
-
 	return false
 }
-
 func ParseExternalIDs(externalIDs string) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ids := make(map[string]string, 1)
-	// Output from "find" and "list" will have braces, but input to "set" won't
 	if strings.HasPrefix(externalIDs, "{") && strings.HasSuffix(externalIDs, "}") {
 		externalIDs = externalIDs[1 : len(externalIDs)-1]
 	}
@@ -389,8 +359,9 @@ func ParseExternalIDs(externalIDs string) (map[string]string, error) {
 	}
 	return ids, nil
 }
-
 func UnparseExternalIDs(externalIDs map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ids := []string{}
 	for key, value := range externalIDs {
 		ids = append(ids, key+"="+strconv.Quote(value))

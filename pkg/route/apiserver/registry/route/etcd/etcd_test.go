@@ -2,7 +2,6 @@ package etcd
 
 import (
 	"testing"
-
 	authorizationapi "k8s.io/api/authorization/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/fields"
@@ -14,7 +13,6 @@ import (
 	"k8s.io/apiserver/pkg/registry/rest"
 	etcdtesting "k8s.io/apiserver/pkg/storage/etcd/testing"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	routetypes "github.com/openshift/origin/pkg/route"
 	routeapi "github.com/openshift/origin/pkg/route/apis/route"
 	_ "github.com/openshift/origin/pkg/route/apis/route/install"
@@ -23,37 +21,40 @@ import (
 )
 
 type testAllocator struct {
-	Hostname string
-	Err      error
-	Allocate bool
-	Generate bool
+	Hostname	string
+	Err		error
+	Allocate	bool
+	Generate	bool
 }
 
 func (a *testAllocator) AllocateRouterShard(*routeapi.Route) (*routeapi.RouterShard, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.Allocate = true
 	return nil, a.Err
 }
 func (a *testAllocator) GenerateHostname(*routeapi.Route, *routeapi.RouterShard) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	a.Generate = true
 	return a.Hostname
 }
 
 type testSAR struct {
-	allow bool
-	err   error
-	sar   *authorizationapi.SubjectAccessReview
+	allow	bool
+	err	error
+	sar	*authorizationapi.SubjectAccessReview
 }
 
 func (t *testSAR) Create(subjectAccessReview *authorizationapi.SubjectAccessReview) (*authorizationapi.SubjectAccessReview, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.sar = subjectAccessReview
-	return &authorizationapi.SubjectAccessReview{
-		Status: authorizationapi.SubjectAccessReviewStatus{
-			Allowed: t.allow,
-		},
-	}, t.err
+	return &authorizationapi.SubjectAccessReview{Status: authorizationapi.SubjectAccessReviewStatus{Allowed: t.allow}}, t.err
 }
-
 func newStorage(t *testing.T, allocator routetypes.RouteAllocator) (*REST, *etcdtesting.EtcdTestServer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	server, etcdStorage := etcdtesting.NewUnsecuredEtcd3TestClientServer(t)
 	etcdStorage.Codec = legacyscheme.Codecs.LegacyCodec(schema.GroupVersion{Group: "route.openshift.io", Version: "v1"})
 	restOptions := generic.RESTOptions{StorageConfig: etcdStorage, Decorator: generic.UndecoratedStorage, DeleteCollectionWorkers: 1, ResourcePrefix: "routes"}
@@ -63,42 +64,27 @@ func newStorage(t *testing.T, allocator routetypes.RouteAllocator) (*REST, *etcd
 	}
 	return storage, server
 }
-
 func validRoute() *routeapi.Route {
-	return &routeapi.Route{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "foo",
-		},
-		Spec: routeapi.RouteSpec{
-			To: routeapi.RouteTargetReference{
-				Name: "test",
-				Kind: "Service",
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "foo"}, Spec: routeapi.RouteSpec{To: routeapi.RouteTargetReference{Name: "test", Kind: "Service"}}}
 }
-
 func TestCreate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-	test.TestCreate(
-		// valid
-		validRoute(),
-		// invalid
-		&routeapi.Route{
-			ObjectMeta: metav1.ObjectMeta{Name: "_-a123-a_"},
-		},
-	)
+	test.TestCreate(validRoute(), &routeapi.Route{ObjectMeta: metav1.ObjectMeta{Name: "_-a123-a_"}})
 }
-
 func TestCreateWithAllocation(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	allocator := &testAllocator{Hostname: "bar"}
 	storage, server := newStorage(t, allocator)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
-
 	obj, err := storage.Create(apirequest.NewDefaultContext(), validRoute(), rest.ValidateAllObjectFunc, &metav1.CreateOptions{})
 	if err != nil {
 		t.Fatalf("unable to create object: %v", err)
@@ -114,86 +100,62 @@ func TestCreateWithAllocation(t *testing.T) {
 		t.Fatalf("unexpected allocator: %#v", allocator)
 	}
 }
-
 func TestUpdate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-
-	test.TestUpdate(
-		validRoute(),
-		// valid update
-		func(obj runtime.Object) runtime.Object {
-			object := obj.(*routeapi.Route)
-			if object.Annotations == nil {
-				object.Annotations = map[string]string{}
-			}
-			object.Annotations["updated"] = "true"
-			return object
-		},
-		// invalid update
-		func(obj runtime.Object) runtime.Object {
-			object := obj.(*routeapi.Route)
-			object.Spec.Path = "invalid/path"
-			return object
-		},
-	)
+	test.TestUpdate(validRoute(), func(obj runtime.Object) runtime.Object {
+		object := obj.(*routeapi.Route)
+		if object.Annotations == nil {
+			object.Annotations = map[string]string{}
+		}
+		object.Annotations["updated"] = "true"
+		return object
+	}, func(obj runtime.Object) runtime.Object {
+		object := obj.(*routeapi.Route)
+		object.Spec.Path = "invalid/path"
+		return object
+	})
 }
-
 func TestList(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-	test.TestList(
-		validRoute(),
-	)
+	test.TestList(validRoute())
 }
-
 func TestGet(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, &testAllocator{})
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-	test.TestGet(
-		validRoute(),
-	)
+	test.TestGet(validRoute())
 }
-
 func TestDelete(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-	test.TestDelete(
-		validRoute(),
-	)
+	test.TestDelete(validRoute())
 }
-
 func TestWatch(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	storage, server := newStorage(t, nil)
 	defer server.Terminate(t)
 	defer storage.Store.DestroyFunc()
 	test := genericregistrytest.New(t, storage.Store)
-
 	valid := validRoute()
 	valid.Name = "foo"
 	valid.Labels = map[string]string{"foo": "bar"}
-
-	test.TestWatch(
-		valid,
-		// matching labels
-		[]labels.Set{{"foo": "bar"}},
-		// not matching labels
-		[]labels.Set{{"foo": "baz"}},
-		// matching fields
-		[]fields.Set{
-			{"metadata.name": "foo"},
-		},
-		// not matching fields
-		[]fields.Set{
-			{"metadata.name": "bar"},
-		},
-	)
+	test.TestWatch(valid, []labels.Set{{"foo": "bar"}}, []labels.Set{{"foo": "baz"}}, []fields.Set{{"metadata.name": "foo"}}, []fields.Set{{"metadata.name": "bar"}})
 }

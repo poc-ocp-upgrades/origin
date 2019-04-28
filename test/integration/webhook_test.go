@@ -7,11 +7,9 @@ import (
 	"net/http"
 	"testing"
 	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	rest "k8s.io/client-go/rest"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	imagev1 "github.com/openshift/api/image/v1"
 	buildv1client "github.com/openshift/client-go/build/clientset/versioned"
@@ -22,12 +20,13 @@ import (
 )
 
 func TestWebhook(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unable to start master: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	kubeClient, err := testutil.GetClusterAdminKubeClient(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unable to get kubeClient: %v", err)
@@ -37,180 +36,85 @@ func TestWebhook(t *testing.T) {
 		t.Fatalf("unable to get osClient: %v", err)
 	}
 	clusterAdminBuildClient := buildv1client.NewForConfigOrDie(clusterAdminClientConfig).BuildV1()
-
-	kubeClient.CoreV1().Namespaces().Create(&corev1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()},
-	})
-
+	kubeClient.CoreV1().Namespaces().Create(&corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()}})
 	if err := testserver.WaitForServiceAccounts(kubeClient, testutil.Namespace(), []string{bootstrappolicy.BuilderServiceAccountName, bootstrappolicy.DefaultServiceAccountName}); err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
-	// create buildconfig
 	buildConfig := mockBuildConfigImageParms("originalimage", "imagestream", "validtag")
 	if _, err := clusterAdminBuildClient.BuildConfigs(testutil.Namespace()).Create(buildConfig); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
 	tests := []struct {
-		Name       string
-		Payload    string
-		HeaderFunc func(*http.Header)
-		URLs       []string
-	}{
-		{
-			Name:       "generic",
-			Payload:    "generic/testdata/push-generic.json",
-			HeaderFunc: genericHeaderFunc,
-			URLs: []string{
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret200/generic",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret201/generic",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret202/generic",
-			},
-		},
-		{
-			Name:       "github",
-			Payload:    "github/testdata/pushevent.json",
-			HeaderFunc: githubHeaderFunc,
-			URLs: []string{
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github",
-			},
-		},
-		{
-			Name:       "gitlab",
-			Payload:    "gitlab/testdata/pushevent.json",
-			HeaderFunc: gitlabHeaderFunc,
-			URLs: []string{
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret300/gitlab",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret301/gitlab",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret302/gitlab",
-			},
-		},
-		{
-			Name:       "bitbucket",
-			Payload:    "bitbucket/testdata/pushevent.json",
-			HeaderFunc: bitbucketHeaderFunc,
-			URLs: []string{
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret400/bitbucket",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret401/bitbucket",
-				"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret402/bitbucket",
-			},
-		},
-	}
-
+		Name		string
+		Payload		string
+		HeaderFunc	func(*http.Header)
+		URLs		[]string
+	}{{Name: "generic", Payload: "generic/testdata/push-generic.json", HeaderFunc: genericHeaderFunc, URLs: []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret200/generic", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret201/generic", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret202/generic"}}, {Name: "github", Payload: "github/testdata/pushevent.json", HeaderFunc: githubHeaderFunc, URLs: []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github"}}, {Name: "gitlab", Payload: "gitlab/testdata/pushevent.json", HeaderFunc: gitlabHeaderFunc, URLs: []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret300/gitlab", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret301/gitlab", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret302/gitlab"}}, {Name: "bitbucket", Payload: "bitbucket/testdata/pushevent.json", HeaderFunc: bitbucketHeaderFunc, URLs: []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret400/bitbucket", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret401/bitbucket", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret402/bitbucket"}}}
 	for _, test := range tests {
 		for _, s := range test.URLs {
-			// trigger build event sending push notification
 			clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
-
 			body := postFile(clusterAdminBuildClient.RESTClient(), test.HeaderFunc, test.Payload, clusterAdminClientConfig.Host+s, http.StatusOK, t)
 			if len(body) == 0 {
 				t.Fatalf("%s: Webhook did not return expected Build object.", test.Name)
 			}
-
 			returnedBuild := &buildv1.Build{}
 			err = json.Unmarshal(body, returnedBuild)
 			if err != nil {
 				t.Fatalf("%s: Unable to unmarshal returned body into a Build object: %v", test.Name, err)
 			}
-
 			actual, err := clusterAdminBuildClient.Builds(testutil.Namespace()).Get(returnedBuild.Name, metav1.GetOptions{})
 			if err != nil {
 				t.Errorf("Created build not found in cluster: %v", err)
 			}
-
-			// There should only be one trigger on these builds.
 			if actual.Spec.TriggeredBy[0].Message != returnedBuild.Spec.TriggeredBy[0].Message {
 				t.Fatalf("%s: Webhook returned incorrect build.", test.Name)
 			}
 		}
 	}
 }
-
 func TestWebhookGitHubPushWithImage(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:3000"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
-
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
 	clusterAdminImageClient := imagev1client.NewForConfigOrDie(clusterAdminClientConfig).ImageV1()
 	clusterAdminBuildClient := buildv1client.NewForConfigOrDie(clusterAdminClientConfig).BuildV1()
-
 	err = testutil.CreateNamespace(clusterAdminKubeConfig, testutil.Namespace())
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
 	clusterAdminKubeClient, err := testutil.GetClusterAdminKubeClient(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if err := testserver.WaitForServiceAccounts(clusterAdminKubeClient, testutil.Namespace(), []string{bootstrappolicy.BuilderServiceAccountName, bootstrappolicy.DefaultServiceAccountName}); err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
-	// create imagerepo
-	imageStream := &imagev1.ImageStream{
-		ObjectMeta: metav1.ObjectMeta{Name: "image-stream"},
-		Spec: imagev1.ImageStreamSpec{
-			DockerImageRepository: registryHostname + "/integration/imagestream",
-			Tags: []imagev1.TagReference{
-				{
-					Name: "validtag",
-					From: &corev1.ObjectReference{
-						Kind: "DockerImage",
-						Name: registryHostname + "/integration/imagestream:success",
-					},
-				},
-			},
-		},
-	}
+	imageStream := &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "image-stream"}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: registryHostname + "/integration/imagestream", Tags: []imagev1.TagReference{{Name: "validtag", From: &corev1.ObjectReference{Kind: "DockerImage", Name: registryHostname + "/integration/imagestream:success"}}}}}
 	if _, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Create(imageStream); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	ism := &imagev1.ImageStreamMapping{
-		ObjectMeta: metav1.ObjectMeta{Name: "image-stream"},
-		Tag:        "validtag",
-		Image: imagev1.Image{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "myimage",
-			},
-			DockerImageReference: registryHostname + "/integration/imagestream:success",
-		},
-	}
+	ism := &imagev1.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: "image-stream"}, Tag: "validtag", Image: imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: "myimage"}, DockerImageReference: registryHostname + "/integration/imagestream:success"}}
 	if _, err := clusterAdminImageClient.ImageStreamMappings(testutil.Namespace()).Create(ism); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	// create buildconfig
 	buildConfig := mockBuildConfigImageParms("originalimage", "imagestream", "validtag")
-
 	if _, err := clusterAdminBuildClient.BuildConfigs(testutil.Namespace()).Create(buildConfig); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	for _, s := range []string{
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github",
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github",
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github",
-	} {
-
-		// trigger build event sending push notification
+	for _, s := range []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github"} {
 		body := postFile(clusterAdminBuildClient.RESTClient(), githubHeaderFunc, "github/testdata/pushevent.json", clusterAdminClientConfig.Host+s, http.StatusOK, t)
 		if len(body) == 0 {
 			t.Errorf("Webhook did not return Build in body")
@@ -223,30 +127,24 @@ func TestWebhookGitHubPushWithImage(t *testing.T) {
 		if returnedBuild.Spec.Strategy.DockerStrategy == nil {
 			t.Errorf("Webhook returned incomplete or wrong Build")
 		}
-
 		actual, err := clusterAdminBuildClient.Builds(testutil.Namespace()).Get(returnedBuild.Name, metav1.GetOptions{})
 		if err != nil {
 			t.Errorf("Created build not found in cluster: %v", err)
 		}
-
-		// FIXME: I think the build creation is fast and in some situation we miss
-		// the BuildPhaseNew here. Note that this is not a bug, in future we should
-		// move this to use go routine to capture all events.
 		if actual.Status.Phase != buildv1.BuildPhaseNew && actual.Status.Phase != buildv1.BuildPhasePending {
 			t.Errorf("Expected %s or %s, got %s", buildv1.BuildPhaseNew, buildv1.BuildPhasePending, actual.Status.Phase)
 		}
-
 		if actual.Spec.Strategy.DockerStrategy.From.Name != "originalimage" {
 			t.Errorf("Expected %s, got %s", "originalimage", actual.Spec.Strategy.DockerStrategy.From.Name)
 		}
-
 		if actual.Name != returnedBuild.Name {
 			t.Errorf("Build returned in response body does not match created Build. Expected %s, got %s", actual.Name, returnedBuild.Name)
 		}
 	}
 }
-
 func TestWebhookGitHubPushWithImageStream(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	const registryHostname = "registry:3000"
 	testutil.SetAdditionalAllowedRegistries(registryHostname)
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
@@ -254,82 +152,43 @@ func TestWebhookGitHubPushWithImageStream(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
 	clusterAdminImageClient := imagev1client.NewForConfigOrDie(clusterAdminClientConfig).ImageV1()
 	clusterAdminBuildClient := buildv1client.NewForConfigOrDie(clusterAdminClientConfig).BuildV1()
-
 	clusterAdminKubeClient, err := testutil.GetClusterAdminKubeClient(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	err = testutil.CreateNamespace(clusterAdminKubeConfig, testutil.Namespace())
 	if err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
 	if err := testserver.WaitForServiceAccounts(clusterAdminKubeClient, testutil.Namespace(), []string{bootstrappolicy.BuilderServiceAccountName, bootstrappolicy.DefaultServiceAccountName}); err != nil {
 		t.Errorf("unexpected error: %v", err)
 	}
-
-	// create imagerepo
-	imageStream := &imagev1.ImageStream{
-		ObjectMeta: metav1.ObjectMeta{Name: "image-stream"},
-		Spec: imagev1.ImageStreamSpec{
-			DockerImageRepository: registryHostname + "/integration/imagestream",
-			Tags: []imagev1.TagReference{
-				{
-					Name: "validtag",
-					From: &corev1.ObjectReference{
-						Kind: "DockerImage",
-						Name: registryHostname + "/integration/imagestream:success",
-					},
-				},
-			},
-		},
-	}
+	imageStream := &imagev1.ImageStream{ObjectMeta: metav1.ObjectMeta{Name: "image-stream"}, Spec: imagev1.ImageStreamSpec{DockerImageRepository: registryHostname + "/integration/imagestream", Tags: []imagev1.TagReference{{Name: "validtag", From: &corev1.ObjectReference{Kind: "DockerImage", Name: registryHostname + "/integration/imagestream:success"}}}}}
 	if _, err := clusterAdminImageClient.ImageStreams(testutil.Namespace()).Create(imageStream); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	ism := &imagev1.ImageStreamMapping{
-		ObjectMeta: metav1.ObjectMeta{Name: "image-stream"},
-		Tag:        "validtag",
-		Image: imagev1.Image{
-			ObjectMeta: metav1.ObjectMeta{
-				Name: "myimage",
-			},
-			DockerImageReference: registryHostname + "/integration/imagestream:success",
-		},
-	}
+	ism := &imagev1.ImageStreamMapping{ObjectMeta: metav1.ObjectMeta{Name: "image-stream"}, Tag: "validtag", Image: imagev1.Image{ObjectMeta: metav1.ObjectMeta{Name: "myimage"}, DockerImageReference: registryHostname + "/integration/imagestream:success"}}
 	if _, err := clusterAdminImageClient.ImageStreamMappings(testutil.Namespace()).Create(ism); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	// create buildconfig
 	buildConfig := mockBuildConfigImageStreamParms("originalimage", "image-stream", "validtag")
-
 	if _, err := clusterAdminBuildClient.BuildConfigs(testutil.Namespace()).Create(buildConfig); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
 	watch, err := clusterAdminBuildClient.Builds(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to builds: %v", err)
 	}
 	defer watch.Stop()
-
 	s := "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github"
-
-	// trigger build event sending push notification
 	postFile(clusterAdminBuildClient.RESTClient(), githubHeaderFunc, "github/testdata/pushevent.json", clusterAdminClientConfig.Host+s, http.StatusOK, t)
-
 	var build *buildv1.Build
-
 Loop:
 	for {
 		select {
@@ -349,14 +208,14 @@ Loop:
 		t.Errorf("Expected %s, got %s", registryHostname+"/integration/imagestream:success", build.Spec.Strategy.SourceStrategy.From.Name)
 	}
 }
-
 func TestWebhookGitHubPing(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	masterConfig, clusterAdminKubeConfig, err := testserver.StartTestMaster()
 	if err != nil {
 		t.Fatalf("unable to start master: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, masterConfig)
-
 	kubeClient, err := testutil.GetClusterAdminKubeClient(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unable to get kubeClient: %v", err)
@@ -366,49 +225,34 @@ func TestWebhookGitHubPing(t *testing.T) {
 		t.Fatalf("unable to get osClient: %v", err)
 	}
 	clusterAdminBuildClient := buildv1client.NewForConfigOrDie(clusterAdminClientConfig).BuildV1()
-
-	kubeClient.CoreV1().Namespaces().Create(&corev1.Namespace{
-		ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()},
-	})
-
-	// create buildconfig
+	kubeClient.CoreV1().Namespaces().Create(&corev1.Namespace{ObjectMeta: metav1.ObjectMeta{Name: testutil.Namespace()}})
 	buildConfig := mockBuildConfigImageParms("originalimage", "imagestream", "validtag")
 	if _, err := clusterAdminBuildClient.BuildConfigs(testutil.Namespace()).Create(buildConfig); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
 	watch, err := clusterAdminBuildClient.Builds(testutil.Namespace()).Watch(metav1.ListOptions{})
 	if err != nil {
 		t.Fatalf("Couldn't subscribe to builds: %v", err)
 	}
 	defer watch.Stop()
-
-	for _, s := range []string{
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github",
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github",
-		"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github",
-	} {
-		// trigger build event sending push notification
+	for _, s := range []string{"/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret101/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret100/github", "/apis/build.openshift.io/v1/namespaces/" + testutil.Namespace() + "/buildconfigs/pushbuild/webhooks/secret102/github"} {
 		clusterAdminClientConfig, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
-
 		postFile(clusterAdminBuildClient.RESTClient(), githubHeaderFuncPing, "github/testdata/pingevent.json", clusterAdminClientConfig.Host+s, http.StatusOK, t)
-
-		// TODO: improve negative testing
 		timer := time.NewTimer(time.Second * 5)
 		select {
 		case <-timer.C:
-			// nothing should happen
 		case event := <-watch.ResultChan():
 			build := event.Object.(*buildv1.Build)
 			t.Fatalf("Unexpected build created: %#v", build)
 		}
 	}
 }
-
 func postFile(client rest.Interface, headerFunc func(*http.Header), filename, url string, expStatusCode int, t *testing.T) []byte {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile("../../pkg/build/webhook/" + filename)
 	if err != nil {
 		t.Fatalf("Failed to open %s: %v", filename, err)
@@ -428,279 +272,44 @@ func postFile(client rest.Interface, headerFunc func(*http.Header), filename, ur
 	}
 	return body
 }
-
 func mockBuildConfigImageParms(imageName, imageStream, imageTag string) *buildv1.BuildConfig {
-	return &buildv1.BuildConfig{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "pushbuild",
-		},
-		Spec: buildv1.BuildConfigSpec{
-			RunPolicy: buildv1.BuildRunPolicyParallel,
-			Triggers: []buildv1.BuildTriggerPolicy{
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret101",
-					},
-				},
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret100",
-					},
-				},
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret102",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret202",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret201",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret200",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret301",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret300",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret302",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret401",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret400",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret402",
-					},
-				},
-			},
-			CommonSpec: buildv1.CommonSpec{
-				Source: buildv1.BuildSource{
-					Git: &buildv1.GitBuildSource{
-						URI: "http://my.docker/build",
-					},
-					ContextDir: "context",
-				},
-				Strategy: buildv1.BuildStrategy{
-					DockerStrategy: &buildv1.DockerBuildStrategy{
-						From: &corev1.ObjectReference{
-							Kind: "DockerImage",
-							Name: imageName,
-						},
-					},
-				},
-				Output: buildv1.BuildOutput{
-					To: &corev1.ObjectReference{
-						Kind: "DockerImage",
-						Name: "namespace/builtimage",
-					},
-				},
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "pushbuild"}, Spec: buildv1.BuildConfigSpec{RunPolicy: buildv1.BuildRunPolicyParallel, Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret101"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret102"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret202"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret201"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret200"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret301"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret300"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret302"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret401"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret400"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret402"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.docker/build"}, ContextDir: "context"}, Strategy: buildv1.BuildStrategy{DockerStrategy: &buildv1.DockerBuildStrategy{From: &corev1.ObjectReference{Kind: "DockerImage", Name: imageName}}}, Output: buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: "namespace/builtimage"}}}}}
 }
-
 func mockBuildConfigImageStreamParms(imageName, imageStream, imageTag string) *buildv1.BuildConfig {
-	return &buildv1.BuildConfig{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "pushbuild",
-		},
-		Spec: buildv1.BuildConfigSpec{
-			RunPolicy: buildv1.BuildRunPolicyParallel,
-			Triggers: []buildv1.BuildTriggerPolicy{
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret101",
-					},
-				},
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret100",
-					},
-				},
-				{
-					Type: buildv1.GitHubWebHookBuildTriggerType,
-					GitHubWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret102",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret201",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret200",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret202",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret301",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret300",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret302",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret202",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret201",
-					},
-				},
-				{
-					Type: buildv1.GenericWebHookBuildTriggerType,
-					GenericWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret200",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret301",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret300",
-					},
-				},
-				{
-					Type: buildv1.GitLabWebHookBuildTriggerType,
-					GitLabWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret302",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret401",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret400",
-					},
-				},
-				{
-					Type: buildv1.BitbucketWebHookBuildTriggerType,
-					BitbucketWebHook: &buildv1.WebHookTrigger{
-						Secret: "secret402",
-					},
-				},
-			},
-			CommonSpec: buildv1.CommonSpec{
-				Source: buildv1.BuildSource{
-					Git: &buildv1.GitBuildSource{
-						URI: "http://my.docker/build",
-					},
-					ContextDir: "context",
-				},
-				Strategy: buildv1.BuildStrategy{
-					SourceStrategy: &buildv1.SourceBuildStrategy{
-						From: corev1.ObjectReference{
-							Kind: "ImageStreamTag",
-							Name: imageStream + ":" + imageTag,
-						},
-					},
-				},
-				Output: buildv1.BuildOutput{
-					To: &corev1.ObjectReference{
-						Kind: "DockerImage",
-						Name: "namespace/builtimage",
-					},
-				},
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &buildv1.BuildConfig{ObjectMeta: metav1.ObjectMeta{Name: "pushbuild"}, Spec: buildv1.BuildConfigSpec{RunPolicy: buildv1.BuildRunPolicyParallel, Triggers: []buildv1.BuildTriggerPolicy{{Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret101"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret100"}}, {Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &buildv1.WebHookTrigger{Secret: "secret102"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret201"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret200"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret202"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret301"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret300"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret302"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret202"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret201"}}, {Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &buildv1.WebHookTrigger{Secret: "secret200"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret301"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret300"}}, {Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &buildv1.WebHookTrigger{Secret: "secret302"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret401"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret400"}}, {Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &buildv1.WebHookTrigger{Secret: "secret402"}}}, CommonSpec: buildv1.CommonSpec{Source: buildv1.BuildSource{Git: &buildv1.GitBuildSource{URI: "http://my.docker/build"}, ContextDir: "context"}, Strategy: buildv1.BuildStrategy{SourceStrategy: &buildv1.SourceBuildStrategy{From: corev1.ObjectReference{Kind: "ImageStreamTag", Name: imageStream + ":" + imageTag}}}, Output: buildv1.BuildOutput{To: &corev1.ObjectReference{Kind: "DockerImage", Name: "namespace/builtimage"}}}}}
 }
-
 func genericHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 }
-
 func githubHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("User-Agent", "GitHub-Hookshot/github")
 	header.Add("X-Github-Event", "push")
 }
-
 func githubHeaderFuncPing(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("User-Agent", "GitHub-Hookshot/github")
 	header.Add("X-Github-Event", "ping")
 }
-
 func gitlabHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("X-Gitlab-Event", "Push Hook")
 }
-
 func bitbucketHeaderFunc(header *http.Header) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	header.Add("Content-Type", "application/json")
 	header.Add("X-Event-Key", "repo:push")
 }

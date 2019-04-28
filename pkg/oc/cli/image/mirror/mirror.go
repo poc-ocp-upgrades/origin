@@ -5,24 +5,20 @@ import (
 	"fmt"
 	"io"
 	"time"
-
 	"github.com/docker/distribution"
 	"github.com/docker/distribution/manifest/manifestlist"
 	"github.com/docker/distribution/manifest/schema1"
 	"github.com/docker/distribution/manifest/schema2"
 	"github.com/docker/distribution/reference"
 	"github.com/docker/distribution/registry/client"
-
 	units "github.com/docker/go-units"
 	godigest "github.com/opencontainers/go-digest"
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	apirequest "k8s.io/apiserver/pkg/endpoints/request"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	imagereference "github.com/openshift/origin/pkg/image/apis/image/reference"
 	"github.com/openshift/origin/pkg/image/registryclient"
 	imagemanifest "github.com/openshift/origin/pkg/oc/cli/image/manifest"
@@ -30,7 +26,7 @@ import (
 )
 
 var (
-	mirrorDesc = templates.LongDesc(`
+	mirrorDesc	= templates.LongDesc(`
 		Mirror images from one image repository to another.
 
 		Accepts a list of arguments defining source images that should be pushed to the provided
@@ -50,8 +46,7 @@ var (
 		Images in manifest list format will be copied as-is unless you use --filter-by-os to restrict
 		the allowed images to copy in a manifest list. This flag has no effect on regular images.
 		`)
-
-	mirrorExample = templates.Examples(`
+	mirrorExample	= templates.Examples(`
 # Copy image to another tag
 %[1]s myregistry.com/myimage:latest myregistry.com/myimage:stable
 
@@ -75,58 +70,40 @@ var (
 )
 
 type MirrorImageOptions struct {
-	Mappings []Mapping
-
-	SecurityOptions imagemanifest.SecurityOptions
-	FilterOptions   imagemanifest.FilterOptions
-
-	DryRun             bool
-	SkipMount          bool
-	SkipMultipleScopes bool
-	SkipMissing        bool
-	Force              bool
-
-	MaxRegistry     int
-	ParallelOptions imagemanifest.ParallelOptions
-
-	AttemptS3BucketCopy []string
-
-	Filenames []string
-
-	ManifestUpdateCallback func(registry string, manifests map[godigest.Digest]godigest.Digest) error
-
+	Mappings		[]Mapping
+	SecurityOptions		imagemanifest.SecurityOptions
+	FilterOptions		imagemanifest.FilterOptions
+	DryRun			bool
+	SkipMount		bool
+	SkipMultipleScopes	bool
+	SkipMissing		bool
+	Force			bool
+	MaxRegistry		int
+	ParallelOptions		imagemanifest.ParallelOptions
+	AttemptS3BucketCopy	[]string
+	Filenames		[]string
+	ManifestUpdateCallback	func(registry string, manifests map[godigest.Digest]godigest.Digest) error
 	genericclioptions.IOStreams
 }
 
 func NewMirrorImageOptions(streams genericclioptions.IOStreams) *MirrorImageOptions {
-	return &MirrorImageOptions{
-		IOStreams:       streams,
-		ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 6},
-		MaxRegistry:     4,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &MirrorImageOptions{IOStreams: streams, ParallelOptions: imagemanifest.ParallelOptions{MaxPerRegistry: 6}, MaxRegistry: 4}
 }
-
-// NewCommandMirrorImage copies images from one location to another.
 func NewCmdMirrorImage(name string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewMirrorImageOptions(streams)
-
-	cmd := &cobra.Command{
-		Use:     "mirror SRC DST [DST ...]",
-		Short:   "Mirror images from one repository to another",
-		Long:    mirrorDesc,
-		Example: fmt.Sprintf(mirrorExample, name+" mirror"),
-		Run: func(c *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(c, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
-
+	cmd := &cobra.Command{Use: "mirror SRC DST [DST ...]", Short: "Mirror images from one repository to another", Long: mirrorDesc, Example: fmt.Sprintf(mirrorExample, name+" mirror"), Run: func(c *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(c, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	flag := cmd.Flags()
 	o.SecurityOptions.Bind(flag)
 	o.FilterOptions.Bind(flag)
 	o.ParallelOptions.Bind(flag)
-
 	flag.BoolVar(&o.DryRun, "dry-run", o.DryRun, "Print the actions that would be taken and exit without writing to the destinations.")
 	flag.BoolVar(&o.SkipMissing, "skip-missing", o.SkipMissing, "If an input image is not found, skip them.")
 	flag.BoolVar(&o.SkipMount, "skip-mount", o.SkipMount, "Always push layers instead of cross-mounting them")
@@ -135,17 +112,15 @@ func NewCmdMirrorImage(name string, streams genericclioptions.IOStreams) *cobra.
 	flag.IntVar(&o.MaxRegistry, "max-registry", o.MaxRegistry, "Number of concurrent registries to connect to at any one time.")
 	flag.StringSliceVar(&o.AttemptS3BucketCopy, "s3-source-bucket", o.AttemptS3BucketCopy, "A list of bucket/path locations on S3 that may contain already uploaded blobs. Add [store] to the end to use the Docker registry path convention.")
 	flag.StringSliceVarP(&o.Filenames, "filename", "f", o.Filenames, "One or more files to read SRC=DST or SRC DST [DST ...] mappings from.")
-
 	return cmd
 }
-
 func (o *MirrorImageOptions) Complete(cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := o.FilterOptions.Complete(cmd.Flags()); err != nil {
 		return err
 	}
-
 	overlap := make(map[string]string)
-
 	var err error
 	o.Mappings, err = parseArgs(args, overlap)
 	if err != nil {
@@ -158,41 +133,38 @@ func (o *MirrorImageOptions) Complete(cmd *cobra.Command, args []string) error {
 		}
 		o.Mappings = append(o.Mappings, mappings...)
 	}
-
 	if len(o.Mappings) == 0 {
 		return fmt.Errorf("you must specify at least one source image to pull and the destination to push to as SRC=DST or SRC DST [DST2 DST3 ...]")
 	}
-
 	for _, mapping := range o.Mappings {
 		if mapping.Source.Equal(mapping.Destination) {
 			return fmt.Errorf("SRC and DST may not be the same")
 		}
 	}
-
 	return nil
 }
-
 func (o *MirrorImageOptions) Repository(ctx context.Context, context *registryclient.Context, t DestinationType, ref imagereference.DockerImageReference) (distribution.Repository, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t {
 	case DestinationRegistry:
 		return context.Repository(ctx, ref.DockerClientDefaults().RegistryURL(), ref.RepositoryName(), o.SecurityOptions.Insecure)
 	case DestinationS3:
-		driver := &s3Driver{
-			Creds:    context.Credentials,
-			CopyFrom: o.AttemptS3BucketCopy,
-		}
+		driver := &s3Driver{Creds: context.Credentials, CopyFrom: o.AttemptS3BucketCopy}
 		url := ref.DockerClientDefaults().RegistryURL()
 		return driver.Repository(ctx, url, ref.RepositoryName(), o.SecurityOptions.Insecure)
 	default:
 		return nil, fmt.Errorf("unrecognized destination type %s", t)
 	}
 }
-
 func (o *MirrorImageOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.FilterOptions.Validate()
 }
-
 func (o *MirrorImageOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	start := time.Now()
 	p, err := o.plan()
 	if err != nil {
@@ -200,25 +172,20 @@ func (o *MirrorImageOptions) Run() error {
 	}
 	p.Print(o.ErrOut)
 	fmt.Fprintln(o.ErrOut)
-
 	if errs := p.Errors(); len(errs) > 0 {
 		for _, err := range errs {
 			fmt.Fprintf(o.ErrOut, "error: %v\n", err)
 		}
 		return fmt.Errorf("an error occurred during planning")
 	}
-
 	work := Greedy(p)
 	work.Print(o.ErrOut)
 	fmt.Fprintln(o.ErrOut)
-
 	fmt.Fprintf(o.ErrOut, "info: Planning completed in %s\n", time.Now().Sub(start).Round(10*time.Millisecond))
-
 	if o.DryRun {
 		fmt.Fprintf(o.ErrOut, "info: Dry run complete\n")
 		return nil
 	}
-
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	q := workqueue.New(o.MaxRegistry, stopCh)
@@ -226,13 +193,11 @@ func (o *MirrorImageOptions) Run() error {
 	for name := range p.RegistryNames() {
 		registryWorkers[name] = workqueue.New(o.ParallelOptions.MaxPerRegistry, stopCh)
 	}
-
 	next := time.Now()
 	defer func() {
 		d := time.Now().Sub(next)
 		fmt.Fprintf(o.ErrOut, "info: Mirroring completed in %s (%s/s)\n", d.Truncate(10*time.Millisecond), units.HumanSize(float64(work.stats.bytes)/d.Seconds()))
 	}()
-
 	ctx := apirequest.NewContext()
 	for j := range work.phases {
 		phase := &work.phases[j]
@@ -240,7 +205,6 @@ func (o *MirrorImageOptions) Run() error {
 			for i := range phase.independent {
 				unit := phase.independent[i]
 				w.Parallel(func() {
-					// upload blobs
 					registryWorkers[unit.registry.name].Batch(func(w workqueue.Work) {
 						for i := range unit.repository.blobs {
 							op := unit.repository.blobs[i]
@@ -260,7 +224,6 @@ func (o *MirrorImageOptions) Run() error {
 					if phase.IsFailed() {
 						return
 					}
-					// upload manifests
 					op := unit.repository.manifests
 					registryWorkers[unit.registry.name].Batch(func(w workqueue.Work) {
 						ref, err := reference.WithName(op.toRef.RepositoryName())
@@ -268,7 +231,6 @@ func (o *MirrorImageOptions) Run() error {
 							phase.ExecutionFailure(fmt.Errorf("unable to create reference to repository %s: %v", op.toRef, err))
 							return
 						}
-						// upload and tag the manifest
 						for digest := range op.digestsToTags {
 							srcDigest := digest
 							tags := op.digestsToTags[srcDigest].List()
@@ -278,7 +240,6 @@ func (o *MirrorImageOptions) Run() error {
 								}
 							})
 						}
-						// this is a pure manifest move, put the manifest by its id
 						for digest := range op.digestCopies {
 							srcDigest := godigest.Digest(digest)
 							w.Parallel(func() {
@@ -298,7 +259,6 @@ func (o *MirrorImageOptions) Run() error {
 			return fmt.Errorf("one or more errors occurred while uploading images")
 		}
 	}
-
 	if o.ManifestUpdateCallback != nil {
 		for _, reg := range p.registries {
 			klog.V(4).Infof("Manifests mapped %#v", reg.manifestConversions)
@@ -307,11 +267,11 @@ func (o *MirrorImageOptions) Run() error {
 			}
 		}
 	}
-
 	return nil
 }
-
 func (o *MirrorImageOptions) plan() (*plan, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ctx := apirequest.NewContext()
 	context, err := o.SecurityOptions.Context()
 	if err != nil {
@@ -320,7 +280,6 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 	fromContext := context.Copy()
 	toContext := context.Copy().WithActions("pull", "push")
 	toContexts := make(map[string]*registryclient.Context)
-
 	tree := buildTargetTree(o.Mappings)
 	for registry, scopes := range calculateDockerRegistryScopes(tree) {
 		klog.V(5).Infof("Using scopes for registry %s: %v", registry, scopes)
@@ -330,7 +289,6 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 			toContexts[registry] = toContext.Copy().WithScopes(scopes...)
 		}
 	}
-
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	q := workqueue.New(o.MaxRegistry, stopCh)
@@ -340,9 +298,7 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 			registryWorkers[name.registry] = workqueue.New(o.ParallelOptions.MaxPerRegistry, stopCh)
 		}
 	}
-
 	plan := newPlan()
-
 	for name := range tree {
 		src := tree[name]
 		q.Queue(func(_ workqueue.Work) {
@@ -358,7 +314,6 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 			}
 			rq := registryWorkers[name.registry]
 			rq.Batch(func(w workqueue.Work) {
-				// convert source tags to digests
 				for tag := range src.tags {
 					srcTag, pushTargets := tag, src.tags[tag]
 					w.Parallel(func() {
@@ -379,14 +334,11 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 					})
 				}
 			})
-
 			canonicalFrom := srcRepo.Named()
-
 			rq.Queue(func(w workqueue.Work) {
 				for key := range src.digests {
 					srcDigestString, pushTargets := key, src.digests[key]
 					w.Parallel(func() {
-						// load the manifest
 						srcDigest := godigest.Digest(srcDigestString)
 						srcManifest, err := manifests.Get(ctx, godigest.Digest(srcDigest), imagemanifest.PreferManifestList)
 						if err != nil {
@@ -394,8 +346,6 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 							return
 						}
 						klog.V(5).Infof("Found manifest %s with type %T", srcDigest, srcManifest)
-
-						// filter or load manifest list as appropriate
 						originalSrcDigest := srcDigest
 						srcManifests, srcManifest, srcDigest, err := imagemanifest.ProcessManifestList(ctx, srcDigest, srcManifest, manifests, src.ref, o.FilterOptions.IncludeAll)
 						if err != nil {
@@ -406,39 +356,32 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 							fmt.Fprintf(o.ErrOut, "info: Filtered all images from %s, skipping\n", src.ref)
 							return
 						}
-
 						var location string
 						if srcDigest == originalSrcDigest {
 							location = fmt.Sprintf("manifest %s", srcDigest)
 						} else {
 							location = fmt.Sprintf("manifest %s in manifest list %s", srcDigest, originalSrcDigest)
 						}
-
 						for _, dst := range pushTargets {
 							toRepo, err := o.Repository(ctx, toContexts[dst.ref.Registry], dst.t, dst.ref)
 							if err != nil {
 								plan.AddError(retrieverError{src: src.ref, dst: dst.ref, err: fmt.Errorf("unable to connect to %s: %v", dst.ref, err)})
 								continue
 							}
-
 							canonicalTo := toRepo.Named()
-
 							registryPlan := plan.RegistryPlan(dst.ref.Registry)
 							repoPlan := registryPlan.RepositoryPlan(canonicalTo.String())
 							blobPlan := repoPlan.Blobs(src.ref, dst.t, location)
-
 							toManifests, err := toRepo.Manifests(ctx)
 							if err != nil {
 								repoPlan.AddError(retrieverError{src: src.ref, dst: dst.ref, err: fmt.Errorf("unable to access destination image %s manifests: %v", src.ref, err)})
 								continue
 							}
-
 							var mustCopyLayers bool
 							switch {
 							case o.Force:
 								mustCopyLayers = true
 							case src.ref.Registry == dst.ref.Registry && canonicalFrom.String() == canonicalTo.String():
-								// if the source and destination repos are the same, we don't need to copy layers unless forced
 							default:
 								if _, err := toManifests.Get(ctx, srcDigest); err != nil {
 									mustCopyLayers = true
@@ -447,20 +390,14 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 									klog.V(4).Infof("Manifest exists in %s, no need to copy layers without --force", dst.ref)
 								}
 							}
-
 							toBlobs := toRepo.Blobs(ctx)
-
 							if mustCopyLayers {
-								// upload all the blobs
 								srcBlobs := srcRepo.Blobs(ctx)
-
-								// upload each manifest
 								for _, srcManifest := range srcManifests {
 									switch srcManifest.(type) {
 									case *schema2.DeserializedManifest:
 									case *schema1.SignedManifest:
 									case *manifestlist.DeserializedManifestList:
-										// we do not need to upload layers in a manifestlist
 										continue
 									default:
 										repoPlan.AddError(retrieverError{src: src.ref, dst: dst.ref, err: fmt.Errorf("the manifest type %T is not supported", srcManifest)})
@@ -474,7 +411,6 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 									}
 								}
 							}
-
 							repoPlan.Manifests(dst.t).Copy(srcDigest, srcManifest, dst.tags, toManifests, toBlobs)
 						}
 					})
@@ -486,19 +422,16 @@ func (o *MirrorImageOptions) plan() (*plan, error) {
 		q.Done()
 	}
 	q.Done()
-
 	plan.trim()
 	plan.calculateStats()
-
 	return plan, nil
 }
-
 func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob distribution.Descriptor, force, skipMount bool, errOut io.Writer) error {
-	// if we aren't forcing upload, check to see if the blob aleady exists
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !force {
 		_, err := c.to.Stat(ctx, blob.Digest)
 		if err == nil {
-			// blob exists, skip
 			klog.V(5).Infof("Server reports blob exists %#v", blob)
 			c.parent.parent.AssociateBlob(blob.Digest, c.parent.name)
 			c.parent.ExpectBlob(blob.Digest)
@@ -508,7 +441,6 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 			klog.V(5).Infof("Server was unable to check whether blob exists %s: %v", blob.Digest, err)
 		}
 	}
-
 	var expectMount string
 	var options []distribution.BlobCreateOption
 	if !skipMount {
@@ -525,8 +457,6 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 			options = append(options, client.WithMountFrom(blobSource), WithDescriptor(blob))
 		}
 	}
-
-	// if the object is small enough, put directly
 	if blob.Size > 0 && blob.Size < 16384 {
 		data, err := c.from.Get(ctx, blob.Digest)
 		if err != nil {
@@ -542,19 +472,14 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 		plan.BytesCopied(blob.Size)
 		return nil
 	}
-
 	if c.destinationType == DestinationS3 {
 		options = append(options, WithDescriptor(blob))
 	}
-
 	w, err := c.to.Create(ctx, options...)
-	// no-op
 	if err == ErrAlreadyExists {
 		klog.V(5).Infof("Blob already exists %#v", blob)
 		return nil
 	}
-
-	// mount successful
 	if ebm, ok := err.(distribution.ErrBlobMounted); ok {
 		klog.V(5).Infof("Blob mounted %#v", blob)
 		if ebm.From.Digest() != blob.Digest {
@@ -571,11 +496,9 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 	if err != nil {
 		return fmt.Errorf("unable to upload blob %s to %s: %v", blob.Digest, c.toRef, err)
 	}
-
 	if len(expectMount) > 0 {
 		fmt.Fprintf(errOut, "warning: Expected to mount %s from %s/%s but mount was ignored\n", blob.Digest, c.parent.parent.name, expectMount)
 	}
-
 	err = func() error {
 		klog.V(5).Infof("Uploading blob %s", blob.Digest)
 		defer w.Cancel(ctx)
@@ -584,14 +507,12 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 			return fmt.Errorf("unable to open source layer %s to copy to %s: %v", blob.Digest, c.toRef, err)
 		}
 		defer r.Close()
-
 		switch c.destinationType {
 		case DestinationS3:
 			fmt.Fprintf(errOut, "uploading: s3://%s %s %s\n", c.toRef, blob.Digest, units.BytesSize(float64(blob.Size)))
 		default:
 			fmt.Fprintf(errOut, "uploading: %s %s %s\n", c.toRef, blob.Digest, units.BytesSize(float64(blob.Size)))
 		}
-
 		n, err := w.ReadFrom(r)
 		if err != nil {
 			return fmt.Errorf("unable to copy layer %s to %s: %v", blob.Digest, c.toRef, err)
@@ -610,15 +531,9 @@ func copyBlob(ctx context.Context, plan *workPlan, c *repositoryBlobCopy, blob d
 	}
 	return nil
 }
-
-func copyManifestToTags(
-	ctx context.Context,
-	ref reference.Named,
-	srcDigest godigest.Digest,
-	tags []string,
-	plan *repositoryManifestPlan,
-	out io.Writer,
-) []error {
+func copyManifestToTags(ctx context.Context, ref reference.Named, srcDigest godigest.Digest, tags []string, plan *repositoryManifestPlan, out io.Writer) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var errs []error
 	srcManifest, ok := plan.parent.parent.parent.GetManifest(srcDigest)
 	if !ok {
@@ -643,14 +558,9 @@ func copyManifestToTags(
 	}
 	return errs
 }
-
-func copyManifest(
-	ctx context.Context,
-	ref reference.Named,
-	srcDigest godigest.Digest,
-	plan *repositoryManifestPlan,
-	out io.Writer,
-) error {
+func copyManifest(ctx context.Context, ref reference.Named, srcDigest godigest.Digest, plan *repositoryManifestPlan, out io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	srcManifest, ok := plan.parent.parent.parent.GetManifest(srcDigest)
 	if !ok {
 		panic(fmt.Sprintf("empty source manifest for %s", srcDigest))
@@ -675,11 +585,13 @@ func copyManifest(
 type optionFunc func(interface{}) error
 
 func (f optionFunc) Apply(v interface{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return f(v)
 }
-
-// WithDescriptor returns a BlobCreateOption which provides the expected blob metadata.
 func WithDescriptor(desc distribution.Descriptor) distribution.BlobCreateOption {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return optionFunc(func(v interface{}) error {
 		opts, ok := v.(*distribution.CreateOptions)
 		if !ok {

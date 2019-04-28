@@ -3,11 +3,12 @@ package netid
 import (
 	"strconv"
 	"testing"
-
 	"k8s.io/apimachinery/pkg/util/sets"
 )
 
 func TestAllocate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	nr, err := NewNetIDRange(201, 300)
 	if err != nil {
 		t.Fatal(err)
@@ -16,8 +17,6 @@ func TestAllocate(t *testing.T) {
 	if f := r.Free(); f != 100 {
 		t.Errorf("unexpected free %d", f)
 	}
-
-	// Test AllocateNext()
 	found := sets.NewString()
 	count := 0
 	for r.Free() > 0 {
@@ -41,8 +40,6 @@ func TestAllocate(t *testing.T) {
 	if _, err := r.AllocateNext(); err != ErrFull {
 		t.Fatal(err)
 	}
-
-	// Test Release()
 	released := uint32(210)
 	if err := r.Release(released); err != nil {
 		t.Fatal(err)
@@ -57,8 +54,6 @@ func TestAllocate(t *testing.T) {
 	if released != netid {
 		t.Errorf("unexpected %d : %d", netid, released)
 	}
-
-	// Test Allocate()
 	if err := r.Release(released); err != nil {
 		t.Fatal(err)
 	}

@@ -2,70 +2,20 @@ package master
 
 import (
 	"testing"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	networkapi "github.com/openshift/api/network/v1"
 	"github.com/openshift/origin/pkg/network/common"
 )
 
 func Test_clusterNetworkChanged(t *testing.T) {
-	origCN := networkapi.ClusterNetwork{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: "not-default",
-		},
-		ClusterNetworks: []networkapi.ClusterNetworkEntry{{CIDR: "10.128.0.0/14", HostSubnetLength: 10}},
-		ServiceNetwork:  "172.30.0.0/16",
-		PluginName:      "redhat/openshift-ovs-subnet",
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	origCN := networkapi.ClusterNetwork{ObjectMeta: metav1.ObjectMeta{Name: "not-default"}, ClusterNetworks: []networkapi.ClusterNetworkEntry{{CIDR: "10.128.0.0/14", HostSubnetLength: 10}}, ServiceNetwork: "172.30.0.0/16", PluginName: "redhat/openshift-ovs-subnet"}
 	tests := []struct {
-		name        string
-		changes     *networkapi.ClusterNetwork
-		expectError bool
-	}{
-		{
-			name:        "no change",
-			changes:     &networkapi.ClusterNetwork{},
-			expectError: false,
-		},
-		{
-			name: "larger Network",
-			changes: &networkapi.ClusterNetwork{
-				ClusterNetworks: []networkapi.ClusterNetworkEntry{{CIDR: "10.128.0.0/12"}},
-			},
-			expectError: false,
-		},
-		{
-			name: "larger ServiceNetwork",
-			changes: &networkapi.ClusterNetwork{
-				ServiceNetwork: "172.30.0.0/15",
-			},
-			expectError: true,
-		},
-		{
-			name: "smaller ServiceNetwork",
-			changes: &networkapi.ClusterNetwork{
-				ServiceNetwork: "172.30.0.0/17",
-			},
-			expectError: true,
-		},
-		{
-			name: "moved ServiceNetwork",
-			changes: &networkapi.ClusterNetwork{
-				ServiceNetwork: "192.168.0.0/16",
-			},
-			expectError: true,
-		},
-		{
-			name: "changed PluginName",
-			changes: &networkapi.ClusterNetwork{
-				PluginName: "redhat/openshift-ovs-multitenant",
-			},
-			expectError: false,
-		},
-	}
-
+		name		string
+		changes		*networkapi.ClusterNetwork
+		expectError	bool
+	}{{name: "no change", changes: &networkapi.ClusterNetwork{}, expectError: false}, {name: "larger Network", changes: &networkapi.ClusterNetwork{ClusterNetworks: []networkapi.ClusterNetworkEntry{{CIDR: "10.128.0.0/12"}}}, expectError: false}, {name: "larger ServiceNetwork", changes: &networkapi.ClusterNetwork{ServiceNetwork: "172.30.0.0/15"}, expectError: true}, {name: "smaller ServiceNetwork", changes: &networkapi.ClusterNetwork{ServiceNetwork: "172.30.0.0/17"}, expectError: true}, {name: "moved ServiceNetwork", changes: &networkapi.ClusterNetwork{ServiceNetwork: "192.168.0.0/16"}, expectError: true}, {name: "changed PluginName", changes: &networkapi.ClusterNetwork{PluginName: "redhat/openshift-ovs-multitenant"}, expectError: false}}
 	for _, test := range tests {
 		newCN := origCN
 		expectChanged := false
@@ -89,7 +39,6 @@ func Test_clusterNetworkChanged(t *testing.T) {
 			newCN.PluginName = test.changes.PluginName
 			expectChanged = true
 		}
-
 		changed, err := clusterNetworkChanged(&newCN, &origCN)
 		if changed != expectChanged {
 			t.Fatalf("unexpected result (%t instead of %t) on %q: %s -> %s", changed, expectChanged, test.name, common.ClusterNetworkToString(&origCN), common.ClusterNetworkToString(&newCN))

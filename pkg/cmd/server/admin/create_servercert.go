@@ -3,31 +3,24 @@ package admin
 import (
 	"errors"
 	"fmt"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/openshift/library-go/pkg/crypto"
 )
 
 const CreateServerCertCommandName = "create-server-cert"
 
 type CreateServerCertOptions struct {
-	SignerCertOptions *SignerCertOptions
-
-	CertFile string
-	KeyFile  string
-
-	ExpireDays int
-
-	Hostnames []string
-	Overwrite bool
-
+	SignerCertOptions	*SignerCertOptions
+	CertFile		string
+	KeyFile			string
+	ExpireDays		int
+	Hostnames		[]string
+	Overwrite		bool
 	genericclioptions.IOStreams
 }
 
@@ -49,46 +42,33 @@ var createServerLong = templates.LongDesc(`
 	`)
 
 func NewCreateServerCertOptions(streams genericclioptions.IOStreams) *CreateServerCertOptions {
-	return &CreateServerCertOptions{
-		SignerCertOptions: NewDefaultSignerCertOptions(),
-		ExpireDays:        crypto.DefaultCertificateLifetimeInDays,
-		Overwrite:         true,
-		IOStreams:         streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateServerCertOptions{SignerCertOptions: NewDefaultSignerCertOptions(), ExpireDays: crypto.DefaultCertificateLifetimeInDays, Overwrite: true, IOStreams: streams}
 }
-
 func NewCommandCreateServerCert(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCreateServerCertOptions(streams)
-	cmd := &cobra.Command{
-		Use:   commandName,
-		Short: "Create a signed server certificate and key",
-		Long:  fmt.Sprintf(createServerLong, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Validate(args))
-			if _, err := o.CreateServerCert(); err != nil {
-				kcmdutil.CheckErr(err)
-			}
-		},
-	}
-
+	cmd := &cobra.Command{Use: commandName, Short: "Create a signed server certificate and key", Long: fmt.Sprintf(createServerLong, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Validate(args))
+		if _, err := o.CreateServerCert(); err != nil {
+			kcmdutil.CheckErr(err)
+		}
+	}}
 	BindSignerCertOptions(o.SignerCertOptions, cmd.Flags(), "")
-
 	cmd.Flags().StringVar(&o.CertFile, "cert", o.CertFile, "The certificate file. Choose a name that indicates what the service is.")
 	cmd.Flags().StringVar(&o.KeyFile, "key", o.KeyFile, "The key file. Choose a name that indicates what the service is.")
-
 	cmd.Flags().StringSliceVar(&o.Hostnames, "hostnames", o.Hostnames, "Every hostname or IP you want server certs to be valid for. Comma delimited list")
 	cmd.Flags().BoolVar(&o.Overwrite, "overwrite", o.Overwrite, "Overwrite existing cert files if found.  If false, any existing file will be left as-is.")
-
 	cmd.Flags().IntVar(&o.ExpireDays, "expire-days", o.ExpireDays, "Validity of the certificate in days (defaults to 2 years). WARNING: extending this above default value is highly discouraged.")
-
-	// autocompletion hints
 	cmd.MarkFlagFilename("cert")
 	cmd.MarkFlagFilename("key")
-
 	return cmd
 }
-
 func (o CreateServerCertOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -101,29 +81,25 @@ func (o CreateServerCertOptions) Validate(args []string) error {
 	if len(o.KeyFile) == 0 {
 		return errors.New("key must be provided")
 	}
-
 	if o.ExpireDays <= 0 {
 		return errors.New("expire-days must be valid number of days")
 	}
-
 	if o.SignerCertOptions == nil {
 		return errors.New("signer options are required")
 	}
 	if err := o.SignerCertOptions.Validate(); err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func (o CreateServerCertOptions) CreateServerCert() (*crypto.TLSCertificateConfig, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Creating a server cert with: %#v", o)
-
 	signerCert, err := o.SignerCertOptions.CA()
 	if err != nil {
 		return nil, err
 	}
-
 	var ca *crypto.TLSCertificateConfig
 	written := true
 	if o.Overwrite {

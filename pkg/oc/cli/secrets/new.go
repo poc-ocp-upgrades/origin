@@ -7,9 +7,7 @@ import (
 	"os"
 	"path"
 	"strings"
-
 	"github.com/spf13/cobra"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kvalidation "k8s.io/apimachinery/pkg/util/validation"
@@ -24,14 +22,13 @@ import (
 const NewSecretRecommendedCommandName = "new"
 
 var (
-	newLong = templates.LongDesc(`
+	newLong	= templates.LongDesc(`
     Create a new secret based on a file or directory
 
     Key files can be specified using their file path, in which case a default name will be given to them, or optionally
     with a name and file path, in which case the given name will be used. Specifying a directory will create a secret
     using with all valid keys in that directory.`)
-
-	newExample = templates.Examples(`
+	newExample	= templates.Examples(`
     # Create a new secret named my-secret with a key named ssh-privatekey
     %[1]s my-secret ~/.ssh/ssh-privatekey
 
@@ -49,73 +46,46 @@ var (
 )
 
 type CreateSecretOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	Printer printers.ResourcePrinter
-
-	// Name of the resulting secret
-	Name string
-
-	// SecretTypeName is the type to use when creating the secret.  It is checked against known types.
-	SecretTypeName string
-
-	// Files/Directories to read from.
-	// Directory sources are listed and any direct file children included (but subfolders are not traversed)
-	Sources []string
-
-	SecretsInterface corev1client.SecretInterface
-
-	// Controls whether to output warnings
-	Quiet bool
-
-	AllowUnknownTypes bool
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Printer			printers.ResourcePrinter
+	Name			string
+	SecretTypeName		string
+	Sources			[]string
+	SecretsInterface	corev1client.SecretInterface
+	Quiet			bool
+	AllowUnknownTypes	bool
 	genericclioptions.IOStreams
 }
 
 func NewCreateSecretOptions(streams genericclioptions.IOStreams) *CreateSecretOptions {
-	return &CreateSecretOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateSecretOptions{PrintFlags: genericclioptions.NewPrintFlags("created").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
-
 func NewCmdCreateSecret(name, fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCreateSecretOptions(streams)
-
-	cmd := &cobra.Command{
-		Use:        fmt.Sprintf("%s NAME [KEY=]SOURCE ...", name),
-		Short:      "Create a new secret based on a key file or on files within a directory",
-		Long:       newLong,
-		Example:    fmt.Sprintf(newExample, fullName),
-		Deprecated: "use oc create secret",
-		Hidden:     true,
-		Run: func(c *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(args, f))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
-
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s NAME [KEY=]SOURCE ...", name), Short: "Create a new secret based on a key file or on files within a directory", Long: newLong, Example: fmt.Sprintf(newExample, fullName), Deprecated: "use oc create secret", Hidden: true, Run: func(c *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(args, f))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	cmd.Flags().BoolVarP(&o.Quiet, "quiet", "q", o.Quiet, "If true, suppress warnings")
 	cmd.Flags().BoolVar(&o.AllowUnknownTypes, "confirm", o.AllowUnknownTypes, "If true, allow unknown secret types.")
 	cmd.Flags().StringVar(&o.SecretTypeName, "type", "", "The type of secret")
-
 	o.PrintFlags.AddFlags(cmd)
 	return cmd
 }
-
 func (o *CreateSecretOptions) Complete(args []string, f kcmdutil.Factory) error {
-	// Fill name from args[0]
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		o.Name = args[0]
 	}
-
-	// Add sources from args[1:...] in addition to -f
 	if len(args) > 1 {
 		o.Sources = append(o.Sources, args[1:]...)
 	}
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -129,27 +99,24 @@ func (o *CreateSecretOptions) Complete(args []string, f kcmdutil.Factory) error 
 		return err
 	}
 	o.SecretsInterface = kubeClient.Secrets(namespace)
-
 	o.Printer, err = o.PrintFlags.ToPrinter()
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func (o *CreateSecretOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Name) == 0 {
 		return errors.New("secret name is required")
 	}
 	if len(o.Sources) == 0 {
 		return errors.New("at least one source file or directory must be specified")
 	}
-
 	if !o.AllowUnknownTypes {
 		switch o.SecretTypeName {
 		case string(corev1.SecretTypeOpaque), "":
-			// this is ok
 		default:
 			found := false
 			for _, secretType := range KnownSecretTypes {
@@ -163,38 +130,33 @@ func (o *CreateSecretOptions) Validate() error {
 			}
 		}
 	}
-
 	return nil
 }
-
 func (o *CreateSecretOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secret, err := o.BundleSecret()
 	if err != nil {
 		return err
 	}
-
-	// TODO: sweep codebase removing implied --dry-run behavior when -o is specified
 	if o.PrintFlags.OutputFormat != nil && len(*o.PrintFlags.OutputFormat) == 0 {
 		persistedSecret, err := o.SecretsInterface.Create(secret)
 		if err != nil {
 			return err
 		}
-
 		return o.Printer.PrintObj(persistedSecret, o.Out)
 	}
-
 	return o.Printer.PrintObj(secret, o.Out)
 }
-
 func (o *CreateSecretOptions) BundleSecret() (*corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	secretData := make(map[string][]byte)
-
 	for _, source := range o.Sources {
 		keyName, filePath, err := parseSource(source)
 		if err != nil {
 			return nil, err
 		}
-
 		info, err := os.Stat(filePath)
 		if err != nil {
 			switch err := err.(type) {
@@ -204,7 +166,6 @@ func (o *CreateSecretOptions) BundleSecret() (*corev1.Secret, error) {
 				return nil, fmt.Errorf("error reading %s: %v", filePath, err)
 			}
 		}
-
 		if info.IsDir() {
 			if strings.Contains(source, "=") {
 				return nil, errors.New("Cannot give a key name for a directory path.")
@@ -213,7 +174,6 @@ func (o *CreateSecretOptions) BundleSecret() (*corev1.Secret, error) {
 			if err != nil {
 				return nil, fmt.Errorf("error listing files in %s: %v", filePath, err)
 			}
-
 			for _, item := range fileList {
 				itemPath := path.Join(filePath, item.Name())
 				if !item.Mode().IsRegular() {
@@ -235,33 +195,24 @@ func (o *CreateSecretOptions) BundleSecret() (*corev1.Secret, error) {
 			}
 		}
 	}
-
 	if len(secretData) == 0 {
 		return nil, errors.New("No files selected")
 	}
-
-	// if the secret type isn't specified, attempt to auto-detect likely hit
 	secretType := corev1.SecretType(o.SecretTypeName)
 	if len(o.SecretTypeName) == 0 {
 		secretType = corev1.SecretTypeOpaque
-
 		for _, knownSecretType := range KnownSecretTypes {
 			if knownSecretType.Matches(secretData) {
 				secretType = knownSecretType.Type
 			}
 		}
 	}
-
-	secret := &corev1.Secret{
-		ObjectMeta: metav1.ObjectMeta{Name: o.Name},
-		Type:       secretType,
-		Data:       secretData,
-	}
-
+	secret := &corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: o.Name}, Type: secretType, Data: secretData}
 	return secret, nil
 }
-
 func addKeyToSecret(keyName, filePath string, secretData map[string][]byte) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if errors := kvalidation.IsConfigMapKey(keyName); len(errors) > 0 {
 		return fmt.Errorf("%v is not a valid key name for a secret: %s", keyName, strings.Join(errors, ", "))
 	}
@@ -275,12 +226,9 @@ func addKeyToSecret(keyName, filePath string, secretData map[string][]byte) erro
 	secretData[keyName] = data
 	return nil
 }
-
-// parseSource parses the source given. Acceptable formats include:
-// source-name=source-path, where source-name will become the key name and source-path is the path to the key file
-// source-path, where source-path is a path to a file or directory, and key names will default to file names
-// Key names cannot include '='.
 func parseSource(source string) (keyName, filePath string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	numSeparators := strings.Count(source, "=")
 	switch {
 	case numSeparators == 0:

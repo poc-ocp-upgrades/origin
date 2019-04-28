@@ -1,5 +1,3 @@
-// +build !windows
-
 package archive
 
 import (
@@ -7,48 +5,37 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-
 	"github.com/docker/docker/pkg/system"
 	"golang.org/x/sys/unix"
 )
 
-// runningInUserNS detects whether we are currently running in a user namespace.
-// Copied from github.com/opencontainers/runc/libcontainer/system
 func runningInUserNS() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	file, err := os.Open("/proc/self/uid_map")
 	if err != nil {
-		// This kernel-provided file only exists if user namespaces are supported
 		return false
 	}
 	defer file.Close()
-
 	buf := bufio.NewReader(file)
 	l, _, err := buf.ReadLine()
 	if err != nil {
 		return false
 	}
-
 	line := string(l)
 	var a, b, c int64
 	fmt.Sscanf(line, "%d %d %d", &a, &b, &c)
-	/*
-	 * We assume we are in the initial user namespace if we have a full
-	 * range - 4294967295 uids starting at uid 0.
-	 */
 	if a == 0 && b == 0 && c == 4294967295 {
 		return false
 	}
 	return true
 }
-
-// handleTarTypeBlockCharFifo is an OS-specific helper function used by
-// createTarFile to handle the following types of header: Block; Char; Fifo
 func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if runningInUserNS() {
-		// cannot create a device if running in user namespace
 		return nil
 	}
-
 	mode := uint32(hdr.Mode & 07777)
 	switch hdr.Typeflag {
 	case tar.TypeBlock:
@@ -58,11 +45,11 @@ func handleTarTypeBlockCharFifo(hdr *tar.Header, path string) error {
 	case tar.TypeFifo:
 		mode |= unix.S_IFIFO
 	}
-
 	return system.Mknod(path, mode, int(system.Mkdev(hdr.Devmajor, hdr.Devminor)))
 }
-
 func handleLChmod(hdr *tar.Header, path string, hdrInfo os.FileInfo) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if hdr.Typeflag == tar.TypeLink {
 		if fi, err := os.Lstat(hdr.Linkname); err == nil && (fi.Mode()&os.ModeSymlink == 0) {
 			if err := os.Chmod(path, hdrInfo.Mode()); err != nil {

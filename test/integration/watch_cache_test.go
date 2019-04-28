@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"strings"
 	"testing"
-
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
@@ -13,24 +12,22 @@ import (
 	genericapiserveroptions "k8s.io/apiserver/pkg/server/options"
 	"k8s.io/apiserver/pkg/storage/storagebackend"
 	corev1client "k8s.io/client-go/kubernetes/typed/core/v1"
-
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	testutil "github.com/openshift/origin/test/util"
 	testserver "github.com/openshift/origin/test/util/server"
 )
 
 func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expectedCacheSize, counterExampleCacheSize int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	clusterAdminKubeConfig, err := testserver.StartConfiguredMasterAPI(master)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
 	client, err := testutil.GetClusterAdminKubeClient(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// create client with high burst value, otherwise we can only do 5 changes per second
 	config, err := testutil.GetClusterAdminClientConfig(clusterAdminKubeConfig)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -40,8 +37,6 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// modify labels of default namespace expectedCacheSize + 1 times
 	defaultNS, err := client.CoreV1().Namespaces().Get("default", metav1.GetOptions{})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -52,8 +47,7 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 	}
 	for i := 0; i < expectedCacheSize+1; i++ {
 		for r := 0; r < 10; r++ {
-			defaultNS, err = patchClient.Namespaces().Patch("default", types.StrategicMergePatchType,
-				[]byte(fmt.Sprintf(`{"metadata":{"labels":{"test":"%d"}}}`, i)))
+			defaultNS, err = patchClient.Namespaces().Patch("default", types.StrategicMergePatchType, []byte(fmt.Sprintf(`{"metadata":{"labels":{"test":"%d"}}}`, i)))
 			if err != nil && !apierrors.IsConflict(err) {
 				t.Fatalf("unexpected patch error: %v", err)
 			}
@@ -65,17 +59,10 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 			t.Fatalf("too many retries: %v", err)
 		}
 	}
-
-	// do a versioned GET because it force the cache to sync
 	_, err = client.CoreV1().Namespaces().Get("default", metav1.GetOptions{ResourceVersion: defaultNS.ResourceVersion})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-
-	// try watch with very old resource version, not really expectedCacheSize versions back (there
-	// might be other namespace changes which push the default namespace versions out of the cache.
-	// Also note that the resource versions are global in etcd. So other resources will also lead
-	// to resource version jumps.
 	lastVersion, err := strconv.Atoi(defaultNS.ResourceVersion)
 	if err != nil {
 		t.Fatalf("unexpected error converting the resource version: %v", err)
@@ -89,15 +76,11 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 	if ev.Type == watch.Error {
 		t.Fatalf("unexpected event of error type: %v", ev)
 	}
-
-	// try watch with an version that is too old
 	w, err = client.CoreV1().Namespaces().Watch(metav1.ListOptions{ResourceVersion: strconv.Itoa(startVersion - 1)})
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer w.Stop()
-
-	// the first event will be of error type
 	goneErrMsg := "too old resource version"
 	ev = <-w.ResultChan()
 	if ev.Type != watch.Error {
@@ -111,15 +94,14 @@ func testWatchCacheWithConfig(t *testing.T, master *configapi.MasterConfig, expe
 		t.Fatalf("expected an %q error, got: %v", goneErrMsg, err)
 	}
 }
-
 func TestDefaultWatchCacheSize(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
 	defer testserver.CleanupMasterEtcd(t, master)
-
-	// test that the origin default really applies and that we don't fall back to kube's default
 	etcdOptions := genericapiserveroptions.NewEtcdOptions(&storagebackend.Config{})
 	kubeDefaultCacheSize := etcdOptions.DefaultWatchCacheSize
 	if kubeDefaultCacheSize != 100 {
@@ -131,8 +113,9 @@ func TestDefaultWatchCacheSize(t *testing.T) {
 	master.KubernetesMasterConfig.APIServerArguments["watch-cache-sizes"] = []string{"namespaces#100"}
 	testWatchCacheWithConfig(t, master, 100, 0)
 }
-
 func TestWatchCacheSizeWithFlag(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	master, err := testserver.DefaultMasterOptions()
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -142,6 +125,5 @@ func TestWatchCacheSizeWithFlag(t *testing.T) {
 		master.KubernetesMasterConfig.APIServerArguments = configapi.ExtendedArguments{}
 	}
 	master.KubernetesMasterConfig.APIServerArguments["watch-cache-sizes"] = []string{"namespaces#2000"}
-
 	testWatchCacheWithConfig(t, master, 2000, 0)
 }

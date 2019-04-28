@@ -9,196 +9,50 @@ import (
 	"net/url"
 	"strings"
 	"testing"
-
 	"k8s.io/apiserver/pkg/authentication/authenticator"
 	"k8s.io/apiserver/pkg/authentication/user"
-
 	"github.com/openshift/origin/pkg/oauthserver/server/csrf"
 	"github.com/openshift/origin/pkg/oauthserver/userregistry/identitymapper"
 )
 
 type testAuth struct {
-	Username string
-	Password string
-	User     user.Info
-	Success  bool
-	Err      error
-	Then     string
-	Called   bool
+	Username	string
+	Password	string
+	User		user.Info
+	Success		bool
+	Err		error
+	Then		string
+	Called		bool
 }
 
 func (t *testAuth) AuthenticatePassword(ctx context.Context, user, password string) (*authenticator.Response, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Username = user
 	t.Password = password
 	return &authenticator.Response{User: t.User}, t.Success, t.Err
 }
-
 func (t *testAuth) AuthenticationSucceeded(user user.Info, then string, w http.ResponseWriter, req *http.Request) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t.Called = true
 	t.User = user
 	t.Then = then
 	return false, nil
 }
-
 func TestLogin(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		CSRF       csrf.CSRF
-		Auth       *testAuth
-		Path       string
-		PostValues url.Values
-
-		ExpectStatusCode int
-		ExpectRedirect   string
-		ExpectContains   []string
-		ExpectThen       string
-	}{
-		"display form": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{},
-			Path: "/login?then=%2F",
-
-			ExpectStatusCode: 200,
-			ExpectContains: []string{
-				`action="/login"`,
-				`name="csrf" value="test"`,
-				`name="then" value="/"`,
-			},
-		},
-		"display form with errors": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{},
-			Path: "?then=%2Ffoo&reason=failed&username=user",
-
-			ExpectStatusCode: 200,
-			ExpectContains: []string{
-				`action="/"`,
-				`name="then" value="/foo"`,
-				`An authentication error occurred.`,
-				`danger`,
-			},
-		},
-		"redirect when GET has no then param": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{},
-			Path: "/login",
-
-			ExpectStatusCode: 302,
-			ExpectRedirect:   "/",
-		},
-		"redirect when POST is missing then param": {
-			CSRF:           &csrf.FakeCSRF{Token: "test"},
-			Auth:           &testAuth{},
-			Path:           "/login",
-			PostValues:     url.Values{"csrf": []string{"test"}},
-			ExpectRedirect: "/",
-		},
-		"redirect when POST fails CSRF": {
-			CSRF:           &csrf.FakeCSRF{Token: "test"},
-			Auth:           &testAuth{},
-			Path:           "/login",
-			PostValues:     url.Values{"csrf": []string{"wrong"}},
-			ExpectRedirect: "/login?reason=token_expired",
-		},
-		"redirect with 'then' when POST fails CSRF": {
-			CSRF:           &csrf.FakeCSRF{Token: "test"},
-			Auth:           &testAuth{},
-			Path:           "/login?then=%2Ftest",
-			PostValues:     url.Values{"csrf": []string{"wrong"}},
-			ExpectRedirect: "/login?reason=token_expired&then=%2Ftest",
-		},
-		"redirect when no username": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf": []string{"test"},
-				"then": []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=user_required&then=%2Fanotherurl",
-		},
-		"redirect when no password": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=access_denied&then=%2Fanotherurl",
-		},
-		"redirect when not authenticated": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Success: false},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=access_denied&then=%2Fanotherurl",
-		},
-		"redirect on auth error": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Err: errors.New("failed")},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"password": []string{"pass"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=authentication_error&then=%2Fanotherurl",
-		},
-		"redirect on lookup error": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Err: identitymapper.NewLookupError(nil, nil)},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"password": []string{"pass"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=mapping_lookup_error&then=%2Fanotherurl",
-		},
-		"redirect on claim error": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Err: identitymapper.NewClaimError(nil, nil)},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"password": []string{"pass"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=mapping_claim_error&then=%2Fanotherurl",
-		},
-		"redirect preserving then param": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Err: errors.New("failed")},
-			Path: "/login",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"password": []string{"pass"},
-				"then":     []string{"/anotherurl"},
-			},
-			ExpectRedirect: "/login?reason=authentication_error&then=%2Fanotherurl",
-		},
-		"login successful": {
-			CSRF: &csrf.FakeCSRF{Token: "test"},
-			Auth: &testAuth{Success: true, User: &user.DefaultInfo{Name: "user"}},
-			Path: "/login?then=%2Fdone",
-			PostValues: url.Values{
-				"csrf":     []string{"test"},
-				"username": []string{"user"},
-				"password": []string{"pass"},
-			},
-			ExpectThen: "/done",
-		},
-	}
-
+		CSRF			csrf.CSRF
+		Auth			*testAuth
+		Path			string
+		PostValues		url.Values
+		ExpectStatusCode	int
+		ExpectRedirect		string
+		ExpectContains		[]string
+		ExpectThen		string
+	}{"display form": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login?then=%2F", ExpectStatusCode: 200, ExpectContains: []string{`action="/login"`, `name="csrf" value="test"`, `name="then" value="/"`}}, "display form with errors": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "?then=%2Ffoo&reason=failed&username=user", ExpectStatusCode: 200, ExpectContains: []string{`action="/"`, `name="then" value="/foo"`, `An authentication error occurred.`, `danger`}}, "redirect when GET has no then param": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login", ExpectStatusCode: 302, ExpectRedirect: "/"}, "redirect when POST is missing then param": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}}, ExpectRedirect: "/"}, "redirect when POST fails CSRF": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login", PostValues: url.Values{"csrf": []string{"wrong"}}, ExpectRedirect: "/login?reason=token_expired"}, "redirect with 'then' when POST fails CSRF": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login?then=%2Ftest", PostValues: url.Values{"csrf": []string{"wrong"}}, ExpectRedirect: "/login?reason=token_expired&then=%2Ftest"}, "redirect when no username": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=user_required&then=%2Fanotherurl"}, "redirect when no password": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=access_denied&then=%2Fanotherurl"}, "redirect when not authenticated": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Success: false}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=access_denied&then=%2Fanotherurl"}, "redirect on auth error": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Err: errors.New("failed")}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "password": []string{"pass"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=authentication_error&then=%2Fanotherurl"}, "redirect on lookup error": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Err: identitymapper.NewLookupError(nil, nil)}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "password": []string{"pass"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=mapping_lookup_error&then=%2Fanotherurl"}, "redirect on claim error": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Err: identitymapper.NewClaimError(nil, nil)}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "password": []string{"pass"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=mapping_claim_error&then=%2Fanotherurl"}, "redirect preserving then param": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Err: errors.New("failed")}, Path: "/login", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "password": []string{"pass"}, "then": []string{"/anotherurl"}}, ExpectRedirect: "/login?reason=authentication_error&then=%2Fanotherurl"}, "login successful": {CSRF: &csrf.FakeCSRF{Token: "test"}, Auth: &testAuth{Success: true, User: &user.DefaultInfo{Name: "user"}}, Path: "/login?then=%2Fdone", PostValues: url.Values{"csrf": []string{"test"}, "username": []string{"user"}, "password": []string{"pass"}}, ExpectThen: "/done"}}
 	for k, testCase := range testCases {
 		loginFormRenderer, err := NewLoginFormRenderer("")
 		if err != nil {
@@ -206,7 +60,6 @@ func TestLogin(t *testing.T) {
 			continue
 		}
 		server := httptest.NewServer(NewLogin("myprovider", testCase.CSRF, testCase.Auth, loginFormRenderer))
-
 		var resp *http.Response
 		if testCase.PostValues != nil {
 			r, err := postForm(server.URL+testCase.Path, testCase.PostValues)
@@ -224,12 +77,10 @@ func TestLogin(t *testing.T) {
 			resp = r
 		}
 		defer resp.Body.Close()
-
 		if testCase.ExpectStatusCode != 0 && testCase.ExpectStatusCode != resp.StatusCode {
 			t.Errorf("%s: unexpected response: %#v", k, resp)
 			continue
 		}
-
 		if testCase.ExpectRedirect != "" {
 			uri, err := resp.Location()
 			if err != nil {
@@ -240,11 +91,9 @@ func TestLogin(t *testing.T) {
 				t.Errorf("%s: unexpected redirect: %s", k, uri.String())
 			}
 		}
-
 		if testCase.ExpectThen != "" && (!testCase.Auth.Called || testCase.Auth.Then != testCase.ExpectThen) {
 			t.Errorf("%s: did not find expected 'then' value: %#v", k, testCase.Auth)
 		}
-
 		if len(testCase.ExpectContains) > 0 {
 			data, _ := ioutil.ReadAll(resp.Body)
 			body := string(data)
@@ -257,30 +106,13 @@ func TestLogin(t *testing.T) {
 		}
 	}
 }
-
 func TestValidateLoginTemplate(t *testing.T) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	testCases := map[string]struct {
-		Template      string
-		TemplateValid bool
-	}{
-		"default login template": {
-			Template:      defaultLoginTemplateString,
-			TemplateValid: true,
-		},
-		"login template example": {
-			Template:      LoginTemplateExample,
-			TemplateValid: true,
-		},
-		"original login template example": {
-			Template:      originalLoginTemplateExample,
-			TemplateValid: true,
-		},
-		"template with missing parameter": {
-			Template:      invalidLoginTemplate,
-			TemplateValid: false,
-		},
-	}
-
+		Template	string
+		TemplateValid	bool
+	}{"default login template": {Template: defaultLoginTemplateString, TemplateValid: true}, "login template example": {Template: LoginTemplateExample, TemplateValid: true}, "original login template example": {Template: originalLoginTemplateExample, TemplateValid: true}, "template with missing parameter": {Template: invalidLoginTemplate, TemplateValid: false}}
 	for k, testCase := range testCases {
 		allErrs := ValidateLoginTemplate([]byte(testCase.Template))
 		if testCase.TemplateValid {
@@ -293,8 +125,6 @@ func TestValidateLoginTemplate(t *testing.T) {
 	}
 }
 
-// Make sure the original version of the default template always validates
-// this is to avoid breaking existing customized templates.
 const originalLoginTemplateExample = `<!DOCTYPE html>
 <!--
 
@@ -359,8 +189,6 @@ oauthConfig:
   </body>
 </html>
 `
-
-// This template is missing the CSRF hidden input and should fail validation.
 const invalidLoginTemplate = `<!DOCTYPE html>
 <!--
 

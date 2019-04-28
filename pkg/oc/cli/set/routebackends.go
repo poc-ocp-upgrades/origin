@@ -5,10 +5,8 @@ import (
 	"strconv"
 	"strings"
 	"text/tabwriter"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -22,12 +20,11 @@ import (
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	routev1 "github.com/openshift/api/route/v1"
 )
 
 var (
-	backendsLong = templates.LongDesc(`
+	backendsLong	= templates.LongDesc(`
 		Set and adjust route backends
 
 		Routes may have one or more optional backend services with weights controlling how much
@@ -50,8 +47,7 @@ var (
 		If there are other backends their weights will be kept proportional to the changed.
 
 		Not all routers may support multiple or weighted backends.`)
-
-	backendsExample = templates.Examples(`
+	backendsExample	= templates.Examples(`
 		# Print the backends on the route 'web'
 	  %[1]s route-backends web
 
@@ -72,48 +68,38 @@ var (
 )
 
 type BackendsOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	Selector   string
-	All        bool
-	Local      bool
-	PrintTable bool
-	Transform  BackendTransform
-
-	Mapper            meta.RESTMapper
-	Client            dynamic.Interface
-	Printer           printers.ResourcePrinter
-	Builder           func() *resource.Builder
-	Namespace         string
-	ExplicitNamespace bool
-	DryRun            bool
-	Resources         []string
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Selector		string
+	All			bool
+	Local			bool
+	PrintTable		bool
+	Transform		BackendTransform
+	Mapper			meta.RESTMapper
+	Client			dynamic.Interface
+	Printer			printers.ResourcePrinter
+	Builder			func() *resource.Builder
+	Namespace		string
+	ExplicitNamespace	bool
+	DryRun			bool
+	Resources		[]string
 	resource.FilenameOptions
 	genericclioptions.IOStreams
 }
 
 func NewBackendsOptions(streams genericclioptions.IOStreams) *BackendsOptions {
-	return &BackendsOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("backends updated").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &BackendsOptions{PrintFlags: genericclioptions.NewPrintFlags("backends updated").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
-
-// NewCmdRouteBackends implements the set route-backends command
 func NewCmdRouteBackends(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewBackendsOptions(streams)
-	cmd := &cobra.Command{
-		Use:     "route-backends ROUTENAME [--zero|--equal] [--adjust] SERVICE=WEIGHT[%] [...]",
-		Short:   "Update the backends for a route",
-		Long:    fmt.Sprintf(backendsLong, fullName),
-		Example: fmt.Sprintf(backendsExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+	cmd := &cobra.Command{Use: "route-backends ROUTENAME [--zero|--equal] [--adjust] SERVICE=WEIGHT[%] [...]", Short: "Update the backends for a route", Long: fmt.Sprintf(backendsLong, fullName), Example: fmt.Sprintf(backendsExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	usage := "to use to edit the resource"
 	kcmdutil.AddFilenameOptionFlags(cmd, &o.FilenameOptions, usage)
 	cmd.Flags().StringVarP(&o.Selector, "selector", "l", o.Selector, "Selector (label query) to filter on")
@@ -122,21 +108,18 @@ func NewCmdRouteBackends(fullName string, f kcmdutil.Factory, streams genericcli
 	cmd.Flags().BoolVar(&o.Transform.Adjust, "adjust", o.Transform.Adjust, "Adjust a single backend using an absolute or relative weight. If the primary backend is selected and there is more than one alternate an error will be returned.")
 	cmd.Flags().BoolVar(&o.Transform.Zero, "zero", o.Transform.Zero, "If true, set the weight of all backends to zero.")
 	cmd.Flags().BoolVar(&o.Transform.Equal, "equal", o.Transform.Equal, "If true, set the weight of all backends to 100.")
-
 	o.PrintFlags.AddFlags(cmd)
 	kcmdutil.AddDryRunFlag(cmd)
-
 	return cmd
 }
-
-// Complete takes command line information to fill out BackendOptions or returns an error.
 func (o *BackendsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	o.Namespace, o.ExplicitNamespace, err = f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
 	}
-
 	for _, arg := range args {
 		if !strings.Contains(arg, "=") {
 			o.Resources = append(o.Resources, arg)
@@ -148,16 +131,13 @@ func (o *BackendsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 		}
 		o.Transform.Inputs = append(o.Transform.Inputs, *input)
 	}
-
 	o.PrintTable = o.Transform.Empty()
-
 	o.DryRun = kcmdutil.GetDryRunFlag(cmd)
 	o.Mapper, err = f.ToRESTMapper()
 	if err != nil {
 		return err
 	}
 	o.Builder = f.NewBuilder
-
 	if o.DryRun {
 		o.PrintFlags.Complete("%s (dry run)")
 	}
@@ -165,7 +145,6 @@ func (o *BackendsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	if err != nil {
 		return err
 	}
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -174,45 +153,31 @@ func (o *BackendsOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
-// Validate verifies the provided options are valid or returns an error.
 func (o *BackendsOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.Transform.Validate()
 }
-
-// Run executes the BackendOptions or returns an error.
 func (o *BackendsOptions) Run() error {
-	b := o.Builder().
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		LocalParam(o.Local).
-		ContinueOnError().
-		NamespaceParam(o.Namespace).DefaultNamespace().
-		FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).
-		Flatten()
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	b := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).LocalParam(o.Local).ContinueOnError().NamespaceParam(o.Namespace).DefaultNamespace().FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).Flatten()
 	if !o.Local {
-		b = b.
-			LabelSelectorParam(o.Selector).
-			SelectAllParam(o.All).
-			ResourceNames("route", o.Resources...).
-			Latest()
+		b = b.LabelSelectorParam(o.Selector).SelectAllParam(o.All).ResourceNames("route", o.Resources...).Latest()
 		if len(o.Resources) == 0 {
 			b = b.ResourceTypes("routes")
 		}
 	}
-
 	singleItemImplied := false
 	infos, err := b.Do().IntoSingleItemImplied(&singleItemImplied).Infos()
 	if err != nil {
 		return err
 	}
-
 	if o.PrintTable {
 		return o.printBackends(infos)
 	}
-
 	patches := CalculatePatchesExternal(infos, func(info *resource.Info) (bool, error) {
 		return UpdateBackendsForObject(info.Object, o.Transform.Apply)
 	})
@@ -223,7 +188,6 @@ func (o *BackendsOptions) Run() error {
 		}
 		return fmt.Errorf("%s is not a deployment config or build config", name)
 	}
-
 	allErrs := []error{}
 	for _, patch := range patches {
 		info := patch.Info
@@ -232,34 +196,30 @@ func (o *BackendsOptions) Run() error {
 			allErrs = append(allErrs, fmt.Errorf("error: %s %v\n", name, patch.Err))
 			continue
 		}
-
 		if string(patch.Patch) == "{}" || len(patch.Patch) == 0 {
 			klog.V(1).Infof("info: %s was not changed\n", name)
 			continue
 		}
-
 		if o.Local || o.DryRun {
 			if err := o.Printer.PrintObj(info.Object, o.Out); err != nil {
 				allErrs = append(allErrs, err)
 			}
 			continue
 		}
-
 		actual, err := o.Client.Resource(info.Mapping.Resource).Namespace(info.Namespace).Patch(info.Name, types.StrategicMergePatchType, patch.Patch, metav1.UpdateOptions{})
 		if err != nil {
 			allErrs = append(allErrs, fmt.Errorf("failed to patch route backends: %v\n", err))
 			continue
 		}
-
 		if err := o.Printer.PrintObj(actual, o.Out); err != nil {
 			allErrs = append(allErrs, err)
 		}
 	}
 	return utilerrors.NewAggregate(allErrs)
 }
-
-// printBackends displays a tabular output of the backends for each object.
 func (o *BackendsOptions) printBackends(infos []*resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(o.Out, 0, 2, 2, ' ', 0)
 	defer w.Flush()
 	fmt.Fprintf(w, "NAME\tKIND\tTO\tWEIGHT\n")
@@ -290,25 +250,21 @@ func (o *BackendsOptions) printBackends(infos []*resource.Info) error {
 	return nil
 }
 
-// BackendTransform describes the desired transformation of backends.
 type BackendTransform struct {
-	// Adjust expects a single Input to transform, relative to other backends.
-	Adjust bool
-	// Zero sets all backend weights to zero.
-	Zero bool
-	// Equal means backends will be set to equal weights.
-	Equal bool
-	// Inputs is the desired backends.
-	Inputs []BackendInput
+	Adjust	bool
+	Zero	bool
+	Equal	bool
+	Inputs	[]BackendInput
 }
 
-// Empty returns true if no transformations have been specified.
 func (t BackendTransform) Empty() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return !(t.Zero || t.Equal || len(t.Inputs) > 0)
 }
-
-// Validate returns an error if the transformations are not internally consistent.
 func (t BackendTransform) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case t.Adjust:
 		if t.Zero {
@@ -320,7 +276,6 @@ func (t BackendTransform) Validate() error {
 		if len(t.Inputs) != 1 {
 			return fmt.Errorf("only one backend may be specified when adjusting")
 		}
-
 	case t.Zero, t.Equal:
 		if t.Equal && t.Zero {
 			return fmt.Errorf("--zero and --equal may not be specified together")
@@ -328,7 +283,6 @@ func (t BackendTransform) Validate() error {
 		if len(t.Inputs) > 0 {
 			return fmt.Errorf("arguments may not be provided when --zero or --equal is specified")
 		}
-
 	default:
 		percent := false
 		names := sets.NewString()
@@ -350,29 +304,26 @@ func (t BackendTransform) Validate() error {
 	}
 	return nil
 }
-
-// Apply transforms the provided backends or returns an error.
 func (t BackendTransform) Apply(b *Backends) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case t.Zero:
 		zero := int32(0)
 		for i := range b.Backends {
 			b.Backends[i].Weight = &zero
 		}
-
 	case t.Equal:
 		equal := int32(100)
 		for i := range b.Backends {
 			b.Backends[i].Weight = &equal
 		}
-
 	case t.Adjust:
 		input := t.Inputs[0]
 		switch {
 		case len(b.Backends) == 0:
 			return fmt.Errorf("no backends can be adjusted")
 		case len(b.Backends) == 1:
-			// treat adjusting primary specially
 			backend := &b.Backends[0]
 			if backend.Name != input.Name {
 				return fmt.Errorf("backend %q is not in the list of backends (%s)", input.Name, strings.Join(b.Names(), ", "))
@@ -380,18 +331,14 @@ func (t BackendTransform) Apply(b *Backends) error {
 			if input.Relative {
 				return fmt.Errorf("cannot adjust a single backend by relative weight")
 			}
-			// ignore distinction between percentage and weight for single backend
 			backend.Weight = &input.Value
 		case b.Backends[0].Name == input.Name:
-			// changing the primary backend, multiple available
 			if len(b.Backends) == 1 {
 				input.Apply(&b.Backends[0], nil, b.Backends)
 				return nil
 			}
 			input.Apply(&b.Backends[0], &b.Backends[1], b.Backends)
-
 		default:
-			// changing an alternate backend, multiple available
 			for i := range b.Backends {
 				if b.Backends[i].Name != input.Name {
 					continue
@@ -401,35 +348,26 @@ func (t BackendTransform) Apply(b *Backends) error {
 			}
 			return fmt.Errorf("backend %q is not in the list of backends (%s)", input.Name, strings.Join(b.Names(), ", "))
 		}
-
 	default:
 		b.Backends = nil
 		for _, input := range t.Inputs {
 			weight := input.Value
-			b.Backends = append(b.Backends, routev1.RouteTargetReference{
-				Kind:   "Service",
-				Name:   input.Name,
-				Weight: &weight,
-			})
+			b.Backends = append(b.Backends, routev1.RouteTargetReference{Kind: "Service", Name: input.Name, Weight: &weight})
 		}
 	}
 	return nil
 }
 
-// BackendInput describes a change to a named service.
 type BackendInput struct {
-	// Name is the name of a service.
-	Name string
-	// Value is the amount to change.
-	Value int32
-	// Percentage means value should be interpreted as a percentage between -100 and 100, inclusive.
-	Percentage bool
-	// Relative means value is applied relative to the current values.
-	Relative bool
+	Name		string
+	Value		int32
+	Percentage	bool
+	Relative	bool
 }
 
-// Apply alters the weights of two services.
 func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends []routev1.RouteTargetReference) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	weight := int32(100)
 	if ref.Weight != nil {
 		weight = *ref.Weight
@@ -441,14 +379,11 @@ func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends
 			ref.Weight = &weight
 			return
 		}
-
 		otherWeight := int32(0)
 		if to.Weight != nil {
 			otherWeight = *to.Weight
 		}
 		previousWeight := weight + otherWeight
-
-		// rebalance all other backends to be relative in weight to the current
 		for i, other := range backends {
 			if previousWeight == 0 || other.Weight == nil || other.Name == ref.Name || other.Name == to.Name {
 				continue
@@ -456,8 +391,6 @@ func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends
 			adjusted := *other.Weight * 100 / previousWeight
 			backends[i].Weight = &adjusted
 		}
-
-		// adjust the weight between ref and to
 		target := float32(input.Value) / 100
 		if input.Relative {
 			if previousWeight != 0 {
@@ -475,8 +408,6 @@ func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends
 		otherWeight = int32((1 - target) * 100)
 		ref.Weight = &weight
 		to.Weight = &otherWeight
-
-		// rescale the max to 200 in case we are dealing with very small percentages
 		max := int32(0)
 		for _, other := range backends {
 			if other.Weight == nil {
@@ -498,34 +429,29 @@ func (input *BackendInput) Apply(ref, to *routev1.RouteTargetReference, backends
 				backends[i].Weight = &adjusted
 			}
 		}
-
 	case input.Relative:
 		weight += input.Value
 		if weight < 0 {
 			weight = 0
 		}
 		ref.Weight = &weight
-
 	default:
 		ref.Weight = &input.Value
 	}
 }
-
-// ParseBackendInput turns the provided input into a BackendInput or returns an error.
 func ParseBackendInput(s string) (*BackendInput, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.SplitN(s, "=", 2)
 	switch {
 	case len(parts) != 2, len(parts[0]) == 0, len(parts[1]) == 0:
 		return nil, fmt.Errorf("expected NAME=WEIGHT")
 	}
-
 	if strings.Contains(parts[0], "/") {
 		return nil, fmt.Errorf("only NAME=WEIGHT may be specified")
 	}
-
 	input := &BackendInput{}
 	input.Name = parts[0]
-
 	if strings.HasSuffix(parts[1], "%") {
 		input.Percentage = true
 		parts[1] = strings.TrimSuffix(parts[1], "%")
@@ -545,30 +471,25 @@ func ParseBackendInput(s string) (*BackendInput, error) {
 	return input, nil
 }
 
-// Backends is a struct that represents the backends to be transformed.
 type Backends struct {
 	Backends []routev1.RouteTargetReference
 }
 
-// Names returns the referenced backend service names, in the order they appear.
 func (b *Backends) Names() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var names []string
 	for _, backend := range b.Backends {
 		names = append(names, backend.Name)
 	}
 	return names
 }
-
-// UpdateBackendsForObject extracts a backend definition array from the provided object, passes it to fn,
-// and then applies the backend on the object. It returns true if the object was mutated and an optional error
-// if any part of the flow returns error.
 func UpdateBackendsForObject(obj runtime.Object, fn func(*Backends) error) (bool, error) {
-	// TODO: replace with a swagger schema based approach (identify pod template via schema introspection)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *routev1.Route:
-		b := &Backends{
-			Backends: []routev1.RouteTargetReference{t.Spec.To},
-		}
+		b := &Backends{Backends: []routev1.RouteTargetReference{t.Spec.To}}
 		for _, backend := range t.Spec.AlternateBackends {
 			b.Backends = append(b.Backends, backend)
 		}

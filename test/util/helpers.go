@@ -5,12 +5,10 @@ import (
 	"os"
 	"regexp"
 	"strings"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
 	kyaml "k8s.io/apimachinery/pkg/util/yaml"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	templateapi "github.com/openshift/origin/pkg/template/apis/template"
 )
@@ -18,6 +16,8 @@ import (
 const additionalAllowedRegistriesEnvVar = "ADDITIONAL_ALLOWED_REGISTRIES"
 
 func GetTemplateFixture(filename string) (*templateapi.Template, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -32,8 +32,9 @@ func GetTemplateFixture(filename string) (*templateapi.Template, error) {
 	}
 	return obj.(*templateapi.Template), nil
 }
-
 func GetImageFixture(filename string) (*imageapi.Image, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
@@ -48,18 +49,21 @@ func GetImageFixture(filename string) (*imageapi.Image, error) {
 	}
 	return obj.(*imageapi.Image), nil
 }
-
 func SetAdditionalAllowedRegistries(hostPortGlobs ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	os.Setenv(additionalAllowedRegistriesEnvVar, strings.Join(hostPortGlobs, ","))
 }
-
 func AddAdditionalAllowedRegistries(hostPortGlobs ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	regs := GetAdditionalAllowedRegistries()
 	regs.Insert(hostPortGlobs...)
 	SetAdditionalAllowedRegistries(regs.List()...)
 }
-
 func GetAdditionalAllowedRegistries() sets.String {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	regs := sets.NewString()
 	for _, r := range regexp.MustCompile(`[[:space:],]+`).Split(os.Getenv(additionalAllowedRegistriesEnvVar), -1) {
 		if len(r) > 0 {
