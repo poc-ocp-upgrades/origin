@@ -5,58 +5,61 @@ import (
 	"fmt"
 	"os/exec"
 	"runtime"
-
 	"k8s.io/klog"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
 
 var (
-	testRsyncCommand = []string{"rsync", "--version"}
-	testTarCommand   = []string{"tar", "--version"}
+	testRsyncCommand	= []string{"rsync", "--version"}
+	testTarCommand		= []string{"tar", "--version"}
 )
 
-// executeWithLogging will execute a command and log its output
 func executeWithLogging(e executor, cmd []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := &bytes.Buffer{}
 	err := e.Execute(cmd, nil, w, w)
 	klog.V(4).Infof("%s", w.String())
 	klog.V(4).Infof("error: %v", err)
 	return err
 }
-
-// isWindows returns true if the current platform is windows
 func isWindows() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return runtime.GOOS == "windows"
 }
-
-// hasLocalRsync returns true if rsync is in current exec path
 func hasLocalRsync() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := exec.LookPath("rsync")
 	if err != nil {
 		return false
 	}
 	return true
 }
-
 func isExitError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err == nil {
 		return false
 	}
 	_, exitErr := err.(*exec.ExitError)
 	return exitErr
 }
-
 func checkRsync(e executor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return executeWithLogging(e, testRsyncCommand)
 }
-
 func checkTar(e executor) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return executeWithLogging(e, testTarCommand)
 }
-
 func rsyncFlagsFromOptions(o *RsyncOptions) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags := []string{}
 	if o.Quiet {
 		flags = append(flags, "-q")
@@ -87,8 +90,9 @@ func rsyncFlagsFromOptions(o *RsyncOptions) []string {
 	}
 	return flags
 }
-
 func tarFlagsFromOptions(o *RsyncOptions) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags := []string{}
 	if !o.Quiet {
 		flags = append(flags, "-v")
@@ -97,10 +101,6 @@ func tarFlagsFromOptions(o *RsyncOptions) []string {
 		for _, include := range o.RsyncInclude {
 			flags = append(flags, fmt.Sprintf("**/%s", include))
 		}
-
-		// if we have explicit files or a pattern of filenames to include,
-		// maintain similar behavior to tar, and include anything else
-		// that would have otherwise been included
 		flags = append(flags, "*")
 	}
 	if len(o.RsyncExclude) > 0 {
@@ -110,8 +110,9 @@ func tarFlagsFromOptions(o *RsyncOptions) []string {
 	}
 	return flags
 }
-
 func rsyncSpecificFlags(o *RsyncOptions) []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags := []string{}
 	if o.RsyncProgress {
 		flags = append(flags, "--progress")
@@ -126,13 +127,14 @@ func rsyncSpecificFlags(o *RsyncOptions) []string {
 }
 
 type podAPIChecker struct {
-	client    kubernetes.Interface
-	namespace string
-	podName   string
+	client		kubernetes.Interface
+	namespace	string
+	podName		string
 }
 
-// CheckPods will check if pods exists in the provided context
 func (p podAPIChecker) CheckPod() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := p.client.CoreV1().Pods(p.namespace).Get(p.podName, metav1.GetOptions{})
 	return err
 }

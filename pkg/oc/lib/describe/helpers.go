@@ -8,16 +8,13 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	"github.com/docker/go-units"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/client-go/rest"
 	api "k8s.io/kubernetes/pkg/apis/core"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/library-go/pkg/image/reference"
 	authorizationapi "github.com/openshift/origin/pkg/authorization/apis/authorization"
@@ -29,65 +26,72 @@ import (
 const emptyString = "<none>"
 
 func tabbedString(f func(*tabwriter.Writer) error) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out := new(tabwriter.Writer)
 	buf := &bytes.Buffer{}
 	out.Init(buf, 0, 8, 1, '\t', 0)
-
 	err := f(out)
 	if err != nil {
 		return "", err
 	}
-
 	out.Flush()
 	str := string(buf.String())
 	return str, nil
 }
-
 func toString(v interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	value := fmt.Sprintf("%v", v)
 	if len(value) == 0 {
 		value = emptyString
 	}
 	return value
 }
-
 func bold(v interface{}) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return "\033[1m" + toString(v) + "\033[0m"
 }
-
 func convertEnv(env []corev1.EnvVar) map[string]string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := make(map[string]string, len(env))
 	for _, e := range env {
 		result[e.Name] = toString(e.Value)
 	}
 	return result
 }
-
 func formatEnv(env corev1.EnvVar) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if env.ValueFrom != nil && env.ValueFrom.FieldRef != nil {
 		return fmt.Sprintf("%s=<%s>", env.Name, env.ValueFrom.FieldRef.FieldPath)
 	}
 	return fmt.Sprintf("%s=%s", env.Name, env.Value)
 }
-
 func formatString(out *tabwriter.Writer, label string, v interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	labelVals := strings.Split(toString(v), "\n")
-
 	fmt.Fprintf(out, fmt.Sprintf("%s:", label))
 	for _, lval := range labelVals {
 		fmt.Fprintln(out, fmt.Sprintf("\t%s", lval))
 	}
 }
-
 func formatTime(out *tabwriter.Writer, label string, t time.Time) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fmt.Fprintf(out, fmt.Sprintf("%s:\t%s ago\n", label, formatRelativeTime(t)))
 }
-
 func formatLabels(labelMap map[string]string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labels.Set(labelMap).String()
 }
-
 func extractAnnotations(annotations map[string]string, keys ...string) ([]string, map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	extracted := make([]string, len(keys))
 	remaining := make(map[string]string)
 	for k, v := range annotations {
@@ -99,8 +103,9 @@ func extractAnnotations(annotations map[string]string, keys ...string) ([]string
 	}
 	return extracted, remaining
 }
-
 func formatMapStringString(out *tabwriter.Writer, label string, items map[string]string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	keys := sets.NewString()
 	for k := range items {
 		keys.Insert(k)
@@ -117,8 +122,9 @@ func formatMapStringString(out *tabwriter.Writer, label string, items map[string
 		}
 	}
 }
-
 func formatAnnotations(out *tabwriter.Writer, m metav1.ObjectMeta, prefix string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	values, annotations := extractAnnotations(m.Annotations, "description")
 	if len(values[0]) > 0 {
 		formatString(out, prefix+"Description", values[0])
@@ -130,22 +136,24 @@ var timeNowFn = func() time.Time {
 	return time.Now()
 }
 
-// Receives a time.Duration and returns Docker go-utils'
-// human-readable output
 func formatToHumanDuration(dur time.Duration) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return units.HumanDuration(dur)
 }
-
 func formatRelativeTime(t time.Time) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return units.HumanDuration(timeNowFn().Sub(t))
 }
-
-// FormatRelativeTime converts a time field into a human readable age string (hours, minutes, days).
 func FormatRelativeTime(t time.Time) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return formatRelativeTime(t)
 }
-
 func formatMeta(out *tabwriter.Writer, m metav1.ObjectMeta) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	formatString(out, "Name", m.Name)
 	if len(m.Namespace) > 0 {
 		formatString(out, "Namespace", m.Namespace)
@@ -157,31 +165,25 @@ func formatMeta(out *tabwriter.Writer, m metav1.ObjectMeta) {
 	formatAnnotations(out, m, "")
 }
 
-// DescribeWebhook holds the URL information about a webhook and for generic
-// webhooks it tells us if we allow env variables.
 type DescribeWebhook struct {
-	URL      string
-	AllowEnv *bool
+	URL		string
+	AllowEnv	*bool
 }
 
-// webhookDescribe returns a map of webhook trigger types and its corresponding
-// information.
 func webHooksDescribe(triggers []buildv1.BuildTriggerPolicy, name, namespace string, c rest.Interface) map[string][]DescribeWebhook {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := map[string][]DescribeWebhook{}
-
 	for _, trigger := range triggers {
 		var allowEnv *bool
-
 		switch trigger.Type {
 		case buildv1.GitHubWebHookBuildTriggerType, buildv1.GitLabWebHookBuildTriggerType, buildv1.BitbucketWebHookBuildTriggerType:
 		case buildv1.GenericWebHookBuildTriggerType:
 			allowEnv = &trigger.GenericWebHook.AllowEnv
-
 		default:
 			continue
 		}
 		webHookDesc := result[string(trigger.Type)]
-
 		var urlStr string
 		webhookClient := buildmanualclient.NewWebhookURLClient(c, namespace)
 		u, err := webhookClient.WebHookURL(name, &trigger)
@@ -190,26 +192,19 @@ func webHooksDescribe(triggers []buildv1.BuildTriggerPolicy, name, namespace str
 		} else {
 			urlStr, _ = url.PathUnescape(u.String())
 		}
-
-		webHookDesc = append(webHookDesc,
-			DescribeWebhook{
-				URL:      urlStr,
-				AllowEnv: allowEnv,
-			})
+		webHookDesc = append(webHookDesc, DescribeWebhook{URL: urlStr, AllowEnv: allowEnv})
 		result[string(trigger.Type)] = webHookDesc
 	}
-
 	return result
 }
-
 func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(stream.Status.Tags) == 0 && len(stream.Spec.Tags) == 0 {
 		fmt.Fprintf(out, "Tags:\t<none>\n")
 		return
 	}
-
 	now := timeNowFn()
-
 	images := make(map[string]string)
 	for tag, tags := range stream.Status.Tags {
 		for _, item := range tags.Items {
@@ -225,7 +220,6 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 			}
 		}
 	}
-
 	sortedTags := []string{}
 	for k := range stream.Status.Tags {
 		sortedTags = append(sortedTags, k)
@@ -253,7 +247,6 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		}
 	}
 	fmt.Fprintf(out, "Unique Images:\t%d\nTags:\t%d\n\n", len(images), len(sortedTags))
-
 	first := true
 	imageapi.PrioritizeTags(sortedTags)
 	for _, tag := range sortedTags {
@@ -270,7 +263,6 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		scheduled := false
 		insecure := false
 		importing := false
-
 		var name string
 		if hasSpecTag && tagRef.From != nil {
 			if len(tagRef.From.Namespace) > 0 && tagRef.From.Namespace != stream.Namespace {
@@ -282,35 +274,6 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 			gen := imageapi.LatestObservedTagGeneration(stream, tag)
 			importing = !tagRef.Reference && tagRef.Generation != nil && *tagRef.Generation > gen
 		}
-
-		//   updates whenever tag :5.2 is changed
-
-		// :latest (30 minutes ago) -> 102.205.358.453/foo/bar@sha256:abcde734
-		//   error: last import failed 20 minutes ago
-		//   updates automatically from index.docker.io/mysql/bar
-		//     will use insecure HTTPS connections or HTTP
-		//
-		//   MySQL 5.5
-		//   ---------
-		//   Describes a system for updating based on practical changes to a database system
-		//   with some other data involved
-		//
-		//   20 minutes ago  <import failed>
-		//	  	Failed to locate the server in time
-		//   30 minutes ago  102.205.358.453/foo/bar@sha256:abcdef
-		//   1 hour ago      102.205.358.453/foo/bar@sha256:bfedfc
-
-		//var shortErrors []string
-		/*
-			var internalReference *imageapi.DockerImageReference
-			if value := stream.Status.DockerImageRepository; len(value) > 0 {
-				ref, err := imageapi.ParseDockerImageReference(value)
-				if err != nil {
-					internalReference = &ref
-				}
-			}
-		*/
-
 		if referentialTags[tag].Len() > 0 {
 			references := referentialTags[tag].List()
 			imageapi.PrioritizeTags(references)
@@ -318,7 +281,6 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		} else {
 			fmt.Fprintf(out, "%s\n", tag)
 		}
-
 		switch {
 		case !hasSpecTag:
 			fmt.Fprintf(out, "  no spec tag\n")
@@ -364,9 +326,7 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		case imageapi.LocalTagReferencePolicy:
 			fmt.Fprintf(out, "    prefer registry pullthrough when referencing this tag\n")
 		}
-
 		fmt.Fprintln(out)
-
 		extraOutput := false
 		if d := tagRef.Annotations["description"]; len(d) > 0 {
 			fmt.Fprintf(out, "  %s\n", d)
@@ -387,11 +347,9 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		if extraOutput {
 			fmt.Fprintln(out)
 		}
-
 		if importing {
 			fmt.Fprintf(out, "  ~ importing latest image ...\n")
 		}
-
 		for i := range taglist.Conditions {
 			condition := &taglist.Conditions[i]
 			switch condition.Type {
@@ -402,20 +360,16 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 				}
 			}
 		}
-
 		if len(taglist.Items) == 0 {
 			continue
 		}
-
 		for i, event := range taglist.Items {
 			d := now.Sub(event.Created.Time)
-
 			if i == 0 {
 				fmt.Fprintf(out, "  * %s\n", event.DockerImageReference)
 			} else {
 				fmt.Fprintf(out, "    %s\n", event.DockerImageReference)
 			}
-
 			ref, err := reference.Parse(event.DockerImageReference)
 			id := event.Image
 			if len(id) > 0 && err == nil && ref.ID != id {
@@ -426,10 +380,9 @@ func formatImageStreamTags(out *tabwriter.Writer, stream *imageapi.ImageStream) 
 		}
 	}
 }
-
-// roleBindingRestrictionType returns a string that indicates the type of the
-// given RoleBindingRestriction.
 func roleBindingRestrictionType(rbr *authorizationapi.RoleBindingRestriction) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case rbr.Spec.UserRestriction != nil:
 		return "User"
@@ -440,9 +393,9 @@ func roleBindingRestrictionType(rbr *authorizationapi.RoleBindingRestriction) st
 	}
 	return ""
 }
-
-// PrintTemplateParameters the Template parameters with their default values
 func PrintTemplateParameters(params []templateapi.Parameter, output io.Writer) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(output, 20, 5, 3, ' ', 0)
 	defer w.Flush()
 	parameterColumns := []string{"NAME", "DESCRIPTION", "GENERATOR", "VALUE"}

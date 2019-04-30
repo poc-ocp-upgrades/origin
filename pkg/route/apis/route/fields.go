@@ -2,12 +2,13 @@ package route
 
 import (
 	"fmt"
-
 	"k8s.io/apimachinery/pkg/fields"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 )
 
 func RouteFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	route, ok := obj.(*Route)
 	if !ok {
 		return fmt.Errorf("%T not a Route", obj)

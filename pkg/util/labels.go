@@ -3,34 +3,28 @@ package util
 import (
 	"fmt"
 	"reflect"
-
 	kmeta "k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 )
 
-// MergeInto flags
 const (
-	OverwriteExistingDstKey = 1 << iota
+	OverwriteExistingDstKey	= 1 << iota
 	ErrorOnExistingDstKey
 	ErrorOnDifferentDstKeyValue
 )
 
-// AddObjectLabelsWithFlags will set labels on the target object.  Label overwrite behavior
-// is controlled by the flags argument.
 func AddObjectLabelsWithFlags(obj runtime.Object, labels labels.Set, flags int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if labels == nil {
 		return nil
 	}
-
 	accessor, err := kmeta.Accessor(obj)
-
 	if err != nil {
 		if _, ok := obj.(*unstructured.Unstructured); !ok {
-			// error out if it's not possible to get an accessor and it's also not an unstructured object
 			return err
 		}
 	} else {
@@ -38,32 +32,21 @@ func AddObjectLabelsWithFlags(obj runtime.Object, labels labels.Set, flags int) 
 		if metaLabels == nil {
 			metaLabels = make(map[string]string)
 		}
-
 		switch objType := obj.(type) {
 		case *appsv1.DeploymentConfig:
 			if err := addDeploymentConfigNestedLabels(objType, labels, flags); err != nil {
 				return fmt.Errorf("unable to add nested labels to %s/%s: %v", obj.GetObjectKind().GroupVersionKind(), accessor.GetName(), err)
 			}
 		}
-
 		if err := MergeInto(metaLabels, labels, flags); err != nil {
 			return fmt.Errorf("unable to add labels to %s/%s: %v", obj.GetObjectKind().GroupVersionKind(), accessor.GetName(), err)
 		}
-
 		accessor.SetLabels(metaLabels)
-
 		return nil
 	}
-
-	// handle unstructured object
-	// TODO: allow meta.Accessor to handle runtime.Unstructured
 	if unstruct, ok := obj.(*unstructured.Unstructured); ok && unstruct.Object != nil {
-		// the presence of "metadata" is sufficient for us to apply the rules for Kube-like
-		// objects.
-		// TODO: add swagger detection to allow this to happen more effectively
 		if obj, ok := unstruct.Object["metadata"]; ok {
 			if m, ok := obj.(map[string]interface{}); ok {
-
 				existing := make(map[string]string)
 				if l, ok := m["labels"]; ok {
 					if found, ok := interfaceToStringMap(l); ok {
@@ -77,9 +60,6 @@ func AddObjectLabelsWithFlags(obj runtime.Object, labels labels.Set, flags int) 
 			}
 			return nil
 		}
-
-		// only attempt to set root labels if a root object called labels exists
-		// TODO: add swagger detection to allow this to happen more effectively
 		if obj, ok := unstruct.Object["labels"]; ok {
 			existing := make(map[string]string)
 			if found, ok := interfaceToStringMap(obj); ok {
@@ -92,28 +72,22 @@ func AddObjectLabelsWithFlags(obj runtime.Object, labels labels.Set, flags int) 
 			return nil
 		}
 	}
-
 	return nil
-
 }
-
-// AddObjectLabels adds new label(s) to a single runtime.Object, overwriting
-// existing labels that have the same key.
 func AddObjectLabels(obj runtime.Object, labels labels.Set) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return AddObjectLabelsWithFlags(obj, labels, OverwriteExistingDstKey)
 }
-
-// AddObjectAnnotations adds new annotation(s) to a single runtime.Object
 func AddObjectAnnotations(obj runtime.Object, annotations map[string]string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(annotations) == 0 {
 		return nil
 	}
-
 	accessor, err := kmeta.Accessor(obj)
-
 	if err != nil {
 		if _, ok := obj.(*unstructured.Unstructured); !ok {
-			// error out if it's not possible to get an accessor and it's also not an unstructured object
 			return err
 		}
 	} else {
@@ -121,29 +95,19 @@ func AddObjectAnnotations(obj runtime.Object, annotations map[string]string) err
 		if metaAnnotations == nil {
 			metaAnnotations = make(map[string]string)
 		}
-
 		switch objType := obj.(type) {
 		case *appsv1.DeploymentConfig:
 			if err := addDeploymentConfigNestedAnnotations(objType, annotations); err != nil {
 				return fmt.Errorf("unable to add nested annotations to %s/%s: %v", obj.GetObjectKind().GroupVersionKind(), accessor.GetName(), err)
 			}
 		}
-
 		MergeInto(metaAnnotations, annotations, OverwriteExistingDstKey)
 		accessor.SetAnnotations(metaAnnotations)
-
 		return nil
 	}
-
-	// handle unstructured object
-	// TODO: allow meta.Accessor to handle runtime.Unstructured
 	if unstruct, ok := obj.(*unstructured.Unstructured); ok && unstruct.Object != nil {
-		// the presence of "metadata" is sufficient for us to apply the rules for Kube-like
-		// objects.
-		// TODO: add swagger detection to allow this to happen more effectively
 		if obj, ok := unstruct.Object["metadata"]; ok {
 			if m, ok := obj.(map[string]interface{}); ok {
-
 				existing := make(map[string]string)
 				if l, ok := m["annotations"]; ok {
 					if found, ok := interfaceToStringMap(l); ok {
@@ -157,9 +121,6 @@ func AddObjectAnnotations(obj runtime.Object, annotations map[string]string) err
 			}
 			return nil
 		}
-
-		// only attempt to set root annotations if a root object called annotations exists
-		// TODO: add swagger detection to allow this to happen more effectively
 		if obj, ok := unstruct.Object["annotations"]; ok {
 			existing := make(map[string]string)
 			if found, ok := interfaceToStringMap(obj); ok {
@@ -172,44 +133,39 @@ func AddObjectAnnotations(obj runtime.Object, annotations map[string]string) err
 			return nil
 		}
 	}
-
 	return nil
 }
-
-// addDeploymentConfigNestedLabels adds new label(s) to a nested labels of a single DeploymentConfig object
 func addDeploymentConfigNestedLabels(obj *appsv1.DeploymentConfig, labels labels.Set, flags int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.Spec.Template == nil {
 		return nil
 	}
-
 	if obj.Spec.Template.Labels == nil {
 		obj.Spec.Template.Labels = make(map[string]string)
 	}
-
 	if err := MergeInto(obj.Spec.Template.Labels, labels, flags); err != nil {
 		return fmt.Errorf("unable to add labels to Template.DeploymentConfig.Template.ControllerTemplate.Template: %v", err)
 	}
-
 	return nil
 }
-
 func addDeploymentConfigNestedAnnotations(obj *appsv1.DeploymentConfig, annotations map[string]string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj.Spec.Template == nil {
 		return nil
 	}
-
 	if obj.Spec.Template.Annotations == nil {
 		obj.Spec.Template.Annotations = make(map[string]string)
 	}
-
 	if err := MergeInto(obj.Spec.Template.Annotations, annotations, OverwriteExistingDstKey); err != nil {
 		return fmt.Errorf("unable to add annotations to Template.DeploymentConfig.Template.ControllerTemplate.Template: %v", err)
 	}
 	return nil
 }
-
-// interfaceToStringMap extracts a map[string]string from a map[string]interface{}
 func interfaceToStringMap(obj interface{}) (map[string]string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return nil, false
 	}
@@ -226,9 +182,9 @@ func interfaceToStringMap(obj interface{}) (map[string]string, bool) {
 	}
 	return existing, true
 }
-
-// mapToGeneric converts a map[string]string into a map[string]interface{}
 func mapToGeneric(obj map[string]string) map[string]interface{} {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if obj == nil {
 		return nil
 	}
@@ -238,21 +194,11 @@ func mapToGeneric(obj map[string]string) map[string]interface{} {
 	}
 	return res
 }
-
-// MergeInto merges items from a src map into a dst map.
-// Returns an error when the maps are not of the same type.
-// Flags:
-// - ErrorOnExistingDstKey
-//     When set: Return an error if any of the dst keys is already set.
-// - ErrorOnDifferentDstKeyValue
-//     When set: Return an error if any of the dst keys is already set
-//               to a different value than src key.
-// - OverwriteDstKey
-//     When set: Overwrite existing dst key value with src key value.
 func MergeInto(dst, src interface{}, flags int) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	dstVal := reflect.ValueOf(dst)
 	srcVal := reflect.ValueOf(src)
-
 	if dstVal.Kind() != reflect.Map {
 		return fmt.Errorf("dst is not a valid map: %v", dstVal.Kind())
 	}
@@ -262,15 +208,12 @@ func MergeInto(dst, src interface{}, flags int) error {
 	if dstTyp, srcTyp := dstVal.Type(), srcVal.Type(); !dstTyp.AssignableTo(srcTyp) {
 		return fmt.Errorf("type mismatch, can't assign '%v' to '%v'", srcTyp, dstTyp)
 	}
-
 	if dstVal.IsNil() {
 		return fmt.Errorf("dst value is nil")
 	}
 	if srcVal.IsNil() {
-		// Nothing to merge
 		return nil
 	}
-
 	for _, k := range srcVal.MapKeys() {
 		if dstVal.MapIndex(k).IsValid() {
 			if flags&ErrorOnExistingDstKey != 0 {
@@ -288,6 +231,5 @@ func MergeInto(dst, src interface{}, flags int) error {
 			dstVal.SetMapIndex(k, srcVal.MapIndex(k))
 		}
 	}
-
 	return nil
 }

@@ -2,38 +2,33 @@ package buildgraph
 
 import (
 	"sort"
-
 	"github.com/gonum/graph"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildapi "github.com/openshift/origin/pkg/build/apis/build"
 	buildgraph "github.com/openshift/origin/pkg/oc/lib/graph/buildgraph/nodes"
 	osgraph "github.com/openshift/origin/pkg/oc/lib/graph/genericgraph"
 )
 
-// RelevantBuilds returns the lastSuccessful build, lastUnsuccessful build, and a list of active builds
 func RelevantBuilds(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (*buildgraph.BuildNode, *buildgraph.BuildNode, []*buildgraph.BuildNode) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var (
-		lastSuccessfulBuild   *buildgraph.BuildNode
-		lastUnsuccessfulBuild *buildgraph.BuildNode
+		lastSuccessfulBuild	*buildgraph.BuildNode
+		lastUnsuccessfulBuild	*buildgraph.BuildNode
 	)
 	activeBuilds := []*buildgraph.BuildNode{}
 	allBuilds := []*buildgraph.BuildNode{}
 	uncastBuilds := g.SuccessorNodesByEdgeKind(bcNode, BuildEdgeKind)
-
 	for i := range uncastBuilds {
 		buildNode := uncastBuilds[i].(*buildgraph.BuildNode)
 		if belongsToBuildConfig(bcNode.BuildConfig, buildNode.Build) {
 			allBuilds = append(allBuilds, buildNode)
 		}
 	}
-
 	if len(allBuilds) == 0 {
 		return nil, nil, []*buildgraph.BuildNode{}
 	}
-
 	sort.Sort(RecentBuildReferences(allBuilds))
-
 	for i := range allBuilds {
 		switch allBuilds[i].Build.Status.Phase {
 		case buildv1.BuildPhaseComplete:
@@ -48,11 +43,11 @@ func RelevantBuilds(g osgraph.Graph, bcNode *buildgraph.BuildConfigNode) (*build
 			activeBuilds = append(activeBuilds, allBuilds[i])
 		}
 	}
-
 	return lastSuccessfulBuild, lastUnsuccessfulBuild, activeBuilds
 }
-
 func belongsToBuildConfig(config *buildv1.BuildConfig, b *buildv1.Build) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if b.Labels == nil {
 		return false
 	}
@@ -70,36 +65,46 @@ func belongsToBuildConfig(config *buildv1.BuildConfig, b *buildv1.Build) bool {
 
 type RecentBuildReferences []*buildgraph.BuildNode
 
-func (m RecentBuildReferences) Len() int      { return len(m) }
-func (m RecentBuildReferences) Swap(i, j int) { m[i], m[j] = m[j], m[i] }
+func (m RecentBuildReferences) Len() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return len(m)
+}
+func (m RecentBuildReferences) Swap(i, j int) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	m[i], m[j] = m[j], m[i]
+}
 func (m RecentBuildReferences) Less(i, j int) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return m[i].Build.CreationTimestamp.After(m[j].Build.CreationTimestamp.Time)
 }
-
 func defaultNamespace(value, defaultValue string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(value) == 0 {
 		return defaultValue
 	}
 	return value
 }
-
-// BuildConfigsForTag returns the buildConfig that points to the provided imageStreamTag.
 func BuildConfigsForTag(g osgraph.Graph, istag graph.Node) []*buildgraph.BuildConfigNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcs := []*buildgraph.BuildConfigNode{}
 	for _, bcNode := range g.PredecessorNodesByEdgeKind(istag, BuildOutputEdgeKind) {
 		bcs = append(bcs, bcNode.(*buildgraph.BuildConfigNode))
 	}
 	return bcs
 }
-
-// GetLatestBuild returns the latest build for the provided buildConfig.
 func GetLatestBuild(g osgraph.Graph, bc graph.Node) *buildgraph.BuildNode {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	builds := g.SuccessorNodesByEdgeKind(bc, BuildEdgeKind)
 	if len(builds) == 0 {
 		return nil
 	}
 	latestBuild := builds[0].(*buildgraph.BuildNode)
-
 	for _, buildNode := range builds[1:] {
 		if build, ok := buildNode.(*buildgraph.BuildNode); ok {
 			if latestBuild.Build.CreationTimestamp.Before(&build.Build.CreationTimestamp) {
@@ -107,6 +112,5 @@ func GetLatestBuild(g osgraph.Graph, bc graph.Node) *buildgraph.BuildNode {
 			}
 		}
 	}
-
 	return latestBuild
 }

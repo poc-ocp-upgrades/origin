@@ -2,27 +2,23 @@ package create
 
 import (
 	"fmt"
-
 	"github.com/spf13/cobra"
-
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	routev1 "github.com/openshift/api/route/v1"
 	"github.com/openshift/origin/pkg/oc/cli/create/route"
 	fileutil "github.com/openshift/origin/pkg/util/file"
 )
 
 var (
-	reencryptRouteLong = templates.LongDesc(`
+	reencryptRouteLong	= templates.LongDesc(`
 		Create a route that uses reencrypt TLS termination
 
 		Specify the service (either just its name or using type/name syntax) that the
 		generated route should expose via the --service flag. A destination CA certificate
 		is needed for reencrypt routes, specify one with the --dest-ca-cert flag.`)
-
-	reencryptRouteExample = templates.Examples(`
+	reencryptRouteExample	= templates.Examples(`
 		# Create a route named "my-route" that exposes the frontend service.
 	  %[1]s create route reencrypt my-route --service=frontend --dest-ca-cert cert.cert
 
@@ -32,36 +28,27 @@ var (
 )
 
 type CreateReencryptRouteOptions struct {
-	CreateRouteSubcommandOptions *CreateRouteSubcommandOptions
-
-	Hostname       string
-	Port           string
-	InsecurePolicy string
-	Service        string
-	Path           string
-	Cert           string
-	Key            string
-	CACert         string
-	DestCACert     string
-	WildcardPolicy string
+	CreateRouteSubcommandOptions	*CreateRouteSubcommandOptions
+	Hostname			string
+	Port				string
+	InsecurePolicy			string
+	Service				string
+	Path				string
+	Cert				string
+	Key				string
+	CACert				string
+	DestCACert			string
+	WildcardPolicy			string
 }
 
-// NewCmdCreateReencryptRoute is a macro command to create a reencrypt route.
 func NewCmdCreateReencryptRoute(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
-	o := &CreateReencryptRouteOptions{
-		CreateRouteSubcommandOptions: NewCreateRouteSubcommandOptions(streams),
-	}
-	cmd := &cobra.Command{
-		Use:     "reencrypt [NAME] --dest-ca-cert=FILENAME --service=SERVICE",
-		Short:   "Create a route that uses reencrypt TLS termination",
-		Long:    reencryptRouteLong,
-		Example: fmt.Sprintf(reencryptRouteExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	o := &CreateReencryptRouteOptions{CreateRouteSubcommandOptions: NewCreateRouteSubcommandOptions(streams)}
+	cmd := &cobra.Command{Use: "reencrypt [NAME] --dest-ca-cert=FILENAME --service=SERVICE", Short: "Create a route that uses reencrypt TLS termination", Long: reencryptRouteLong, Example: fmt.Sprintf(reencryptRouteExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Run())
+	}}
 	cmd.Flags().StringVar(&o.Hostname, "hostname", o.Hostname, "Set a hostname for the new route")
 	cmd.Flags().StringVar(&o.Port, "port", o.Port, "Name of the service port or number of the container port the route will route traffic to")
 	cmd.Flags().StringVar(&o.InsecurePolicy, "insecure-policy", o.InsecurePolicy, "Set an insecure policy for the new route")
@@ -77,19 +64,19 @@ func NewCmdCreateReencryptRoute(fullName string, f kcmdutil.Factory, streams gen
 	cmd.Flags().StringVar(&o.DestCACert, "dest-ca-cert", o.DestCACert, "Path to a CA certificate file, used for securing the connection from the router to the destination.")
 	cmd.MarkFlagFilename("dest-ca-cert")
 	cmd.Flags().StringVar(&o.WildcardPolicy, "wildcard-policy", o.WildcardPolicy, "Sets the WilcardPolicy for the hostname, the default is \"None\". valid values are \"None\" and \"Subdomain\"")
-
 	kcmdutil.AddValidateFlags(cmd)
 	o.CreateRouteSubcommandOptions.PrintFlags.AddFlags(cmd)
 	kcmdutil.AddDryRunFlag(cmd)
-
 	return cmd
 }
-
 func (o *CreateReencryptRouteOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return o.CreateRouteSubcommandOptions.Complete(f, cmd, args)
 }
-
 func (o *CreateReencryptRouteOptions) Run() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	serviceName, err := resolveServiceName(o.CreateRouteSubcommandOptions.Mapper, o.Service)
 	if err != nil {
 		return err
@@ -98,17 +85,13 @@ func (o *CreateReencryptRouteOptions) Run() error {
 	if err != nil {
 		return err
 	}
-
 	if len(o.WildcardPolicy) > 0 {
 		route.Spec.WildcardPolicy = routev1.WildcardPolicyType(o.WildcardPolicy)
 	}
-
 	route.Spec.Host = o.Hostname
 	route.Spec.Path = o.Path
-
 	route.Spec.TLS = new(routev1.TLSConfig)
 	route.Spec.TLS.Termination = routev1.TLSTerminationReencrypt
-
 	cert, err := fileutil.LoadData(o.Cert)
 	if err != nil {
 		return err
@@ -129,17 +112,14 @@ func (o *CreateReencryptRouteOptions) Run() error {
 		return err
 	}
 	route.Spec.TLS.DestinationCACertificate = string(destCACert)
-
 	if len(o.InsecurePolicy) > 0 {
 		route.Spec.TLS.InsecureEdgeTerminationPolicy = routev1.InsecureEdgeTerminationPolicyType(o.InsecurePolicy)
 	}
-
 	if !o.CreateRouteSubcommandOptions.DryRun {
 		route, err = o.CreateRouteSubcommandOptions.Client.Routes(o.CreateRouteSubcommandOptions.Namespace).Create(route)
 		if err != nil {
 			return err
 		}
 	}
-
 	return o.CreateRouteSubcommandOptions.Printer.PrintObj(route, o.CreateRouteSubcommandOptions.Out)
 }

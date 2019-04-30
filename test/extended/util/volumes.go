@@ -2,13 +2,14 @@ package util
 
 import (
 	"strings"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	clientset "k8s.io/client-go/kubernetes"
 	e2e "k8s.io/kubernetes/test/e2e/framework"
 )
 
 func DeletePVCsForDeployment(client clientset.Interface, oc *CLI, deploymentPrefix string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	pvclist, err := client.CoreV1().PersistentVolumeClaims(oc.Namespace()).List(metav1.ListOptions{})
 	if err != nil {
 		e2e.Logf("pvc list error %#v\n", err)
@@ -25,8 +26,9 @@ func DeletePVCsForDeployment(client clientset.Interface, oc *CLI, deploymentPref
 		}
 	}
 }
-
 func DumpPersistentVolumeInfo(oc *CLI) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	e2e.Logf("Dumping persistent volume info for cluster")
 	out, err := oc.AsAdmin().Run("get").Args("pv").Output()
 	if err != nil {
@@ -52,5 +54,4 @@ func DumpPersistentVolumeInfo(oc *CLI) {
 		return
 	}
 	e2e.Logf(out)
-
 }

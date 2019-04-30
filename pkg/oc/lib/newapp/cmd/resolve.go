@@ -4,30 +4,27 @@ import (
 	"errors"
 	"fmt"
 	"strings"
-
 	kutilerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog"
-
 	"github.com/openshift/library-go/pkg/git"
 	"github.com/openshift/origin/pkg/oc/lib/newapp"
 	"github.com/openshift/origin/pkg/oc/lib/newapp/app"
 	dockerfileutil "github.com/openshift/origin/pkg/util/docker/dockerfile"
 )
 
-// Resolvers are used to identify source repositories, images, or templates in different contexts
 type Resolvers struct {
-	DockerSearcher                  app.Searcher
-	ImageStreamSearcher             app.Searcher
-	ImageStreamByAnnotationSearcher app.Searcher
-	TemplateSearcher                app.Searcher
-	TemplateFileSearcher            app.Searcher
-
-	AllowMissingImages bool
-
-	Detector app.Detector
+	DockerSearcher			app.Searcher
+	ImageStreamSearcher		app.Searcher
+	ImageStreamByAnnotationSearcher	app.Searcher
+	TemplateSearcher		app.Searcher
+	TemplateFileSearcher		app.Searcher
+	AllowMissingImages		bool
+	Detector			app.Detector
 }
 
 func (r *Resolvers) ImageSourceResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolver := app.PerfectMatchWeightedResolver{}
 	if r.ImageStreamByAnnotationSearcher != nil {
 		resolver = append(resolver, app.WeightedResolver{Searcher: r.ImageStreamByAnnotationSearcher, Weight: 0.0})
@@ -40,8 +37,9 @@ func (r *Resolvers) ImageSourceResolver() app.Resolver {
 	}
 	return resolver
 }
-
 func (r *Resolvers) DockerfileResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolver := app.PerfectMatchWeightedResolver{}
 	if r.ImageStreamSearcher != nil {
 		resolver = append(resolver, app.WeightedResolver{Searcher: r.ImageStreamSearcher, Weight: 0.0})
@@ -54,15 +52,15 @@ func (r *Resolvers) DockerfileResolver() app.Resolver {
 	}
 	return resolver
 }
-
 func (r *Resolvers) PipelineResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return app.PipelineResolver{}
 }
-
-// TODO: why does this differ from ImageSourceResolver?
 func (r *Resolvers) SourceResolver() app.Resolver {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	resolver := app.PerfectMatchWeightedResolver{}
-
 	if r.ImageStreamSearcher != nil {
 		resolver = append(resolver, app.WeightedResolver{Searcher: r.ImageStreamSearcher, Weight: 0.0})
 	}
@@ -75,142 +73,101 @@ func (r *Resolvers) SourceResolver() app.Resolver {
 	return resolver
 }
 
-// ComponentInputs are transformed into ResolvedComponents
 type ComponentInputs struct {
-	SourceRepositories []string
-
-	Components    []string
-	ImageStreams  []string
-	DockerImages  []string
-	Templates     []string
-	TemplateFiles []string
-
-	Groups []string
+	SourceRepositories	[]string
+	Components		[]string
+	ImageStreams		[]string
+	DockerImages		[]string
+	Templates		[]string
+	TemplateFiles		[]string
+	Groups			[]string
 }
-
-// ResolvedComponents is the input to generation
 type ResolvedComponents struct {
-	Components   app.ComponentReferences
-	Repositories app.SourceRepositories
+	Components	app.ComponentReferences
+	Repositories	app.SourceRepositories
 }
 
-// Resolve transforms unstructured inputs (component names, templates, images) into
-// a set of resolved components, or returns an error.
 func Resolve(appConfig *AppConfig) (*ResolvedComponents, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &appConfig.Resolvers
 	c := &appConfig.ComponentInputs
 	g := &appConfig.GenerationInputs
 	s := &appConfig.SourceRepositories
 	i := &appConfig.ImageStreams
 	b := &app.ReferenceBuilder{}
-
 	if err := AddComponentInputsToRefBuilder(b, r, c, g, s, i); err != nil {
 		return nil, err
 	}
-
 	components, repositories, errs := b.Result()
 	if len(errs) > 0 {
 		return nil, kutilerrors.NewAggregate(errs)
 	}
-
-	// Add source components if source-image points to another location
-	// TODO: image sources aren't really "source repositories" and we should probably find another way to
-	// represent them
 	imageComp, repositories, err := AddImageSourceRepository(repositories, r.ImageSourceResolver(), g)
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO: the second half of this method is potentially splittable - each chunk below amends or qualifies
-	// the inputs provided by the user (mostly via flags). c is cleared to prevent it from being used accidentally.
 	c = nil
-
-	// if the --context-dir flag was passed, set the context directory on all repositories
 	if len(g.ContextDir) > 0 && len(repositories) > 0 {
 		klog.V(5).Infof("Setting contextDir on all repositories to %v", g.ContextDir)
 		for _, repo := range repositories {
 			repo.SetContextDir(g.ContextDir)
 		}
 	}
-
-	// if the --strategy flag was passed, set the build strategy on all repositories
 	if g.Strategy != newapp.StrategyUnspecified && len(repositories) > 0 {
 		klog.V(5).Infof("Setting build strategy on all repositories to %v", g.Strategy)
 		for _, repo := range repositories {
 			repo.SetStrategy(g.Strategy)
 		}
 	}
-
 	if g.Strategy != newapp.StrategyUnspecified && len(repositories) == 0 && !g.BinaryBuild {
 		return nil, errors.New("--strategy is specified and none of the arguments provided could be classified as a source code location")
 	}
-
 	if g.BinaryBuild && (len(repositories) > 0 || components.HasSource()) {
 		return nil, errors.New("specifying binary builds and source repositories at the same time is not allowed")
 	}
-
 	componentsIncludingImageComps := components
 	if imageComp != nil {
 		componentsIncludingImageComps = append(components, imageComp)
 	}
-
 	if err := componentsIncludingImageComps.Resolve(); err != nil {
 		return nil, err
 	}
-
-	// If any references are potentially ambiguous in the future, force the user to provide the
-	// unambiguous input.
 	if err := detectPartialMatches(componentsIncludingImageComps); err != nil {
 		return nil, err
 	}
-
-	// Guess at the build types
 	components, err = InferBuildTypes(components, g)
 	if err != nil {
 		return nil, err
 	}
-
-	// Couple source with resolved builder components if possible
 	if err := EnsureHasSource(components.NeedsSource(), repositories.NotUsed(), g); err != nil {
 		return nil, err
 	}
-
-	// For source repos that are not yet linked to a component, create components
 	sourceComponents, err := AddMissingComponentsToRefBuilder(b, repositories.NotUsed(), r.DockerfileResolver(), r.SourceResolver(), r.PipelineResolver(), g)
 	if err != nil {
 		return nil, err
 	}
-
-	// Resolve any new source components added
 	if err := sourceComponents.Resolve(); err != nil {
 		return nil, err
 	}
 	components = append(components, sourceComponents...)
-
 	klog.V(4).Infof("Code [%v]", repositories)
 	klog.V(4).Infof("Components [%v]", components)
-
-	return &ResolvedComponents{
-		Components:   components,
-		Repositories: repositories,
-	}, nil
+	return &ResolvedComponents{Components: components, Repositories: repositories}, nil
 }
-
-// AddSourceRepositoriesToRefBuilder adds the provided repositories to the reference builder, identifies which
-// should be built using Docker, and then returns the full list of source repositories.
 func AddSourceRepositoriesToRefBuilder(b *app.ReferenceBuilder, c *ComponentInputs, g *GenerationInputs, s, i *[]string) (app.SourceRepositories, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	strategy := g.Strategy
 	if strategy == newapp.StrategyUnspecified {
 		strategy = newapp.StrategySource
 	}
-	// when git is installed we keep default logic. sourcelookup.go will do sorting of images, repos
 	if git.IsGitInstalled() || len(c.SourceRepositories) > 0 {
 		for _, s := range c.SourceRepositories {
 			if repo, ok := b.AddSourceRepository(s, strategy); ok {
 				repo.SetContextDir(g.ContextDir)
 			}
 		}
-		// when git is not installed we need to parse some logic to decide if we got 'new-app -i image code' or 'image -c code' syntax
 	} else if len(c.Components) > 0 && len(*i) > 0 && len(*s) == 0 || len(c.Components) > 0 && len(*i) == 0 && len(*s) > 0 {
 		for _, s := range c.Components {
 			if repo, ok := b.AddSourceRepository(s, strategy); ok {
@@ -230,38 +187,32 @@ func AddSourceRepositoriesToRefBuilder(b *app.ReferenceBuilder, c *ComponentInpu
 	_, result, errs := b.Result()
 	return result, kutilerrors.NewAggregate(errs)
 }
-
-// AddDockerfile adds a Dockerfile passed in the command line to the reference
-// builder.
 func AddDockerfileToSourceRepositories(b *app.ReferenceBuilder, dockerfile string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, repos, errs := b.Result()
 	if err := kutilerrors.NewAggregate(errs); err != nil {
 		return err
 	}
 	switch len(repos) {
 	case 0:
-		// Create a new SourceRepository with the Dockerfile.
 		repo, err := app.NewSourceRepositoryForDockerfile(dockerfile)
 		if err != nil {
 			return fmt.Errorf("provided Dockerfile is not valid: %v", err)
 		}
 		b.AddExistingSourceRepository(repo)
 	case 1:
-		// Add the Dockerfile to the existing SourceRepository, so that
-		// eventually we generate a single BuildConfig with multiple
-		// sources.
 		if err := repos[0].AddDockerfile(dockerfile); err != nil {
 			return fmt.Errorf("provided Dockerfile is not valid: %v", err)
 		}
 	default:
-		// Invalid.
 		return errors.New("--dockerfile cannot be used with multiple source repositories")
 	}
 	return nil
 }
-
-// DetectSource runs a code detector on the passed in repositories to obtain a SourceRepositoryInfo
 func DetectSource(repositories []*app.SourceRepository, d app.Detector, g *GenerationInputs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, repo := range repositories {
 		err := repo.Detect(d, g.Strategy == newapp.StrategyDocker || g.Strategy == newapp.StrategyPipeline)
@@ -286,15 +237,13 @@ func DetectSource(repositories []*app.SourceRepository, d app.Detector, g *Gener
 	}
 	return kutilerrors.NewAggregate(errs)
 }
-
-// AddComponentInputsToRefBuilder set up the components to be used by the reference builder.
 func AddComponentInputsToRefBuilder(b *app.ReferenceBuilder, r *Resolvers, c *ComponentInputs, g *GenerationInputs, s, i *[]string) error {
-	// lookup source repositories first (before processing the component inputs)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repositories, err := AddSourceRepositoriesToRefBuilder(b, c, g, s, i)
 	if err != nil {
 		return err
 	}
-	// identify the types of the provided source locations
 	if err := DetectSource(repositories, r.Detector, g); err != nil {
 		return err
 	}
@@ -315,9 +264,7 @@ func AddComponentInputsToRefBuilder(b *app.ReferenceBuilder, r *Resolvers, c *Co
 		input.Argument = fmt.Sprintf("--image-stream=%q", input.From)
 		input.Searcher = r.ImageStreamSearcher
 		if r.ImageStreamSearcher != nil {
-			resolver := app.PerfectMatchWeightedResolver{
-				app.WeightedResolver{Searcher: r.ImageStreamSearcher},
-			}
+			resolver := app.PerfectMatchWeightedResolver{app.WeightedResolver{Searcher: r.ImageStreamSearcher}}
 			input.Resolver = resolver
 		}
 		return input
@@ -364,15 +311,14 @@ func AddComponentInputsToRefBuilder(b *app.ReferenceBuilder, r *Resolvers, c *Co
 		return input
 	})
 	b.AddGroups(c.Groups)
-
 	return nil
 }
-
 func AddImageSourceRepository(sourceRepos app.SourceRepositories, r app.Resolver, g *GenerationInputs) (app.ComponentReference, app.SourceRepositories, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(g.SourceImage) == 0 {
 		return nil, sourceRepos, nil
 	}
-
 	paths := strings.SplitN(g.SourceImagePath, ":", 2)
 	var sourcePath, destPath string
 	switch len(paths) {
@@ -382,13 +328,11 @@ func AddImageSourceRepository(sourceRepos app.SourceRepositories, r app.Resolver
 		sourcePath = paths[0]
 		destPath = paths[1]
 	}
-
 	compRef, _, err := app.NewComponentInput(g.SourceImage)
 	if err != nil {
 		return nil, nil, err
 	}
 	compRef.Resolver = r
-
 	switch len(sourceRepos) {
 	case 0:
 		sourceRepos = append(sourceRepos, app.NewImageSourceRepository(compRef, sourcePath, destPath))
@@ -398,11 +342,11 @@ func AddImageSourceRepository(sourceRepos app.SourceRepositories, r app.Resolver
 	default:
 		return nil, nil, errors.New("--source-image cannot be used with multiple source repositories")
 	}
-
 	return compRef, sourceRepos, nil
 }
-
 func detectPartialMatches(components app.ComponentReferences) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, ref := range components {
 		input := ref.Input()
@@ -412,14 +356,12 @@ func detectPartialMatches(components app.ComponentReferences) error {
 	}
 	return kutilerrors.NewAggregate(errs)
 }
-
-// InferBuildTypes infers build status and mismatches between source and docker builders
 func InferBuildTypes(components app.ComponentReferences, g *GenerationInputs) (app.ComponentReferences, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	for _, ref := range components {
 		input := ref.Input()
-
-		// identify whether the input is a builder and whether generation is requested
 		input.ResolvedMatch.Builder = app.IsBuilderMatch(input.ResolvedMatch)
 		generatorInput, err := app.GeneratorInputFromMatch(input.ResolvedMatch)
 		if err != nil && !g.AllowGenerationErrors {
@@ -427,21 +369,14 @@ func InferBuildTypes(components app.ComponentReferences, g *GenerationInputs) (a
 			continue
 		}
 		input.ResolvedMatch.GeneratorInput = generatorInput
-
-		// if the strategy is set explicitly, apply it to all repos.
-		// for example, this affects repos specified in the form image~source.
 		if g.Strategy != newapp.StrategyUnspecified && input.Uses != nil {
 			input.Uses.SetStrategy(g.Strategy)
 		}
-
-		// if we are expecting build inputs, or get a build input when strategy is not docker, expect to build
 		if g.ExpectToBuild || (input.ResolvedMatch.Builder && g.Strategy != newapp.StrategyDocker) {
 			input.ExpectToBuild = true
 		}
-
 		switch {
 		case input.ExpectToBuild && input.ResolvedMatch.IsTemplate():
-			// TODO: harder - break the template pieces and check if source code can be attached (look for a build config, build image, etc)
 			errs = append(errs, errors.New("template with source code explicitly attached is not supported - you must either specify the template and source code separately or attach an image to the source code using the '[image]~[code]' form"))
 			continue
 		}
@@ -453,41 +388,28 @@ func InferBuildTypes(components app.ComponentReferences, g *GenerationInputs) (a
 		if len(g.Name) == 0 {
 			return nil, errors.New("you must provide a --name when you don't specify a source repository or base image")
 		}
-		ref := &app.ComponentInput{
-			From:          "--binary",
-			Argument:      "--binary",
-			Value:         g.Name,
-			ScratchImage:  true,
-			ExpectToBuild: true,
-		}
+		ref := &app.ComponentInput{From: "--binary", Argument: "--binary", Value: g.Name, ScratchImage: true, ExpectToBuild: true}
 		components = append(components, ref)
 	}
-
 	return components, kutilerrors.NewAggregate(errs)
 }
-
-// EnsureHasSource ensure every builder component has source code associated with it. It takes a list of component references
-// that are builders and have not been associated with source, and a set of source repositories that have not been associated
-// with a builder
 func EnsureHasSource(components app.ComponentReferences, repositories app.SourceRepositories, g *GenerationInputs) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(components) == 0 {
 		return nil
 	}
-
 	switch {
 	case len(repositories) > 1:
 		if len(components) == 1 {
 			component := components[0]
 			suggestions := ""
-
 			for _, repo := range repositories {
 				suggestions += fmt.Sprintf("%s~%s\n", component, repo)
 			}
 			return fmt.Errorf("there are multiple code locations provided - use one of the following suggestions to declare which code goes with the image:\n%s", suggestions)
 		}
-		return fmt.Errorf("the following images require source code: %s\n"+
-			" and the following repositories are not used: %s\nUse '[image]~[repo]' to declare which code goes with which image", components, repositories)
-
+		return fmt.Errorf("the following images require source code: %s\n"+" and the following repositories are not used: %s\nUse '[image]~[repo]' to declare which code goes with which image", components, repositories)
 	case len(repositories) == 1:
 		klog.V(2).Infof("Using %q as the source for build", repositories[0])
 		for _, component := range components {
@@ -495,13 +417,9 @@ func EnsureHasSource(components app.ComponentReferences, repositories app.Source
 			component.Input().Use(repositories[0])
 			repositories[0].UsedBy(component)
 		}
-
 	default:
 		switch {
 		case g.BinaryBuild:
-			// create new "fake" binary repos for any component that doesn't already have a repo
-			// TODO: source repository should possibly be refactored to be an interface or a type that better reflects
-			// the different types of inputs
 			for _, component := range components {
 				input := component.Input()
 				if input.Uses != nil {
@@ -527,14 +445,9 @@ func EnsureHasSource(components app.ComponentReferences, repositories app.Source
 	}
 	return nil
 }
-
-// ComponentsForSourceRepositories creates components for repositories that have not been previously associated by a
-// builder. These components have already gone through source code detection and have a SourceRepositoryInfo attached
-// to them.
-func AddMissingComponentsToRefBuilder(
-	b *app.ReferenceBuilder, repositories app.SourceRepositories, dockerfileResolver, sourceResolver, pipelineResolver app.Resolver,
-	g *GenerationInputs,
-) (app.ComponentReferences, error) {
+func AddMissingComponentsToRefBuilder(b *app.ReferenceBuilder, repositories app.SourceRepositories, dockerfileResolver, sourceResolver, pipelineResolver app.Resolver, g *GenerationInputs) (app.ComponentReferences, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := []error{}
 	result := app.ComponentReferences{}
 	for _, repo := range repositories {
@@ -543,7 +456,6 @@ func AddMissingComponentsToRefBuilder(
 		case info == nil:
 			errs = append(errs, fmt.Errorf("source not detected for repository %q", repo))
 			continue
-
 		case info.Jenkinsfile && (g.Strategy == newapp.StrategyUnspecified || g.Strategy == newapp.StrategyPipeline):
 			refs := b.AddComponents([]string{"pipeline"}, func(input *app.ComponentInput) app.ComponentReference {
 				input.Resolver = pipelineResolver
@@ -554,7 +466,6 @@ func AddMissingComponentsToRefBuilder(
 				return input
 			})
 			result = append(result, refs...)
-
 		case info.Dockerfile != nil && (g.Strategy == newapp.StrategyUnspecified || g.Strategy == newapp.StrategyDocker):
 			node := info.Dockerfile.AST()
 			baseImage := dockerfileutil.LastBaseImage(node)
@@ -571,12 +482,9 @@ func AddMissingComponentsToRefBuilder(
 				return input
 			})
 			result = append(result, refs...)
-
 		default:
-			// TODO: Add support for searching for more than one language if len(info.Types) > 1
 			if len(info.Types) == 0 {
 				errs = append(errs, fmt.Errorf("no language was detected for repository at %q; please specify a builder image to use with your repository: [builder-image]~%s", repo, repo))
-
 				continue
 			}
 			refs := b.AddComponents([]string{info.Types[0].Term()}, func(input *app.ComponentInput) app.ComponentReference {

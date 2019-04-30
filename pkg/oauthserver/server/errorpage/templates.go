@@ -4,7 +4,6 @@ import (
 	"html/template"
 )
 
-// ErrorPageTemplateExample is a basic template for customizing the error page.
 const ErrorPageTemplateExample = `<!DOCTYPE html>
 <!--
 

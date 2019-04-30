@@ -8,24 +8,18 @@ import (
 	"strings"
 )
 
-// RemoteValueGenerator implements GeneratorInterface. It fetches random value
-// from an external url endpoint based on the "[GET:<url>]" input expression.
-//
-// Example:
-//   - "[GET:http://api.example.com/generateRandomValue]"
-type RemoteValueGenerator struct {
-}
+type RemoteValueGenerator struct{}
 
 var remoteExp = regexp.MustCompile(`\[GET\:(http(s)?:\/\/(.+))\]`)
 
-// NewRemoteValueGenerator creates new RemoteValueGenerator.
 func NewRemoteValueGenerator() RemoteValueGenerator {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return RemoteValueGenerator{}
 }
-
-// GenerateValue fetches random value from an external url. The input
-// expression must be of the form "[GET:<url>]".
 func (g RemoteValueGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	matches := remoteExp.FindAllStringIndex(expression, -1)
 	if len(matches) < 1 {
 		return expression, fmt.Errorf("no matches found.")

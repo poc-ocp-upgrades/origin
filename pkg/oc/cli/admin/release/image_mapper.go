@@ -9,7 +9,6 @@ import (
 	"regexp"
 	"sort"
 	"strings"
-
 	"github.com/blang/semver"
 	"github.com/ghodss/yaml"
 	imageapi "github.com/openshift/api/image/v1"
@@ -18,39 +17,35 @@ import (
 )
 
 type Payload struct {
-	path string
-
-	references *imageapi.ImageStream
+	path		string
+	references	*imageapi.ImageStream
 }
 
 func NewPayload(path string) *Payload {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &Payload{path: path}
 }
-
 func (p *Payload) Path() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return p.path
 }
-
-// Rewrite updates the image stream to point to the locations described by the provided function.
-// If a new ID appears in the returned reference, it will be used instead of the existing digest.
-// All references in manifest files will be updated and then the image stream will be written to
-// the correct location with any updated metadata.
 func (p *Payload) Rewrite(allowTags bool, fn func(component string) imagereference.DockerImageReference) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is, err := p.References()
 	if err != nil {
 		return err
 	}
-
 	replacements, err := ReplacementsForImageStream(is, allowTags, fn)
 	if err != nil {
 		return err
 	}
-
 	mapper, err := NewExactMapper(replacements)
 	if err != nil {
 		return err
 	}
-
 	files, err := ioutil.ReadDir(p.path)
 	if err != nil {
 		return err
@@ -79,11 +74,11 @@ func (p *Payload) Rewrite(allowTags bool, fn func(component string) imagereferen
 			return err
 		}
 	}
-
 	return nil
 }
-
 func (p *Payload) References() (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if p.references != nil {
 		return p.references, nil
 	}
@@ -94,8 +89,9 @@ func (p *Payload) References() (*imageapi.ImageStream, error) {
 	p.references = is
 	return is, nil
 }
-
 func parseImageStream(path string) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	data, err := ioutil.ReadFile(path)
 	if os.IsNotExist(err) {
 		return nil, err
@@ -105,8 +101,9 @@ func parseImageStream(path string) (*imageapi.ImageStream, error) {
 	}
 	return readReleaseImageReferences(data)
 }
-
 func readReleaseImageReferences(data []byte) (*imageapi.ImageStream, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is := &imageapi.ImageStream{}
 	if err := yaml.Unmarshal(data, &is); err != nil {
 		return nil, fmt.Errorf("unable to load release image-references: %v", err)
@@ -120,11 +117,12 @@ func readReleaseImageReferences(data []byte) (*imageapi.ImageStream, error) {
 type ManifestMapper func(data []byte) ([]byte, error)
 
 func NewTransformFromImageStreamFile(path string, input *imageapi.ImageStream, allowMissingImages bool) (ManifestMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	is, err := parseImageStream(path)
 	if err != nil {
 		return nil, err
 	}
-
 	references := make(map[string]ImageReference)
 	for _, tag := range is.Spec.Tags {
 		if tag.From == nil || tag.From.Kind != "DockerImage" {
@@ -153,9 +151,6 @@ func NewTransformFromImageStreamFile(path string, input *imageapi.ImageStream, a
 	if err != nil {
 		return nil, err
 	}
-
-	// load all version values from the input stream, including any defaults, to perform
-	// version substitution in the returned manifests.
 	versions := make(map[string]string)
 	tagsByName := make(map[string][]string)
 	for _, tag := range input.Spec.Tags {
@@ -193,7 +188,6 @@ func NewTransformFromImageStreamFile(path string, input *imageapi.ImageStream, a
 			versions[k] = v
 		}
 	}
-
 	versionMapper := NewComponentVersionsMapper(input.Name, versions, tagsByName)
 	return func(data []byte) ([]byte, error) {
 		data, err := imageMapper(data)
@@ -205,20 +199,21 @@ func NewTransformFromImageStreamFile(path string, input *imageapi.ImageStream, a
 }
 
 type ImageReference struct {
-	SourceRepository string
-	TargetPullSpec   string
+	SourceRepository	string
+	TargetPullSpec		string
 }
 
 func NopManifestMapper(data []byte) ([]byte, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return data, nil
 }
 
-// patternImageFormat attempts to match a docker pull spec by prefix (%s) and capture the
-// prefix and either a tag or digest. It requires leading and trailing whitespace, quotes, or
-// end of file.
 const patternImageFormat = `([\W]|^)(%s)(:[\w][\w.-]{0,127}|@[A-Za-z][A-Za-z0-9]*(?:[-_+.][A-Za-z][A-Za-z0-9]*)*[:][[:xdigit:]]{2,})?([\s"']|$)`
 
 func NewImageMapper(images map[string]ImageReference) (ManifestMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	repositories := make([]string, 0, len(images))
 	bySource := make(map[string]string)
 	for name, ref := range images {
@@ -237,7 +232,6 @@ func NewImageMapper(images map[string]ImageReference) (ManifestMapper, error) {
 	}
 	pattern := fmt.Sprintf(patternImageFormat, strings.Join(repositories, "|"))
 	re := regexp.MustCompile(pattern)
-
 	return func(data []byte) ([]byte, error) {
 		out := re.ReplaceAllFunc(data, func(in []byte) []byte {
 			parts := re.FindSubmatch(in)
@@ -248,18 +242,14 @@ func NewImageMapper(images map[string]ImageReference) (ManifestMapper, error) {
 				return in
 			}
 			ref := images[name]
-
 			suffix := parts[3]
 			klog.V(2).Infof("found repository %q with locator %q in the input, switching to %q (from pattern %s)", string(repository), string(suffix), ref.TargetPullSpec, pattern)
 			switch {
 			case len(suffix) == 0:
-				// we found a repository, but no tag or digest (implied latest), or we got an exact match
 				return []byte(string(parts[1]) + ref.TargetPullSpec + string(parts[4]))
 			case suffix[0] == '@':
-				// we got a digest
 				return []byte(string(parts[1]) + ref.TargetPullSpec + string(parts[4]))
 			default:
-				// TODO: we didn't get a digest, so we have to decide what to replace
 				return []byte(string(parts[1]) + ref.TargetPullSpec + string(parts[4]))
 			}
 		})
@@ -267,10 +257,11 @@ func NewImageMapper(images map[string]ImageReference) (ManifestMapper, error) {
 	}, nil
 }
 
-// exactImageFormat attempts to match a string on word boundaries
 const exactImageFormat = `\b%s\b`
 
 func NewExactMapper(mappings map[string]string) (ManifestMapper, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	patterns := make(map[string]*regexp.Regexp)
 	for from, to := range mappings {
 		pattern := fmt.Sprintf(exactImageFormat, regexp.QuoteMeta(from))
@@ -280,7 +271,6 @@ func NewExactMapper(mappings map[string]string) (ManifestMapper, error) {
 		}
 		patterns[to] = re
 	}
-
 	return func(data []byte) ([]byte, error) {
 		for to, pattern := range patterns {
 			data = pattern.ReplaceAll(data, []byte(to))
@@ -288,8 +278,9 @@ func NewExactMapper(mappings map[string]string) (ManifestMapper, error) {
 		return data, nil
 	}, nil
 }
-
 func ComponentReferencesForImageStream(is *imageapi.ImageStream) (func(string) imagereference.DockerImageReference, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	components := make(map[string]imagereference.DockerImageReference)
 	for _, tag := range is.Spec.Tags {
 		if tag.From == nil || tag.From.Kind != "DockerImage" {
@@ -314,13 +305,9 @@ const (
 	componentVersionFormat = `([\W]|^)0\.0\.1-snapshot([a-z0-9\-]*)`
 )
 
-// NewComponentVersionsMapper substitutes strings of the form 0.0.1-snapshot with releaseName and strings
-// of the form 0.0.1-snapshot-[component] with the version value located in versions, or returns an error.
-// tagsByName allows the caller to return an error if references are ambiguous (two tags declare different
-// version values) - if that replacement is detected and tagsByName[component] has more than one entry,
-// then an error is returned by the ManifestMapper.
-// If the input release name is not a semver, a request for `0.0.1-snapshot` will be left unmodified.
 func NewComponentVersionsMapper(releaseName string, versions map[string]string, tagsByName map[string][]string) ManifestMapper {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if v, err := semver.Parse(releaseName); err == nil {
 		v.Build = nil
 		releaseName = v.String()
@@ -390,12 +377,11 @@ var (
 	reAllowedVersionKey = regexp.MustCompile(`^[a-z0-9]+[\-a-z0-9]*[a-z0-9]+$`)
 )
 
-// ComponentVersions is a map of component names to semantic versions. Names are
-// lowercase alphanumeric and dashes. Semantic versions will have all build
-// labels removed, but prerelease segments are preserved.
 type ComponentVersions map[string]string
 
 func (v ComponentVersions) String() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var keys []string
 	for k := range v {
 		keys = append(keys, k)
@@ -410,12 +396,9 @@ func (v ComponentVersions) String() string {
 	}
 	return buf.String()
 }
-
-// parseComponentVersionsLabel returns the version labels specified in the string or
-// an error. Labels are comma-delimited, key=value pairs, and surrounding whitespace is
-// ignored. Names must be a-z, 0-9, or have interior dashes. All values must be
-// semantic versions.
 func parseComponentVersionsLabel(label string) (ComponentVersions, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	label = strings.TrimSpace(label)
 	if len(label) == 0 {
 		return nil, nil
@@ -439,8 +422,9 @@ func parseComponentVersionsLabel(label string) (ComponentVersions, error) {
 	}
 	return labels, nil
 }
-
 func ReplacementsForImageStream(is *imageapi.ImageStream, allowTags bool, fn func(component string) imagereference.DockerImageReference) (map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	replacements := make(map[string]string)
 	for i := range is.Spec.Tags {
 		tag := &is.Spec.Tags[i]
@@ -468,7 +452,6 @@ func ReplacementsForImageStream(is *imageapi.ImageStream, allowTags bool, fn fun
 		replacements[oldImage] = newImage
 		tag.From.Name = newImage
 	}
-
 	if klog.V(5) {
 		for k, v := range replacements {
 			klog.Infof("Mapping %s -> %s", k, v)

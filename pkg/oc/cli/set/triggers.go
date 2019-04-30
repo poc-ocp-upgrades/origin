@@ -6,10 +6,8 @@ import (
 	"reflect"
 	"strings"
 	"text/tabwriter"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	kappsv1 "k8s.io/api/apps/v1"
 	kappsv1beta1 "k8s.io/api/apps/v1beta1"
 	kappsv1beta2 "k8s.io/api/apps/v1beta2"
@@ -30,7 +28,6 @@ import (
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/scheme"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	appsv1 "github.com/openshift/api/apps/v1"
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/library-go/pkg/image/reference"
@@ -41,7 +38,7 @@ import (
 )
 
 var (
-	triggersLong = templates.LongDesc(`
+	triggersLong	= templates.LongDesc(`
 		Set or remove triggers
 
 		Build configs, deployment configs, and most Kubernetes workload objects may have a set of triggers
@@ -58,8 +55,7 @@ var (
 
 		Build configs support triggering off of image changes, config changes, and webhooks. The config change
 		trigger for a build config will only trigger the first build.`)
-
-	triggersExample = templates.Examples(`
+	triggersExample	= templates.Examples(`
 		# Print the triggers on the registry
 	  %[1]s triggers dc/registry
 
@@ -87,61 +83,50 @@ var (
 )
 
 type TriggersOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	Selector            string
-	All                 bool
-	Local               bool
-	Remove              bool
-	RemoveAll           bool
-	Auto                bool
-	Manual              bool
-	Reset               bool
-	ContainerNames      string
-	FromConfig          bool
-	FromImage           string
-	FromGitHub          *bool
-	FromWebHook         *bool
-	FromWebHookAllowEnv *bool
-	FromGitLab          *bool
-	FromBitbucket       *bool
-	// FromImageNamespace is the namespace for the FromImage
-	FromImageNamespace string
-
-	PrintTable        bool
-	Client            dynamic.Interface
-	Printer           printers.ResourcePrinter
-	Builder           func() *resource.Builder
-	Namespace         string
-	ExplicitNamespace bool
-	DryRun            bool
-	Args              []string
-
+	PrintFlags		*genericclioptions.PrintFlags
+	Selector		string
+	All			bool
+	Local			bool
+	Remove			bool
+	RemoveAll		bool
+	Auto			bool
+	Manual			bool
+	Reset			bool
+	ContainerNames		string
+	FromConfig		bool
+	FromImage		string
+	FromGitHub		*bool
+	FromWebHook		*bool
+	FromWebHookAllowEnv	*bool
+	FromGitLab		*bool
+	FromBitbucket		*bool
+	FromImageNamespace	string
+	PrintTable		bool
+	Client			dynamic.Interface
+	Printer			printers.ResourcePrinter
+	Builder			func() *resource.Builder
+	Namespace		string
+	ExplicitNamespace	bool
+	DryRun			bool
+	Args			[]string
 	resource.FilenameOptions
 	genericclioptions.IOStreams
 }
 
 func NewTriggersOptions(streams genericclioptions.IOStreams) *TriggersOptions {
-	return &TriggersOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("triggers updated").WithTypeSetter(scheme.Scheme),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &TriggersOptions{PrintFlags: genericclioptions.NewPrintFlags("triggers updated").WithTypeSetter(scheme.Scheme), IOStreams: streams}
 }
-
-// NewCmdTriggers implements the set triggers command
 func NewCmdTriggers(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewTriggersOptions(streams)
-	cmd := &cobra.Command{
-		Use:     "triggers RESOURCE/NAME [--from-config|--from-image|--from-github|--from-webhook] [--auto|--manual]",
-		Short:   "Update the triggers on one or more objects",
-		Long:    triggersLong,
-		Example: fmt.Sprintf(triggersExample, fullName),
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.Run())
-		},
-	}
+	cmd := &cobra.Command{Use: "triggers RESOURCE/NAME [--from-config|--from-image|--from-github|--from-webhook] [--auto|--manual]", Short: "Update the triggers on one or more objects", Long: triggersLong, Example: fmt.Sprintf(triggersExample, fullName), Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.Run())
+	}}
 	usage := "to use to edit the resource"
 	kcmdutil.AddFilenameOptionFlags(cmd, &o.FilenameOptions, usage)
 	cmd.Flags().StringVarP(&o.Selector, "selector", "l", o.Selector, "Selector (label query) to filter on")
@@ -159,20 +144,18 @@ func NewCmdTriggers(fullName string, f kcmdutil.Factory, streams genericclioptio
 	o.FromWebHookAllowEnv = cmd.Flags().Bool("from-webhook-allow-env", false, "If true, a generic webhook which can provide environment variables - a secret value will be generated automatically")
 	o.FromGitLab = cmd.Flags().Bool("from-gitlab", false, "If true, a GitLab webhook - a secret value will be generated automatically")
 	o.FromBitbucket = cmd.Flags().Bool("from-bitbucket", false, "If true, a Bitbucket webhook - a secret value will be generated automatically")
-
 	o.PrintFlags.AddFlags(cmd)
 	kcmdutil.AddDryRunFlag(cmd)
-
 	return cmd
 }
-
 func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	o.Namespace, o.ExplicitNamespace, err = f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
 	}
-
 	if !cmd.Flags().Lookup("from-github").Changed {
 		o.FromGitHub = nil
 	}
@@ -188,7 +171,6 @@ func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	if !cmd.Flags().Lookup("from-bitbucket").Changed {
 		o.FromBitbucket = nil
 	}
-
 	if len(o.FromImage) > 0 {
 		ref, err := reference.Parse(o.FromImage)
 		if err != nil {
@@ -203,7 +185,6 @@ func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 		o.FromImage = ref.NameString()
 		o.FromImageNamespace = defaultNamespace(ref.Namespace, o.Namespace)
 	}
-
 	count := o.count()
 	o.Reset = count == 0 && (o.Auto || o.Manual)
 	switch {
@@ -212,11 +193,9 @@ func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	case !o.RemoveAll && !o.Auto && !o.Manual:
 		o.Auto = true
 	}
-
 	o.Args = args
 	o.DryRun = kcmdutil.GetDryRunFlag(cmd)
 	o.Builder = f.NewBuilder
-
 	if o.DryRun {
 		o.PrintFlags.Complete("%s (dry run)")
 	}
@@ -224,7 +203,6 @@ func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	if err != nil {
 		return err
 	}
-
 	clientConfig, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -233,11 +211,11 @@ func (o *TriggersOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args 
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func (o *TriggersOptions) count() int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := 0
 	if o.FromConfig {
 		count++
@@ -262,8 +240,9 @@ func (o *TriggersOptions) count() int {
 	}
 	return count
 }
-
 func (o *TriggersOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	count := o.count()
 	switch {
 	case o.Auto && o.Manual:
@@ -281,33 +260,21 @@ func (o *TriggersOptions) Validate() error {
 	}
 	return nil
 }
-
 func (o *TriggersOptions) Run() error {
-	b := o.Builder().
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		LocalParam(o.Local).
-		ContinueOnError().
-		NamespaceParam(o.Namespace).DefaultNamespace().
-		FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).
-		Flatten()
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	b := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).LocalParam(o.Local).ContinueOnError().NamespaceParam(o.Namespace).DefaultNamespace().FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).Flatten()
 	if !o.Local {
-		b = b.
-			LabelSelectorParam(o.Selector).
-			ResourceTypeOrNameArgs(o.All, o.Args...).
-			Latest()
+		b = b.LabelSelectorParam(o.Selector).ResourceTypeOrNameArgs(o.All, o.Args...).Latest()
 	}
-
 	singleItemImplied := false
 	infos, err := b.Do().IntoSingleItemImplied(&singleItemImplied).Infos()
 	if err != nil {
 		return err
 	}
-
 	if o.PrintTable {
 		return o.printTriggers(infos)
 	}
-
 	updateTriggerFn := func(triggers *TriggerDefinition) error {
 		o.updateTriggers(triggers)
 		return nil
@@ -318,7 +285,6 @@ func (o *TriggersOptions) Run() error {
 	if singleItemImplied && len(patches) == 0 {
 		return fmt.Errorf("%s/%s does not support triggers", infos[0].Mapping.Resource.Resource, infos[0].Name)
 	}
-
 	allErrs := []error{}
 	for _, patch := range patches {
 		info := patch.Info
@@ -327,35 +293,30 @@ func (o *TriggersOptions) Run() error {
 			allErrs = append(allErrs, fmt.Errorf("error: %s %v\n", name, patch.Err))
 			continue
 		}
-
 		if string(patch.Patch) == "{}" || len(patch.Patch) == 0 {
 			klog.V(1).Infof("info: %s was not changed\n", name)
 			continue
 		}
-
 		if o.Local || o.DryRun {
 			if err := o.Printer.PrintObj(info.Object, o.Out); err != nil {
 				allErrs = append(allErrs, err)
 			}
 			continue
 		}
-
 		actual, err := o.Client.Resource(info.Mapping.Resource).Namespace(info.Namespace).Patch(info.Name, types.StrategicMergePatchType, patch.Patch, metav1.UpdateOptions{})
 		if err != nil {
 			allErrs = append(allErrs, fmt.Errorf("failed to patch build hook: %v\n", err))
 			continue
 		}
-
 		if err := o.Printer.PrintObj(actual, o.Out); err != nil {
 			allErrs = append(allErrs, err)
 		}
 	}
 	return utilerrors.NewAggregate(allErrs)
-
 }
-
-// printTriggers displays a tabular output of the triggers for each object.
 func (o *TriggersOptions) printTriggers(infos []*resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w := tabwriter.NewWriter(o.Out, 0, 2, 2, ' ', 0)
 	defer w.Flush()
 	fmt.Fprintf(w, "NAME\tTYPE\tVALUE\tAUTO\n")
@@ -403,16 +364,13 @@ func (o *TriggersOptions) printTriggers(infos []*resource.Info) error {
 	}
 	return nil
 }
-
-// updateTriggers updates only those fields with flags set by the user
 func (o *TriggersOptions) updateTriggers(triggers *TriggerDefinition) {
-	// clear everything
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if o.RemoveAll {
 		*triggers = TriggerDefinition{}
 		return
 	}
-
-	// clear a specific field
 	if o.Remove {
 		if o.FromConfig {
 			triggers.ConfigChange = false
@@ -443,8 +401,6 @@ func (o *TriggersOptions) updateTriggers(triggers *TriggerDefinition) {
 		}
 		return
 	}
-
-	// change the automated status
 	if o.Reset {
 		triggers.ConfigChange = o.Auto
 		for i := range triggers.ImageChange {
@@ -452,8 +408,6 @@ func (o *TriggersOptions) updateTriggers(triggers *TriggerDefinition) {
 		}
 		return
 	}
-
-	// change individual elements
 	if o.FromConfig {
 		triggers.ConfigChange = true
 	}
@@ -472,98 +426,61 @@ func (o *TriggersOptions) updateTriggers(triggers *TriggerDefinition) {
 			}
 		}
 		if !found {
-			triggers.ImageChange = append(triggers.ImageChange, ImageChangeTrigger{
-				From:      o.FromImage,
-				Namespace: o.FromImageNamespace,
-				Auto:      !o.Manual,
-				Names:     names,
-			})
+			triggers.ImageChange = append(triggers.ImageChange, ImageChangeTrigger{From: o.FromImage, Namespace: o.FromImageNamespace, Auto: !o.Manual, Names: names})
 		}
 	}
 	if o.FromWebHook != nil && *o.FromWebHook {
 		secret := app.GenerateSecret(20)
-		triggers.GenericWebHooks = append(triggers.GenericWebHooks,
-			buildv1.WebHookTrigger{
-				Secret:   secret,
-				AllowEnv: false,
-			},
-		)
+		triggers.GenericWebHooks = append(triggers.GenericWebHooks, buildv1.WebHookTrigger{Secret: secret, AllowEnv: false})
 	}
 	if o.FromWebHookAllowEnv != nil && *o.FromWebHookAllowEnv {
 		secret := app.GenerateSecret(20)
-		triggers.GenericWebHooks = append(triggers.GenericWebHooks,
-			buildv1.WebHookTrigger{
-				Secret:   secret,
-				AllowEnv: true,
-			},
-		)
+		triggers.GenericWebHooks = append(triggers.GenericWebHooks, buildv1.WebHookTrigger{Secret: secret, AllowEnv: true})
 	}
 	if o.FromGitHub != nil && *o.FromGitHub {
 		secret := app.GenerateSecret(20)
-		triggers.GitHubWebHooks = append(triggers.GitHubWebHooks,
-			buildv1.WebHookTrigger{
-				Secret: secret,
-			},
-		)
+		triggers.GitHubWebHooks = append(triggers.GitHubWebHooks, buildv1.WebHookTrigger{Secret: secret})
 	}
 	if o.FromGitLab != nil && *o.FromGitLab {
 		secret := app.GenerateSecret(20)
-		triggers.GitLabWebHooks = append(triggers.GitLabWebHooks,
-			buildv1.WebHookTrigger{
-				Secret: secret,
-			},
-		)
+		triggers.GitLabWebHooks = append(triggers.GitLabWebHooks, buildv1.WebHookTrigger{Secret: secret})
 	}
 	if o.FromBitbucket != nil && *o.FromBitbucket {
 		secret := app.GenerateSecret(20)
-		triggers.BitbucketWebHooks = append(triggers.BitbucketWebHooks,
-			buildv1.WebHookTrigger{
-				Secret: secret,
-			},
-		)
+		triggers.BitbucketWebHooks = append(triggers.BitbucketWebHooks, buildv1.WebHookTrigger{Secret: secret})
 	}
 }
 
-// ImageChangeTrigger represents the capabilities present in deployment config and build
-// config objects in a consistent way.
 type ImageChangeTrigger struct {
-	// If this trigger is automatically applied
-	Auto bool
-	// An ImageStreamTag name to target
-	From string
-	// The target namespace, normalized if set
-	Namespace string
-	// A list of names this trigger targets
-	Names []string
+	Auto		bool
+	From		string
+	Namespace	string
+	Names		[]string
 }
-
-// TriggerDefinition is the abstract representation of triggers for builds and deployment configs.
 type TriggerDefinition struct {
-	ConfigChange      bool
-	ImageChange       []ImageChangeTrigger
-	GenericWebHooks   []buildv1.WebHookTrigger
-	GitHubWebHooks    []buildv1.WebHookTrigger
-	GitLabWebHooks    []buildv1.WebHookTrigger
-	BitbucketWebHooks []buildv1.WebHookTrigger
+	ConfigChange		bool
+	ImageChange		[]ImageChangeTrigger
+	GenericWebHooks		[]buildv1.WebHookTrigger
+	GitHubWebHooks		[]buildv1.WebHookTrigger
+	GitLabWebHooks		[]buildv1.WebHookTrigger
+	BitbucketWebHooks	[]buildv1.WebHookTrigger
 }
 
-// defaultNamespace returns an empty string if the provided namespace matches the default namespace, or
-// returns the namespace.
 func defaultNamespace(namespace, defaultNamespace string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if namespace == defaultNamespace {
 		return ""
 	}
 	return namespace
 }
-
-// NewAnnotationTriggers creates a trigger definition from an object that can be triggered by the image
-// annotation.
 func NewAnnotationTriggers(obj runtime.Object) (*TriggerDefinition, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	m, err := meta.Accessor(obj)
 	if err != nil {
 		return nil, err
 	}
-
 	t := &TriggerDefinition{ConfigChange: true}
 	switch typed := obj.(type) {
 	case *extensionsv1beta1.Deployment:
@@ -575,7 +492,6 @@ func NewAnnotationTriggers(obj runtime.Object) (*TriggerDefinition, error) {
 	case *kappsv1.Deployment:
 		t.ConfigChange = !typed.Spec.Paused
 	}
-
 	out, ok := m.GetAnnotations()[triggerapi.TriggerAnnotationKey]
 	if !ok {
 		return t, nil
@@ -584,43 +500,32 @@ func NewAnnotationTriggers(obj runtime.Object) (*TriggerDefinition, error) {
 	if err := json.Unmarshal([]byte(out), &triggers); err != nil {
 		return nil, err
 	}
-
 	for _, trigger := range triggers {
 		container, remainder, err := annotations.ContainerForObjectFieldPath(obj, trigger.FieldPath)
 		if err != nil || remainder != "image" {
 			continue
 		}
-		t.ImageChange = append(t.ImageChange, ImageChangeTrigger{
-			Auto:      !trigger.Paused,
-			Names:     []string{container.GetName()},
-			From:      trigger.From.Name,
-			Namespace: defaultNamespace(trigger.From.Namespace, m.GetNamespace()),
-		})
+		t.ImageChange = append(t.ImageChange, ImageChangeTrigger{Auto: !trigger.Paused, Names: []string{container.GetName()}, From: trigger.From.Name, Namespace: defaultNamespace(trigger.From.Namespace, m.GetNamespace())})
 	}
 	return t, nil
 }
-
-// NewDeploymentConfigTriggers creates a trigger definition from a deployment config.
 func NewDeploymentConfigTriggers(config *appsv1.DeploymentConfig) *TriggerDefinition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &TriggerDefinition{}
 	for _, trigger := range config.Spec.Triggers {
 		switch trigger.Type {
 		case appsv1.DeploymentTriggerOnConfigChange:
 			t.ConfigChange = true
 		case appsv1.DeploymentTriggerOnImageChange:
-			t.ImageChange = append(t.ImageChange, ImageChangeTrigger{
-				Auto:      trigger.ImageChangeParams.Automatic,
-				Names:     trigger.ImageChangeParams.ContainerNames,
-				From:      trigger.ImageChangeParams.From.Name,
-				Namespace: defaultNamespace(trigger.ImageChangeParams.From.Namespace, config.Namespace),
-			})
+			t.ImageChange = append(t.ImageChange, ImageChangeTrigger{Auto: trigger.ImageChangeParams.Automatic, Names: trigger.ImageChangeParams.ContainerNames, From: trigger.ImageChangeParams.From.Name, Namespace: defaultNamespace(trigger.ImageChangeParams.From.Namespace, config.Namespace)})
 		}
 	}
 	return t
 }
-
-// NewBuildConfigTriggers creates a trigger definition from a build config.
 func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	t := &TriggerDefinition{}
 	setStrategy := false
 	for _, trigger := range config.Spec.Triggers {
@@ -628,34 +533,13 @@ func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
 		case buildv1.ConfigChangeBuildTriggerType:
 			t.ConfigChange = true
 		case buildv1.GenericWebHookBuildTriggerType:
-			t.GenericWebHooks = append(t.GenericWebHooks,
-				buildv1.WebHookTrigger{
-					Secret:          trigger.GenericWebHook.Secret,
-					SecretReference: trigger.GenericWebHook.SecretReference,
-					AllowEnv:        trigger.GenericWebHook.AllowEnv,
-				},
-			)
+			t.GenericWebHooks = append(t.GenericWebHooks, buildv1.WebHookTrigger{Secret: trigger.GenericWebHook.Secret, SecretReference: trigger.GenericWebHook.SecretReference, AllowEnv: trigger.GenericWebHook.AllowEnv})
 		case buildv1.GitHubWebHookBuildTriggerType:
-			t.GitHubWebHooks = append(t.GitHubWebHooks,
-				buildv1.WebHookTrigger{
-					Secret:          trigger.GitHubWebHook.Secret,
-					SecretReference: trigger.GitHubWebHook.SecretReference,
-				},
-			)
+			t.GitHubWebHooks = append(t.GitHubWebHooks, buildv1.WebHookTrigger{Secret: trigger.GitHubWebHook.Secret, SecretReference: trigger.GitHubWebHook.SecretReference})
 		case buildv1.GitLabWebHookBuildTriggerType:
-			t.GitLabWebHooks = append(t.GitLabWebHooks,
-				buildv1.WebHookTrigger{
-					Secret:          trigger.GitLabWebHook.Secret,
-					SecretReference: trigger.GitLabWebHook.SecretReference,
-				},
-			)
+			t.GitLabWebHooks = append(t.GitLabWebHooks, buildv1.WebHookTrigger{Secret: trigger.GitLabWebHook.Secret, SecretReference: trigger.GitLabWebHook.SecretReference})
 		case buildv1.BitbucketWebHookBuildTriggerType:
-			t.BitbucketWebHooks = append(t.BitbucketWebHooks,
-				buildv1.WebHookTrigger{
-					Secret:          trigger.BitbucketWebHook.Secret,
-					SecretReference: trigger.BitbucketWebHook.SecretReference,
-				},
-			)
+			t.BitbucketWebHooks = append(t.BitbucketWebHooks, buildv1.WebHookTrigger{Secret: trigger.BitbucketWebHook.Secret, SecretReference: trigger.BitbucketWebHook.SecretReference})
 		case buildv1.ImageChangeBuildTriggerType:
 			if trigger.ImageChange.From == nil {
 				if strategyTrigger := strategyTrigger(config); strategyTrigger != nil {
@@ -665,13 +549,8 @@ func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
 				}
 				continue
 			}
-			// normalize the trigger
 			trigger.ImageChange.From.Namespace = defaultNamespace(trigger.ImageChange.From.Namespace, config.Namespace)
-			t.ImageChange = append(t.ImageChange, ImageChangeTrigger{
-				Auto:      true,
-				From:      trigger.ImageChange.From.Name,
-				Namespace: trigger.ImageChange.From.Namespace,
-			})
+			t.ImageChange = append(t.ImageChange, ImageChangeTrigger{Auto: true, From: trigger.ImageChange.From.Name, Namespace: trigger.ImageChange.From.Namespace})
 		}
 	}
 	if !setStrategy {
@@ -681,9 +560,9 @@ func NewBuildConfigTriggers(config *buildv1.BuildConfig) *TriggerDefinition {
 	}
 	return t
 }
-
-// Apply writes a trigger definition back to an object.
 func (t *TriggerDefinition) Apply(obj runtime.Object) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch c := obj.(type) {
 	case *appsv1.DeploymentConfig:
 		if len(t.GitHubWebHooks) > 0 {
@@ -698,7 +577,6 @@ func (t *TriggerDefinition) Apply(obj runtime.Object) error {
 		if len(t.BitbucketWebHooks) > 0 {
 			return fmt.Errorf("deployment configs do not support Bitbucket web hooks")
 		}
-
 		existingTriggers := filterDeploymentTriggers(c.Spec.Triggers, appsv1.DeploymentTriggerOnConfigChange)
 		var triggers []appsv1.DeploymentTriggerPolicy
 		if t.ConfigChange {
@@ -716,98 +594,48 @@ func (t *TriggerDefinition) Apply(obj runtime.Object) error {
 				return fmt.Errorf("you must specify --containers when setting --from-image")
 			}
 			if !allNames.HasAll(trigger.Names...) {
-				return fmt.Errorf(
-					"not all container names exist: %s (accepts: %s)",
-					strings.Join(sets.NewString(trigger.Names...).Difference(allNames).List(), ", "),
-					strings.Join(allNames.List(), ", "),
-				)
+				return fmt.Errorf("not all container names exist: %s (accepts: %s)", strings.Join(sets.NewString(trigger.Names...).Difference(allNames).List(), ", "), strings.Join(allNames.List(), ", "))
 			}
-			triggers = append(triggers, appsv1.DeploymentTriggerPolicy{
-				Type: appsv1.DeploymentTriggerOnImageChange,
-				ImageChangeParams: &appsv1.DeploymentTriggerImageChangeParams{
-					Automatic: trigger.Auto,
-					From: corev1.ObjectReference{
-						Kind:      "ImageStreamTag",
-						Name:      trigger.From,
-						Namespace: trigger.Namespace,
-					},
-					ContainerNames: trigger.Names,
-				},
-			})
+			triggers = append(triggers, appsv1.DeploymentTriggerPolicy{Type: appsv1.DeploymentTriggerOnImageChange, ImageChangeParams: &appsv1.DeploymentTriggerImageChangeParams{Automatic: trigger.Auto, From: corev1.ObjectReference{Kind: "ImageStreamTag", Name: trigger.From, Namespace: trigger.Namespace}, ContainerNames: trigger.Names}})
 		}
 		c.Spec.Triggers = mergeDeployTriggers(existingTriggers, triggers)
 		return nil
-
 	case *buildv1.BuildConfig:
 		var triggers []buildv1.BuildTriggerPolicy
 		if t.ConfigChange {
 			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.ConfigChangeBuildTriggerType})
 		}
 		for i := range t.GenericWebHooks {
-			triggers = append(triggers, buildv1.BuildTriggerPolicy{
-				Type:           buildv1.GenericWebHookBuildTriggerType,
-				GenericWebHook: &t.GenericWebHooks[i],
-			})
+			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.GenericWebHookBuildTriggerType, GenericWebHook: &t.GenericWebHooks[i]})
 		}
 		for i := range t.GitHubWebHooks {
-			triggers = append(triggers, buildv1.BuildTriggerPolicy{
-				Type:          buildv1.GitHubWebHookBuildTriggerType,
-				GitHubWebHook: &t.GitHubWebHooks[i],
-			})
+			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.GitHubWebHookBuildTriggerType, GitHubWebHook: &t.GitHubWebHooks[i]})
 		}
 		for i := range t.GitLabWebHooks {
-			triggers = append(triggers, buildv1.BuildTriggerPolicy{
-				Type:          buildv1.GitLabWebHookBuildTriggerType,
-				GitLabWebHook: &t.GitLabWebHooks[i],
-			})
+			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.GitLabWebHookBuildTriggerType, GitLabWebHook: &t.GitLabWebHooks[i]})
 		}
 		for i := range t.BitbucketWebHooks {
-			triggers = append(triggers, buildv1.BuildTriggerPolicy{
-				Type:             buildv1.BitbucketWebHookBuildTriggerType,
-				BitbucketWebHook: &t.BitbucketWebHooks[i],
-			})
+			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.BitbucketWebHookBuildTriggerType, BitbucketWebHook: &t.BitbucketWebHooks[i]})
 		}
-
-		// add new triggers, filter out any old triggers that match (if moving from automatic to manual),
-		// and then merge the old triggers and the new triggers to preserve fields like lastTriggeredImageID
 		existingTriggers := c.Spec.Triggers
 		strategyTrigger := strategyTrigger(c)
 		for _, trigger := range t.ImageChange {
-			change := &buildv1.ImageChangeTrigger{
-				From: &corev1.ObjectReference{
-					Kind:      "ImageStreamTag",
-					Name:      trigger.From,
-					Namespace: trigger.Namespace,
-				},
-			}
-
-			// use the canonical ImageChangeTrigger with nil From
+			change := &buildv1.ImageChangeTrigger{From: &corev1.ObjectReference{Kind: "ImageStreamTag", Name: trigger.From, Namespace: trigger.Namespace}}
 			if strategyTrigger != nil {
 				strategyTrigger.Auto = trigger.Auto
 			}
 			if reflect.DeepEqual(strategyTrigger, &trigger) {
 				change.From = nil
 			}
-
-			// if this trigger is not automatic, then we need to remove it from the list of triggers
 			if !trigger.Auto {
 				existingTriggers = filterBuildImageTriggers(existingTriggers, trigger, strategyTrigger)
 				continue
 			}
-
-			triggers = append(triggers, buildv1.BuildTriggerPolicy{
-				Type:        buildv1.ImageChangeBuildTriggerType,
-				ImageChange: change,
-			})
+			triggers = append(triggers, buildv1.BuildTriggerPolicy{Type: buildv1.ImageChangeBuildTriggerType, ImageChange: change})
 		}
 		c.Spec.Triggers = mergeBuildTriggers(existingTriggers, triggers)
 		return nil
-
-	case *extensionsv1beta1.DaemonSet, *kappsv1beta2.DaemonSet, *kappsv1.DaemonSet,
-		*extensionsv1beta1.Deployment, *kappsv1beta1.Deployment, *kappsv1beta2.Deployment, *kappsv1.Deployment,
-		*kappsv1beta1.StatefulSet, *kappsv1beta2.StatefulSet, *kappsv1.StatefulSet,
-		*batchv1beta1.CronJob, *batchv2alpha1.CronJob:
-
+	case *extensionsv1beta1.DaemonSet, *kappsv1beta2.DaemonSet, *kappsv1.DaemonSet, *extensionsv1beta1.Deployment, *kappsv1beta1.Deployment, *kappsv1beta2.Deployment, *kappsv1.Deployment, *kappsv1beta1.StatefulSet, *kappsv1beta2.StatefulSet, *kappsv1.StatefulSet, *batchv1beta1.CronJob, *batchv2alpha1.CronJob:
 		if len(t.GitHubWebHooks) > 0 {
 			return fmt.Errorf("does not support GitHub web hooks")
 		}
@@ -843,31 +671,18 @@ func (t *TriggerDefinition) Apply(obj runtime.Object) error {
 				return fmt.Errorf("you must specify --containers when setting --from-image")
 			}
 			if !allNames.HasAll(trigger.Names...) {
-				return fmt.Errorf(
-					"not all container names exist: %s (accepts: %s)",
-					strings.Join(sets.NewString(trigger.Names...).Difference(allNames).List(), ", "),
-					strings.Join(allNames.List(), ", "),
-				)
+				return fmt.Errorf("not all container names exist: %s (accepts: %s)", strings.Join(sets.NewString(trigger.Names...).Difference(allNames).List(), ", "), strings.Join(allNames.List(), ", "))
 			}
 			if alreadyTriggered.HasAny(trigger.Names...) {
 				return fmt.Errorf("only one trigger may reference each container: %s", strings.Join(alreadyTriggered.Intersection(sets.NewString(trigger.Names...)).List(), ", "))
 			}
 			alreadyTriggered.Insert(trigger.Names...)
-
 			ns := trigger.Namespace
 			if ns == m.GetNamespace() {
 				ns = ""
 			}
 			for _, name := range trigger.Names {
-				triggers = append(triggers, triggerapi.ObjectFieldTrigger{
-					From: triggerapi.ObjectReference{
-						Kind:      "ImageStreamTag",
-						Name:      trigger.From,
-						Namespace: ns,
-					},
-					FieldPath: fmt.Sprintf(path.Child("containers").String()+"[?(@.name==\"%s\")].image", name),
-					Paused:    !trigger.Auto,
-				})
+				triggers = append(triggers, triggerapi.ObjectFieldTrigger{From: triggerapi.ObjectReference{Kind: "ImageStreamTag", Name: trigger.From, Namespace: ns}, FieldPath: fmt.Sprintf(path.Child("containers").String()+"[?(@.name==\"%s\")].image", name), Paused: !trigger.Auto})
 			}
 		}
 		out, err := json.Marshal(triggers)
@@ -880,7 +695,6 @@ func (t *TriggerDefinition) Apply(obj runtime.Object) error {
 		}
 		a[triggerapi.TriggerAnnotationKey] = string(out)
 		m.SetAnnotations(a)
-
 		switch typed := obj.(type) {
 		case *extensionsv1beta1.Deployment:
 			typed.Spec.Paused = !t.ConfigChange
@@ -893,14 +707,13 @@ func (t *TriggerDefinition) Apply(obj runtime.Object) error {
 		}
 		klog.V(4).Infof("Updated annotated object: %#v", obj)
 		return nil
-
 	default:
 		return fmt.Errorf("the object is not a deployment config or build config")
 	}
 }
-
-// triggerMatchesBuildImageChange identifies whether the image change is equivalent to the trigger
 func triggerMatchesBuildImageChange(trigger ImageChangeTrigger, strategyTrigger *ImageChangeTrigger, imageChange *buildv1.ImageChangeTrigger) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if imageChange == nil {
 		return false
 	}
@@ -913,10 +726,9 @@ func triggerMatchesBuildImageChange(trigger ImageChangeTrigger, strategyTrigger 
 	}
 	return imageChange.From.Name == trigger.From && namespace == trigger.Namespace
 }
-
-// filterBuildImageTriggers return only triggers that do not match the provided ImageChangeTrigger.  strategyTrigger may be provided
-// if set to remove a BuildTriggerPolicy without a From (which points to the strategy)
 func filterBuildImageTriggers(src []buildv1.BuildTriggerPolicy, trigger ImageChangeTrigger, strategyTrigger *ImageChangeTrigger) []buildv1.BuildTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var dst []buildv1.BuildTriggerPolicy
 	for i := range src {
 		if triggerMatchesBuildImageChange(trigger, strategyTrigger, src[i].ImageChange) {
@@ -926,9 +738,9 @@ func filterBuildImageTriggers(src []buildv1.BuildTriggerPolicy, trigger ImageCha
 	}
 	return dst
 }
-
-// filterDeploymentTriggers returns only triggers that do not have one of the provided types.
 func filterDeploymentTriggers(src []appsv1.DeploymentTriggerPolicy, types ...appsv1.DeploymentTriggerType) []appsv1.DeploymentTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var dst []appsv1.DeploymentTriggerPolicy
 Outer:
 	for i := range src {
@@ -941,23 +753,20 @@ Outer:
 	}
 	return dst
 }
-
-// strategyTrigger returns a synthetic ImageChangeTrigger that represents the image stream tag the build strategy
-// points to, or nil if no such strategy trigger is possible (if the build doesn't point to an ImageStreamTag).
 func strategyTrigger(config *buildv1.BuildConfig) *ImageChangeTrigger {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if from := getInputReference(config.Spec.Strategy); from != nil {
 		if from.Kind == "ImageStreamTag" {
-			// normalize the strategy object reference
 			from.Namespace = defaultNamespace(from.Namespace, config.Namespace)
 			return &ImageChangeTrigger{From: from.Name, Namespace: from.Namespace}
 		}
 	}
 	return nil
 }
-
-// mergeDeployTriggers returns an array of DeploymentTriggerPolicies that have no duplicates.
 func mergeDeployTriggers(dst, src []appsv1.DeploymentTriggerPolicy) []appsv1.DeploymentTriggerPolicy {
-	// never return an empty map, because the triggers on a deployment config default when the map is empty
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result := []appsv1.DeploymentTriggerPolicy{}
 	for _, current := range dst {
 		if findDeployTrigger(src, current) != -1 {
@@ -971,10 +780,9 @@ func mergeDeployTriggers(dst, src []appsv1.DeploymentTriggerPolicy) []appsv1.Dep
 	}
 	return result
 }
-
-// findDeployTrigger finds the position of a deployment trigger in the provided array, or -1 if no such
-// matching trigger is found.
 func findDeployTrigger(dst []appsv1.DeploymentTriggerPolicy, trigger appsv1.DeploymentTriggerPolicy) int {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range dst {
 		if reflect.DeepEqual(dst[i], trigger) {
 			return i
@@ -982,10 +790,9 @@ func findDeployTrigger(dst []appsv1.DeploymentTriggerPolicy, trigger appsv1.Depl
 	}
 	return -1
 }
-
-// mergeBuildTriggers returns an array of BuildTriggerPolicies that have no duplicates, in the same order
-// as they exist in their original arrays (a zip-merge).
 func mergeBuildTriggers(dst, src []buildv1.BuildTriggerPolicy) []buildv1.BuildTriggerPolicy {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []buildv1.BuildTriggerPolicy
 	for _, current := range dst {
 		if findBuildTrigger(src, current) != -1 {
@@ -999,16 +806,13 @@ func mergeBuildTriggers(dst, src []buildv1.BuildTriggerPolicy) []buildv1.BuildTr
 	}
 	return result
 }
-
-// findBuildTrigger finds the equivalent build trigger position in the provided array, or -1 if
-// no such build trigger exists.  Equality only cares about the value of the From field.
 func findBuildTrigger(dst []buildv1.BuildTriggerPolicy, trigger buildv1.BuildTriggerPolicy) int {
-	// make a copy for semantic equality
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if trigger.ImageChange != nil {
 		trigger.ImageChange = &buildv1.ImageChangeTrigger{From: trigger.ImageChange.From}
 	}
 	for i, copied := range dst {
-		// make a copy for semantic equality
 		if copied.ImageChange != nil {
 			copied.ImageChange = &buildv1.ImageChangeTrigger{From: copied.ImageChange.From}
 		}
@@ -1018,12 +822,9 @@ func findBuildTrigger(dst []buildv1.BuildTriggerPolicy, trigger buildv1.BuildTri
 	}
 	return -1
 }
-
-// UpdateTriggersForObject extracts a trigger definition from the provided object, passes it to fn, and
-// then applies the trigger definition back on the object. It returns true if the object was mutated
-// and an optional error if the any part of the flow returns error.
 func UpdateTriggersForObject(obj runtime.Object, fn func(*TriggerDefinition) error) (bool, error) {
-	// TODO: replace with a swagger schema based approach (identify pod template via schema introspection)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch t := obj.(type) {
 	case *appsv1.DeploymentConfig:
 		triggers := NewDeploymentConfigTriggers(t)
@@ -1037,10 +838,7 @@ func UpdateTriggersForObject(obj runtime.Object, fn func(*TriggerDefinition) err
 			return true, err
 		}
 		return true, triggers.Apply(t)
-	case *extensionsv1beta1.DaemonSet, *kappsv1beta2.DaemonSet, *kappsv1.DaemonSet,
-		*extensionsv1beta1.Deployment, *kappsv1beta1.Deployment, *kappsv1beta2.Deployment, *kappsv1.Deployment,
-		*kappsv1beta1.StatefulSet, *kappsv1beta2.StatefulSet, *kappsv1.StatefulSet,
-		*batchv1beta1.CronJob, *batchv2alpha1.CronJob:
+	case *extensionsv1beta1.DaemonSet, *kappsv1beta2.DaemonSet, *kappsv1.DaemonSet, *extensionsv1beta1.Deployment, *kappsv1beta1.Deployment, *kappsv1beta2.Deployment, *kappsv1.Deployment, *kappsv1beta1.StatefulSet, *kappsv1beta2.StatefulSet, *kappsv1.StatefulSet, *batchv1beta1.CronJob, *batchv2alpha1.CronJob:
 		triggers, err := NewAnnotationTriggers(obj)
 		if err != nil {
 			return false, err
@@ -1053,8 +851,9 @@ func UpdateTriggersForObject(obj runtime.Object, fn func(*TriggerDefinition) err
 		return false, fmt.Errorf("the object does not support triggers: %T", t)
 	}
 }
-
 func getInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case strategy.SourceStrategy != nil:
 		return &strategy.SourceStrategy.From

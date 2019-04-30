@@ -8,10 +8,8 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-
 	"github.com/spf13/cobra"
 	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
@@ -33,12 +31,12 @@ import (
 )
 
 const (
-	volumePrefix    = "volume-"
-	storageAnnClass = "volume.beta.kubernetes.io/storage-class"
+	volumePrefix	= "volume-"
+	storageAnnClass	= "volume.beta.kubernetes.io/storage-class"
 )
 
 var (
-	volumeLong = templates.LongDesc(`
+	volumeLong	= templates.LongDesc(`
 		Update volumes on a pod template
 
 		This command can add, update or remove volumes from containers for any object
@@ -66,8 +64,7 @@ var (
 		  directory.
 
 		For descriptions on other volume types, see https://docs.openshift.com`)
-
-	volumeExample = templates.Examples(`
+	volumeExample	= templates.Examples(`
 		# List volumes defined on all deployment configs in the current project
 	  %[1]s volume dc --all
 
@@ -97,88 +94,63 @@ var (
 )
 
 type VolumeOptions struct {
-	PrintFlags *genericclioptions.PrintFlags
-
-	DefaultNamespace       string
-	ExplicitNamespace      bool
-	Mapper                 meta.RESTMapper
-	Client                 kubernetes.Interface
-	UpdatePodSpecForObject polymorphichelpers.UpdatePodSpecForObjectFunc
-	Builder                func() *resource.Builder
-
-	// Resource selection
-	Selector string
-	All      bool
-
-	// Operations
-	Add    bool
-	Remove bool
-	List   bool
-
-	// Common optional params
-	Name       string
-	Containers string
-	Confirm    bool
-	Local      bool
-	Args       []string
-	Printer    printers.ResourcePrinter
-	DryRun     bool
-
-	// Add op params
-	AddOpts *AddVolumeOptions
-
+	PrintFlags		*genericclioptions.PrintFlags
+	DefaultNamespace	string
+	ExplicitNamespace	bool
+	Mapper			meta.RESTMapper
+	Client			kubernetes.Interface
+	UpdatePodSpecForObject	polymorphichelpers.UpdatePodSpecForObjectFunc
+	Builder			func() *resource.Builder
+	Selector		string
+	All			bool
+	Add			bool
+	Remove			bool
+	List			bool
+	Name			string
+	Containers		string
+	Confirm			bool
+	Local			bool
+	Args			[]string
+	Printer			printers.ResourcePrinter
+	DryRun			bool
+	AddOpts			*AddVolumeOptions
 	resource.FilenameOptions
 	genericclioptions.IOStreams
 }
-
 type AddVolumeOptions struct {
-	Type          string
-	MountPath     string
-	SubPath       string
-	DefaultMode   string
-	Overwrite     bool
-	Path          string
-	ConfigMapName string
-	SecretName    string
-	Source        string
-
-	ReadOnly    bool
-	CreateClaim bool
-	ClaimName   string
-	ClaimSize   string
-	ClaimMode   string
-	ClaimClass  string
-
-	TypeChanged  bool
-	ClassChanged bool
+	Type		string
+	MountPath	string
+	SubPath		string
+	DefaultMode	string
+	Overwrite	bool
+	Path		string
+	ConfigMapName	string
+	SecretName	string
+	Source		string
+	ReadOnly	bool
+	CreateClaim	bool
+	ClaimName	string
+	ClaimSize	string
+	ClaimMode	string
+	ClaimClass	string
+	TypeChanged	bool
+	ClassChanged	bool
 }
 
 func NewVolumeOptions(streams genericclioptions.IOStreams) *VolumeOptions {
-	return &VolumeOptions{
-		PrintFlags: genericclioptions.NewPrintFlags("volume updated").WithTypeSetter(scheme.Scheme),
-
-		Containers: "*",
-		AddOpts: &AddVolumeOptions{
-			ClaimMode: "ReadWriteOnce",
-		},
-		IOStreams: streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &VolumeOptions{PrintFlags: genericclioptions.NewPrintFlags("volume updated").WithTypeSetter(scheme.Scheme), Containers: "*", AddOpts: &AddVolumeOptions{ClaimMode: "ReadWriteOnce"}, IOStreams: streams}
 }
-
 func NewCmdVolume(fullName string, f kcmdutil.Factory, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewVolumeOptions(streams)
-	cmd := &cobra.Command{
-		Use:     "volumes RESOURCE/NAME --add|--remove|--list",
-		Short:   "Update volumes on a pod template",
-		Long:    volumeLong,
-		Example: fmt.Sprintf(volumeExample, fullName),
-		Aliases: []string{"volume"},
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Complete(f, cmd, args))
-			kcmdutil.CheckErr(o.Validate())
-			kcmdutil.CheckErr(o.RunVolume())
-		},
-	}
+	cmd := &cobra.Command{Use: "volumes RESOURCE/NAME --add|--remove|--list", Short: "Update volumes on a pod template", Long: volumeLong, Example: fmt.Sprintf(volumeExample, fullName), Aliases: []string{"volume"}, Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Complete(f, cmd, args))
+		kcmdutil.CheckErr(o.Validate())
+		kcmdutil.CheckErr(o.RunVolume())
+	}}
 	usage := "to use to edit the resource"
 	kcmdutil.AddFilenameOptionFlags(cmd, &o.FilenameOptions, usage)
 	cmd.Flags().StringVarP(&o.Selector, "selector", "l", o.Selector, "Selector (label query) to filter on")
@@ -190,7 +162,6 @@ func NewCmdVolume(fullName string, f kcmdutil.Factory, streams genericclioptions
 	cmd.Flags().StringVar(&o.Name, "name", o.Name, "Name of the volume. If empty, auto generated for add operation")
 	cmd.Flags().StringVarP(&o.Containers, "containers", "c", o.Containers, "The names of containers in the selected pod templates to change - may use wildcards")
 	cmd.Flags().BoolVar(&o.Confirm, "confirm", o.Confirm, "If true, confirm that you really want to remove multiple volumes")
-
 	cmd.Flags().StringVarP(&o.AddOpts.Type, "type", "t", o.AddOpts.Type, "Type of the volume source for add operation. Supported options: emptyDir, hostPath, secret, configmap, persistentVolumeClaim")
 	cmd.Flags().StringVarP(&o.AddOpts.MountPath, "mount-path", "m", o.AddOpts.MountPath, "Mount path inside the container. Optional param for --add or --remove")
 	cmd.Flags().StringVar(&o.AddOpts.SubPath, "sub-path", o.AddOpts.SubPath, "Path within the local volume from which the container's volume should be mounted. Optional param for --add or --remove")
@@ -205,17 +176,14 @@ func NewCmdVolume(fullName string, f kcmdutil.Factory, streams genericclioptions
 	cmd.Flags().StringVar(&o.AddOpts.ClaimSize, "claim-size", o.AddOpts.ClaimSize, "If specified along with a persistent volume type, create a new claim with the given size in bytes. Accepts SI notation: 10, 10G, 10Gi")
 	cmd.Flags().StringVar(&o.AddOpts.ClaimMode, "claim-mode", o.AddOpts.ClaimMode, "Set the access mode of the claim to be created. Valid values are ReadWriteOnce (rwo), ReadWriteMany (rwm), or ReadOnlyMany (rom)")
 	cmd.Flags().StringVar(&o.AddOpts.Source, "source", o.AddOpts.Source, "Details of volume source as json string. This can be used if the required volume type is not supported by --type option. (e.g.: '{\"gitRepo\": {\"repository\": <git-url>, \"revision\": <commit-hash>}}')")
-
 	o.PrintFlags.AddFlags(cmd)
 	kcmdutil.AddDryRunFlag(cmd)
-
-	// deprecate --list option
 	cmd.Flags().MarkDeprecated("list", "Volumes and volume mounts can be listed by providing a resource with no additional options.")
-
 	return cmd
 }
-
 func (o *VolumeOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(o.Selector) > 0 {
 		if _, err := labels.Parse(o.Selector); err != nil {
 			return errors.New("--selector=<selector> must be a valid label selector")
@@ -227,35 +195,30 @@ func (o *VolumeOptions) Validate() error {
 	if len(o.Filenames) == 0 && len(o.Args) < 1 {
 		return errors.New("provide one or more resources to add, list, or delete volumes on as TYPE/NAME")
 	}
-
 	if o.List && o.PrintFlags.OutputFormat != nil && len(*o.PrintFlags.OutputFormat) > 0 {
 		return errors.New("--list and --output may not be specified together")
 	}
-
 	if o.Add {
 		err := o.AddOpts.Validate()
 		if err != nil {
 			return err
 		}
-	} else if len(o.AddOpts.Source) > 0 || len(o.AddOpts.Path) > 0 || len(o.AddOpts.SecretName) > 0 ||
-		len(o.AddOpts.ConfigMapName) > 0 || len(o.AddOpts.ClaimName) > 0 || len(o.AddOpts.DefaultMode) > 0 ||
-		o.AddOpts.Overwrite {
+	} else if len(o.AddOpts.Source) > 0 || len(o.AddOpts.Path) > 0 || len(o.AddOpts.SecretName) > 0 || len(o.AddOpts.ConfigMapName) > 0 || len(o.AddOpts.ClaimName) > 0 || len(o.AddOpts.DefaultMode) > 0 || o.AddOpts.Overwrite {
 		return errors.New("--type|--path|--configmap-name|--secret-name|--claim-name|--source|--default-mode|--overwrite are only valid for --add operation")
 	}
-	// Removing all volumes for the resource type needs confirmation
 	if o.Remove && len(o.Name) == 0 && !o.Confirm {
 		return errors.New("must provide --confirm for removing more than one volume")
 	}
 	return nil
 }
-
 func (a *AddVolumeOptions) Validate() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a.Type) == 0 && len(a.Source) == 0 {
 		return errors.New("must provide --type or --source for --add operation")
 	} else if a.TypeChanged && len(a.Source) > 0 {
 		return errors.New("either specify --type or --source but not both for --add operation")
 	}
-
 	if len(a.Type) > 0 {
 		switch strings.ToLower(a.Type) {
 		case "emptydir":
@@ -287,7 +250,6 @@ func (a *AddVolumeOptions) Validate() error {
 	} else if len(a.Path) > 0 || len(a.SecretName) > 0 || len(a.ClaimName) > 0 {
 		return errors.New("--path|--secret-name|--claim-name are only valid for --type option")
 	}
-
 	if len(a.Source) > 0 {
 		var source map[string]interface{}
 		err := json.Unmarshal([]byte(a.Source), &source)
@@ -297,7 +259,6 @@ func (a *AddVolumeOptions) Validate() error {
 		if len(source) > 1 {
 			return errors.New("must provide only one volume for --source")
 		}
-
 		var vs corev1.VolumeSource
 		err = json.Unmarshal([]byte(a.Source), &vs)
 		if err != nil {
@@ -315,8 +276,9 @@ func (a *AddVolumeOptions) Validate() error {
 	}
 	return nil
 }
-
 func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	config, err := f.ToRESTConfig()
 	if err != nil {
 		return err
@@ -325,7 +287,6 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	if err != nil {
 		return err
 	}
-
 	o.DefaultNamespace, o.ExplicitNamespace, err = f.ToRawKubeConfigLoader().Namespace()
 	if err != nil {
 		return err
@@ -334,7 +295,6 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	if err != nil {
 		return err
 	}
-
 	numOps := 0
 	if o.Add {
 		numOps++
@@ -345,21 +305,17 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	if o.List {
 		numOps++
 	}
-
 	switch {
 	case numOps == 0:
 		o.List = true
 	case numOps > 1:
 		return errors.New("you may only specify one operation at a time")
 	}
-
 	o.Args = args
 	o.Builder = f.NewBuilder
 	o.UpdatePodSpecForObject = polymorphichelpers.UpdatePodSpecForObjectFn
-
 	o.AddOpts.TypeChanged = cmd.Flag("type").Changed
 	o.AddOpts.ClassChanged = cmd.Flag("claim-class").Changed
-
 	o.DryRun = kcmdutil.GetDryRunFlag(cmd)
 	if o.DryRun {
 		o.PrintFlags.Complete("%s (dry run)")
@@ -368,8 +324,6 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	if err != nil {
 		return err
 	}
-
-	// Complete AddOpts
 	if o.Add {
 		if err := o.AddOpts.Complete(); err != nil {
 			return err
@@ -377,8 +331,9 @@ func (o *VolumeOptions) Complete(f kcmdutil.Factory, cmd *cobra.Command, args []
 	}
 	return nil
 }
-
 func (a *AddVolumeOptions) Complete() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(a.Type) == 0 {
 		switch {
 		case len(a.ClaimName) > 0 || len(a.ClaimSize) > 0:
@@ -406,8 +361,6 @@ func (a *AddVolumeOptions) Complete() error {
 			return errors.New("--default-mode is only available for secrets and configmaps")
 		}
 	}
-
-	// In case of volume source ignore the default volume type
 	if len(a.Source) > 0 {
 		a.Type = ""
 	}
@@ -433,26 +386,15 @@ func (a *AddVolumeOptions) Complete() error {
 	default:
 		return errors.New("--claim-mode must be one of ReadWriteOnce (rwo), ReadWriteMany (rwm), or ReadOnlyMany (rom)")
 	}
-
 	return nil
 }
-
 func (o *VolumeOptions) RunVolume() error {
-	b := o.Builder().
-		WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).
-		LocalParam(o.Local).
-		ContinueOnError().
-		NamespaceParam(o.DefaultNamespace).DefaultNamespace().
-		FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).
-		Flatten()
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	b := o.Builder().WithScheme(scheme.Scheme, scheme.Scheme.PrioritizedVersionsAllGroups()...).LocalParam(o.Local).ContinueOnError().NamespaceParam(o.DefaultNamespace).DefaultNamespace().FilenameParam(o.ExplicitNamespace, &o.FilenameOptions).Flatten()
 	if !o.Local {
-		b = b.
-			LabelSelectorParam(o.Selector).
-			ResourceTypeOrNameArgs(o.All, o.Args...).
-			Latest()
+		b = b.LabelSelectorParam(o.Selector).ResourceTypeOrNameArgs(o.All, o.Args...).Latest()
 	}
-
 	singleItemImplied := false
 	infos, err := b.Do().IntoSingleItemImplied(&singleItemImplied).Infos()
 	if err != nil {
@@ -464,27 +406,18 @@ func (o *VolumeOptions) RunVolume() error {
 		}
 		return nil
 	}
-
 	updateInfos := []*resource.Info{}
-	// if a claim should be created, generate the info we'll add to the flow
 	if o.Add && o.AddOpts.CreateClaim {
 		claim := o.AddOpts.createClaim()
 		m, err := o.Mapper.RESTMapping(corev1.SchemeGroupVersion.WithKind("PersistentVolumeClaim").GroupKind())
 		if err != nil {
 			return err
 		}
-		info := &resource.Info{
-			Mapping:   m,
-			Client:    o.Client.CoreV1().RESTClient(),
-			Namespace: o.DefaultNamespace,
-			Object:    claim,
-		}
+		info := &resource.Info{Mapping: m, Client: o.Client.CoreV1().RESTClient(), Namespace: o.DefaultNamespace, Object: claim}
 		infos = append(infos, info)
 		updateInfos = append(updateInfos, info)
 	}
-
 	patches, patchError := o.getVolumeUpdatePatches(infos, singleItemImplied)
-
 	if patchError != nil {
 		return patchError
 	}
@@ -495,7 +428,6 @@ func (o *VolumeOptions) RunVolume() error {
 			}
 		}
 	}
-
 	allErrs := []error{}
 	for _, info := range updateInfos {
 		var obj runtime.Object
@@ -517,33 +449,30 @@ func (o *VolumeOptions) RunVolume() error {
 			allErrs = append(allErrs, fmt.Errorf("error: %s %v\n", name, patch.Err))
 			continue
 		}
-
 		if string(patch.Patch) == "{}" || len(patch.Patch) == 0 {
 			klog.V(1).Infof("info: %s was not changed\n", name)
 			continue
 		}
-
 		if o.Local || o.DryRun {
 			if err := o.Printer.PrintObj(info.Object, o.Out); err != nil {
 				allErrs = append(allErrs, err)
 			}
 			continue
 		}
-
 		actual, err := resource.NewHelper(info.Client, info.Mapping).Patch(info.Namespace, info.Name, types.StrategicMergePatchType, patch.Patch, &metav1.UpdateOptions{})
 		if err != nil {
 			allErrs = append(allErrs, fmt.Errorf("failed to patch volume update to pod template: %v\n", err))
 			continue
 		}
-
 		if err := o.Printer.PrintObj(actual, o.Out); err != nil {
 			allErrs = append(allErrs, err)
 		}
 	}
 	return utilerrors.NewAggregate(allErrs)
 }
-
 func (o *VolumeOptions) getVolumeUpdatePatches(infos []*resource.Info, singleItemImplied bool) ([]*Patch, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	skipped := 0
 	patches := CalculatePatches(infos, scheme.DefaultJSONEncoder(), func(info *resource.Info) (bool, error) {
 		transformed := false
@@ -570,48 +499,38 @@ func (o *VolumeOptions) getVolumeUpdatePatches(infos []*resource.Info, singleIte
 	}
 	return patches, nil
 }
-
 func setVolumeSourceByType(kv *corev1.Volume, opts *AddVolumeOptions) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch strings.ToLower(opts.Type) {
 	case "emptydir":
 		kv.EmptyDir = &corev1.EmptyDirVolumeSource{}
 	case "hostpath":
-		kv.HostPath = &corev1.HostPathVolumeSource{
-			Path: opts.Path,
-		}
+		kv.HostPath = &corev1.HostPathVolumeSource{Path: opts.Path}
 	case "secret":
 		defaultMode, err := strconv.ParseUint(opts.DefaultMode, 8, 32)
 		if err != nil {
 			return err
 		}
 		defaultMode32 := int32(defaultMode)
-		kv.Secret = &corev1.SecretVolumeSource{
-			SecretName:  opts.SecretName,
-			DefaultMode: &defaultMode32,
-		}
+		kv.Secret = &corev1.SecretVolumeSource{SecretName: opts.SecretName, DefaultMode: &defaultMode32}
 	case "configmap":
 		defaultMode, err := strconv.ParseUint(opts.DefaultMode, 8, 32)
 		if err != nil {
 			return err
 		}
 		defaultMode32 := int32(defaultMode)
-		kv.ConfigMap = &corev1.ConfigMapVolumeSource{
-			LocalObjectReference: corev1.LocalObjectReference{
-				Name: opts.ConfigMapName,
-			},
-			DefaultMode: &defaultMode32,
-		}
+		kv.ConfigMap = &corev1.ConfigMapVolumeSource{LocalObjectReference: corev1.LocalObjectReference{Name: opts.ConfigMapName}, DefaultMode: &defaultMode32}
 	case "persistentvolumeclaim", "pvc":
-		kv.PersistentVolumeClaim = &corev1.PersistentVolumeClaimVolumeSource{
-			ClaimName: opts.ClaimName,
-		}
+		kv.PersistentVolumeClaim = &corev1.PersistentVolumeClaimVolumeSource{ClaimName: opts.ClaimName}
 	default:
 		return fmt.Errorf("invalid volume type: %s", opts.Type)
 	}
 	return nil
 }
-
 func (o *VolumeOptions) printVolumes(infos []*resource.Info) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	listingErrors := []error{}
 	for _, info := range infos {
 		_, err := o.UpdatePodSpecForObject(info.Object, func(spec *corev1.PodSpec) error {
@@ -624,30 +543,18 @@ func (o *VolumeOptions) printVolumes(infos []*resource.Info) []error {
 	}
 	return listingErrors
 }
-
 func (a *AddVolumeOptions) createClaim() *corev1.PersistentVolumeClaim {
-	pvc := &corev1.PersistentVolumeClaim{
-		ObjectMeta: metav1.ObjectMeta{
-			Name: a.ClaimName,
-		},
-		Spec: corev1.PersistentVolumeClaimSpec{
-			AccessModes: []corev1.PersistentVolumeAccessMode{corev1.PersistentVolumeAccessMode(a.ClaimMode)},
-			Resources: corev1.ResourceRequirements{
-				Requests: corev1.ResourceList{
-					corev1.ResourceName(corev1.ResourceStorage): kresource.MustParse(a.ClaimSize),
-				},
-			},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	pvc := &corev1.PersistentVolumeClaim{ObjectMeta: metav1.ObjectMeta{Name: a.ClaimName}, Spec: corev1.PersistentVolumeClaimSpec{AccessModes: []corev1.PersistentVolumeAccessMode{corev1.PersistentVolumeAccessMode(a.ClaimMode)}, Resources: corev1.ResourceRequirements{Requests: corev1.ResourceList{corev1.ResourceName(corev1.ResourceStorage): kresource.MustParse(a.ClaimSize)}}}}
 	if a.ClassChanged {
-		pvc.Annotations = map[string]string{
-			storageAnnClass: a.ClaimClass,
-		}
+		pvc.Annotations = map[string]string{storageAnnClass: a.ClaimClass}
 	}
 	return pvc
 }
-
 func (o *VolumeOptions) setVolumeSource(kv *corev1.Volume) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var err error
 	opts := o.AddOpts
 	if len(opts.Type) > 0 {
@@ -657,15 +564,15 @@ func (o *VolumeOptions) setVolumeSource(kv *corev1.Volume) error {
 	}
 	return err
 }
-
 func (o *VolumeOptions) setVolumeMount(spec *corev1.PodSpec, info *resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := o.AddOpts
 	containers, _ := selectContainers(spec.Containers, o.Containers)
 	if len(containers) == 0 && o.Containers != "*" {
 		fmt.Fprintf(o.ErrOut, "warning: %s/%s does not have any containers matching %q\n", info.Mapping.Resource.Resource, info.Name, o.Containers)
 		return nil
 	}
-
 	for _, c := range containers {
 		for _, m := range c.VolumeMounts {
 			if path.Clean(m.MountPath) == path.Clean(opts.MountPath) && m.Name != o.Name {
@@ -678,11 +585,7 @@ func (o *VolumeOptions) setVolumeMount(spec *corev1.PodSpec, info *resource.Info
 				break
 			}
 		}
-		volumeMount := &corev1.VolumeMount{
-			Name:      o.Name,
-			MountPath: path.Clean(opts.MountPath),
-			ReadOnly:  opts.ReadOnly,
-		}
+		volumeMount := &corev1.VolumeMount{Name: o.Name, MountPath: path.Clean(opts.MountPath), ReadOnly: opts.ReadOnly}
 		if len(opts.SubPath) > 0 {
 			volumeMount.SubPath = path.Clean(opts.SubPath)
 		}
@@ -690,12 +593,11 @@ func (o *VolumeOptions) setVolumeMount(spec *corev1.PodSpec, info *resource.Info
 	}
 	return nil
 }
-
 func (o *VolumeOptions) getVolumeName(spec *corev1.PodSpec, singleResource bool) (string, bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := o.AddOpts
 	if opts.Overwrite {
-		// Multiple resources can have same mount-path for different volumes,
-		// so restrict it for single resource to uniquely find the volume
 		if !singleResource {
 			return "", false, fmt.Errorf("you must specify --name for the volume name when dealing with multiple resources")
 		}
@@ -712,7 +614,6 @@ func (o *VolumeOptions) getVolumeName(spec *corev1.PodSpec, singleResource bool)
 					}
 				}
 			}
-
 			switch matchCount {
 			case 0:
 				return "", false, fmt.Errorf("unable to find the volume for mount-path: %s", opts.MountPath)
@@ -724,21 +625,19 @@ func (o *VolumeOptions) getVolumeName(spec *corev1.PodSpec, singleResource bool)
 		}
 		return "", false, fmt.Errorf("ambiguous --overwrite, specify --name or --mount-path")
 	}
-
 	oldName, claimFound := o.checkForExistingClaim(spec)
-
 	if claimFound {
 		return oldName, true, nil
 	}
-	// Generate volume name
 	name := names.SimpleNameGenerator.GenerateName(volumePrefix)
 	if o.PrintFlags.OutputFormat == nil || len(*o.PrintFlags.OutputFormat) == 0 {
 		fmt.Fprintf(o.ErrOut, "info: Generated volume name: %s\n", name)
 	}
 	return name, false, nil
 }
-
 func (o *VolumeOptions) checkForExistingClaim(spec *corev1.PodSpec) (string, bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, vol := range spec.Volumes {
 		oldSource := vol.VolumeSource.PersistentVolumeClaim
 		if oldSource != nil && o.AddOpts.ClaimName == oldSource.ClaimName {
@@ -747,8 +646,9 @@ func (o *VolumeOptions) checkForExistingClaim(spec *corev1.PodSpec) (string, boo
 	}
 	return "", false
 }
-
 func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Info, singleResource bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	opts := o.AddOpts
 	claimFound := false
 	if len(o.Name) == 0 {
@@ -760,10 +660,7 @@ func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Inf
 	} else {
 		_, claimFound = o.checkForExistingClaim(spec)
 	}
-
-	newVolume := &corev1.Volume{
-		Name: o.Name,
-	}
+	newVolume := &corev1.Volume{Name: o.Name}
 	setSource := true
 	vNameFound := false
 	for i, vol := range spec.Volumes {
@@ -780,12 +677,9 @@ func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Inf
 			break
 		}
 	}
-	// if --overwrite was passed, but volume did not previously
-	// exist, log a warning that no volumes were overwritten
 	if !vNameFound && opts.Overwrite && (o.PrintFlags.OutputFormat == nil || len(*o.PrintFlags.OutputFormat) == 0) {
 		fmt.Fprintf(o.ErrOut, "warning: volume %q did not previously exist and was not overwritten. A new volume with this name has been created instead.", o.Name)
 	}
-
 	if setSource {
 		err := o.setVolumeSource(newVolume)
 		if err != nil {
@@ -793,7 +687,6 @@ func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Inf
 		}
 	}
 	spec.Volumes = append(spec.Volumes, *newVolume)
-
 	if len(opts.MountPath) > 0 {
 		err := o.setVolumeMount(spec, info)
 		if err != nil {
@@ -802,20 +695,18 @@ func (o *VolumeOptions) addVolumeToSpec(spec *corev1.PodSpec, info *resource.Inf
 	}
 	return nil
 }
-
 func (o *VolumeOptions) removeSpecificVolume(spec *corev1.PodSpec, containers, skippedContainers []*corev1.Container) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, c := range containers {
 		newMounts := c.VolumeMounts[:0]
 		for _, m := range c.VolumeMounts {
-			// Remove all volume mounts that match specified name
 			if o.Name != m.Name {
 				newMounts = append(newMounts, m)
 			}
 		}
 		c.VolumeMounts = newMounts
 	}
-
-	// Remove volume if no container is using it
 	found := false
 	for _, c := range skippedContainers {
 		for _, m := range c.VolumeMounts {
@@ -843,14 +734,14 @@ func (o *VolumeOptions) removeSpecificVolume(spec *corev1.PodSpec, containers, s
 	}
 	return nil
 }
-
 func (o *VolumeOptions) removeVolumeFromSpec(spec *corev1.PodSpec, info *resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	containers, skippedContainers := selectContainers(spec.Containers, o.Containers)
 	if len(containers) == 0 && o.Containers != "*" {
 		fmt.Fprintf(o.ErrOut, "warning: %s/%s does not have any containers matching %q\n", info.Mapping.Resource.Resource, info.Name, o.Containers)
 		return nil
 	}
-
 	if len(o.Name) == 0 {
 		for _, c := range containers {
 			c.VolumeMounts = []corev1.VolumeMount{}
@@ -864,30 +755,31 @@ func (o *VolumeOptions) removeVolumeFromSpec(spec *corev1.PodSpec, info *resourc
 	}
 	return nil
 }
-
 func sourceAccessMode(readOnly bool) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if readOnly {
 		return " read-only"
 	}
 	return ""
 }
-
 func describePersistentVolumeClaim(claim *corev1.PersistentVolumeClaim) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(claim.Spec.VolumeName) == 0 {
-		// TODO: check for other dimensions of request - IOPs, etc
 		if val, ok := claim.Spec.Resources.Requests[corev1.ResourceStorage]; ok {
 			return fmt.Sprintf("waiting for %sB allocation", val.String())
 		}
 		return "waiting to allocate"
 	}
-	// TODO: check for other dimensions of capacity?
 	if val, ok := claim.Status.Capacity[corev1.ResourceStorage]; ok {
 		return fmt.Sprintf("allocated %sB", val.String())
 	}
 	return "allocated unknown size"
 }
-
 func describeVolumeSource(source *corev1.VolumeSource) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case source.AWSElasticBlockStore != nil:
 		return fmt.Sprintf("AWS EBS %s type=%s partition=%d%s", source.AWSElasticBlockStore.VolumeID, source.AWSElasticBlockStore.FSType, source.AWSElasticBlockStore.Partition, sourceAccessMode(source.AWSElasticBlockStore.ReadOnly))
@@ -920,14 +812,14 @@ func describeVolumeSource(source *corev1.VolumeSource) string {
 		return "unknown"
 	}
 }
-
 func (o *VolumeOptions) listVolumeForSpec(spec *corev1.PodSpec, info *resource.Info) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	containers, _ := selectContainers(spec.Containers, o.Containers)
 	if len(containers) == 0 && o.Containers != "*" {
 		fmt.Fprintf(o.ErrOut, "warning: %s/%s does not have any containers matching %q\n", info.Mapping.Resource.Resource, info.Name, o.Containers)
 		return nil
 	}
-
 	fmt.Fprintf(o.Out, "%s/%s\n", info.Mapping.Resource.Resource, info.Name)
 	checkName := (len(o.Name) > 0)
 	found := false
@@ -936,7 +828,6 @@ func (o *VolumeOptions) listVolumeForSpec(spec *corev1.PodSpec, info *resource.I
 			continue
 		}
 		found = true
-
 		refInfo := ""
 		if vol.VolumeSource.PersistentVolumeClaim != nil {
 			claimName := vol.VolumeSource.PersistentVolumeClaim.ClaimName
@@ -953,7 +844,6 @@ func (o *VolumeOptions) listVolumeForSpec(spec *corev1.PodSpec, info *resource.I
 		if len(refInfo) > 0 {
 			refInfo = " " + refInfo
 		}
-
 		fmt.Fprintf(o.Out, "  %s%s as %s\n", describeVolumeSource(&vol.VolumeSource), refInfo, vol.Name)
 		for _, c := range containers {
 			for _, m := range c.VolumeMounts {
@@ -971,6 +861,5 @@ func (o *VolumeOptions) listVolumeForSpec(spec *corev1.PodSpec, info *resource.I
 	if checkName && !found {
 		return fmt.Errorf("volume %q not found", o.Name)
 	}
-
 	return nil
 }

@@ -6,11 +6,9 @@ import (
 	"strings"
 	"text/tabwriter"
 	"time"
-
 	g "github.com/onsi/ginkgo"
 	o "github.com/onsi/gomega"
 	"github.com/stretchr/objx"
-
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -18,19 +16,17 @@ import (
 	"k8s.io/client-go/dynamic"
 	coreclient "k8s.io/client-go/kubernetes/typed/core/v1"
 	e2e "k8s.io/kubernetes/test/e2e/framework"
-
 	configv1 "github.com/openshift/api/config/v1"
 	configclient "github.com/openshift/client-go/config/clientset/versioned"
 )
 
 const (
-	operatorWait = 1 * time.Minute
-	cvoWait      = 5 * time.Minute
+	operatorWait	= 1 * time.Minute
+	cvoWait		= 5 * time.Minute
 )
 
 var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 	defer g.GinkgoRecover()
-
 	g.It("start all core operators", func() {
 		cfg, err := e2e.LoadConfig()
 		o.Expect(err).NotTo(o.HaveOccurred())
@@ -38,11 +34,8 @@ var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 		o.Expect(err).NotTo(o.HaveOccurred())
 		dc, err := dynamic.NewForConfig(cfg)
 		o.Expect(err).NotTo(o.HaveOccurred())
-
-		// presence of the CVO namespace gates this test
 		g.By("checking for the cluster version operator")
 		skipUnlessCVO(c.CoreV1().Namespaces())
-
 		g.By("waiting for the cluster version to be applied")
 		cvc := dc.Resource(schema.GroupVersionResource{Group: "config.openshift.io", Resource: "clusterversions", Version: "v1"})
 		var lastErr error
@@ -80,8 +73,6 @@ var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 			}
 			e2e.Failf("ClusterVersion never became available: %s", condition(lastCV, "Progressing").Get("message").String())
 		}
-
-		// gate on all clusteroperators being ready
 		available := make(map[string]struct{})
 		g.By(fmt.Sprintf("waiting for all cluster operators to be stable at the same time"))
 		coc := dc.Resource(schema.GroupVersionResource{Group: "config.openshift.io", Resource: "clusteroperators", Version: "v1"})
@@ -98,11 +89,9 @@ var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 			lastErr = nil
 			items := objects(cv.Get("items"))
 			lastCOs = items
-
 			if len(items) == 0 {
 				return false, nil
 			}
-
 			var unavailable []objx.Map
 			var unavailableNames []string
 			for _, co := range items {
@@ -134,7 +123,6 @@ var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 			}
 			return true, nil
 		})
-
 		o.Expect(lastErr).NotTo(o.HaveOccurred())
 		var unavailable []string
 		buf := &bytes.Buffer{}
@@ -148,49 +136,33 @@ var _ = g.Describe("[Feature:Platform][Smoke] Managed cluster should", func() {
 			} else {
 				available[fmt.Sprintf("%s/%s", ns, name)] = struct{}{}
 			}
-			fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\n",
-				ns,
-				name,
-				condition(co, "Progressing").Get("status").String(),
-				condition(co, "Available").Get("status").String(),
-				co.Get("status.version").String(),
-				condition(co, "Failing").Get("message").String(),
-			)
+			fmt.Fprintf(w, "%s\t%s\t%s\t%s\t%s\t%s\n", ns, name, condition(co, "Progressing").Get("status").String(), condition(co, "Available").Get("status").String(), co.Get("status.version").String(), condition(co, "Failing").Get("message").String())
 		}
 		w.Flush()
 		e2e.Logf("ClusterOperators:\n%s", buf.String())
-
 		if len(unavailable) > 0 {
 			e2e.Failf("Some cluster operators never became available %s", strings.Join(unavailable, ", "))
 		}
-		// Check at least one core operator is available
 		if len(available) == 0 {
 			e2e.Failf("There must be at least one cluster operator")
 		}
 	})
 })
-
 var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 	defer g.GinkgoRecover()
-
 	g.It("have operators on the cluster version", func() {
 		cfg, err := e2e.LoadConfig()
 		o.Expect(err).NotTo(o.HaveOccurred())
 		c := configclient.NewForConfigOrDie(cfg)
 		coreclient, err := e2e.LoadClientset()
 		o.Expect(err).NotTo(o.HaveOccurred())
-
-		// presence of the CVO namespace gates this test
 		g.By("checking for the cluster version operator")
 		skipUnlessCVO(coreclient.CoreV1().Namespaces())
-
-		// we need to get the list of versions
 		cv, err := c.ConfigV1().ClusterVersions().Get("version", metav1.GetOptions{})
 		o.Expect(err).NotTo(o.HaveOccurred())
 		coList, err := c.ConfigV1().ClusterOperators().List(metav1.ListOptions{})
 		o.Expect(err).NotTo(o.HaveOccurred())
 		o.Expect(coList.Items).NotTo(o.BeEmpty())
-
 		g.By("all cluster operators report an operator version in the first position equal to the cluster version")
 		for _, co := range coList.Items {
 			msg := fmt.Sprintf("unexpected operator status versions %s:\n%#v", co.Name, co.Status.Versions)
@@ -204,6 +176,8 @@ var _ = g.Describe("[Feature:Platform] Managed cluster should", func() {
 })
 
 func skipUnlessCVO(c coreclient.NamespaceInterface) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := wait.PollImmediate(time.Second, time.Minute, func() (bool, error) {
 		_, err := c.Get("openshift-cluster-version", metav1.GetOptions{})
 		if err == nil {
@@ -217,8 +191,9 @@ func skipUnlessCVO(c coreclient.NamespaceInterface) {
 	})
 	o.Expect(err).NotTo(o.HaveOccurred())
 }
-
 func findOperatorVersion(versions []configv1.OperandVersion, name string) *configv1.OperandVersion {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for i := range versions {
 		if versions[i].Name == name {
 			return &versions[i]
@@ -226,8 +201,9 @@ func findOperatorVersion(versions []configv1.OperandVersion, name string) *confi
 	}
 	return nil
 }
-
 func contains(names []string, name string) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, s := range names {
 		if s == name {
 			return true
@@ -235,13 +211,15 @@ func contains(names []string, name string) bool {
 	}
 	return false
 }
-
 func jsonString(from objx.Map) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	s, _ := from.JSON()
 	return s
 }
-
 func objects(from *objx.Value) []objx.Map {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var values []objx.Map
 	switch {
 	case from.IsObjxMapSlice():
@@ -255,8 +233,9 @@ func objects(from *objx.Value) []objx.Map {
 	}
 	return values
 }
-
 func condition(cv objx.Map, condition string) objx.Map {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, obj := range objects(cv.Get("status.conditions")) {
 		if obj.Get("type").String() == condition {
 			return obj
