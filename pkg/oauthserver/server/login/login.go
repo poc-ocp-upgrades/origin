@@ -5,74 +5,54 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"html/template"
-	"net/http"
-	"strings"
-
-	"k8s.io/klog"
-
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/apiserver/pkg/authentication/authenticator"
-
 	"github.com/openshift/origin/pkg/oauthserver"
 	"github.com/openshift/origin/pkg/oauthserver/oauth/handlers"
 	"github.com/openshift/origin/pkg/oauthserver/prometheus"
 	"github.com/openshift/origin/pkg/oauthserver/server/csrf"
 	"github.com/openshift/origin/pkg/oauthserver/server/errorpage"
 	"github.com/openshift/origin/pkg/oauthserver/server/redirect"
+	"html/template"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/apiserver/pkg/authentication/authenticator"
+	"k8s.io/klog"
+	"net/http"
+	"strings"
 )
 
 const (
-	thenParam     = "then"
-	csrfParam     = "csrf"
-	usernameParam = "username"
-	passwordParam = "password"
-	reasonParam   = "reason"
-
-	// these can be used by custom templates, and should not be changed
-	// these error codes are specific to the login flow.
-	// general authentication error codes are found in the errorpage package
+	thenParam             = "then"
+	csrfParam             = "csrf"
+	usernameParam         = "username"
+	passwordParam         = "password"
+	reasonParam           = "reason"
 	errorCodeUserRequired = "user_required"
 	errorCodeTokenExpired = "token_expired"
 	errorCodeAccessDenied = "access_denied"
 )
 
-// Error messages that correlate to the error codes above.
-// General authentication error messages are found in the error page package
-var errorMessages = map[string]string{
-	errorCodeUserRequired: "Login is required. Please try again.",
-	errorCodeTokenExpired: "Could not check CSRF token. Please try again.",
-	errorCodeAccessDenied: "Invalid login or password. Please try again.",
-}
+var errorMessages = map[string]string{errorCodeUserRequired: "Login is required. Please try again.", errorCodeTokenExpired: "Could not check CSRF token. Please try again.", errorCodeAccessDenied: "Invalid login or password. Please try again."}
 
 type PasswordAuthenticator interface {
 	authenticator.Password
 	handlers.AuthenticationSuccessHandler
 }
-
 type LoginFormRenderer interface {
 	Render(form LoginForm, w http.ResponseWriter, req *http.Request)
 }
-
 type LoginForm struct {
 	ProviderName string
-
-	Action string
-
-	Error     string
-	ErrorCode string
-
-	Names  LoginFormFields
-	Values LoginFormFields
+	Action       string
+	Error        string
+	ErrorCode    string
+	Names        LoginFormFields
+	Values       LoginFormFields
 }
-
 type LoginFormFields struct {
 	Then     string
 	CSRF     string
 	Username string
 	Password string
 }
-
 type Login struct {
 	provider string
 	csrf     csrf.CSRF
@@ -81,24 +61,21 @@ type Login struct {
 }
 
 func NewLogin(provider string, csrf csrf.CSRF, auth PasswordAuthenticator, render LoginFormRenderer) *Login {
-	return &Login{
-		provider: provider,
-		csrf:     csrf,
-		auth:     auth,
-		render:   render,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &Login{provider: provider, csrf: csrf, auth: auth, render: render}
 }
-
-// Install registers the login handler into a mux. It is expected that the
-// provided prefix will serve all operations. Path MUST NOT end in a slash.
 func (l *Login) Install(mux oauthserver.Mux, paths ...string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, path := range paths {
 		path = strings.TrimRight(path, "/")
 		mux.HandleFunc(path, l.ServeHTTP)
 	}
 }
-
 func (l *Login) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch req.Method {
 	case http.MethodGet:
 		l.handleLoginForm(w, req)
@@ -108,32 +85,22 @@ func (l *Login) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 }
-
 func (l *Login) handleLoginForm(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	uri, err := getBaseURL(req)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("Unable to generate base URL: %v", err))
 		http.Error(w, "Unable to determine URL", http.StatusInternalServerError)
 		return
 	}
-
-	form := LoginForm{
-		ProviderName: l.provider,
-		Action:       uri.String(),
-		Names: LoginFormFields{
-			Then:     thenParam,
-			CSRF:     csrfParam,
-			Username: usernameParam,
-			Password: passwordParam,
-		},
-	}
+	form := LoginForm{ProviderName: l.provider, Action: uri.String(), Names: LoginFormFields{Then: thenParam, CSRF: csrfParam, Username: usernameParam, Password: passwordParam}}
 	if then := req.URL.Query().Get(thenParam); redirect.IsServerRelativeURL(then) {
 		form.Values.Then = then
 	} else {
 		http.Redirect(w, req, "/", http.StatusFound)
 		return
 	}
-
 	form.ErrorCode = req.URL.Query().Get(reasonParam)
 	if len(form.ErrorCode) > 0 {
 		if msg, hasMsg := errorMessages[form.ErrorCode]; hasMsg {
@@ -142,13 +109,12 @@ func (l *Login) handleLoginForm(w http.ResponseWriter, req *http.Request) {
 			form.Error = errorpage.AuthenticationErrorMessage(form.ErrorCode)
 		}
 	}
-
 	form.Values.CSRF = l.csrf.Generate(w, req)
-
 	l.render.Render(form, w, req)
 }
-
 func (l *Login) handleLogin(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if ok := l.csrf.Check(req, req.FormValue(csrfParam)); !ok {
 		klog.V(4).Infof("Invalid CSRF token: %s", req.FormValue(csrfParam))
 		failed(errorCodeTokenExpired, w, req)
@@ -188,10 +154,9 @@ func (l *Login) handleLogin(w http.ResponseWriter, req *http.Request) {
 	klog.V(4).Infof(`Login with provider %q succeeded for %q: %#v`, l.provider, username, authResponse.User)
 	l.auth.AuthenticationSucceeded(authResponse.User, then, w, req)
 }
-
-// NewLoginFormRenderer creates a login form renderer that takes in an optional custom template to
-// allow branding of the login page. Uses the default if customLoginTemplateFile is not set.
 func NewLoginFormRenderer(customLoginTemplateFile string) (*loginTemplateRenderer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	r := &loginTemplateRenderer{}
 	if len(customLoginTemplateFile) > 0 {
 		customTemplate, err := template.ParseFiles(customLoginTemplateFile)
@@ -202,68 +167,37 @@ func NewLoginFormRenderer(customLoginTemplateFile string) (*loginTemplateRendere
 	} else {
 		r.loginTemplate = defaultLoginTemplate
 	}
-
 	return r, nil
 }
-
 func ValidateLoginTemplate(templateContent []byte) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var allErrs []error
-
 	template, err := template.New("loginTemplateTest").Parse(string(templateContent))
 	if err != nil {
 		return append(allErrs, err)
 	}
-
-	// Execute the template with dummy values and check if they're there.
-	form := LoginForm{
-		Action: "MyAction",
-		Error:  "MyError",
-		Names: LoginFormFields{
-			Then:     "MyThenName",
-			CSRF:     "MyCSRFName",
-			Username: "MyUsernameName",
-			Password: "MyPasswordName",
-		},
-		Values: LoginFormFields{
-			Then:     "MyThenValue",
-			CSRF:     "MyCSRFValue",
-			Username: "MyUsernameValue",
-		},
-	}
-
+	form := LoginForm{Action: "MyAction", Error: "MyError", Names: LoginFormFields{Then: "MyThenName", CSRF: "MyCSRFName", Username: "MyUsernameName", Password: "MyPasswordName"}, Values: LoginFormFields{Then: "MyThenValue", CSRF: "MyCSRFValue", Username: "MyUsernameValue"}}
 	var buffer bytes.Buffer
 	err = template.Execute(&buffer, form)
 	if err != nil {
 		return append(allErrs, err)
 	}
 	output := buffer.Bytes()
-
-	var testFields = map[string]string{
-		"Action":          form.Action,
-		"Error":           form.Error,
-		"Names.Then":      form.Names.Then,
-		"Names.CSRF":      form.Values.CSRF,
-		"Names.Username":  form.Names.Username,
-		"Names.Password":  form.Names.Password,
-		"Values.Then":     form.Values.Then,
-		"Values.CSRF":     form.Values.CSRF,
-		"Values.Username": form.Values.Username,
-	}
-
+	var testFields = map[string]string{"Action": form.Action, "Error": form.Error, "Names.Then": form.Names.Then, "Names.CSRF": form.Values.CSRF, "Names.Username": form.Names.Username, "Names.Password": form.Names.Password, "Values.Then": form.Values.Then, "Values.CSRF": form.Values.CSRF, "Values.Username": form.Values.Username}
 	for field, value := range testFields {
 		if !bytes.Contains(output, []byte(value)) {
 			allErrs = append(allErrs, errors.New(fmt.Sprintf("template is missing parameter {{ .%s }}", field)))
 		}
 	}
-
 	return allErrs
 }
 
-type loginTemplateRenderer struct {
-	loginTemplate *template.Template
-}
+type loginTemplateRenderer struct{ loginTemplate *template.Template }
 
 func (r loginTemplateRenderer) Render(form LoginForm, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	w.Header().Add("Content-Type", "text/html; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
 	if err := r.loginTemplate.Execute(w, form); err != nil {

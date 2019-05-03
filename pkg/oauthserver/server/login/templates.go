@@ -4,7 +4,6 @@ import (
 	"html/template"
 )
 
-// LoginTemplateExample is a basic template for customizing the login page.
 const LoginTemplateExample = `<!DOCTYPE html>
 <!--
 

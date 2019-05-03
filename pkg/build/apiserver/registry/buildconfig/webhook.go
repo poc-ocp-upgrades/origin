@@ -3,11 +3,13 @@ package buildconfig
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"strings"
-
-	"k8s.io/klog"
-
+	"github.com/openshift/api/build"
+	buildv1 "github.com/openshift/api/build/v1"
+	buildclienttyped "github.com/openshift/client-go/build/clientset/versioned/typed/build/v1"
+	buildapi "github.com/openshift/origin/pkg/build/apis/build"
+	buildv1helpers "github.com/openshift/origin/pkg/build/apis/build/v1"
+	"github.com/openshift/origin/pkg/build/client"
+	"github.com/openshift/origin/pkg/build/webhook"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -17,15 +19,10 @@ import (
 	apirequest "k8s.io/apiserver/pkg/endpoints/request"
 	"k8s.io/apiserver/pkg/registry/rest"
 	kubetypedclient "k8s.io/client-go/kubernetes/typed/core/v1"
+	"k8s.io/klog"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
-
-	"github.com/openshift/api/build"
-	buildv1 "github.com/openshift/api/build/v1"
-	buildclienttyped "github.com/openshift/client-go/build/clientset/versioned/typed/build/v1"
-	buildapi "github.com/openshift/origin/pkg/build/apis/build"
-	buildv1helpers "github.com/openshift/origin/pkg/build/apis/build/v1"
-	"github.com/openshift/origin/pkg/build/client"
-	"github.com/openshift/origin/pkg/build/webhook"
+	"net/http"
+	"strings"
 )
 
 var (
@@ -34,7 +31,8 @@ var (
 )
 
 func init() {
-	// TODO eventually we shouldn't deal in internal versions, but for now decode into one.
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	utilruntime.Must(buildv1helpers.Install(webhookEncodingScheme))
 	webhookEncodingCodecFactory = serializer.NewCodecFactory(webhookEncodingScheme)
 }
@@ -47,53 +45,37 @@ type WebHook struct {
 	plugins           map[string]webhook.Plugin
 }
 
-// NewWebHookREST returns the webhook handler
 func NewWebHookREST(buildConfigClient buildclienttyped.BuildV1Interface, secretsClient kubetypedclient.SecretsGetter, groupVersion schema.GroupVersion, plugins map[string]webhook.Plugin) *WebHook {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return newWebHookREST(buildConfigClient, secretsClient, client.BuildConfigInstantiatorClient{Client: buildConfigClient}, groupVersion, plugins)
 }
-
-// this supports simple unit testing
 func newWebHookREST(buildConfigClient buildclienttyped.BuildV1Interface, secretsClient kubetypedclient.SecretsGetter, instantiator client.BuildConfigInstantiator, groupVersion schema.GroupVersion, plugins map[string]webhook.Plugin) *WebHook {
-	return &WebHook{
-		groupVersion:      groupVersion,
-		buildConfigClient: buildConfigClient,
-		secretsClient:     secretsClient,
-		instantiator:      instantiator,
-		plugins:           plugins,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &WebHook{groupVersion: groupVersion, buildConfigClient: buildConfigClient, secretsClient: secretsClient, instantiator: instantiator, plugins: plugins}
 }
-
-// New() responds with the status object.
 func (h *WebHook) New() runtime.Object {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &buildapi.Build{}
 }
-
-// Connect responds to connections with a ConnectHandler
 func (h *WebHook) Connect(ctx context.Context, name string, options runtime.Object, responder rest.Responder) (http.Handler, error) {
-	return &WebHookHandler{
-		ctx:               ctx,
-		name:              name,
-		options:           options.(*kapi.PodProxyOptions),
-		responder:         responder,
-		groupVersion:      h.groupVersion,
-		plugins:           h.plugins,
-		buildConfigClient: h.buildConfigClient,
-		secretsClient:     h.secretsClient,
-		instantiator:      h.instantiator,
-	}, nil
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &WebHookHandler{ctx: ctx, name: name, options: options.(*kapi.PodProxyOptions), responder: responder, groupVersion: h.groupVersion, plugins: h.plugins, buildConfigClient: h.buildConfigClient, secretsClient: h.secretsClient, instantiator: h.instantiator}, nil
 }
-
-// NewConnectionOptions identifies the options that should be passed to this hook
 func (h *WebHook) NewConnectOptions() (runtime.Object, bool, string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &kapi.PodProxyOptions{}, true, "path"
 }
-
-// ConnectMethods returns the supported web hook types.
 func (h *WebHook) ConnectMethods() []string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return []string{"POST"}
 }
 
-// WebHookHandler responds to web hook requests from the master.
 type WebHookHandler struct {
 	ctx               context.Context
 	name              string
@@ -106,46 +88,40 @@ type WebHookHandler struct {
 	instantiator      client.BuildConfigInstantiator
 }
 
-// ServeHTTP implements the standard http.Handler
 func (h *WebHookHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := h.ProcessWebHook(w, r, h.ctx, h.name, h.options.Path); err != nil {
 		h.responder.Error(err)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
 }
-
-// ProcessWebHook does the actual work of processing the webhook request
 func (w *WebHookHandler) ProcessWebHook(writer http.ResponseWriter, req *http.Request, ctx context.Context, name, subpath string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(strings.TrimPrefix(subpath, "/"), "/")
 	if len(parts) != 2 {
 		return errors.NewBadRequest(fmt.Sprintf("unexpected hook subpath %s", subpath))
 	}
 	secret, hookType := parts[0], parts[1]
-
 	plugin, ok := w.plugins[hookType]
 	if !ok {
 		return errors.NewNotFound(build.Resource("buildconfighook"), hookType)
 	}
-
 	config, err := w.buildConfigClient.BuildConfigs(apirequest.NamespaceValue(ctx)).Get(name, metav1.GetOptions{})
 	if err != nil {
-		// clients should not be able to find information about build configs in
-		// the system unless the config exists and the secret matches
 		return errors.NewUnauthorized(fmt.Sprintf("the webhook %q for %q did not accept your secret", hookType, name))
 	}
-
 	triggers, err := plugin.GetTriggers(config)
 	if err != nil {
 		return errors.NewUnauthorized(fmt.Sprintf("the webhook %q for %q did not accept your secret", hookType, name))
 	}
-
 	klog.V(4).Infof("checking secret for %q webhook trigger of buildconfig %s/%s", hookType, config.Namespace, config.Name)
 	trigger, err := webhook.CheckSecret(config.Namespace, secret, triggers, w.secretsClient)
 	if err != nil {
 		return errors.NewUnauthorized(fmt.Sprintf("the webhook %q for %q did not accept your secret", hookType, name))
 	}
-
 	revision, envvars, dockerStrategyOptions, proceed, err := plugin.Extract(config, trigger, req)
 	if !proceed {
 		switch err {
@@ -160,28 +136,16 @@ func (w *WebHookHandler) ProcessWebHook(writer http.ResponseWriter, req *http.Re
 		return err
 	}
 	warning := err
-
 	buildTriggerCauses := webhook.GenerateBuildTriggerInfo(revision, hookType)
-
-	request := &buildv1.BuildRequest{
-		TriggeredBy:           buildTriggerCauses,
-		ObjectMeta:            metav1.ObjectMeta{Name: name},
-		Revision:              revision,
-		Env:                   envvars,
-		DockerStrategyOptions: dockerStrategyOptions,
-	}
-
+	request := &buildv1.BuildRequest{TriggeredBy: buildTriggerCauses, ObjectMeta: metav1.ObjectMeta{Name: name}, Revision: revision, Env: envvars, DockerStrategyOptions: dockerStrategyOptions}
 	newBuild, err := w.instantiator.Instantiate(config.Namespace, request)
 	if err != nil {
 		return errors.NewInternalError(fmt.Errorf("could not generate a build: %v", err))
 	}
-
-	// Send back the build name so that the client can alert the user.
 	if newBuildEncoded, err := runtime.Encode(webhookEncodingCodecFactory.LegacyCodec(w.groupVersion), newBuild); err != nil {
 		utilruntime.HandleError(err)
 	} else {
 		writer.Write(newBuildEncoded)
 	}
-
 	return warning
 }

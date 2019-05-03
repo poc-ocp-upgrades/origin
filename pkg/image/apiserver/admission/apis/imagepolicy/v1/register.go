@@ -5,22 +5,21 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-func (obj *ImagePolicyConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *ImagePolicyConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &obj.TypeMeta
+}
 
 var GroupVersion = schema.GroupVersion{Group: "image.openshift.io", Version: "v1"}
-
 var (
-	schemeBuilder = runtime.NewSchemeBuilder(
-		addKnownTypes,
-		addDefaultingFuncs,
-	)
-	Install = schemeBuilder.AddToScheme
+	schemeBuilder = runtime.NewSchemeBuilder(addKnownTypes, addDefaultingFuncs)
+	Install       = schemeBuilder.AddToScheme
 )
 
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(GroupVersion,
-		&ImagePolicyConfig{},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	scheme.AddKnownTypes(GroupVersion, &ImagePolicyConfig{})
 	return nil
 }

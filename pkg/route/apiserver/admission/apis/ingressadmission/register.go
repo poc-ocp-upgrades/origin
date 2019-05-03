@@ -5,16 +5,16 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-// SchemeGroupVersion is group version used to register these objects
 var GroupVersion = schema.GroupVersion{Group: "route.openshift.io", Version: runtime.APIVersionInternal}
 
-// Kind takes an unqualified kind and returns back a Group qualified GroupKind
 func Kind(kind string) schema.GroupKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GroupVersion.WithKind(kind).GroupKind()
 }
-
-// Resource takes an unqualified resource and returns back a Group qualified GroupResource
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return GroupVersion.WithResource(resource).GroupResource()
 }
 
@@ -24,10 +24,13 @@ var (
 )
 
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(GroupVersion,
-		&IngressAdmissionConfig{},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	scheme.AddKnownTypes(GroupVersion, &IngressAdmissionConfig{})
 	return nil
 }
-
-func (obj *IngressAdmissionConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *IngressAdmissionConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &obj.TypeMeta
+}

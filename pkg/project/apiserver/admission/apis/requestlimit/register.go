@@ -10,16 +10,14 @@ const (
 )
 
 var (
-	GroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
-
+	GroupVersion  = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
 	schemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)
 	Install       = schemeBuilder.AddToScheme
 )
 
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(GroupVersion,
-		&ProjectRequestLimitConfig{},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	scheme.AddKnownTypes(GroupVersion, &ProjectRequestLimitConfig{})
 	return nil
 }

@@ -2,103 +2,78 @@ package util
 
 import (
 	"fmt"
-	"net/url"
-	"strings"
-
-	"k8s.io/klog"
-
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/labels"
-	ktypedclient "k8s.io/client-go/kubernetes/typed/core/v1"
-	"k8s.io/kubernetes/pkg/credentialprovider"
-	credentialprovidersecrets "k8s.io/kubernetes/pkg/credentialprovider/secrets"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildlister "github.com/openshift/client-go/build/listers/build/v1"
 	"github.com/openshift/origin/pkg/api/apihelpers"
 	"github.com/openshift/origin/pkg/build/buildapihelpers"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/labels"
+	ktypedclient "k8s.io/client-go/kubernetes/typed/core/v1"
+	"k8s.io/klog"
+	"k8s.io/kubernetes/pkg/credentialprovider"
+	credentialprovidersecrets "k8s.io/kubernetes/pkg/credentialprovider/secrets"
+	"net/url"
+	"strings"
 )
 
 const (
-	// NoBuildLogsMessage reports that no build logs are available
-	NoBuildLogsMessage = "No logs are available."
-
-	// BuildWorkDirMount is the working directory within the build pod, mounted as a volume.
-	BuildWorkDirMount = "/tmp/build"
-
-	// BuilderServiceAccountName is the name of the account used to run build pods by default.
+	NoBuildLogsMessage        = "No logs are available."
+	BuildWorkDirMount         = "/tmp/build"
 	BuilderServiceAccountName = "builder"
-
-	// buildPodSuffix is the suffix used to append to a build pod name given a build name
-	buildPodSuffix = "build"
-
-	// BuildBlobsMetaCache is the directory used to store a cache for the blobs metadata to be
-	// reused across builds.
-	BuildBlobsMetaCache = "/var/lib/containers/cache"
-
-	// BuildBlobsContentCache is the directory used to store a cache for the blobs content to be
-	// reused within a build pod.
-	BuildBlobsContentCache = "/var/cache/blobs"
+	buildPodSuffix            = "build"
+	BuildBlobsMetaCache       = "/var/lib/containers/cache"
+	BuildBlobsContentCache    = "/var/cache/blobs"
 )
 
-// GeneratorFatalError represents a fatal error while generating a build.
-// An operation that fails because of a fatal error should not be retried.
-type GeneratorFatalError struct {
-	// Reason the fatal error occurred
-	Reason string
-}
+type GeneratorFatalError struct{ Reason string }
 
-// Error returns the error string for this fatal error
 func (e *GeneratorFatalError) Error() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("fatal error generating Build from BuildConfig: %s", e.Reason)
 }
-
-// IsFatal returns true if err is a fatal error
 func IsFatalGeneratorError(err error) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, isFatal := err.(*GeneratorFatalError)
 	return isFatal
 }
-
-// GetBuildPodName returns name of the build pod.
 func GetBuildPodName(build *buildv1.Build) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return apihelpers.GetPodName(build.Name, buildPodSuffix)
 }
-
-// IsBuildComplete returns whether the provided build is complete or not
 func IsBuildComplete(build *buildv1.Build) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return IsTerminalPhase(build.Status.Phase)
 }
-
-// IsTerminalPhase returns true if the provided phase is terminal
 func IsTerminalPhase(phase buildv1.BuildPhase) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch phase {
-	case buildv1.BuildPhaseNew,
-		buildv1.BuildPhasePending,
-		buildv1.BuildPhaseRunning:
+	case buildv1.BuildPhaseNew, buildv1.BuildPhasePending, buildv1.BuildPhaseRunning:
 		return false
 	}
 	return true
 }
-
-// BuildNameForConfigVersion returns the name of the version-th build
-// for the config that has the provided name.
 func BuildNameForConfigVersion(name string, version int) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return fmt.Sprintf("%s-%d", name, version)
 }
-
-// BuildConfigSelector returns a label Selector which can be used to find all
-// builds for a BuildConfig.
 func BuildConfigSelector(name string) labels.Selector {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return labels.Set{BuildConfigLabel: buildapihelpers.LabelValue(name)}.AsSelector()
 }
 
 type buildFilter func(*buildv1.Build) bool
 
-// BuildConfigBuilds return a list of builds for the given build config.
-// Optionally you can specify a filter function to select only builds that
-// matches your criteria.
 func BuildConfigBuilds(c buildlister.BuildLister, namespace, name string, filterFunc buildFilter) ([]*buildv1.Build, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	result, err := c.Builds(namespace).List(BuildConfigSelector(name))
 	if err != nil {
 		return nil, err
@@ -114,10 +89,9 @@ func BuildConfigBuilds(c buildlister.BuildLister, namespace, name string, filter
 	}
 	return filteredList, nil
 }
-
-// ConfigNameForBuild returns the name of the build config from a
-// build name.
 func ConfigNameForBuild(build *buildv1.Build) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if build == nil {
 		return ""
 	}
@@ -131,24 +105,14 @@ func ConfigNameForBuild(build *buildv1.Build) string {
 	}
 	return build.Labels[BuildConfigLabelDeprecated]
 }
-
-// MergeTrustedEnvWithoutDuplicates merges two environment lists without having
-// duplicate items in the output list.  The source list will be filtered
-// such that only whitelisted environment variables are merged into the
-// output list.  If sourcePrecedence is true, keys in the source list
-// will override keys in the output list.
 func MergeTrustedEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, sourcePrecedence bool) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	MergeEnvWithoutDuplicates(source, output, sourcePrecedence, WhitelistEnvVarNames)
 }
-
-// MergeEnvWithoutDuplicates merges two environment lists without having
-// duplicate items in the output list.  If sourcePrecedence is true, keys in the source list
-// will override keys in the output list.
 func MergeEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, sourcePrecedence bool, whitelist []string) {
-	// filter out all environment variables except trusted/well known
-	// values, because we do not want random environment variables being
-	// fed into the privileged STI container via the BuildConfig definition.
-
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	filteredSourceMap := make(map[string]corev1.EnvVar)
 	for _, env := range source {
 		allowed := false
@@ -168,8 +132,6 @@ func MergeEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, 
 	}
 	result := *output
 	for i, env := range result {
-		// If the value exists in output, optionally override it and remove it
-		// from the source list
 		if v, found := filteredSourceMap[env.Name]; found {
 			if sourcePrecedence {
 				result[i].Value = v.Value
@@ -177,9 +139,6 @@ func MergeEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, 
 			delete(filteredSourceMap, env.Name)
 		}
 	}
-
-	// iterate the original list so we retain the order of the inputs
-	// when we append them to the output.
 	for _, v := range source {
 		if v, ok := filteredSourceMap[v.Name]; ok {
 			result = append(result, v)
@@ -187,9 +146,9 @@ func MergeEnvWithoutDuplicates(source []corev1.EnvVar, output *[]corev1.EnvVar, 
 	}
 	*output = result
 }
-
-// GetBuildEnv gets the build strategy environment
 func GetBuildEnv(build *buildv1.Build) []corev1.EnvVar {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case build.Spec.Strategy.SourceStrategy != nil:
 		return build.Spec.Strategy.SourceStrategy.Env
@@ -203,11 +162,10 @@ func GetBuildEnv(build *buildv1.Build) []corev1.EnvVar {
 		return nil
 	}
 }
-
-// SetBuildEnv replaces the current build environment
 func SetBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var oldEnv *[]corev1.EnvVar
-
 	switch {
 	case build.Spec.Strategy.SourceStrategy != nil:
 		oldEnv = &build.Spec.Strategy.SourceStrategy.Env
@@ -222,12 +180,10 @@ func SetBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
 	}
 	*oldEnv = env
 }
-
-// UpdateBuildEnv updates the strategy environment
-// This will replace the existing variable definitions with provided env
 func UpdateBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	buildEnv := GetBuildEnv(build)
-
 	newEnv := []corev1.EnvVar{}
 	for _, e := range buildEnv {
 		exists := false
@@ -244,11 +200,9 @@ func UpdateBuildEnv(build *buildv1.Build, env []corev1.EnvVar) {
 	newEnv = append(newEnv, env...)
 	SetBuildEnv(build, newEnv)
 }
-
-// FindDockerSecretAsReference looks through a set of k8s Secrets to find one that represents Docker credentials
-// and which contains credentials that are associated with the registry identified by the image.  It returns
-// a LocalObjectReference to the Secret, or nil if no match was found.
 func FindDockerSecretAsReference(secrets []corev1.Secret, image string) *corev1.LocalObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	emptyKeyring := credentialprovider.BasicDockerKeyring{}
 	for _, secret := range secrets {
 		secretList := []corev1.Secret{secret}
@@ -263,10 +217,9 @@ func FindDockerSecretAsReference(secrets []corev1.Secret, image string) *corev1.
 	}
 	return nil
 }
-
-// FetchServiceAccountSecrets retrieves the Secrets used for pushing and pulling
-// images from private Docker registries.
 func FetchServiceAccountSecrets(client ktypedclient.CoreV1Interface, namespace, serviceAccount string) ([]corev1.Secret, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var result []corev1.Secret
 	sa, err := client.ServiceAccounts(namespace).Get(serviceAccount, metav1.GetOptions{})
 	if err != nil {
@@ -281,10 +234,9 @@ func FetchServiceAccountSecrets(client ktypedclient.CoreV1Interface, namespace, 
 	}
 	return result, nil
 }
-
-// UpdateCustomImageEnv updates base image env variable reference with the new image for a custom build strategy.
-// If no env variable reference exists, create a new env variable.
 func UpdateCustomImageEnv(strategy *buildv1.CustomBuildStrategy, newImage string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if strategy.Env == nil {
 		strategy.Env = make([]corev1.EnvVar, 1)
 		strategy.Env[0] = corev1.EnvVar{Name: CustomBuildStrategyBaseImageKey, Value: newImage}
@@ -304,30 +256,20 @@ func UpdateCustomImageEnv(strategy *buildv1.CustomBuildStrategy, newImage string
 		}
 	}
 }
-
-// ParseProxyURL parses a proxy URL and allows fallback to non-URLs like
-// myproxy:80 (for example) which url.Parse no longer accepts in Go 1.8.  The
-// logic is copied from net/http.ProxyFromEnvironment to try to maintain
-// backwards compatibility.
 func ParseProxyURL(proxy string) (*url.URL, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	proxyURL, err := url.Parse(proxy)
-
-	// logic copied from net/http.ProxyFromEnvironment
 	if err != nil || !strings.HasPrefix(proxyURL.Scheme, "http") {
-		// proxy was bogus. Try prepending "http://" to it and see if that
-		// parses correctly. If not, we fall through and complain about the
-		// original one.
 		if proxyURL, err := url.Parse("http://" + proxy); err == nil {
 			return proxyURL, nil
 		}
 	}
-
 	return proxyURL, err
 }
-
-// GetInputReference returns the From ObjectReference associated with the
-// BuildStrategy.
 func GetInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch {
 	case strategy.SourceStrategy != nil:
 		return &strategy.SourceStrategy.From

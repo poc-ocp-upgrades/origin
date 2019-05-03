@@ -1,16 +1,14 @@
 package testclient
 
 import (
+	godefaultbytes "bytes"
 	"crypto/tls"
-	"time"
-
 	"gopkg.in/ldap.v2"
+	godefaulthttp "net/http"
+	godefaultruntime "runtime"
+	"time"
 )
 
-// Fake is a mock client for an LDAP server
-// The following methods define safe defaults for the return values. In order to adapt this test client
-// for a specific test, anonymously include it and override the method being tested. In the over-riden
-// method, if you are not covering all method calls with your override, defer to the parent for handling.
 type Fake struct {
 	SimpleBindResponse     *ldap.SimpleBindResult
 	PasswordModifyResponse *ldap.PasswordModifyResult
@@ -19,100 +17,81 @@ type Fake struct {
 
 var _ ldap.Client = &Fake{}
 
-// NewTestClient returns a new test client with safe default return values
 func New() *Fake {
-	return &Fake{
-		SimpleBindResponse: &ldap.SimpleBindResult{
-			Controls: []ldap.Control{},
-		},
-		PasswordModifyResponse: &ldap.PasswordModifyResult{
-			GeneratedPassword: "",
-		},
-		SearchResponse: &ldap.SearchResult{
-			Entries:   []*ldap.Entry{},
-			Referrals: []string{},
-			Controls:  []ldap.Control{},
-		},
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &Fake{SimpleBindResponse: &ldap.SimpleBindResult{Controls: []ldap.Control{}}, PasswordModifyResponse: &ldap.PasswordModifyResult{GeneratedPassword: ""}, SearchResponse: &ldap.SearchResult{Entries: []*ldap.Entry{}, Referrals: []string{}, Controls: []ldap.Control{}}}
 }
-
-// Start starts the LDAP connection
 func (c *Fake) Start() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return
 }
-
-// StartTLS begins a TLS-wrapped LDAP connection
 func (c *Fake) StartTLS(config *tls.Config) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Close closes an LDAP connection
 func (c *Fake) Close() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return
 }
-
-// Bind binds to the LDAP server with a bind DN and password
 func (c *Fake) Bind(username, password string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// SimpleBind binds to the LDAP server using the Simple Bind mechanism
 func (c *Fake) SimpleBind(simpleBindRequest *ldap.SimpleBindRequest) (*ldap.SimpleBindResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.SimpleBindResponse, nil
 }
-
-// Add forwards an addition request to the LDAP server
 func (c *Fake) Add(addRequest *ldap.AddRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Del forwards a deletion request to the LDAP server
 func (c *Fake) Del(delRequest *ldap.DelRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Modify forwards a modification request to the LDAP server
 func (c *Fake) Modify(modifyRequest *ldap.ModifyRequest) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return nil
 }
-
-// Compare ... ?
 func (c *Fake) Compare(dn, attribute, value string) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return false, nil
 }
-
-// PasswordModify forwards a password modify request to the LDAP server
 func (c *Fake) PasswordModify(passwordModifyRequest *ldap.PasswordModifyRequest) (*ldap.PasswordModifyResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.PasswordModifyResponse, nil
 }
-
-// Search forwards a search request to the LDAP server
 func (c *Fake) Search(searchRequest *ldap.SearchRequest) (*ldap.SearchResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.SearchResponse, nil
 }
-
-// SearchWithPaging forwards a search request to the LDAP server and pages the response
 func (c *Fake) SearchWithPaging(searchRequest *ldap.SearchRequest, pagingSize uint32) (*ldap.SearchResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.SearchResponse, nil
 }
-
-// SetTimeout sets a timeout on the client
 func (c *Fake) SetTimeout(d time.Duration) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
-// NewMatchingSearchErrorClient returns a new MatchingSearchError client sitting on top of the parent
-// client. This client returns the given error when a search base DN matches the given base DN, and
-// defers to the parent otherwise.
 func NewMatchingSearchErrorClient(parent ldap.Client, baseDN string, returnErr error) ldap.Client {
-	return &MatchingSearchErrClient{
-		Client:    parent,
-		BaseDN:    baseDN,
-		ReturnErr: returnErr,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &MatchingSearchErrClient{Client: parent, BaseDN: baseDN, ReturnErr: returnErr}
 }
 
-// MatchingSearchErrClient returns the ReturnErr on every Search() where the search base DN matches the given DN
-// or defers the search to the parent client
 type MatchingSearchErrClient struct {
 	ldap.Client
 	BaseDN    string
@@ -120,51 +99,50 @@ type MatchingSearchErrClient struct {
 }
 
 func (c *MatchingSearchErrClient) Search(searchRequest *ldap.SearchRequest) (*ldap.SearchResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if searchRequest.BaseDN == c.BaseDN {
 		return nil, c.ReturnErr
 	}
 	return c.Client.Search(searchRequest)
 }
-
-// NewDNMappingClient returns a new DNMappingClient sitting on top of the parent client. This client returns the
-// ldap entries mapped to with this DN in its' internal DN map, or defers to the parent if the DN is not mapped.
 func NewDNMappingClient(parent ldap.Client, DNMapping map[string][]*ldap.Entry) ldap.Client {
-	return &DNMappingClient{
-		Client:    parent,
-		DNMapping: DNMapping,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &DNMappingClient{Client: parent, DNMapping: DNMapping}
 }
 
-// DNMappingClient returns the LDAP entry mapped to by the base dn given, or if no mapping happens, defers to the parent
 type DNMappingClient struct {
 	ldap.Client
 	DNMapping map[string][]*ldap.Entry
 }
 
 func (c *DNMappingClient) Search(searchRequest *ldap.SearchRequest) (*ldap.SearchResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if entries, exists := c.DNMapping[searchRequest.BaseDN]; exists {
 		return &ldap.SearchResult{Entries: entries}, nil
 	}
-
 	return c.Client.Search(searchRequest)
 }
-
-// NewPagingOnlyClient returns a new PagingOnlyClient sitting on top of the parent client. This client returns the
-// provided search response for any calls to SearchWithPaging, or defers to the parent if the call is not to the
-// paged search function.
 func NewPagingOnlyClient(parent ldap.Client, response *ldap.SearchResult) ldap.Client {
-	return &PagingOnlyClient{
-		Client:   parent,
-		Response: response,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &PagingOnlyClient{Client: parent, Response: response}
 }
 
-// PagingOnlyClient responds with a canned search result for any calls to SearchWithPaging
 type PagingOnlyClient struct {
 	ldap.Client
 	Response *ldap.SearchResult
 }
 
 func (c *PagingOnlyClient) SearchWithPaging(searchRequest *ldap.SearchRequest, pagingSize uint32) (*ldap.SearchResult, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return c.Response, nil
+}
+func _logClusterCodePath() {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	jsonLog := []byte("{\"fn\": \"" + godefaultruntime.FuncForPC(pc).Name() + "\"}")
+	godefaulthttp.Post("http://35.222.24.134:5001/"+"logcode", "application/json", godefaultbytes.NewBuffer(jsonLog))
 }

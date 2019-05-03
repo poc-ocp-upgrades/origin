@@ -1,36 +1,25 @@
 package policy
 
 import (
-	"time"
-
-	"k8s.io/klog"
-
-	"k8s.io/apimachinery/pkg/api/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	"k8s.io/apimachinery/pkg/util/wait"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildlister "github.com/openshift/client-go/build/listers/build/v1"
 	buildclient "github.com/openshift/origin/pkg/build/client"
 	buildutil "github.com/openshift/origin/pkg/build/util"
+	"k8s.io/apimachinery/pkg/api/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/apimachinery/pkg/util/wait"
+	"k8s.io/klog"
+	"time"
 )
 
-// SerialLatestOnlyPolicy implements the RunPolicy interface. This variant of
-// the serial build policy makes sure that builds are executed in same order as
-// they were created, but when a new build is created, the previous, queued
-// build is cancelled, always making the latest created build run as next. This
-// will produce consistent results, but might not suit the CI/CD flow where user
-// expect that every commit is built.
 type SerialLatestOnlyPolicy struct {
 	BuildUpdater buildclient.BuildUpdater
 	BuildLister  buildlister.BuildLister
 }
 
-// IsRunnable implements the RunPolicy interface.
-// Calling this function on a build mean that any previous build that is in
-// 'new' phase will be automatically cancelled. This will also cancel any
-// "serial" build (when you changed the build config run policy on-the-fly).
 func (s *SerialLatestOnlyPolicy) IsRunnable(build *buildv1.Build) (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcName := buildutil.ConfigNameForBuild(build)
 	if len(bcName) == 0 {
 		return true, nil
@@ -44,15 +33,14 @@ func (s *SerialLatestOnlyPolicy) IsRunnable(build *buildv1.Build) (bool, error) 
 	}
 	return len(nextBuilds) == 1 && nextBuilds[0].Name == build.Name, err
 }
-
-// Handles returns true for the build run serial latest only policy
 func (s *SerialLatestOnlyPolicy) Handles(policy buildv1.BuildRunPolicy) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return policy == buildv1.BuildRunPolicySerialLatestOnly
 }
-
-// cancelPreviousBuilds cancels all queued builds that have the build sequence number
-// lower than the given build. It retries the cancellation in case of conflict.
 func (s *SerialLatestOnlyPolicy) cancelPreviousBuilds(build *buildv1.Build) []error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	bcName := buildutil.ConfigNameForBuild(build)
 	if len(bcName) == 0 {
 		return []error{}
@@ -62,15 +50,9 @@ func (s *SerialLatestOnlyPolicy) cancelPreviousBuilds(build *buildv1.Build) []er
 		return []error{NewNoBuildNumberAnnotationError(build)}
 	}
 	builds, err := buildutil.BuildConfigBuilds(s.BuildLister, build.Namespace, bcName, func(b *buildv1.Build) bool {
-		// Do not cancel the complete builds, builds that were already cancelled, or
-		// running builds.
 		if buildutil.IsBuildComplete(b) || b.Status.Phase == buildv1.BuildPhaseRunning {
 			return false
 		}
-
-		// Prevent race-condition when there is a newer build than this and we don't
-		// want to cancel it. The HandleBuild() function that runs for that build
-		// will cancel this build.
 		buildNumber, _ := buildNumber(b)
 		return buildNumber < currentBuildNumber
 	})

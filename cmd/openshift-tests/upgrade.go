@@ -3,32 +3,25 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
-	"time"
-
-	"github.com/spf13/pflag"
-
-	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-	"k8s.io/kubernetes/test/e2e/upgrades"
-
 	"github.com/openshift/origin/pkg/test/ginkgo"
 	"github.com/openshift/origin/test/e2e/upgrade"
 	exutil "github.com/openshift/origin/test/extended/util"
+	"github.com/spf13/pflag"
+	"k8s.io/kubernetes/pkg/kubectl/util/templates"
+	"k8s.io/kubernetes/test/e2e/upgrades"
+	"strings"
+	"time"
 )
 
-// upgradeSuites are all known upgade test suites this binary should run
-var upgradeSuites = []*ginkgo.TestSuite{
-	{
-		Name: "all",
-		Description: templates.LongDesc(`
+var upgradeSuites = []*ginkgo.TestSuite{{Name: "all", Description: templates.LongDesc(`
 		Run all tests.
-		`),
-		Matches: func(name string) bool { return strings.Contains(name, "[Feature:ClusterUpgrade]") },
-
-		Init:        func() error { return filterUpgrade(upgrade.AllTests(), func(name string) bool { return true }) },
-		TestTimeout: 60 * time.Minute,
-	},
-}
+		`), Matches: func(name string) bool {
+	return strings.Contains(name, "[Feature:ClusterUpgrade]")
+}, Init: func() error {
+	return filterUpgrade(upgrade.AllTests(), func(name string) bool {
+		return true
+	})
+}, TestTimeout: 60 * time.Minute}}
 
 type UpgradeOptions struct {
 	Suite    string
@@ -37,14 +30,17 @@ type UpgradeOptions struct {
 }
 
 func (o *UpgradeOptions) ToEnv() string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	out, err := json.Marshal(o)
 	if err != nil {
 		panic(err)
 	}
 	return string(out)
 }
-
 func initUpgrade(value string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(value) == 0 {
 		return nil
 	}
@@ -65,8 +61,9 @@ func initUpgrade(value string) error {
 	}
 	return fmt.Errorf("unrecognized upgrade info")
 }
-
 func filterUpgrade(tests []upgrades.Test, match func(string) bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var scope []upgrades.Test
 	for _, test := range tests {
 		if match(test.Name()) {
@@ -76,7 +73,8 @@ func filterUpgrade(tests []upgrades.Test, match func(string) bool) error {
 	upgrade.SetTests(scope)
 	return nil
 }
-
 func bindUpgradeOptions(opt *UpgradeOptions, flags *pflag.FlagSet) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	flags.StringVar(&opt.ToImage, "to-image", opt.ToImage, "Specify the image to test an upgrade to.")
 }

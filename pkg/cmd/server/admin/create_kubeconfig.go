@@ -3,23 +3,20 @@ package admin
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-
-	"github.com/spf13/cobra"
-	"k8s.io/klog"
-
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/cli-runtime/pkg/genericclioptions"
-	"k8s.io/client-go/util/cert"
-	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
-	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/openshift/library-go/pkg/crypto"
 	"github.com/openshift/origin/pkg/client/config"
+	"github.com/spf13/cobra"
+	"io/ioutil"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
+	"k8s.io/client-go/util/cert"
+	"k8s.io/klog"
+	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
+	"k8s.io/kubernetes/pkg/kubectl/util/templates"
+	"os"
+	"path/filepath"
 )
 
 const CreateKubeConfigCommandName = "create-kubeconfig"
@@ -59,41 +56,28 @@ type CreateKubeConfigOptions struct {
 	APIServerURL       string
 	PublicAPIServerURL string
 	APIServerCAFiles   []string
-
-	CertFile string
-	KeyFile  string
-
-	ContextNamespace string
-
-	KubeConfigFile string
-
+	CertFile           string
+	KeyFile            string
+	ContextNamespace   string
+	KubeConfigFile     string
 	genericclioptions.IOStreams
 }
 
 func NewCreateKubeConfigOptions(streams genericclioptions.IOStreams) *CreateKubeConfigOptions {
-	return &CreateKubeConfigOptions{
-		APIServerURL:     "https://localhost:8443",
-		APIServerCAFiles: []string{"openshift.local.config/master/ca.crt"},
-		ContextNamespace: metav1.NamespaceDefault,
-		KubeConfigFile:   ".kubeconfig",
-		IOStreams:        streams,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &CreateKubeConfigOptions{APIServerURL: "https://localhost:8443", APIServerCAFiles: []string{"openshift.local.config/master/ca.crt"}, ContextNamespace: metav1.NamespaceDefault, KubeConfigFile: ".kubeconfig", IOStreams: streams}
 }
-
 func NewCommandCreateKubeConfig(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	o := NewCreateKubeConfigOptions(streams)
-	cmd := &cobra.Command{
-		Use:   commandName,
-		Short: "Create a basic .kubeconfig file from client certs",
-		Long:  createKubeConfigLongDesc,
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Validate(args))
-			if _, err := o.CreateKubeConfig(); err != nil {
-				kcmdutil.CheckErr(err)
-			}
-		},
-	}
-
+	cmd := &cobra.Command{Use: commandName, Short: "Create a basic .kubeconfig file from client certs", Long: createKubeConfigLongDesc, Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Validate(args))
+		if _, err := o.CreateKubeConfig(); err != nil {
+			kcmdutil.CheckErr(err)
+		}
+	}}
 	cmd.Flags().StringVar(&o.APIServerURL, "master", o.APIServerURL, "The API server's URL.")
 	cmd.Flags().StringVar(&o.PublicAPIServerURL, "public-master", o.PublicAPIServerURL, "The API public facing server's URL (if applicable).")
 	cmd.Flags().StringSliceVar(&o.APIServerCAFiles, "certificate-authority", o.APIServerCAFiles, "Files containing signing authorities to use to verify the API server's serving certificate.")
@@ -101,17 +85,15 @@ func NewCommandCreateKubeConfig(commandName string, fullName string, streams gen
 	cmd.Flags().StringVar(&o.KeyFile, "client-key", o.KeyFile, "The client key file.")
 	cmd.Flags().StringVar(&o.ContextNamespace, "namespace", o.ContextNamespace, "Namespace for this context in .kubeconfig.")
 	cmd.Flags().StringVar(&o.KubeConfigFile, "kubeconfig", o.KubeConfigFile, "Path for the resulting .kubeconfig file.")
-
-	// autocompletion hints
 	cmd.MarkFlagFilename("certificate-authority")
 	cmd.MarkFlagFilename("client-certificate")
 	cmd.MarkFlagFilename("client-key")
 	cmd.MarkFlagFilename("kubeconfig")
-
 	return cmd
 }
-
 func (o CreateKubeConfigOptions) Validate(args []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -139,14 +121,12 @@ func (o CreateKubeConfigOptions) Validate(args []string) error {
 	if len(o.APIServerURL) == 0 {
 		return errors.New("master must be provided")
 	}
-
 	return nil
 }
-
 func (o CreateKubeConfigOptions) CreateKubeConfig() (*clientcmdapi.Config, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("creating a .kubeconfig with: %#v", o)
-
-	// read all the referenced filenames
 	caData, err := readFiles(o.APIServerCAFiles, []byte("\n"))
 	if err != nil {
 		return nil, err
@@ -163,8 +143,6 @@ func (o CreateKubeConfigOptions) CreateKubeConfig() (*clientcmdapi.Config, error
 	if err != nil {
 		return nil, err
 	}
-
-	// determine all the nicknames
 	clusterNick, err := config.GetClusterNicknameFromURL(o.APIServerURL)
 	if err != nil {
 		return nil, err
@@ -174,28 +152,16 @@ func (o CreateKubeConfigOptions) CreateKubeConfig() (*clientcmdapi.Config, error
 		return nil, err
 	}
 	contextNick := config.GetContextNickname(o.ContextNamespace, clusterNick, userNick)
-
 	credentials := make(map[string]*clientcmdapi.AuthInfo)
-	credentials[userNick] = &clientcmdapi.AuthInfo{
-		ClientCertificateData: certData,
-		ClientKeyData:         keyData,
-	}
-
-	// normalize the provided server to a format expected by config
+	credentials[userNick] = &clientcmdapi.AuthInfo{ClientCertificateData: certData, ClientKeyData: keyData}
 	o.APIServerURL, err = config.NormalizeServerURL(o.APIServerURL)
 	if err != nil {
 		return nil, err
 	}
-
 	clusters := make(map[string]*clientcmdapi.Cluster)
-	clusters[clusterNick] = &clientcmdapi.Cluster{
-		Server:                   o.APIServerURL,
-		CertificateAuthorityData: caData,
-	}
-
+	clusters[clusterNick] = &clientcmdapi.Cluster{Server: o.APIServerURL, CertificateAuthorityData: caData}
 	contexts := make(map[string]*clientcmdapi.Context)
 	contexts[contextNick] = &clientcmdapi.Context{Cluster: clusterNick, AuthInfo: userNick, Namespace: o.ContextNamespace}
-
 	createPublic := (len(o.PublicAPIServerURL) > 0) && o.APIServerURL != o.PublicAPIServerURL
 	if createPublic {
 		publicClusterNick, err := config.GetClusterNicknameFromURL(o.PublicAPIServerURL)
@@ -203,29 +169,16 @@ func (o CreateKubeConfigOptions) CreateKubeConfig() (*clientcmdapi.Config, error
 			return nil, err
 		}
 		publicContextNick := config.GetContextNickname(o.ContextNamespace, publicClusterNick, userNick)
-
-		clusters[publicClusterNick] = &clientcmdapi.Cluster{
-			Server:                   o.PublicAPIServerURL,
-			CertificateAuthorityData: caData,
-		}
+		clusters[publicClusterNick] = &clientcmdapi.Cluster{Server: o.PublicAPIServerURL, CertificateAuthorityData: caData}
 		contexts[publicContextNick] = &clientcmdapi.Context{Cluster: publicClusterNick, AuthInfo: userNick, Namespace: o.ContextNamespace}
 	}
-
-	kubeConfig := &clientcmdapi.Config{
-		Clusters:       clusters,
-		AuthInfos:      credentials,
-		Contexts:       contexts,
-		CurrentContext: contextNick,
-	}
-
+	kubeConfig := &clientcmdapi.Config{Clusters: clusters, AuthInfos: credentials, Contexts: contexts, CurrentContext: contextNick}
 	klog.V(3).Infof("Generating '%s' API client config as %s\n", userNick, o.KubeConfigFile)
-	// Ensure the parent dir exists
 	if err := os.MkdirAll(filepath.Dir(o.KubeConfigFile), os.FileMode(0755)); err != nil {
 		return nil, err
 	}
 	if err := clientcmd.WriteToFile(*kubeConfig, o.KubeConfigFile); err != nil {
 		return nil, err
 	}
-
 	return kubeConfig, nil
 }

@@ -3,97 +3,33 @@ package ovs
 import (
 	"bytes"
 	"fmt"
+	utilversion "k8s.io/apimachinery/pkg/util/version"
+	"k8s.io/klog"
+	"k8s.io/utils/exec"
 	"strconv"
 	"strings"
-
-	"k8s.io/klog"
-
-	utilversion "k8s.io/apimachinery/pkg/util/version"
-	"k8s.io/utils/exec"
 )
 
-// Interface represents an interface to OVS
 type Interface interface {
-	// AddBridge creates the bridge associated with the interface, optionally setting
-	// properties on it (as with "ovs-vsctl set Bridge ..."). If the bridge already
-	// exists this errors.
 	AddBridge(properties ...string) error
-
-	// DeleteBridge deletes the bridge associated with the interface. The boolean
-	// that can be passed determines if a bridge not existing is an error. Passing
-	// true will delete bridge --if-exists, passing false will error if the bridge
-	// does not exist.
 	DeleteBridge(ifExists bool) error
-
-	// AddPort adds an interface to the bridge, requesting the indicated port
-	// number, and optionally setting properties on it (as with "ovs-vsctl set
-	// Interface ..."). Returns the allocated port number (or an error).
 	AddPort(port string, ofportRequest int, properties ...string) (int, error)
-
-	// DeletePort removes an interface from the bridge. (It is not an
-	// error if the interface is not currently a bridge port.)
 	DeletePort(port string) error
-
-	// GetOFPort returns the OpenFlow port number of a given network interface
-	// attached to a bridge.
 	GetOFPort(port string) (int, error)
-
-	// SetFrags sets the fragmented-packet-handling mode (as with
-	// "ovs-ofctl set-frags")
 	SetFrags(mode string) error
-
-	// Create creates a record in the OVS database, as with "ovs-vsctl create" and
-	// returns the UUID of the newly-created item.
-	// NOTE: This only works for QoS; for all other tables the created object will
-	// immediately be garbage-collected; we'd need an API that calls "create" and "set"
-	// in the same "ovs-vsctl" call.
 	Create(table string, values ...string) (string, error)
-
-	// Destroy deletes the indicated record in the OVS database. It is not an error if
-	// the record does not exist
 	Destroy(table, record string) error
-
-	// Get gets the indicated value from the OVS database. For multi-valued or
-	// map-valued columns, the data is returned in the same format as "ovs-vsctl get".
 	Get(table, record, column string) (string, error)
-
-	// Set sets one or more columns on a record in the OVS database, as with
-	// "ovs-vsctl set"
 	Set(table, record string, values ...string) error
-
-	// Clear unsets the indicated columns in the OVS database. It is not an error if
-	// the value is already unset
 	Clear(table, record string, columns ...string) error
-
-	// Find finds records in the OVS database that match the given condition.
-	// It returns the value of the given columns of matching records.
 	Find(table string, column []string, condition string) ([]map[string]string, error)
-
-	// FindOne is like Find but returns only a single column
 	FindOne(table, column, condition string) ([]string, error)
-
-	// DumpFlows dumps the flow table for the bridge and returns it as an array of
-	// strings, one per flow. If flow is not "" then it describes the flows to dump.
 	DumpFlows(flow string, args ...interface{}) ([]string, error)
-
-	// NewTransaction begins a new OVS transaction.
 	NewTransaction() Transaction
 }
-
-// Transaction manages a single set of OVS flow modifications
 type Transaction interface {
-	// AddFlow prepares adding a flow to the bridge.
-	// Given flow is cached but not executed at this time.
-	// The arguments are passed to fmt.Sprintf().
 	AddFlow(flow string, args ...interface{})
-
-	// DeleteFlows prepares deleting all matching flows from the bridge.
-	// Given flow is cached but not executed at this time.
-	// The arguments are passed to fmt.Sprintf().
 	DeleteFlows(flow string, args ...interface{})
-
-	// Commit executes all cached flows as a single atomic transaction and
-	// returns any error that occurred during the transaction.
 	Commit() error
 }
 
@@ -102,31 +38,27 @@ const (
 	OVS_VSCTL = "ovs-vsctl"
 )
 
-// ovsExec implements ovs.Interface via calls to ovs-ofctl and ovs-vsctl
 type ovsExec struct {
 	execer exec.Interface
 	bridge string
 }
 
-// New returns a new ovs.Interface
 func New(execer exec.Interface, bridge string, minVersion string) (Interface, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if _, err := execer.LookPath(OVS_OFCTL); err != nil {
 		return nil, fmt.Errorf("OVS is not installed")
 	}
 	if _, err := execer.LookPath(OVS_VSCTL); err != nil {
 		return nil, fmt.Errorf("OVS is not installed")
 	}
-
 	ovsif := &ovsExec{execer: execer, bridge: bridge}
-
 	if minVersion != "" {
 		minVer := utilversion.MustParseGeneric(minVersion)
-
 		out, err := ovsif.exec(OVS_VSCTL, "--version")
 		if err != nil {
 			return nil, fmt.Errorf("could not check OVS version is %s or higher", minVersion)
 		}
-		// First output line should end with version
 		lines := strings.Split(out, "\n")
 		spc := strings.LastIndex(lines[0], " ")
 		instVer, err := utilversion.ParseGeneric(lines[0][spc+1:])
@@ -137,11 +69,11 @@ func New(execer exec.Interface, bridge string, minVersion string) (Interface, er
 			return nil, fmt.Errorf("found OVS %v, need %s or later", instVer, minVersion)
 		}
 	}
-
 	return ovsif, nil
 }
-
 func (ovsif *ovsExec) execWithStdin(cmd string, stdinArgs []string, args ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	logLevel := klog.Level(4)
 	switch cmd {
 	case OVS_OFCTL:
@@ -152,27 +84,22 @@ func (ovsif *ovsExec) execWithStdin(cmd string, stdinArgs []string, args ...stri
 	case OVS_VSCTL:
 		args = append([]string{"--timeout=30"}, args...)
 	}
-
 	kcmd := ovsif.execer.Command(cmd, args...)
 	if stdinArgs != nil {
 		stdinString := strings.Join(stdinArgs, "\n")
 		stdin := bytes.NewBufferString(stdinString)
 		kcmd.SetStdin(stdin)
-
 		klog.V(logLevel).Infof("Executing: %s %s <<\n%s", cmd, strings.Join(args, " "), stdinString)
 	} else {
 		klog.V(logLevel).Infof("Executing: %s %s", cmd, strings.Join(args, " "))
 	}
-
 	output, err := kcmd.CombinedOutput()
 	if err != nil {
 		klog.V(2).Infof("Error executing %s: %s", cmd, string(output))
 		return "", err
 	}
-
 	outStr := string(output)
 	if outStr != "" {
-		// If output is a single line, strip the trailing newline
 		nl := strings.Index(outStr, "\n")
 		if nl == len(outStr)-1 {
 			outStr = outStr[:nl]
@@ -180,12 +107,14 @@ func (ovsif *ovsExec) execWithStdin(cmd string, stdinArgs []string, args ...stri
 	}
 	return outStr, nil
 }
-
 func (ovsif *ovsExec) exec(cmd string, args ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ovsif.execWithStdin(cmd, nil, args...)
 }
-
 func validateColumns(columns ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	for _, col := range columns {
 		end := strings.IndexAny(col, ":=")
 		if end != -1 {
@@ -197,8 +126,9 @@ func validateColumns(columns ...string) error {
 	}
 	return nil
 }
-
 func (ovsif *ovsExec) AddBridge(properties ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := []string{"add-br", ovsif.bridge}
 	if len(properties) > 0 {
 		if err := validateColumns(properties...); err != nil {
@@ -210,18 +140,19 @@ func (ovsif *ovsExec) AddBridge(properties ...string) error {
 	_, err := ovsif.exec(OVS_VSCTL, args...)
 	return err
 }
-
 func (ovsif *ovsExec) DeleteBridge(ifExists bool) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := []string{"del-br", ovsif.bridge}
-
 	if ifExists {
 		args = append([]string{"--if-exists"}, args...)
 	}
 	_, err := ovsif.exec(OVS_VSCTL, args...)
 	return err
 }
-
 func (ovsif *ovsExec) GetOFPort(port string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	ofportStr, err := ovsif.exec(OVS_VSCTL, "get", "Interface", port, "ofport")
 	if err != nil {
 		return -1, fmt.Errorf("failed to get OVS port for %s: %v", port, err)
@@ -239,8 +170,9 @@ func (ovsif *ovsExec) GetOFPort(port string) (int, error) {
 	}
 	return ofport, nil
 }
-
 func (ovsif *ovsExec) AddPort(port string, ofportRequest int, properties ...string) (int, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	args := []string{"--may-exist", "add-port", ovsif.bridge, port}
 	if ofportRequest > 0 || len(properties) > 0 {
 		args = append(args, "--", "set", "Interface", port)
@@ -267,38 +199,44 @@ func (ovsif *ovsExec) AddPort(port string, ofportRequest int, properties ...stri
 	}
 	return ofport, nil
 }
-
 func (ovsif *ovsExec) DeletePort(port string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_VSCTL, "--if-exists", "del-port", ovsif.bridge, port)
 	return err
 }
-
 func (ovsif *ovsExec) SetFrags(mode string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_OFCTL, "set-frags", ovsif.bridge, mode)
 	return err
 }
-
 func (ovsif *ovsExec) Create(table string, values ...string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return "", err
 	}
 	args := append([]string{"create", table}, values...)
 	return ovsif.exec(OVS_VSCTL, args...)
 }
-
 func (ovsif *ovsExec) Destroy(table, record string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	_, err := ovsif.exec(OVS_VSCTL, "--if-exists", "destroy", table, record)
 	return err
 }
-
 func (ovsif *ovsExec) Get(table, record, column string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(column); err != nil {
 		return "", err
 	}
 	return ovsif.exec(OVS_VSCTL, "get", table, record, column)
 }
-
 func (ovsif *ovsExec) Set(table, record string, values ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(values...); err != nil {
 		return err
 	}
@@ -306,8 +244,9 @@ func (ovsif *ovsExec) Set(table, record string, values ...string) error {
 	_, err := ovsif.exec(OVS_VSCTL, args...)
 	return err
 }
-
 func (ovsif *ovsExec) Find(table string, columns []string, condition string) ([]map[string]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(columns...); err != nil {
 		return nil, err
 	}
@@ -322,7 +261,6 @@ func (ovsif *ovsExec) Find(table string, columns []string, condition string) ([]
 	if output == "" {
 		return nil, err
 	}
-
 	rows := strings.Split(output, "\n\n")
 	result := make([]map[string]string, len(rows))
 	for i, row := range rows {
@@ -334,10 +272,6 @@ func (ovsif *ovsExec) Find(table string, columns []string, condition string) ([]
 			}
 			name := strings.TrimSpace(data[0])
 			val := strings.TrimSpace(data[1])
-			// We want "bare" values for strings, but we can't pass --bare to
-			// ovs-vsctl because it breaks more complicated types. So try
-			// passing each value through Unquote(); if it fails, that means
-			// the value wasn't a quoted string, so use it as-is.
 			if unquoted, err := strconv.Unquote(val); err == nil {
 				val = unquoted
 			}
@@ -345,11 +279,11 @@ func (ovsif *ovsExec) Find(table string, columns []string, condition string) ([]
 		}
 		result[i] = cols
 	}
-
 	return result, nil
 }
-
 func (ovsif *ovsExec) FindOne(table, column, condition string) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	fullResult, err := ovsif.Find(table, []string{column}, condition)
 	if err != nil {
 		return nil, err
@@ -360,8 +294,9 @@ func (ovsif *ovsExec) FindOne(table, column, condition string) ([]string, error)
 	}
 	return result, nil
 }
-
 func (ovsif *ovsExec) Clear(table, record string, columns ...string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if err := validateColumns(columns...); err != nil {
 		return err
 	}
@@ -369,8 +304,9 @@ func (ovsif *ovsExec) Clear(table, record string, columns ...string) error {
 	_, err := ovsif.exec(OVS_VSCTL, args...)
 	return err
 }
-
 func (ovsif *ovsExec) DumpFlows(flow string, args ...interface{}) ([]string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
@@ -378,7 +314,6 @@ func (ovsif *ovsExec) DumpFlows(flow string, args ...interface{}) ([]string, err
 	if err != nil {
 		return nil, err
 	}
-
 	lines := strings.Split(out, "\n")
 	flows := make([]string, 0, len(lines))
 	for _, line := range lines {
@@ -388,45 +323,46 @@ func (ovsif *ovsExec) DumpFlows(flow string, args ...interface{}) ([]string, err
 	}
 	return flows, nil
 }
-
 func (ovsif *ovsExec) NewTransaction() Transaction {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &ovsExecTx{ovsif: ovsif, flows: []string{}}
 }
-
-// bundle executes all given flows as a single atomic transaction
 func (ovsif *ovsExec) bundle(flows []string) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(flows) == 0 {
 		return nil
 	}
-
 	_, err := ovsif.execWithStdin(OVS_OFCTL, flows, "bundle", ovsif.bridge, "-")
 	return err
 }
 
-// ovsExecTx implements ovs.Transaction and maintains current flow context
 type ovsExecTx struct {
 	ovsif *ovsExec
 	flows []string
 }
 
 func (tx *ovsExecTx) AddFlow(flow string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("flow add %s", flow))
 }
-
 func (tx *ovsExecTx) DeleteFlows(flow string, args ...interface{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(args) > 0 {
 		flow = fmt.Sprintf(flow, args...)
 	}
 	tx.flows = append(tx.flows, fmt.Sprintf("flow delete %s", flow))
 }
-
 func (tx *ovsExecTx) Commit() error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	err := tx.ovsif.bundle(tx.flows)
-
-	// Reset flow context
 	tx.flows = []string{}
 	return err
 }

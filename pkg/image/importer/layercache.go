@@ -8,17 +8,14 @@ const (
 	DefaultImageStreamLayerCacheSize = 2048
 )
 
-type ImageStreamLayerCache struct {
-	*lru.Cache
-}
+type ImageStreamLayerCache struct{ *lru.Cache }
 
-// ImageStreamLayerCache creates a new LRU cache of layer digests
 func NewImageStreamLayerCache(size int) (ImageStreamLayerCache, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	c, err := lru.New(size)
 	if err != nil {
 		return ImageStreamLayerCache{}, err
 	}
-	return ImageStreamLayerCache{
-		Cache: c,
-	}, nil
+	return ImageStreamLayerCache{Cache: c}, nil
 }

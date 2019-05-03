@@ -1,8 +1,6 @@
 package openshiftapiserver
 
 import (
-	"time"
-
 	authorizationv1client "github.com/openshift/client-go/authorization/clientset/versioned"
 	authorizationv1informer "github.com/openshift/client-go/authorization/informers/externalversions"
 	imagev1client "github.com/openshift/client-go/image/clientset/versioned"
@@ -19,15 +17,11 @@ import (
 	userv1informer "github.com/openshift/client-go/user/informers/externalversions"
 	kexternalinformers "k8s.io/client-go/informers"
 	"k8s.io/client-go/rest"
+	"time"
 )
 
-// informerHolder is a convenient way for us to keep track of the informers, but
-// is intentionally private.  We don't want to leak it out further than this package.
-// Everything else should say what it wants.
 type InformerHolder struct {
-	kubernetesInformers kexternalinformers.SharedInformerFactory
-
-	// Internal OpenShift informers
+	kubernetesInformers    kexternalinformers.SharedInformerFactory
 	authorizationInformers authorizationv1informer.SharedInformerFactory
 	imageInformers         imagev1informer.SharedInformerFactory
 	oauthInformers         oauthv1informer.SharedInformerFactory
@@ -37,8 +31,9 @@ type InformerHolder struct {
 	userInformers          userv1informer.SharedInformerFactory
 }
 
-// NewInformers is only exposed for the build's integration testing until it can be fixed more appropriately.
 func NewInformers(kubeInformers kexternalinformers.SharedInformerFactory, kubeClientConfig *rest.Config, loopbackClientConfig *rest.Config) (*InformerHolder, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	authorizationClient, err := authorizationv1client.NewForConfig(loopbackClientConfig)
 	if err != nil {
 		return nil, err
@@ -67,59 +62,60 @@ func NewInformers(kubeInformers kexternalinformers.SharedInformerFactory, kubeCl
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO find a single place to create and start informers.  During the 1.7 rebase this will come more naturally in a config object,
-	// before then we should try to eliminate our direct to storage access.  It's making us do weird things.
 	const defaultInformerResyncPeriod = 10 * time.Minute
-
-	return &InformerHolder{
-		kubernetesInformers:    kubeInformers,
-		authorizationInformers: authorizationv1informer.NewSharedInformerFactory(authorizationClient, defaultInformerResyncPeriod),
-		imageInformers:         imagev1informer.NewSharedInformerFactory(imageClient, defaultInformerResyncPeriod),
-		oauthInformers:         oauthv1informer.NewSharedInformerFactory(oauthClient, defaultInformerResyncPeriod),
-		quotaInformers:         quotainformer.NewSharedInformerFactory(quotaClient, defaultInformerResyncPeriod),
-		routeInformers:         routev1informer.NewSharedInformerFactory(routerClient, defaultInformerResyncPeriod),
-		securityInformers:      securityv1informer.NewSharedInformerFactory(securityClient, defaultInformerResyncPeriod),
-		userInformers:          userv1informer.NewSharedInformerFactory(userClient, defaultInformerResyncPeriod),
-	}, nil
+	return &InformerHolder{kubernetesInformers: kubeInformers, authorizationInformers: authorizationv1informer.NewSharedInformerFactory(authorizationClient, defaultInformerResyncPeriod), imageInformers: imagev1informer.NewSharedInformerFactory(imageClient, defaultInformerResyncPeriod), oauthInformers: oauthv1informer.NewSharedInformerFactory(oauthClient, defaultInformerResyncPeriod), quotaInformers: quotainformer.NewSharedInformerFactory(quotaClient, defaultInformerResyncPeriod), routeInformers: routev1informer.NewSharedInformerFactory(routerClient, defaultInformerResyncPeriod), securityInformers: securityv1informer.NewSharedInformerFactory(securityClient, defaultInformerResyncPeriod), userInformers: userv1informer.NewSharedInformerFactory(userClient, defaultInformerResyncPeriod)}, nil
 }
-
-// nonProtobufConfig returns a copy of inConfig that doesn't force the use of protobufs,
-// for working with CRD-based APIs.
 func nonProtobufConfig(inConfig *rest.Config) *rest.Config {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	npConfig := rest.CopyConfig(inConfig)
 	npConfig.ContentConfig.AcceptContentTypes = "application/json"
 	npConfig.ContentConfig.ContentType = "application/json"
 	return npConfig
 }
-
 func (i *InformerHolder) GetKubernetesInformers() kexternalinformers.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.kubernetesInformers
 }
 func (i *InformerHolder) GetOpenshiftAuthorizationInformers() authorizationv1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.authorizationInformers
 }
 func (i *InformerHolder) GetOpenshiftImageInformers() imagev1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.imageInformers
 }
 func (i *InformerHolder) GetOpenshiftOauthInformers() oauthv1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.oauthInformers
 }
 func (i *InformerHolder) GetOpenshiftQuotaInformers() quotainformer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.quotaInformers
 }
 func (i *InformerHolder) GetOpenshiftRouteInformers() routev1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.routeInformers
 }
 func (i *InformerHolder) GetOpenshiftSecurityInformers() securityv1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.securityInformers
 }
 func (i *InformerHolder) GetOpenshiftUserInformers() userv1informer.SharedInformerFactory {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return i.userInformers
 }
-
-// Start initializes all requested informers.
 func (i *InformerHolder) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	i.kubernetesInformers.Start(stopCh)
 	i.authorizationInformers.Start(stopCh)
 	i.imageInformers.Start(stopCh)

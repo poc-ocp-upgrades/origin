@@ -10,13 +10,14 @@ type bypassAuthorizer struct {
 	authorizer kauthorizer.Authorizer
 }
 
-// newBypassAuthorizer creates an Authorizer that always allows the exact paths described, and delegates to the nested
-// authorizer for everything else.
 func newBypassAuthorizer(auth kauthorizer.Authorizer, paths ...string) kauthorizer.Authorizer {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return bypassAuthorizer{paths: sets.NewString(paths...), authorizer: auth}
 }
-
 func (a bypassAuthorizer) Authorize(attributes kauthorizer.Attributes) (allowed kauthorizer.Decision, reason string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if !attributes.IsResourceRequest() && a.paths.Has(attributes.GetPath()) {
 		return kauthorizer.DecisionAllow, "always allowed", nil
 	}

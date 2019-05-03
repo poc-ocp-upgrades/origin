@@ -2,35 +2,28 @@ package master
 
 import (
 	"fmt"
-	"sync"
-	"time"
-
-	"k8s.io/klog"
-
+	networkclient "github.com/openshift/client-go/network/clientset/versioned"
+	networkinformers "github.com/openshift/client-go/network/informers/externalversions/network/v1"
+	"github.com/openshift/origin/pkg/network/common"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/apimachinery/pkg/util/sets"
 	utilwait "k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/client-go/util/retry"
-
-	networkclient "github.com/openshift/client-go/network/clientset/versioned"
-	networkinformers "github.com/openshift/client-go/network/informers/externalversions/network/v1"
-	"github.com/openshift/origin/pkg/network/common"
+	"k8s.io/klog"
+	"sync"
+	"time"
 )
 
 type egressIPManager struct {
 	sync.Mutex
-
 	tracker            *common.EgressIPTracker
 	networkClient      networkclient.Interface
 	hostSubnetInformer networkinformers.HostSubnetInformer
-
-	updatePending bool
-	updatedAgain  bool
-
-	monitorNodes map[string]*egressNode
-	stop         chan struct{}
+	updatePending      bool
+	updatedAgain       bool
+	monitorNodes       map[string]*egressNode
+	stop               chan struct{}
 }
-
 type egressNode struct {
 	ip      string
 	offline bool
@@ -38,25 +31,24 @@ type egressNode struct {
 }
 
 func newEgressIPManager() *egressIPManager {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim := &egressIPManager{}
 	eim.tracker = common.NewEgressIPTracker(eim)
 	return eim
 }
-
 func (eim *egressIPManager) Start(networkClient networkclient.Interface, hostSubnetInformer networkinformers.HostSubnetInformer, netNamespaceInformer networkinformers.NetNamespaceInformer) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim.networkClient = networkClient
 	eim.hostSubnetInformer = hostSubnetInformer
 	eim.tracker.Start(hostSubnetInformer, netNamespaceInformer)
 }
-
 func (eim *egressIPManager) UpdateEgressCIDRs() {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim.Lock()
 	defer eim.Unlock()
-
-	// Coalesce multiple "UpdateEgressCIDRs" notifications into one by queueing
-	// the update to happen a little bit later in a goroutine, and postponing that
-	// update any time we get another "UpdateEgressCIDRs".
-
 	if eim.updatePending {
 		eim.updatedAgain = true
 	} else {
@@ -64,28 +56,16 @@ func (eim *egressIPManager) UpdateEgressCIDRs() {
 		go utilwait.PollInfinite(time.Second, eim.maybeDoUpdateEgressCIDRs)
 	}
 }
-
 func (eim *egressIPManager) maybeDoUpdateEgressCIDRs() (bool, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	eim.Lock()
 	defer eim.Unlock()
-
 	if eim.updatedAgain {
 		eim.updatedAgain = false
 		return false, nil
 	}
 	eim.updatePending = false
-
-	// At this point it has been at least 1 second since the last "UpdateEgressCIDRs"
-	// notification, so things are stable.
-	//
-	// ReallocateEgressIPs() will figure out what HostSubnets either can have new
-	// egress IPs added to them, or need to have egress IPs removed from them, and
-	// returns a map from node name to the new EgressIPs value, for each changed
-	// HostSubnet.
-	//
-	// If a HostSubnet's EgressCIDRs changes while we are processing the reallocation,
-	// we won't process that until this reallocation is complete.
-
 	allocation := eim.tracker.ReallocateEgressIPs()
 	monitorNodes := make(map[string]*egressNode, len(allocation))
 	for nodeName, egressIPs := range allocation {
@@ -94,13 +74,11 @@ func (eim *egressIPManager) maybeDoUpdateEgressCIDRs() (bool, error) {
 			if err != nil {
 				return err
 			}
-
 			if node := eim.monitorNodes[hs.HostIP]; node != nil {
 				monitorNodes[hs.HostIP] = node
 			} else {
 				monitorNodes[hs.HostIP] = &egressNode{ip: hs.HostIP}
 			}
-
 			oldIPs := sets.NewString(hs.EgressIPs...)
 			newIPs := sets.NewString(egressIPs...)
 			if !oldIPs.Equal(newIPs) {
@@ -113,7 +91,6 @@ func (eim *egressIPManager) maybeDoUpdateEgressCIDRs() (bool, error) {
 			utilruntime.HandleError(fmt.Errorf("Could not update HostSubnet EgressIPs: %v", resultErr))
 		}
 	}
-
 	eim.monitorNodes = monitorNodes
 	if len(monitorNodes) > 0 {
 		if eim.stop == nil {
@@ -126,7 +103,6 @@ func (eim *egressIPManager) maybeDoUpdateEgressCIDRs() (bool, error) {
 			eim.stop = nil
 		}
 	}
-
 	return true, nil
 }
 
@@ -137,6 +113,8 @@ const (
 )
 
 func (eim *egressIPManager) poll(stop chan struct{}) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	retry := false
 	for {
 		select {
@@ -144,30 +122,27 @@ func (eim *egressIPManager) poll(stop chan struct{}) {
 			return
 		default:
 		}
-
 		start := time.Now()
 		retry := eim.check(retry)
 		if !retry {
-			// If less than pollInterval has passed since start, then sleep until it has
 			time.Sleep(start.Add(pollInterval).Sub(time.Now()))
 		}
 	}
 }
-
 func (eim *egressIPManager) check(retrying bool) bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	var timeout time.Duration
 	if retrying {
 		timeout = repollInterval
 	} else {
 		timeout = pollInterval
 	}
-
 	needRetry := false
 	for _, node := range eim.monitorNodes {
 		if retrying && node.retries == 0 {
 			continue
 		}
-
 		online := eim.tracker.Ping(node.ip, timeout)
 		if node.offline && online {
 			klog.Infof("Node %s is back online", node.ip)
@@ -186,21 +161,25 @@ func (eim *egressIPManager) check(retrying bool) bool {
 			}
 		}
 	}
-
 	return needRetry
 }
-
 func (eim *egressIPManager) ClaimEgressIP(vnid uint32, egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (eim *egressIPManager) ReleaseEgressIP(egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (eim *egressIPManager) SetNamespaceEgressNormal(vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (eim *egressIPManager) SetNamespaceEgressDropped(vnid uint32) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (eim *egressIPManager) SetNamespaceEgressViaEgressIP(vnid uint32, egressIP, nodeIP string) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }

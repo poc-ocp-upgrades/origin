@@ -4,7 +4,6 @@ import (
 	"html/template"
 )
 
-// SelectProviderTemplateExample is a basic template for customizing the provider selection page.
 const SelectProviderTemplateExample = `<!DOCTYPE html>
 <!--
 

@@ -2,14 +2,12 @@ package ldaputil
 
 import (
 	"fmt"
+	"gopkg.in/ldap.v2"
 	"net"
 	"net/url"
 	"strings"
-
-	"gopkg.in/ldap.v2"
 )
 
-// Scheme is a valid ldap scheme
 type Scheme string
 
 const (
@@ -17,7 +15,6 @@ const (
 	SchemeLDAPS Scheme = "ldaps"
 )
 
-// Scope is a valid LDAP search scope
 type Scope int
 
 const (
@@ -26,7 +23,6 @@ const (
 	ScopeBaseObject   Scope = ldap.ScopeBaseObject
 )
 
-// DerefAliases is a valid LDAP alias dereference parameter
 type DerefAliases int
 
 const (
@@ -35,94 +31,64 @@ const (
 	DerefAliasesFinding   = ldap.DerefFindingBaseObj
 	DerefAliasesAlways    = ldap.DerefAlways
 )
-
 const (
-	defaultLDAPPort  = "389"
-	defaultLDAPSPort = "636"
-
-	defaultHost           = "localhost"
-	defaultQueryAttribute = "uid"
-	defaultFilter         = "(objectClass=*)"
-
+	defaultLDAPPort         = "389"
+	defaultLDAPSPort        = "636"
+	defaultHost             = "localhost"
+	defaultQueryAttribute   = "uid"
+	defaultFilter           = "(objectClass=*)"
 	scopeWholeSubtreeString = "sub"
 	scopeSingleLevelString  = "one"
 	scopeBaseObjectString   = "base"
-
 	criticalExtensionPrefix = "!"
 )
 
-// LDAPURL holds a parsed RFC 2255 URL
 type LDAPURL struct {
-	// Scheme is ldap or ldaps
-	Scheme Scheme
-	// Host is the host:port of the LDAP server
-	Host string
-	// The DN of the branch of the directory where all searches should start from
-	BaseDN string
-	// The attribute to search for
+	Scheme         Scheme
+	Host           string
+	BaseDN         string
 	QueryAttribute string
-	// The scope of the search. Can be ldap.ScopeWholeSubtree, ldap.ScopeSingleLevel, or ldap.ScopeBaseObject
-	Scope Scope
-	// A valid LDAP search filter (e.g. "(objectClass=*)")
-	Filter string
+	Scope          Scope
+	Filter         string
 }
 
-// ParseURL parsed the given ldapURL as an RFC 2255 URL
-// The syntax of the URL is ldap://host:port/basedn?attribute?scope?filter
 func ParseURL(ldapURL string) (LDAPURL, error) {
-	// Must be a valid URL to start
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parsedURL, err := url.Parse(ldapURL)
 	if err != nil {
 		return LDAPURL{}, err
 	}
-
 	opts := LDAPURL{}
-
 	determinedScheme, err := DetermineLDAPScheme(parsedURL.Scheme)
 	if err != nil {
 		return LDAPURL{}, err
 	}
 	opts.Scheme = determinedScheme
-
 	determinedHost, err := DetermineLDAPHost(parsedURL.Host, opts.Scheme)
 	if err != nil {
 		return LDAPURL{}, err
 	}
 	opts.Host = determinedHost
-
-	// Set base dn (default to "")
-	// url.Parse() already percent-decodes the path
 	opts.BaseDN = strings.TrimLeft(parsedURL.Path, "/")
-
 	attributes, scope, filter, extensions, err := SplitLDAPQuery(parsedURL.RawQuery)
 	if err != nil {
 		return LDAPURL{}, err
 	}
-
-	// Attributes contains comma-separated attributes
-	// Set query attribute to first attribute
-	// Default to uid to match mod_auth_ldap
 	opts.QueryAttribute = strings.Split(attributes, ",")[0]
 	if len(opts.QueryAttribute) == 0 {
 		opts.QueryAttribute = defaultQueryAttribute
 	}
-
 	determinedScope, err := DetermineLDAPScope(scope)
 	if err != nil {
 		return LDAPURL{}, err
 	}
 	opts.Scope = determinedScope
-
 	determinedFilter, err := DetermineLDAPFilter(filter)
 	if err != nil {
 		return LDAPURL{}, err
 	}
 	opts.Filter = determinedFilter
-
-	// Extensions are in "name=value,name2=value2" form
-	// Critical extensions are prefixed with a !
-	// Optional extensions are ignored, per RFC
-	// Fail if there are any critical extensions, since we don't support any
 	if len(extensions) > 0 {
 		for _, extension := range strings.Split(extensions, ",") {
 			exttype := strings.SplitN(extension, "=", 2)[0]
@@ -131,14 +97,11 @@ func ParseURL(ldapURL string) (LDAPURL, error) {
 			}
 		}
 	}
-
 	return opts, nil
-
 }
-
-// DetermineLDAPScheme determines the LDAP connection scheme. Scheme is one of "ldap" or "ldaps"
-// Default to "ldap"
 func DetermineLDAPScheme(scheme string) (Scheme, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch Scheme(scheme) {
 	case SchemeLDAP, SchemeLDAPS:
 		return Scheme(scheme), nil
@@ -146,14 +109,12 @@ func DetermineLDAPScheme(scheme string) (Scheme, error) {
 		return "", fmt.Errorf("invalid scheme %q", scheme)
 	}
 }
-
-// DetermineLDAPHost determines the host and port for the LDAP connection.
-// The default host is localhost; the default port for scheme "ldap" is 389, for "ldaps" is 686
 func DetermineLDAPHost(hostport string, scheme Scheme) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(hostport) == 0 {
 		hostport = defaultHost
 	}
-	// add port if missing
 	if _, _, err := net.SplitHostPort(hostport); err != nil {
 		switch scheme {
 		case SchemeLDAPS:
@@ -164,13 +125,11 @@ func DetermineLDAPHost(hostport string, scheme Scheme) (string, error) {
 			return "", fmt.Errorf("no default port for scheme %q", scheme)
 		}
 	}
-	// nothing needed to be done
 	return hostport, nil
 }
-
-// SplitLDAPQuery splits the query in the URL into the substituent parts. All sections are optional.
-// Query syntax is attribute?scope?filter?extensions
 func SplitLDAPQuery(query string) (attributes, scope, filter, extensions string, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	parts := strings.Split(query, "?")
 	switch len(parts) {
 	case 4:
@@ -204,10 +163,9 @@ func SplitLDAPQuery(query string) (attributes, scope, filter, extensions string,
 		return "", "", "", "", err
 	}
 }
-
-// DetermineLDAPScope determines the LDAP search scope. Scope is one of "sub", "one", or "base"
-// Default to "sub" to match mod_auth_ldap
 func DetermineLDAPScope(scope string) (Scope, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	switch scope {
 	case "", scopeWholeSubtreeString:
 		return ScopeWholeSubtree, nil
@@ -219,10 +177,9 @@ func DetermineLDAPScope(scope string) (Scope, error) {
 		return -1, fmt.Errorf("invalid scope %q", scope)
 	}
 }
-
-// DetermineLDAPFilter determines the LDAP search filter. Filter is a valid LDAP filter
-// Default to "(objectClass=*)" per RFC
 func DetermineLDAPFilter(filter string) (string, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if len(filter) == 0 {
 		return defaultFilter, nil
 	}
@@ -231,14 +188,10 @@ func DetermineLDAPFilter(filter string) (string, error) {
 	}
 	return filter, nil
 }
-
 func DetermineDerefAliasesBehavior(derefAliasesString string) (DerefAliases, error) {
-	mapping := map[string]DerefAliases{
-		"never":  DerefAliasesNever,
-		"search": DerefAliasesSearching,
-		"base":   DerefAliasesFinding,
-		"always": DerefAliasesAlways,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	mapping := map[string]DerefAliases{"never": DerefAliasesNever, "search": DerefAliasesSearching, "base": DerefAliasesFinding, "always": DerefAliasesAlways}
 	derefAliases, exists := mapping[derefAliasesString]
 	if !exists {
 		return -1, fmt.Errorf("not a valid LDAP alias dereferncing behavior: %s", derefAliasesString)

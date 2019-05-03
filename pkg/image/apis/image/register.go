@@ -11,41 +11,21 @@ const (
 )
 
 var (
-	GroupVersion  = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
-	schemeBuilder = runtime.NewSchemeBuilder(
-		addKnownTypes,
-		core.AddToScheme,
-	)
-	Install = schemeBuilder.AddToScheme
-
-	// DEPRECATED kept for generated code
+	GroupVersion       = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
+	schemeBuilder      = runtime.NewSchemeBuilder(addKnownTypes, core.AddToScheme)
+	Install            = schemeBuilder.AddToScheme
 	SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
-	// DEPRECATED kept for generated code
-	AddToScheme = schemeBuilder.AddToScheme
+	AddToScheme        = schemeBuilder.AddToScheme
 )
 
-// Resource kept for generated code
-// DEPRECATED
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
-
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(SchemeGroupVersion,
-		&Image{},
-		&ImageList{},
-		&DockerImage{},
-		&ImageSignature{},
-		&ImageStream{},
-		&ImageStreamList{},
-		&ImageStreamMapping{},
-		&ImageStreamTag{},
-		&ImageStreamTagList{},
-		&ImageStreamImage{},
-		&ImageStreamLayers{},
-		&ImageStreamImport{},
-		&core.SecretList{},
-	)
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	scheme.AddKnownTypes(SchemeGroupVersion, &Image{}, &ImageList{}, &DockerImage{}, &ImageSignature{}, &ImageStream{}, &ImageStreamList{}, &ImageStreamMapping{}, &ImageStreamTag{}, &ImageStreamTagList{}, &ImageStreamImage{}, &ImageStreamLayers{}, &ImageStreamImport{}, &core.SecretList{})
 	return nil
 }

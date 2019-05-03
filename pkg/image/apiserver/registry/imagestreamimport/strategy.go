@@ -2,41 +2,41 @@ package imagestreamimport
 
 import (
 	"context"
-
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/validation/field"
-	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	"github.com/openshift/origin/pkg/image/apis/image/validation"
 	"github.com/openshift/origin/pkg/image/apis/image/validation/whitelist"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/validation/field"
+	"k8s.io/kubernetes/pkg/api/legacyscheme"
 )
 
-// strategy implements behavior for ImageStreamImports.
 type strategy struct {
 	runtime.ObjectTyper
 	registryWhitelister whitelist.RegistryWhitelister
 }
 
 func NewStrategy(rw whitelist.RegistryWhitelister) *strategy {
-	return &strategy{
-		ObjectTyper:         legacyscheme.Scheme,
-		registryWhitelister: rw,
-	}
+	_logClusterCodePath()
+	defer _logClusterCodePath()
+	return &strategy{ObjectTyper: legacyscheme.Scheme, registryWhitelister: rw}
 }
-
 func (s *strategy) NamespaceScoped() bool {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return true
 }
-
 func (s *strategy) GenerateName(string) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return ""
 }
-
 func (s *strategy) Canonicalize(runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 }
-
 func (s *strategy) ValidateAllowedRegistries(isi *imageapi.ImageStreamImport) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	errs := field.ErrorList{}
 	validate := func(path *field.Path, name string, insecure bool) field.ErrorList {
 		ref, _ := imageapi.ParseDockerImageReference(name)
@@ -53,24 +53,23 @@ func (s *strategy) ValidateAllowedRegistries(isi *imageapi.ImageStreamImport) fi
 	}
 	return errs
 }
-
 func (s *strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	newIST := obj.(*imageapi.ImageStreamImport)
 	newIST.Status = imageapi.ImageStreamImportStatus{}
 }
-
 func (s *strategy) PrepareImageForCreate(obj runtime.Object) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	image := obj.(*imageapi.Image)
-
-	// signatures can be added using "images" or "imagesignatures" resources
 	image.Signatures = nil
-
-	// Remove the raw manifest as it's very big and this leads to a large memory consumption in etcd.
 	image.DockerImageManifest = ""
 	image.DockerImageConfig = ""
 }
-
 func (s *strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	isi := obj.(*imageapi.ImageStreamImport)
 	return validation.ValidateImageStreamImport(isi)
 }

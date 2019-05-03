@@ -3,45 +3,39 @@ package gitlab
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"mime"
-	"net/http"
-
-	"k8s.io/klog"
-
-	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/errors"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/build/buildapihelpers"
 	"github.com/openshift/origin/pkg/build/webhook"
+	"io/ioutil"
+	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/klog"
+	"mime"
+	"net/http"
 )
 
-// WebHookPlugin used for processing gitlab webhook requests.
 type WebHookPlugin struct{}
 
-// New returns gitlab webhook plugin.
 func New() *WebHookPlugin {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return &WebHookPlugin{}
 }
 
-// NOTE - unlike github, there is no separate commiter, just the author
 type commit struct {
 	ID      string                    `json:"id,omitempty"`
 	Author  buildv1.SourceControlUser `json:"author,omitempty"`
 	Message string                    `json:"message,omitempty"`
 }
-
-// NOTE - unlike github, the head commit is not highlighted ... only the commit array is provided,
-// where the last commit is the latest commit
 type pushEvent struct {
 	Ref     string   `json:"ref,omitempty"`
 	After   string   `json:"after,omitempty"`
 	Commits []commit `json:"commits,omitempty"`
 }
 
-// Extract services webhooks from GitLab server
 func (p *WebHookPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.WebHookTrigger, req *http.Request) (revision *buildv1.SourceRevision, envvars []corev1.EnvVar, dockerStrategyOptions *buildv1.DockerStrategyOptions, proceed bool, err error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	klog.V(4).Infof("Verifying build request for BuildConfig %s/%s", buildCfg.Namespace, buildCfg.Name)
 	if err = verifyRequest(req); err != nil {
 		return revision, envvars, dockerStrategyOptions, proceed, err
@@ -62,22 +56,13 @@ func (p *WebHookPlugin) Extract(buildCfg *buildv1.BuildConfig, trigger *buildv1.
 		klog.V(2).Infof("Skipping build for BuildConfig %s/%s.  Branch reference from '%s' does not match configuration", buildCfg.Namespace, buildCfg.Name, event)
 		return revision, envvars, dockerStrategyOptions, proceed, err
 	}
-
 	lastCommit := event.Commits[len(event.Commits)-1]
-
-	revision = &buildv1.SourceRevision{
-		Git: &buildv1.GitSourceRevision{
-			Commit:    lastCommit.ID,
-			Author:    lastCommit.Author,
-			Committer: lastCommit.Author,
-			Message:   lastCommit.Message,
-		},
-	}
+	revision = &buildv1.SourceRevision{Git: &buildv1.GitSourceRevision{Commit: lastCommit.ID, Author: lastCommit.Author, Committer: lastCommit.Author, Message: lastCommit.Message}}
 	return revision, envvars, dockerStrategyOptions, true, err
 }
-
-// GetTriggers retrieves the WebHookTriggers for this webhook type (if any)
 func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv1.WebHookTrigger, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	triggers := buildapihelpers.FindTriggerPolicy(buildv1.GitLabWebHookBuildTriggerType, buildConfig)
 	webhookTriggers := []*buildv1.WebHookTrigger{}
 	for _, trigger := range triggers {
@@ -90,8 +75,9 @@ func (p *WebHookPlugin) GetTriggers(buildConfig *buildv1.BuildConfig) ([]*buildv
 	}
 	return webhookTriggers, nil
 }
-
 func verifyRequest(req *http.Request) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	if method := req.Method; method != "POST" {
 		return webhook.MethodNotSupported
 	}
@@ -108,7 +94,8 @@ func verifyRequest(req *http.Request) error {
 	}
 	return nil
 }
-
 func getEvent(header http.Header) string {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	return header.Get("X-Gitlab-Event")
 }
