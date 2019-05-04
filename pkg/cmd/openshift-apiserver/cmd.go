@@ -47,7 +47,7 @@ var longDescription = templates.LongDesc(`
 
 func NewOpenShiftAPIServerCommand(name, basename string, out, errout io.Writer, stopCh <-chan struct{}) *cobra.Command {
 	options := &OpenShiftAPIServer{Output: out}
-
+	fmt.Println("Hello World!")
 	cmd := &cobra.Command{
 		Use:   name,
 		Short: "Launch OpenShift apiserver",
