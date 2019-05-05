@@ -44,6 +44,7 @@ var longDescription = templates.LongDesc(`
 	Start the extended kube-apiserver with OpenShift security extensions`)
 
 func NewOpenShiftKubeAPIServerServerCommand(name, basename string, out, errout io.Writer, stopCh <-chan struct{}) *cobra.Command {
+	fmt.Println("Hello World!")
 	options := &OpenShiftKubeAPIServerServer{Output: out}
 
 	cmd := &cobra.Command{
