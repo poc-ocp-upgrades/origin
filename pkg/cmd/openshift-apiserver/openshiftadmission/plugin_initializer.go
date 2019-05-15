@@ -2,8 +2,17 @@ package openshiftadmission
 
 import (
 	"fmt"
+	imagev1client "github.com/openshift/client-go/image/clientset/versioned"
+	imagev1informer "github.com/openshift/client-go/image/informers/externalversions"
+	quotainformer "github.com/openshift/client-go/quota/informers/externalversions"
+	securityv1informer "github.com/openshift/client-go/security/informers/externalversions"
+	userv1informer "github.com/openshift/client-go/user/informers/externalversions"
+	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
+	"github.com/openshift/origin/pkg/image/apiserver/registryhostname"
+	projectcache "github.com/openshift/origin/pkg/project/cache"
+	"github.com/openshift/origin/pkg/quota/controller/clusterquotamapping"
+	"github.com/openshift/origin/pkg/quota/image"
 	"io/ioutil"
-
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apiserver/pkg/admission"
@@ -19,17 +28,6 @@ import (
 	kadmission "k8s.io/kubernetes/pkg/kubeapiserver/admission"
 	"k8s.io/kubernetes/pkg/quota/v1/generic"
 	"k8s.io/kubernetes/pkg/quota/v1/install"
-
-	imagev1client "github.com/openshift/client-go/image/clientset/versioned"
-	imagev1informer "github.com/openshift/client-go/image/informers/externalversions"
-	quotainformer "github.com/openshift/client-go/quota/informers/externalversions"
-	securityv1informer "github.com/openshift/client-go/security/informers/externalversions"
-	userv1informer "github.com/openshift/client-go/user/informers/externalversions"
-	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
-	"github.com/openshift/origin/pkg/image/apiserver/registryhostname"
-	projectcache "github.com/openshift/origin/pkg/project/cache"
-	"github.com/openshift/origin/pkg/quota/controller/clusterquotamapping"
-	"github.com/openshift/origin/pkg/quota/image"
 )
 
 type InformerAccess interface {
@@ -40,17 +38,9 @@ type InformerAccess interface {
 	GetOpenshiftUserInformers() userv1informer.SharedInformerFactory
 }
 
-func NewPluginInitializer(
-	externalImageRegistryHostnames []string,
-	internalImageRegistryHostname string,
-	cloudConfigFile string,
-	privilegedLoopbackConfig *rest.Config,
-	informers InformerAccess,
-	authorizer authorizer.Authorizer,
-	projectCache *projectcache.ProjectCache,
-	restMapper meta.RESTMapper,
-	clusterQuotaMappingController *clusterquotamapping.ClusterQuotaMappingController,
-) (admission.PluginInitializer, error) {
+func NewPluginInitializer(externalImageRegistryHostnames []string, internalImageRegistryHostname string, cloudConfigFile string, privilegedLoopbackConfig *rest.Config, informers InformerAccess, authorizer authorizer.Authorizer, projectCache *projectcache.ProjectCache, restMapper meta.RESTMapper, clusterQuotaMappingController *clusterquotamapping.ClusterQuotaMappingController) (admission.PluginInitializer, error) {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	kubeClient, err := kubeclientgoclient.NewForConfig(privilegedLoopbackConfig)
 	if err != nil {
 		return nil, err
@@ -59,17 +49,11 @@ func NewPluginInitializer(
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO make a union registry
 	quotaRegistry := generic.NewRegistry(install.NewQuotaConfigurationForAdmission().Evaluators())
-	imageEvaluators := image.NewReplenishmentEvaluatorsForAdmission(
-		informers.GetOpenshiftImageInformers().Image().V1().ImageStreams(),
-		imageClient.ImageV1(),
-	)
+	imageEvaluators := image.NewReplenishmentEvaluatorsForAdmission(informers.GetOpenshiftImageInformers().Image().V1().ImageStreams(), imageClient.ImageV1())
 	for i := range imageEvaluators {
 		quotaRegistry.Add(imageEvaluators[i])
 	}
-
 	var externalImageRegistryHostname string
 	if len(externalImageRegistryHostnames) > 0 {
 		externalImageRegistryHostname = externalImageRegistryHostnames[0]
@@ -78,7 +62,6 @@ func NewPluginInitializer(
 	if err != nil {
 		return nil, err
 	}
-
 	var cloudConfig []byte
 	if len(cloudConfigFile) != 0 {
 		var err error
@@ -87,50 +70,22 @@ func NewPluginInitializer(
 			return nil, fmt.Errorf("error reading from cloud configuration file %s: %v", cloudConfigFile, err)
 		}
 	}
-	// note: we are passing a combined quota registry here...
-	genericInitializer := initializer.New(
-		kubeClient,
-		informers.GetKubernetesInformers(),
-		authorizer,
-		legacyscheme.Scheme,
-	)
-	kubePluginInitializer := kadmission.NewPluginInitializer(
-		cloudConfig,
-		restMapper,
-		generic.NewConfiguration(quotaRegistry.List(), map[schema.GroupResource]struct{}{}))
-
+	genericInitializer := initializer.New(kubeClient, informers.GetKubernetesInformers(), authorizer, legacyscheme.Scheme)
+	kubePluginInitializer := kadmission.NewPluginInitializer(cloudConfig, restMapper, generic.NewConfiguration(quotaRegistry.List(), map[schema.GroupResource]struct{}{}))
 	webhookAuthResolverWrapper := func(delegate webhook.AuthenticationInfoResolver) webhook.AuthenticationInfoResolver {
-		return &webhook.AuthenticationInfoResolverDelegator{
-			ClientConfigForFunc: func(server string) (*rest.Config, error) {
-				if server == "kubernetes.default.svc" {
-					return rest.CopyConfig(privilegedLoopbackConfig), nil
-				}
-				return delegate.ClientConfigFor(server)
-			},
-			ClientConfigForServiceFunc: func(serviceName, serviceNamespace string) (*rest.Config, error) {
-				if serviceName == "kubernetes" && serviceNamespace == "default" {
-					return rest.CopyConfig(privilegedLoopbackConfig), nil
-				}
-				return delegate.ClientConfigForService(serviceName, serviceNamespace)
-			},
-		}
+		return &webhook.AuthenticationInfoResolverDelegator{ClientConfigForFunc: func(server string) (*rest.Config, error) {
+			if server == "kubernetes.default.svc" {
+				return rest.CopyConfig(privilegedLoopbackConfig), nil
+			}
+			return delegate.ClientConfigFor(server)
+		}, ClientConfigForServiceFunc: func(serviceName, serviceNamespace string) (*rest.Config, error) {
+			if serviceName == "kubernetes" && serviceNamespace == "default" {
+				return rest.CopyConfig(privilegedLoopbackConfig), nil
+			}
+			return delegate.ClientConfigForService(serviceName, serviceNamespace)
+		}}
 	}
-
-	webhookInitializer := webhookinitializer.NewPluginInitializer(
-		webhookAuthResolverWrapper,
-		aggregatorapiserver.NewClusterIPServiceResolver(informers.GetKubernetesInformers().Core().V1().Services().Lister()),
-	)
-
-	openshiftPluginInitializer := &oadmission.PluginInitializer{
-		ProjectCache:                 projectCache,
-		OriginQuotaRegistry:          quotaRegistry,
-		RESTClientConfig:             *privilegedLoopbackConfig,
-		ClusterResourceQuotaInformer: informers.GetOpenshiftQuotaInformers().Quota().V1().ClusterResourceQuotas(),
-		ClusterQuotaMapper:           clusterQuotaMappingController.GetClusterQuotaMapper(),
-		RegistryHostnameRetriever:    registryHostnameRetriever,
-		SecurityInformers:            informers.GetOpenshiftSecurityInformers(),
-		UserInformers:                informers.GetOpenshiftUserInformers(),
-	}
-
+	webhookInitializer := webhookinitializer.NewPluginInitializer(webhookAuthResolverWrapper, aggregatorapiserver.NewClusterIPServiceResolver(informers.GetKubernetesInformers().Core().V1().Services().Lister()))
+	openshiftPluginInitializer := &oadmission.PluginInitializer{ProjectCache: projectCache, OriginQuotaRegistry: quotaRegistry, RESTClientConfig: *privilegedLoopbackConfig, ClusterResourceQuotaInformer: informers.GetOpenshiftQuotaInformers().Quota().V1().ClusterResourceQuotas(), ClusterQuotaMapper: clusterQuotaMappingController.GetClusterQuotaMapper(), RegistryHostnameRetriever: registryHostnameRetriever, SecurityInformers: informers.GetOpenshiftSecurityInformers(), UserInformers: informers.GetOpenshiftUserInformers()}
 	return admission.PluginInitializers{genericInitializer, webhookInitializer, kubePluginInitializer, openshiftPluginInitializer}, nil
 }

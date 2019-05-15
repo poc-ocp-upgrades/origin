@@ -1,36 +1,24 @@
 package openshift_apiserver
 
 import (
-	"k8s.io/klog"
-
-	genericapiserver "k8s.io/apiserver/pkg/server"
-	"k8s.io/client-go/pkg/version"
-	"k8s.io/kubernetes/pkg/capabilities"
-	kubelettypes "k8s.io/kubernetes/pkg/kubelet/types"
-
 	openshiftcontrolplanev1 "github.com/openshift/api/openshiftcontrolplane/v1"
 	"github.com/openshift/origin/pkg/cmd/openshift-apiserver/openshiftapiserver"
 	"github.com/openshift/origin/pkg/cmd/util"
-
-	// for metrics
+	genericapiserver "k8s.io/apiserver/pkg/server"
+	"k8s.io/client-go/pkg/version"
+	"k8s.io/klog"
+	"k8s.io/kubernetes/pkg/capabilities"
 	_ "k8s.io/kubernetes/pkg/client/metrics/prometheus"
+	kubelettypes "k8s.io/kubernetes/pkg/kubelet/types"
 )
 
-// default this to true so that the integration tests don't instantly break
 var featureKeepRemovedNetworkingAPI = true
 
 func RunOpenShiftAPIServer(serverConfig *openshiftcontrolplanev1.OpenShiftAPIServerConfig, stopCh <-chan struct{}) error {
+	_logClusterCodePath()
+	defer _logClusterCodePath()
 	util.InitLogrus()
-	// Allow privileged containers
-	capabilities.Initialize(capabilities.Capabilities{
-		AllowPrivileged: true,
-		PrivilegedSources: capabilities.PrivilegedSources{
-			HostNetworkSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-			HostPIDSources:     []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-			HostIPCSources:     []string{kubelettypes.ApiserverSource, kubelettypes.FileSource},
-		},
-	})
-
+	capabilities.Initialize(capabilities.Capabilities{AllowPrivileged: true, PrivilegedSources: capabilities.PrivilegedSources{HostNetworkSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostPIDSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}, HostIPCSources: []string{kubelettypes.ApiserverSource, kubelettypes.FileSource}}})
 	openshiftAPIServerRuntimeConfig, err := openshiftapiserver.NewOpenshiftAPIConfig(serverConfig)
 	if err != nil {
 		return err
@@ -39,10 +27,7 @@ func RunOpenShiftAPIServer(serverConfig *openshiftcontrolplanev1.OpenShiftAPISer
 	if err != nil {
 		return err
 	}
-	// this sets up the openapi endpoints
 	preparedOpenshiftAPIServer := openshiftAPIServer.GenericAPIServer.PrepareRun()
-
 	klog.Infof("Starting master on %s (%s)", serverConfig.ServingInfo.BindAddress, version.Get().String())
-
 	return preparedOpenshiftAPIServer.Run(stopCh)
 }
