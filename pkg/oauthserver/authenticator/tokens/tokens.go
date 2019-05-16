@@ -1,15 +1,19 @@
 package tokens
 
-const (
-	// URLToken in the query of the redirectURL gets replaced with the original request URL, escaped as a query parameter.
-	// Example use: https://www.example.com/login?then=${url}
-	URLToken = "${url}"
-
-	// ServerRelativeURLToken in the query of the redirectURL gets replaced with the server-relative portion of the original request URL, escaped as a query parameter.
-	// Example use: https://www.example.com/login?then=${server-relative-url}
-	ServerRelativeURLToken = "${server-relative-url}"
-
-	// QueryToken in the query of the redirectURL gets replaced with the original request URL, unescaped.
-	// Example use: https://www.example.com/sso/oauth/authorize?${query}
-	QueryToken = "${query}"
+import (
+	goformat "fmt"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
+
+const (
+	URLToken               = "${url}"
+	ServerRelativeURLToken = "${server-relative-url}"
+	QueryToken             = "${query}"
+)
+
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
+}

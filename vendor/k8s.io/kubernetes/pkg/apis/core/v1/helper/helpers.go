@@ -1,26 +1,9 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package helper
 
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
-
+	goformat "fmt"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	"k8s.io/apimachinery/pkg/fields"
@@ -28,89 +11,76 @@ import (
 	"k8s.io/apimachinery/pkg/selection"
 	"k8s.io/apimachinery/pkg/util/validation"
 	"k8s.io/kubernetes/pkg/apis/core/helper"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
-// IsExtendedResourceName returns true if:
-// 1. the resource name is not in the default namespace;
-// 2. resource name does not have "requests." prefix,
-// to avoid confusion with the convention in quota
-// 3. it satisfies the rules in IsQualifiedName() after converted into quota resource name
 func IsExtendedResourceName(name v1.ResourceName) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if IsNativeResource(name) || strings.HasPrefix(string(name), v1.DefaultResourceRequestsPrefix) {
 		return false
 	}
-	// Ensure it satisfies the rules in IsQualifiedName() after converted into quota resource name
 	nameForQuota := fmt.Sprintf("%s%s", v1.DefaultResourceRequestsPrefix, string(name))
 	if errs := validation.IsQualifiedName(string(nameForQuota)); len(errs) != 0 {
 		return false
 	}
 	return true
 }
-
-// IsPrefixedNativeResource returns true if the resource name is in the
-// *kubernetes.io/ namespace.
 func IsPrefixedNativeResource(name v1.ResourceName) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return strings.Contains(string(name), v1.ResourceDefaultNamespacePrefix)
 }
-
-// IsNativeResource returns true if the resource name is in the
-// *kubernetes.io/ namespace. Partially-qualified (unprefixed) names are
-// implicitly in the kubernetes.io/ namespace.
 func IsNativeResource(name v1.ResourceName) bool {
-	return !strings.Contains(string(name), "/") ||
-		IsPrefixedNativeResource(name)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return !strings.Contains(string(name), "/") || IsPrefixedNativeResource(name)
 }
-
-// IsHugePageResourceName returns true if the resource name has the huge page
-// resource prefix.
 func IsHugePageResourceName(name v1.ResourceName) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return strings.HasPrefix(string(name), v1.ResourceHugePagesPrefix)
 }
-
-// HugePageResourceName returns a ResourceName with the canonical hugepage
-// prefix prepended for the specified page size.  The page size is converted
-// to its canonical representation.
 func HugePageResourceName(pageSize resource.Quantity) v1.ResourceName {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return v1.ResourceName(fmt.Sprintf("%s%s", v1.ResourceHugePagesPrefix, pageSize.String()))
 }
-
-// HugePageSizeFromResourceName returns the page size for the specified huge page
-// resource name.  If the specified input is not a valid huge page resource name
-// an error is returned.
 func HugePageSizeFromResourceName(name v1.ResourceName) (resource.Quantity, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !IsHugePageResourceName(name) {
 		return resource.Quantity{}, fmt.Errorf("resource name: %s is an invalid hugepage name", name)
 	}
 	pageSize := strings.TrimPrefix(string(name), v1.ResourceHugePagesPrefix)
 	return resource.ParseQuantity(pageSize)
 }
-
-// IsOvercommitAllowed returns true if the resource is in the default
-// namespace and is not hugepages.
 func IsOvercommitAllowed(name v1.ResourceName) bool {
-	return IsNativeResource(name) &&
-		!IsHugePageResourceName(name)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return IsNativeResource(name) && !IsHugePageResourceName(name)
 }
-
 func IsAttachableVolumeResourceName(name v1.ResourceName) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return strings.HasPrefix(string(name), v1.ResourceAttachableVolumesPrefix)
 }
-
-// Extended and Hugepages resources
 func IsScalarResourceName(name v1.ResourceName) bool {
-	return IsExtendedResourceName(name) || IsHugePageResourceName(name) ||
-		IsPrefixedNativeResource(name) || IsAttachableVolumeResourceName(name)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return IsExtendedResourceName(name) || IsHugePageResourceName(name) || IsPrefixedNativeResource(name) || IsAttachableVolumeResourceName(name)
 }
-
-// this function aims to check if the service's ClusterIP is set or not
-// the objective is not to perform validation here
 func IsServiceIPSet(service *v1.Service) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return service.Spec.ClusterIP != v1.ClusterIPNone && service.Spec.ClusterIP != ""
 }
-
-// AddToNodeAddresses appends the NodeAddresses to the passed-by-pointer slice,
-// only if they do not already exist
 func AddToNodeAddresses(addresses *[]v1.NodeAddress, addAddresses ...v1.NodeAddress) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, add := range addAddresses {
 		exists := false
 		for _, existing := range *addresses {
@@ -124,13 +94,14 @@ func AddToNodeAddresses(addresses *[]v1.NodeAddress, addAddresses ...v1.NodeAddr
 		}
 	}
 }
-
-// TODO: make method on LoadBalancerStatus?
 func LoadBalancerStatusEqual(l, r *v1.LoadBalancerStatus) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ingressSliceEqual(l.Ingress, r.Ingress)
 }
-
 func ingressSliceEqual(lhs, rhs []v1.LoadBalancerIngress) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(lhs) != len(rhs) {
 		return false
 	}
@@ -141,8 +112,9 @@ func ingressSliceEqual(lhs, rhs []v1.LoadBalancerIngress) bool {
 	}
 	return true
 }
-
 func ingressEqual(lhs, rhs *v1.LoadBalancerIngress) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if lhs.IP != rhs.IP {
 		return false
 	}
@@ -151,9 +123,9 @@ func ingressEqual(lhs, rhs *v1.LoadBalancerIngress) bool {
 	}
 	return true
 }
-
-// TODO: make method on LoadBalancerStatus?
 func LoadBalancerStatusDeepCopy(lb *v1.LoadBalancerStatus) *v1.LoadBalancerStatus {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	c := &v1.LoadBalancerStatus{}
 	c.Ingress = make([]v1.LoadBalancerIngress, len(lb.Ingress))
 	for i := range lb.Ingress {
@@ -161,10 +133,9 @@ func LoadBalancerStatusDeepCopy(lb *v1.LoadBalancerStatus) *v1.LoadBalancerStatu
 	}
 	return c
 }
-
-// GetAccessModesAsString returns a string representation of an array of access modes.
-// modes, when present, are always in the same order: RWO,ROX,RWX.
 func GetAccessModesAsString(modes []v1.PersistentVolumeAccessMode) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	modes = removeDuplicateAccessModes(modes)
 	modesStr := []string{}
 	if containsAccessMode(modes, v1.ReadWriteOnce) {
@@ -178,9 +149,9 @@ func GetAccessModesAsString(modes []v1.PersistentVolumeAccessMode) string {
 	}
 	return strings.Join(modesStr, ",")
 }
-
-// GetAccessModesAsString returns an array of AccessModes from a string created by GetAccessModesAsString
 func GetAccessModesFromString(modes string) []v1.PersistentVolumeAccessMode {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	strmodes := strings.Split(modes, ",")
 	accessModes := []v1.PersistentVolumeAccessMode{}
 	for _, s := range strmodes {
@@ -196,9 +167,9 @@ func GetAccessModesFromString(modes string) []v1.PersistentVolumeAccessMode {
 	}
 	return accessModes
 }
-
-// removeDuplicateAccessModes returns an array of access modes without any duplicates
 func removeDuplicateAccessModes(modes []v1.PersistentVolumeAccessMode) []v1.PersistentVolumeAccessMode {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	accessModes := []v1.PersistentVolumeAccessMode{}
 	for _, m := range modes {
 		if !containsAccessMode(accessModes, m) {
@@ -207,8 +178,9 @@ func removeDuplicateAccessModes(modes []v1.PersistentVolumeAccessMode) []v1.Pers
 	}
 	return accessModes
 }
-
 func containsAccessMode(modes []v1.PersistentVolumeAccessMode, mode v1.PersistentVolumeAccessMode) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, m := range modes {
 		if m == mode {
 			return true
@@ -216,10 +188,9 @@ func containsAccessMode(modes []v1.PersistentVolumeAccessMode, mode v1.Persisten
 	}
 	return false
 }
-
-// NodeSelectorRequirementsAsSelector converts the []NodeSelectorRequirement api type into a struct that implements
-// labels.Selector.
 func NodeSelectorRequirementsAsSelector(nsm []v1.NodeSelectorRequirement) (labels.Selector, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(nsm) == 0 {
 		return labels.Nothing(), nil
 	}
@@ -250,41 +221,34 @@ func NodeSelectorRequirementsAsSelector(nsm []v1.NodeSelectorRequirement) (label
 	}
 	return selector, nil
 }
-
-// NodeSelectorRequirementsAsFieldSelector converts the []NodeSelectorRequirement core type into a struct that implements
-// fields.Selector.
 func NodeSelectorRequirementsAsFieldSelector(nsm []v1.NodeSelectorRequirement) (fields.Selector, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(nsm) == 0 {
 		return fields.Nothing(), nil
 	}
-
 	selectors := []fields.Selector{}
 	for _, expr := range nsm {
 		switch expr.Operator {
 		case v1.NodeSelectorOpIn:
 			if len(expr.Values) != 1 {
-				return nil, fmt.Errorf("unexpected number of value (%d) for node field selector operator %q",
-					len(expr.Values), expr.Operator)
+				return nil, fmt.Errorf("unexpected number of value (%d) for node field selector operator %q", len(expr.Values), expr.Operator)
 			}
 			selectors = append(selectors, fields.OneTermEqualSelector(expr.Key, expr.Values[0]))
-
 		case v1.NodeSelectorOpNotIn:
 			if len(expr.Values) != 1 {
-				return nil, fmt.Errorf("unexpected number of value (%d) for node field selector operator %q",
-					len(expr.Values), expr.Operator)
+				return nil, fmt.Errorf("unexpected number of value (%d) for node field selector operator %q", len(expr.Values), expr.Operator)
 			}
 			selectors = append(selectors, fields.OneTermNotEqualSelector(expr.Key, expr.Values[0]))
-
 		default:
 			return nil, fmt.Errorf("%q is not a valid node field selector operator", expr.Operator)
 		}
 	}
-
 	return fields.AndSelectors(selectors...), nil
 }
-
-// NodeSelectorRequirementKeysExistInNodeSelectorTerms checks if a NodeSelectorTerm with key is already specified in terms
 func NodeSelectorRequirementKeysExistInNodeSelectorTerms(reqs []v1.NodeSelectorRequirement, terms []v1.NodeSelectorTerm) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, req := range reqs {
 		for _, term := range terms {
 			for _, r := range term.MatchExpressions {
@@ -296,47 +260,35 @@ func NodeSelectorRequirementKeysExistInNodeSelectorTerms(reqs []v1.NodeSelectorR
 	}
 	return false
 }
-
-// MatchNodeSelectorTerms checks whether the node labels and fields match node selector terms in ORed;
-// nil or empty term matches no objects.
-func MatchNodeSelectorTerms(
-	nodeSelectorTerms []v1.NodeSelectorTerm,
-	nodeLabels labels.Set,
-	nodeFields fields.Set,
-) bool {
+func MatchNodeSelectorTerms(nodeSelectorTerms []v1.NodeSelectorTerm, nodeLabels labels.Set, nodeFields fields.Set) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, req := range nodeSelectorTerms {
-		// nil or empty term selects no objects
 		if len(req.MatchExpressions) == 0 && len(req.MatchFields) == 0 {
 			continue
 		}
-
 		if len(req.MatchExpressions) != 0 {
 			labelSelector, err := NodeSelectorRequirementsAsSelector(req.MatchExpressions)
 			if err != nil || !labelSelector.Matches(nodeLabels) {
 				continue
 			}
 		}
-
 		if len(req.MatchFields) != 0 {
 			fieldSelector, err := NodeSelectorRequirementsAsFieldSelector(req.MatchFields)
 			if err != nil || !fieldSelector.Matches(nodeFields) {
 				continue
 			}
 		}
-
 		return true
 	}
-
 	return false
 }
-
-// TopologySelectorRequirementsAsSelector converts the []TopologySelectorLabelRequirement api type into a struct
-// that implements labels.Selector.
 func TopologySelectorRequirementsAsSelector(tsm []v1.TopologySelectorLabelRequirement) (labels.Selector, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(tsm) == 0 {
 		return labels.Nothing(), nil
 	}
-
 	selector := labels.NewSelector()
 	for _, expr := range tsm {
 		r, err := labels.NewRequirement(expr.Key, selection.In, expr.Values)
@@ -345,40 +297,30 @@ func TopologySelectorRequirementsAsSelector(tsm []v1.TopologySelectorLabelRequir
 		}
 		selector = selector.Add(*r)
 	}
-
 	return selector, nil
 }
-
-// MatchTopologySelectorTerms checks whether given labels match topology selector terms in ORed;
-// nil or empty term matches no objects; while empty term list matches all objects.
 func MatchTopologySelectorTerms(topologySelectorTerms []v1.TopologySelectorTerm, lbls labels.Set) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(topologySelectorTerms) == 0 {
-		// empty term list matches all objects
 		return true
 	}
-
 	for _, req := range topologySelectorTerms {
-		// nil or empty term selects no objects
 		if len(req.MatchLabelExpressions) == 0 {
 			continue
 		}
-
 		labelSelector, err := TopologySelectorRequirementsAsSelector(req.MatchLabelExpressions)
 		if err != nil || !labelSelector.Matches(lbls) {
 			continue
 		}
-
 		return true
 	}
-
 	return false
 }
-
-// AddOrUpdateTolerationInPodSpec tries to add a toleration to the toleration list in PodSpec.
-// Returns true if something was updated, false otherwise.
 func AddOrUpdateTolerationInPodSpec(spec *v1.PodSpec, toleration *v1.Toleration) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	podTolerations := spec.Tolerations
-
 	var newTolerations []v1.Toleration
 	updated := false
 	for i := range podTolerations {
@@ -390,26 +332,22 @@ func AddOrUpdateTolerationInPodSpec(spec *v1.PodSpec, toleration *v1.Toleration)
 			updated = true
 			continue
 		}
-
 		newTolerations = append(newTolerations, podTolerations[i])
 	}
-
 	if !updated {
 		newTolerations = append(newTolerations, *toleration)
 	}
-
 	spec.Tolerations = newTolerations
 	return true
 }
-
-// AddOrUpdateTolerationInPod tries to add a toleration to the pod's toleration list.
-// Returns true if something was updated, false otherwise.
 func AddOrUpdateTolerationInPod(pod *v1.Pod, toleration *v1.Toleration) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return AddOrUpdateTolerationInPodSpec(&pod.Spec, toleration)
 }
-
-// TolerationsTolerateTaint checks if taint is tolerated by any of the tolerations.
 func TolerationsTolerateTaint(tolerations []v1.Toleration, taint *v1.Taint) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := range tolerations {
 		if tolerations[i].ToleratesTaint(taint) {
 			return true
@@ -420,28 +358,25 @@ func TolerationsTolerateTaint(tolerations []v1.Toleration, taint *v1.Taint) bool
 
 type taintsFilterFunc func(*v1.Taint) bool
 
-// TolerationsTolerateTaintsWithFilter checks if given tolerations tolerates
-// all the taints that apply to the filter in given taint list.
 func TolerationsTolerateTaintsWithFilter(tolerations []v1.Toleration, taints []v1.Taint, applyFilter taintsFilterFunc) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(taints) == 0 {
 		return true
 	}
-
 	for i := range taints {
 		if applyFilter != nil && !applyFilter(&taints[i]) {
 			continue
 		}
-
 		if !TolerationsTolerateTaint(tolerations, &taints[i]) {
 			return false
 		}
 	}
-
 	return true
 }
-
-// Returns true and list of Tolerations matching all Taints if all are tolerated, or false otherwise.
 func GetMatchingTolerations(taints []v1.Taint, tolerations []v1.Toleration) (bool, []v1.Toleration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(taints) == 0 {
 		return true, []v1.Toleration{}
 	}
@@ -464,8 +399,9 @@ func GetMatchingTolerations(taints []v1.Taint, tolerations []v1.Toleration) (boo
 	}
 	return true, result
 }
-
 func GetAvoidPodsFromNodeAnnotations(annotations map[string]string) (v1.AvoidPods, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var avoidPods v1.AvoidPods
 	if len(annotations) > 0 && annotations[v1.PreferAvoidPodsAnnotationKey] != "" {
 		err := json.Unmarshal([]byte(annotations[v1.PreferAvoidPodsAnnotationKey]), &avoidPods)
@@ -475,35 +411,28 @@ func GetAvoidPodsFromNodeAnnotations(annotations map[string]string) (v1.AvoidPod
 	}
 	return avoidPods, nil
 }
-
-// GetPersistentVolumeClass returns StorageClassName.
 func GetPersistentVolumeClass(volume *v1.PersistentVolume) string {
-	// Use beta annotation first
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if class, found := volume.Annotations[v1.BetaStorageClassAnnotation]; found {
 		return class
 	}
-
 	return volume.Spec.StorageClassName
 }
-
-// GetPersistentVolumeClaimClass returns StorageClassName. If no storage class was
-// requested, it returns "".
 func GetPersistentVolumeClaimClass(claim *v1.PersistentVolumeClaim) string {
-	// Use beta annotation first
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if class, found := claim.Annotations[v1.BetaStorageClassAnnotation]; found {
 		return class
 	}
-
 	if claim.Spec.StorageClassName != nil {
 		return *claim.Spec.StorageClassName
 	}
-
 	return ""
 }
-
-// ScopedResourceSelectorRequirementsAsSelector converts the ScopedResourceSelectorRequirement api type into a struct that implements
-// labels.Selector.
 func ScopedResourceSelectorRequirementsAsSelector(ssr v1.ScopedResourceSelectorRequirement) (labels.Selector, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	selector := labels.NewSelector()
 	var op selection.Operator
 	switch ssr.Operator {
@@ -524,4 +453,8 @@ func ScopedResourceSelectorRequirementsAsSelector(ssr v1.ScopedResourceSelectorR
 	}
 	selector = selector.Add(*r)
 	return selector, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

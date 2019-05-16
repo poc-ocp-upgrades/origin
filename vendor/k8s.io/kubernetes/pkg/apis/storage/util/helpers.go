@@ -1,53 +1,39 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package util
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	goformat "fmt"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
+)
 
-// IsDefaultStorageClassAnnotation represents a StorageClass annotation that
-// marks a class as the default StorageClass
-//TODO: remove Beta when no longer used
 const IsDefaultStorageClassAnnotation = "storageclass.kubernetes.io/is-default-class"
 const BetaIsDefaultStorageClassAnnotation = "storageclass.beta.kubernetes.io/is-default-class"
 
-// IsDefaultAnnotationText returns a pretty Yes/No String if
-// the annotation is set
-// TODO: remove Beta when no longer needed
 func IsDefaultAnnotationText(obj metav1.ObjectMeta) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.Annotations[IsDefaultStorageClassAnnotation] == "true" {
 		return "Yes"
 	}
 	if obj.Annotations[BetaIsDefaultStorageClassAnnotation] == "true" {
 		return "Yes"
 	}
-
 	return "No"
 }
-
-// IsDefaultAnnotation returns a boolean if
-// the annotation is set
-// TODO: remove Beta when no longer needed
 func IsDefaultAnnotation(obj metav1.ObjectMeta) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.Annotations[IsDefaultStorageClassAnnotation] == "true" {
 		return true
 	}
 	if obj.Annotations[BetaIsDefaultStorageClassAnnotation] == "true" {
 		return true
 	}
-
 	return false
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

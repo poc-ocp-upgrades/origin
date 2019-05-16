@@ -9,44 +9,44 @@ import (
 
 func TestSuccessfulDNParsing(t *testing.T) {
 	testcases := map[string]ldap.DN{
-		"": ldap.DN{[]*ldap.RelativeDN{}},
-		"cn=Jim\\2C \\22Hasse Hö\\22 Hansson!,dc=dummy,dc=com": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"cn", "Jim, \"Hasse Hö\" Hansson!"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"dc", "dummy"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"dc", "com"}}}}},
-		"UID=jsmith,DC=example,DC=net": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"UID", "jsmith"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"DC", "example"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"DC", "net"}}}}},
-		"OU=Sales+CN=J. Smith,DC=example,DC=net": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{
-				&ldap.AttributeTypeAndValue{"OU", "Sales"},
-				&ldap.AttributeTypeAndValue{"CN", "J. Smith"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"DC", "example"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"DC", "net"}}}}},
-		"1.3.6.1.4.1.1466.0=#04024869": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"1.3.6.1.4.1.1466.0", "Hi"}}}}},
-		"1.3.6.1.4.1.1466.0=#04024869,DC=net": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"1.3.6.1.4.1.1466.0", "Hi"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"DC", "net"}}}}},
-		"CN=Lu\\C4\\8Di\\C4\\87": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"CN", "Lučić"}}}}},
-		"  CN  =  Lu\\C4\\8Di\\C4\\87  ": ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"CN", "Lučić"}}}}},
-		`   A   =   1   ,   B   =   2   `: ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"A", "1"}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"B", "2"}}}}},
-		`   A   =   1   +   B   =   2   `: ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{
-				&ldap.AttributeTypeAndValue{"A", "1"},
-				&ldap.AttributeTypeAndValue{"B", "2"}}}}},
-		`   \ \ A\ \    =   \ \ 1\ \    ,   \ \ B\ \    =   \ \ 2\ \    `: ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"  A  ", "  1  "}}},
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{&ldap.AttributeTypeAndValue{"  B  ", "  2  "}}}}},
-		`   \ \ A\ \    =   \ \ 1\ \    +   \ \ B\ \    =   \ \ 2\ \    `: ldap.DN{[]*ldap.RelativeDN{
-			&ldap.RelativeDN{[]*ldap.AttributeTypeAndValue{
-				&ldap.AttributeTypeAndValue{"  A  ", "  1  "},
-				&ldap.AttributeTypeAndValue{"  B  ", "  2  "}}}}},
+		"": {[]*ldap.RelativeDN{}},
+		"cn=Jim\\2C \\22Hasse Hö\\22 Hansson!,dc=dummy,dc=com": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"cn", "Jim, \"Hasse Hö\" Hansson!"}}},
+			{[]*ldap.AttributeTypeAndValue{{"dc", "dummy"}}},
+			{[]*ldap.AttributeTypeAndValue{{"dc", "com"}}}}},
+		"UID=jsmith,DC=example,DC=net": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"UID", "jsmith"}}},
+			{[]*ldap.AttributeTypeAndValue{{"DC", "example"}}},
+			{[]*ldap.AttributeTypeAndValue{{"DC", "net"}}}}},
+		"OU=Sales+CN=J. Smith,DC=example,DC=net": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{
+				{"OU", "Sales"},
+				{"CN", "J. Smith"}}},
+			{[]*ldap.AttributeTypeAndValue{{"DC", "example"}}},
+			{[]*ldap.AttributeTypeAndValue{{"DC", "net"}}}}},
+		"1.3.6.1.4.1.1466.0=#04024869": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"1.3.6.1.4.1.1466.0", "Hi"}}}}},
+		"1.3.6.1.4.1.1466.0=#04024869,DC=net": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"1.3.6.1.4.1.1466.0", "Hi"}}},
+			{[]*ldap.AttributeTypeAndValue{{"DC", "net"}}}}},
+		"CN=Lu\\C4\\8Di\\C4\\87": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"CN", "Lučić"}}}}},
+		"  CN  =  Lu\\C4\\8Di\\C4\\87  ": {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"CN", "Lučić"}}}}},
+		`   A   =   1   ,   B   =   2   `: {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"A", "1"}}},
+			{[]*ldap.AttributeTypeAndValue{{"B", "2"}}}}},
+		`   A   =   1   +   B   =   2   `: {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{
+				{"A", "1"},
+				{"B", "2"}}}}},
+		`   \ \ A\ \    =   \ \ 1\ \    ,   \ \ B\ \    =   \ \ 2\ \    `: {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{{"  A  ", "  1  "}}},
+			{[]*ldap.AttributeTypeAndValue{{"  B  ", "  2  "}}}}},
+		`   \ \ A\ \    =   \ \ 1\ \    +   \ \ B\ \    =   \ \ 2\ \    `: {[]*ldap.RelativeDN{
+			{[]*ldap.AttributeTypeAndValue{
+				{"  A  ", "  1  "},
+				{"  B  ", "  2  "}}}}},
 	}
 
 	for test, answer := range testcases {

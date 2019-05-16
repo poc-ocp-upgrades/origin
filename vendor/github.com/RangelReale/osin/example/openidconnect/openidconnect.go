@@ -53,7 +53,7 @@ func main() {
 	}
 	publicKeys = &jose.JsonWebKeySet{
 		Keys: []jose.JsonWebKey{
-			jose.JsonWebKey{Key: &key.PublicKey,
+			{Key: &key.PublicKey,
 				Algorithm: "RS256",
 				Use:       "sig",
 				KeyID:     "1",

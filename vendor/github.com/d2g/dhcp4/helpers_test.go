@@ -303,23 +303,23 @@ var optMap = Options{
 // allOptionsSlice is a []Option derived from optMap.  It is used
 // for some tests.
 var allOptionsSlice = []Option{
-	Option{
+	{
 		Code:  OptionSubnetMask,
 		Value: optMap[OptionSubnetMask],
 	},
-	Option{
+	{
 		Code:  OptionRouter,
 		Value: optMap[OptionRouter],
 	},
-	Option{
+	{
 		Code:  OptionDomainNameServer,
 		Value: optMap[OptionDomainNameServer],
 	},
-	Option{
+	{
 		Code:  OptionTimeServer,
 		Value: optMap[OptionTimeServer],
 	},
-	Option{
+	{
 		Code:  OptionLogServer,
 		Value: optMap[OptionLogServer],
 	},
@@ -338,7 +338,7 @@ var selectOrderTests = []struct {
 			byte(OptionSubnetMask),
 		},
 		result: []Option{
-			Option{
+			{
 				Code:  OptionSubnetMask,
 				Value: optMap[OptionSubnetMask],
 			},
@@ -351,11 +351,11 @@ var selectOrderTests = []struct {
 			byte(OptionTimeServer),
 		},
 		result: []Option{
-			Option{
+			{
 				Code:  OptionSubnetMask,
 				Value: optMap[OptionSubnetMask],
 			},
-			Option{
+			{
 				Code:  OptionTimeServer,
 				Value: optMap[OptionTimeServer],
 			},
@@ -369,15 +369,15 @@ var selectOrderTests = []struct {
 			byte(OptionRouter),
 		},
 		result: []Option{
-			Option{
+			{
 				Code:  OptionDomainNameServer,
 				Value: optMap[OptionDomainNameServer],
 			},
-			Option{
+			{
 				Code:  OptionTimeServer,
 				Value: optMap[OptionTimeServer],
 			},
-			Option{
+			{
 				Code:  OptionRouter,
 				Value: optMap[OptionRouter],
 			},

@@ -2,20 +2,26 @@ package denypassword
 
 import (
 	"context"
-
+	goformat "fmt"
 	"k8s.io/apiserver/pkg/authentication/authenticator"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// denyPasswordAuthenticator denies all password requests
-type denyPasswordAuthenticator struct {
-}
+type denyPasswordAuthenticator struct{}
 
-// New creates a new password authenticator that denies any login attempt
 func New() authenticator.Password {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &denyPasswordAuthenticator{}
 }
-
-// AuthenticatePassword denies any login attempt
 func (a denyPasswordAuthenticator) AuthenticatePassword(ctx context.Context, username, password string) (*authenticator.Response, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil, false, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

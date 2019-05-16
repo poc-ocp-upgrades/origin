@@ -2,99 +2,88 @@ package build
 
 import (
 	"context"
-	"reflect"
-
+	goformat "fmt"
+	buildapi "github.com/openshift/origin/pkg/build/apis/build"
+	buildinternalhelpers "github.com/openshift/origin/pkg/build/apis/build/internal_helpers"
+	"github.com/openshift/origin/pkg/build/apis/build/validation"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/apiserver/pkg/storage/names"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	buildapi "github.com/openshift/origin/pkg/build/apis/build"
-	buildinternalhelpers "github.com/openshift/origin/pkg/build/apis/build/internal_helpers"
-	"github.com/openshift/origin/pkg/build/apis/build/validation"
+	goos "os"
+	"reflect"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// strategy implements behavior for Build objects
 type strategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 }
 
-// Strategy is the default logic that applies when creating and updating Build objects.
 var Strategy = strategy{legacyscheme.Scheme, names.SimpleNameGenerator}
 
 func (strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
-// AllowCreateOnUpdate is false for Build objects.
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// PrepareForCreate clears fields that are not allowed to be set by end users on creation.
 func (strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	build := obj.(*buildapi.Build)
 	if len(build.Status.Phase) == 0 {
 		build.Status.Phase = buildapi.BuildPhaseNew
 	}
 }
-
-// PrepareForUpdate clears fields that are not allowed to be set by end users on update.
 func (strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newBuild := obj.(*buildapi.Build)
 	oldBuild := old.(*buildapi.Build)
-	// If the build is already in a failed state, do not allow an update
-	// of the reason and message. This is to prevent the build controller from
-	// overwriting the reason and message that was set by the builder pod
-	// when it updated the build's details.
-	// Only allow OOMKilled override because various processes in a container
-	// can get OOMKilled and this confuses builder to prematurely populate
-	// failure reason
-	if oldBuild.Status.Phase == buildapi.BuildPhaseFailed &&
-		newBuild.Status.Reason != buildapi.StatusReasonOutOfMemoryKilled {
+	if oldBuild.Status.Phase == buildapi.BuildPhaseFailed && newBuild.Status.Reason != buildapi.StatusReasonOutOfMemoryKilled {
 		newBuild.Status.Reason = oldBuild.Status.Reason
 		newBuild.Status.Message = oldBuild.Status.Message
 	}
 }
-
-// Canonicalize normalizes the object after validation.
 func (strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// Validate validates a new policy.
 func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBuild(obj.(*buildapi.Build))
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBuildUpdate(obj.(*buildapi.Build), old.(*buildapi.Build))
 }
-
-// CheckGracefulDelete allows a build to be gracefully deleted.
 func (strategy) CheckGracefulDelete(obj runtime.Object, options *metav1.DeleteOptions) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
 
-type detailsStrategy struct {
-	strategy
-}
+type detailsStrategy struct{ strategy }
 
-// Prepares a build for update by only allowing an update to build details.
-// Build details currently consists of: Spec.Revision, Status.Reason, and
-// Status.Message, all of which are updated from within the build pod
 func (detailsStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newBuild := obj.(*buildapi.Build)
 	oldBuild := old.(*buildapi.Build)
-
-	// ignore phase updates unless the caller is updating the build to
-	// a completed phase.
 	phase := oldBuild.Status.Phase
 	stages := newBuild.Status.Stages
 	if buildinternalhelpers.IsBuildComplete(newBuild) {
@@ -112,29 +101,31 @@ func (detailsStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Ob
 	newBuild.Status.Message = message
 	newBuild.Status.Output.To = outputTo
 }
-
-// Validates that an update is valid by ensuring that no Revision exists and that it's not getting updated to blank
 func (detailsStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newBuild := obj.(*buildapi.Build)
 	oldBuild := old.(*buildapi.Build)
 	oldRevision := oldBuild.Spec.Revision
 	newRevision := newBuild.Spec.Revision
 	errors := field.ErrorList{}
-
 	if newRevision == nil && oldRevision != nil {
 		errors = append(errors, field.Invalid(field.NewPath("spec", "revision"), nil, "cannot set an empty revision in build spec"))
 	}
 	if !reflect.DeepEqual(oldRevision, newRevision) && oldRevision != nil {
-		// If there was already a revision, then return an error
 		errors = append(errors, field.Duplicate(field.NewPath("spec", "revision"), oldBuild.Spec.Revision))
 	}
 	return errors
 }
-
-// AllowUnconditionalUpdate returns true to allow a Build with an empty resourceVersion to update the Revision
 func (detailsStrategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
 
-// DetailsStrategy is the strategy used to manage updates to a Build revision
 var DetailsStrategy = detailsStrategy{Strategy}
+
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
+}

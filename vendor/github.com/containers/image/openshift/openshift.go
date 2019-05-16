@@ -180,8 +180,8 @@ func newImageSource(ctx *types.SystemContext, ref openshiftReference, requestedM
 	}
 
 	return &openshiftImageSource{
-		client: client,
-		ctx:    ctx,
+		client:                     client,
+		ctx:                        ctx,
 		requestedManifestMIMETypes: requestedManifestMIMETypes,
 	}, nil
 }

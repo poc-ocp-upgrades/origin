@@ -1,58 +1,40 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package storageobjectinuseprotection
 
 import (
+	goformat "fmt"
 	"io"
-
-	"k8s.io/klog"
-
 	"k8s.io/apiserver/pkg/admission"
 	"k8s.io/apiserver/pkg/util/feature"
+	"k8s.io/klog"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/features"
 	volumeutil "k8s.io/kubernetes/pkg/volume/util"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const (
-	// PluginName is the name of this admission controller plugin
 	PluginName = "StorageObjectInUseProtection"
 )
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		plugin := newPlugin()
 		return plugin, nil
 	})
 }
 
-// storageProtectionPlugin holds state for and implements the admission plugin.
-type storageProtectionPlugin struct {
-	*admission.Handler
-}
+type storageProtectionPlugin struct{ *admission.Handler }
 
 var _ admission.Interface = &storageProtectionPlugin{}
 
-// newPlugin creates a new admission plugin.
 func newPlugin() *storageProtectionPlugin {
-	return &storageProtectionPlugin{
-		Handler: admission.NewHandler(admission.Create),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &storageProtectionPlugin{Handler: admission.NewHandler(admission.Create)}
 }
 
 var (
@@ -60,68 +42,60 @@ var (
 	pvcResource = api.Resource("persistentvolumeclaims")
 )
 
-// Admit sets finalizer on all PVCs(PVs). The finalizer is removed by
-// PVCProtectionController(PVProtectionController) when it's not referenced.
-//
-// This prevents users from deleting a PVC that's used by a running pod.
-// This also prevents admin from deleting a PV that's bound by a PVC
 func (c *storageProtectionPlugin) Admit(a admission.Attributes) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !feature.DefaultFeatureGate.Enabled(features.StorageObjectInUseProtection) {
 		return nil
 	}
-
 	switch a.GetResource().GroupResource() {
 	case pvResource:
 		return c.admitPV(a)
 	case pvcResource:
 		return c.admitPVC(a)
-
 	default:
 		return nil
 	}
 }
-
 func (c *storageProtectionPlugin) admitPV(a admission.Attributes) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(a.GetSubresource()) != 0 {
 		return nil
 	}
-
 	pv, ok := a.GetObject().(*api.PersistentVolume)
-	// if we can't convert the obj to PV, just return
 	if !ok {
 		return nil
 	}
 	for _, f := range pv.Finalizers {
 		if f == volumeutil.PVProtectionFinalizer {
-			// Finalizer is already present, nothing to do
 			return nil
 		}
 	}
 	klog.V(4).Infof("adding PV protection finalizer to %s", pv.Name)
 	pv.Finalizers = append(pv.Finalizers, volumeutil.PVProtectionFinalizer)
-
 	return nil
 }
-
 func (c *storageProtectionPlugin) admitPVC(a admission.Attributes) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(a.GetSubresource()) != 0 {
 		return nil
 	}
-
 	pvc, ok := a.GetObject().(*api.PersistentVolumeClaim)
-	// if we can't convert the obj to PVC, just return
 	if !ok {
 		return nil
 	}
-
 	for _, f := range pvc.Finalizers {
 		if f == volumeutil.PVCProtectionFinalizer {
-			// Finalizer is already present, nothing to do
 			return nil
 		}
 	}
-
 	klog.V(4).Infof("adding PVC protection finalizer to %s/%s", pvc.Namespace, pvc.Name)
 	pvc.Finalizers = append(pvc.Finalizers, volumeutil.PVCProtectionFinalizer)
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

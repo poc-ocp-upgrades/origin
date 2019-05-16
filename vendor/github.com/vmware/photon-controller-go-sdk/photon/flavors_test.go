@@ -27,7 +27,7 @@ var _ = Describe("Flavor", func() {
 		flavorSpec = &FlavorCreateSpec{
 			Name: randomString(10, "go-sdk-flavor-"),
 			Kind: "vm",
-			Cost: []QuotaLineItem{QuotaLineItem{"GB", 16, "vm.memory"}},
+			Cost: []QuotaLineItem{{"GB", 16, "vm.memory"}},
 		}
 	})
 
@@ -44,7 +44,7 @@ var _ = Describe("Flavor", func() {
 			flavorSpec := &FlavorCreateSpec{
 				Name: randomString(10, "go-sdk-flavor-"),
 				Kind: "vm",
-				Cost: []QuotaLineItem{QuotaLineItem{"GB", 16, "vm.memory"}},
+				Cost: []QuotaLineItem{{"GB", 16, "vm.memory"}},
 			}
 			task, err := client.Flavors.Create(flavorSpec)
 

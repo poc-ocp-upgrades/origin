@@ -1,31 +1,13 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"strings"
-
+	goformat "fmt"
 	mangen "github.com/cpuguy83/go-md2man/md2man"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
+	"io/ioutil"
 	"k8s.io/apiserver/pkg/server"
 	ccmapp "k8s.io/kubernetes/cmd/cloud-controller-manager/app"
 	"k8s.io/kubernetes/cmd/genutils"
@@ -36,10 +18,16 @@ import (
 	kubeadmapp "k8s.io/kubernetes/cmd/kubeadm/app/cmd"
 	kubeletapp "k8s.io/kubernetes/cmd/kubelet/app"
 	kubectlcmd "k8s.io/kubernetes/pkg/kubectl/cmd"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 func main() {
-	// use os.Args instead of "flags" because "flags" will mess up the man pages!
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	path := "docs/man/man1"
 	module := ""
 	if len(os.Args) == 3 {
@@ -49,70 +37,56 @@ func main() {
 		fmt.Fprintf(os.Stderr, "usage: %s [output directory] [module] \n", os.Args[0])
 		os.Exit(1)
 	}
-
 	outDir, err := genutils.OutDir(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "failed to get output directory: %v\n", err)
 		os.Exit(1)
 	}
-
-	// Set environment variables used by command so the output is consistent,
-	// regardless of where we run.
 	os.Setenv("HOME", "/home/username")
-
 	switch module {
 	case "kube-apiserver":
-		// generate manpage for kube-apiserver
 		apiserver := apiservapp.NewAPIServerCommand(server.SetupSignalHandler())
 		genMarkdown(apiserver, "", outDir)
 		for _, c := range apiserver.Commands() {
 			genMarkdown(c, "kube-apiserver", outDir)
 		}
 	case "kube-controller-manager":
-		// generate manpage for kube-controller-manager
 		controllermanager := cmapp.NewControllerManagerCommand()
 		genMarkdown(controllermanager, "", outDir)
 		for _, c := range controllermanager.Commands() {
 			genMarkdown(c, "kube-controller-manager", outDir)
 		}
 	case "cloud-controller-manager":
-		//generate manpage for cloud-controller-manager
 		controllermanager := ccmapp.NewCloudControllerManagerCommand()
 		genMarkdown(controllermanager, "", outDir)
 		for _, c := range controllermanager.Commands() {
 			genMarkdown(c, "cloud-controller-manager", outDir)
 		}
 	case "kube-proxy":
-		// generate manpage for kube-proxy
 		proxy := proxyapp.NewProxyCommand()
 		genMarkdown(proxy, "", outDir)
 		for _, c := range proxy.Commands() {
 			genMarkdown(c, "kube-proxy", outDir)
 		}
 	case "kube-scheduler":
-		// generate manpage for kube-scheduler
 		scheduler := schapp.NewSchedulerCommand()
 		genMarkdown(scheduler, "", outDir)
 		for _, c := range scheduler.Commands() {
 			genMarkdown(c, "kube-scheduler", outDir)
 		}
 	case "kubelet":
-		// generate manpage for kubelet
 		kubelet := kubeletapp.NewKubeletCommand(server.SetupSignalHandler())
 		genMarkdown(kubelet, "", outDir)
 		for _, c := range kubelet.Commands() {
 			genMarkdown(c, "kubelet", outDir)
 		}
 	case "kubectl":
-		// generate manpage for kubectl
-		// TODO os.Stdin should really be something like ioutil.Discard, but a Reader
 		kubectl := kubectlcmd.NewKubectlCommand(os.Stdin, ioutil.Discard, ioutil.Discard)
 		genMarkdown(kubectl, "", outDir)
 		for _, c := range kubectl.Commands() {
 			genMarkdown(c, "kubectl", outDir)
 		}
 	case "kubeadm":
-		// generate manpage for kubelet
 		kubeadm := kubeadmapp.NewKubeadmCommand(os.Stdin, os.Stdout, os.Stderr)
 		genMarkdown(kubeadm, "", outDir)
 		for _, c := range kubeadm.Commands() {
@@ -123,8 +97,9 @@ func main() {
 		os.Exit(1)
 	}
 }
-
 func preamble(out *bytes.Buffer, name, short, long string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	out.WriteString(`% KUBERNETES(1) kubernetes User Manuals
 % Eric Paris
 % Jan 2015
@@ -136,18 +111,14 @@ func preamble(out *bytes.Buffer, name, short, long string) {
 	fmt.Fprintf(out, "# DESCRIPTION\n")
 	fmt.Fprintf(out, "%s\n\n", long)
 }
-
 func printFlags(out *bytes.Buffer, flags *pflag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flags.VisitAll(func(flag *pflag.Flag) {
 		format := "**--%s**=%s\n\t%s\n\n"
 		if flag.Value.Type() == "string" {
-			// put quotes on the value
 			format = "**--%s**=%q\n\t%s\n\n"
 		}
-
-		// Todo, when we mark a shorthand is deprecated, but specify an empty message.
-		// The flag.ShorthandDeprecated is empty as the shorthand is deprecated.
-		// Using len(flag.ShorthandDeprecated) > 0 can't handle this, others are ok.
 		if !(len(flag.ShorthandDeprecated) > 0) && len(flag.Shorthand) > 0 {
 			format = "**-%s**, " + format
 			fmt.Fprintf(out, format, flag.Shorthand, flag.Name, flag.DefValue, flag.Usage)
@@ -156,8 +127,9 @@ func printFlags(out *bytes.Buffer, flags *pflag.FlagSet) {
 		}
 	})
 }
-
 func printOptions(out *bytes.Buffer, command *cobra.Command) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flags := command.NonInheritedFlags()
 	if flags.HasFlags() {
 		fmt.Fprintf(out, "# OPTIONS\n")
@@ -171,8 +143,9 @@ func printOptions(out *bytes.Buffer, command *cobra.Command) {
 		fmt.Fprintf(out, "\n")
 	}
 }
-
 func genMarkdown(command *cobra.Command, parent, docsDir string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dparent := strings.Replace(parent, " ", "-", -1)
 	name := command.Name()
 	dname := name
@@ -180,22 +153,18 @@ func genMarkdown(command *cobra.Command, parent, docsDir string) {
 		dname = dparent + "-" + name
 		name = parent + " " + name
 	}
-
 	out := new(bytes.Buffer)
 	short := command.Short
 	long := command.Long
 	if len(long) == 0 {
 		long = short
 	}
-
 	preamble(out, name, short, long)
 	printOptions(out, command)
-
 	if len(command.Example) > 0 {
 		fmt.Fprintf(out, "# EXAMPLE\n")
 		fmt.Fprintf(out, "```\n%s\n```\n", command.Example)
 	}
-
 	if len(command.Commands()) > 0 || len(parent) > 0 {
 		fmt.Fprintf(out, "# SEE ALSO\n")
 		if len(parent) > 0 {
@@ -207,14 +176,11 @@ func genMarkdown(command *cobra.Command, parent, docsDir string) {
 		}
 		fmt.Fprintf(out, "\n")
 	}
-
 	out.WriteString(`
 # HISTORY
 January 2015, Originally compiled by Eric Paris (eparis at redhat dot com) based on the kubernetes source material, but hopefully they have been automatically generated since!
 `)
-
 	final := mangen.Render(out.Bytes())
-
 	filename := docsDir + dname + ".1"
 	outFile, err := os.Create(filename)
 	if err != nil {
@@ -227,5 +193,8 @@ January 2015, Originally compiled by Eric Paris (eparis at redhat dot com) based
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

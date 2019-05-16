@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/RangelReale/osincli"
 	"fmt"
+	"github.com/RangelReale/osincli"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -17,7 +17,7 @@ func main() {
 		RedirectUrl:              "http://localhost:14001/appauth",
 		ErrorsInStatusCode:       true,
 		SendClientSecretInParams: true,
-		Scope: "https://www.googleapis.com/auth/plus.login",
+		Scope:                    "https://www.googleapis.com/auth/plus.login",
 	}
 	client, err := osincli.NewClient(config)
 	if err != nil {

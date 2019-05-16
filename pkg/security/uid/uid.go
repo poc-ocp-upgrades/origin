@@ -2,7 +2,11 @@ package uid
 
 import (
 	"fmt"
+	goformat "fmt"
+	goos "os"
+	godefaultruntime "runtime"
 	"strings"
+	gotime "time"
 )
 
 type Block struct {
@@ -16,6 +20,8 @@ var (
 )
 
 func ParseBlock(in string) (Block, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if strings.Contains(in, "/") {
 		var start, size uint32
 		n, err := fmt.Sscanf(in, "%d/%d", &start, &size)
@@ -27,7 +33,6 @@ func ParseBlock(in string) (Block, error) {
 		}
 		return Block{Start: start, End: start + size - 1}, nil
 	}
-
 	var start, end uint32
 	n, err := fmt.Sscanf(in, "%d-%d", &start, &end)
 	if err != nil {
@@ -38,16 +43,19 @@ func ParseBlock(in string) (Block, error) {
 	}
 	return Block{Start: start, End: end}, nil
 }
-
 func (b Block) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%d/%d", b.Start, b.Size())
 }
-
 func (b Block) RangeString() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%d-%d", b.Start, b.End)
 }
-
 func (b Block) Size() uint32 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return b.End - b.Start + 1
 }
 
@@ -57,6 +65,8 @@ type Range struct {
 }
 
 func NewRange(start, end, size uint32) (*Range, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if start > end {
 		return nil, fmt.Errorf("start %d must be less than end %d", start, end)
 	}
@@ -66,13 +76,11 @@ func NewRange(start, end, size uint32) (*Range, error) {
 	if (end - start) < size {
 		return nil, fmt.Errorf("block size must be less than or equal to the range")
 	}
-	return &Range{
-		block: Block{start, end},
-		size:  size,
-	}, nil
+	return &Range{block: Block{start, end}, size: size}, nil
 }
-
 func ParseRange(in string) (*Range, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var start, end, block uint32
 	n, err := fmt.Sscanf(in, "%d-%d/%d", &start, &end, &block)
 	if err != nil {
@@ -83,32 +91,34 @@ func ParseRange(in string) (*Range, error) {
 	}
 	return NewRange(start, end, block)
 }
-
 func (r *Range) Size() uint32 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.block.Size() / r.size
 }
-
 func (r *Range) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%s/%d", r.block.RangeString(), r.size)
 }
-
 func (r *Range) BlockAt(offset uint32) (Block, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if offset > r.Size() {
 		return Block{}, false
 	}
 	start := r.block.Start + offset*r.size
-	return Block{
-		Start: start,
-		End:   start + r.size - 1,
-	}, true
+	return Block{Start: start, End: start + r.size - 1}, true
 }
-
 func (r *Range) Contains(block Block) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ok, _ := r.Offset(block)
 	return ok
 }
-
 func (r *Range) Offset(block Block) (bool, uint32) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if block.Start < r.block.Start {
 		return false, 0
 	}
@@ -122,4 +132,8 @@ func (r *Range) Offset(block Block) (bool, uint32) {
 		return false, 0
 	}
 	return true, (block.Start - r.block.Start) / r.size
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

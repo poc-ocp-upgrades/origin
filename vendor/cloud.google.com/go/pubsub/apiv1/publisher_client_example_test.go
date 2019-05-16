@@ -40,7 +40,7 @@ func ExamplePublisherClient_CreateTopic() {
 	}
 
 	req := &pubsubpb.Topic{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.CreateTopic(ctx, req)
 	if err != nil {
@@ -58,7 +58,7 @@ func ExamplePublisherClient_Publish() {
 	}
 
 	req := &pubsubpb.PublishRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.Publish(ctx, req)
 	if err != nil {
@@ -76,7 +76,7 @@ func ExamplePublisherClient_GetTopic() {
 	}
 
 	req := &pubsubpb.GetTopicRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.GetTopic(ctx, req)
 	if err != nil {
@@ -94,7 +94,7 @@ func ExamplePublisherClient_ListTopics() {
 	}
 
 	req := &pubsubpb.ListTopicsRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	it := c.ListTopics(ctx, req)
 	for {
@@ -116,7 +116,7 @@ func ExamplePublisherClient_ListTopicSubscriptions() {
 	}
 
 	req := &pubsubpb.ListTopicSubscriptionsRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	it := c.ListTopicSubscriptions(ctx, req)
 	for {
@@ -138,7 +138,7 @@ func ExamplePublisherClient_DeleteTopic() {
 	}
 
 	req := &pubsubpb.DeleteTopicRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	err = c.DeleteTopic(ctx, req)
 	if err != nil {

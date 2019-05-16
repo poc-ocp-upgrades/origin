@@ -145,7 +145,7 @@ func (this *GetSecretRequest) GoString() string {
 	s = append(s, "&secrets.GetSecretRequest{")
 	s = append(s, "ID: "+fmt.Sprintf("%#v", this.ID)+",\n")
 	keysForAnnotations := make([]string, 0, len(this.Annotations))
-	for k, _ := range this.Annotations {
+	for k := range this.Annotations {
 		keysForAnnotations = append(keysForAnnotations, k)
 	}
 	sortkeys.Strings(keysForAnnotations)
@@ -273,7 +273,7 @@ func (m *GetSecretRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.ID)
 	}
 	if len(m.Annotations) > 0 {
-		for k, _ := range m.Annotations {
+		for k := range m.Annotations {
 			dAtA[i] = 0x12
 			i++
 			v := m.Annotations[k]
@@ -371,7 +371,7 @@ func (this *GetSecretRequest) String() string {
 		return "nil"
 	}
 	keysForAnnotations := make([]string, 0, len(this.Annotations))
-	for k, _ := range this.Annotations {
+	for k := range this.Annotations {
 		keysForAnnotations = append(keysForAnnotations, k)
 	}
 	sortkeys.Strings(keysForAnnotations)

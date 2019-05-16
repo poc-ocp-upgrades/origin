@@ -1,55 +1,34 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package nodeidentifier
 
 import (
-	"strings"
-
+	goformat "fmt"
 	"k8s.io/apiserver/pkg/authentication/user"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
-// NewDefaultNodeIdentifier returns a default NodeIdentifier implementation,
-// which returns isNode=true if the user groups contain the system:nodes group
-// and the user name matches the format system:node:<nodeName>, and populates
-// nodeName if isNode is true
 func NewDefaultNodeIdentifier() NodeIdentifier {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return defaultNodeIdentifier{}
 }
 
-// defaultNodeIdentifier implements NodeIdentifier
 type defaultNodeIdentifier struct{}
 
-// nodeUserNamePrefix is the prefix for usernames in the form `system:node:<nodeName>`
 const nodeUserNamePrefix = "system:node:"
 
-// NodeIdentity returns isNode=true if the user groups contain the system:nodes
-// group and the user name matches the format system:node:<nodeName>, and
-// populates nodeName if isNode is true
 func (defaultNodeIdentifier) NodeIdentity(u user.Info) (string, bool) {
-	// Make sure we're a node, and can parse the node name
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if u == nil {
 		return "", false
 	}
-
 	userName := u.GetName()
 	if !strings.HasPrefix(userName, nodeUserNamePrefix) {
 		return "", false
 	}
-
 	isNode := false
 	for _, g := range u.GetGroups() {
 		if g == user.NodesGroup {
@@ -60,7 +39,10 @@ func (defaultNodeIdentifier) NodeIdentity(u user.Info) (string, bool) {
 	if !isNode {
 		return "", false
 	}
-
 	nodeName := strings.TrimPrefix(userName, nodeUserNamePrefix)
 	return nodeName, true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

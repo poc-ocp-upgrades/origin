@@ -8,24 +8,25 @@ import (
 )
 
 func ValidateClusterNetwork(cn *networkapi.ClusterNetwork) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	icn := &internalnetworkapi.ClusterNetwork{}
 	if err := internalnetworkv1.Convert_v1_ClusterNetwork_To_network_ClusterNetwork(cn, icn, nil); err != nil {
 		return err
 	}
-
 	if errs := networkvalidation.ValidateClusterNetwork(icn); len(errs) > 0 {
 		return errs.ToAggregate()
 	} else {
 		return nil
 	}
 }
-
 func ValidateHostSubnet(hs *networkapi.HostSubnet) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ihs := &internalnetworkapi.HostSubnet{}
 	if err := internalnetworkv1.Convert_v1_HostSubnet_To_network_HostSubnet(hs, ihs, nil); err != nil {
 		return err
 	}
-
 	if errs := networkvalidation.ValidateHostSubnet(ihs); len(errs) > 0 {
 		return errs.ToAggregate()
 	} else {

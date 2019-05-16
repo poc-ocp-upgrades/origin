@@ -1,27 +1,22 @@
 package buildapihelpers
 
 import (
+	goformat "fmt"
 	buildv1 "github.com/openshift/api/build/v1"
 	corev1 "k8s.io/api/core/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// BuildToPodLogOptions builds a PodLogOptions object out of a BuildLogOptions.
-// Currently BuildLogOptions.Container and BuildLogOptions.Previous aren't used
-// so they won't be copied to PodLogOptions.
 func BuildToPodLogOptions(opts *buildv1.BuildLogOptions) *corev1.PodLogOptions {
-	return &corev1.PodLogOptions{
-		Follow:       opts.Follow,
-		SinceSeconds: opts.SinceSeconds,
-		SinceTime:    opts.SinceTime,
-		Timestamps:   opts.Timestamps,
-		TailLines:    opts.TailLines,
-		LimitBytes:   opts.LimitBytes,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &corev1.PodLogOptions{Follow: opts.Follow, SinceSeconds: opts.SinceSeconds, SinceTime: opts.SinceTime, Timestamps: opts.Timestamps, TailLines: opts.TailLines, LimitBytes: opts.LimitBytes}
 }
-
-// FindTriggerPolicy retrieves the BuildTrigger(s) of a given type from a build configuration.
-// Returns nil if no matches are found.
 func FindTriggerPolicy(triggerType buildv1.BuildTriggerType, config *buildv1.BuildConfig) (buildTriggers []buildv1.BuildTriggerPolicy) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, specTrigger := range config.Spec.Triggers {
 		if specTrigger.Type == triggerType {
 			buildTriggers = append(buildTriggers, specTrigger)
@@ -29,15 +24,15 @@ func FindTriggerPolicy(triggerType buildv1.BuildTriggerType, config *buildv1.Bui
 	}
 	return buildTriggers
 }
-
 func HasTriggerType(triggerType buildv1.BuildTriggerType, bc *buildv1.BuildConfig) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	matches := FindTriggerPolicy(triggerType, bc)
 	return len(matches) > 0
 }
-
-// GetInputReference returns the From ObjectReference associated with the
-// BuildStrategy.
 func GetInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case strategy.SourceStrategy != nil:
 		return &strategy.SourceStrategy.From
@@ -48,4 +43,8 @@ func GetInputReference(strategy buildv1.BuildStrategy) *corev1.ObjectReference {
 	default:
 		return nil
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

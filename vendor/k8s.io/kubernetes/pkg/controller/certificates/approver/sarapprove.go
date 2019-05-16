@@ -1,34 +1,20 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// Package approver implements an automated approver for kubelet certificates.
 package approver
 
 import (
 	"crypto/x509"
 	"fmt"
-	"reflect"
-	"strings"
-
+	goformat "fmt"
 	authorization "k8s.io/api/authorization/v1beta1"
 	capi "k8s.io/api/certificates/v1beta1"
 	certificatesinformers "k8s.io/client-go/informers/certificates/v1beta1"
 	clientset "k8s.io/client-go/kubernetes"
 	k8s_certificates_v1beta1 "k8s.io/kubernetes/pkg/apis/certificates/v1beta1"
 	"k8s.io/kubernetes/pkg/controller/certificates"
+	goos "os"
+	"reflect"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 type csrRecognizer struct {
@@ -36,41 +22,26 @@ type csrRecognizer struct {
 	permission     authorization.ResourceAttributes
 	successMessage string
 }
-
 type sarApprover struct {
 	client      clientset.Interface
 	recognizers []csrRecognizer
 }
 
 func NewCSRApprovingController(client clientset.Interface, csrInformer certificatesinformers.CertificateSigningRequestInformer) *certificates.CertificateController {
-	approver := &sarApprover{
-		client:      client,
-		recognizers: recognizers(),
-	}
-	return certificates.NewCertificateController(
-		client,
-		csrInformer,
-		approver.handle,
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	approver := &sarApprover{client: client, recognizers: recognizers()}
+	return certificates.NewCertificateController(client, csrInformer, approver.handle)
 }
-
 func recognizers() []csrRecognizer {
-	recognizers := []csrRecognizer{
-		{
-			recognize:      isSelfNodeClientCert,
-			permission:     authorization.ResourceAttributes{Group: "certificates.k8s.io", Resource: "certificatesigningrequests", Verb: "create", Subresource: "selfnodeclient"},
-			successMessage: "Auto approving self kubelet client certificate after SubjectAccessReview.",
-		},
-		{
-			recognize:      isNodeClientCert,
-			permission:     authorization.ResourceAttributes{Group: "certificates.k8s.io", Resource: "certificatesigningrequests", Verb: "create", Subresource: "nodeclient"},
-			successMessage: "Auto approving kubelet client certificate after SubjectAccessReview.",
-		},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	recognizers := []csrRecognizer{{recognize: isSelfNodeClientCert, permission: authorization.ResourceAttributes{Group: "certificates.k8s.io", Resource: "certificatesigningrequests", Verb: "create", Subresource: "selfnodeclient"}, successMessage: "Auto approving self kubelet client certificate after SubjectAccessReview."}, {recognize: isNodeClientCert, permission: authorization.ResourceAttributes{Group: "certificates.k8s.io", Resource: "certificatesigningrequests", Verb: "create", Subresource: "nodeclient"}, successMessage: "Auto approving kubelet client certificate after SubjectAccessReview."}}
 	return recognizers
 }
-
 func (a *sarApprover) handle(csr *capi.CertificateSigningRequest) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(csr.Status.Certificate) != 0 {
 		return nil
 	}
@@ -81,16 +52,12 @@ func (a *sarApprover) handle(csr *capi.CertificateSigningRequest) error {
 	if err != nil {
 		return fmt.Errorf("unable to parse csr %q: %v", csr.Name, err)
 	}
-
 	tried := []string{}
-
 	for _, r := range a.recognizers {
 		if !r.recognize(csr, x509cr) {
 			continue
 		}
-
 		tried = append(tried, r.permission.Subresource)
-
 		approved, err := a.authorize(csr, r.permission)
 		if err != nil {
 			return err
@@ -104,70 +71,53 @@ func (a *sarApprover) handle(csr *capi.CertificateSigningRequest) error {
 			return nil
 		}
 	}
-
 	if len(tried) != 0 {
 		return certificates.IgnorableError("recognized csr %q as %v but subject access review was not approved", csr.Name, tried)
 	}
-
 	return nil
 }
-
 func (a *sarApprover) authorize(csr *capi.CertificateSigningRequest, rattrs authorization.ResourceAttributes) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	extra := make(map[string]authorization.ExtraValue)
 	for k, v := range csr.Spec.Extra {
 		extra[k] = authorization.ExtraValue(v)
 	}
-
-	sar := &authorization.SubjectAccessReview{
-		Spec: authorization.SubjectAccessReviewSpec{
-			User:               csr.Spec.Username,
-			UID:                csr.Spec.UID,
-			Groups:             csr.Spec.Groups,
-			Extra:              extra,
-			ResourceAttributes: &rattrs,
-		},
-	}
+	sar := &authorization.SubjectAccessReview{Spec: authorization.SubjectAccessReviewSpec{User: csr.Spec.Username, UID: csr.Spec.UID, Groups: csr.Spec.Groups, Extra: extra, ResourceAttributes: &rattrs}}
 	sar, err := a.client.AuthorizationV1beta1().SubjectAccessReviews().Create(sar)
 	if err != nil {
 		return false, err
 	}
 	return sar.Status.Allowed, nil
 }
-
 func appendApprovalCondition(csr *capi.CertificateSigningRequest, message string) {
-	csr.Status.Conditions = append(csr.Status.Conditions, capi.CertificateSigningRequestCondition{
-		Type:    capi.CertificateApproved,
-		Reason:  "AutoApproved",
-		Message: message,
-	})
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	csr.Status.Conditions = append(csr.Status.Conditions, capi.CertificateSigningRequestCondition{Type: capi.CertificateApproved, Reason: "AutoApproved", Message: message})
 }
-
 func hasExactUsages(csr *capi.CertificateSigningRequest, usages []capi.KeyUsage) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(usages) != len(csr.Spec.Usages) {
 		return false
 	}
-
 	usageMap := map[capi.KeyUsage]struct{}{}
 	for _, u := range usages {
 		usageMap[u] = struct{}{}
 	}
-
 	for _, u := range csr.Spec.Usages {
 		if _, ok := usageMap[u]; !ok {
 			return false
 		}
 	}
-
 	return true
 }
 
-var kubeletClientUsages = []capi.KeyUsage{
-	capi.UsageKeyEncipherment,
-	capi.UsageDigitalSignature,
-	capi.UsageClientAuth,
-}
+var kubeletClientUsages = []capi.KeyUsage{capi.UsageKeyEncipherment, capi.UsageDigitalSignature, capi.UsageClientAuth}
 
 func isNodeClientCert(csr *capi.CertificateSigningRequest, x509cr *x509.CertificateRequest) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !reflect.DeepEqual([]string{"system:nodes"}, x509cr.Subject.Organization) {
 		return false
 	}
@@ -182,8 +132,9 @@ func isNodeClientCert(csr *capi.CertificateSigningRequest, x509cr *x509.Certific
 	}
 	return true
 }
-
 func isSelfNodeClientCert(csr *capi.CertificateSigningRequest, x509cr *x509.CertificateRequest) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !isNodeClientCert(csr, x509cr) {
 		return false
 	}
@@ -191,4 +142,8 @@ func isSelfNodeClientCert(csr *capi.CertificateSigningRequest, x509cr *x509.Cert
 		return false
 	}
 	return true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

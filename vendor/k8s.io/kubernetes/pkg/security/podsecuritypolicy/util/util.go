@@ -1,28 +1,15 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package util
 
 import (
 	"fmt"
-	"strings"
-
+	goformat "fmt"
 	policy "k8s.io/api/policy/v1beta1"
 	"k8s.io/apimachinery/pkg/util/sets"
 	api "k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 const (
@@ -30,50 +17,24 @@ const (
 )
 
 func GetAllFSTypesExcept(exceptions ...string) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fstypes := GetAllFSTypesAsSet()
 	for _, e := range exceptions {
 		fstypes.Delete(e)
 	}
 	return fstypes
 }
-
 func GetAllFSTypesAsSet() sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fstypes := sets.NewString()
-	fstypes.Insert(
-		string(policy.HostPath),
-		string(policy.AzureFile),
-		string(policy.Flocker),
-		string(policy.FlexVolume),
-		string(policy.EmptyDir),
-		string(policy.GCEPersistentDisk),
-		string(policy.AWSElasticBlockStore),
-		string(policy.GitRepo),
-		string(policy.Secret),
-		string(policy.NFS),
-		string(policy.ISCSI),
-		string(policy.Glusterfs),
-		string(policy.PersistentVolumeClaim),
-		string(policy.RBD),
-		string(policy.Cinder),
-		string(policy.CephFS),
-		string(policy.DownwardAPI),
-		string(policy.FC),
-		string(policy.ConfigMap),
-		string(policy.VsphereVolume),
-		string(policy.Quobyte),
-		string(policy.AzureDisk),
-		string(policy.PhotonPersistentDisk),
-		string(policy.StorageOS),
-		string(policy.Projected),
-		string(policy.PortworxVolume),
-		string(policy.ScaleIO),
-		string(policy.CSI),
-	)
+	fstypes.Insert(string(policy.HostPath), string(policy.AzureFile), string(policy.Flocker), string(policy.FlexVolume), string(policy.EmptyDir), string(policy.GCEPersistentDisk), string(policy.AWSElasticBlockStore), string(policy.GitRepo), string(policy.Secret), string(policy.NFS), string(policy.ISCSI), string(policy.Glusterfs), string(policy.PersistentVolumeClaim), string(policy.RBD), string(policy.Cinder), string(policy.CephFS), string(policy.DownwardAPI), string(policy.FC), string(policy.ConfigMap), string(policy.VsphereVolume), string(policy.Quobyte), string(policy.AzureDisk), string(policy.PhotonPersistentDisk), string(policy.StorageOS), string(policy.Projected), string(policy.PortworxVolume), string(policy.ScaleIO), string(policy.CSI))
 	return fstypes
 }
-
-// getVolumeFSType gets the FSType for a volume.
 func GetVolumeFSType(v api.Volume) (policy.FSType, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case v.HostPath != nil:
 		return policy.HostPath, nil
@@ -130,31 +91,28 @@ func GetVolumeFSType(v api.Volume) (policy.FSType, error) {
 	case v.ScaleIO != nil:
 		return policy.ScaleIO, nil
 	}
-
 	return "", fmt.Errorf("unknown volume type for volume: %#v", v)
 }
-
-// FSTypeToStringSet converts an FSType slice to a string set.
 func FSTypeToStringSet(fsTypes []policy.FSType) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	set := sets.NewString()
 	for _, v := range fsTypes {
 		set.Insert(string(v))
 	}
 	return set
 }
-
-// PSPAllowsAllVolumes checks for FSTypeAll in the psp's allowed volumes.
 func PSPAllowsAllVolumes(psp *policy.PodSecurityPolicy) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return PSPAllowsFSType(psp, policy.All)
 }
-
-// PSPAllowsFSType is a utility for checking if a PSP allows a particular FSType.
-// If all volumes are allowed then this will return true for any FSType passed.
 func PSPAllowsFSType(psp *policy.PodSecurityPolicy, fsType policy.FSType) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if psp == nil {
 		return false
 	}
-
 	for _, v := range psp.Spec.Volumes {
 		if v == fsType || v == policy.All {
 			return true
@@ -162,29 +120,25 @@ func PSPAllowsFSType(psp *policy.PodSecurityPolicy, fsType policy.FSType) bool {
 	}
 	return false
 }
-
-// UserFallsInRange is a utility to determine it the id falls in the valid range.
 func UserFallsInRange(id int64, rng policy.IDRange) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return id >= rng.Min && id <= rng.Max
 }
-
-// GroupFallsInRange is a utility to determine it the id falls in the valid range.
 func GroupFallsInRange(id int64, rng policy.IDRange) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return id >= rng.Min && id <= rng.Max
 }
-
-// AllowsHostVolumePath is a utility for checking if a PSP allows the host volume path.
-// This only checks the path. You should still check to make sure the host volume fs type is allowed.
 func AllowsHostVolumePath(psp *policy.PodSecurityPolicy, hostPath string) (pathIsAllowed, mustBeReadOnly bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if psp == nil {
 		return false, false
 	}
-
-	// If no allowed paths are specified then allow any path
 	if len(psp.Spec.AllowedHostPaths) == 0 {
 		return true, false
 	}
-
 	for _, allowedPath := range psp.Spec.AllowedHostPaths {
 		if hasPathPrefix(hostPath, allowedPath.PathPrefix) {
 			if !allowedPath.ReadOnly {
@@ -194,42 +148,28 @@ func AllowsHostVolumePath(psp *policy.PodSecurityPolicy, hostPath string) (pathI
 			mustBeReadOnly = true
 		}
 	}
-
 	return pathIsAllowed, mustBeReadOnly
 }
-
-// hasPathPrefix returns true if the string matches pathPrefix exactly, or if is prefixed with pathPrefix at a path segment boundary
-// the string and pathPrefix are both normalized to remove trailing slashes prior to checking.
 func hasPathPrefix(s, pathPrefix string) bool {
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s = strings.TrimSuffix(s, "/")
 	pathPrefix = strings.TrimSuffix(pathPrefix, "/")
-
-	// Short circuit if s doesn't contain the prefix at all
 	if !strings.HasPrefix(s, pathPrefix) {
 		return false
 	}
-
 	pathPrefixLength := len(pathPrefix)
-
 	if len(s) == pathPrefixLength {
-		// Exact match
 		return true
 	}
-
 	if s[pathPrefixLength:pathPrefixLength+1] == "/" {
-		// The next character in s is a path segment boundary
-		// Check this instead of normalizing pathPrefix to avoid allocating on every call
-		// Example where this check applies: s=/foo/bar and pathPrefix=/foo
 		return true
 	}
-
 	return false
 }
-
-// EqualStringSlices compares string slices for equality. Slices are equal when
-// their sizes and elements on similar positions are equal.
 func EqualStringSlices(a, b []string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(a) != len(b) {
 		return false
 	}
@@ -239,4 +179,8 @@ func EqualStringSlices(a, b []string) bool {
 		}
 	}
 	return true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

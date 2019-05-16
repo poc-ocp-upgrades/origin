@@ -38,7 +38,7 @@ func (ctx *pdctx) preamble(buf *bytes.Buffer) {
 		buf.WriteString(p)
 	}
 	if ctx.LogTime {
-		fmt.Fprintf(buf, "%0.5f ", float64(time.Now().UnixNano()) / 1000000.0)
+		fmt.Fprintf(buf, "%0.5f ", float64(time.Now().UnixNano())/1000000.0)
 	}
 
 	for i := 0; i < ctx.indentL; i++ {

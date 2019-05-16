@@ -36,7 +36,7 @@ var _ = Describe("VM", func() {
 		projID = createProject(server, client, tenantID, resName)
 		imageID = createImage(server, client)
 		flavorSpec = &FlavorCreateSpec{
-			[]QuotaLineItem{QuotaLineItem{"COUNT", 1, "ephemeral-disk.cost"}},
+			[]QuotaLineItem{{"COUNT", 1, "ephemeral-disk.cost"}},
 			"ephemeral-disk",
 			randomString(10, "go-sdk-flavor-"),
 		}
@@ -49,8 +49,8 @@ var _ = Describe("VM", func() {
 			Name: randomString(10, "go-sdk-flavor-"),
 			Kind: "vm",
 			Cost: []QuotaLineItem{
-				QuotaLineItem{"GB", 2, "vm.memory"},
-				QuotaLineItem{"COUNT", 4, "vm.cpu"},
+				{"GB", 2, "vm.memory"},
+				{"COUNT", 4, "vm.cpu"},
 			},
 		}
 		_, err = client.Flavors.Create(vmFlavorSpec)
@@ -61,7 +61,7 @@ var _ = Describe("VM", func() {
 			Flavor:        vmFlavorSpec.Name,
 			SourceImageID: imageID,
 			AttachedDisks: []AttachedDisk{
-				AttachedDisk{
+				{
 					CapacityGB: 1,
 					Flavor:     flavorSpec.Name,
 					Kind:       "ephemeral-disk",
@@ -168,7 +168,7 @@ var _ = Describe("VM", func() {
 				Kind:       "persistent-disk",
 				CapacityGB: 1,
 				Name:       randomString(10, "go-sdk-disk-"),
-				Affinities: []LocalitySpec{LocalitySpec{Kind: "vm", ID: task.Entity.ID}},
+				Affinities: []LocalitySpec{{Kind: "vm", ID: task.Entity.ID}},
 			}
 			diskTask, err := client.Projects.CreateDisk(projID, diskSpec)
 			diskTask, err = client.Tasks.Wait(diskTask.ID)

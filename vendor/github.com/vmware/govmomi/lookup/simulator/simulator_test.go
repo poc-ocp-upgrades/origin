@@ -70,7 +70,7 @@ func TestClient(t *testing.T) {
 
 	// test filters that should return 1 service
 	filters := []*types.LookupServiceRegistrationFilter{
-		&types.LookupServiceRegistrationFilter{
+		{
 			ServiceType: &types.LookupServiceRegistrationServiceType{
 				Product: "com.vmware.cis",
 				Type:    "vcenterserver",
@@ -80,12 +80,12 @@ func TestClient(t *testing.T) {
 				Type:     "com.vmware.vim",
 			},
 		},
-		&types.LookupServiceRegistrationFilter{
+		{
 			ServiceType: &types.LookupServiceRegistrationServiceType{
 				Type: "sso:sts",
 			},
 		},
-		&types.LookupServiceRegistrationFilter{
+		{
 			ServiceType: &types.LookupServiceRegistrationServiceType{},
 			EndpointType: &types.LookupServiceRegistrationEndpointType{
 				Protocol: "vmomi",
@@ -117,15 +117,15 @@ func TestClient(t *testing.T) {
 
 	// "empty" filters should return all services
 	filters = []*types.LookupServiceRegistrationFilter{
-		&types.LookupServiceRegistrationFilter{},
-		&types.LookupServiceRegistrationFilter{
+		{},
+		{
 			ServiceType:  new(types.LookupServiceRegistrationServiceType),
 			EndpointType: new(types.LookupServiceRegistrationEndpointType),
 		},
-		&types.LookupServiceRegistrationFilter{
+		{
 			EndpointType: new(types.LookupServiceRegistrationEndpointType),
 		},
-		&types.LookupServiceRegistrationFilter{
+		{
 			ServiceType: new(types.LookupServiceRegistrationServiceType),
 		},
 	}

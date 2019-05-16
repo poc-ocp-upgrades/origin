@@ -11,6 +11,7 @@ import (
 )
 
 const ref = "$ref"
+
 var refrv = reflect.ValueOf(ref)
 
 type Option interface {

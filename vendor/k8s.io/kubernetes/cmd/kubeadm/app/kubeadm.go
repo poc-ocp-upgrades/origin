@@ -1,40 +1,24 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package app
 
 import (
 	"flag"
-	"os"
-
+	goformat "fmt"
 	"github.com/spf13/pflag"
-	_ "k8s.io/klog"
-
 	utilflag "k8s.io/apiserver/pkg/util/flag"
+	_ "k8s.io/klog"
 	"k8s.io/kubernetes/cmd/kubeadm/app/cmd"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// Run creates and executes new kubeadm command
 func Run() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pflag.CommandLine.SetNormalizeFunc(utilflag.WordSepNormalizeFunc)
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
-
 	pflag.Set("logtostderr", "true")
-	// We do not want these flags to show up in --help
-	// These MarkHidden calls must be after the lines above
 	pflag.CommandLine.MarkHidden("version")
 	pflag.CommandLine.MarkHidden("log-flush-frequency")
 	pflag.CommandLine.MarkHidden("alsologtostderr")
@@ -43,7 +27,10 @@ func Run() error {
 	pflag.CommandLine.MarkHidden("logtostderr")
 	pflag.CommandLine.MarkHidden("stderrthreshold")
 	pflag.CommandLine.MarkHidden("vmodule")
-
 	cmd := cmd.NewKubeadmCommand(os.Stdin, os.Stdout, os.Stderr)
 	return cmd.Execute()
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

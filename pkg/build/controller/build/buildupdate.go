@@ -2,22 +2,14 @@ package build
 
 import (
 	"fmt"
-	"strings"
-	"time"
-
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	"github.com/openshift/origin/pkg/build/controller/common"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"strings"
+	"time"
 )
 
-// buildUpdate holds a set of updates to be made to a build object.
-// Only the fields defined in this struct will be updated/patched by this controller.
-// The reason this exists is that there isn't separation at the API
-// level between build spec and build status. Once that happens, the
-// controller should only be able to update the status, while end users
-// should be able to update the spec.
 type buildUpdate struct {
 	podNameAnnotation *string
 	phase             *buildv1.BuildPhase
@@ -32,46 +24,58 @@ type buildUpdate struct {
 }
 
 func (u *buildUpdate) setPhase(phase buildv1.BuildPhase) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.phase = &phase
 }
-
 func (u *buildUpdate) setReason(reason buildv1.StatusReason) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.reason = &reason
 }
-
 func (u *buildUpdate) setMessage(message string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.message = &message
 }
-
 func (u *buildUpdate) setStartTime(startTime metav1.Time) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.startTime = &startTime
 }
-
 func (u *buildUpdate) setCompletionTime(completionTime metav1.Time) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.completionTime = &completionTime
 }
-
 func (u *buildUpdate) setDuration(duration time.Duration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.duration = &duration
 }
-
 func (u *buildUpdate) setOutputRef(ref string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.outputRef = &ref
 }
-
 func (u *buildUpdate) setPodNameAnnotation(podName string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.podNameAnnotation = &podName
 }
-
 func (u *buildUpdate) setLogSnippet(message string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.logSnippet = &message
 }
-
 func (u *buildUpdate) setPushSecret(pushSecret corev1.LocalObjectReference) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.pushSecret = &pushSecret
 }
-
 func (u *buildUpdate) reset() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.podNameAnnotation = nil
 	u.phase = nil
 	u.reason = nil
@@ -83,21 +87,14 @@ func (u *buildUpdate) reset() {
 	u.logSnippet = nil
 	u.pushSecret = nil
 }
-
 func (u *buildUpdate) isEmpty() bool {
-	return u.podNameAnnotation == nil &&
-		u.phase == nil &&
-		u.reason == nil &&
-		u.message == nil &&
-		u.startTime == nil &&
-		u.completionTime == nil &&
-		u.duration == nil &&
-		u.outputRef == nil &&
-		u.logSnippet == nil &&
-		u.pushSecret == nil
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return u.podNameAnnotation == nil && u.phase == nil && u.reason == nil && u.message == nil && u.startTime == nil && u.completionTime == nil && u.duration == nil && u.outputRef == nil && u.logSnippet == nil && u.pushSecret == nil
 }
-
 func (u *buildUpdate) apply(build *buildv1.Build) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if u.phase != nil {
 		build.Status.Phase = *u.phase
 	}
@@ -129,10 +126,9 @@ func (u *buildUpdate) apply(build *buildv1.Build) {
 		build.Spec.Output.PushSecret = u.pushSecret
 	}
 }
-
-// String returns a string representation of this update
-// Used with %v in string formatting
 func (u *buildUpdate) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	updates := []string{}
 	if u.phase != nil {
 		updates = append(updates, fmt.Sprintf("phase: %q", *u.phase))

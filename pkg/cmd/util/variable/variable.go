@@ -2,25 +2,22 @@ package variable
 
 import (
 	"fmt"
+	"github.com/openshift/origin/pkg/version"
 	"os"
 	"strings"
-
-	"github.com/openshift/origin/pkg/version"
 )
 
-// KeyFunc returns the value associated with the provided key or false if no
-// such key exists.
 type KeyFunc func(key string) (string, bool)
 
-// Expand expands a string and ignores any errors that occur - keys that are
-// not recognized are replaced with the empty string.
 func Expand(s string, fns ...KeyFunc) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	val, _ := ExpandStrict(s, append(fns, Empty)...)
 	return val
 }
-
-// ExpandStrict expands a string using a series of common format functions
 func ExpandStrict(s string, fns ...KeyFunc) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	unmatched := []string{}
 	result := os.Expand(s, func(key string) string {
 		for _, fn := range fns {
@@ -33,7 +30,6 @@ func ExpandStrict(s string, fns ...KeyFunc) (string, error) {
 		unmatched = append(unmatched, key)
 		return ""
 	})
-
 	switch len(unmatched) {
 	case 0:
 		return result, nil
@@ -43,19 +39,19 @@ func ExpandStrict(s string, fns ...KeyFunc) (string, error) {
 		return "", fmt.Errorf("multiple keys in %q were not recognized: %s", s, strings.Join(unmatched, ", "))
 	}
 }
-
-// Empty is a KeyFunc which always returns true and the empty string.
 func Empty(s string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return "", true
 }
-
-// Identity is a KeyFunc that returns the same format rules.
 func Identity(key string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("${%s}", key), true
 }
-
-// Versions is a KeyFunc for retrieving information about the current version.
 func Versions(key string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch key {
 	case "shortcommit":
 		s := overrideVersion.GitCommit
@@ -70,18 +66,17 @@ func Versions(key string) (string, bool) {
 		return "", false
 	}
 }
-
-// Env is a KeyFunc which always returns a string
 func Env(key string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return os.Getenv(key), true
 }
 
-// overrideVersion is the latest version, exposed for testing.
 var overrideVersion = version.Get()
 
-// lastSemanticVersion attempts to return a semantic version from the GitVersion - which
-// is either <semver>+<commit> or <semver> on release boundaries.
 func lastSemanticVersionWithoutModifiers(version string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	parts := strings.Split(version, "-")
 	return strings.Split(parts[0], "+")[0]
 }

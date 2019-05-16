@@ -688,7 +688,7 @@ func (m *PrepareSnapshotRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Parent)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x22
 			i++
 			v := m.Labels[k]
@@ -771,7 +771,7 @@ func (m *ViewSnapshotRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Parent)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x22
 			i++
 			v := m.Labels[k]
@@ -944,7 +944,7 @@ func (m *CommitSnapshotRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Key)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x22
 			i++
 			v := m.Labels[k]
@@ -1042,7 +1042,7 @@ func (m *Info) MarshalTo(dAtA []byte) (int, error) {
 	}
 	i += n2
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x32
 			i++
 			v := m.Labels[k]
@@ -1559,7 +1559,7 @@ func (this *PrepareSnapshotRequest) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)
@@ -1592,7 +1592,7 @@ func (this *ViewSnapshotRequest) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)
@@ -1657,7 +1657,7 @@ func (this *CommitSnapshotRequest) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)
@@ -1691,7 +1691,7 @@ func (this *Info) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)

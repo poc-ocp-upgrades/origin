@@ -1187,7 +1187,7 @@ func (m *SolveRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Exporter)
 	}
 	if len(m.ExporterAttrs) > 0 {
-		for k, _ := range m.ExporterAttrs {
+		for k := range m.ExporterAttrs {
 			dAtA[i] = 0x22
 			i++
 			v := m.ExporterAttrs[k]
@@ -1216,7 +1216,7 @@ func (m *SolveRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Frontend)
 	}
 	if len(m.FrontendAttrs) > 0 {
-		for k, _ := range m.FrontendAttrs {
+		for k := range m.FrontendAttrs {
 			dAtA[i] = 0x3a
 			i++
 			v := m.FrontendAttrs[k]
@@ -1295,7 +1295,7 @@ func (m *CacheOptions) MarshalTo(dAtA []byte) (int, error) {
 		}
 	}
 	if len(m.ExportAttrs) > 0 {
-		for k, _ := range m.ExportAttrs {
+		for k := range m.ExportAttrs {
 			dAtA[i] = 0x1a
 			i++
 			v := m.ExportAttrs[k]
@@ -1330,7 +1330,7 @@ func (m *SolveResponse) MarshalTo(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.ExporterResponse) > 0 {
-		for k, _ := range m.ExporterResponse {
+		for k := range m.ExporterResponse {
 			dAtA[i] = 0xa
 			i++
 			v := m.ExporterResponse[k]

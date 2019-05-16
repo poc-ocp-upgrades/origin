@@ -1,48 +1,37 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package v1alpha1
 
 import (
-	"time"
-
+	goformat "fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	kubectrlmgrconfigv1alpha1 "k8s.io/kubernetes/pkg/controller/apis/config/v1alpha1"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
 func addDefaultingFuncs(scheme *runtime.Scheme) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return RegisterDefaults(scheme)
 }
-
 func SetDefaults_CloudControllerManagerConfiguration(obj *CloudControllerManagerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.NodeStatusUpdateFrequency == zero {
 		obj.NodeStatusUpdateFrequency = metav1.Duration{Duration: 5 * time.Minute}
 	}
-
-	// These defaults override the recommended defaults from the apimachineryconfigv1alpha1 package that are applied automatically
-	// These client-connection defaults are specific to the cloud-controller-manager
 	if obj.Generic.ClientConnection.QPS == 0 {
 		obj.Generic.ClientConnection.QPS = 20
 	}
 	if obj.Generic.ClientConnection.Burst == 0 {
 		obj.Generic.ClientConnection.Burst = 30
 	}
-
-	// Use the default RecommendedDefaultGenericControllerManagerConfiguration options
 	kubectrlmgrconfigv1alpha1.RecommendedDefaultGenericControllerManagerConfiguration(&obj.Generic)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

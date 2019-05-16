@@ -1,27 +1,10 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package label
 
 import (
 	"bytes"
 	"fmt"
+	goformat "fmt"
 	"io"
-	"sync"
-
 	"k8s.io/apiserver/pkg/admission"
 	utilfeature "k8s.io/apiserver/pkg/util/feature"
 	cloudprovider "k8s.io/cloud-provider"
@@ -35,15 +18,19 @@ import (
 	kubeletapis "k8s.io/kubernetes/pkg/kubelet/apis"
 	vol "k8s.io/kubernetes/pkg/volume"
 	volumeutil "k8s.io/kubernetes/pkg/volume/util"
+	goos "os"
+	godefaultruntime "runtime"
+	"sync"
+	gotime "time"
 )
 
 const (
-	// PluginName is the name of persistent volume label admission plugin
 	PluginName = "PersistentVolumeLabel"
 )
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		persistentVolumeLabelAdmission := newPersistentVolumeLabel()
 		return persistentVolumeLabelAdmission, nil
@@ -54,7 +41,6 @@ var _ = admission.Interface(&persistentVolumeLabel{})
 
 type persistentVolumeLabel struct {
 	*admission.Handler
-
 	mutex            sync.Mutex
 	ebsVolumes       aws.Volumes
 	cloudConfig      []byte
@@ -65,26 +51,20 @@ type persistentVolumeLabel struct {
 var _ admission.MutationInterface = &persistentVolumeLabel{}
 var _ kubeapiserveradmission.WantsCloudConfig = &persistentVolumeLabel{}
 
-// newPersistentVolumeLabel returns an admission.Interface implementation which adds labels to PersistentVolume CREATE requests,
-// based on the labels provided by the underlying cloud provider.
-//
-// As a side effect, the cloud provider may block invalid or non-existent volumes.
 func newPersistentVolumeLabel() *persistentVolumeLabel {
-	// DEPRECATED: cloud-controller-manager will now start NewPersistentVolumeLabelController
-	// which does exactly what this admission controller used to do. So once GCE, AWS and AZURE can
-	// run externally, we can remove this admission controller.
-	klog.Warning("PersistentVolumeLabel admission controller is deprecated. " +
-		"Please remove this controller from your configuration files and scripts.")
-	return &persistentVolumeLabel{
-		Handler: admission.NewHandler(admission.Create),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	klog.Warning("PersistentVolumeLabel admission controller is deprecated. " + "Please remove this controller from your configuration files and scripts.")
+	return &persistentVolumeLabel{Handler: admission.NewHandler(admission.Create)}
 }
-
 func (l *persistentVolumeLabel) SetCloudConfig(cloudConfig []byte) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	l.cloudConfig = cloudConfig
 }
-
 func nodeSelectorRequirementKeysExistInNodeSelectorTerms(reqs []api.NodeSelectorRequirement, terms []api.NodeSelectorTerm) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, req := range reqs {
 		for _, term := range terms {
 			for _, r := range term.MatchExpressions {
@@ -96,8 +76,9 @@ func nodeSelectorRequirementKeysExistInNodeSelectorTerms(reqs []api.NodeSelector
 	}
 	return false
 }
-
 func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetResource().GroupResource() != api.Resource("persistentvolumes") {
 		return nil
 	}
@@ -109,7 +90,6 @@ func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
 	if !ok {
 		return nil
 	}
-
 	var volumeLabels map[string]string
 	if volume.Spec.AWSElasticBlockStore != nil {
 		labels, err := l.findAWSEBSLabels(volume)
@@ -132,19 +112,13 @@ func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
 		}
 		volumeLabels = labels
 	}
-
 	requirements := make([]api.NodeSelectorRequirement, 0)
 	if len(volumeLabels) != 0 {
 		if volume.Labels == nil {
 			volume.Labels = make(map[string]string)
 		}
 		for k, v := range volumeLabels {
-			// We (silently) replace labels if they are provided.
-			// This should be OK because they are in the kubernetes.io namespace
-			// i.e. we own them
 			volume.Labels[k] = v
-
-			// Set NodeSelectorRequirements based on the labels
 			var values []string
 			if k == kubeletapis.LabelZoneFailureDomain {
 				zones, err := volumeutil.LabelZonesToSet(v)
@@ -157,7 +131,6 @@ func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
 			}
 			requirements = append(requirements, api.NodeSelectorRequirement{Key: k, Operator: api.NodeSelectorOpIn, Values: values})
 		}
-
 		if utilfeature.DefaultFeatureGate.Enabled(features.VolumeScheduling) {
 			if volume.Spec.NodeAffinity == nil {
 				volume.Spec.NodeAffinity = new(api.VolumeNodeAffinity)
@@ -166,12 +139,10 @@ func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
 				volume.Spec.NodeAffinity.Required = new(api.NodeSelector)
 			}
 			if len(volume.Spec.NodeAffinity.Required.NodeSelectorTerms) == 0 {
-				// Need at least one term pre-allocated whose MatchExpressions can be appended to
 				volume.Spec.NodeAffinity.Required.NodeSelectorTerms = make([]api.NodeSelectorTerm, 1)
 			}
 			if nodeSelectorRequirementKeysExistInNodeSelectorTerms(requirements, volume.Spec.NodeAffinity.Required.NodeSelectorTerms) {
-				klog.V(4).Infof("NodeSelectorRequirements for cloud labels %v conflict with existing NodeAffinity %v. Skipping addition of NodeSelectorRequirements for cloud labels.",
-					requirements, volume.Spec.NodeAffinity)
+				klog.V(4).Infof("NodeSelectorRequirements for cloud labels %v conflict with existing NodeAffinity %v. Skipping addition of NodeSelectorRequirements for cloud labels.", requirements, volume.Spec.NodeAffinity)
 			} else {
 				for _, req := range requirements {
 					for i := range volume.Spec.NodeAffinity.Required.NodeSelectorTerms {
@@ -181,12 +152,11 @@ func (l *persistentVolumeLabel) Admit(a admission.Attributes) (err error) {
 			}
 		}
 	}
-
 	return nil
 }
-
 func (l *persistentVolumeLabel) findAWSEBSLabels(volume *api.PersistentVolume) (map[string]string, error) {
-	// Ignore any volumes that are being provisioned
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if volume.Spec.AWSElasticBlockStore.VolumeID == vol.ProvisionedVolumeName {
 		return nil, nil
 	}
@@ -197,23 +167,18 @@ func (l *persistentVolumeLabel) findAWSEBSLabels(volume *api.PersistentVolume) (
 	if ebsVolumes == nil {
 		return nil, fmt.Errorf("unable to build AWS cloud provider for EBS")
 	}
-
-	// TODO: GetVolumeLabels is actually a method on the Volumes interface
-	// If that gets standardized we can refactor to reduce code duplication
 	spec := aws.KubernetesVolumeID(volume.Spec.AWSElasticBlockStore.VolumeID)
 	labels, err := ebsVolumes.GetVolumeLabels(spec)
 	if err != nil {
 		return nil, err
 	}
-
 	return labels, nil
 }
-
-// getEBSVolumes returns the AWS Volumes interface for ebs
 func (l *persistentVolumeLabel) getEBSVolumes() (aws.Volumes, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-
 	if l.ebsVolumes == nil {
 		var cloudConfigReader io.Reader
 		if len(l.cloudConfig) > 0 {
@@ -225,20 +190,18 @@ func (l *persistentVolumeLabel) getEBSVolumes() (aws.Volumes, error) {
 		}
 		awsCloudProvider, ok := cloudProvider.(*aws.Cloud)
 		if !ok {
-			// GetCloudProvider has gone very wrong
 			return nil, fmt.Errorf("error retrieving AWS cloud provider")
 		}
 		l.ebsVolumes = awsCloudProvider
 	}
 	return l.ebsVolumes, nil
 }
-
 func (l *persistentVolumeLabel) findGCEPDLabels(volume *api.PersistentVolume) (map[string]string, error) {
-	// Ignore any volumes that are being provisioned
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if volume.Spec.GCEPersistentDisk.PDName == vol.ProvisionedVolumeName {
 		return nil, nil
 	}
-
 	provider, err := l.getGCECloudProvider()
 	if err != nil {
 		return nil, err
@@ -246,23 +209,18 @@ func (l *persistentVolumeLabel) findGCEPDLabels(volume *api.PersistentVolume) (m
 	if provider == nil {
 		return nil, fmt.Errorf("unable to build GCE cloud provider for PD")
 	}
-
-	// If the zone is already labeled, honor the hint
 	zone := volume.Labels[kubeletapis.LabelZoneFailureDomain]
-
 	labels, err := provider.GetAutoLabelsForPD(volume.Spec.GCEPersistentDisk.PDName, zone)
 	if err != nil {
 		return nil, err
 	}
-
 	return labels, nil
 }
-
-// getGCECloudProvider returns the GCE cloud provider, for use for querying volume labels
 func (l *persistentVolumeLabel) getGCECloudProvider() (*gce.Cloud, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-
 	if l.gceCloudProvider == nil {
 		var cloudConfigReader io.Reader
 		if len(l.cloudConfig) > 0 {
@@ -274,19 +232,17 @@ func (l *persistentVolumeLabel) getGCECloudProvider() (*gce.Cloud, error) {
 		}
 		gceCloudProvider, ok := cloudProvider.(*gce.Cloud)
 		if !ok {
-			// GetCloudProvider has gone very wrong
 			return nil, fmt.Errorf("error retrieving GCE cloud provider")
 		}
 		l.gceCloudProvider = gceCloudProvider
 	}
 	return l.gceCloudProvider, nil
 }
-
-// getAzureCloudProvider returns the Azure cloud provider, for use for querying volume labels
 func (l *persistentVolumeLabel) getAzureCloudProvider() (*azure.Cloud, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	l.mutex.Lock()
 	defer l.mutex.Unlock()
-
 	if l.azureProvider == nil {
 		var cloudConfigReader io.Reader
 		if len(l.cloudConfig) > 0 {
@@ -298,21 +254,18 @@ func (l *persistentVolumeLabel) getAzureCloudProvider() (*azure.Cloud, error) {
 		}
 		azureProvider, ok := cloudProvider.(*azure.Cloud)
 		if !ok {
-			// GetCloudProvider has gone very wrong
 			return nil, fmt.Errorf("error retrieving Azure cloud provider")
 		}
 		l.azureProvider = azureProvider
 	}
-
 	return l.azureProvider, nil
 }
-
 func (l *persistentVolumeLabel) findAzureDiskLabels(volume *api.PersistentVolume) (map[string]string, error) {
-	// Ignore any volumes that are being provisioned
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if volume.Spec.AzureDisk.DiskName == vol.ProvisionedVolumeName {
 		return nil, nil
 	}
-
 	provider, err := l.getAzureCloudProvider()
 	if err != nil {
 		return nil, err
@@ -320,6 +273,9 @@ func (l *persistentVolumeLabel) findAzureDiskLabels(volume *api.PersistentVolume
 	if provider == nil {
 		return nil, fmt.Errorf("unable to build Azure cloud provider for AzureDisk")
 	}
-
 	return provider.GetAzureDiskLabels(volume.Spec.AzureDisk.DataDiskURI)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

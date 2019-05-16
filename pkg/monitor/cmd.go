@@ -10,16 +10,11 @@ import (
 	"time"
 )
 
-// Options is used to run a monitoring process against the provided server as
-// a command line interaction.
-type Options struct {
-	Out, ErrOut io.Writer
-}
+type Options struct{ Out, ErrOut io.Writer }
 
-// Run starts monitoring the cluster by invoking Start, periodically printing the
-// events accumulated to Out. When the user hits CTRL+C or signals termination the
-// condition intervals (all non-instantaneous events) are reported to Out.
 func (opt *Options) Run() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ctx, cancelFn := context.WithCancel(context.Background())
 	defer cancelFn()
 	abortCh := make(chan os.Signal)
@@ -37,12 +32,10 @@ func (opt *Options) Run() error {
 		}
 	}()
 	signal.Notify(abortCh, syscall.SIGINT, syscall.SIGTERM)
-
 	m, err := Start(ctx)
 	if err != nil {
 		return err
 	}
-
 	go func() {
 		ticker := time.NewTicker(100 * time.Millisecond)
 		defer ticker.Stop()
@@ -66,9 +59,7 @@ func (opt *Options) Run() error {
 			}
 		}
 	}()
-
 	<-ctx.Done()
-
 	time.Sleep(150 * time.Millisecond)
 	if events := m.Conditions(time.Time{}, time.Time{}); len(events) > 0 {
 		fmt.Fprintf(opt.Out, "\nConditions:\n\n")
@@ -76,6 +67,5 @@ func (opt *Options) Run() error {
 			fmt.Fprintln(opt.Out, event.String())
 		}
 	}
-
 	return nil
 }

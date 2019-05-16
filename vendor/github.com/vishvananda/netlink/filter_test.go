@@ -167,13 +167,13 @@ func TestAdvancedFilterAddDel(t *testing.T) {
 	}
 
 	u32SelKeys := []TcU32Key{
-		TcU32Key{
+		{
 			Mask:    0xff,
 			Val:     80,
 			Off:     20,
 			OffMask: 0,
 		},
-		TcU32Key{
+		{
 			Mask:    0xffff,
 			Val:     0x146ca,
 			Off:     32,

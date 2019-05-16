@@ -1,14 +1,6 @@
 package app
 
 import (
-	"time"
-
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/client-go/informers"
-	"k8s.io/client-go/kubernetes"
-	"k8s.io/client-go/rest"
-	"k8s.io/klog"
-
 	appclient "github.com/openshift/client-go/apps/clientset/versioned"
 	appinformer "github.com/openshift/client-go/apps/informers/externalversions"
 	authorizationclient "github.com/openshift/client-go/authorization/clientset/versioned"
@@ -31,6 +23,12 @@ import (
 	templateinformer "github.com/openshift/client-go/template/informers/externalversions"
 	userclient "github.com/openshift/client-go/user/clientset/versioned"
 	userinformer "github.com/openshift/client-go/user/informers/externalversions"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"k8s.io/client-go/informers"
+	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
+	"k8s.io/klog"
+	"time"
 )
 
 type externalKubeInformersWithExtraGenerics struct {
@@ -39,10 +37,13 @@ type externalKubeInformersWithExtraGenerics struct {
 }
 
 func (i externalKubeInformersWithExtraGenerics) ForResource(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.genericResourceInformer.ForResource(resource)
 }
-
 func (i externalKubeInformersWithExtraGenerics) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i.SharedInformerFactory.Start(stopCh)
 	i.genericResourceInformer.Start(stopCh)
 }
@@ -51,31 +52,31 @@ type GenericResourceInformer interface {
 	ForResource(resource schema.GroupVersionResource) (informers.GenericInformer, error)
 	Start(stopCh <-chan struct{})
 }
-
-// genericResourceInformerFunc will handle a cast to a matching type
 type genericResourceInformerFunc func(resource schema.GroupVersionResource) (informers.GenericInformer, error)
 
 func (fn genericResourceInformerFunc) ForResource(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fn(resource)
 }
-
-// this is a temporary condition until we rewrite enough of generation to auto-conform to the required interface and no longer need the internal version shim
-func (fn genericResourceInformerFunc) Start(stopCh <-chan struct{}) {}
+func (fn genericResourceInformerFunc) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
 
 type genericInformers struct {
-	// this is a temporary condition until we rewrite enough of generation to auto-conform to the required interface and no longer need the internal version shim
 	startFn func(stopCh <-chan struct{})
 	generic []GenericResourceInformer
 }
 
 func newGenericInformers(startFn func(stopCh <-chan struct{}), informers ...GenericResourceInformer) genericInformers {
-	return genericInformers{
-		startFn: startFn,
-		generic: informers,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return genericInformers{startFn: startFn, generic: informers}
 }
-
 func (i genericInformers) ForResource(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var firstErr error
 	for _, generic := range i.generic {
 		informer, err := generic.ForResource(resource)
@@ -89,17 +90,15 @@ func (i genericInformers) ForResource(resource schema.GroupVersionResource) (inf
 	klog.V(4).Infof("Couldn't find informer for %v", resource)
 	return nil, firstErr
 }
-
 func (i genericInformers) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i.startFn(stopCh)
 	for _, generic := range i.generic {
 		generic.Start(stopCh)
 	}
 }
 
-// informers is a convenient way for us to keep track of the informers, but
-// is intentionally private.  We don't want to leak it out further than this package.
-// Everything else should say what it wants.
 type combinedInformers struct {
 	externalKubeInformers  informers.SharedInformerFactory
 	appInformers           appinformer.SharedInformerFactory
@@ -116,6 +115,8 @@ type combinedInformers struct {
 }
 
 func newInformerFactory(clientConfig *rest.Config) (informers.SharedInformerFactory, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	kubeClient, err := kubernetes.NewForConfig(clientConfig)
 	if err != nil {
 		return nil, err
@@ -164,71 +165,73 @@ func newInformerFactory(clientConfig *rest.Config) (informers.SharedInformerFact
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO find a single place to create and start informers.  During the 1.7 rebase this will come more naturally in a config object,
-	// before then we should try to eliminate our direct to storage access.  It's making us do weird things.
 	const defaultInformerResyncPeriod = 10 * time.Minute
-
-	ci := &combinedInformers{
-		externalKubeInformers:  informers.NewSharedInformerFactory(kubeClient, defaultInformerResyncPeriod),
-		appInformers:           appinformer.NewSharedInformerFactory(appClient, defaultInformerResyncPeriod),
-		authorizationInformers: authorizationinformer.NewSharedInformerFactory(authorizationClient, defaultInformerResyncPeriod),
-		buildInformers:         buildinformer.NewSharedInformerFactory(buildClient, defaultInformerResyncPeriod),
-		imageInformers:         imageinformer.NewSharedInformerFactory(imageClient, defaultInformerResyncPeriod),
-		networkInformers:       networkinformer.NewSharedInformerFactory(networkClient, defaultInformerResyncPeriod),
-		oauthInformers:         oauthinformer.NewSharedInformerFactory(oauthClient, defaultInformerResyncPeriod),
-		quotaInformers:         quotainformer.NewSharedInformerFactory(quotaClient, defaultInformerResyncPeriod),
-		routeInformers:         routeinformer.NewSharedInformerFactory(routerClient, defaultInformerResyncPeriod),
-		securityInformers:      securityinformer.NewSharedInformerFactory(securityClient, defaultInformerResyncPeriod),
-		templateInformers:      templateinformer.NewSharedInformerFactory(templateClient, defaultInformerResyncPeriod),
-		userInformers:          userinformer.NewSharedInformerFactory(userClient, defaultInformerResyncPeriod),
-	}
-
-	return externalKubeInformersWithExtraGenerics{
-		SharedInformerFactory:   ci.GetExternalKubeInformers(),
-		genericResourceInformer: ci.ToGenericInformer(),
-	}, nil
+	ci := &combinedInformers{externalKubeInformers: informers.NewSharedInformerFactory(kubeClient, defaultInformerResyncPeriod), appInformers: appinformer.NewSharedInformerFactory(appClient, defaultInformerResyncPeriod), authorizationInformers: authorizationinformer.NewSharedInformerFactory(authorizationClient, defaultInformerResyncPeriod), buildInformers: buildinformer.NewSharedInformerFactory(buildClient, defaultInformerResyncPeriod), imageInformers: imageinformer.NewSharedInformerFactory(imageClient, defaultInformerResyncPeriod), networkInformers: networkinformer.NewSharedInformerFactory(networkClient, defaultInformerResyncPeriod), oauthInformers: oauthinformer.NewSharedInformerFactory(oauthClient, defaultInformerResyncPeriod), quotaInformers: quotainformer.NewSharedInformerFactory(quotaClient, defaultInformerResyncPeriod), routeInformers: routeinformer.NewSharedInformerFactory(routerClient, defaultInformerResyncPeriod), securityInformers: securityinformer.NewSharedInformerFactory(securityClient, defaultInformerResyncPeriod), templateInformers: templateinformer.NewSharedInformerFactory(templateClient, defaultInformerResyncPeriod), userInformers: userinformer.NewSharedInformerFactory(userClient, defaultInformerResyncPeriod)}
+	return externalKubeInformersWithExtraGenerics{SharedInformerFactory: ci.GetExternalKubeInformers(), genericResourceInformer: ci.ToGenericInformer()}, nil
 }
-
 func (i *combinedInformers) GetExternalKubeInformers() informers.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.externalKubeInformers
 }
 func (i *combinedInformers) GetAppInformers() appinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.appInformers
 }
 func (i *combinedInformers) GetAuthorizationInformers() authorizationinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.authorizationInformers
 }
 func (i *combinedInformers) GetBuildInformers() buildinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.buildInformers
 }
 func (i *combinedInformers) GetImageInformers() imageinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.imageInformers
 }
 func (i *combinedInformers) GetNetworkInformers() networkinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.networkInformers
 }
 func (i *combinedInformers) GetOauthInformers() oauthinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.oauthInformers
 }
 func (i *combinedInformers) GetQuotaInformers() quotainformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.quotaInformers
 }
 func (i *combinedInformers) GetRouteInformers() routeinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.routeInformers
 }
 func (i *combinedInformers) GetSecurityInformers() securityinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.securityInformers
 }
 func (i *combinedInformers) GetTemplateInformers() templateinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.templateInformers
 }
 func (i *combinedInformers) GetUserInformers() userinformer.SharedInformerFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return i.userInformers
 }
-
-// Start initializes all requested informers.
 func (i *combinedInformers) Start(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i.externalKubeInformers.Start(stopCh)
 	i.appInformers.Start(stopCh)
 	i.authorizationInformers.Start(stopCh)
@@ -242,43 +245,30 @@ func (i *combinedInformers) Start(stopCh <-chan struct{}) {
 	i.templateInformers.Start(stopCh)
 	i.userInformers.Start(stopCh)
 }
-
 func (i *combinedInformers) ToGenericInformer() GenericResourceInformer {
-	return newGenericInformers(
-		i.Start,
-		i.GetExternalKubeInformers(),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetAppInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetAuthorizationInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetBuildInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetImageInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetNetworkInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetOauthInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetQuotaInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetRouteInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetSecurityInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetTemplateInformers().ForResource(resource)
-		}),
-		genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
-			return i.GetUserInformers().ForResource(resource)
-		}),
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return newGenericInformers(i.Start, i.GetExternalKubeInformers(), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetAppInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetAuthorizationInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetBuildInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetImageInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetNetworkInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetOauthInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetQuotaInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetRouteInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetSecurityInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetTemplateInformers().ForResource(resource)
+	}), genericResourceInformerFunc(func(resource schema.GroupVersionResource) (informers.GenericInformer, error) {
+		return i.GetUserInformers().ForResource(resource)
+	}))
 }

@@ -2,37 +2,27 @@ package policy
 
 import (
 	"fmt"
-	"strconv"
-
-	"k8s.io/klog"
-
 	buildv1 "github.com/openshift/api/build/v1"
 	buildlister "github.com/openshift/client-go/build/listers/build/v1"
 	buildclient "github.com/openshift/origin/pkg/build/client"
 	buildutil "github.com/openshift/origin/pkg/build/util"
+	"k8s.io/klog"
+	"strconv"
 )
 
-// RunPolicy is an interface that define handler for the build runPolicy field.
-// The run policy controls how and when the new builds are 'run'.
 type RunPolicy interface {
-	// IsRunnable returns true of the given build should be executed.
 	IsRunnable(*buildv1.Build) (bool, error)
-
-	// Handles returns true if the run policy handles a specific policy
 	Handles(buildv1.BuildRunPolicy) bool
 }
 
-// GetAllRunPolicies returns a set of all run policies.
 func GetAllRunPolicies(lister buildlister.BuildLister, updater buildclient.BuildUpdater) []RunPolicy {
-	return []RunPolicy{
-		&ParallelPolicy{BuildLister: lister, BuildUpdater: updater},
-		&SerialPolicy{BuildLister: lister, BuildUpdater: updater},
-		&SerialLatestOnlyPolicy{BuildLister: lister, BuildUpdater: updater},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return []RunPolicy{&ParallelPolicy{BuildLister: lister, BuildUpdater: updater}, &SerialPolicy{BuildLister: lister, BuildUpdater: updater}, &SerialLatestOnlyPolicy{BuildLister: lister, BuildUpdater: updater}}
 }
-
-// ForBuild picks the appropriate run policy for the given build.
 func ForBuild(build *buildv1.Build, policies []RunPolicy) RunPolicy {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	buildPolicy := buildRunPolicy(build)
 	for _, s := range policies {
 		if s.Handles(buildPolicy) {
@@ -42,11 +32,9 @@ func ForBuild(build *buildv1.Build, policies []RunPolicy) RunPolicy {
 	}
 	return nil
 }
-
-// hasRunningSerialBuild indicates that there is a running or pending serial
-// build. This function is used to prevent running parallel builds because
-// serial builds should always run alone.
 func hasRunningSerialBuild(lister buildlister.BuildLister, namespace, buildConfigName string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var hasRunningBuilds bool
 	buildutil.BuildConfigBuilds(lister, namespace, buildConfigName, func(b *buildv1.Build) bool {
 		switch b.Status.Phase {
@@ -60,12 +48,9 @@ func hasRunningSerialBuild(lister buildlister.BuildLister, namespace, buildConfi
 	})
 	return hasRunningBuilds
 }
-
-// GetNextConfigBuild returns the build that will be executed next for the given
-// build configuration. It also returns the indication whether there are
-// currently running builds, to make sure there is no race-condition between
-// re-listing the builds.
 func GetNextConfigBuild(lister buildlister.BuildLister, namespace, buildConfigName string) ([]*buildv1.Build, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var (
 		nextBuild           *buildv1.Build
 		hasRunningBuilds    bool
@@ -83,7 +68,6 @@ func GetNextConfigBuild(lister buildlister.BuildLister, namespace, buildConfigNa
 	if err != nil {
 		return nil, hasRunningBuilds, err
 	}
-
 	nextParallelBuilds := []*buildv1.Build{}
 	for i, b := range builds {
 		buildNumber, err := buildNumber(b)
@@ -99,8 +83,6 @@ func GetNextConfigBuild(lister buildlister.BuildLister, namespace, buildConfigNa
 		}
 	}
 	nextBuilds := []*buildv1.Build{}
-	// if the next build is a parallel build, then start all the queued parallel builds,
-	// otherwise just start the next build if there is one.
 	if nextBuild != nil && buildRunPolicy(nextBuild) == buildv1.BuildRunPolicyParallel {
 		nextBuilds = nextParallelBuilds
 	} else if nextBuild != nil {
@@ -108,18 +90,18 @@ func GetNextConfigBuild(lister buildlister.BuildLister, namespace, buildConfigNa
 	}
 	return nextBuilds, hasRunningBuilds, nil
 }
-
-// buildNumber returns the given build number.
 func buildNumber(build *buildv1.Build) (int64, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	annotations := build.GetAnnotations()
 	if stringNumber, ok := annotations[buildutil.BuildNumberAnnotation]; ok {
 		return strconv.ParseInt(stringNumber, 10, 64)
 	}
 	return 0, fmt.Errorf("build %s/%s does not have %s annotation", build.Namespace, build.Name, buildutil.BuildNumberAnnotation)
 }
-
-// buildRunPolicy returns the scheduling policy for the build based on the "queued" label.
 func buildRunPolicy(build *buildv1.Build) buildv1.BuildRunPolicy {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	labels := build.GetLabels()
 	if value, found := labels[buildutil.BuildRunPolicyLabel]; found {
 		switch value {

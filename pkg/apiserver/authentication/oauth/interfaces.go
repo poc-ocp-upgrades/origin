@@ -14,6 +14,8 @@ var _ OAuthTokenValidator = OAuthTokenValidatorFunc(nil)
 type OAuthTokenValidatorFunc func(token *oauthv1.OAuthAccessToken, user *userapi.User) error
 
 func (f OAuthTokenValidatorFunc) Validate(token *oauthv1.OAuthAccessToken, user *userapi.User) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return f(token, user)
 }
 
@@ -22,6 +24,8 @@ var _ OAuthTokenValidator = OAuthTokenValidators(nil)
 type OAuthTokenValidators []OAuthTokenValidator
 
 func (v OAuthTokenValidators) Validate(token *oauthv1.OAuthAccessToken, user *userapi.User) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, validator := range v {
 		if err := validator.Validate(token, user); err != nil {
 			return err
@@ -33,9 +37,10 @@ func (v OAuthTokenValidators) Validate(token *oauthv1.OAuthAccessToken, user *us
 type UserToGroupMapper interface {
 	GroupsFor(username string) ([]*userapi.Group, error)
 }
-
 type NoopGroupMapper struct{}
 
 func (n NoopGroupMapper) GroupsFor(username string) ([]*userapi.Group, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return []*userapi.Group{}, nil
 }

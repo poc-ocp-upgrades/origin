@@ -297,7 +297,7 @@ func (m *Lease) MarshalTo(dAtA []byte) (int, error) {
 	}
 	i += n1
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x1a
 			i++
 			v := m.Labels[k]
@@ -338,7 +338,7 @@ func (m *CreateRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.ID)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x1a
 			i++
 			v := m.Labels[k]
@@ -581,7 +581,7 @@ func (this *Lease) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)
@@ -603,7 +603,7 @@ func (this *CreateRequest) String() string {
 		return "nil"
 	}
 	keysForLabels := make([]string, 0, len(this.Labels))
-	for k, _ := range this.Labels {
+	for k := range this.Labels {
 		keysForLabels = append(keysForLabels, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForLabels)

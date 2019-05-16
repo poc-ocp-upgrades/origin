@@ -18,9 +18,9 @@
 package tff
 
 import (
-	"testing"
-	"strings"
 	"runtime"
+	"strings"
+	"testing"
 )
 
 // Test data from https://github.com/akheron/jansson/tree/master/test/suites/valid

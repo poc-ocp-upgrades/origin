@@ -3,39 +3,42 @@ package runonceduration
 import (
 	"errors"
 	"fmt"
-	"io"
-	"strconv"
-
-	"k8s.io/klog"
-
-	"k8s.io/apiserver/pkg/admission"
-	"k8s.io/apiserver/pkg/admission/initializer"
-	"k8s.io/client-go/informers"
-	"k8s.io/client-go/util/integer"
-	kapi "k8s.io/kubernetes/pkg/apis/core"
-
+	goformat "fmt"
 	"github.com/openshift/origin/pkg/autoscaling/admission/apis/runonceduration"
 	"github.com/openshift/origin/pkg/autoscaling/admission/apis/runonceduration/validation"
 	configlatest "github.com/openshift/origin/pkg/cmd/server/apis/config/latest"
+	"io"
+	"k8s.io/apiserver/pkg/admission"
+	"k8s.io/apiserver/pkg/admission/initializer"
+	"k8s.io/client-go/informers"
 	corev1listers "k8s.io/client-go/listers/core/v1"
+	"k8s.io/client-go/util/integer"
+	"k8s.io/klog"
+	kapi "k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	"strconv"
+	gotime "time"
 )
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register("autoscaling.openshift.io/RunOnceDuration",
-		func(config io.Reader) (admission.Interface, error) {
-			pluginConfig, err := readConfig(config)
-			if err != nil {
-				return nil, err
-			}
-			if pluginConfig == nil {
-				klog.Infof("Admission plugin %q is not configured so it will be disabled.", "autoscaling.openshift.io/RunOnceDuration")
-				return nil, nil
-			}
-			return NewRunOnceDuration(pluginConfig), nil
-		})
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	plugins.Register("autoscaling.openshift.io/RunOnceDuration", func(config io.Reader) (admission.Interface, error) {
+		pluginConfig, err := readConfig(config)
+		if err != nil {
+			return nil, err
+		}
+		if pluginConfig == nil {
+			klog.Infof("Admission plugin %q is not configured so it will be disabled.", "autoscaling.openshift.io/RunOnceDuration")
+			return nil, nil
+		}
+		return NewRunOnceDuration(pluginConfig), nil
+	})
 }
-
 func readConfig(reader io.Reader) (*runonceduration.RunOnceDurationConfig, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := configlatest.ReadYAML(reader)
 	if err != nil {
 		return nil, err
@@ -53,13 +56,10 @@ func readConfig(reader io.Reader) (*runonceduration.RunOnceDurationConfig, error
 	}
 	return config, nil
 }
-
-// NewRunOnceDuration creates a new RunOnceDuration admission plugin
 func NewRunOnceDuration(config *runonceduration.RunOnceDurationConfig) admission.Interface {
-	return &runOnceDuration{
-		Handler: admission.NewHandler(admission.Create),
-		config:  config,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &runOnceDuration{Handler: admission.NewHandler(admission.Create), config: config}
 }
 
 type runOnceDuration struct {
@@ -71,49 +71,46 @@ type runOnceDuration struct {
 var _ = initializer.WantsExternalKubeInformerFactory(&runOnceDuration{})
 
 func (a *runOnceDuration) Admit(attributes admission.Attributes) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
-	case a.config == nil,
-		attributes.GetResource().GroupResource() != kapi.Resource("pods"),
-		len(attributes.GetSubresource()) > 0:
+	case a.config == nil, attributes.GetResource().GroupResource() != kapi.Resource("pods"), len(attributes.GetSubresource()) > 0:
 		return nil
 	}
 	pod, ok := attributes.GetObject().(*kapi.Pod)
 	if !ok {
 		return admission.NewForbidden(attributes, fmt.Errorf("unexpected object: %#v", attributes.GetObject()))
 	}
-
-	// Only update pods with a restart policy of Never or OnFailure
 	switch pod.Spec.RestartPolicy {
-	case kapi.RestartPolicyNever,
-		kapi.RestartPolicyOnFailure:
-		// continue
+	case kapi.RestartPolicyNever, kapi.RestartPolicyOnFailure:
 	default:
 		return nil
 	}
-
 	appliedProjectLimit, err := a.applyProjectAnnotationLimit(attributes.GetNamespace(), pod)
 	if err != nil {
 		return admission.NewForbidden(attributes, err)
 	}
-
 	if !appliedProjectLimit && a.config.ActiveDeadlineSecondsLimit != nil {
 		pod.Spec.ActiveDeadlineSeconds = int64MinP(a.config.ActiveDeadlineSecondsLimit, pod.Spec.ActiveDeadlineSeconds)
 	}
 	return nil
 }
-
 func (a *runOnceDuration) SetExternalKubeInformerFactory(kubeInformers informers.SharedInformerFactory) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	a.nsLister = kubeInformers.Core().V1().Namespaces().Lister()
 }
-
 func (a *runOnceDuration) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.nsLister == nil {
 		return errors.New("autoscaling.openshift.io/RunOnceDuration plugin requires a namespace listers")
 	}
 	return nil
 }
-
 func (a *runOnceDuration) applyProjectAnnotationLimit(namespace string, pod *kapi.Pod) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ns, err := a.nsLister.Get(namespace)
 	if err != nil {
 		return false, fmt.Errorf("error looking up pod namespace: %v", err)
@@ -132,8 +129,9 @@ func (a *runOnceDuration) applyProjectAnnotationLimit(namespace string, pod *kap
 	pod.Spec.ActiveDeadlineSeconds = int64MinP(&limitInt64, pod.Spec.ActiveDeadlineSeconds)
 	return true, nil
 }
-
 func int64MinP(a, b *int64) *int64 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case a == nil:
 		return b
@@ -143,4 +141,8 @@ func int64MinP(a, b *int64) *int64 {
 		c := integer.Int64Min(*a, *b)
 		return &c
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

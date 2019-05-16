@@ -1,20 +1,29 @@
 package install
 
 import (
+	goformat "fmt"
+	routev1 "github.com/openshift/api/route/v1"
+	routeapiv1 "github.com/openshift/origin/pkg/route/apis/route/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	routev1 "github.com/openshift/api/route/v1"
-	routeapiv1 "github.com/openshift/origin/pkg/route/apis/route/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 func init() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	Install(legacyscheme.Scheme)
 }
-
-// Install registers the API group and adds types to a scheme
 func Install(scheme *runtime.Scheme) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	utilruntime.Must(routeapiv1.Install(scheme))
 	utilruntime.Must(scheme.SetVersionPriority(routev1.GroupVersion))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

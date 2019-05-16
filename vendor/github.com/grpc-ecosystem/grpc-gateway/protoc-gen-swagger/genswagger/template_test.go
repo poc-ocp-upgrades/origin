@@ -41,7 +41,7 @@ func TestMessageToQueryParameters(t *testing.T) {
 	tests := []test{
 		{
 			MsgDescs: []*protodescriptor.DescriptorProto{
-				&protodescriptor.DescriptorProto{
+				{
 					Name: proto.String("ExampleMessage"),
 					Field: []*protodescriptor.FieldDescriptorProto{
 						{
@@ -59,13 +59,13 @@ func TestMessageToQueryParameters(t *testing.T) {
 			},
 			Message: "ExampleMessage",
 			Params: []swaggerParameterObject{
-				swaggerParameterObject{
+				{
 					Name:     "a",
 					In:       "query",
 					Required: false,
 					Type:     "string",
 				},
-				swaggerParameterObject{
+				{
 					Name:     "b",
 					In:       "query",
 					Required: false,
@@ -76,7 +76,7 @@ func TestMessageToQueryParameters(t *testing.T) {
 		},
 		{
 			MsgDescs: []*protodescriptor.DescriptorProto{
-				&protodescriptor.DescriptorProto{
+				{
 					Name: proto.String("ExampleMessage"),
 					Field: []*protodescriptor.FieldDescriptorProto{
 						{
@@ -87,7 +87,7 @@ func TestMessageToQueryParameters(t *testing.T) {
 						},
 					},
 				},
-				&protodescriptor.DescriptorProto{
+				{
 					Name: proto.String("Nested"),
 					Field: []*protodescriptor.FieldDescriptorProto{
 						{
@@ -131,19 +131,19 @@ func TestMessageToQueryParameters(t *testing.T) {
 			},
 			Message: "ExampleMessage",
 			Params: []swaggerParameterObject{
-				swaggerParameterObject{
+				{
 					Name:     "nested.a",
 					In:       "query",
 					Required: false,
 					Type:     "string",
 				},
-				swaggerParameterObject{
+				{
 					Name:     "nested.deep.b",
 					In:       "query",
 					Required: false,
 					Type:     "string",
 				},
-				swaggerParameterObject{
+				{
 					Name:     "nested.deep.c",
 					In:       "query",
 					Required: false,

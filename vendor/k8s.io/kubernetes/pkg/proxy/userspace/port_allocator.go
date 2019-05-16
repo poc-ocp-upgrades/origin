@@ -1,30 +1,13 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package userspace
 
 import (
 	"errors"
+	"k8s.io/apimachinery/pkg/util/net"
+	"k8s.io/apimachinery/pkg/util/wait"
 	"math/big"
 	"math/rand"
 	"sync"
 	"time"
-
-	"k8s.io/apimachinery/pkg/util/net"
-	"k8s.io/apimachinery/pkg/util/wait"
 )
 
 var (
@@ -35,25 +18,20 @@ type PortAllocator interface {
 	AllocateNext() (int, error)
 	Release(int)
 }
-
-// randomAllocator is a PortAllocator implementation that allocates random ports, yielding
-// a port value of 0 for every call to AllocateNext().
 type randomAllocator struct{}
 
-// AllocateNext always returns 0
 func (r *randomAllocator) AllocateNext() (int, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return 0, nil
 }
-
-// Release is a noop
 func (r *randomAllocator) Release(_ int) {
-	// noop
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// newPortAllocator builds PortAllocator for a given PortRange. If the PortRange is empty
-// then a random port allocator is returned; otherwise, a new range-based allocator
-// is returned.
 func newPortAllocator(r net.PortRange) PortAllocator {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if r.Base == 0 {
 		return &randomAllocator{}
 	}
@@ -75,31 +53,31 @@ type rangeAllocator struct {
 }
 
 func newPortRangeAllocator(r net.PortRange, autoFill bool) PortAllocator {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if r.Base == 0 || r.Size == 0 {
 		panic("illegal argument: may not specify an empty port range")
 	}
-	ra := &rangeAllocator{
-		PortRange: r,
-		ports:     make(chan int, portsBufSize),
-		rand:      rand.New(rand.NewSource(time.Now().UnixNano())),
-	}
+	ra := &rangeAllocator{PortRange: r, ports: make(chan int, portsBufSize), rand: rand.New(rand.NewSource(time.Now().UnixNano()))}
 	if autoFill {
-		go wait.Forever(func() { ra.fillPorts() }, nextFreePortCooldown)
+		go wait.Forever(func() {
+			ra.fillPorts()
+		}, nextFreePortCooldown)
 	}
 	return ra
 }
-
-// fillPorts loops, always searching for the next free port and, if found, fills the ports buffer with it.
-// this func blocks unless there are no remaining free ports.
 func (r *rangeAllocator) fillPorts() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for {
 		if !r.fillPortsOnce() {
 			return
 		}
 	}
 }
-
 func (r *rangeAllocator) fillPortsOnce() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	port := r.nextFreePort()
 	if port == -1 {
 		return false
@@ -107,22 +85,16 @@ func (r *rangeAllocator) fillPortsOnce() bool {
 	r.ports <- port
 	return true
 }
-
-// nextFreePort finds a free port, first picking a random port. if that port is already in use
-// then the port range is scanned sequentially until either a port is found or the scan completes
-// unsuccessfully. an unsuccessful scan returns a port of -1.
 func (r *rangeAllocator) nextFreePort() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r.lock.Lock()
 	defer r.lock.Unlock()
-
-	// choose random port
 	j := r.rand.Intn(r.Size)
 	if b := r.used.Bit(j); b == 0 {
 		r.used.SetBit(&r.used, j, 1)
 		return j + r.Base
 	}
-
-	// search sequentially
 	for i := j + 1; i < r.Size; i++ {
 		if b := r.used.Bit(i); b == 0 {
 			r.used.SetBit(&r.used, i, 1)
@@ -137,8 +109,9 @@ func (r *rangeAllocator) nextFreePort() int {
 	}
 	return -1
 }
-
 func (r *rangeAllocator) AllocateNext() (port int, err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	select {
 	case port = <-r.ports:
 	case <-time.After(allocateNextTimeout):
@@ -146,8 +119,9 @@ func (r *rangeAllocator) AllocateNext() (port int, err error) {
 	}
 	return
 }
-
 func (r *rangeAllocator) Release(port int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	port -= r.Base
 	if port < 0 || port >= r.Size {
 		return

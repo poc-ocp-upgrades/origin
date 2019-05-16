@@ -1,11 +1,16 @@
 package parallel
 
 import (
+	goformat "fmt"
+	goos "os"
+	godefaultruntime "runtime"
 	"sync"
+	gotime "time"
 )
 
-// Run executes the provided functions in parallel and collects any errors they return.
 func Run(fns ...func() error) []error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	wg := sync.WaitGroup{}
 	errCh := make(chan error, len(fns))
 	wg.Add(len(fns))
@@ -24,4 +29,8 @@ func Run(fns ...func() error) []error {
 		errs = append(errs, err)
 	}
 	return errs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

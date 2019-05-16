@@ -1,20 +1,24 @@
 package ingressadmission
 
 import (
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// SchemeGroupVersion is group version used to register these objects
 var GroupVersion = schema.GroupVersion{Group: "route.openshift.io", Version: runtime.APIVersionInternal}
 
-// Kind takes an unqualified kind and returns back a Group qualified GroupKind
 func Kind(kind string) schema.GroupKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return GroupVersion.WithKind(kind).GroupKind()
 }
-
-// Resource takes an unqualified resource and returns back a Group qualified GroupResource
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return GroupVersion.WithResource(resource).GroupResource()
 }
 
@@ -24,10 +28,17 @@ var (
 )
 
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(GroupVersion,
-		&IngressAdmissionConfig{},
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	scheme.AddKnownTypes(GroupVersion, &IngressAdmissionConfig{})
 	return nil
 }
-
-func (obj *IngressAdmissionConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *IngressAdmissionConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &obj.TypeMeta
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
+}

@@ -673,7 +673,7 @@ func TestValidObjectNames(t *testing.T) {
 	}
 
 	invalidNames := []string{
-		"", // Too short.
+		"",                        // Too short.
 		strings.Repeat("a", 1025), // Too long.
 		"new\nlines",
 		"bad\xffunicode",

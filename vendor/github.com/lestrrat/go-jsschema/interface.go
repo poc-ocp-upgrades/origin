@@ -20,6 +20,7 @@ const (
 // ErrExpectedArrayOfString is returned when we encounter
 // something other than array of strings
 var ErrExpectedArrayOfString = errors.New("invalid value: expected array of string")
+
 // ErrInvalidStringArray is the same as ErrExpectedArrayOfString.
 // This is here only for backwards compatibility
 var ErrInvalidStringArray = ErrExpectedArrayOfString

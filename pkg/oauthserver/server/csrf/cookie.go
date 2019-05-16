@@ -1,9 +1,12 @@
 package csrf
 
 import (
-	"net/http"
-
+	goformat "fmt"
 	"github.com/openshift/origin/pkg/oauthserver/server/crypto"
+	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type cookieCsrf struct {
@@ -13,51 +16,35 @@ type cookieCsrf struct {
 	secure bool
 }
 
-// NewCookieCSRF stores random CSRF tokens in a cookie created with the given options.
-// Empty CSRF tokens or tokens that do not match the value of the cookie on the request
-// are rejected.
 func NewCookieCSRF(name, path, domain string, secure bool) CSRF {
-	return &cookieCsrf{
-		name:   name,
-		path:   path,
-		domain: domain,
-		secure: secure,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &cookieCsrf{name: name, path: path, domain: domain, secure: secure}
 }
-
-// Generate implements the CSRF interface
 func (c *cookieCsrf) Generate(w http.ResponseWriter, req *http.Request) string {
-	// reuse the session cookie if we already have one
-	// this makes us more tolerant of multiple clicks against the login page
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cookie, err := req.Cookie(c.name)
 	if err == nil && len(cookie.Value) > 0 {
 		return cookie.Value
 	}
-
-	// do not set Expires or MaxAge to make this a session cookie
-	cookie = &http.Cookie{
-		Name:     c.name,
-		Value:    crypto.Random256BitsString(),
-		Path:     c.path,
-		Domain:   c.domain,
-		Secure:   c.secure,
-		HttpOnly: true,
-	}
+	cookie = &http.Cookie{Name: c.name, Value: crypto.Random256BitsString(), Path: c.path, Domain: c.domain, Secure: c.secure, HttpOnly: true}
 	http.SetCookie(w, cookie)
-
 	return cookie.Value
 }
-
-// Check implements the CSRF interface
 func (c *cookieCsrf) Check(req *http.Request, value string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(value) == 0 {
 		return false
 	}
-
 	cookie, err := req.Cookie(c.name)
-	if err != nil { // the only error returned here is ErrNoCookie
+	if err != nil {
 		return false
 	}
-
 	return crypto.IsEqualConstantTime(cookie.Value, value)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

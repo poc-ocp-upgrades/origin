@@ -168,22 +168,22 @@ func TestClient(t *testing.T) {
 		Description: "VSAN Test policy create",
 		Category:    string(types.PbmProfileCategoryEnumREQUIREMENT),
 		CapabilityList: []Capability{
-			Capability{
+			{
 				ID:        "hostFailuresToTolerate",
 				Namespace: "VSAN",
 				PropertyList: []Property{
-					Property{
+					{
 						ID:       "hostFailuresToTolerate",
 						Value:    "2",
 						DataType: "int",
 					},
 				},
 			},
-			Capability{
+			{
 				ID:        "stripeWidth",
 				Namespace: "VSAN",
 				PropertyList: []Property{
-					Property{
+					{
 						ID:       "stripeWidth",
 						Value:    "1",
 						DataType: "int",
@@ -233,32 +233,32 @@ func TestClient(t *testing.T) {
 		Description: "VSAN-SIOC-Test policy create",
 		Category:    string(types.PbmProfileCategoryEnumREQUIREMENT),
 		CapabilityList: []Capability{
-			Capability{
+			{
 				ID:        "stripeWidth",
 				Namespace: "VSAN",
 				PropertyList: []Property{
-					Property{
+					{
 						ID:       "stripeWidth",
 						Value:    "1",
 						DataType: "int",
 					},
 				},
 			},
-			Capability{
+			{
 				ID:        "spm@DATASTOREIOCONTROL",
 				Namespace: "spm",
 				PropertyList: []Property{
-					Property{
+					{
 						ID:       "limit",
 						Value:    "200",
 						DataType: "int",
 					},
-					Property{
+					{
 						ID:       "reservation",
 						Value:    "1000",
 						DataType: "int",
 					},
-					Property{
+					{
 						ID:       "shares",
 						Value:    "2000",
 						DataType: "int",

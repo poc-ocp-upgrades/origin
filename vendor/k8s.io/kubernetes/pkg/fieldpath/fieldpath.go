@@ -1,33 +1,20 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package fieldpath
 
 import (
 	"fmt"
-	"strings"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/validation"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
-// FormatMap formats map[string]string to a string.
 func FormatMap(m map[string]string) (fmtStr string) {
-	// output with keys in sorted order to provide stable output
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	keys := sets.NewString()
 	for key := range m {
 		keys.Insert(key)
@@ -36,19 +23,15 @@ func FormatMap(m map[string]string) (fmtStr string) {
 		fmtStr += fmt.Sprintf("%v=%q\n", key, m[key])
 	}
 	fmtStr = strings.TrimSuffix(fmtStr, "\n")
-
 	return
 }
-
-// ExtractFieldPathAsString extracts the field from the given object
-// and returns it as a string.  The object must be a pointer to an
-// API type.
 func ExtractFieldPathAsString(obj interface{}, fieldPath string) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	accessor, err := meta.Accessor(obj)
 	if err != nil {
 		return "", nil
 	}
-
 	if path, subscript, ok := SplitMaybeSubscriptedPath(fieldPath); ok {
 		switch path {
 		case "metadata.annotations":
@@ -65,7 +48,6 @@ func ExtractFieldPathAsString(obj interface{}, fieldPath string) (string, error)
 			return "", fmt.Errorf("fieldPath %q does not support subscript", fieldPath)
 		}
 	}
-
 	switch fieldPath {
 	case "metadata.annotations":
 		return FormatMap(accessor.GetAnnotations()), nil
@@ -78,22 +60,11 @@ func ExtractFieldPathAsString(obj interface{}, fieldPath string) (string, error)
 	case "metadata.uid":
 		return string(accessor.GetUID()), nil
 	}
-
 	return "", fmt.Errorf("unsupported fieldPath: %v", fieldPath)
 }
-
-// SplitMaybeSubscriptedPath checks whether the specified fieldPath is
-// subscripted, and
-//  - if yes, this function splits the fieldPath into path and subscript, and
-//    returns (path, subscript, true).
-//  - if no, this function returns (fieldPath, "", false).
-//
-// Example inputs and outputs:
-//  - "metadata.annotations['myKey']" --> ("metadata.annotations", "myKey", true)
-//  - "metadata.annotations['a[b]c']" --> ("metadata.annotations", "a[b]c", true)
-//  - "metadata.labels['']"           --> ("metadata.labels", "", true)
-//  - "metadata.labels"               --> ("metadata.labels", "", false)
 func SplitMaybeSubscriptedPath(fieldPath string) (string, string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !strings.HasSuffix(fieldPath, "']") {
 		return fieldPath, "", false
 	}
@@ -106,4 +77,8 @@ func SplitMaybeSubscriptedPath(fieldPath string) (string, string, bool) {
 		return fieldPath, "", false
 	}
 	return parts[0], parts[1], true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

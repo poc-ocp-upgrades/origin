@@ -360,7 +360,7 @@ func newReplyPacket(req Packet, mt MessageType, serverId, yIAddr net.IP, leaseDu
 // oneOptionSlice is a test helper of []Option with a single
 // Option.
 var oneOptionSlice = []Option{
-	Option{
+	{
 		Code:  OptionSubnetMask,
 		Value: []byte{255, 255, 255, 0},
 	},
@@ -369,11 +369,11 @@ var oneOptionSlice = []Option{
 // twoOptionSlice is a test helper of []Option with two
 // Option values.
 var twoOptionsSlice = []Option{
-	Option{
+	{
 		Code:  OptionSubnetMask,
 		Value: []byte{255, 255, 255, 0},
 	},
-	Option{
+	{
 		Code:  OptionDomainNameServer,
 		Value: []byte{8, 8, 8, 8},
 	},
@@ -396,7 +396,7 @@ var optionsTests = []struct {
 	{
 		description: "padding option",
 		options: []Option{
-			Option{
+			{
 				Code: Pad,
 			},
 		},
@@ -412,19 +412,19 @@ var optionsTests = []struct {
 	{
 		description: "four options",
 		options: []Option{
-			Option{
+			{
 				Code:  OptionSubnetMask,
 				Value: []byte{255, 255, 255, 0},
 			},
-			Option{
+			{
 				Code:  OptionDomainNameServer,
 				Value: []byte{8, 8, 8, 8},
 			},
-			Option{
+			{
 				Code:  OptionTimeServer,
 				Value: []byte{127, 0, 0, 1},
 			},
-			Option{
+			{
 				Code:  OptionMessage,
 				Value: []byte{'h', 'e', 'l', 'l', 'o', 'w', 'o', 'r', 'l', 'd'},
 			},

@@ -1,45 +1,28 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
 	"io/ioutil"
+	"k8s.io/klog"
 	"os"
+	goos "os"
 	"os/exec"
 	"path/filepath"
+	godefaultruntime "runtime"
 	"strings"
-
-	"k8s.io/klog"
+	gotime "time"
 )
 
-// DataDirectory provides utilities for initializing and backing up an
-// etcd "data-dir" as well as managing a version.txt file to track the
-// etcd server version and storage verion of the etcd data in the
-// directory.
 type DataDirectory struct {
 	path        string
 	versionFile *VersionFile
 }
 
-// OpenOrCreateDataDirectory opens a data directory, creating the directory
-// if it doesn't not already exist.
 func OpenOrCreateDataDirectory(path string) (*DataDirectory, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	exists, err := exists(path)
 	if err != nil {
 		return nil, err
@@ -51,17 +34,12 @@ func OpenOrCreateDataDirectory(path string) (*DataDirectory, error) {
 			return nil, fmt.Errorf("failed to create data directory %s: %v", path, err)
 		}
 	}
-	versionFile := &VersionFile{
-		path: filepath.Join(path, versionFilename),
-	}
+	versionFile := &VersionFile{path: filepath.Join(path, versionFilename)}
 	return &DataDirectory{path, versionFile}, nil
 }
-
-// Initialize set the version.txt to the target version if the data
-// directory is empty. If the data directory is non-empty, no
-// version.txt file will be written since the actual version of etcd
-// used to create the data is unknown.
 func (d *DataDirectory) Initialize(target *EtcdVersionPair) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	isEmpty, err := d.IsEmpty()
 	if err != nil {
 		return err
@@ -76,9 +54,9 @@ func (d *DataDirectory) Initialize(target *EtcdVersionPair) error {
 	}
 	return nil
 }
-
-// Backup creates a backup copy of data directory.
 func (d *DataDirectory) Backup() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	backupDir := fmt.Sprintf("%s.bak", d.path)
 	err := os.RemoveAll(backupDir)
 	if err != nil {
@@ -92,12 +70,11 @@ func (d *DataDirectory) Backup() error {
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
-
-// IsEmpty returns true if the data directory is entirely empty.
 func (d *DataDirectory) IsEmpty() (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dir, err := os.Open(d.path)
 	if err != nil {
 		return false, fmt.Errorf("failed to open data directory %s: %v", d.path, err)
@@ -109,26 +86,22 @@ func (d *DataDirectory) IsEmpty() (bool, error) {
 	}
 	return false, err
 }
-
-// String returns the data directory path.
 func (d *DataDirectory) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return d.path
 }
 
-// VersionFile provides utilities for reading and writing version.txt files
-// to etcd "data-dir" for tracking the etcd server and storage verions
-// of the data in the directory.
-type VersionFile struct {
-	path string
-}
+type VersionFile struct{ path string }
 
-// Exists returns true if a version.txt file exists on the filesystem.
 func (v *VersionFile) Exists() (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return exists(v.path)
 }
-
-// Read parses the version.txt file and returns it's contents.
 func (v *VersionFile) Read() (*EtcdVersionPair, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data, err := ioutil.ReadFile(v.path)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read version file %s: %v", v.path, err)
@@ -140,18 +113,23 @@ func (v *VersionFile) Read() (*EtcdVersionPair, error) {
 	}
 	return vp, nil
 }
-
-// Write creates or overwrites the contents of the version.txt file with the given EtcdVersionPair.
 func (v *VersionFile) Write(vp *EtcdVersionPair) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data := []byte(fmt.Sprintf("%s/%s", vp.version, vp.storageVersion))
 	return ioutil.WriteFile(v.path, data, 0666)
 }
-
 func exists(path string) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		return false, nil
 	} else if err != nil {
 		return false, err
 	}
 	return true, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -1,19 +1,3 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
@@ -21,9 +5,7 @@ import (
 	"encoding/json"
 	goflag "flag"
 	"fmt"
-	"net/http"
-	"time"
-
+	goformat "fmt"
 	"github.com/gogo/protobuf/proto"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -31,9 +13,13 @@ import (
 	"github.com/prometheus/common/expfmt"
 	"github.com/spf13/pflag"
 	"k8s.io/klog"
+	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// Initialize the prometheus instrumentation and client related flags.
 var (
 	listenAddress        string
 	metricsPath          string
@@ -43,6 +29,8 @@ var (
 )
 
 func registerFlags(fs *pflag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fs.StringVar(&listenAddress, "listen-address", "localhost:9101", "Address to listen on for serving prometheus metrics")
 	fs.StringVar(&metricsPath, "metrics-path", "/metrics", "Path under which prometheus metrics are to be served")
 	fs.StringVar(&etcdVersionScrapeURI, "etcd-version-scrape-uri", "http://localhost:2379/version", "URI to scrape etcd version info")
@@ -51,104 +39,42 @@ func registerFlags(fs *pflag.FlagSet) {
 }
 
 const (
-	namespace = "etcd" // For prefixing prometheus metrics
+	namespace = "etcd"
 )
 
-// Initialize prometheus metrics to be exported.
 var (
-	// Register all custom metrics with a dedicated registry to keep them separate.
 	customMetricRegistry = prometheus.NewRegistry()
-
-	// Custom etcd version metric since etcd 3.2- does not export one.
-	// This will be replaced by https://github.com/coreos/etcd/pull/8960 in etcd 3.3.
-	etcdVersion = prometheus.NewGaugeVec(
-		prometheus.GaugeOpts{
-			Namespace: namespace,
-			Name:      "version_info",
-			Help:      "Etcd server's binary version",
-		},
-		[]string{"binary_version"})
-
-	gatherer = &monitorGatherer{
-		// Rewrite rules for etcd metrics that are exported by default.
-		exported: map[string]*exportedMetric{
-			// etcd 3.0 metric format for total grpc requests with renamed method and service labels.
-			"etcd_grpc_requests_total": {
-				rewriters: []rewriteFunc{
-					func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
-						mf = deepCopyMetricFamily(mf)
-						renameLabels(mf, map[string]string{
-							"grpc_method":  "method",
-							"grpc_service": "service",
-						})
-						return mf, nil
-					},
-				},
-			},
-			// etcd 3.1+ metric format for total grpc requests.
-			"grpc_server_handled_total": {
-				rewriters: []rewriteFunc{
-					// Export the metric exactly as-is. For 3.1+ metrics, we will
-					// pass all metrics directly through.
-					identity,
-					// Write to the etcd 3.0 metric format for backward compatibility.
-					func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
-						mf = deepCopyMetricFamily(mf)
-						renameMetric(mf, "etcd_grpc_requests_total")
-						renameLabels(mf, map[string]string{
-							"grpc_method":  "method",
-							"grpc_service": "service",
-						})
-						filterMetricsByLabels(mf, map[string]string{
-							"grpc_type": "unary",
-						})
-						groupCounterMetricsByLabels(mf, map[string]bool{
-							"grpc_type": true,
-							"grpc_code": true,
-						})
-						return mf, nil
-					},
-				},
-			},
-
-			// etcd 3.0 metric format for grpc request latencies,
-			// rewritten to the etcd 3.1+ format.
-			"etcd_grpc_unary_requests_duration_seconds": {
-				rewriters: []rewriteFunc{
-					func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
-						mf = deepCopyMetricFamily(mf)
-						renameMetric(mf, "grpc_server_handling_seconds")
-						tpeName := "grpc_type"
-						tpeVal := "unary"
-						for _, m := range mf.Metric {
-							m.Label = append(m.Label, &dto.LabelPair{Name: &tpeName, Value: &tpeVal})
-						}
-						return mf, nil
-					},
-				},
-			},
-			// etcd 3.1+ metric format for total grpc requests.
-			"grpc_server_handling_seconds": {},
-		},
-	}
+	etcdVersion          = prometheus.NewGaugeVec(prometheus.GaugeOpts{Namespace: namespace, Name: "version_info", Help: "Etcd server's binary version"}, []string{"binary_version"})
+	gatherer             = &monitorGatherer{exported: map[string]*exportedMetric{"etcd_grpc_requests_total": {rewriters: []rewriteFunc{func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
+		mf = deepCopyMetricFamily(mf)
+		renameLabels(mf, map[string]string{"grpc_method": "method", "grpc_service": "service"})
+		return mf, nil
+	}}}, "grpc_server_handled_total": {rewriters: []rewriteFunc{identity, func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
+		mf = deepCopyMetricFamily(mf)
+		renameMetric(mf, "etcd_grpc_requests_total")
+		renameLabels(mf, map[string]string{"grpc_method": "method", "grpc_service": "service"})
+		filterMetricsByLabels(mf, map[string]string{"grpc_type": "unary"})
+		groupCounterMetricsByLabels(mf, map[string]bool{"grpc_type": true, "grpc_code": true})
+		return mf, nil
+	}}}, "etcd_grpc_unary_requests_duration_seconds": {rewriters: []rewriteFunc{func(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
+		mf = deepCopyMetricFamily(mf)
+		renameMetric(mf, "grpc_server_handling_seconds")
+		tpeName := "grpc_type"
+		tpeVal := "unary"
+		for _, m := range mf.Metric {
+			m.Label = append(m.Label, &dto.LabelPair{Name: &tpeName, Value: &tpeVal})
+		}
+		return mf, nil
+	}}}, "grpc_server_handling_seconds": {}}}
 )
 
-// monitorGatherer is a custom metric gatherer for prometheus that exports custom metrics
-// defined by this monitor as well as rewritten etcd metrics.
-type monitorGatherer struct {
-	exported map[string]*exportedMetric
-}
-
-// exportedMetric identifies a metric that is exported and defines how it is rewritten before
-// it is exported.
-type exportedMetric struct {
-	rewriters []rewriteFunc
-}
-
-// rewriteFunc rewrites metrics before they are exported.
+type monitorGatherer struct{ exported map[string]*exportedMetric }
+type exportedMetric struct{ rewriters []rewriteFunc }
 type rewriteFunc func(mf *dto.MetricFamily) (*dto.MetricFamily, error)
 
 func (m *monitorGatherer) Gather() ([]*dto.MetricFamily, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	etcdMetrics, err := scrapeMetrics()
 	if err != nil {
 		return nil, err
@@ -166,12 +92,12 @@ func (m *monitorGatherer) Gather() ([]*dto.MetricFamily, error) {
 	result = append(result, custom...)
 	return result, nil
 }
-
 func (m *monitorGatherer) rewriteExportedMetrics(metrics map[string]*dto.MetricFamily) ([]*dto.MetricFamily, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	results := make([]*dto.MetricFamily, 0, len(metrics))
 	for n, mf := range metrics {
 		if e, ok := m.exported[n]; ok {
-			// Apply rewrite rules for metrics that have them.
 			if e.rewriters == nil {
 				results = append(results, mf)
 			} else {
@@ -184,64 +110,50 @@ func (m *monitorGatherer) rewriteExportedMetrics(metrics map[string]*dto.MetricF
 				}
 			}
 		} else {
-			// Proxy all metrics without any rewrite rules directly.
 			results = append(results, mf)
 		}
 	}
 	return results, nil
 }
 
-// Struct for unmarshalling the json response from etcd's /version endpoint.
 type EtcdVersion struct {
 	BinaryVersion  string `json:"etcdserver"`
 	ClusterVersion string `json:"etcdcluster"`
 }
 
-// Function for fetching etcd version info and feeding it to the prometheus metric.
 func getVersion(lastSeenBinaryVersion *string) error {
-	// Create the get request for the etcd version endpoint.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, err := http.NewRequest("GET", etcdVersionScrapeURI, nil)
 	if err != nil {
 		return fmt.Errorf("Failed to create GET request for etcd version: %v", err)
 	}
-
-	// Send the get request and receive a response.
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return fmt.Errorf("Failed to receive GET response for etcd version: %v", err)
 	}
 	defer resp.Body.Close()
-
-	// Obtain EtcdVersion from the JSON response.
 	var version EtcdVersion
 	if err := json.NewDecoder(resp.Body).Decode(&version); err != nil {
 		return fmt.Errorf("Failed to decode etcd version JSON: %v", err)
 	}
-
-	// Return without updating the version if it stayed the same since last time.
 	if *lastSeenBinaryVersion == version.BinaryVersion {
 		return nil
 	}
-
-	// Delete the metric for the previous version.
 	if *lastSeenBinaryVersion != "" {
 		deleted := etcdVersion.Delete(prometheus.Labels{"binary_version": *lastSeenBinaryVersion})
 		if !deleted {
 			return fmt.Errorf("Failed to delete previous version's metric")
 		}
 	}
-
-	// Record the new version in a metric.
-	etcdVersion.With(prometheus.Labels{
-		"binary_version": version.BinaryVersion,
-	}).Set(0)
+	etcdVersion.With(prometheus.Labels{"binary_version": version.BinaryVersion}).Set(0)
 	*lastSeenBinaryVersion = version.BinaryVersion
 	return nil
 }
-
-// Periodically fetches etcd version info.
 func getVersionPeriodically(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	lastSeenBinaryVersion := ""
 	for {
 		if err := getVersion(&lastSeenBinaryVersion); err != nil {
@@ -254,32 +166,30 @@ func getVersionPeriodically(stopCh <-chan struct{}) {
 		}
 	}
 }
-
-// scrapeMetrics scrapes the prometheus metrics from the etcd metrics URI.
 func scrapeMetrics() (map[string]*dto.MetricFamily, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, err := http.NewRequest("GET", etcdMetricsScrapeURI, nil)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to create GET request for etcd metrics: %v", err)
 	}
-
-	// Send the get request and receive a response.
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return nil, fmt.Errorf("Failed to receive GET response for etcd metrics: %v", err)
 	}
 	defer resp.Body.Close()
-
-	// Parse the metrics in text format to a MetricFamily struct.
 	var textParser expfmt.TextParser
 	return textParser.TextToMetricFamilies(resp.Body)
 }
-
 func renameMetric(mf *dto.MetricFamily, name string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	mf.Name = &name
 }
-
 func renameLabels(mf *dto.MetricFamily, nameMapping map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, m := range mf.Metric {
 		for _, lbl := range m.Label {
 			if alias, ok := nameMapping[*lbl.Name]; ok {
@@ -288,8 +198,9 @@ func renameLabels(mf *dto.MetricFamily, nameMapping map[string]string) {
 		}
 	}
 }
-
 func filterMetricsByLabels(mf *dto.MetricFamily, labelValues map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	buf := mf.Metric[:0]
 	for _, m := range mf.Metric {
 		shouldRemove := false
@@ -305,8 +216,9 @@ func filterMetricsByLabels(mf *dto.MetricFamily, labelValues map[string]string) 
 	}
 	mf.Metric = buf
 }
-
 func groupCounterMetricsByLabels(mf *dto.MetricFamily, names map[string]bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	buf := mf.Metric[:0]
 	deleteLabels(mf, names)
 	byLabels := map[string]*dto.Metric{}
@@ -320,8 +232,9 @@ func groupCounterMetricsByLabels(mf *dto.MetricFamily, names map[string]bool) {
 	}
 	mf.Metric = buf
 }
-
 func labelsKey(lbls []*dto.LabelPair) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var buf bytes.Buffer
 	for i, lbl := range lbls {
 		buf.WriteString(lbl.String())
@@ -331,8 +244,9 @@ func labelsKey(lbls []*dto.LabelPair) string {
 	}
 	return buf.String()
 }
-
 func deleteLabels(mf *dto.MetricFamily, names map[string]bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, m := range mf.Metric {
 		buf := m.Label[:0]
 		for _, lbl := range m.Label {
@@ -344,12 +258,14 @@ func deleteLabels(mf *dto.MetricFamily, names map[string]bool) {
 		m.Label = buf
 	}
 }
-
 func identity(mf *dto.MetricFamily) (*dto.MetricFamily, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return mf, nil
 }
-
 func deepCopyMetricFamily(mf *dto.MetricFamily) *dto.MetricFamily {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r := &dto.MetricFamily{}
 	r.Name = mf.Name
 	r.Help = mf.Help
@@ -360,8 +276,9 @@ func deepCopyMetricFamily(mf *dto.MetricFamily) *dto.MetricFamily {
 	}
 	return r
 }
-
 func deepCopyMetric(m *dto.Metric) *dto.Metric {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r := &dto.Metric{}
 	r.Label = make([]*dto.LabelPair, len(m.Label))
 	for i, lp := range m.Label {
@@ -375,31 +292,30 @@ func deepCopyMetric(m *dto.Metric) *dto.Metric {
 	r.TimestampMs = m.TimestampMs
 	return r
 }
-
 func deepCopyLabelPair(lp *dto.LabelPair) *dto.LabelPair {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r := &dto.LabelPair{}
 	r.Name = lp.Name
 	r.Value = lp.Value
 	return r
 }
-
 func main() {
-	// Register the commandline flags passed to the tool.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	registerFlags(pflag.CommandLine)
 	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
 	pflag.Parse()
-
-	// Register the metrics we defined above with prometheus.
 	customMetricRegistry.MustRegister(etcdVersion)
 	customMetricRegistry.Unregister(prometheus.NewGoCollector())
-
-	// Spawn threads for periodically scraping etcd version metrics.
 	stopCh := make(chan struct{})
 	defer close(stopCh)
 	go getVersionPeriodically(stopCh)
-
-	// Serve our metrics on listenAddress/metricsPath.
 	klog.Infof("Listening on: %v", listenAddress)
 	http.Handle(metricsPath, promhttp.HandlerFor(gatherer, promhttp.HandlerOpts{}))
 	klog.Errorf("Stopped listening/serving metrics: %v", http.ListenAndServe(listenAddress, nil))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

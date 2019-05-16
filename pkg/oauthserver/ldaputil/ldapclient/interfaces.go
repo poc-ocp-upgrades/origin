@@ -1,10 +1,20 @@
 package ldapclient
 
-import "gopkg.in/ldap.v2"
+import (
+	goformat "fmt"
+	"gopkg.in/ldap.v2"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
+)
 
-// Config knows how to connect to an LDAP server and can describe which server it is connecting to
 type Config interface {
 	Connect() (client ldap.Client, err error)
 	GetBindCredentials() (bindDN, bindPassword string)
 	Host() string
+}
+
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

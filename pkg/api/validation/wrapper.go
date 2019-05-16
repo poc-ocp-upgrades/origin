@@ -2,10 +2,9 @@ package validation
 
 import (
 	"fmt"
-	"reflect"
-
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
+	"reflect"
 )
 
 type WrappingValidator struct {
@@ -14,25 +13,26 @@ type WrappingValidator struct {
 }
 
 func (v *WrappingValidator) Validate(obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return callValidate(reflect.ValueOf(obj), *v.validate)
 }
-
 func (v *WrappingValidator) ValidateUpdate(obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if v.validateUpdate == nil {
-		// if there is no update validation, fail.
 		return field.ErrorList{field.Forbidden(field.NewPath("obj"), fmt.Sprintf("%v", obj))}
 	}
-
 	return callValidateUpdate(reflect.ValueOf(obj), reflect.ValueOf(old), *v.validateUpdate)
 }
-
 func NewValidationWrapper(validateFunction interface{}, validateUpdateFunction interface{}) (*WrappingValidator, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	validateFunctionValue := reflect.ValueOf(validateFunction)
 	validateType := validateFunctionValue.Type()
 	if err := verifyValidateFunctionSignature(validateType); err != nil {
 		return nil, err
 	}
-
 	var validateUpdateFunctionValue *reflect.Value
 	if validateUpdateFunction != nil {
 		functionValue := reflect.ValueOf(validateUpdateFunction)
@@ -40,14 +40,13 @@ func NewValidationWrapper(validateFunction interface{}, validateUpdateFunction i
 		if err := verifyValidateUpdateFunctionSignature(validateUpdateType); err != nil {
 			return nil, err
 		}
-
 		validateUpdateFunctionValue = &functionValue
 	}
-
 	return &WrappingValidator{&validateFunctionValue, validateUpdateFunctionValue}, nil
 }
-
 func verifyValidateFunctionSignature(ft reflect.Type) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if ft.Kind() != reflect.Func {
 		return fmt.Errorf("expected func, got: %v", ft)
 	}
@@ -66,8 +65,9 @@ func verifyValidateFunctionSignature(ft reflect.Type) error {
 	}
 	return nil
 }
-
 func verifyValidateUpdateFunctionSignature(ft reflect.Type) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if ft.Kind() != reflect.Func {
 		return fmt.Errorf("expected func, got: %v", ft)
 	}
@@ -89,26 +89,21 @@ func verifyValidateUpdateFunctionSignature(ft reflect.Type) error {
 	}
 	return nil
 }
-
-// callCustom calls 'custom' with sv & dv. custom must be a conversion function.
 func callValidate(obj, validateMethod reflect.Value) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	args := []reflect.Value{obj}
 	ret := validateMethod.Call(args)[0].Interface()
-
-	// This convolution is necessary because nil interfaces won't convert
-	// to errors.
 	if ret == nil {
 		return nil
 	}
 	return ret.(field.ErrorList)
 }
-
 func callValidateUpdate(obj, old, validateMethod reflect.Value) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	args := []reflect.Value{obj, old}
 	ret := validateMethod.Call(args)[0].Interface()
-
-	// This convolution is necessary because nil interfaces won't convert
-	// to errors.
 	if ret == nil {
 		return nil
 	}

@@ -1,26 +1,9 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package storage
 
 import (
 	"context"
 	"fmt"
-	"net/http"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -43,9 +26,12 @@ import (
 	printersinternal "k8s.io/kubernetes/pkg/printers/internalversion"
 	printerstorage "k8s.io/kubernetes/pkg/printers/storage"
 	"k8s.io/kubernetes/pkg/registry/apps/deployment"
+	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// DeploymentStorage includes dummy storage for Deployments and for Scale subresource.
 type DeploymentStorage struct {
 	Deployment *REST
 	Status     *StatusREST
@@ -54,14 +40,10 @@ type DeploymentStorage struct {
 }
 
 func NewStorage(optsGetter generic.RESTOptionsGetter) DeploymentStorage {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	deploymentRest, deploymentStatusRest, deploymentRollbackRest := NewREST(optsGetter)
-
-	return DeploymentStorage{
-		Deployment: deploymentRest,
-		Status:     deploymentStatusRest,
-		Scale:      &ScaleREST{store: deploymentRest.Store},
-		Rollback:   deploymentRollbackRest,
-	}
+	return DeploymentStorage{Deployment: deploymentRest, Status: deploymentStatusRest, Scale: &ScaleREST{store: deploymentRest.Store}, Rollback: deploymentRollbackRest}
 }
 
 type REST struct {
@@ -69,120 +51,105 @@ type REST struct {
 	categories []string
 }
 
-// NewREST returns a RESTStorage object that will work against deployments.
 func NewREST(optsGetter generic.RESTOptionsGetter) (*REST, *StatusREST, *RollbackREST) {
-	store := &genericregistry.Store{
-		NewFunc:                  func() runtime.Object { return &apps.Deployment{} },
-		NewListFunc:              func() runtime.Object { return &apps.DeploymentList{} },
-		DefaultQualifiedResource: apps.Resource("deployments"),
-
-		CreateStrategy: deployment.Strategy,
-		UpdateStrategy: deployment.Strategy,
-		DeleteStrategy: deployment.Strategy,
-
-		TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	store := &genericregistry.Store{NewFunc: func() runtime.Object {
+		return &apps.Deployment{}
+	}, NewListFunc: func() runtime.Object {
+		return &apps.DeploymentList{}
+	}, DefaultQualifiedResource: apps.Resource("deployments"), CreateStrategy: deployment.Strategy, UpdateStrategy: deployment.Strategy, DeleteStrategy: deployment.Strategy, TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}}
 	options := &generic.StoreOptions{RESTOptions: optsGetter}
 	if err := store.CompleteWithOptions(options); err != nil {
-		panic(err) // TODO: Propagate error up
+		panic(err)
 	}
-
 	statusStore := *store
 	statusStore.UpdateStrategy = deployment.StatusStrategy
 	return &REST{store, []string{"all"}}, &StatusREST{store: &statusStore}, &RollbackREST{store: store}
 }
 
-// Implement ShortNamesProvider
 var _ rest.ShortNamesProvider = &REST{}
 
-// ShortNames implements the ShortNamesProvider interface. Returns a list of short names for a resource.
 func (r *REST) ShortNames() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return []string{"deploy"}
 }
 
-// Implement CategoriesProvider
 var _ rest.CategoriesProvider = &REST{}
 
-// Categories implements the CategoriesProvider interface. Returns a list of categories a resource is part of.
 func (r *REST) Categories() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.categories
 }
-
 func (r *REST) WithCategories(categories []string) *REST {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r.categories = categories
 	return r
 }
 
-// StatusREST implements the REST endpoint for changing the status of a deployment
-type StatusREST struct {
-	store *genericregistry.Store
-}
+type StatusREST struct{ store *genericregistry.Store }
 
 func (r *StatusREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &apps.Deployment{}
 }
-
-// Get retrieves the object from the storage. It is required to support Patch.
 func (r *StatusREST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Get(ctx, name, options)
 }
-
-// Update alters the status subset of an object.
 func (r *StatusREST) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
-	// We are explicitly setting forceAllowCreate to false in the call to the underlying storage because
-	// subresources should never allow create on update.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Update(ctx, name, objInfo, createValidation, updateValidation, false, options)
 }
 
-// RollbackREST implements the REST endpoint for initiating the rollback of a deployment
-type RollbackREST struct {
-	store *genericregistry.Store
-}
+type RollbackREST struct{ store *genericregistry.Store }
 
-// ProducesMIMETypes returns a list of the MIME types the specified HTTP verb (GET, POST, DELETE,
-// PATCH) can respond with.
 func (r *RollbackREST) ProducesMIMETypes(verb string) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil
 }
-
-// ProducesObject returns an object the specified HTTP verb respond with. It will overwrite storage object if
-// it is not nil. Only the type of the return object matters, the value will be ignored.
 func (r *RollbackREST) ProducesObject(verb string) interface{} {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return metav1.Status{}
 }
 
 var _ = rest.StorageMetadata(&RollbackREST{})
 
-// New creates a rollback
 func (r *RollbackREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &apps.DeploymentRollback{}
 }
 
 var _ = rest.Creater(&RollbackREST{})
 
 func (r *RollbackREST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rollback, ok := obj.(*apps.DeploymentRollback)
 	if !ok {
 		return nil, errors.NewBadRequest(fmt.Sprintf("not a DeploymentRollback: %#v", obj))
 	}
-
 	if errs := appsvalidation.ValidateDeploymentRollback(rollback); len(errs) != 0 {
 		return nil, errors.NewInvalid(apps.Kind("DeploymentRollback"), rollback.Name, errs)
 	}
-
-	// Update the Deployment with information in DeploymentRollback to trigger rollback
 	err := r.rollbackDeployment(ctx, rollback.Name, &rollback.RollbackTo, rollback.UpdatedAnnotations, dryrun.IsDryRun(options.DryRun))
 	if err != nil {
 		return nil, err
 	}
-	return &metav1.Status{
-		Status:  metav1.StatusSuccess,
-		Message: fmt.Sprintf("rollback request for deployment %q succeeded", rollback.Name),
-		Code:    http.StatusOK,
-	}, nil
+	return &metav1.Status{Status: metav1.StatusSuccess, Message: fmt.Sprintf("rollback request for deployment %q succeeded", rollback.Name), Code: http.StatusOK}, nil
 }
-
 func (r *RollbackREST) rollbackDeployment(ctx context.Context, deploymentID string, config *apps.RollbackConfig, annotations map[string]string, dryRun bool) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if _, err := r.setDeploymentRollback(ctx, deploymentID, config, annotations, dryRun); err != nil {
 		err = storeerr.InterpretGetError(err, apps.Resource("deployments"), deploymentID)
 		err = storeerr.InterpretUpdateError(err, apps.Resource("deployments"), deploymentID)
@@ -193,8 +160,9 @@ func (r *RollbackREST) rollbackDeployment(ctx context.Context, deploymentID stri
 	}
 	return nil
 }
-
 func (r *RollbackREST) setDeploymentRollback(ctx context.Context, deploymentID string, config *apps.RollbackConfig, annotations map[string]string, dryRun bool) (*apps.Deployment, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dKey, err := r.store.KeyFunc(ctx, deploymentID)
 	if err != nil {
 		return nil, err
@@ -218,15 +186,14 @@ func (r *RollbackREST) setDeploymentRollback(ctx context.Context, deploymentID s
 	return finalDeployment, err
 }
 
-type ScaleREST struct {
-	store *genericregistry.Store
-}
+type ScaleREST struct{ store *genericregistry.Store }
 
-// ScaleREST implements Patcher
 var _ = rest.Patcher(&ScaleREST{})
 var _ = rest.GroupVersionKindProvider(&ScaleREST{})
 
 func (r *ScaleREST) GroupVersionKind(containingGV schema.GroupVersion) schema.GroupVersionKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch containingGV {
 	case extensionsv1beta1.SchemeGroupVersion:
 		return extensionsv1beta1.SchemeGroupVersion.WithKind("Scale")
@@ -238,13 +205,14 @@ func (r *ScaleREST) GroupVersionKind(containingGV schema.GroupVersion) schema.Gr
 		return autoscalingv1.SchemeGroupVersion.WithKind("Scale")
 	}
 }
-
-// New creates a new Scale object
 func (r *ScaleREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &autoscaling.Scale{}
 }
-
 func (r *ScaleREST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := r.store.Get(ctx, name, options)
 	if err != nil {
 		return nil, errors.NewNotFound(apps.Resource("deployments/scale"), name)
@@ -256,19 +224,18 @@ func (r *ScaleREST) Get(ctx context.Context, name string, options *metav1.GetOpt
 	}
 	return scale, nil
 }
-
 func (r *ScaleREST) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := r.store.Get(ctx, name, &metav1.GetOptions{})
 	if err != nil {
 		return nil, false, errors.NewNotFound(apps.Resource("deployments/scale"), name)
 	}
 	deployment := obj.(*apps.Deployment)
-
 	oldScale, err := scaleFromDeployment(deployment)
 	if err != nil {
 		return nil, false, err
 	}
-
 	obj, err = objInfo.UpdatedObject(ctx, oldScale)
 	if err != nil {
 		return nil, false, err
@@ -280,11 +247,9 @@ func (r *ScaleREST) Update(ctx context.Context, name string, objInfo rest.Update
 	if !ok {
 		return nil, false, errors.NewBadRequest(fmt.Sprintf("expected input object type to be Scale, but %T", obj))
 	}
-
 	if errs := autoscalingvalidation.ValidateScale(scale); len(errs) > 0 {
 		return nil, false, errors.NewInvalid(autoscaling.Kind("Scale"), name, errs)
 	}
-
 	deployment.Spec.Replicas = scale.Spec.Replicas
 	deployment.ResourceVersion = scale.ResourceVersion
 	obj, _, err = r.store.Update(ctx, deployment.Name, rest.DefaultUpdatedObjectInfo(deployment), createValidation, updateValidation, false, options)
@@ -298,28 +263,16 @@ func (r *ScaleREST) Update(ctx context.Context, name string, objInfo rest.Update
 	}
 	return newScale, false, nil
 }
-
-// scaleFromDeployment returns a scale subresource for a deployment.
 func scaleFromDeployment(deployment *apps.Deployment) (*autoscaling.Scale, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	selector, err := metav1.LabelSelectorAsSelector(deployment.Spec.Selector)
 	if err != nil {
 		return nil, err
 	}
-	return &autoscaling.Scale{
-		// TODO: Create a variant of ObjectMeta type that only contains the fields below.
-		ObjectMeta: metav1.ObjectMeta{
-			Name:              deployment.Name,
-			Namespace:         deployment.Namespace,
-			UID:               deployment.UID,
-			ResourceVersion:   deployment.ResourceVersion,
-			CreationTimestamp: deployment.CreationTimestamp,
-		},
-		Spec: autoscaling.ScaleSpec{
-			Replicas: deployment.Spec.Replicas,
-		},
-		Status: autoscaling.ScaleStatus{
-			Replicas: deployment.Status.Replicas,
-			Selector: selector.String(),
-		},
-	}, nil
+	return &autoscaling.Scale{ObjectMeta: metav1.ObjectMeta{Name: deployment.Name, Namespace: deployment.Namespace, UID: deployment.UID, ResourceVersion: deployment.ResourceVersion, CreationTimestamp: deployment.CreationTimestamp}, Spec: autoscaling.ScaleSpec{Replicas: deployment.Spec.Replicas}, Status: autoscaling.ScaleStatus{Replicas: deployment.Status.Replicas, Selector: selector.String()}}, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

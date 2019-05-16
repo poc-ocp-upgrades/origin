@@ -1,30 +1,26 @@
 package osinserver
 
 import (
-	"net/http"
-
 	"github.com/RangelReale/osin"
+	"net/http"
 )
 
-// AuthorizeHandler populates an AuthorizeRequest or handles the request itself
 type AuthorizeHandler interface {
-	// HandleAuthorize does one of the following:
-	// 1. populates an AuthorizeRequest (typically the Authorized and UserData fields) and returns false
-	// 2. populates the error fields of a Response object and returns false
-	// 3. returns an internal server error and returns false
-	// 4. writes the response itself and returns true
 	HandleAuthorize(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (handled bool, err error)
 }
-
 type AuthorizeHandlerFunc func(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (bool, error)
 
 func (f AuthorizeHandlerFunc) HandleAuthorize(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return f(ar, resp, w)
 }
 
 type AuthorizeHandlers []AuthorizeHandler
 
 func (all AuthorizeHandlers) HandleAuthorize(ar *osin.AuthorizeRequest, resp *osin.Response, w http.ResponseWriter) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, h := range all {
 		if handled, err := h.HandleAuthorize(ar, resp, w); handled || err != nil {
 			return handled, err
@@ -33,21 +29,22 @@ func (all AuthorizeHandlers) HandleAuthorize(ar *osin.AuthorizeRequest, resp *os
 	return false, nil
 }
 
-// AccessHandler populates an AccessRequest
 type AccessHandler interface {
-	// HandleAccess populates an AccessRequest (typically the Authorized and UserData fields)
 	HandleAccess(ar *osin.AccessRequest, w http.ResponseWriter) error
 }
-
 type AccessHandlerFunc func(ar *osin.AccessRequest, w http.ResponseWriter) error
 
 func (f AccessHandlerFunc) HandleAccess(ar *osin.AccessRequest, w http.ResponseWriter) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return f(ar, w)
 }
 
 type AccessHandlers []AccessHandler
 
 func (all AccessHandlers) HandleAccess(ar *osin.AccessRequest, w http.ResponseWriter) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, h := range all {
 		if err := h.HandleAccess(ar, w); err != nil {
 			return err
@@ -56,8 +53,6 @@ func (all AccessHandlers) HandleAccess(ar *osin.AccessRequest, w http.ResponseWr
 	return nil
 }
 
-// ErrorHandler writes an error response
 type ErrorHandler interface {
-	// HandleError writes an error response
 	HandleError(err error, w http.ResponseWriter, req *http.Request)
 }

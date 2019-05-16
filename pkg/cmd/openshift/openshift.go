@@ -3,23 +3,24 @@ package openshift
 import (
 	"flag"
 	"fmt"
-	"io"
-	"os"
-	"runtime"
-	"strings"
-
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-
-	"k8s.io/kubernetes/pkg/kubectl/cmd/completion"
-	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
-	ktemplates "k8s.io/kubernetes/pkg/kubectl/util/templates"
-
+	goformat "fmt"
 	"github.com/openshift/origin/pkg/cmd/flagtypes"
 	"github.com/openshift/origin/pkg/cmd/templates"
 	cmdutil "github.com/openshift/origin/pkg/cmd/util"
 	cmdversion "github.com/openshift/origin/pkg/cmd/version"
 	osversion "github.com/openshift/origin/pkg/version"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"io"
+	"k8s.io/kubernetes/pkg/kubectl/cmd/completion"
+	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
+	ktemplates "k8s.io/kubernetes/pkg/kubectl/util/templates"
+	"os"
+	goos "os"
+	"runtime"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 var (
@@ -29,74 +30,53 @@ var (
 		The %[3]s helps you build, deploy, and manage containerized applications.`)
 )
 
-// CommandFor returns the appropriate command for this base name,
-// or the global OpenShift command
 func CommandFor(basename string) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var cmd *cobra.Command
-
-	// Make case-insensitive and strip executable suffix if present
 	if runtime.GOOS == "windows" {
 		basename = strings.ToLower(basename)
 		basename = strings.TrimSuffix(basename, ".exe")
 	}
-
 	switch basename {
 	default:
 		cmd = NewCommandOpenShift("openshift")
 	}
-
 	if cmd.UsageFunc() == nil {
 		templates.ActsAsRootCommand(cmd, []string{"options"})
 	}
 	flagtypes.GLog(cmd.PersistentFlags())
-
 	return cmd
 }
-
-// NewCommandOpenShift creates the standard OpenShift command
 func NewCommandOpenShift(name string) *cobra.Command {
-	root := &cobra.Command{
-		Use:   name,
-		Short: "Build, deploy, and manage your cloud applications",
-		Long:  fmt.Sprintf(openshiftLong, name, cmdutil.GetPlatformName(name), cmdutil.GetDistributionName(name)),
-		Run:   kcmdutil.DefaultSubCommandRun(os.Stderr),
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	root := &cobra.Command{Use: name, Short: "Build, deploy, and manage your cloud applications", Long: fmt.Sprintf(openshiftLong, name, cmdutil.GetPlatformName(name), cmdutil.GetDistributionName(name)), Run: kcmdutil.DefaultSubCommandRun(os.Stderr)}
 	root.AddCommand(newCompletionCommand("completion", name+" completion"))
 	root.AddCommand(cmdversion.NewCmdVersion(name, osversion.Get(), os.Stdout))
 	root.AddCommand(newCmdOptions())
-
-	// TODO: add groups
 	templates.ActsAsRootCommand(root, []string{"options"})
-
 	return root
 }
-
 func newCompletionCommand(name, fullName string) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return NewCmdCompletion(fullName, os.Stdout)
-
 }
-
-// newCmdOptions implements the OpenShift cli options command
 func newCmdOptions() *cobra.Command {
-	cmd := &cobra.Command{
-		Use: "options",
-		Run: func(cmd *cobra.Command, args []string) {
-			cmd.Usage()
-		},
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	cmd := &cobra.Command{Use: "options", Run: func(cmd *cobra.Command, args []string) {
+		cmd.Usage()
+	}}
 	ktemplates.UseOptionsTemplates(cmd)
-
 	return cmd
 }
 
-// from here down probably deserves some common usage
 var (
 	completionLong = ktemplates.LongDesc(`
 		This command prints shell code which must be evaluated to provide interactive
 		completion of %s commands.`)
-
 	completionExample = ktemplates.Examples(`
 		# Generate the %s completion code for bash
 	  %s completion bash > bash_completion.sh
@@ -117,18 +97,16 @@ var (
 	  * zsh completions are only supported in versions of zsh >= 5.2`)
 )
 
-// NewCmdCompletion creates a completion command.
 func NewCmdCompletion(fullName string, out io.Writer) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cmdHelpName := fullName
-
 	if strings.HasSuffix(fullName, "completion") {
 		cmdHelpName = "openshift"
 	}
-
 	cmd := completion.NewCmdCompletion(out, "\n")
 	cmd.Long = fmt.Sprintf(completionLong, cmdHelpName)
 	cmd.Example = fmt.Sprintf(completionExample, cmdHelpName, cmdHelpName, cmdHelpName, cmdHelpName)
-	// mark all statically included flags as hidden to prevent them appearing in completions
 	cmd.PreRun = func(c *cobra.Command, _ []string) {
 		pflag.CommandLine.VisitAll(func(flag *pflag.Flag) {
 			flag.Hidden = true
@@ -137,12 +115,9 @@ func NewCmdCompletion(fullName string, out io.Writer) *cobra.Command {
 	}
 	return cmd
 }
-
-// hideGlobalFlags marks any flag that is in the global flag set as
-// hidden to prevent completion from varying by platform due to conditional
-// includes. This means that some completions will not be possible unless
-// they are registered in cobra instead of being added to flag.CommandLine.
 func hideGlobalFlags(c *cobra.Command, fs *flag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fs.VisitAll(func(flag *flag.Flag) {
 		if f := c.PersistentFlags().Lookup(flag.Name); f != nil {
 			f.Hidden = true
@@ -154,4 +129,8 @@ func hideGlobalFlags(c *cobra.Command, fs *flag.FlagSet) {
 	for _, child := range c.Commands() {
 		hideGlobalFlags(child, fs)
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -1,22 +1,7 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package rest
 
 import (
+	goformat "fmt"
 	authorizationv1 "k8s.io/api/authorization/v1"
 	authorizationv1beta1 "k8s.io/api/authorization/v1beta1"
 	"k8s.io/apiserver/pkg/authorization/authorizer"
@@ -30,6 +15,9 @@ import (
 	"k8s.io/kubernetes/pkg/registry/authorization/selfsubjectaccessreview"
 	"k8s.io/kubernetes/pkg/registry/authorization/selfsubjectrulesreview"
 	"k8s.io/kubernetes/pkg/registry/authorization/subjectaccessreview"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type RESTStorageProvider struct {
@@ -38,53 +26,46 @@ type RESTStorageProvider struct {
 }
 
 func (p RESTStorageProvider) NewRESTStorage(apiResourceConfigSource serverstorage.APIResourceConfigSource, restOptionsGetter generic.RESTOptionsGetter) (genericapiserver.APIGroupInfo, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if p.Authorizer == nil {
 		return genericapiserver.APIGroupInfo{}, false
 	}
-
 	apiGroupInfo := genericapiserver.NewDefaultAPIGroupInfo(authorization.GroupName, legacyscheme.Scheme, legacyscheme.ParameterCodec, legacyscheme.Codecs)
-	// If you add a version here, be sure to add an entry in `k8s.io/kubernetes/cmd/kube-apiserver/app/aggregator.go with specific priorities.
-	// TODO refactor the plumbing to provide the information in the APIGroupInfo
-
 	if apiResourceConfigSource.VersionEnabled(authorizationv1beta1.SchemeGroupVersion) {
 		apiGroupInfo.VersionedResourcesStorageMap[authorizationv1beta1.SchemeGroupVersion.Version] = p.v1beta1Storage(apiResourceConfigSource, restOptionsGetter)
 	}
-
 	if apiResourceConfigSource.VersionEnabled(authorizationv1.SchemeGroupVersion) {
 		apiGroupInfo.VersionedResourcesStorageMap[authorizationv1.SchemeGroupVersion.Version] = p.v1Storage(apiResourceConfigSource, restOptionsGetter)
 	}
-
 	return apiGroupInfo, true
 }
-
 func (p RESTStorageProvider) v1beta1Storage(apiResourceConfigSource serverstorage.APIResourceConfigSource, restOptionsGetter generic.RESTOptionsGetter) map[string]rest.Storage {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	storage := map[string]rest.Storage{}
-	// subjectaccessreviews
 	storage["subjectaccessreviews"] = subjectaccessreview.NewREST(p.Authorizer)
-	// selfsubjectaccessreviews
 	storage["selfsubjectaccessreviews"] = selfsubjectaccessreview.NewREST(p.Authorizer)
-	// localsubjectaccessreviews
 	storage["localsubjectaccessreviews"] = localsubjectaccessreview.NewREST(p.Authorizer)
-	// selfsubjectrulesreviews
 	storage["selfsubjectrulesreviews"] = selfsubjectrulesreview.NewREST(p.RuleResolver)
-
 	return storage
 }
-
 func (p RESTStorageProvider) v1Storage(apiResourceConfigSource serverstorage.APIResourceConfigSource, restOptionsGetter generic.RESTOptionsGetter) map[string]rest.Storage {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	storage := map[string]rest.Storage{}
-	// subjectaccessreviews
 	storage["subjectaccessreviews"] = subjectaccessreview.NewREST(p.Authorizer)
-	// selfsubjectaccessreviews
 	storage["selfsubjectaccessreviews"] = selfsubjectaccessreview.NewREST(p.Authorizer)
-	// localsubjectaccessreviews
 	storage["localsubjectaccessreviews"] = localsubjectaccessreview.NewREST(p.Authorizer)
-	// selfsubjectrulesreviews
 	storage["selfsubjectrulesreviews"] = selfsubjectrulesreview.NewREST(p.RuleResolver)
-
 	return storage
 }
-
 func (p RESTStorageProvider) GroupName() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return authorization.GroupName
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

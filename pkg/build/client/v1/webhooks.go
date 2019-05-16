@@ -2,11 +2,9 @@ package v1
 
 import (
 	"errors"
-	"net/url"
-
-	"k8s.io/client-go/rest"
-
 	buildv1 "github.com/openshift/api/build/v1"
+	"k8s.io/client-go/rest"
+	"net/url"
 )
 
 var ErrTriggerIsNotAWebHook = errors.New("the specified trigger is not a webhook")
@@ -16,6 +14,8 @@ type WebHookURLInterface interface {
 }
 
 func NewWebhookURLClient(c rest.Interface, ns string) WebHookURLInterface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &webhooks{client: c, ns: ns}
 }
 
@@ -25,6 +25,8 @@ type webhooks struct {
 }
 
 func (c *webhooks) WebHookURL(name string, trigger *buildv1.BuildTriggerPolicy) (*url.URL, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	hooks := c.client.Get().Namespace(c.ns).Resource("buildConfigs").Name(name).SubResource("webhooks")
 	switch {
 	case trigger.GenericWebHook != nil:

@@ -2,21 +2,24 @@ package validation
 
 import (
 	"fmt"
-	"regexp"
-
+	goformat "fmt"
+	templateapi "github.com/openshift/origin/pkg/template/apis/template"
 	apimachineryvalidation "k8s.io/apimachinery/pkg/api/validation"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	kapi "k8s.io/kubernetes/pkg/apis/core"
 	kapihelper "k8s.io/kubernetes/pkg/apis/core/helper"
 	"k8s.io/kubernetes/pkg/apis/core/validation"
-
-	templateapi "github.com/openshift/origin/pkg/template/apis/template"
+	goos "os"
+	"regexp"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 var ParameterNameRegexp = regexp.MustCompile(`^[a-zA-Z0-9_]+$`)
 
-// ValidateParameter tests if required fields in the Parameter are set.
 func ValidateParameter(param *templateapi.Parameter, fldPath *field.Path) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(param.Name) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("name"), ""))
 		return
@@ -26,28 +29,29 @@ func ValidateParameter(param *templateapi.Parameter, fldPath *field.Path) (allEr
 	}
 	return
 }
-
-// ValidateProcessedTemplate tests if required fields in the Template are set for processing
 func ValidateProcessedTemplate(template *templateapi.Template) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validateTemplateBody(template)
 }
 
 var ValidateTemplateName = apimachineryvalidation.NameIsDNSSubdomain
 
-// ValidateTemplate tests if required fields in the Template are set.
 func ValidateTemplate(template *templateapi.Template) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs = validation.ValidateObjectMeta(&template.ObjectMeta, true, ValidateTemplateName, field.NewPath("metadata"))
 	allErrs = append(allErrs, validateTemplateBody(template)...)
 	return
 }
-
-// ValidateTemplateUpdate tests if required fields in the template are set during an update
 func ValidateTemplateUpdate(template, oldTemplate *templateapi.Template) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateObjectMetaUpdate(&template.ObjectMeta, &oldTemplate.ObjectMeta, field.NewPath("metadata"))
 }
-
-// validateTemplateBody checks the body of a template.
 func validateTemplateBody(template *templateapi.Template) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := range template.Parameters {
 		allErrs = append(allErrs, ValidateParameter(&template.Parameters[i], field.NewPath("parameters").Index(i))...)
 	}
@@ -56,12 +60,10 @@ func validateTemplateBody(template *templateapi.Template) (allErrs field.ErrorLi
 
 var ValidateTemplateInstanceName = apimachineryvalidation.NameIsDNSSubdomain
 
-// ValidateTemplateInstance tests if required fields in the TemplateInstance are set.
 func ValidateTemplateInstance(templateInstance *templateapi.TemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs = validation.ValidateObjectMeta(&templateInstance.ObjectMeta, true, ValidateTemplateInstanceName, field.NewPath("metadata"))
-
-	// Allow the nested template name and namespace to be empty.  If not empty,
-	// the fields should pass validation.
 	templateCopy := templateInstance.Spec.Template.DeepCopy()
 	if templateCopy.Name == "" {
 		templateCopy.Name = "dummy"
@@ -89,11 +91,10 @@ func ValidateTemplateInstance(templateInstance *templateapi.TemplateInstance) (a
 	}
 	return
 }
-
-// ValidateTemplateInstanceUpdate tests if required fields in the TemplateInstance are set during an update
 func ValidateTemplateInstanceUpdate(templateInstance, oldTemplateInstance *templateapi.TemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs = validation.ValidateObjectMetaUpdate(&templateInstance.ObjectMeta, &oldTemplateInstance.ObjectMeta, field.NewPath("metadata"))
-
 	if !kapihelper.Semantic.DeepEqual(templateInstance.Spec, oldTemplateInstance.Spec) {
 		allErrs = append(allErrs, field.Forbidden(field.NewPath("spec"), "field is immutable"))
 	}
@@ -102,8 +103,9 @@ func ValidateTemplateInstanceUpdate(templateInstance, oldTemplateInstance *templ
 
 var ValidateBrokerTemplateInstanceName = apimachineryvalidation.NameIsDNSSubdomain
 
-// ValidateBrokerTemplateInstance tests if required fields in the BrokerTemplateInstance are set.
 func ValidateBrokerTemplateInstance(brokerTemplateInstance *templateapi.BrokerTemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs = validation.ValidateObjectMeta(&brokerTemplateInstance.ObjectMeta, false, ValidateBrokerTemplateInstanceName, field.NewPath("metadata"))
 	allErrs = append(allErrs, validateTemplateInstanceReference(&brokerTemplateInstance.Spec.TemplateInstance, field.NewPath("spec.templateInstance"), "TemplateInstance")...)
 	allErrs = append(allErrs, validateTemplateInstanceReference(&brokerTemplateInstance.Spec.Secret, field.NewPath("spec.secret"), "Secret")...)
@@ -114,9 +116,9 @@ func ValidateBrokerTemplateInstance(brokerTemplateInstance *templateapi.BrokerTe
 	}
 	return
 }
-
-// ValidateBrokerTemplateInstanceUpdate tests if required fields in the BrokerTemplateInstance are set during an update
 func ValidateBrokerTemplateInstanceUpdate(brokerTemplateInstance, oldBrokerTemplateInstance *templateapi.BrokerTemplateInstance) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs = validation.ValidateObjectMetaUpdate(&brokerTemplateInstance.ObjectMeta, &oldBrokerTemplateInstance.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, validateTemplateInstanceReference(&brokerTemplateInstance.Spec.TemplateInstance, field.NewPath("spec.templateInstance"), "TemplateInstance")...)
 	allErrs = append(allErrs, validateTemplateInstanceReference(&brokerTemplateInstance.Spec.Secret, field.NewPath("spec.secret"), "Secret")...)
@@ -131,19 +133,21 @@ func ValidateBrokerTemplateInstanceUpdate(brokerTemplateInstance, oldBrokerTempl
 var uuidRegex = regexp.MustCompile("^(?i)[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 
 func nameIsUUID(name string, prefix bool) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if uuidRegex.MatchString(name) {
 		return nil
 	}
 	return []string{"is not a valid UUID"}
 }
-
 func validateTemplateInstanceReference(ref *kapi.ObjectReference, fldPath *field.Path, kind string) (allErrs field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(ref.Kind) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("kind"), ""))
 	} else if ref.Kind != kind {
 		allErrs = append(allErrs, field.Invalid(fldPath.Child("kind"), ref.Kind, "must be "+kind))
 	}
-
 	if len(ref.Name) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("name"), ""))
 	} else {
@@ -151,7 +155,6 @@ func validateTemplateInstanceReference(ref *kapi.ObjectReference, fldPath *field
 			allErrs = append(allErrs, field.Invalid(fldPath.Child("name"), ref.Name, msg))
 		}
 	}
-
 	if len(ref.Namespace) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath.Child("namespace"), ""))
 	} else {
@@ -159,6 +162,9 @@ func validateTemplateInstanceReference(ref *kapi.ObjectReference, fldPath *field
 			allErrs = append(allErrs, field.Invalid(fldPath.Child("namespace"), ref.Namespace, msg))
 		}
 	}
-
 	return allErrs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

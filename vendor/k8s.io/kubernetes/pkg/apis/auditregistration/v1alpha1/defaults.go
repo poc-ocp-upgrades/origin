@@ -1,48 +1,33 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package v1alpha1
 
 import (
+	goformat "fmt"
 	auditregistrationv1alpha1 "k8s.io/api/auditregistration/v1alpha1"
 	"k8s.io/apimachinery/pkg/runtime"
 	utilpointer "k8s.io/utils/pointer"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const (
-	// DefaultQPS is the default QPS value
-	DefaultQPS = int64(10)
-	// DefaultBurst is the default burst value
+	DefaultQPS   = int64(10)
 	DefaultBurst = int64(15)
 )
 
-// DefaultThrottle is a default throttle config
 func DefaultThrottle() *auditregistrationv1alpha1.WebhookThrottleConfig {
-	return &auditregistrationv1alpha1.WebhookThrottleConfig{
-		QPS:   utilpointer.Int64Ptr(DefaultQPS),
-		Burst: utilpointer.Int64Ptr(DefaultBurst),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &auditregistrationv1alpha1.WebhookThrottleConfig{QPS: utilpointer.Int64Ptr(DefaultQPS), Burst: utilpointer.Int64Ptr(DefaultBurst)}
 }
-
 func addDefaultingFuncs(scheme *runtime.Scheme) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return RegisterDefaults(scheme)
 }
-
-// SetDefaults_AuditSink sets defaults if the audit sink isn't present
 func SetDefaults_AuditSink(obj *auditregistrationv1alpha1.AuditSink) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.Spec.Webhook.Throttle != nil {
 		if obj.Spec.Webhook.Throttle.QPS == nil {
 			obj.Spec.Webhook.Throttle.QPS = utilpointer.Int64Ptr(DefaultQPS)
@@ -53,4 +38,8 @@ func SetDefaults_AuditSink(obj *auditregistrationv1alpha1.AuditSink) {
 	} else {
 		obj.Spec.Webhook.Throttle = DefaultThrottle()
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

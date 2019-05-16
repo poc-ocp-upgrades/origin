@@ -1,14 +1,14 @@
 package v1
 
 import (
-	"k8s.io/apimachinery/pkg/util/intstr"
-
 	"github.com/openshift/api/apps/v1"
 	appsapi "github.com/openshift/origin/pkg/apps/apis/apps"
+	"k8s.io/apimachinery/pkg/util/intstr"
 )
 
-// Keep this in sync with pkg/api/serialization_test.go#defaultHookContainerName
 func defaultHookContainerName(hook *v1.LifecycleHook, containerName string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if hook == nil {
 		return
 	}
@@ -23,18 +23,15 @@ func defaultHookContainerName(hook *v1.LifecycleHook, containerName string) {
 		}
 	}
 }
-
 func SetDefaults_DeploymentConfigSpec(obj *v1.DeploymentConfigSpec) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.Triggers == nil {
-		obj.Triggers = []v1.DeploymentTriggerPolicy{
-			{Type: v1.DeploymentTriggerOnConfigChange},
-		}
+		obj.Triggers = []v1.DeploymentTriggerPolicy{{Type: v1.DeploymentTriggerOnConfigChange}}
 	}
 	if len(obj.Selector) == 0 && obj.Template != nil {
 		obj.Selector = obj.Template.Labels
 	}
-
-	// if you only specify a single container, default the TagImages hook to the container name
 	if obj.Template != nil && len(obj.Template.Spec.Containers) == 1 {
 		containerName := obj.Template.Spec.Containers[0].Name
 		if p := obj.Strategy.RecreateParams; p != nil {
@@ -48,69 +45,59 @@ func SetDefaults_DeploymentConfigSpec(obj *v1.DeploymentConfigSpec) {
 		}
 	}
 }
-
 func SetDefaults_DeploymentStrategy(obj *v1.DeploymentStrategy) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.Type) == 0 {
 		obj.Type = v1.DeploymentStrategyTypeRolling
 	}
-
 	if obj.Type == v1.DeploymentStrategyTypeRolling && obj.RollingParams == nil {
-		obj.RollingParams = &v1.RollingDeploymentStrategyParams{
-			IntervalSeconds:     mkintp(appsapi.DefaultRollingIntervalSeconds),
-			UpdatePeriodSeconds: mkintp(appsapi.DefaultRollingUpdatePeriodSeconds),
-			TimeoutSeconds:      mkintp(appsapi.DefaultRollingTimeoutSeconds),
-		}
+		obj.RollingParams = &v1.RollingDeploymentStrategyParams{IntervalSeconds: mkintp(appsapi.DefaultRollingIntervalSeconds), UpdatePeriodSeconds: mkintp(appsapi.DefaultRollingUpdatePeriodSeconds), TimeoutSeconds: mkintp(appsapi.DefaultRollingTimeoutSeconds)}
 	}
 	if obj.Type == v1.DeploymentStrategyTypeRecreate && obj.RecreateParams == nil {
 		obj.RecreateParams = &v1.RecreateDeploymentStrategyParams{}
 	}
-
 	if obj.ActiveDeadlineSeconds == nil {
 		obj.ActiveDeadlineSeconds = mkintp(appsapi.MaxDeploymentDurationSeconds)
 	}
 }
-
 func SetDefaults_RecreateDeploymentStrategyParams(obj *v1.RecreateDeploymentStrategyParams) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.TimeoutSeconds == nil {
 		obj.TimeoutSeconds = mkintp(appsapi.DefaultRecreateTimeoutSeconds)
 	}
 }
-
 func SetDefaults_RollingDeploymentStrategyParams(obj *v1.RollingDeploymentStrategyParams) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.IntervalSeconds == nil {
 		obj.IntervalSeconds = mkintp(appsapi.DefaultRollingIntervalSeconds)
 	}
-
 	if obj.UpdatePeriodSeconds == nil {
 		obj.UpdatePeriodSeconds = mkintp(appsapi.DefaultRollingUpdatePeriodSeconds)
 	}
-
 	if obj.TimeoutSeconds == nil {
 		obj.TimeoutSeconds = mkintp(appsapi.DefaultRollingTimeoutSeconds)
 	}
-
 	if obj.MaxUnavailable == nil && obj.MaxSurge == nil {
 		maxUnavailable := intstr.FromString("25%")
 		obj.MaxUnavailable = &maxUnavailable
-
 		maxSurge := intstr.FromString("25%")
 		obj.MaxSurge = &maxSurge
 	}
-
-	if obj.MaxUnavailable == nil && obj.MaxSurge != nil &&
-		(*obj.MaxSurge == intstr.FromInt(0) || *obj.MaxSurge == intstr.FromString("0%")) {
+	if obj.MaxUnavailable == nil && obj.MaxSurge != nil && (*obj.MaxSurge == intstr.FromInt(0) || *obj.MaxSurge == intstr.FromString("0%")) {
 		maxUnavailable := intstr.FromString("25%")
 		obj.MaxUnavailable = &maxUnavailable
 	}
-
-	if obj.MaxSurge == nil && obj.MaxUnavailable != nil &&
-		(*obj.MaxUnavailable == intstr.FromInt(0) || *obj.MaxUnavailable == intstr.FromString("0%")) {
+	if obj.MaxSurge == nil && obj.MaxUnavailable != nil && (*obj.MaxUnavailable == intstr.FromInt(0) || *obj.MaxUnavailable == intstr.FromString("0%")) {
 		maxSurge := intstr.FromString("25%")
 		obj.MaxSurge = &maxSurge
 	}
 }
-
 func SetDefaults_DeploymentConfig(obj *v1.DeploymentConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, t := range obj.Spec.Triggers {
 		if t.ImageChangeParams != nil {
 			if len(t.ImageChangeParams.From.Kind) == 0 {
@@ -122,7 +109,8 @@ func SetDefaults_DeploymentConfig(obj *v1.DeploymentConfig) {
 		}
 	}
 }
-
 func mkintp(i int64) *int64 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &i
 }

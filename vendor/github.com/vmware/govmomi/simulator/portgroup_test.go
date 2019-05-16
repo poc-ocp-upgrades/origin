@@ -42,7 +42,7 @@ func TestReconfigurePortgroup(t *testing.T) {
 		Map.Any("DistributedVirtualSwitch").Reference())
 
 	spec := []types.DVPortgroupConfigSpec{
-		types.DVPortgroupConfigSpec{
+		{
 			Name:     "pg1",
 			NumPorts: 10,
 		},

@@ -1,18 +1,22 @@
 package v1
 
 import (
-	"strings"
-
-	"k8s.io/apimachinery/pkg/conversion"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/intstr"
-
+	goformat "fmt"
 	"github.com/openshift/api/apps/v1"
 	newer "github.com/openshift/origin/pkg/apps/apis/apps"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
+	"k8s.io/apimachinery/pkg/conversion"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/intstr"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 func Convert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImageChangeParams(in *v1.DeploymentTriggerImageChangeParams, out *newer.DeploymentTriggerImageChangeParams, s conversion.Scope) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := autoConvert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImageChangeParams(in, out, s); err != nil {
 		return err
 	}
@@ -24,12 +28,12 @@ func Convert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImag
 			out.From.Name = imageapi.JoinImageStreamTag(out.From.Name, imageapi.DefaultImageTag)
 		}
 	default:
-		// Will be handled by validation
 	}
 	return nil
 }
-
 func Convert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTriggerImageChangeParams(in *newer.DeploymentTriggerImageChangeParams, out *v1.DeploymentTriggerImageChangeParams, s conversion.Scope) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := autoConvert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTriggerImageChangeParams(in, out, s); err != nil {
 		return err
 	}
@@ -41,18 +45,16 @@ func Convert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTriggerImag
 			out.From.Name = imageapi.JoinImageStreamTag(out.From.Name, imageapi.DefaultImageTag)
 		}
 	default:
-		// Will be handled by validation
 	}
 	return nil
 }
-
 func Convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrategyParams(in *v1.RollingDeploymentStrategyParams, out *newer.RollingDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	SetDefaults_RollingDeploymentStrategyParams(in)
-
 	out.UpdatePeriodSeconds = in.UpdatePeriodSeconds
 	out.IntervalSeconds = in.IntervalSeconds
 	out.TimeoutSeconds = in.TimeoutSeconds
-
 	if in.Pre != nil {
 		if err := s.Convert(&in.Pre, &out.Pre, 0); err != nil {
 			return err
@@ -75,12 +77,12 @@ func Convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrateg
 	}
 	return nil
 }
-
 func Convert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrategyParams(in *newer.RollingDeploymentStrategyParams, out *v1.RollingDeploymentStrategyParams, s conversion.Scope) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	out.UpdatePeriodSeconds = in.UpdatePeriodSeconds
 	out.IntervalSeconds = in.IntervalSeconds
 	out.TimeoutSeconds = in.TimeoutSeconds
-
 	if in.Pre != nil {
 		if err := s.Convert(&in.Pre, &out.Pre, 0); err != nil {
 			return err
@@ -91,7 +93,6 @@ func Convert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrateg
 			return err
 		}
 	}
-
 	if out.MaxUnavailable == nil {
 		out.MaxUnavailable = &intstr.IntOrString{}
 	}
@@ -106,13 +107,12 @@ func Convert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrateg
 	}
 	return nil
 }
-
 func AddConversionFuncs(scheme *runtime.Scheme) error {
-	return scheme.AddConversionFuncs(
-		Convert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImageChangeParams,
-		Convert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTriggerImageChangeParams,
-
-		Convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrategyParams,
-		Convert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrategyParams,
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return scheme.AddConversionFuncs(Convert_v1_DeploymentTriggerImageChangeParams_To_apps_DeploymentTriggerImageChangeParams, Convert_apps_DeploymentTriggerImageChangeParams_To_v1_DeploymentTriggerImageChangeParams, Convert_v1_RollingDeploymentStrategyParams_To_apps_RollingDeploymentStrategyParams, Convert_apps_RollingDeploymentStrategyParams_To_v1_RollingDeploymentStrategyParams)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

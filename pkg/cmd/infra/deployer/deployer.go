@@ -2,23 +2,7 @@ package deployer
 
 import (
 	"fmt"
-	"io"
-	"os"
-	"sort"
-	"time"
-
-	"github.com/spf13/cobra"
-
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/client-go/kubernetes"
-	kv1core "k8s.io/client-go/kubernetes/typed/core/v1"
-	restclient "k8s.io/client-go/rest"
-	kapi "k8s.io/kubernetes/pkg/apis/core"
-	"k8s.io/kubernetes/pkg/kubectl"
-	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
-	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
+	goformat "fmt"
 	appsv1 "github.com/openshift/api/apps/v1"
 	imageclientv1 "github.com/openshift/client-go/image/clientset/versioned"
 	"github.com/openshift/origin/pkg/apps/strategy"
@@ -28,6 +12,23 @@ import (
 	"github.com/openshift/origin/pkg/cmd/util"
 	cmdversion "github.com/openshift/origin/pkg/cmd/version"
 	"github.com/openshift/origin/pkg/version"
+	"github.com/spf13/cobra"
+	"io"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/client-go/kubernetes"
+	kv1core "k8s.io/client-go/kubernetes/typed/core/v1"
+	restclient "k8s.io/client-go/rest"
+	kapi "k8s.io/kubernetes/pkg/apis/core"
+	"k8s.io/kubernetes/pkg/kubectl"
+	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
+	"k8s.io/kubernetes/pkg/kubectl/util/templates"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	"sort"
+	"time"
+	gotime "time"
 )
 
 var (
@@ -56,51 +57,41 @@ var (
 
 type config struct {
 	Out, ErrOut io.Writer
-
-	rcName    string
-	Namespace string
-
-	Until string
+	rcName      string
+	Namespace   string
+	Until       string
 }
 
-// NewCommandDeployer provides a CLI handler for deploy.
 func NewCommandDeployer(name string) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cfg := &config{}
-
-	cmd := &cobra.Command{
-		Use:   fmt.Sprintf("%s [--until=CONDITION]", name),
-		Short: "Run the deployer",
-		Long:  deployerLong,
-		Run: func(c *cobra.Command, args []string) {
-			cfg.Out = os.Stdout
-			cfg.ErrOut = c.OutOrStderr()
-			err := cfg.RunDeployer()
-			if strategy.IsConditionReached(err) {
-				fmt.Fprintf(os.Stdout, "--> %s\n", err.Error())
-				return
-			}
-			kcmdutil.CheckErr(err)
-		},
-	}
-
+	cmd := &cobra.Command{Use: fmt.Sprintf("%s [--until=CONDITION]", name), Short: "Run the deployer", Long: deployerLong, Run: func(c *cobra.Command, args []string) {
+		cfg.Out = os.Stdout
+		cfg.ErrOut = c.OutOrStderr()
+		err := cfg.RunDeployer()
+		if strategy.IsConditionReached(err) {
+			fmt.Fprintf(os.Stdout, "--> %s\n", err.Error())
+			return
+		}
+		kcmdutil.CheckErr(err)
+	}}
 	cmd.AddCommand(cmdversion.NewCmdVersion(name, version.Get(), os.Stdout))
-
 	flag := cmd.Flags()
 	flag.StringVar(&cfg.rcName, "deployment", util.Env("OPENSHIFT_DEPLOYMENT_NAME", ""), "The deployment name to start")
 	flag.StringVar(&cfg.Namespace, "namespace", util.Env("OPENSHIFT_DEPLOYMENT_NAMESPACE", ""), "The deployment namespace")
 	flag.StringVar(&cfg.Until, "until", "", "Exit the deployment when this condition is met. See help for more details")
-
 	return cmd
 }
-
 func (cfg *config) RunDeployer() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(cfg.rcName) == 0 {
 		return fmt.Errorf("--deployment or OPENSHIFT_DEPLOYMENT_NAME is required")
 	}
 	if len(cfg.Namespace) == 0 {
 		return fmt.Errorf("--namespace or OPENSHIFT_DEPLOYMENT_NAMESPACE is required")
 	}
-
 	kcfg, err := restclient.InClusterConfig()
 	if err != nil {
 		return err
@@ -113,94 +104,57 @@ func (cfg *config) RunDeployer() error {
 	if err != nil {
 		return err
 	}
-
 	deployer := NewDeployer(kubeClient, openshiftImageClient, cfg.Out, cfg.ErrOut, cfg.Until)
 	return deployer.Deploy(cfg.Namespace, cfg.rcName)
 }
-
-// NewDeployer makes a new Deployer from a kube client.
-func NewDeployer(kubeClient kubernetes.Interface, images imageclientv1.Interface, out, errOut io.Writer,
-	until string) *Deployer {
-	return &Deployer{
-		out:    out,
-		errOut: errOut,
-		until:  until,
-		getDeployment: func(namespace, name string) (*corev1.ReplicationController, error) {
-			return kubeClient.CoreV1().ReplicationControllers(namespace).Get(name, metav1.GetOptions{})
-		},
-		getDeployments: func(namespace, configName string) (*corev1.ReplicationControllerList, error) {
-			return kubeClient.CoreV1().ReplicationControllers(namespace).List(metav1.ListOptions{LabelSelector: appsutil.ConfigSelector(configName).
-				String()})
-		},
-		scaler: appsutil.NewReplicationControllerScaler(kubeClient),
-		strategyFor: func(config *appsv1.DeploymentConfig) (strategy.DeploymentStrategy, error) {
-			switch config.Spec.Strategy.Type {
-			case appsv1.DeploymentStrategyTypeRecreate:
-				return recreate.NewRecreateDeploymentStrategy(kubeClient, images.ImageV1(),
-					&kv1core.EventSinkImpl{Interface: kubeClient.CoreV1().Events("")}, out, errOut, until), nil
-			case appsv1.DeploymentStrategyTypeRolling:
-				recreateDeploymentStrategy := recreate.NewRecreateDeploymentStrategy(kubeClient, images.ImageV1(),
-					&kv1core.EventSinkImpl{Interface: kubeClient.CoreV1().Events("")}, out, errOut, until)
-				return rolling.NewRollingDeploymentStrategy(config.Namespace, kubeClient, images.ImageV1(),
-					recreateDeploymentStrategy, out, errOut, until), nil
-			default:
-				return nil, fmt.Errorf("unsupported strategy type: %s", config.Spec.Strategy.Type)
-			}
-		},
-	}
+func NewDeployer(kubeClient kubernetes.Interface, images imageclientv1.Interface, out, errOut io.Writer, until string) *Deployer {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Deployer{out: out, errOut: errOut, until: until, getDeployment: func(namespace, name string) (*corev1.ReplicationController, error) {
+		return kubeClient.CoreV1().ReplicationControllers(namespace).Get(name, metav1.GetOptions{})
+	}, getDeployments: func(namespace, configName string) (*corev1.ReplicationControllerList, error) {
+		return kubeClient.CoreV1().ReplicationControllers(namespace).List(metav1.ListOptions{LabelSelector: appsutil.ConfigSelector(configName).String()})
+	}, scaler: appsutil.NewReplicationControllerScaler(kubeClient), strategyFor: func(config *appsv1.DeploymentConfig) (strategy.DeploymentStrategy, error) {
+		switch config.Spec.Strategy.Type {
+		case appsv1.DeploymentStrategyTypeRecreate:
+			return recreate.NewRecreateDeploymentStrategy(kubeClient, images.ImageV1(), &kv1core.EventSinkImpl{Interface: kubeClient.CoreV1().Events("")}, out, errOut, until), nil
+		case appsv1.DeploymentStrategyTypeRolling:
+			recreateDeploymentStrategy := recreate.NewRecreateDeploymentStrategy(kubeClient, images.ImageV1(), &kv1core.EventSinkImpl{Interface: kubeClient.CoreV1().Events("")}, out, errOut, until)
+			return rolling.NewRollingDeploymentStrategy(config.Namespace, kubeClient, images.ImageV1(), recreateDeploymentStrategy, out, errOut, until), nil
+		default:
+			return nil, fmt.Errorf("unsupported strategy type: %s", config.Spec.Strategy.Type)
+		}
+	}}
 }
 
-// Deployer prepares and executes the deployment process. It will:
-//
-// 1. Validate the deployment has a desired replica count and strategy.
-// 2. Find the last completed deployment.
-// 3. Scale down to 0 any old deployments which aren't the new deployment or
-// the last complete deployment.
-// 4. Pass the last completed deployment and the new deployment to a strategy
-// to perform the deployment.
 type Deployer struct {
-	// out and errOut control display when deploy is invoked
-	out, errOut io.Writer
-	// until is a condition to run until
-	until string
-	// strategyFor returns a DeploymentStrategy for config.
-	strategyFor func(config *appsv1.DeploymentConfig) (strategy.DeploymentStrategy, error)
-	// getDeployment finds the named deployment.
-	getDeployment func(namespace, name string) (*corev1.ReplicationController, error)
-	// getDeployments finds all deployments associated with a config.
+	out, errOut    io.Writer
+	until          string
+	strategyFor    func(config *appsv1.DeploymentConfig) (strategy.DeploymentStrategy, error)
+	getDeployment  func(namespace, name string) (*corev1.ReplicationController, error)
 	getDeployments func(namespace, configName string) (*corev1.ReplicationControllerList, error)
-	// scaler is used to scale replication controllers.
-	scaler kubectl.Scaler
+	scaler         kubectl.Scaler
 }
 
-// Deploy starts the deployment process for rcName.
 func (d *Deployer) Deploy(namespace, rcName string) error {
-	// Look up the new deployment.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	to, err := d.getDeployment(namespace, rcName)
 	if err != nil {
 		return fmt.Errorf("couldn't get deployment %s: %v", rcName, err)
 	}
-
-	// Decode the config from the deployment.
-	// TODO: Remove this once we are sure there are no internal versions of configs serialized in DC
 	config, err := appsutil.DecodeDeploymentConfig(to)
 	if err != nil {
 		return fmt.Errorf("couldn't decode deployment config from deployment %s: %v", to.Name, err)
 	}
-
-	// Get a strategy for the deployment.
 	s, err := d.strategyFor(config)
 	if err != nil {
 		return err
 	}
-
-	// New deployments must have a desired replica count.
 	desiredReplicas, hasDesired := appsutil.DeploymentDesiredReplicas(to)
 	if !hasDesired {
 		return fmt.Errorf("deployment %s has already run to completion", to.Name)
 	}
-
-	// Find all deployments for the config.
 	unsortedDeployments, err := d.getDeployments(namespace, config.Name)
 	if err != nil {
 		return fmt.Errorf("couldn't get controllers in namespace %s: %v", namespace, err)
@@ -209,11 +163,7 @@ func (d *Deployer) Deploy(namespace, rcName string) error {
 	for i := range unsortedDeployments.Items {
 		deployments = append(deployments, &unsortedDeployments.Items[i])
 	}
-
-	// Sort all the deployments by version.
 	sort.Sort(appsutil.ByLatestVersionDesc(deployments))
-
-	// Find any last completed deployment.
 	var from *corev1.ReplicationController
 	for _, candidate := range deployments {
 		if candidate.Name == to.Name {
@@ -224,25 +174,19 @@ func (d *Deployer) Deploy(namespace, rcName string) error {
 			break
 		}
 	}
-
 	if appsutil.DeploymentVersionFor(to) < appsutil.DeploymentVersionFor(from) {
 		return fmt.Errorf("deployment %s is older than %s", to.Name, from.Name)
 	}
-
-	// Scale down any deployments which aren't the new or last deployment.
 	for _, candidate := range deployments {
-		// Skip the from/to deployments.
 		if candidate.Name == to.Name {
 			continue
 		}
 		if from != nil && candidate.Name == from.Name {
 			continue
 		}
-		// Skip the deployment if it's already scaled down.
 		if candidate.Spec.Replicas == nil || *candidate.Spec.Replicas == 0 {
 			continue
 		}
-		// Scale the deployment down to zero.
 		retryWaitParams := kubectl.NewRetryParams(1*time.Second, 120*time.Second)
 		if err := d.scaler.Scale(candidate.Namespace, candidate.Name, uint(0), &kubectl.ScalePrecondition{Size: -1, ResourceVersion: ""}, retryWaitParams, retryWaitParams, kapi.Resource("replicationcontrollers")); err != nil {
 			fmt.Fprintf(d.errOut, "error: Couldn't scale down prior deployment %s: %v\n", appsutil.LabelForDeployment(candidate), err)
@@ -250,15 +194,16 @@ func (d *Deployer) Deploy(namespace, rcName string) error {
 			fmt.Fprintf(d.out, "--> Scaled older deployment %s down\n", candidate.Name)
 		}
 	}
-
 	if d.until == "start" {
 		return strategy.NewConditionReachedErr("Ready to start deployment")
 	}
-
-	// Perform the deployment.
 	if err := s.Deploy(from, to, int(desiredReplicas)); err != nil {
 		return err
 	}
 	fmt.Fprintln(d.out, "--> Success")
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

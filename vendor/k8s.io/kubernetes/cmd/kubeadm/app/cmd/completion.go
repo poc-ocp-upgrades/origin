@@ -1,30 +1,12 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package cmd
 
 import (
 	"bytes"
-	"io"
-
 	"github.com/pkg/errors"
 	"github.com/renstrom/dedent"
 	"github.com/spf13/cobra"
+	"io"
 	"k8s.io/klog"
-
 	kubeadmutil "k8s.io/kubernetes/cmd/kubeadm/app/util"
 )
 
@@ -63,7 +45,6 @@ var (
 		via your distribution's package manager.
 
 		Note for zsh users: [1] zsh completions are only supported in versions of zsh >= 5.2`)
-
 	completionExample = dedent.Dedent(`
 		# Install bash completion on a Mac using homebrew
 		brew install bash-completion
@@ -81,42 +62,31 @@ var (
 		# Load the kubeadm completion code for zsh[1] into the current shell
 		source <(kubeadm completion zsh)`)
 )
-
 var (
-	completionShells = map[string]func(out io.Writer, cmd *cobra.Command) error{
-		"bash": runCompletionBash,
-		"zsh":  runCompletionZsh,
-	}
+	completionShells = map[string]func(out io.Writer, cmd *cobra.Command) error{"bash": runCompletionBash, "zsh": runCompletionZsh}
 )
 
-// GetSupportedShells returns a list of supported shells
 func GetSupportedShells() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	shells := []string{}
 	for s := range completionShells {
 		shells = append(shells, s)
 	}
 	return shells
 }
-
-// NewCmdCompletion returns the "kubeadm completion" command
 func NewCmdCompletion(out io.Writer, boilerPlate string) *cobra.Command {
-	cmd := &cobra.Command{
-		Use:     "completion SHELL",
-		Short:   "Output shell completion code for the specified shell (bash or zsh).",
-		Long:    completionLong,
-		Example: completionExample,
-		Run: func(cmd *cobra.Command, args []string) {
-			err := RunCompletion(out, boilerPlate, cmd, args)
-			kubeadmutil.CheckErr(err)
-		},
-		ValidArgs: GetSupportedShells(),
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	cmd := &cobra.Command{Use: "completion SHELL", Short: "Output shell completion code for the specified shell (bash or zsh).", Long: completionLong, Example: completionExample, Run: func(cmd *cobra.Command, args []string) {
+		err := RunCompletion(out, boilerPlate, cmd, args)
+		kubeadmutil.CheckErr(err)
+	}, ValidArgs: GetSupportedShells()}
 	return cmd
 }
-
-// RunCompletion checks given arguments and executes command
 func RunCompletion(out io.Writer, boilerPlate string, cmd *cobra.Command, args []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(args) == 0 {
 		return errors.New("shell not specified")
 	}
@@ -127,7 +97,6 @@ func RunCompletion(out io.Writer, boilerPlate string, cmd *cobra.Command, args [
 	if !found {
 		return errors.Errorf("unsupported shell type %q", args[0])
 	}
-
 	if len(boilerPlate) == 0 {
 		boilerPlate = defaultBoilerPlate
 	}
@@ -136,13 +105,15 @@ func RunCompletion(out io.Writer, boilerPlate string, cmd *cobra.Command, args [
 	}
 	return run(out, cmd.Parent())
 }
-
 func runCompletionBash(out io.Writer, kubeadm *cobra.Command) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.V(1).Infoln("[completion] writing completion code for Bash")
 	return kubeadm.GenBashCompletion(out)
 }
-
 func runCompletionZsh(out io.Writer, kubeadm *cobra.Command) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zshInitialization := `
 __kubeadm_bash_source() {
 	alias shopt=':'
@@ -286,12 +257,10 @@ __kubeadm_convert_bash_to_zsh() {
 `
 	klog.V(1).Infoln("[completion] writing completion code for Zsh")
 	out.Write([]byte(zshInitialization))
-
 	buf := new(bytes.Buffer)
 	kubeadm.GenBashCompletion(buf)
 	klog.V(1).Infoln("[completion] writing completion code for Bash")
 	out.Write(buf.Bytes())
-
 	zshTail := `
 BASH_COMPLETION_EOF
 }

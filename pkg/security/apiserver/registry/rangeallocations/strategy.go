@@ -2,7 +2,6 @@ package rangeallocations
 
 import (
 	"context"
-
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
 	apimachineryvalidation "k8s.io/apimachinery/pkg/api/validation"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -19,42 +18,48 @@ type strategy struct {
 }
 
 var strategyInstance = strategy{legacyscheme.Scheme, names.SimpleNameGenerator}
-
 var _ rest.RESTCreateStrategy = strategyInstance
 var _ rest.RESTUpdateStrategy = strategyInstance
 
 func (strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_ = obj.(*securityapi.RangeAllocation)
 }
-
 func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cfg := obj.(*securityapi.RangeAllocation)
-
 	return validation.ValidateObjectMeta(&cfg.ObjectMeta, false, apimachineryvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))
 }
-
 func (strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) PrepareForUpdate(ctx context.Context, newObj, oldObj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_ = oldObj.(*securityapi.RangeAllocation)
 	_ = newObj.(*securityapi.RangeAllocation)
 }
-
 func (strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) ValidateUpdate(ctx context.Context, newObj, oldObj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oldCfg, newCfg := oldObj.(*securityapi.RangeAllocation), newObj.(*securityapi.RangeAllocation)
-
 	return validation.ValidateObjectMetaUpdate(&newCfg.ObjectMeta, &oldCfg.ObjectMeta, field.NewPath("metadata"))
 }

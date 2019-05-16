@@ -1,25 +1,13 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package apps
 
 import (
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/kubernetes/pkg/apis/autoscaling"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 var (
@@ -27,38 +15,27 @@ var (
 	AddToScheme   = SchemeBuilder.AddToScheme
 )
 
-// GroupName is the group name use in this package
 const GroupName = "apps"
 
-// SchemeGroupVersion is group version used to register these objects
 var SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
 
-// Kind takes an unqualified kind and returns a Group qualified GroupKind
 func Kind(kind string) schema.GroupKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return SchemeGroupVersion.WithKind(kind).GroupKind()
 }
-
-// Resource takes an unqualified resource and returns a Group qualified GroupResource
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
-
-// Adds the list of known types to the given scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	// TODO this will get cleaned up with the scheme types are fixed
-	scheme.AddKnownTypes(SchemeGroupVersion,
-		&DaemonSet{},
-		&DaemonSetList{},
-		&Deployment{},
-		&DeploymentList{},
-		&DeploymentRollback{},
-		&autoscaling.Scale{},
-		&StatefulSet{},
-		&StatefulSetList{},
-		&ControllerRevision{},
-		&ControllerRevisionList{},
-		&ReplicaSet{},
-		&ReplicaSetList{},
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	scheme.AddKnownTypes(SchemeGroupVersion, &DaemonSet{}, &DaemonSetList{}, &Deployment{}, &DeploymentList{}, &DeploymentRollback{}, &autoscaling.Scale{}, &StatefulSet{}, &StatefulSetList{}, &ControllerRevision{}, &ControllerRevisionList{}, &ReplicaSet{}, &ReplicaSetList{})
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

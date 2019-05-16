@@ -36,7 +36,7 @@ func TestNewSender(t *testing.T) {
 		return nil
 	}
 	sender := NewSender(cf)
-	c := &executor.Call{Type:executor.Call_MESSAGE}
+	c := &executor.Call{Type: executor.Call_MESSAGE}
 
 	check(sender.Send(context.Background(), calls.NonStreaming(c)))
 	r := sent()

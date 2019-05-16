@@ -2,50 +2,49 @@ package ovsclient
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
 	"io/ioutil"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
+	goos "os"
+	godefaultruntime "runtime"
 	"time"
+	gotime "time"
 )
 
-// Client is an RPC client for communicating with OVS.
 type Client struct {
 	*rpc.Client
 	conn net.Conn
 }
 
-// New creates a new Client from a connection.
 func New(conn net.Conn) *Client {
-	return &Client{
-		Client: jsonrpc.NewClient(conn),
-		conn:   conn,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Client{Client: jsonrpc.NewClient(conn), conn: conn}
 }
-
-// DialTimeout dials the provided network and address, and if it responds within
-// timeout will return a valid Client.
 func DialTimeout(network, addr string, timeout time.Duration) (*Client, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	conn, err := net.DialTimeout(network, addr, timeout)
 	if err != nil {
 		return nil, err
 	}
 	return New(conn), nil
 }
-
-// Ping returns nil if the OVS server responded to an "echo" command.
 func (c *Client) Ping() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var result interface{}
 	if err := c.Call("echo", []string{"hello"}, &result); err != nil {
 		return err
 	}
 	return nil
 }
-
-// WaitForDisconnect will block until the provided connection is closed
-// and return an error. This consumes the connection.
 func (c *Client) WaitForDisconnect() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n, err := io.Copy(ioutil.Discard, c.conn)
 	if err != nil && err != io.EOF {
 		return err
@@ -54,4 +53,8 @@ func (c *Client) WaitForDisconnect() error {
 		return fmt.Errorf("unexpected bytes read waiting for disconnect: %d", n)
 	}
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

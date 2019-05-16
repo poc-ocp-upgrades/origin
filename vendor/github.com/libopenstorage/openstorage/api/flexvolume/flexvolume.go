@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"math"
 	"net"
-	
+
 	"google.golang.org/grpc"
 
+	"github.com/libopenstorage/openstorage/pkg/flexvolume"
 	"github.com/libopenstorage/openstorage/pkg/mount"
 	"github.com/libopenstorage/openstorage/volume"
 	"github.com/libopenstorage/openstorage/volume/drivers"
-	"github.com/libopenstorage/openstorage/pkg/flexvolume"
-	
+
 	"go.pedge.io/dlog"
 )
 
@@ -141,7 +141,6 @@ func newFlexVolumeClient(defaultDriver string) *flexVolumeClient {
 func (c *flexVolumeClient) getVolumeDriver(driverName string) (volume.VolumeDriver, error) {
 	return volumedrivers.Get(driverName)
 }
-
 
 // StartFlexVolumeAPI starts the flexvolume API on the given port.
 func StartFlexVolumeAPI(port uint16, defaultDriver string) error {

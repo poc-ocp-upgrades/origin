@@ -520,8 +520,8 @@ func With(opt ...ConfigOpt) DoFunc {
 			Timeout:   5 * time.Second,
 		}
 		transport = &http.Transport{
-			Proxy: http.ProxyFromEnvironment,
-			Dial:  dialer.Dial,
+			Proxy:                 http.ProxyFromEnvironment,
+			Dial:                  dialer.Dial,
 			ResponseHeaderTimeout: 5 * time.Second,
 			TLSClientConfig:       &tls.Config{InsecureSkipVerify: false},
 			TLSHandshakeTimeout:   5 * time.Second,

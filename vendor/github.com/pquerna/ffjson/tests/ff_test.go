@@ -478,13 +478,13 @@ func TestMapPtrNils(t *testing.T) {
 func TestSlicePtrStructNils(t *testing.T) {
 	v1 := "v1"
 	v2 := "v2"
-	testType(t, &TslicePtrStruct{X: []*Xstring{nil, &Xstring{v1}, nil, &Xstring{v2}}}, &XslicePtrStruct{X: []*Xstring{nil, &Xstring{v1}, nil, &Xstring{v2}}})
+	testType(t, &TslicePtrStruct{X: []*Xstring{nil, {v1}, nil, {v2}}}, &XslicePtrStruct{X: []*Xstring{nil, {v1}, nil, {v2}}})
 }
 
 func TestMapPtrStructNils(t *testing.T) {
 	v1 := "v1"
 	v2 := "v2"
-	testType(t, &TMapPtrStruct{X: map[string]*Xstring{"a": nil, "b": &Xstring{v1}, "c": nil, "d": &Xstring{v2}}}, &XMapPtrStruct{X: map[string]*Xstring{"a": nil, "b": &Xstring{v1}, "c": nil, "d": &Xstring{v2}}})
+	testType(t, &TMapPtrStruct{X: map[string]*Xstring{"a": nil, "b": {v1}, "c": nil, "d": {v2}}}, &XMapPtrStruct{X: map[string]*Xstring{"a": nil, "b": {v1}, "c": nil, "d": {v2}}})
 }
 
 func TestTimeDuration(t *testing.T) {

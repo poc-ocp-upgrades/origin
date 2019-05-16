@@ -668,8 +668,8 @@ func checkUpdate(ctx context.Context, t *testing.T, snapshotter snapshots.Snapsh
 		assertLabels(t, st.Labels, expected)
 
 		expected = map[string]string{
-			"l1": "updated",
-			"l3": "v3",
+			"l1":                    "updated",
+			"l3":                    "v3",
 			"containerd.io/gc.root": rootTime,
 		}
 		st.Labels = map[string]string{
@@ -683,7 +683,7 @@ func checkUpdate(ctx context.Context, t *testing.T, snapshotter snapshots.Snapsh
 		assertLabels(t, st.Labels, expected)
 
 		expected = map[string]string{
-			"l4": "v4",
+			"l4":                    "v4",
 			"containerd.io/gc.root": rootTime,
 		}
 		st.Labels = expected

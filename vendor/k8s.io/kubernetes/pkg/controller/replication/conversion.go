@@ -1,31 +1,9 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// This file contains adapters that convert between RC and RS,
-// as if ReplicationController were an older API version of ReplicaSet.
-// It allows ReplicaSetController to directly replace the old ReplicationManager,
-// which was previously a manually-maintained copy-paste of RSC.
-
 package replication
 
 import (
 	"errors"
 	"fmt"
-	"time"
-
+	goformat "fmt"
 	apps "k8s.io/api/apps/v1"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -45,31 +23,37 @@ import (
 	appsconversion "k8s.io/kubernetes/pkg/apis/apps/v1"
 	apiv1 "k8s.io/kubernetes/pkg/apis/core/v1"
 	"k8s.io/kubernetes/pkg/controller"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// informerAdapter implements ReplicaSetInformer by wrapping ReplicationControllerInformer
-// and converting objects.
 type informerAdapter struct {
 	rcInformer coreinformers.ReplicationControllerInformer
 }
 
 func (i informerAdapter) Informer() cache.SharedIndexInformer {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionInformer{i.rcInformer.Informer()}
 }
-
 func (i informerAdapter) Lister() appslisters.ReplicaSetLister {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionLister{i.rcInformer.Lister()}
 }
 
-type conversionInformer struct {
-	cache.SharedIndexInformer
-}
+type conversionInformer struct{ cache.SharedIndexInformer }
 
 func (i conversionInformer) AddEventHandler(handler cache.ResourceEventHandler) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i.SharedIndexInformer.AddEventHandler(conversionEventHandler{handler})
 }
-
 func (i conversionInformer) AddEventHandlerWithResyncPeriod(handler cache.ResourceEventHandler, resyncPeriod time.Duration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i.SharedIndexInformer.AddEventHandlerWithResyncPeriod(conversionEventHandler{handler}, resyncPeriod)
 }
 
@@ -78,18 +62,22 @@ type conversionLister struct {
 }
 
 func (l conversionLister) List(selector labels.Selector) ([]*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rcList, err := l.rcLister.List(selector)
 	if err != nil {
 		return nil, err
 	}
 	return convertSlice(rcList)
 }
-
 func (l conversionLister) ReplicaSets(namespace string) appslisters.ReplicaSetNamespaceLister {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionNamespaceLister{l.rcLister.ReplicationControllers(namespace)}
 }
-
 func (l conversionLister) GetPodReplicaSets(pod *v1.Pod) ([]*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rcList, err := l.rcLister.GetPodControllers(pod)
 	if err != nil {
 		return nil, err
@@ -102,14 +90,17 @@ type conversionNamespaceLister struct {
 }
 
 func (l conversionNamespaceLister) List(selector labels.Selector) ([]*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rcList, err := l.rcLister.List(selector)
 	if err != nil {
 		return nil, err
 	}
 	return convertSlice(rcList)
 }
-
 func (l conversionNamespaceLister) Get(name string) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, err := l.rcLister.Get(name)
 	if err != nil {
 		return nil, err
@@ -117,11 +108,11 @@ func (l conversionNamespaceLister) Get(name string) (*apps.ReplicaSet, error) {
 	return convertRCtoRS(rc, nil)
 }
 
-type conversionEventHandler struct {
-	handler cache.ResourceEventHandler
-}
+type conversionEventHandler struct{ handler cache.ResourceEventHandler }
 
 func (h conversionEventHandler) OnAdd(obj interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rs, err := convertRCtoRS(obj.(*v1.ReplicationController), nil)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("dropping RC OnAdd event: can't convert object %#v to RS: %v", obj, err))
@@ -129,8 +120,9 @@ func (h conversionEventHandler) OnAdd(obj interface{}) {
 	}
 	h.handler.OnAdd(rs)
 }
-
 func (h conversionEventHandler) OnUpdate(oldObj, newObj interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oldRS, err := convertRCtoRS(oldObj.(*v1.ReplicationController), nil)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("dropping RC OnUpdate event: can't convert old object %#v to RS: %v", oldObj, err))
@@ -143,11 +135,11 @@ func (h conversionEventHandler) OnUpdate(oldObj, newObj interface{}) {
 	}
 	h.handler.OnUpdate(oldRS, newRS)
 }
-
 func (h conversionEventHandler) OnDelete(obj interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, ok := obj.(*v1.ReplicationController)
 	if !ok {
-		// Convert the Obj inside DeletedFinalStateUnknown.
 		tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
 		if !ok {
 			utilruntime.HandleError(fmt.Errorf("dropping RC OnDelete event: couldn't get object from tombstone %+v", obj))
@@ -166,8 +158,6 @@ func (h conversionEventHandler) OnDelete(obj interface{}) {
 		h.handler.OnDelete(cache.DeletedFinalStateUnknown{Key: tombstone.Key, Obj: rs})
 		return
 	}
-
-	// It's a regular RC object.
 	rs, err := convertRCtoRS(rc, nil)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("dropping RC OnDelete event: can't convert object %#v to RS: %v", obj, err))
@@ -176,15 +166,16 @@ func (h conversionEventHandler) OnDelete(obj interface{}) {
 	h.handler.OnDelete(rs)
 }
 
-type clientsetAdapter struct {
-	clientset.Interface
-}
+type clientsetAdapter struct{ clientset.Interface }
 
 func (c clientsetAdapter) AppsV1() appsv1client.AppsV1Interface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionAppsV1Client{c.Interface, c.Interface.AppsV1()}
 }
-
 func (c clientsetAdapter) Apps() appsv1client.AppsV1Interface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionAppsV1Client{c.Interface, c.Interface.AppsV1()}
 }
 
@@ -194,6 +185,8 @@ type conversionAppsV1Client struct {
 }
 
 func (c conversionAppsV1Client) ReplicaSets(namespace string) appsv1client.ReplicaSetInterface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return conversionClient{c.clientset.CoreV1().ReplicationControllers(namespace)}
 }
 
@@ -202,44 +195,51 @@ type conversionClient struct {
 }
 
 func (c conversionClient) Create(rs *apps.ReplicaSet) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return convertCall(c.ReplicationControllerInterface.Create, rs)
 }
-
 func (c conversionClient) Update(rs *apps.ReplicaSet) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return convertCall(c.ReplicationControllerInterface.Update, rs)
 }
-
 func (c conversionClient) UpdateStatus(rs *apps.ReplicaSet) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return convertCall(c.ReplicationControllerInterface.UpdateStatus, rs)
 }
-
 func (c conversionClient) Get(name string, options metav1.GetOptions) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, err := c.ReplicationControllerInterface.Get(name, options)
 	if err != nil {
 		return nil, err
 	}
 	return convertRCtoRS(rc, nil)
 }
-
 func (c conversionClient) List(opts metav1.ListOptions) (*apps.ReplicaSetList, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rcList, err := c.ReplicationControllerInterface.List(opts)
 	if err != nil {
 		return nil, err
 	}
 	return convertList(rcList)
 }
-
 func (c conversionClient) Watch(opts metav1.ListOptions) (watch.Interface, error) {
-	// This is not used by RSC because we wrap the shared informer instead.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil, errors.New("Watch() is not implemented for conversionClient")
 }
-
 func (c conversionClient) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *apps.ReplicaSet, err error) {
-	// This is not used by RSC.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil, errors.New("Patch() is not implemented for conversionClient")
 }
-
 func convertSlice(rcList []*v1.ReplicationController) ([]*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rsList := make([]*apps.ReplicaSet, 0, len(rcList))
 	for _, rc := range rcList {
 		rs, err := convertRCtoRS(rc, nil)
@@ -250,8 +250,9 @@ func convertSlice(rcList []*v1.ReplicationController) ([]*apps.ReplicaSet, error
 	}
 	return rsList, nil
 }
-
 func convertList(rcList *v1.ReplicationControllerList) (*apps.ReplicaSetList, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rsList := &apps.ReplicaSetList{Items: make([]apps.ReplicaSet, len(rcList.Items))}
 	for i := range rcList.Items {
 		rc := &rcList.Items[i]
@@ -262,8 +263,9 @@ func convertList(rcList *v1.ReplicationControllerList) (*apps.ReplicaSetList, er
 	}
 	return rsList, nil
 }
-
 func convertCall(fn func(*v1.ReplicationController) (*v1.ReplicationController, error), rs *apps.ReplicaSet) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, err := convertRStoRC(rs)
 	if err != nil {
 		return nil, err
@@ -274,8 +276,9 @@ func convertCall(fn func(*v1.ReplicationController) (*v1.ReplicationController, 
 	}
 	return convertRCtoRS(result, nil)
 }
-
 func convertRCtoRS(rc *v1.ReplicationController, out *apps.ReplicaSet) (*apps.ReplicaSet, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var rsInternal appsinternal.ReplicaSet
 	if err := apiv1.Convert_v1_ReplicationController_To_apps_ReplicaSet(rc, &rsInternal, nil); err != nil {
 		return nil, fmt.Errorf("can't convert ReplicationController %v/%v to ReplicaSet: %v", rc.Namespace, rc.Name, err)
@@ -288,8 +291,9 @@ func convertRCtoRS(rc *v1.ReplicationController, out *apps.ReplicaSet) (*apps.Re
 	}
 	return out, nil
 }
-
 func convertRStoRC(rs *apps.ReplicaSet) (*v1.ReplicationController, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var rsInternal appsinternal.ReplicaSet
 	if err := appsconversion.Convert_v1_ReplicaSet_To_apps_ReplicaSet(rs, &rsInternal, nil); err != nil {
 		return nil, fmt.Errorf("can't convert ReplicaSet (converting to ReplicationController %v/%v) from apps/v1 to internal: %v", rs.Namespace, rs.Name, err)
@@ -301,32 +305,37 @@ func convertRStoRC(rs *apps.ReplicaSet) (*v1.ReplicationController, error) {
 	return &rc, nil
 }
 
-type podControlAdapter struct {
-	controller.PodControlInterface
-}
+type podControlAdapter struct{ controller.PodControlInterface }
 
 func (pc podControlAdapter) CreatePods(namespace string, template *v1.PodTemplateSpec, object runtime.Object) error {
-	// This is not used by RSC.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return errors.New("CreatePods() is not implemented for podControlAdapter")
 }
-
 func (pc podControlAdapter) CreatePodsOnNode(nodeName, namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
-	// This is not used by RSC.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return errors.New("CreatePodsOnNode() is not implemented for podControlAdapter")
 }
-
 func (pc podControlAdapter) CreatePodsWithControllerRef(namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, err := convertRStoRC(object.(*apps.ReplicaSet))
 	if err != nil {
 		return err
 	}
 	return pc.PodControlInterface.CreatePodsWithControllerRef(namespace, template, rc, controllerRef)
 }
-
 func (pc podControlAdapter) DeletePod(namespace string, podID string, object runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rc, err := convertRStoRC(object.(*apps.ReplicaSet))
 	if err != nil {
 		return err
 	}
 	return pc.PodControlInterface.DeletePod(namespace, podID, rc)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

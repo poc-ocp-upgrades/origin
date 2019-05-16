@@ -1,50 +1,31 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package diskmanagers
 
 import (
 	"context"
 	"fmt"
-
 	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/cloudprovider/providers/vsphere/vclib"
 )
 
-// VirtualDisk is for the Disk Management
 type VirtualDisk struct {
 	DiskPath      string
 	VolumeOptions *vclib.VolumeOptions
 	VMOptions     *vclib.VMOptions
 }
 
-// VirtualDisk Operations Const
 const (
 	VirtualDiskCreateOperation = "Create"
 	VirtualDiskDeleteOperation = "Delete"
 )
 
-// VirtualDiskProvider defines interfaces for creating disk
 type VirtualDiskProvider interface {
 	Create(ctx context.Context, datastore *vclib.Datastore) (string, error)
 	Delete(ctx context.Context, datacenter *vclib.Datacenter) error
 }
 
-// getDiskManager returns vmDiskManager or vdmDiskManager based on given volumeoptions
 func getDiskManager(disk *VirtualDisk, diskOperation string) VirtualDiskProvider {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var diskProvider VirtualDiskProvider
 	switch diskOperation {
 	case VirtualDiskDeleteOperation:
@@ -58,9 +39,9 @@ func getDiskManager(disk *VirtualDisk, diskOperation string) VirtualDiskProvider
 	}
 	return diskProvider
 }
-
-// Create gets appropriate disk manager and calls respective create method
 func (virtualDisk *VirtualDisk) Create(ctx context.Context, datastore *vclib.Datastore) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if virtualDisk.VolumeOptions.DiskFormat == "" {
 		virtualDisk.VolumeOptions.DiskFormat = vclib.ThinDiskType
 	}
@@ -73,8 +54,8 @@ func (virtualDisk *VirtualDisk) Create(ctx context.Context, datastore *vclib.Dat
 	}
 	return getDiskManager(virtualDisk, VirtualDiskCreateOperation).Create(ctx, datastore)
 }
-
-// Delete gets appropriate disk manager and calls respective delete method
 func (virtualDisk *VirtualDisk) Delete(ctx context.Context, datacenter *vclib.Datacenter) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return getDiskManager(virtualDisk, VirtualDiskDeleteOperation).Delete(ctx, datacenter)
 }

@@ -18,13 +18,13 @@ const (
 
 // ByMediaType are pre-configured default Codecs, ready to use OOTB
 var ByMediaType = map[encoding.MediaType]encoding.Codec{
-	MediaTypeProtobuf: encoding.Codec{
+	MediaTypeProtobuf: {
 		Name:       NameProtobuf,
 		Type:       MediaTypeProtobuf,
 		NewEncoder: proto.NewEncoder,
 		NewDecoder: proto.NewDecoder,
 	},
-	MediaTypeJSON: encoding.Codec{
+	MediaTypeJSON: {
 		Name:       NameJSON,
 		Type:       MediaTypeJSON,
 		NewEncoder: json.NewEncoder,

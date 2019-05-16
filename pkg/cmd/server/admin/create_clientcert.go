@@ -2,31 +2,26 @@ package admin
 
 import (
 	"errors"
-	"io"
-
-	"k8s.io/klog"
-
-	"k8s.io/apiserver/pkg/authentication/user"
-
 	"github.com/openshift/library-go/pkg/crypto"
+	"io"
+	"k8s.io/apiserver/pkg/authentication/user"
+	"k8s.io/klog"
 )
 
 type CreateClientCertOptions struct {
 	SignerCertOptions *SignerCertOptions
-
-	CertFile string
-	KeyFile  string
-
-	ExpireDays int
-
-	User   string
-	Groups []string
-
-	Overwrite bool
-	Output    io.Writer
+	CertFile          string
+	KeyFile           string
+	ExpireDays        int
+	User              string
+	Groups            []string
+	Overwrite         bool
+	Output            io.Writer
 }
 
 func (o CreateClientCertOptions) Validate(args []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -42,25 +37,22 @@ func (o CreateClientCertOptions) Validate(args []string) error {
 	if len(o.User) == 0 {
 		return errors.New("user must be provided")
 	}
-
 	if o.SignerCertOptions == nil {
 		return errors.New("signer options are required")
 	}
 	if err := o.SignerCertOptions.Validate(); err != nil {
 		return err
 	}
-
 	return nil
 }
-
 func (o CreateClientCertOptions) CreateClientCert() (*crypto.TLSCertificateConfig, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.V(4).Infof("Creating a client cert with: %#v and %#v", o, o.SignerCertOptions)
-
 	signerCert, err := o.SignerCertOptions.CA()
 	if err != nil {
 		return nil, err
 	}
-
 	var cert *crypto.TLSCertificateConfig
 	written := true
 	userInfo := &user.DefaultInfo{Name: o.User, Groups: o.Groups}

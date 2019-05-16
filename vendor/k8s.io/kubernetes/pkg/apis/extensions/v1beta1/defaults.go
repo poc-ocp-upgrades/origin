@@ -1,44 +1,26 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package v1beta1
 
 import (
-	"math"
-
 	"k8s.io/api/core/v1"
 	extensionsv1beta1 "k8s.io/api/extensions/v1beta1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/intstr"
+	"math"
 )
 
 func addDefaultingFuncs(scheme *runtime.Scheme) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return RegisterDefaults(scheme)
 }
-
 func SetDefaults_DaemonSet(obj *extensionsv1beta1.DaemonSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	labels := obj.Spec.Template.Labels
-
-	// TODO: support templates defined elsewhere when we support them in the API
 	if labels != nil {
 		if obj.Spec.Selector == nil {
-			obj.Spec.Selector = &metav1.LabelSelector{
-				MatchLabels: labels,
-			}
+			obj.Spec.Selector = &metav1.LabelSelector{MatchLabels: labels}
 		}
 		if len(obj.Labels) == 0 {
 			obj.Labels = labels
@@ -54,7 +36,6 @@ func SetDefaults_DaemonSet(obj *extensionsv1beta1.DaemonSet) {
 			updateStrategy.RollingUpdate = &rollingUpdate
 		}
 		if updateStrategy.RollingUpdate.MaxUnavailable == nil {
-			// Set default MaxUnavailable as 1 by default.
 			maxUnavailable := intstr.FromInt(1)
 			updateStrategy.RollingUpdate.MaxUnavailable = &maxUnavailable
 		}
@@ -64,20 +45,18 @@ func SetDefaults_DaemonSet(obj *extensionsv1beta1.DaemonSet) {
 		*obj.Spec.RevisionHistoryLimit = 10
 	}
 }
-
 func SetDefaults_PodSecurityPolicySpec(obj *extensionsv1beta1.PodSecurityPolicySpec) {
-	// This field was added after PodSecurityPolicy was released.
-	// Policies that do not include this field must remain as permissive as they were prior to the introduction of this field.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.AllowPrivilegeEscalation == nil {
 		t := true
 		obj.AllowPrivilegeEscalation = &t
 	}
 }
-
 func SetDefaults_Deployment(obj *extensionsv1beta1.Deployment) {
-	// Default labels and selector to labels from pod template spec.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	labels := obj.Spec.Template.Labels
-
 	if labels != nil {
 		if obj.Spec.Selector == nil {
 			obj.Spec.Selector = &metav1.LabelSelector{MatchLabels: labels}
@@ -86,13 +65,11 @@ func SetDefaults_Deployment(obj *extensionsv1beta1.Deployment) {
 			obj.Labels = labels
 		}
 	}
-	// Set extensionsv1beta1.DeploymentSpec.Replicas to 1 if it is not set.
 	if obj.Spec.Replicas == nil {
 		obj.Spec.Replicas = new(int32)
 		*obj.Spec.Replicas = 1
 	}
 	strategy := &obj.Spec.Strategy
-	// Set default extensionsv1beta1.DeploymentStrategyType as RollingUpdate.
 	if strategy.Type == "" {
 		strategy.Type = extensionsv1beta1.RollingUpdateDeploymentStrategyType
 	}
@@ -102,39 +79,30 @@ func SetDefaults_Deployment(obj *extensionsv1beta1.Deployment) {
 			strategy.RollingUpdate = &rollingUpdate
 		}
 		if strategy.RollingUpdate.MaxUnavailable == nil {
-			// Set default MaxUnavailable as 1 by default.
 			maxUnavailable := intstr.FromInt(1)
 			strategy.RollingUpdate.MaxUnavailable = &maxUnavailable
 		}
 		if strategy.RollingUpdate.MaxSurge == nil {
-			// Set default MaxSurge as 1 by default.
 			maxSurge := intstr.FromInt(1)
 			strategy.RollingUpdate.MaxSurge = &maxSurge
 		}
 	}
-	// Set extensionsv1beta1.DeploymentSpec.ProgressDeadlineSeconds to MaxInt,
-	// which has the same meaning as unset.
 	if obj.Spec.ProgressDeadlineSeconds == nil {
 		obj.Spec.ProgressDeadlineSeconds = new(int32)
 		*obj.Spec.ProgressDeadlineSeconds = math.MaxInt32
 	}
-	// Set extensionsv1beta1.DeploymentSpec.RevisionHistoryLimit to MaxInt32,
-	// which has the same meaning as unset.
 	if obj.Spec.RevisionHistoryLimit == nil {
 		obj.Spec.RevisionHistoryLimit = new(int32)
 		*obj.Spec.RevisionHistoryLimit = math.MaxInt32
 	}
 }
-
 func SetDefaults_ReplicaSet(obj *extensionsv1beta1.ReplicaSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	labels := obj.Spec.Template.Labels
-
-	// TODO: support templates defined elsewhere when we support them in the API
 	if labels != nil {
 		if obj.Spec.Selector == nil {
-			obj.Spec.Selector = &metav1.LabelSelector{
-				MatchLabels: labels,
-			}
+			obj.Spec.Selector = &metav1.LabelSelector{MatchLabels: labels}
 		}
 		if len(obj.Labels) == 0 {
 			obj.Labels = labels
@@ -145,9 +113,9 @@ func SetDefaults_ReplicaSet(obj *extensionsv1beta1.ReplicaSet) {
 		*obj.Spec.Replicas = 1
 	}
 }
-
 func SetDefaults_NetworkPolicy(obj *extensionsv1beta1.NetworkPolicy) {
-	// Default any undefined Protocol fields to TCP.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, i := range obj.Spec.Ingress {
 		for _, p := range i.Ports {
 			if p.Protocol == nil {
@@ -156,9 +124,7 @@ func SetDefaults_NetworkPolicy(obj *extensionsv1beta1.NetworkPolicy) {
 			}
 		}
 	}
-
 	if len(obj.Spec.PolicyTypes) == 0 {
-		// Any policy that does not specify policyTypes implies at least "Ingress".
 		obj.Spec.PolicyTypes = []extensionsv1beta1.PolicyType{extensionsv1beta1.PolicyTypeIngress}
 		if len(obj.Spec.Egress) != 0 {
 			obj.Spec.PolicyTypes = append(obj.Spec.PolicyTypes, extensionsv1beta1.PolicyTypeEgress)

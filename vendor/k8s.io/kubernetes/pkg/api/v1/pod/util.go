@@ -1,35 +1,20 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package pod
 
 import (
 	"fmt"
-	"time"
-
+	goformat "fmt"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/intstr"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// FindPort locates the container port for the given pod and portName.  If the
-// targetPort is a number, use that.  If the targetPort is a string, look that
-// string up in all named ports in all containers in the target pod.  If no
-// match is found, fail.
 func FindPort(pod *v1.Pod, svcPort *v1.ServicePort) (int, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	portName := svcPort.TargetPort
 	switch portName.Type {
 	case intstr.String:
@@ -44,18 +29,14 @@ func FindPort(pod *v1.Pod, svcPort *v1.ServicePort) (int, error) {
 	case intstr.Int:
 		return portName.IntValue(), nil
 	}
-
 	return 0, fmt.Errorf("no suitable port for manifest: %s", pod.UID)
 }
 
-// Visitor is called with each object name, and returns true if visiting should continue
 type Visitor func(name string) (shouldContinue bool)
 
-// VisitPodSecretNames invokes the visitor function with the name of every secret
-// referenced by the pod spec. If visitor returns false, visiting is short-circuited.
-// Transitive references (e.g. pod -> pvc -> pv -> secret) are not visited.
-// Returns true if visiting completed, false if visiting was short-circuited.
 func VisitPodSecretNames(pod *v1.Pod, visitor Visitor) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, reference := range pod.Spec.ImagePullSecrets {
 		if !visitor(reference.Name) {
 			return false
@@ -72,7 +53,6 @@ func VisitPodSecretNames(pod *v1.Pod, visitor Visitor) bool {
 		}
 	}
 	var source *v1.VolumeSource
-
 	for i := range pod.Spec.Volumes {
 		source = &pod.Spec.Volumes[i].VolumeSource
 		switch {
@@ -124,8 +104,9 @@ func VisitPodSecretNames(pod *v1.Pod, visitor Visitor) bool {
 	}
 	return true
 }
-
 func visitContainerSecretNames(container *v1.Container, visitor Visitor) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, env := range container.EnvFrom {
 		if env.SecretRef != nil {
 			if !visitor(env.SecretRef.Name) {
@@ -142,12 +123,9 @@ func visitContainerSecretNames(container *v1.Container, visitor Visitor) bool {
 	}
 	return true
 }
-
-// VisitPodConfigmapNames invokes the visitor function with the name of every configmap
-// referenced by the pod spec. If visitor returns false, visiting is short-circuited.
-// Transitive references (e.g. pod -> pvc -> pv -> secret) are not visited.
-// Returns true if visiting completed, false if visiting was short-circuited.
 func VisitPodConfigmapNames(pod *v1.Pod, visitor Visitor) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := range pod.Spec.InitContainers {
 		if !visitContainerConfigmapNames(&pod.Spec.InitContainers[i], visitor) {
 			return false
@@ -178,8 +156,9 @@ func VisitPodConfigmapNames(pod *v1.Pod, visitor Visitor) bool {
 	}
 	return true
 }
-
 func visitContainerConfigmapNames(container *v1.Container, visitor Visitor) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, env := range container.EnvFrom {
 		if env.ConfigMapRef != nil {
 			if !visitor(env.ConfigMapRef.Name) {
@@ -196,10 +175,9 @@ func visitContainerConfigmapNames(container *v1.Container, visitor Visitor) bool
 	}
 	return true
 }
-
-// GetContainerStatus extracts the status of container "name" from "statuses".
-// It also returns if "name" exists.
 func GetContainerStatus(statuses []v1.ContainerStatus, name string) (v1.ContainerStatus, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := range statuses {
 		if statuses[i].Name == name {
 			return statuses[i], true
@@ -207,24 +185,18 @@ func GetContainerStatus(statuses []v1.ContainerStatus, name string) (v1.Containe
 	}
 	return v1.ContainerStatus{}, false
 }
-
-// GetExistingContainerStatus extracts the status of container "name" from "statuses",
-// It also returns if "name" exists.
 func GetExistingContainerStatus(statuses []v1.ContainerStatus, name string) v1.ContainerStatus {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	status, _ := GetContainerStatus(statuses, name)
 	return status
 }
-
-// IsPodAvailable returns true if a pod is available; false otherwise.
-// Precondition for an available pod is that it must be ready. On top
-// of that, there are two cases when a pod can be considered available:
-// 1. minReadySeconds == 0, or
-// 2. LastTransitionTime (is set) + minReadySeconds < current time
 func IsPodAvailable(pod *v1.Pod, minReadySeconds int32, now metav1.Time) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !IsPodReady(pod) {
 		return false
 	}
-
 	c := GetPodReadyCondition(pod.Status)
 	minReadySecondsDuration := time.Duration(minReadySeconds) * time.Second
 	if minReadySeconds == 0 || !c.LastTransitionTime.IsZero() && c.LastTransitionTime.Add(minReadySecondsDuration).Before(now.Time) {
@@ -232,37 +204,34 @@ func IsPodAvailable(pod *v1.Pod, minReadySeconds int32, now metav1.Time) bool {
 	}
 	return false
 }
-
-// IsPodReady returns true if a pod is ready; false otherwise.
 func IsPodReady(pod *v1.Pod) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return IsPodReadyConditionTrue(pod.Status)
 }
-
-// IsPodReadyConditionTrue returns true if a pod is ready; false otherwise.
 func IsPodReadyConditionTrue(status v1.PodStatus) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	condition := GetPodReadyCondition(status)
 	return condition != nil && condition.Status == v1.ConditionTrue
 }
-
-// GetPodReadyCondition extracts the pod ready condition from the given status and returns that.
-// Returns nil if the condition is not present.
 func GetPodReadyCondition(status v1.PodStatus) *v1.PodCondition {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, condition := GetPodCondition(&status, v1.PodReady)
 	return condition
 }
-
-// GetPodCondition extracts the provided condition from the given status and returns that.
-// Returns nil and -1 if the condition is not present, and the index of the located condition.
 func GetPodCondition(status *v1.PodStatus, conditionType v1.PodConditionType) (int, *v1.PodCondition) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if status == nil {
 		return -1, nil
 	}
 	return GetPodConditionFromList(status.Conditions, conditionType)
 }
-
-// GetPodConditionFromList extracts the provided condition from the given list of condition and
-// returns the index of the condition and the condition. Returns -1 and nil if the condition is not present.
 func GetPodConditionFromList(conditions []v1.PodCondition, conditionType v1.PodConditionType) (int, *v1.PodCondition) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if conditions == nil {
 		return -1, nil
 	}
@@ -273,32 +242,23 @@ func GetPodConditionFromList(conditions []v1.PodCondition, conditionType v1.PodC
 	}
 	return -1, nil
 }
-
-// UpdatePodCondition updates existing pod condition or creates a new one. Sets LastTransitionTime to now if the
-// status has changed.
-// Returns true if pod condition has changed or has been added.
 func UpdatePodCondition(status *v1.PodStatus, condition *v1.PodCondition) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	condition.LastTransitionTime = metav1.Now()
-	// Try to find this pod condition.
 	conditionIndex, oldCondition := GetPodCondition(status, condition.Type)
-
 	if oldCondition == nil {
-		// We are adding new pod condition.
 		status.Conditions = append(status.Conditions, *condition)
 		return true
 	}
-	// We are updating an existing condition, so we need to check if it has changed.
 	if condition.Status == oldCondition.Status {
 		condition.LastTransitionTime = oldCondition.LastTransitionTime
 	}
-
-	isEqual := condition.Status == oldCondition.Status &&
-		condition.Reason == oldCondition.Reason &&
-		condition.Message == oldCondition.Message &&
-		condition.LastProbeTime.Equal(&oldCondition.LastProbeTime) &&
-		condition.LastTransitionTime.Equal(&oldCondition.LastTransitionTime)
-
+	isEqual := condition.Status == oldCondition.Status && condition.Reason == oldCondition.Reason && condition.Message == oldCondition.Message && condition.LastProbeTime.Equal(&oldCondition.LastProbeTime) && condition.LastTransitionTime.Equal(&oldCondition.LastTransitionTime)
 	status.Conditions[conditionIndex] = *condition
-	// Return true if one of the fields have changed.
 	return !isEqual
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

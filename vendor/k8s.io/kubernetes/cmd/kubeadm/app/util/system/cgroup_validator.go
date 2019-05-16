@@ -1,36 +1,23 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package system
 
 import (
 	"bufio"
-	"os"
-	"strings"
-
+	goformat "fmt"
 	"github.com/pkg/errors"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 var _ Validator = &CgroupsValidator{}
 
-type CgroupsValidator struct {
-	Reporter Reporter
-}
+type CgroupsValidator struct{ Reporter Reporter }
 
 func (c *CgroupsValidator) Name() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return "cgroups"
 }
 
@@ -39,14 +26,17 @@ const (
 )
 
 func (c *CgroupsValidator) Validate(spec SysSpec) (error, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	subsystems, err := c.getCgroupSubsystems()
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to get cgroup subsystems")
 	}
 	return nil, c.validateCgroupSubsystems(spec.Cgroups, subsystems)
 }
-
 func (c *CgroupsValidator) validateCgroupSubsystems(cgroupSpec, subsystems []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	missing := []string{}
 	for _, cgroup := range cgroupSpec {
 		found := false
@@ -68,16 +58,15 @@ func (c *CgroupsValidator) validateCgroupSubsystems(cgroupSpec, subsystems []str
 		return errors.Errorf("missing cgroups: %s", strings.Join(missing, " "))
 	}
 	return nil
-
 }
-
 func (c *CgroupsValidator) getCgroupSubsystems() ([]string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f, err := os.Open("/proc/cgroups")
 	if err != nil {
 		return nil, err
 	}
 	defer f.Close()
-
 	subsystems := []string{}
 	s := bufio.NewScanner(f)
 	for s.Scan() {
@@ -93,4 +82,8 @@ func (c *CgroupsValidator) getCgroupSubsystems() ([]string, error) {
 		}
 	}
 	return subsystems, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

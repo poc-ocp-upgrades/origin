@@ -2,13 +2,19 @@ package dot
 
 import (
 	"fmt"
+	goformat "fmt"
+	goos "os"
+	godefaultruntime "runtime"
 	"strings"
+	gotime "time"
 )
 
-// Quote takes an arbitrary DOT ID and escapes any quotes that is contains.
-// The resulting string is quoted again to guarantee that it is a valid ID.
-// DOT graph IDs can be any double-quoted string
-// See http://www.graphviz.org/doc/info/lang.html
 func Quote(id string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf(`"%s"`, strings.Replace(id, `"`, `\"`, -1))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

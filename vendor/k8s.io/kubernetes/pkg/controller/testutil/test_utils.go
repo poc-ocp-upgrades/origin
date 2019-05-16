@@ -1,90 +1,63 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package testutil
 
 import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"reflect"
-	"sync"
-	"testing"
-	"time"
-
+	goformat "fmt"
+	jsonpatch "github.com/evanphx/json-patch"
+	"k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
+	"k8s.io/apimachinery/pkg/util/clock"
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/strategicpatch"
 	"k8s.io/apimachinery/pkg/watch"
-
-	"k8s.io/apimachinery/pkg/util/clock"
-	ref "k8s.io/client-go/tools/reference"
-
-	"k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes/fake"
 	v1core "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/cache"
+	ref "k8s.io/client-go/tools/reference"
+	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	utilnode "k8s.io/kubernetes/pkg/util/node"
-
-	jsonpatch "github.com/evanphx/json-patch"
-	"k8s.io/klog"
+	goos "os"
+	"reflect"
+	godefaultruntime "runtime"
+	"sync"
+	"testing"
+	"time"
+	gotime "time"
 )
 
 var (
 	keyFunc = cache.DeletionHandlingMetaNamespaceKeyFunc
 )
 
-// FakeNodeHandler is a fake implementation of NodesInterface and NodeInterface. It
-// allows test cases to have fine-grained control over mock behaviors. We also need
-// PodsInterface and PodInterface to test list & delete pods, which is implemented in
-// the embedded client.Fake field.
 type FakeNodeHandler struct {
 	*fake.Clientset
-
-	// Input: Hooks determine if request is valid or not
-	CreateHook func(*FakeNodeHandler, *v1.Node) bool
-	Existing   []*v1.Node
-
-	// Output
+	CreateHook          func(*FakeNodeHandler, *v1.Node) bool
+	Existing            []*v1.Node
 	CreatedNodes        []*v1.Node
 	DeletedNodes        []*v1.Node
 	UpdatedNodes        []*v1.Node
 	UpdatedNodeStatuses []*v1.Node
 	RequestCount        int
-
-	// Synchronization
-	lock           sync.Mutex
-	DeleteWaitChan chan struct{}
-	PatchWaitChan  chan struct{}
+	lock                sync.Mutex
+	DeleteWaitChan      chan struct{}
+	PatchWaitChan       chan struct{}
 }
-
-// FakeLegacyHandler is a fake implementation of CoreV1Interface.
 type FakeLegacyHandler struct {
 	v1core.CoreV1Interface
 	n *FakeNodeHandler
 }
 
-// GetUpdatedNodesCopy returns a slice of Nodes with updates applied.
 func (m *FakeNodeHandler) GetUpdatedNodesCopy() []*v1.Node {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	updatedNodesCopy := make([]*v1.Node, len(m.UpdatedNodes), len(m.UpdatedNodes))
@@ -93,24 +66,24 @@ func (m *FakeNodeHandler) GetUpdatedNodesCopy() []*v1.Node {
 	}
 	return updatedNodesCopy
 }
-
-// Core returns fake CoreInterface.
 func (m *FakeNodeHandler) Core() v1core.CoreV1Interface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &FakeLegacyHandler{m.Clientset.Core(), m}
 }
-
-// CoreV1 returns fake CoreV1Interface
 func (m *FakeNodeHandler) CoreV1() v1core.CoreV1Interface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &FakeLegacyHandler{m.Clientset.CoreV1(), m}
 }
-
-// Nodes return fake NodeInterfaces.
 func (m *FakeLegacyHandler) Nodes() v1core.NodeInterface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return m.n
 }
-
-// Create adds a new Node to the fake store.
 func (m *FakeNodeHandler) Create(node *v1.Node) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
@@ -128,9 +101,9 @@ func (m *FakeNodeHandler) Create(node *v1.Node) (*v1.Node, error) {
 	}
 	return nil, errors.New("create error")
 }
-
-// Get returns a Node from the fake store.
 func (m *FakeNodeHandler) Get(name string, opts metav1.GetOptions) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
@@ -150,9 +123,9 @@ func (m *FakeNodeHandler) Get(name string, opts metav1.GetOptions) (*v1.Node, er
 	}
 	return nil, nil
 }
-
-// List returns a list of Nodes from the fake store.
 func (m *FakeNodeHandler) List(opts metav1.ListOptions) (*v1.NodeList, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
@@ -180,9 +153,9 @@ func (m *FakeNodeHandler) List(opts metav1.ListOptions) (*v1.NodeList, error) {
 	}
 	return nodeList, nil
 }
-
-// Delete deletes a Node from the fake store.
 func (m *FakeNodeHandler) Delete(id string, opt *metav1.DeleteOptions) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
@@ -194,20 +167,19 @@ func (m *FakeNodeHandler) Delete(id string, opt *metav1.DeleteOptions) error {
 	m.DeletedNodes = append(m.DeletedNodes, NewNode(id))
 	return nil
 }
-
-// DeleteCollection deletes a collection of Nodes from the fake store.
 func (m *FakeNodeHandler) DeleteCollection(opt *metav1.DeleteOptions, listOpts metav1.ListOptions) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil
 }
-
-// Update updates a Node in the fake store.
 func (m *FakeNodeHandler) Update(node *v1.Node) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
 		m.lock.Unlock()
 	}()
-
 	nodeCopy := *node
 	for i, updateNode := range m.UpdatedNodes {
 		if updateNode.Name == nodeCopy.Name {
@@ -218,15 +190,14 @@ func (m *FakeNodeHandler) Update(node *v1.Node) (*v1.Node, error) {
 	m.UpdatedNodes = append(m.UpdatedNodes, &nodeCopy)
 	return node, nil
 }
-
-// UpdateStatus updates a status of a Node in the fake store.
 func (m *FakeNodeHandler) UpdateStatus(node *v1.Node) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
 		m.lock.Unlock()
 	}()
-
 	var origNodeCopy v1.Node
 	found := false
 	for i := range m.Existing {
@@ -245,36 +216,33 @@ func (m *FakeNodeHandler) UpdateStatus(node *v1.Node) (*v1.Node, error) {
 			break
 		}
 	}
-
 	if !found {
 		return nil, fmt.Errorf("Not found node %v", node)
 	}
-
 	origNodeCopy.Status = node.Status
 	if updatedNodeIndex < 0 {
 		m.UpdatedNodes = append(m.UpdatedNodes, &origNodeCopy)
 	} else {
 		m.UpdatedNodes[updatedNodeIndex] = &origNodeCopy
 	}
-
 	nodeCopy := *node
 	m.UpdatedNodeStatuses = append(m.UpdatedNodeStatuses, &nodeCopy)
 	return node, nil
 }
-
-// PatchStatus patches a status of a Node in the fake store.
 func (m *FakeNodeHandler) PatchStatus(nodeName string, data []byte) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.RequestCount++
 	return m.Patch(nodeName, types.StrategicMergePatchType, data, "status")
 }
-
-// Watch watches Nodes in a fake store.
 func (m *FakeNodeHandler) Watch(opts metav1.ListOptions) (watch.Interface, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return watch.NewFake(), nil
 }
-
-// Patch patches a Node in the fake store.
 func (m *FakeNodeHandler) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (*v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer func() {
 		m.RequestCount++
@@ -296,7 +264,6 @@ func (m *FakeNodeHandler) Patch(name string, pt types.PatchType, data []byte, su
 			updatedNodeIndex = i
 		}
 	}
-
 	originalObjJS, err := json.Marshal(nodeCopy)
 	if err != nil {
 		klog.Errorf("Failed to marshal %v", nodeCopy)
@@ -307,7 +274,6 @@ func (m *FakeNodeHandler) Patch(name string, pt types.PatchType, data []byte, su
 		klog.Errorf("Failed to unmarshal original object: %v", err)
 		return nil, nil
 	}
-
 	var patchedObjJS []byte
 	switch pt {
 	case types.JSONPatchType:
@@ -334,23 +300,19 @@ func (m *FakeNodeHandler) Patch(name string, pt types.PatchType, data []byte, su
 		klog.Errorf("unknown Content-Type header for patch: %v", pt)
 		return nil, nil
 	}
-
 	var updatedNode v1.Node
 	if err = json.Unmarshal(patchedObjJS, &updatedNode); err != nil {
 		klog.Errorf("Failed to unmarshal patched object: %v", err)
 		return nil, nil
 	}
-
 	if updatedNodeIndex < 0 {
 		m.UpdatedNodes = append(m.UpdatedNodes, &updatedNode)
 	} else {
 		m.UpdatedNodes[updatedNodeIndex] = &updatedNode
 	}
-
 	return &updatedNode, nil
 }
 
-// FakeRecorder is used as a fake during testing.
 type FakeRecorder struct {
 	sync.Mutex
 	source v1.EventSource
@@ -358,26 +320,28 @@ type FakeRecorder struct {
 	clock  clock.Clock
 }
 
-// Event emits a fake event to the fake recorder
 func (f *FakeRecorder) Event(obj runtime.Object, eventtype, reason, message string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.generateEvent(obj, metav1.Now(), eventtype, reason, message)
 }
-
-// Eventf emits a fake formatted event to the fake recorder
 func (f *FakeRecorder) Eventf(obj runtime.Object, eventtype, reason, messageFmt string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Event(obj, eventtype, reason, fmt.Sprintf(messageFmt, args...))
 }
-
-// PastEventf is a no-op
 func (f *FakeRecorder) PastEventf(obj runtime.Object, timestamp metav1.Time, eventtype, reason, messageFmt string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// AnnotatedEventf emits a fake formatted event to the fake recorder
 func (f *FakeRecorder) AnnotatedEventf(obj runtime.Object, annotations map[string]string, eventtype, reason, messageFmt string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Eventf(obj, eventtype, reason, messageFmt, args)
 }
-
 func (f *FakeRecorder) generateEvent(obj runtime.Object, timestamp metav1.Time, eventtype, reason, message string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	ref, err := ref.GetReference(legacyscheme.Scheme, obj)
@@ -391,85 +355,36 @@ func (f *FakeRecorder) generateEvent(obj runtime.Object, timestamp metav1.Time, 
 		f.Events = append(f.Events, event)
 	}
 }
-
 func (f *FakeRecorder) makeEvent(ref *v1.ObjectReference, eventtype, reason, message string) *v1.Event {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	t := metav1.Time{Time: f.clock.Now()}
 	namespace := ref.Namespace
 	if namespace == "" {
 		namespace = metav1.NamespaceDefault
 	}
-
-	clientref := v1.ObjectReference{
-		Kind:            ref.Kind,
-		Namespace:       ref.Namespace,
-		Name:            ref.Name,
-		UID:             ref.UID,
-		APIVersion:      ref.APIVersion,
-		ResourceVersion: ref.ResourceVersion,
-		FieldPath:       ref.FieldPath,
-	}
-
-	return &v1.Event{
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      fmt.Sprintf("%v.%x", ref.Name, t.UnixNano()),
-			Namespace: namespace,
-		},
-		InvolvedObject: clientref,
-		Reason:         reason,
-		Message:        message,
-		FirstTimestamp: t,
-		LastTimestamp:  t,
-		Count:          1,
-		Type:           eventtype,
-	}
+	clientref := v1.ObjectReference{Kind: ref.Kind, Namespace: ref.Namespace, Name: ref.Name, UID: ref.UID, APIVersion: ref.APIVersion, ResourceVersion: ref.ResourceVersion, FieldPath: ref.FieldPath}
+	return &v1.Event{ObjectMeta: metav1.ObjectMeta{Name: fmt.Sprintf("%v.%x", ref.Name, t.UnixNano()), Namespace: namespace}, InvolvedObject: clientref, Reason: reason, Message: message, FirstTimestamp: t, LastTimestamp: t, Count: 1, Type: eventtype}
 }
-
-// NewFakeRecorder returns a pointer to a newly constructed FakeRecorder.
 func NewFakeRecorder() *FakeRecorder {
-	return &FakeRecorder{
-		source: v1.EventSource{Component: "nodeControllerTest"},
-		Events: []*v1.Event{},
-		clock:  clock.NewFakeClock(time.Now()),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &FakeRecorder{source: v1.EventSource{Component: "nodeControllerTest"}, Events: []*v1.Event{}, clock: clock.NewFakeClock(time.Now())}
 }
-
-// NewNode is a helper function for creating Nodes for testing.
 func NewNode(name string) *v1.Node {
-	return &v1.Node{
-		ObjectMeta: metav1.ObjectMeta{Name: name},
-		Status: v1.NodeStatus{
-			Capacity: v1.ResourceList{
-				v1.ResourceName(v1.ResourceCPU):    resource.MustParse("10"),
-				v1.ResourceName(v1.ResourceMemory): resource.MustParse("10G"),
-			},
-		},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &v1.Node{ObjectMeta: metav1.ObjectMeta{Name: name}, Status: v1.NodeStatus{Capacity: v1.ResourceList{v1.ResourceName(v1.ResourceCPU): resource.MustParse("10"), v1.ResourceName(v1.ResourceMemory): resource.MustParse("10G")}}}
 }
-
-// NewPod is a helper function for creating Pods for testing.
 func NewPod(name, host string) *v1.Pod {
-	pod := &v1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: "default",
-			Name:      name,
-		},
-		Spec: v1.PodSpec{
-			NodeName: host,
-		},
-		Status: v1.PodStatus{
-			Conditions: []v1.PodCondition{
-				{
-					Type:   v1.PodReady,
-					Status: v1.ConditionTrue,
-				},
-			},
-		},
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	pod := &v1.Pod{ObjectMeta: metav1.ObjectMeta{Namespace: "default", Name: name}, Spec: v1.PodSpec{NodeName: host}, Status: v1.PodStatus{Conditions: []v1.PodCondition{{Type: v1.PodReady, Status: v1.ConditionTrue}}}}
 	return pod
 }
-
 func contains(node *v1.Node, nodes []*v1.Node) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := 0; i < len(nodes); i++ {
 		if node.Name == nodes[i].Name {
 			return true
@@ -477,9 +392,9 @@ func contains(node *v1.Node, nodes []*v1.Node) bool {
 	}
 	return false
 }
-
-// GetZones returns list of zones for all Nodes stored in FakeNodeHandler
 func GetZones(nodeHandler *FakeNodeHandler) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nodes, _ := nodeHandler.List(metav1.ListOptions{})
 	zones := sets.NewString()
 	for _, node := range nodes.Items {
@@ -487,32 +402,32 @@ func GetZones(nodeHandler *FakeNodeHandler) []string {
 	}
 	return zones.List()
 }
-
-// CreateZoneID returns a single zoneID for a given region and zone.
 func CreateZoneID(region, zone string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return region + ":\x00:" + zone
 }
-
-// GetKey is a helper function used by controllers unit tests to get the
-// key for a given kubernetes resource.
 func GetKey(obj interface{}, t *testing.T) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	tombstone, ok := obj.(cache.DeletedFinalStateUnknown)
 	if ok {
-		// if tombstone , try getting the value from tombstone.Obj
 		obj = tombstone.Obj
 	}
 	val := reflect.ValueOf(obj).Elem()
 	name := val.FieldByName("Name").String()
 	kind := val.FieldByName("Kind").String()
-	// Note kind is not always set in the tests, so ignoring that for now
 	if len(name) == 0 || len(kind) == 0 {
 		t.Errorf("Unexpected object %v", obj)
 	}
-
 	key, err := keyFunc(obj)
 	if err != nil {
 		t.Errorf("Unexpected error getting key for %v %v: %v", kind, name, err)
 		return ""
 	}
 	return key
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -440,7 +440,7 @@ var (
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
-			map[string]interface{}{
+			{
 				"name": "default",
 			},
 		},
@@ -498,7 +498,7 @@ var (
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
-			map[string]interface{}{
+			{
 				"name": "default",
 			},
 		},
@@ -548,7 +548,7 @@ var (
 		TenantID: "fcad67a6189847c4aecfa3c81a05783b",
 		Metadata: map[string]string{},
 		SecurityGroups: []map[string]interface{}{
-			map[string]interface{}{
+			{
 				"name": "default",
 			},
 		},
@@ -971,7 +971,7 @@ func HandleMetadataUpdateSuccessfully(t *testing.T) {
 
 // ListAddressesExpected represents an expected repsonse from a ListAddresses request.
 var ListAddressesExpected = map[string][]servers.Address{
-	"public": []servers.Address{
+	"public": {
 		{
 			Version: 4,
 			Address: "50.56.176.35",
@@ -981,7 +981,7 @@ var ListAddressesExpected = map[string][]servers.Address{
 			Address: "2001:4800:790e:510:be76:4eff:fe04:84a8",
 		},
 	},
-	"private": []servers.Address{
+	"private": {
 		{
 			Version: 4,
 			Address: "10.180.3.155",

@@ -1,50 +1,38 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package https
 
 import (
+	goformat "fmt"
 	"io/ioutil"
-	"net/http"
-
 	netutil "k8s.io/apimachinery/pkg/util/net"
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 	"k8s.io/kubernetes/cmd/kubeadm/app/discovery/file"
+	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// RetrieveValidatedConfigInfo connects to the API Server and makes sure it can talk
-// securely to the API Server using the provided CA cert and
-// optionally refreshes the cluster-info information from the cluster-info ConfigMap
 func RetrieveValidatedConfigInfo(httpsURL, clustername string) (*clientcmdapi.Config, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	client := &http.Client{Transport: netutil.SetOldTransportDefaults(&http.Transport{})}
 	response, err := client.Get(httpsURL)
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
-
 	kubeconfig, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		return nil, err
 	}
-
 	config, err := clientcmd.Load(kubeconfig)
 	if err != nil {
 		return nil, err
 	}
 	return file.ValidateConfigInfo(config, clustername)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

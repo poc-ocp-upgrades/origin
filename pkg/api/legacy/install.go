@@ -11,22 +11,24 @@ var (
 	InternalGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
 )
 
-// DEPRECATED
 func Kind(kind string) schema.GroupKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return schema.GroupKind{Group: GroupName, Kind: kind}
 }
-
-// DEPRECATED
 func GroupVersionKind(kind string) schema.GroupVersionKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return schema.GroupVersionKind{Group: GroupName, Version: GroupVersion.Version, Kind: kind}
 }
-
-// DEPRECATED
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return schema.GroupResource{Group: GroupName, Resource: resource}
 }
-
 func InstallInternalLegacyAll(scheme *runtime.Scheme) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	InstallInternalLegacyApps(scheme)
 	InstallInternalLegacyAuthorization(scheme)
 	InstallInternalLegacyBuild(scheme)
@@ -40,8 +42,9 @@ func InstallInternalLegacyAll(scheme *runtime.Scheme) {
 	InstallInternalLegacyTemplate(scheme)
 	InstallInternalLegacyUser(scheme)
 }
-
 func InstallExternalLegacyAll(scheme *runtime.Scheme) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	InstallExternalLegacyApps(scheme)
 	InstallExternalLegacyAuthorization(scheme)
 	InstallExternalLegacyBuild(scheme)

@@ -1,65 +1,46 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package scdeny
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
-
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apiserver/pkg/admission"
 	api "k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// PluginName indicates name of admission plugin.
 const PluginName = "SecurityContextDeny"
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		return NewSecurityContextDeny(), nil
 	})
 }
 
-// Plugin implements admission.Interface.
-type Plugin struct {
-	*admission.Handler
-}
+type Plugin struct{ *admission.Handler }
 
 var _ admission.ValidationInterface = &Plugin{}
 
-// NewSecurityContextDeny creates a new instance of the SecurityContextDeny admission controller
 func NewSecurityContextDeny() *Plugin {
-	return &Plugin{
-		Handler: admission.NewHandler(admission.Create, admission.Update),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Plugin{Handler: admission.NewHandler(admission.Create, admission.Update)}
 }
-
-// Validate will deny any pod that defines SupplementalGroups, SELinuxOptions, RunAsUser or FSGroup
 func (p *Plugin) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetSubresource() != "" || a.GetResource().GroupResource() != api.Resource("pods") {
 		return nil
 	}
-
 	pod, ok := a.GetObject().(*api.Pod)
 	if !ok {
 		return apierrors.NewBadRequest("Resource was marked with kind Pod but was unable to be converted")
 	}
-
 	if pod.Spec.SecurityContext != nil {
 		if pod.Spec.SecurityContext.SupplementalGroups != nil {
 			return apierrors.NewForbidden(a.GetResource().GroupResource(), pod.Name, fmt.Errorf("pod.Spec.SecurityContext.SupplementalGroups is forbidden"))
@@ -74,7 +55,6 @@ func (p *Plugin) Validate(a admission.Attributes) (err error) {
 			return apierrors.NewForbidden(a.GetResource().GroupResource(), pod.Name, fmt.Errorf("pod.Spec.SecurityContext.FSGroup is forbidden"))
 		}
 	}
-
 	for _, v := range pod.Spec.InitContainers {
 		if v.SecurityContext != nil {
 			if v.SecurityContext.SELinuxOptions != nil {
@@ -85,7 +65,6 @@ func (p *Plugin) Validate(a admission.Attributes) (err error) {
 			}
 		}
 	}
-
 	for _, v := range pod.Spec.Containers {
 		if v.SecurityContext != nil {
 			if v.SecurityContext.SELinuxOptions != nil {
@@ -97,4 +76,8 @@ func (p *Plugin) Validate(a admission.Attributes) (err error) {
 		}
 	}
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

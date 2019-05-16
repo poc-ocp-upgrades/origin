@@ -26,9 +26,9 @@ import (
 
 	"k8s.io/kube-openapi/pkg/generators/rules"
 
+	"github.com/golang/glog"
 	"k8s.io/gengo/generator"
 	"k8s.io/gengo/types"
-	"github.com/golang/glog"
 )
 
 const apiViolationFileType = "api-violation"

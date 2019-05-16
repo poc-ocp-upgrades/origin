@@ -3,11 +3,17 @@ package requestlimit
 import (
 	"errors"
 	"fmt"
+	goformat "fmt"
+	"github.com/openshift/api/project"
+	usertypedclient "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
+	"github.com/openshift/origin/pkg/api/legacy"
+	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
+	configlatest "github.com/openshift/origin/pkg/cmd/server/apis/config/latest"
+	projectapi "github.com/openshift/origin/pkg/project/apis/project"
+	requestlimitapi "github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit"
+	requestlimitapivalidation "github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit/validation"
+	uservalidation "github.com/openshift/origin/pkg/user/apis/user/validation"
 	"io"
-	"time"
-
-	"k8s.io/klog"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/labels"
@@ -18,40 +24,34 @@ import (
 	"k8s.io/client-go/informers"
 	corev1listers "k8s.io/client-go/listers/core/v1"
 	"k8s.io/client-go/rest"
-
-	"github.com/openshift/api/project"
-	usertypedclient "github.com/openshift/client-go/user/clientset/versioned/typed/user/v1"
-	"github.com/openshift/origin/pkg/api/legacy"
-	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
-	configlatest "github.com/openshift/origin/pkg/cmd/server/apis/config/latest"
-	projectapi "github.com/openshift/origin/pkg/project/apis/project"
-	requestlimitapi "github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit"
-	requestlimitapivalidation "github.com/openshift/origin/pkg/project/apiserver/admission/apis/requestlimit/validation"
-	uservalidation "github.com/openshift/origin/pkg/user/apis/user/validation"
+	"k8s.io/klog"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// allowedTerminatingProjects is the number of projects that are owned by a user, are in terminating state,
-// and do not count towards the user's limit.
 const allowedTerminatingProjects = 2
-
 const timeToWaitForCacheSync = 10 * time.Second
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register("project.openshift.io/ProjectRequestLimit",
-		func(config io.Reader) (admission.Interface, error) {
-			pluginConfig, err := readConfig(config)
-			if err != nil {
-				return nil, err
-			}
-			if pluginConfig == nil {
-				klog.Infof("Admission plugin %q is not configured so it will be disabled.", "project.openshift.io/ProjectRequestLimit")
-				return nil, nil
-			}
-			return NewProjectRequestLimit(pluginConfig)
-		})
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	plugins.Register("project.openshift.io/ProjectRequestLimit", func(config io.Reader) (admission.Interface, error) {
+		pluginConfig, err := readConfig(config)
+		if err != nil {
+			return nil, err
+		}
+		if pluginConfig == nil {
+			klog.Infof("Admission plugin %q is not configured so it will be disabled.", "project.openshift.io/ProjectRequestLimit")
+			return nil, nil
+		}
+		return NewProjectRequestLimit(pluginConfig)
+	})
 }
-
 func readConfig(reader io.Reader) (*requestlimitapi.ProjectRequestLimitConfig, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := configlatest.ReadYAML(reader)
 	if err != nil {
 		return nil, err
@@ -78,13 +78,13 @@ type projectRequestLimit struct {
 	nsListerSynced func() bool
 }
 
-// ensure that the required Openshift admission interfaces are implemented
 var _ = initializer.WantsExternalKubeInformerFactory(&projectRequestLimit{})
 var _ = oadmission.WantsRESTClientConfig(&projectRequestLimit{})
 var _ = admission.ValidationInterface(&projectRequestLimit{})
 
-// Admit ensures that only a configured number of projects can be requested by a particular user.
 func (o *projectRequestLimit) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o.config == nil {
 		return nil
 	}
@@ -96,11 +96,9 @@ func (o *projectRequestLimit) Validate(a admission.Attributes) (err error) {
 	if _, isProjectRequest := a.GetObject().(*projectapi.ProjectRequest); !isProjectRequest {
 		return nil
 	}
-
 	if !o.waitForSyncedStore(time.After(timeToWaitForCacheSync)) {
 		return admission.NewForbidden(a, errors.New("project.openshift.io/ProjectRequestLimit: caches not synchronized"))
 	}
-
 	userName := a.GetUserInfo().GetName()
 	projectCount, err := o.projectCountByRequester(userName)
 	if err != nil {
@@ -115,39 +113,29 @@ func (o *projectRequestLimit) Validate(a admission.Attributes) (err error) {
 	}
 	return nil
 }
-
-// maxProjectsByRequester returns the maximum number of projects allowed for a given user, whether a limit exists, and an error
-// if an error occurred. If a limit doesn't exist, the maximum number should be ignored.
 func (o *projectRequestLimit) maxProjectsByRequester(userName string) (int, bool, error) {
-	// service accounts have a different ruleset, check them
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if _, _, err := serviceaccount.SplitUsername(userName); err == nil {
 		if o.config.MaxProjectsForServiceAccounts == nil {
 			return 0, false, nil
 		}
-
 		return *o.config.MaxProjectsForServiceAccounts, true, nil
 	}
-
-	// if we aren't a valid username, we came in as cert user for certain, use our cert user rules
 	if reasons := uservalidation.ValidateUserName(userName, false); len(reasons) != 0 {
 		if o.config.MaxProjectsForSystemUsers == nil {
 			return 0, false, nil
 		}
-
 		return *o.config.MaxProjectsForSystemUsers, true, nil
 	}
-
-	// prevent a user lookup if no limits are configured
 	if len(o.config.Limits) == 0 {
 		return 0, false, nil
 	}
-
 	user, err := o.userClient.Users().Get(userName, metav1.GetOptions{})
 	if err != nil {
 		return 0, false, err
 	}
 	userLabels := labels.Set(user.Labels)
-
 	for _, limit := range o.config.Limits {
 		selector := labels.Set(limit.Selector).AsSelector()
 		if selector.Matches(userLabels) {
@@ -159,10 +147,9 @@ func (o *projectRequestLimit) maxProjectsByRequester(userName string) (int, bool
 	}
 	return 0, false, nil
 }
-
 func (o *projectRequestLimit) projectCountByRequester(userName string) (int, error) {
-	// our biggest clusters have less than 10k namespaces.  project requests are infrequent.  This is iterating on an
-	// in memory set of pointers.  I can live with all this to avoid a secondary cache.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allNamespaces, err := o.nsLister.List(labels.Everything())
 	if err != nil {
 		return 0, err
@@ -174,7 +161,6 @@ func (o *projectRequestLimit) projectCountByRequester(userName string) (int, err
 			namespaces = append(namespaces, ns)
 		}
 	}
-
 	terminatingCount := 0
 	for _, ns := range namespaces {
 		if ns.Status.Phase == corev1.NamespaceTerminating {
@@ -189,8 +175,9 @@ func (o *projectRequestLimit) projectCountByRequester(userName string) (int, err
 	}
 	return count, nil
 }
-
 func (o *projectRequestLimit) SetRESTClientConfig(restClientConfig rest.Config) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var err error
 	o.userClient, err = usertypedclient.NewForConfig(&restClientConfig)
 	if err != nil {
@@ -198,13 +185,15 @@ func (o *projectRequestLimit) SetRESTClientConfig(restClientConfig rest.Config) 
 		return
 	}
 }
-
 func (o *projectRequestLimit) SetExternalKubeInformerFactory(kubeInformers informers.SharedInformerFactory) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o.nsLister = kubeInformers.Core().V1().Namespaces().Lister()
 	o.nsListerSynced = kubeInformers.Core().V1().Namespaces().Informer().HasSynced
 }
-
 func (o *projectRequestLimit) waitForSyncedStore(timeout <-chan time.Time) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for !o.nsListerSynced() {
 		select {
 		case <-time.After(100 * time.Millisecond):
@@ -212,11 +201,11 @@ func (o *projectRequestLimit) waitForSyncedStore(timeout <-chan time.Time) bool 
 			return o.nsListerSynced()
 		}
 	}
-
 	return true
 }
-
 func (o *projectRequestLimit) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o.userClient == nil {
 		return fmt.Errorf("project.openshift.io/ProjectRequestLimit plugin requires an Openshift client")
 	}
@@ -228,10 +217,12 @@ func (o *projectRequestLimit) ValidateInitialization() error {
 	}
 	return nil
 }
-
 func NewProjectRequestLimit(config *requestlimitapi.ProjectRequestLimitConfig) (admission.Interface, error) {
-	return &projectRequestLimit{
-		config:  config,
-		Handler: admission.NewHandler(admission.Create),
-	}, nil
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &projectRequestLimit{config: config, Handler: admission.NewHandler(admission.Create)}, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

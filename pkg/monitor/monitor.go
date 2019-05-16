@@ -8,29 +8,25 @@ import (
 	"time"
 )
 
-// Monitor records events that have occurred in memory and can also periodically
-// sample results.
 type Monitor struct {
 	interval time.Duration
 	samplers []SamplerFunc
-
-	lock    sync.Mutex
-	events  []*Event
-	samples []*sample
+	lock     sync.Mutex
+	events   []*Event
+	samples  []*sample
 }
 
-// NewMonitor creates a monitor with the default sampling interval.
 func NewMonitor() *Monitor {
-	return &Monitor{
-		interval: 15 * time.Second,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Monitor{interval: 15 * time.Second}
 }
 
 var _ Interface = &Monitor{}
 
-// StartSampling starts sampling every interval until the provided context is done.
-// A sample is captured when the context is closed.
 func (m *Monitor) StartSampling(ctx context.Context) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if m.interval == 0 {
 		return
 	}
@@ -48,19 +44,16 @@ func (m *Monitor) StartSampling(ctx context.Context) {
 		}
 	}()
 }
-
-// AddSampler adds a sampler function to the list of samplers to run every interval.
-// Conditions discovered this way are recorded with a start and end time if they persist
-// across multiple sampling intervals.
 func (m *Monitor) AddSampler(fn SamplerFunc) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	m.samplers = append(m.samplers, fn)
 }
-
-// Record captures one or more conditions at the current time. All conditions are recorded
-// in monotonic order as Event objects.
 func (m *Monitor) Record(conditions ...Condition) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(conditions) == 0 {
 		return
 	}
@@ -68,18 +61,15 @@ func (m *Monitor) Record(conditions ...Condition) {
 	defer m.lock.Unlock()
 	t := time.Now().UTC()
 	for _, condition := range conditions {
-		m.events = append(m.events, &Event{
-			At:        t,
-			Condition: condition,
-		})
+		m.events = append(m.events, &Event{At: t, Condition: condition})
 	}
 }
-
 func (m *Monitor) sample() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	samplers := m.samplers
 	m.lock.Unlock()
-
 	now := time.Now().UTC()
 	var conditions []*Condition
 	for _, fn := range samplers {
@@ -88,42 +78,30 @@ func (m *Monitor) sample() {
 	if len(conditions) == 0 {
 		return
 	}
-
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	t := time.Now().UTC()
-	m.samples = append(m.samples, &sample{
-		at:         t,
-		conditions: conditions,
-	})
+	m.samples = append(m.samples, &sample{at: t, conditions: conditions})
 }
-
 func (m *Monitor) snapshot() ([]*sample, []*Event) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	return m.samples, m.events
 }
-
-// Conditions returns all conditions that were sampled in the interval
-// between from and to. If that does not include a sample interval, no
-// results will be returned. EventIntervals are returned in order of
-// their first sampling. A condition that was only sampled once is
-// returned with from == to. No duplicate conditions are returned
-// unless a sampling interval did not report that value.
 func (m *Monitor) Conditions(from, to time.Time) EventIntervals {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	samples, _ := m.snapshot()
 	return filterSamples(samples, from, to)
 }
-
-// Events returns all events that occur between from and to, including
-// any sampled conditions that were encountered during that period.
-// EventIntervals are returned in order of their occurrence.
 func (m *Monitor) Events(from, to time.Time) EventIntervals {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	samples, events := m.snapshot()
 	intervals := filterSamples(samples, from, to)
 	events = filterEvents(events, from, to)
-
-	// merge the two sets of inputs
 	mustSort := len(intervals) > 0
 	for i := range events {
 		if i > 0 && events[i-1].At.After(events[i].At) {
@@ -131,23 +109,19 @@ func (m *Monitor) Events(from, to time.Time) EventIntervals {
 		}
 		at := events[i].At
 		condition := &events[i].Condition
-		intervals = append(intervals, &EventInterval{
-			From:      at,
-			To:        at,
-			Condition: condition,
-		})
+		intervals = append(intervals, &EventInterval{From: at, To: at, Condition: condition})
 	}
 	if mustSort {
 		sort.Sort(intervals)
 	}
 	return intervals
 }
-
 func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(samples) == 0 {
 		return nil
 	}
-
 	if !from.IsZero() {
 		first := sort.Search(len(samples), func(i int) bool {
 			return samples[i].at.After(from)
@@ -157,7 +131,6 @@ func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
 		}
 		samples = samples[first:]
 	}
-
 	if !to.IsZero() {
 		for i, sample := range samples {
 			if sample.at.After(to) {
@@ -169,7 +142,6 @@ func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
 	if len(samples) == 0 {
 		return nil
 	}
-
 	intervals := make(EventIntervals, 0, len(samples)*2)
 	last, next := make(map[Condition]*EventInterval), make(map[Condition]*EventInterval)
 	for _, sample := range samples {
@@ -180,11 +152,7 @@ func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
 				next[*condition] = interval
 				continue
 			}
-			interval = &EventInterval{
-				Condition: condition,
-				From:      sample.at,
-				To:        sample.at,
-			}
+			interval = &EventInterval{Condition: condition, From: sample.at, To: sample.at}
 			next[*condition] = interval
 			intervals = append(intervals, interval)
 		}
@@ -195,12 +163,12 @@ func filterSamples(samples []*sample, from, to time.Time) EventIntervals {
 	}
 	return intervals
 }
-
 func filterEvents(events []*Event, from, to time.Time) []*Event {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if from.IsZero() && to.IsZero() {
 		return events
 	}
-
 	first := sort.Search(len(events), func(i int) bool {
 		return events[i].At.After(from)
 	})

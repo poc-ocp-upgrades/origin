@@ -2,11 +2,12 @@ package oauthclient
 
 import (
 	"fmt"
-	"net"
-	"net/url"
-	"strconv"
-	"strings"
-
+	goformat "fmt"
+	oauthapi "github.com/openshift/api/oauth/v1"
+	routeapi "github.com/openshift/api/route/v1"
+	routeclient "github.com/openshift/client-go/route/clientset/versioned/typed/route/v1"
+	"github.com/openshift/origin/pkg/api/legacy"
+	scopeauthorizer "github.com/openshift/origin/pkg/authorization/authorizer/scope"
 	clientv1 "k8s.io/api/core/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -18,115 +19,86 @@ import (
 	apiserverserviceaccount "k8s.io/apiserver/pkg/authentication/serviceaccount"
 	kcoreclient "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/tools/record"
-
-	oauthapi "github.com/openshift/api/oauth/v1"
-	routeapi "github.com/openshift/api/route/v1"
-	routeclient "github.com/openshift/client-go/route/clientset/versioned/typed/route/v1"
-	"github.com/openshift/origin/pkg/api/legacy"
-	scopeauthorizer "github.com/openshift/origin/pkg/authorization/authorizer/scope"
+	"net"
+	"net/url"
+	goos "os"
+	godefaultruntime "runtime"
+	"strconv"
+	"strings"
+	gotime "time"
 )
 
 const (
-	OAuthWantChallengesAnnotationPrefix = "serviceaccounts.openshift.io/oauth-want-challenges"
-
-	// Prefix used for statically specifying redirect URIs for a service account via annotations
-	// The value can be partially supplied with the dynamic prefix to override the resource's defaults
-	OAuthRedirectModelAnnotationURIPrefix = "serviceaccounts.openshift.io/oauth-redirecturi."
-
-	// Prefix used for dynamically specifying redirect URIs using resources for a service account via annotations
+	OAuthWantChallengesAnnotationPrefix         = "serviceaccounts.openshift.io/oauth-want-challenges"
+	OAuthRedirectModelAnnotationURIPrefix       = "serviceaccounts.openshift.io/oauth-redirecturi."
 	OAuthRedirectModelAnnotationReferencePrefix = "serviceaccounts.openshift.io/oauth-redirectreference."
-
-	routeKind = "Route"
-	// TODO add ingress support
-	// IngressKind = "Ingress"
+	routeKind                                   = "Route"
 )
 
 var (
-	modelPrefixes = []string{
-		OAuthRedirectModelAnnotationURIPrefix,
-		OAuthRedirectModelAnnotationReferencePrefix,
-	}
-
-	emptyGroupKind       = schema.GroupKind{} // Used with static redirect URIs
+	modelPrefixes        = []string{OAuthRedirectModelAnnotationURIPrefix, OAuthRedirectModelAnnotationReferencePrefix}
+	emptyGroupKind       = schema.GroupKind{}
 	routeGroupKind       = routeapi.SchemeGroupVersion.WithKind(routeKind).GroupKind()
-	legacyRouteGroupKind = legacy.GroupVersion.WithKind(routeKind).GroupKind() // to support redirect reference with old group
-
-	scheme       = runtime.NewScheme()
-	codecFactory = serializer.NewCodecFactory(scheme)
+	legacyRouteGroupKind = legacy.GroupVersion.WithKind(routeKind).GroupKind()
+	scheme               = runtime.NewScheme()
+	codecFactory         = serializer.NewCodecFactory(scheme)
 )
 
 func init() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oauthapi.Install(scheme)
 	oauthapi.DeprecatedInstallWithoutGroup(scheme)
 }
 
-// namesToObjMapperFunc is linked to a given GroupKind.
-// Based on the namespace and names provided, it builds a map of resource name to redirect URIs.
-// The redirect URIs represent the default values as specified by the resource.
-// These values can be overridden by user specified data. Errors returned are informative and non-fatal.
 type namesToObjMapperFunc func(namespace string, names sets.String) (map[string]redirectURIList, []error)
-
-// TODO add ingress support
-// var ingressGroupKind = routeapi.SchemeGroupVersion.WithKind(IngressKind).GroupKind()
-
-// OAuthClientGetter  exposes a way to get a specific client.  This is useful for other registries to get scope limitations
-// on particular clients.   This interface will make its easier to write a future cache on it
 type OAuthClientGetter interface {
 	Get(name string, options metav1.GetOptions) (*oauthapi.OAuthClient, error)
 }
-
 type saOAuthClientAdapter struct {
 	saClient      kcoreclient.ServiceAccountsGetter
 	secretClient  kcoreclient.SecretsGetter
 	eventRecorder record.EventRecorder
 	routeClient   routeclient.RoutesGetter
-	// TODO add ingress support
-	//ingressClient ??
-
-	delegate    OAuthClientGetter
-	grantMethod oauthapi.GrantHandlerType
-
-	decoder runtime.Decoder
+	delegate      OAuthClientGetter
+	grantMethod   oauthapi.GrantHandlerType
+	decoder       runtime.Decoder
 }
-
-// model holds fields that could be used to build redirect URI(s).
-// The resource components define where to get the default redirect data from.
-// If specified, the uri components are used to override the default data.
-// As long as the resulting URI(s) have a scheme and a host, they are considered valid.
 type model struct {
 	scheme string
 	port   string
 	path   string
 	host   string
-
-	group string
-	kind  string
-	name  string
+	group  string
+	kind   string
+	name   string
 }
 
-// getGroupKind is used to determine if a group and kind combination is supported.
 func (m *model) getGroupKind() schema.GroupKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return schema.GroupKind{Group: m.group, Kind: m.kind}
 }
-
-// updateFromURI updates the data in the model with the user provided URL data.
 func (m *model) updateFromURI(u *url.URL) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.scheme, m.host, m.path = u.Scheme, u.Host, u.Path
 	if h, p, err := net.SplitHostPort(m.host); err == nil {
 		m.host = h
 		m.port = p
 	}
 }
-
-// updateFromReference updates the data in the model with the user provided object reference data.
 func (m *model) updateFromReference(r *oauthapi.RedirectReference) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.group, m.kind, m.name = r.Group, r.Kind, r.Name
 }
 
 type modelList []model
 
-// getNames determines the unique, non-empty resource names specified by the models.
 func (ml modelList) getNames() sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data := sets.NewString()
 	for _, model := range ml {
 		if len(model.name) > 0 {
@@ -135,17 +107,14 @@ func (ml modelList) getNames() sets.String {
 	}
 	return data
 }
-
-// getRedirectURIs uses the mapping provided by a namesToObjMapperFunc to enumerate all of the redirect URIs
-// based on the name of each resource.  The user provided data in the model overrides the data in the mapping.
-// The returned redirect URIs may contain duplicate and invalid entries.  All items in the modelList must have a
-// uniform group/kind, and the objMapper must be specifically for that group/kind.
 func (ml modelList) getRedirectURIs(objMapper map[string]redirectURIList) redirectURIList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var data redirectURIList
 	for _, m := range ml {
 		if uris, ok := objMapper[m.name]; ok {
 			for _, uri := range uris {
-				u := uri // Make sure we do not mutate objMapper
+				u := uri
 				u.merge(&m)
 				data = append(data, u)
 			}
@@ -162,22 +131,25 @@ type redirectURI struct {
 }
 
 func (uri *redirectURI) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	host := uri.host
 	if len(uri.port) > 0 {
 		host = net.JoinHostPort(host, uri.port)
 	}
 	return (&url.URL{Scheme: uri.scheme, Host: host, Path: uri.path}).String()
 }
-
-// isValid returns true when both scheme and host are non-empty.
 func (uri *redirectURI) isValid() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return len(uri.scheme) > 0 && len(uri.host) > 0
 }
 
 type redirectURIList []redirectURI
 
-// extractValidRedirectURIStrings returns the redirect URIs that are valid per `isValid` as strings.
 func (rl redirectURIList) extractValidRedirectURIStrings() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var data []string
 	for _, u := range rl {
 		if u.isValid() {
@@ -186,9 +158,9 @@ func (rl redirectURIList) extractValidRedirectURIStrings() []string {
 	}
 	return data
 }
-
-// merge overrides the default data in the uri with the user provided data in the model.
 func (uri *redirectURI) merge(m *model) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(m.scheme) > 0 {
 		uri.scheme = m.scheme
 	}
@@ -205,55 +177,38 @@ func (uri *redirectURI) merge(m *model) {
 
 var _ OAuthClientGetter = &saOAuthClientAdapter{}
 
-func NewServiceAccountOAuthClientGetter(
-	saClient kcoreclient.ServiceAccountsGetter,
-	secretClient kcoreclient.SecretsGetter,
-	eventClient kcoreclient.EventInterface,
-	routeClient routeclient.RoutesGetter,
-	delegate OAuthClientGetter,
-	grantMethod oauthapi.GrantHandlerType,
-) OAuthClientGetter {
+func NewServiceAccountOAuthClientGetter(saClient kcoreclient.ServiceAccountsGetter, secretClient kcoreclient.SecretsGetter, eventClient kcoreclient.EventInterface, routeClient routeclient.RoutesGetter, delegate OAuthClientGetter, grantMethod oauthapi.GrantHandlerType) OAuthClientGetter {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	eventBroadcaster := record.NewBroadcaster()
 	eventBroadcaster.StartRecordingToSink(&kcoreclient.EventSinkImpl{Interface: eventClient})
 	recorder := eventBroadcaster.NewRecorder(scheme, clientv1.EventSource{Component: "service-account-oauth-client-getter"})
-	return &saOAuthClientAdapter{
-		saClient:      saClient,
-		secretClient:  secretClient,
-		eventRecorder: recorder,
-		routeClient:   routeClient,
-		delegate:      delegate,
-		grantMethod:   grantMethod,
-		decoder:       codecFactory.UniversalDecoder(),
-	}
+	return &saOAuthClientAdapter{saClient: saClient, secretClient: secretClient, eventRecorder: recorder, routeClient: routeClient, delegate: delegate, grantMethod: grantMethod, decoder: codecFactory.UniversalDecoder()}
 }
-
 func (a *saOAuthClientAdapter) Get(name string, options metav1.GetOptions) (*oauthapi.OAuthClient, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var err error
 	saNamespace, saName, err := apiserverserviceaccount.SplitUsername(name)
 	if err != nil {
 		return a.delegate.Get(name, options)
 	}
-
 	sa, err := a.saClient.ServiceAccounts(saNamespace).Get(saName, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
 	}
-
 	var saErrors []error
 	var failReason string
-	// Create a warning event combining the collected annotation errors upon failure.
 	defer func() {
 		if err != nil && len(saErrors) > 0 && len(failReason) > 0 {
 			a.eventRecorder.Event(sa, corev1.EventTypeWarning, failReason, utilerrors.NewAggregate(saErrors).Error())
 		}
 	}()
-
 	redirectURIs := []string{}
 	modelsMap, errs := parseModelsMap(sa.Annotations, a.decoder)
 	if len(errs) > 0 {
 		saErrors = append(saErrors, errs...)
 	}
-
 	if len(modelsMap) > 0 {
 		uris, extractErrors := a.extractRedirectURIs(modelsMap, saNamespace)
 		if len(uris) > 0 {
@@ -264,14 +219,11 @@ func (a *saOAuthClientAdapter) Get(name string, options metav1.GetOptions) (*oau
 		}
 	}
 	if len(redirectURIs) == 0 {
-		err = fmt.Errorf("%v has no redirectURIs; set %v<some-value>=<redirect> or create a dynamic URI using %v<some-value>=<reference>",
-			name, OAuthRedirectModelAnnotationURIPrefix, OAuthRedirectModelAnnotationReferencePrefix,
-		)
+		err = fmt.Errorf("%v has no redirectURIs; set %v<some-value>=<redirect> or create a dynamic URI using %v<some-value>=<reference>", name, OAuthRedirectModelAnnotationURIPrefix, OAuthRedirectModelAnnotationReferencePrefix)
 		failReason = "NoSAOAuthRedirectURIs"
 		saErrors = append(saErrors, err)
 		return nil, err
 	}
-
 	tokens, err := a.getServiceAccountTokens(sa)
 	if err != nil {
 		return nil, err
@@ -282,29 +234,13 @@ func (a *saOAuthClientAdapter) Get(name string, options metav1.GetOptions) (*oau
 		saErrors = append(saErrors, err)
 		return nil, err
 	}
-
 	saWantsChallenges, _ := strconv.ParseBool(sa.Annotations[OAuthWantChallengesAnnotationPrefix])
-
-	saClient := &oauthapi.OAuthClient{
-		ObjectMeta:            metav1.ObjectMeta{Name: name},
-		ScopeRestrictions:     getScopeRestrictionsFor(saNamespace, saName),
-		AdditionalSecrets:     tokens,
-		RespondWithChallenges: saWantsChallenges,
-
-		// TODO update this to allow https redirection to any
-		// 1. service IP (useless in general)
-		// 2. service DNS (useless in general)
-		// 3. loopback? (useful, but maybe a bit weird)
-		RedirectURIs: sets.NewString(redirectURIs...).List(),
-		GrantMethod:  a.grantMethod,
-	}
+	saClient := &oauthapi.OAuthClient{ObjectMeta: metav1.ObjectMeta{Name: name}, ScopeRestrictions: getScopeRestrictionsFor(saNamespace, saName), AdditionalSecrets: tokens, RespondWithChallenges: saWantsChallenges, RedirectURIs: sets.NewString(redirectURIs...).List(), GrantMethod: a.grantMethod}
 	return saClient, nil
 }
-
-// parseModelsMap builds a map of model name to model using a service account's annotations.
-// The model name is only used for building the map (it ties together the uri and reference annotations)
-// and serves no functional purpose other than making testing easier. Errors returned are informative and non-fatal.
 func parseModelsMap(annotations map[string]string, decoder runtime.Decoder) (map[string]model, []error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	models := map[string]model{}
 	parseErrors := []error{}
 	for key, value := range annotations {
@@ -332,10 +268,9 @@ func parseModelsMap(annotations map[string]string, decoder runtime.Decoder) (map
 	}
 	return models, parseErrors
 }
-
-// parseModelPrefixName determines if the given key is a model prefix.
-// Returns what prefix was used, the name of the model, and true if a model prefix was actually used.
 func parseModelPrefixName(key string) (string, string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, prefix := range modelPrefixes {
 		if strings.HasPrefix(key, prefix) {
 			return prefix, key[len(prefix):], true
@@ -343,33 +278,26 @@ func parseModelPrefixName(key string) (string, string, bool) {
 	}
 	return "", "", false
 }
-
-// extractRedirectURIs builds redirect URIs using the given models and namespace.
-// The returned redirect URIs may contain duplicates and invalid entries. Errors returned are informative and non-fatal.
 func (a *saOAuthClientAdapter) extractRedirectURIs(modelsMap map[string]model, namespace string) (redirectURIList, []error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var data redirectURIList
 	routeErrors := []error{}
-	groupKindModelListMapper := map[schema.GroupKind]modelList{} // map of GroupKind to all models belonging to it
-	groupKindModelToURI := map[schema.GroupKind]namesToObjMapperFunc{
-		routeGroupKind: a.redirectURIsFromRoutes,
-		// TODO add support for ingresses by creating the appropriate GroupKind and namesToObjMapperFunc
-		// ingressGroupKind: a.redirectURIsFromIngresses,
-	}
-
+	groupKindModelListMapper := map[schema.GroupKind]modelList{}
+	groupKindModelToURI := map[schema.GroupKind]namesToObjMapperFunc{routeGroupKind: a.redirectURIsFromRoutes}
 	for _, m := range modelsMap {
 		gk := m.getGroupKind()
 		if gk == legacyRouteGroupKind {
-			gk = routeGroupKind // support legacy route group without doing extra API calls
+			gk = routeGroupKind
 		}
-		if len(m.name) == 0 && gk == emptyGroupKind { // Is this a static redirect URI?
-			uri := redirectURI{} // No defaults wanted
+		if len(m.name) == 0 && gk == emptyGroupKind {
+			uri := redirectURI{}
 			uri.merge(&m)
 			data = append(data, uri)
-		} else if _, ok := groupKindModelToURI[gk]; ok { // a GroupKind is valid if we have a namesToObjMapperFunc to handle it
+		} else if _, ok := groupKindModelToURI[gk]; ok {
 			groupKindModelListMapper[gk] = append(groupKindModelListMapper[gk], m)
 		}
 	}
-
 	for gk, models := range groupKindModelListMapper {
 		if names := models.getNames(); names.Len() > 0 {
 			objMapper, errs := groupKindModelToURI[gk](namespace, names)
@@ -381,14 +309,11 @@ func (a *saOAuthClientAdapter) extractRedirectURIs(modelsMap map[string]model, n
 			}
 		}
 	}
-
 	return data, routeErrors
 }
-
-// redirectURIsFromRoutes is the namesToObjMapperFunc specific to Routes.
-// Returns a map of route name to redirect URIs that contain the default data as specified by the route's ingresses.
-// Errors returned are informative and non-fatal.
 func (a *saOAuthClientAdapter) redirectURIsFromRoutes(namespace string, osRouteNames sets.String) (map[string]redirectURIList, []error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var routes []routeapi.Route
 	routeErrors := []error{}
 	routeInterface := a.routeClient.Routes(namespace)
@@ -413,11 +338,11 @@ func (a *saOAuthClientAdapter) redirectURIsFromRoutes(namespace string, osRouteN
 	}
 	return routeMap, routeErrors
 }
-
-// redirectURIsFromRoute returns a list of redirect URIs that contain the default data as specified by the given route's ingresses.
 func redirectURIsFromRoute(route *routeapi.Route) redirectURIList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var uris redirectURIList
-	uri := redirectURI{scheme: "https"} // Default to TLS
+	uri := redirectURI{scheme: "https"}
 	uri.path = route.Spec.Path
 	if route.Spec.TLS == nil {
 		uri.scheme = "http"
@@ -426,21 +351,18 @@ func redirectURIsFromRoute(route *routeapi.Route) redirectURIList {
 		if !isRouteIngressValid(&ingress) {
 			continue
 		}
-		u := uri // Copy to avoid mutating the base uri
+		u := uri
 		u.host = ingress.Host
 		uris = append(uris, u)
 	}
-	// If we get this far we know the Route does actually exist, so we need to have at least one uri
-	// to allow the user to override it in their annotations in case there is no valid ingress
-	// `extractValidRedirectURIStrings` guarantees that we eventually have the minimum set of required fields
 	if len(uris) == 0 {
 		uris = append(uris, uri)
 	}
 	return uris
 }
-
-// isRouteIngressValid determines if the RouteIngress has a host and that its conditions has an element with Type=RouteAdmitted and Status=ConditionTrue
 func isRouteIngressValid(routeIngress *routeapi.RouteIngress) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(routeIngress.Host) == 0 {
 		return false
 	}
@@ -451,21 +373,14 @@ func isRouteIngressValid(routeIngress *routeapi.RouteIngress) bool {
 	}
 	return false
 }
-
 func getScopeRestrictionsFor(namespace, name string) []oauthapi.ScopeRestriction {
-	return []oauthapi.ScopeRestriction{
-		{ExactValues: []string{
-			scopeauthorizer.UserInfo,
-			scopeauthorizer.UserAccessCheck,
-			scopeauthorizer.UserListScopedProjects,
-			scopeauthorizer.UserListAllProjects,
-		}},
-		{ClusterRole: &oauthapi.ClusterRoleScopeRestriction{RoleNames: []string{"*"}, Namespaces: []string{namespace}, AllowEscalation: true}},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return []oauthapi.ScopeRestriction{{ExactValues: []string{scopeauthorizer.UserInfo, scopeauthorizer.UserAccessCheck, scopeauthorizer.UserListScopedProjects, scopeauthorizer.UserListAllProjects}}, {ClusterRole: &oauthapi.ClusterRoleScopeRestriction{RoleNames: []string{"*"}, Namespaces: []string{namespace}, AllowEscalation: true}}}
 }
-
-// getServiceAccountTokens returns all ServiceAccountToken secrets for the given ServiceAccount
 func (a *saOAuthClientAdapter) getServiceAccountTokens(sa *corev1.ServiceAccount) ([]string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allSecrets, err := a.secretClient.Secrets(sa.Namespace).List(metav1.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -479,23 +394,23 @@ func (a *saOAuthClientAdapter) getServiceAccountTokens(sa *corev1.ServiceAccount
 	}
 	return tokens, nil
 }
-
-// IsServiceAccountToken returns true if the secret is a valid api token for the service account
 func IsServiceAccountToken(secret *corev1.Secret, sa *corev1.ServiceAccount) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if secret.Type != corev1.SecretTypeServiceAccountToken {
 		return false
 	}
-
 	name := secret.Annotations[corev1.ServiceAccountNameKey]
 	uid := secret.Annotations[corev1.ServiceAccountUIDKey]
 	if name != sa.Name {
-		// Name must match
 		return false
 	}
 	if len(uid) > 0 && uid != string(sa.UID) {
-		// If UID is specified, it must match
 		return false
 	}
-
 	return true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

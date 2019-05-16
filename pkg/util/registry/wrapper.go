@@ -2,14 +2,16 @@ package registry
 
 import (
 	"context"
-
+	goformat "fmt"
+	"github.com/openshift/origin/pkg/util/errors"
 	"k8s.io/apimachinery/pkg/apis/meta/internalversion"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	metav1beta1 "k8s.io/apimachinery/pkg/apis/meta/v1beta1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apiserver/pkg/registry/rest"
-
-	"github.com/openshift/origin/pkg/util/errors"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type NoWatchStorage interface {
@@ -21,55 +23,67 @@ type NoWatchStorage interface {
 	rest.Scoper
 }
 
-// WrapNoWatchStorageError uses SyncStatusError to inject the correct group
-// resource info into the errors that are returned by the delegated storage
 func WrapNoWatchStorageError(delegate NoWatchStorage) NoWatchStorage {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &noWatchStorageErrWrapper{delegate: delegate}
 }
 
 var _ = NoWatchStorage(&noWatchStorageErrWrapper{})
 
-type noWatchStorageErrWrapper struct {
-	delegate NoWatchStorage
-}
+type noWatchStorageErrWrapper struct{ delegate NoWatchStorage }
 
 func (s *noWatchStorageErrWrapper) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return s.delegate.NamespaceScoped()
 }
-
 func (s *noWatchStorageErrWrapper) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := s.delegate.Get(ctx, name, options)
 	return obj, errors.SyncStatusError(ctx, err)
 }
-
 func (s *noWatchStorageErrWrapper) List(ctx context.Context, options *internalversion.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := s.delegate.List(ctx, options)
 	return obj, errors.SyncStatusError(ctx, err)
 }
-
 func (s *noWatchStorageErrWrapper) ConvertToTable(ctx context.Context, object runtime.Object, tableOptions runtime.Object) (*metav1beta1.Table, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return s.delegate.ConvertToTable(ctx, object, tableOptions)
 }
-
 func (s *noWatchStorageErrWrapper) Create(ctx context.Context, in runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := s.delegate.Create(ctx, in, createValidation, options)
 	return obj, errors.SyncStatusError(ctx, err)
 }
-
 func (s *noWatchStorageErrWrapper) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, created, err := s.delegate.Update(ctx, name, objInfo, createValidation, updateValidation, forceAllowCreate, options)
 	return obj, created, errors.SyncStatusError(ctx, err)
 }
-
 func (s *noWatchStorageErrWrapper) Delete(ctx context.Context, name string, options *metav1.DeleteOptions) (runtime.Object, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, deleted, err := s.delegate.Delete(ctx, name, options)
 	return obj, deleted, errors.SyncStatusError(ctx, err)
 }
-
 func (s *noWatchStorageErrWrapper) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return s.delegate.New()
 }
-
 func (s *noWatchStorageErrWrapper) NewList() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return s.delegate.NewList()
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -1,29 +1,9 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"flag"
 	"fmt"
-	"os"
-	"strconv"
-	"strings"
-	"time"
-
+	goformat "fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	restclient "k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -31,24 +11,30 @@ import (
 	"k8s.io/klog"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	clientset "k8s.io/kubernetes/pkg/client/clientset_generated/internalclientset"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	"strconv"
+	"strings"
+	"time"
+	gotime "time"
 )
 
 func buildConfigFromEnvs(masterURL, kubeconfigPath string) (*restclient.Config, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if kubeconfigPath == "" && masterURL == "" {
 		kubeconfig, err := restclient.InClusterConfig()
 		if err != nil {
 			return nil, err
 		}
-
 		return kubeconfig, nil
 	}
-
-	return clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
-		&clientcmd.ClientConfigLoadingRules{ExplicitPath: kubeconfigPath},
-		&clientcmd.ConfigOverrides{ClusterInfo: clientapi.Cluster{Server: masterURL}}).ClientConfig()
+	return clientcmd.NewNonInteractiveDeferredLoadingClientConfig(&clientcmd.ClientConfigLoadingRules{ExplicitPath: kubeconfigPath}, &clientcmd.ConfigOverrides{ClusterInfo: clientapi.Cluster{Server: masterURL}}).ClientConfig()
 }
-
 func flattenSubsets(subsets []api.EndpointSubset) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ips := []string{}
 	for _, ss := range subsets {
 		for _, addr := range ss.Addresses {
@@ -57,18 +43,16 @@ func flattenSubsets(subsets []api.EndpointSubset) []string {
 	}
 	return ips
 }
-
 func main() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flag.Parse()
-
 	klog.Info("Kubernetes Elasticsearch logging discovery")
-
 	cc, err := buildConfigFromEnvs(os.Getenv("APISERVER_HOST"), os.Getenv("KUBE_CONFIG_FILE"))
 	if err != nil {
 		klog.Fatalf("Failed to make client: %v", err)
 	}
 	client, err := clientset.NewForConfig(cc)
-
 	if err != nil {
 		klog.Fatalf("Failed to make client: %v", err)
 	}
@@ -80,31 +64,23 @@ func main() {
 		}
 		namespace = envNamespace
 	}
-
 	var elasticsearch *api.Service
 	serviceName := os.Getenv("ELASTICSEARCH_SERVICE_NAME")
 	if serviceName == "" {
 		serviceName = "elasticsearch-logging"
 	}
-
-	// Look for endpoints associated with the Elasticsearch logging service.
-	// First wait for the service to become available.
 	for t := time.Now(); time.Since(t) < 5*time.Minute; time.Sleep(10 * time.Second) {
 		elasticsearch, err = client.Core().Services(namespace).Get(serviceName, metav1.GetOptions{})
 		if err == nil {
 			break
 		}
 	}
-	// If we did not find an elasticsearch logging service then log a warning
-	// and return without adding any unicast hosts.
 	if elasticsearch == nil {
 		klog.Warningf("Failed to find the elasticsearch-logging service: %v", err)
 		return
 	}
-
 	var endpoints *api.Endpoints
 	addrs := []string{}
-	// Wait for some endpoints.
 	count, _ := strconv.Atoi(os.Getenv("MINIMUM_MASTER_NODES"))
 	for t := time.Now(); time.Since(t) < 5*time.Minute; time.Sleep(10 * time.Second) {
 		endpoints, err = client.Core().Endpoints(namespace).Get(serviceName, metav1.GetOptions{})
@@ -117,12 +93,14 @@ func main() {
 			break
 		}
 	}
-	// If there was an error finding endpoints then log a warning and quit.
 	if err != nil {
 		klog.Warningf("Error finding endpoints: %v", err)
 		return
 	}
-
 	klog.Infof("Endpoints = %s", addrs)
 	fmt.Printf("discovery.zen.ping.unicast.hosts: [%s]\n", strings.Join(addrs, ", "))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

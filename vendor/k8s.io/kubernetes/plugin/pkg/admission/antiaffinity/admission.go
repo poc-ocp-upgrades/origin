@@ -1,58 +1,40 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package antiaffinity
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
-
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apiserver/pkg/admission"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	kubeletapis "k8s.io/kubernetes/pkg/kubelet/apis"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const PluginName = "LimitPodHardAntiAffinityTopology"
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		return NewInterPodAntiAffinity(), nil
 	})
 }
 
-// Plugin contains the client used by the admission controller
-type Plugin struct {
-	*admission.Handler
-}
+type Plugin struct{ *admission.Handler }
 
 var _ admission.ValidationInterface = &Plugin{}
 
-// NewInterPodAntiAffinity creates a new instance of the LimitPodHardAntiAffinityTopology admission controller
 func NewInterPodAntiAffinity() *Plugin {
-	return &Plugin{
-		Handler: admission.NewHandler(admission.Create, admission.Update),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Plugin{Handler: admission.NewHandler(admission.Create, admission.Update)}
 }
-
-// Validate will deny any pod that defines AntiAffinity topology key other than kubeletapis.LabelHostname i.e. "kubernetes.io/hostname"
-// in  requiredDuringSchedulingRequiredDuringExecution and requiredDuringSchedulingIgnoredDuringExecution.
 func (p *Plugin) Validate(attributes admission.Attributes) (err error) {
-	// Ignore all calls to subresources or resources other than pods.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(attributes.GetSubresource()) != 0 || attributes.GetResource().GroupResource() != api.Resource("pods") {
 		return nil
 	}
@@ -66,10 +48,6 @@ func (p *Plugin) Validate(attributes admission.Attributes) (err error) {
 		if len(affinity.PodAntiAffinity.RequiredDuringSchedulingIgnoredDuringExecution) != 0 {
 			podAntiAffinityTerms = affinity.PodAntiAffinity.RequiredDuringSchedulingIgnoredDuringExecution
 		}
-		// TODO: Uncomment this block when implement RequiredDuringSchedulingRequiredDuringExecution.
-		//if len(affinity.PodAntiAffinity.RequiredDuringSchedulingRequiredDuringExecution) != 0 {
-		//        podAntiAffinityTerms = append(podAntiAffinityTerms, affinity.PodAntiAffinity.RequiredDuringSchedulingRequiredDuringExecution...)
-		//}
 		for _, v := range podAntiAffinityTerms {
 			if v.TopologyKey != kubeletapis.LabelHostname {
 				return apierrors.NewForbidden(attributes.GetResource().GroupResource(), pod.Name, fmt.Errorf("affinity.PodAntiAffinity.RequiredDuringScheduling has TopologyKey %v but only key %v is allowed", v.TopologyKey, kubeletapis.LabelHostname))
@@ -77,4 +55,8 @@ func (p *Plugin) Validate(attributes admission.Attributes) (err error) {
 		}
 	}
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

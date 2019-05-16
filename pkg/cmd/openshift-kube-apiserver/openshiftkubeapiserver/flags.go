@@ -2,97 +2,28 @@ package openshiftkubeapiserver
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net"
-	"strings"
-
+	goformat "fmt"
 	configv1 "github.com/openshift/api/config/v1"
 	kubecontrolplanev1 "github.com/openshift/api/kubecontrolplane/v1"
 	"github.com/openshift/origin/pkg/cmd/configflags"
 	configapilatest "github.com/openshift/origin/pkg/cmd/server/apis/config/latest"
 	"github.com/openshift/origin/pkg/configconversion"
+	"io/ioutil"
+	"net"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 func ConfigToFlags(kubeAPIServerConfig *kubecontrolplanev1.KubeAPIServerConfig) ([]string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	args := unmaskArgs(kubeAPIServerConfig.APIServerArguments)
-
 	host, portString, err := net.SplitHostPort(kubeAPIServerConfig.ServingInfo.BindAddress)
 	if err != nil {
 		return nil, err
 	}
-
-	// TODO this list (and the content below) will be used to drive a config struct and a reflective test matching config to flags
-	// these flags are overridden by a patch
-	// admission-control
-	// authentication-token-webhook-cache-ttl
-	// authentication-token-webhook-config-file
-	// authorization-mode
-	// authorization-policy-file
-	// authorization-webhook-cache-authorized-ttl
-	// authorization-webhook-cache-unauthorized-ttl
-	// authorization-webhook-config-file
-	// basic-auth-file
-	// enable-aggregator-routing
-	// enable-bootstrap-token-auth
-	// oidc-client-id
-	// oidc-groups-claim
-	// oidc-groups-prefix
-	// oidc-issuer-url
-	// oidc-required-claim
-	// oidc-signing-algs
-	// oidc-username-claim
-	// oidc-username-prefix
-	// service-account-lookup
-	// token-auth-file
-
-	// alsologtostderr - don't know whether to change it
-	// apiserver-count - ignored, hopefully we don't have to fix via patch
-	// cert-dir - ignored because we set certs
-
-	// these flags were never supported via config
-	// cloud-config
-	// cloud-provider
-	// cloud-provider-gce-lb-src-cidrs
-	// contention-profiling
-	// default-not-ready-toleration-seconds
-	// default-unreachable-toleration-seconds
-	// default-watch-cache-size
-	// delete-collection-workers
-	// deserialization-cache-size
-	// enable-garbage-collector
-	// etcd-compaction-interval
-	// etcd-count-metric-poll-period
-	// etcd-servers-overrides
-	// experimental-encryption-provider-config
-	// feature-gates
-	// http2-max-streams-per-connection
-	// insecure-bind-address
-	// kubelet-timeout
-	// log-backtrace-at
-	// log-dir
-	// log-flush-frequency
-	// logtostderr
-	// master-service-namespace
-	// max-connection-bytes-per-sec
-	// profiling
-	// request-timeout
-	// runtime-config
-	// service-account-api-audiences
-	// service-account-issuer
-	// service-account-key-file
-	// service-account-max-token-expiration
-	// service-account-signing-key-file
-	// stderrthreshold
-	// storage-versions
-	// target-ram-mb
-	// v
-	// version
-	// vmodule
-	// watch-cache
-	// watch-cache-sizes
-
-	// TODO, we need to set these in order to enable the right admission plugins in each of the servers
-	// TODO this is needed for a viable cluster up
 	admissionFlags, err := admissionFlags(kubeAPIServerConfig.AdmissionConfig)
 	if err != nil {
 		return nil, err
@@ -102,7 +33,7 @@ func ConfigToFlags(kubeAPIServerConfig *kubecontrolplanev1.KubeAPIServerConfig) 
 	}
 	configflags.SetIfUnset(args, "allow-privileged", "true")
 	configflags.SetIfUnset(args, "anonymous-auth", "false")
-	configflags.SetIfUnset(args, "authorization-mode", "RBAC", "Node") // overridden later, but this runs the poststarthook for bootstrapping RBAC
+	configflags.SetIfUnset(args, "authorization-mode", "RBAC", "Node")
 	for flag, value := range configflags.AuditFlags(&kubeAPIServerConfig.AuditConfig, configflags.ArgsWithPrefix(args, "audit-")) {
 		configflags.SetIfUnset(args, flag, value...)
 	}
@@ -117,7 +48,7 @@ func ConfigToFlags(kubeAPIServerConfig *kubecontrolplanev1.KubeAPIServerConfig) 
 	configflags.SetIfUnset(args, "etcd-keyfile", kubeAPIServerConfig.StorageConfig.KeyFile)
 	configflags.SetIfUnset(args, "etcd-prefix", kubeAPIServerConfig.StorageConfig.StoragePrefix)
 	configflags.SetIfUnset(args, "etcd-servers", kubeAPIServerConfig.StorageConfig.URLs...)
-	configflags.SetIfUnset(args, "event-ttl", "3h") // set a TTL long enough to last for our CI tests so we see the first set of events.
+	configflags.SetIfUnset(args, "event-ttl", "3h")
 	configflags.SetIfUnset(args, "insecure-port", "0")
 	configflags.SetIfUnset(args, "kubelet-certificate-authority", kubeAPIServerConfig.KubeletClientInfo.CA)
 	configflags.SetIfUnset(args, "kubelet-client-certificate", kubeAPIServerConfig.KubeletClientInfo.CertFile)
@@ -147,13 +78,12 @@ func ConfigToFlags(kubeAPIServerConfig *kubecontrolplanev1.KubeAPIServerConfig) 
 	configflags.SetIfUnset(args, "tls-private-key-file", kubeAPIServerConfig.ServingInfo.KeyFile)
 	configflags.SetIfUnset(args, "tls-sni-cert-key", sniCertKeys(kubeAPIServerConfig.ServingInfo.NamedCertificates)...)
 	configflags.SetIfUnset(args, "secure-port", portString)
-
 	return configflags.ToFlagSlice(args), nil
 }
-
 func admissionFlags(admissionConfig configv1.AdmissionConfig) (map[string][]string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	args := map[string][]string{}
-
 	upstreamAdmissionConfig, err := configconversion.ConvertOpenshiftAdmissionConfigToKubeAdmissionConfig(admissionConfig.PluginConfig)
 	if err != nil {
 		return nil, err
@@ -162,7 +92,6 @@ func admissionFlags(admissionConfig configv1.AdmissionConfig) (map[string][]stri
 	if err != nil {
 		return nil, err
 	}
-
 	tempFile, err := ioutil.TempFile("", "kubeapiserver-admission-config.yaml")
 	if err != nil {
 		return nil, err
@@ -171,15 +100,14 @@ func admissionFlags(admissionConfig configv1.AdmissionConfig) (map[string][]stri
 		return nil, err
 	}
 	tempFile.Close()
-
 	configflags.SetIfUnset(args, "admission-control-config-file", tempFile.Name())
 	configflags.SetIfUnset(args, "disable-admission-plugins", admissionConfig.DisabledAdmissionPlugins...)
 	configflags.SetIfUnset(args, "enable-admission-plugins", admissionConfig.EnabledAdmissionPlugins...)
-
 	return args, nil
 }
-
 func sniCertKeys(namedCertificates []configv1.NamedCertificate) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	args := []string{}
 	for _, nc := range namedCertificates {
 		names := ""
@@ -190,8 +118,9 @@ func sniCertKeys(namedCertificates []configv1.NamedCertificate) []string {
 	}
 	return args
 }
-
 func unmaskArgs(args map[string]kubecontrolplanev1.Arguments) map[string][]string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ret := map[string][]string{}
 	for key, slice := range args {
 		for _, val := range slice {
@@ -199,4 +128,8 @@ func unmaskArgs(args map[string]kubecontrolplanev1.Arguments) map[string][]strin
 		}
 	}
 	return ret
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -1,74 +1,43 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package compat
 
 import (
 	"encoding/json"
 	"fmt"
-	"reflect"
-	"regexp"
-	"strconv"
-	"strings"
-	"testing"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
+	goos "os"
+	"reflect"
+	"regexp"
+	godefaultruntime "runtime"
+	"strconv"
+	"strings"
+	"testing"
+	gotime "time"
 )
 
-// TestCompatibility reencodes the input using the codec for the given
-// version and checks for the presence of the expected keys and absent
-// keys in the resulting JSON.
-// Based on: https://github.com/openshift/origin/blob/master/pkg/api/compatibility_test.go
-func TestCompatibility(
-	t *testing.T,
-	version schema.GroupVersion,
-	input []byte,
-	validator func(obj runtime.Object) field.ErrorList,
-	expectedKeys map[string]string,
-	absentKeys []string,
-) {
-
-	// Decode
+func TestCompatibility(t *testing.T, version schema.GroupVersion, input []byte, validator func(obj runtime.Object) field.ErrorList, expectedKeys map[string]string, absentKeys []string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	codec := legacyscheme.Codecs.LegacyCodec(version)
 	obj, err := runtime.Decode(codec, input)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	// Validate
 	errs := validator(obj)
 	if len(errs) != 0 {
 		t.Fatalf("Unexpected validation errors: %v", errs)
 	}
-
-	// Encode
 	output, err := runtime.Encode(codec, obj)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
-	// Validate old and new fields are encoded
 	generic := map[string]interface{}{}
 	if err := json.Unmarshal(output, &generic); err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
-
 	for k, expectedValue := range expectedKeys {
 		keys := strings.Split(k, ".")
 		if actualValue, ok, err := getJSONValue(generic, keys...); err != nil || !ok {
@@ -77,7 +46,6 @@ func TestCompatibility(
 			t.Errorf("Unexpected value for %v: expected %v, got %v", k, expectedValue, actualValue)
 		}
 	}
-
 	for _, absentKey := range absentKeys {
 		keys := strings.Split(absentKey, ".")
 		actualValue, ok, err := getJSONValue(generic, keys...)
@@ -85,7 +53,6 @@ func TestCompatibility(
 			t.Errorf("Unexpected value found for key %s: %v", absentKey, actualValue)
 		}
 	}
-
 	if t.Failed() {
 		data, err := json.MarshalIndent(obj, "", "    ")
 		if err != nil {
@@ -96,28 +63,22 @@ func TestCompatibility(
 		t.Logf("2: Encoded value: %v", string(output))
 	}
 }
-
 func getJSONValue(data map[string]interface{}, keys ...string) (interface{}, bool, error) {
-	// No keys, current value is it
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(keys) == 0 {
 		return data, true, nil
 	}
-
-	// Get the key (and optional index)
 	key := keys[0]
 	index := -1
 	if matches := regexp.MustCompile(`^(.*)\[(\d+)\]$`).FindStringSubmatch(key); len(matches) > 0 {
 		key = matches[1]
 		index, _ = strconv.Atoi(matches[2])
 	}
-
-	// Look up the value
 	value, ok := data[key]
 	if !ok {
 		return nil, false, fmt.Errorf("No key %s found", key)
 	}
-
-	// Get the indexed value if an index is specified
 	if index >= 0 {
 		valueSlice, ok := value.([]interface{})
 		if !ok {
@@ -128,14 +89,16 @@ func getJSONValue(data map[string]interface{}, keys ...string) (interface{}, boo
 		}
 		value = valueSlice[index]
 	}
-
 	if len(keys) == 1 {
 		return value, true, nil
 	}
-
 	childData, ok := value.(map[string]interface{})
 	if !ok {
 		return nil, false, fmt.Errorf("Key %s did not hold a map", keys[0])
 	}
 	return getJSONValue(childData, keys[1:]...)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

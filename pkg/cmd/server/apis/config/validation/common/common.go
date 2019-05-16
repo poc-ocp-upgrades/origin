@@ -2,21 +2,25 @@ package common
 
 import (
 	"fmt"
+	goformat "fmt"
+	"github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"io/ioutil"
+	utilvalidation "k8s.io/apimachinery/pkg/util/validation"
+	"k8s.io/apimachinery/pkg/util/validation/field"
 	"net"
 	"net/url"
 	"os"
+	goos "os"
+	godefaultruntime "runtime"
 	"strconv"
+	gotime "time"
 	"unicode"
 	"unicode/utf8"
-
-	utilvalidation "k8s.io/apimachinery/pkg/util/validation"
-	"k8s.io/apimachinery/pkg/util/validation/field"
-
-	"github.com/openshift/origin/pkg/cmd/server/apis/config"
 )
 
 func ValidateStringSource(s config.StringSource, fieldPath *field.Path) ValidationResults {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	validationResults := ValidationResults{}
 	methods := 0
 	if len(s.Value) > 0 {
@@ -26,8 +30,6 @@ func ValidateStringSource(s config.StringSource, fieldPath *field.Path) Validati
 		methods++
 		fileErrors := ValidateFile(s.File, fieldPath.Child("file"))
 		validationResults.AddErrors(fileErrors...)
-
-		// If the file was otherwise ok, and its value will be used verbatim, warn about trailing whitespace
 		if len(fileErrors) == 0 && len(s.KeyFile) == 0 {
 			if data, err := ioutil.ReadFile(s.File); err != nil {
 				validationResults.AddErrors(field.Invalid(fieldPath.Child("file"), s.File, fmt.Sprintf("could not read file: %v", err)))
@@ -45,36 +47,32 @@ func ValidateStringSource(s config.StringSource, fieldPath *field.Path) Validati
 	if methods > 1 {
 		validationResults.AddErrors(field.Invalid(fieldPath, "", "only one of value, file, and env can be specified"))
 	}
-
 	if len(s.KeyFile) > 0 {
 		validationResults.AddErrors(ValidateFile(s.KeyFile, fieldPath.Child("keyFile"))...)
 	}
-
 	return validationResults
 }
-
 func ValidateSpecifiedIP(ipString string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
-
 	ip := net.ParseIP(ipString)
 	if ip == nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, ipString, "must be a valid IP"))
 	} else if ip.IsUnspecified() {
 		allErrs = append(allErrs, field.Invalid(fldPath, ipString, "cannot be an unspecified IP"))
 	}
-
 	return allErrs
 }
-
 func ValidateSpecifiedIPPort(ipPortString string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
-
 	ipString, portString, err := net.SplitHostPort(ipPortString)
 	if err != nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, ipPortString, "must be a valid IP:PORT"))
 		return allErrs
 	}
-
 	ip := net.ParseIP(ipString)
 	if ip == nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, ipString, "must be a valid IP"))
@@ -89,21 +87,21 @@ func ValidateSpecifiedIPPort(ipPortString string, fldPath *field.Path) field.Err
 			allErrs = append(allErrs, field.Invalid(fldPath, port, msg))
 		}
 	}
-
 	return allErrs
 }
-
 func ValidateSecureURL(urlString string, fldPath *field.Path) (*url.URL, field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	url, urlErrs := ValidateURL(urlString, fldPath)
 	if len(urlErrs) == 0 && url.Scheme != "https" {
 		urlErrs = append(urlErrs, field.Invalid(fldPath, urlString, "must use https scheme"))
 	}
 	return url, urlErrs
 }
-
 func ValidateURL(urlString string, fldPath *field.Path) (*url.URL, field.ErrorList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
-
 	urlObj, err := url.Parse(urlString)
 	if err != nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, urlString, "must be a valid URL"))
@@ -117,20 +115,20 @@ func ValidateURL(urlString string, fldPath *field.Path) (*url.URL, field.ErrorLi
 	}
 	return urlObj, allErrs
 }
-
 func ValidateFile(path string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
-
 	if len(path) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath, ""))
 	} else if _, err := os.Stat(path); err != nil {
 		allErrs = append(allErrs, field.Invalid(fldPath, path, fmt.Sprintf("could not read file: %v", err)))
 	}
-
 	return allErrs
 }
-
 func ValidateDir(path string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
 	if len(path) == 0 {
 		allErrs = append(allErrs, field.Required(fldPath, ""))
@@ -142,31 +140,37 @@ func ValidateDir(path string, fldPath *field.Path) field.ErrorList {
 			allErrs = append(allErrs, field.Invalid(fldPath, path, "not a directory"))
 		}
 	}
-
 	return allErrs
 }
 
-// TODO: this should just be two return arrays, no need to be clever
 type ValidationResults struct {
 	Warnings field.ErrorList
 	Errors   field.ErrorList
 }
 
 func (r *ValidationResults) Append(additionalResults ValidationResults) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r.AddErrors(additionalResults.Errors...)
 	r.AddWarnings(additionalResults.Warnings...)
 }
-
 func (r *ValidationResults) AddErrors(errors ...*field.Error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(errors) == 0 {
 		return
 	}
 	r.Errors = append(r.Errors, errors...)
 }
-
 func (r *ValidationResults) AddWarnings(warnings ...*field.Error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(warnings) == 0 {
 		return
 	}
 	r.Warnings = append(r.Warnings, warnings...)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

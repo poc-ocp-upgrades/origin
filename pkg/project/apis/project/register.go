@@ -1,9 +1,13 @@
 package project
 
 import (
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const (
@@ -11,30 +15,24 @@ const (
 )
 
 var (
-	schemeBuilder = runtime.NewSchemeBuilder(
-		addKnownTypes,
-		core.AddToScheme,
-	)
-	Install = schemeBuilder.AddToScheme
-
-	// DEPRECATED kept for generated code
+	schemeBuilder      = runtime.NewSchemeBuilder(addKnownTypes, core.AddToScheme)
+	Install            = schemeBuilder.AddToScheme
 	SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
-	// DEPRECATED kept for generated code
-	AddToScheme = schemeBuilder.AddToScheme
+	AddToScheme        = schemeBuilder.AddToScheme
 )
 
-// Resource kept for generated code
-// DEPRECATED
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
-
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(SchemeGroupVersion,
-		&Project{},
-		&ProjectList{},
-		&ProjectRequest{},
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	scheme.AddKnownTypes(SchemeGroupVersion, &Project{}, &ProjectList{}, &ProjectRequest{})
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

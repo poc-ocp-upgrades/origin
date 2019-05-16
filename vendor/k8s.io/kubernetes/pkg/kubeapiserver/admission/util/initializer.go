@@ -1,30 +1,18 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package util
 
 import (
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/util/initialization"
 	"k8s.io/apiserver/pkg/admission"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// IsUpdatingInitializedObject returns true if the operation is trying to update
-// an already initialized object.
 func IsUpdatingInitializedObject(a admission.Attributes) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetOperation() != admission.Update {
 		return false, nil
 	}
@@ -38,10 +26,9 @@ func IsUpdatingInitializedObject(a admission.Attributes) (bool, error) {
 	}
 	return false, nil
 }
-
-// IsUpdatingUninitializedObject returns true if the operation is trying to
-// update an object that is not initialized yet.
 func IsUpdatingUninitializedObject(a admission.Attributes) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetOperation() != admission.Update {
 		return false, nil
 	}
@@ -55,10 +42,9 @@ func IsUpdatingUninitializedObject(a admission.Attributes) (bool, error) {
 	}
 	return true, nil
 }
-
-// IsInitializationCompletion returns true if the operation removes all pending
-// initializers.
 func IsInitializationCompletion(a admission.Attributes) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetOperation() != admission.Update {
 		return false, nil
 	}
@@ -76,4 +62,8 @@ func IsInitializationCompletion(a admission.Attributes) (bool, error) {
 		return false, err
 	}
 	return newInitialized, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

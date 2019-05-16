@@ -349,9 +349,9 @@ func (cl *cloudLaunch) createInstance() {
 			},
 		},
 		NetworkInterfaces: []*compute.NetworkInterface{
-			&compute.NetworkInterface{
+			{
 				AccessConfigs: []*compute.AccessConfig{
-					&compute.AccessConfig{
+					{
 						Type:  "ONE_TO_ONE_NAT",
 						Name:  "External NAT",
 						NatIP: ip,

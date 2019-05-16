@@ -2,15 +2,12 @@ package admin
 
 import (
 	"errors"
-
+	"github.com/openshift/library-go/pkg/crypto"
 	"github.com/spf13/cobra"
-	"k8s.io/klog"
-
 	"k8s.io/cli-runtime/pkg/genericclioptions"
+	"k8s.io/klog"
 	kcmdutil "k8s.io/kubernetes/pkg/kubectl/cmd/util"
 	"k8s.io/kubernetes/pkg/kubectl/util/templates"
-
-	"github.com/openshift/library-go/pkg/crypto"
 )
 
 const CreateSignerCertCommandName = "create-signer-cert"
@@ -21,9 +18,7 @@ type CreateSignerCertOptions struct {
 	SerialFile string
 	ExpireDays int
 	Name       string
-
-	Overwrite bool
-
+	Overwrite  bool
 	genericclioptions.IOStreams
 }
 
@@ -31,52 +26,36 @@ var createSignerLong = templates.LongDesc(`
 	Create a self-signed CA key/cert for signing certificates used by server components.`)
 
 func NewCreateSignerCertOptions(streams genericclioptions.IOStreams) *CreateSignerCertOptions {
-	return &CreateSignerCertOptions{
-		ExpireDays: crypto.DefaultCACertificateLifetimeInDays,
-		Overwrite:  true,
-		CertFile:   "openshift.local.config/master/ca.crt",
-		KeyFile:    "openshift.local.config/master/ca.key",
-		SerialFile: "openshift.local.config/master/ca.serial.txt",
-		Name:       DefaultSignerName(),
-		IOStreams:  streams,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &CreateSignerCertOptions{ExpireDays: crypto.DefaultCACertificateLifetimeInDays, Overwrite: true, CertFile: "openshift.local.config/master/ca.crt", KeyFile: "openshift.local.config/master/ca.key", SerialFile: "openshift.local.config/master/ca.serial.txt", Name: DefaultSignerName(), IOStreams: streams}
 }
-
 func NewCommandCreateSignerCert(commandName string, fullName string, streams genericclioptions.IOStreams) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o := NewCreateSignerCertOptions(streams)
-	cmd := &cobra.Command{
-		Use:   commandName,
-		Short: "Create a signer (certificate authority/CA) certificate and key",
-		Long:  createSignerLong,
-		Run: func(cmd *cobra.Command, args []string) {
-			kcmdutil.CheckErr(o.Validate(args))
-			if _, err := o.CreateSignerCert(); err != nil {
-				kcmdutil.CheckErr(err)
-			}
-		},
-	}
-
+	cmd := &cobra.Command{Use: commandName, Short: "Create a signer (certificate authority/CA) certificate and key", Long: createSignerLong, Run: func(cmd *cobra.Command, args []string) {
+		kcmdutil.CheckErr(o.Validate(args))
+		if _, err := o.CreateSignerCert(); err != nil {
+			kcmdutil.CheckErr(err)
+		}
+	}}
 	prefix := ""
 	cmd.Flags().StringVar(&o.CertFile, prefix+"cert", o.CertFile, "The certificate file.")
 	cmd.Flags().StringVar(&o.KeyFile, prefix+"key", o.KeyFile, "The key file.")
 	cmd.Flags().StringVar(&o.SerialFile, prefix+"serial", o.SerialFile, "The serial file that keeps track of how many certs have been signed.")
 	cmd.Flags().StringVar(&o.Name, prefix+"name", o.Name, "The name of the signer.")
 	cmd.Flags().BoolVar(&o.Overwrite, prefix+"overwrite", o.Overwrite, "Overwrite existing cert files if found.  If false, any existing file will be left as-is.")
-
 	cmd.Flags().IntVar(&o.ExpireDays, "expire-days", o.ExpireDays, "Validity of the certificate in days (defaults to 5 years). WARNING: extending this above default value is highly discouraged.")
-
-	// set dynamic value annotation - allows man pages  to be generated and verified
 	cmd.Flags().SetAnnotation(prefix+"name", "manpage-def-value", []string{"openshift-signer@<current_timestamp>"})
-
-	// autocompletion hints
 	cobra.MarkFlagFilename(cmd.Flags(), prefix+"cert")
 	cobra.MarkFlagFilename(cmd.Flags(), prefix+"key")
 	cobra.MarkFlagFilename(cmd.Flags(), prefix+"serial")
-
 	return cmd
 }
-
 func (o CreateSignerCertOptions) Validate(args []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
@@ -92,11 +71,11 @@ func (o CreateSignerCertOptions) Validate(args []string) error {
 	if len(o.Name) == 0 {
 		return errors.New("name must be provided")
 	}
-
 	return nil
 }
-
 func (o CreateSignerCertOptions) CreateSignerCert() (*crypto.CA, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.V(4).Infof("Creating a signer cert with: %#v", o)
 	var ca *crypto.CA
 	var err error

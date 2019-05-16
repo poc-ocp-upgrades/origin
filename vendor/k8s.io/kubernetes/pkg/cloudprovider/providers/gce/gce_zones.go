@@ -1,49 +1,28 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package gce
 
 import (
 	"context"
-	"strings"
-
 	compute "google.golang.org/api/compute/v1"
-
 	"k8s.io/apimachinery/pkg/types"
 	cloudprovider "k8s.io/cloud-provider"
 	"k8s.io/kubernetes/pkg/cloudprovider/providers/gce/cloud"
 	"k8s.io/kubernetes/pkg/cloudprovider/providers/gce/cloud/filter"
+	"strings"
 )
 
 func newZonesMetricContext(request, region string) *metricContext {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return newGenericMetricContext("zones", request, region, unusedMetricLabel, computeV1Version)
 }
-
-// GetZone creates a cloudprovider.Zone of the current zone and region
 func (g *Cloud) GetZone(ctx context.Context) (cloudprovider.Zone, error) {
-	return cloudprovider.Zone{
-		FailureDomain: g.localZone,
-		Region:        g.region,
-	}, nil
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return cloudprovider.Zone{FailureDomain: g.localZone, Region: g.region}, nil
 }
-
-// GetZoneByProviderID implements Zones.GetZoneByProviderID
-// This is particularly useful in external cloud providers where the kubelet
-// does not initialize node data.
 func (g *Cloud) GetZoneByProviderID(ctx context.Context, providerID string) (cloudprovider.Zone, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, zone, _, err := splitProviderID(providerID)
 	if err != nil {
 		return cloudprovider.Zone{}, err
@@ -54,11 +33,9 @@ func (g *Cloud) GetZoneByProviderID(ctx context.Context, providerID string) (clo
 	}
 	return cloudprovider.Zone{FailureDomain: zone, Region: region}, nil
 }
-
-// GetZoneByNodeName implements Zones.GetZoneByNodeName
-// This is particularly useful in external cloud providers where the kubelet
-// does not initialize node data.
 func (g *Cloud) GetZoneByNodeName(ctx context.Context, nodeName types.NodeName) (cloudprovider.Zone, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	instanceName := mapNodeNameToInstanceName(nodeName)
 	instance, err := g.getInstanceByName(instanceName)
 	if err != nil {
@@ -70,12 +47,11 @@ func (g *Cloud) GetZoneByNodeName(ctx context.Context, nodeName types.NodeName) 
 	}
 	return cloudprovider.Zone{FailureDomain: instance.Zone, Region: region}, nil
 }
-
-// ListZonesInRegion returns all zones in a GCP region
 func (g *Cloud) ListZonesInRegion(region string) ([]*compute.Zone, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ctx, cancel := cloud.ContextWithCallTimeout()
 	defer cancel()
-
 	mc := newZonesMetricContext("list", region)
 	list, err := g.c.Zones().List(ctx, filter.Regexp("region", g.getRegionLink(region)))
 	if err != nil {
@@ -83,7 +59,8 @@ func (g *Cloud) ListZonesInRegion(region string) ([]*compute.Zone, error) {
 	}
 	return list, mc.Observe(err)
 }
-
 func (g *Cloud) getRegionLink(region string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return g.service.BasePath + strings.Join([]string{g.projectID, "regions", region}, "/")
 }

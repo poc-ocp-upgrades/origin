@@ -1,17 +1,20 @@
 package v1
 
 import (
-	"k8s.io/apimachinery/pkg/runtime"
-
 	legacyconfigv1 "github.com/openshift/api/legacyconfig/v1"
 	internal "github.com/openshift/origin/pkg/cmd/server/apis/config"
+	"k8s.io/apimachinery/pkg/runtime"
 )
 
 func addDefaultingFuncs(scheme *runtime.Scheme) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	RegisterDefaults(scheme)
 	return nil
 }
 func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.APILevels) == 0 {
 		obj.APILevels = internal.DefaultOpenShiftAPILevels
 	}
@@ -31,7 +34,6 @@ func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
 			election.LockResource.Resource = "configmaps"
 		}
 	}
-
 	if obj.ServingInfo.RequestTimeoutSeconds == 0 {
 		obj.ServingInfo.RequestTimeoutSeconds = 60 * 60
 	}
@@ -54,11 +56,9 @@ func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
 		v := true
 		obj.JenkinsPipelineConfig.AutoProvisionEnabled = &v
 	}
-
 	if obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides == nil {
 		obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides = &legacyconfigv1.ClientConnectionOverrides{}
 	}
-	// historical values
 	if obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides.QPS <= 0 {
 		obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides.QPS = 150.0
 	}
@@ -66,21 +66,14 @@ func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
 		obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides.Burst = 300
 	}
 	SetDefaults_ClientConnectionOverrides(obj.MasterClients.OpenShiftLoopbackClientConnectionOverrides)
-
-	// Populate the new NetworkConfig.ServiceNetworkCIDR field from the KubernetesMasterConfig.ServicesSubnet field if needed
 	if len(obj.NetworkConfig.ServiceNetworkCIDR) == 0 {
 		if len(obj.KubernetesMasterConfig.ServicesSubnet) > 0 {
-			// if a subnet is set in the kubernetes master config, use that
 			obj.NetworkConfig.ServiceNetworkCIDR = obj.KubernetesMasterConfig.ServicesSubnet
 		} else {
-			// default ServiceClusterIPRange used by kubernetes if nothing is specified
 			obj.NetworkConfig.ServiceNetworkCIDR = "10.0.0.0/24"
 		}
 	}
-
-	// TODO Detect cloud provider when not using built-in kubernetes
 	noCloudProvider := (len(obj.KubernetesMasterConfig.ControllerArguments["cloud-provider"]) == 0 || obj.KubernetesMasterConfig.ControllerArguments["cloud-provider"][0] == "")
-
 	if noCloudProvider && len(obj.NetworkConfig.IngressIPNetworkCIDR) == 0 {
 		cidr := internal.DefaultIngressIPNetworkCIDR
 		cidrOverlap := false
@@ -98,31 +91,24 @@ func SetDefaults_MasterConfig(obj *legacyconfigv1.MasterConfig) {
 			obj.NetworkConfig.IngressIPNetworkCIDR = cidr
 		}
 	}
-
-	// Historically, the clientCA was incorrectly used as the master's server cert CA bundle
-	// If missing from the config, migrate the ClientCA into that field
 	if obj.OAuthConfig != nil && obj.OAuthConfig.MasterCA == nil {
 		s := obj.ServingInfo.ClientCA
-		// The final value of OAuthConfig.MasterCA should never be nil
 		obj.OAuthConfig.MasterCA = &s
 	}
-
-	// Ensure no nil plugin config stanzas
 	for pluginName := range obj.AdmissionConfig.PluginConfig {
 		if obj.AdmissionConfig.PluginConfig[pluginName] == nil {
 			obj.AdmissionConfig.PluginConfig[pluginName] = &legacyconfigv1.AdmissionPluginConfig{}
 		}
 	}
-
-	// Set defaults Cache TTLs for external Webhook Token Reviewers
 	for i := range obj.AuthConfig.WebhookTokenAuthenticators {
 		if len(obj.AuthConfig.WebhookTokenAuthenticators[i].CacheTTL) == 0 {
 			obj.AuthConfig.WebhookTokenAuthenticators[i].CacheTTL = "2m"
 		}
 	}
 }
-
 func SetDefaults_KubernetesMasterConfig(obj *legacyconfigv1.KubernetesMasterConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.MasterEndpointReconcileTTL == 0 {
 		obj.MasterEndpointReconcileTTL = 15
 	}
@@ -137,16 +123,12 @@ func SetDefaults_KubernetesMasterConfig(obj *legacyconfigv1.KubernetesMasterConf
 	}
 }
 func SetDefaults_NodeConfig(obj *legacyconfigv1.NodeConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.MasterClientConnectionOverrides == nil {
-		obj.MasterClientConnectionOverrides = &legacyconfigv1.ClientConnectionOverrides{
-			// historical values
-			QPS:   10.0,
-			Burst: 20,
-		}
+		obj.MasterClientConnectionOverrides = &legacyconfigv1.ClientConnectionOverrides{QPS: 10.0, Burst: 20}
 	}
 	SetDefaults_ClientConnectionOverrides(obj.MasterClientConnectionOverrides)
-
-	// Defaults/migrations for NetworkConfig
 	if len(obj.NetworkConfig.NetworkPluginName) == 0 {
 		obj.NetworkConfig.NetworkPluginName = obj.DeprecatedNetworkPluginName
 	}
@@ -156,8 +138,6 @@ func SetDefaults_NodeConfig(obj *legacyconfigv1.NodeConfig) {
 	if len(obj.IPTablesSyncPeriod) == 0 {
 		obj.IPTablesSyncPeriod = "30s"
 	}
-
-	// Auth cache defaults
 	if len(obj.AuthConfig.AuthenticationCacheTTL) == 0 {
 		obj.AuthConfig.AuthenticationCacheTTL = "5m"
 	}
@@ -170,14 +150,14 @@ func SetDefaults_NodeConfig(obj *legacyconfigv1.NodeConfig) {
 	if obj.AuthConfig.AuthorizationCacheSize == 0 {
 		obj.AuthConfig.AuthorizationCacheSize = 1000
 	}
-
-	// EnableUnidling by default
 	if obj.EnableUnidling == nil {
 		v := true
 		obj.EnableUnidling = &v
 	}
 }
 func SetDefaults_EtcdStorageConfig(obj *legacyconfigv1.EtcdStorageConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.KubernetesStorageVersion) == 0 {
 		obj.KubernetesStorageVersion = "v1"
 	}
@@ -191,8 +171,9 @@ func SetDefaults_EtcdStorageConfig(obj *legacyconfigv1.EtcdStorageConfig) {
 		obj.OpenShiftStoragePrefix = "openshift.io"
 	}
 }
-
 func SetDefaults_DockerConfig(obj *legacyconfigv1.DockerConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.ExecHandlerName) == 0 {
 		obj.ExecHandlerName = legacyconfigv1.DockerExecHandlerNative
 	}
@@ -203,13 +184,16 @@ func SetDefaults_DockerConfig(obj *legacyconfigv1.DockerConfig) {
 		obj.DockershimRootDirectory = "/var/lib/dockershim"
 	}
 }
-
 func SetDefaults_ServingInfo(obj *legacyconfigv1.ServingInfo) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.BindNetwork) == 0 {
 		obj.BindNetwork = "tcp4"
 	}
 }
 func SetDefaults_ImagePolicyConfig(obj *legacyconfigv1.ImagePolicyConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.MaxImagesBulkImportedPerRepository == 0 {
 		obj.MaxImagesBulkImportedPerRepository = 50
 	}
@@ -221,11 +205,15 @@ func SetDefaults_ImagePolicyConfig(obj *legacyconfigv1.ImagePolicyConfig) {
 	}
 }
 func SetDefaults_DNSConfig(obj *legacyconfigv1.DNSConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.BindNetwork) == 0 {
 		obj.BindNetwork = "tcp4"
 	}
 }
 func SetDefaults_SecurityAllocator(obj *legacyconfigv1.SecurityAllocator) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.UIDAllocatorRange) == 0 {
 		obj.UIDAllocatorRange = "1000000000-1999999999/10000"
 	}
@@ -237,22 +225,22 @@ func SetDefaults_SecurityAllocator(obj *legacyconfigv1.SecurityAllocator) {
 	}
 }
 func SetDefaults_IdentityProvider(obj *legacyconfigv1.IdentityProvider) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.MappingMethod) == 0 {
-		// By default, only let one identity provider authenticate a particular user
-		// If multiple identity providers collide, the second one in will fail to auth
-		// The admin can set this to "add" if they want to allow new identities to join existing users
 		obj.MappingMethod = "claim"
 	}
 }
 func SetDefaults_GrantConfig(obj *legacyconfigv1.GrantConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.ServiceAccountMethod) == 0 {
 		obj.ServiceAccountMethod = legacyconfigv1.GrantHandlerPrompt
 	}
 }
-
-// SetDefaults_ClientConnectionOverrides defaults a client connection to the pre-1.3 settings of
-// being JSON only. Callers must explicitly opt-in to Protobuf support in 1.3+.
 func SetDefaults_ClientConnectionOverrides(overrides *legacyconfigv1.ClientConnectionOverrides) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(overrides.AcceptContentTypes) == 0 {
 		overrides.AcceptContentTypes = "application/json"
 	}

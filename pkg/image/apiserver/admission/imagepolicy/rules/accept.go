@@ -1,30 +1,30 @@
 package rules
 
 import (
-	"k8s.io/klog"
-
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-
+	goformat "fmt"
 	imagepolicy "github.com/openshift/origin/pkg/image/apiserver/admission/apis/imagepolicy/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/klog"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type Accepter interface {
 	Covers(metav1.GroupResource) bool
-
 	Accepts(*ImagePolicyAttributes) bool
 }
-
-// mappedAccepter implements the Accepter interface for a map of group resources and accepters
 type mappedAccepter map[metav1.GroupResource]Accepter
 
 func (a mappedAccepter) Covers(gr metav1.GroupResource) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, ok := a[gr]
 	return ok
 }
-
-// Accepts returns true if no Accepter is registered for the group resource in attributes,
-// or if the registered Accepter also returns true.
 func (a mappedAccepter) Accepts(attr *ImagePolicyAttributes) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	accepter, ok := a[attr.Resource]
 	if !ok {
 		return true
@@ -33,17 +33,16 @@ func (a mappedAccepter) Accepts(attr *ImagePolicyAttributes) bool {
 }
 
 type executionAccepter struct {
-	rules         []imagepolicy.ImageExecutionPolicyRule
-	covers        metav1.GroupResource
-	defaultReject bool
-
+	rules                     []imagepolicy.ImageExecutionPolicyRule
+	covers                    metav1.GroupResource
+	defaultReject             bool
 	integratedRegistryMatcher RegistryMatcher
 }
 
-// NewExecutionRuleseAccepter creates an Accepter from the provided rules.
 func NewExecutionRulesAccepter(rules []imagepolicy.ImageExecutionPolicyRule, integratedRegistryMatcher RegistryMatcher) (Accepter, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	mapped := make(mappedAccepter)
-
 	for _, rule := range rules {
 		over, selectors, err := imageConditionInfo(&rule.ImageCondition)
 		if err != nil {
@@ -53,21 +52,16 @@ func NewExecutionRulesAccepter(rules []imagepolicy.ImageExecutionPolicyRule, int
 		for gr := range over {
 			a, ok := mapped[gr]
 			if !ok {
-				a = &executionAccepter{
-					covers:                    gr,
-					integratedRegistryMatcher: integratedRegistryMatcher,
-				}
+				a = &executionAccepter{covers: gr, integratedRegistryMatcher: integratedRegistryMatcher}
 				mapped[gr] = a
 			}
 			byResource := a.(*executionAccepter)
 			byResource.rules = append(byResource.rules, rule)
 		}
 	}
-
 	for _, a := range mapped {
 		byResource := a.(*executionAccepter)
 		if len(byResource.rules) > 0 {
-			// if all rules are reject, the default behavior is allow
 			allReject := true
 			for _, rule := range byResource.rules {
 				if !rule.Reject {
@@ -78,19 +72,19 @@ func NewExecutionRulesAccepter(rules []imagepolicy.ImageExecutionPolicyRule, int
 			byResource.defaultReject = !allReject
 		}
 	}
-
 	return mapped, nil
 }
-
 func (r *executionAccepter) Covers(gr metav1.GroupResource) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.covers == gr
 }
-
 func (r *executionAccepter) Accepts(attrs *ImagePolicyAttributes) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if attrs.Resource != r.covers {
 		return true
 	}
-
 	anyMatched := false
 	for _, rule := range r.rules {
 		klog.V(5).Infof("image policy checking rule %q", rule.Name)
@@ -98,14 +92,10 @@ func (r *executionAccepter) Accepts(attrs *ImagePolicyAttributes) bool {
 			klog.V(5).Infof("skipping because rule is excluded by namespace annotations\n")
 			continue
 		}
-
-		// if we don't have a resolved image and we're supposed to skip the rule if that happens,
-		// continue here.  Otherwise, the reject option is impossible to reason about.
 		if attrs.Image == nil && rule.SkipOnResolutionFailure {
 			klog.V(5).Infof("skipping because image is not resolved and skip on failure is true\n")
 			continue
 		}
-
 		matches := matchImageCondition(&rule.ImageCondition, r.integratedRegistryMatcher, attrs)
 		klog.V(5).Infof("Rule %q(reject=%t) applies to image %v: %t", rule.Name, rule.Reject, attrs.Name, matches)
 		if matches {
@@ -116,4 +106,8 @@ func (r *executionAccepter) Accepts(attrs *ImagePolicyAttributes) bool {
 		}
 	}
 	return anyMatched || !r.defaultReject
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

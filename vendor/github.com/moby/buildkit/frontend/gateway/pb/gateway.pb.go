@@ -904,7 +904,7 @@ func (m *Result) MarshalTo(dAtA []byte) (int, error) {
 		i += nn1
 	}
 	if len(m.Metadata) > 0 {
-		for k, _ := range m.Metadata {
+		for k := range m.Metadata {
 			dAtA[i] = 0x52
 			i++
 			v := m.Metadata[k]
@@ -967,7 +967,7 @@ func (m *RefMap) MarshalTo(dAtA []byte) (int, error) {
 	var l int
 	_ = l
 	if len(m.Refs) > 0 {
-		for k, _ := range m.Refs {
+		for k := range m.Refs {
 			dAtA[i] = 0xa
 			i++
 			v := m.Refs[k]
@@ -1150,7 +1150,7 @@ func (m *SolveRequest) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.Frontend)
 	}
 	if len(m.FrontendOpt) > 0 {
-		for k, _ := range m.FrontendOpt {
+		for k := range m.FrontendOpt {
 			dAtA[i] = 0x1a
 			i++
 			v := m.FrontendOpt[k]

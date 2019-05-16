@@ -157,10 +157,10 @@ type decodeErrorCodeTest struct {
 
 func TestDecodeErrorCode(t *testing.T) {
 	tests := []*decodeErrorCodeTest{
-		&decodeErrorCodeTest{code: -32600, expected: "ERROR_CODE_INVALID_REQUEST"},
-		&decodeErrorCodeTest{code: -32603, expected: "ERROR_CODE_JSON_ENCODING_FAILED"},
-		&decodeErrorCodeTest{code: -32601, expected: "ERROR_CODE_METHOD_NOT_FOUND"},
-		&decodeErrorCodeTest{code: -32700, expected: "ERROR_CODE_PARSE_ERROR"},
+		{code: -32600, expected: "ERROR_CODE_INVALID_REQUEST"},
+		{code: -32603, expected: "ERROR_CODE_JSON_ENCODING_FAILED"},
+		{code: -32601, expected: "ERROR_CODE_METHOD_NOT_FOUND"},
+		{code: -32700, expected: "ERROR_CODE_PARSE_ERROR"},
 	}
 
 	_ = tests

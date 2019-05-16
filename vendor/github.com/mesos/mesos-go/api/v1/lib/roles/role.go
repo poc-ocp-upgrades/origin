@@ -37,9 +37,9 @@ func IsStrictSubroleOf(left, right string) bool {
 }
 
 var illegalComponents = map[string]struct{}{
-	".":  struct{}{},
-	"..": struct{}{},
-	"*":  struct{}{},
+	".":  {},
+	"..": {},
+	"*":  {},
 }
 
 func Parse(s string) (string, error) {

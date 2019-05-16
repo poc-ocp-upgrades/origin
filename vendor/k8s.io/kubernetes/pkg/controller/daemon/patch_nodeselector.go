@@ -13,6 +13,8 @@ import (
 )
 
 func NewNodeSelectorAwareDaemonSetsController(openshiftDefaultNodeSelectorString, kubeDefaultNodeSelectorString string, namepaceInformer coreinformers.NamespaceInformer, daemonSetInformer appsinformers.DaemonSetInformer, historyInformer appsinformers.ControllerRevisionInformer, podInformer coreinformers.PodInformer, nodeInformer coreinformers.NodeInformer, kubeClient clientset.Interface, failedPodsBackoff *flowcontrol.Backoff) (*DaemonSetsController, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	controller, err := NewDaemonSetsController(daemonSetInformer, historyInformer, podInformer, nodeInformer, kubeClient, failedPodsBackoff)
 	if err != nil {
 		return controller, err
@@ -33,30 +35,27 @@ func NewNodeSelectorAwareDaemonSetsController(openshiftDefaultNodeSelectorString
 			return nil, err
 		}
 	}
-
 	return controller, nil
 }
-
 func (dsc *DaemonSetsController) namespaceNodeSelectorMatches(node *v1.Node, ds *appsv1.DaemonSet) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if dsc.namespaceLister == nil {
 		return true, nil
 	}
-
-	// this is racy (different listers) and we get to choose which way to fail.  This should requeue.
 	ns, err := dsc.namespaceLister.Get(ds.Namespace)
 	if apierrors.IsNotFound(err) {
 		return false, err
 	}
-	// if we had any error, default to the safe option of creating a pod for the node.
 	if err != nil {
 		utilruntime.HandleError(err)
 		return true, nil
 	}
-
 	return dsc.nodeSelectorMatches(node, ns), nil
 }
-
 func (dsc *DaemonSetsController) nodeSelectorMatches(node *v1.Node, ns *v1.Namespace) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	kubeNodeSelector, ok := ns.Annotations["scheduler.alpha.kubernetes.io/node-selector"]
 	if !ok {
 		originNodeSelector, ok := ns.Annotations["openshift.io/node-selector"]
@@ -74,7 +73,6 @@ func (dsc *DaemonSetsController) nodeSelectorMatches(node *v1.Node, ns *v1.Names
 			}
 		}
 	}
-
 	switch {
 	case ok:
 		selector, err := labels.Parse(kubeNodeSelector)
@@ -88,6 +86,5 @@ func (dsc *DaemonSetsController) nodeSelectorMatches(node *v1.Node, ns *v1.Names
 			return false
 		}
 	}
-
 	return true
 }

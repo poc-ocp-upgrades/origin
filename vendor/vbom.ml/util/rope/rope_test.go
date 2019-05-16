@@ -11,7 +11,7 @@ import (
 )
 
 func TestEmptyRope(t *testing.T) {
-	for _, r := range []Rope{Rope{}, New("")} {
+	for _, r := range []Rope{{}, New("")} {
 		assert.Equal(t, int64(0), r.Len())
 
 		assert.Equal(t, nil, r.Bytes())
@@ -194,7 +194,7 @@ func TestGoString(t *testing.T) {
 func TestWalk(t *testing.T) {
 	defer disableCoalesce()()
 
-	for _, r := range []Rope{Rope{}, emptyRope} {
+	for _, r := range []Rope{{}, emptyRope} {
 		_ = r.Walk(func(_ string) error {
 			t.Error("call to empty Rope's Walk parameter")
 			return nil

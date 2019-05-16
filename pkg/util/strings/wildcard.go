@@ -1,9 +1,15 @@
 package strings
 
-// IsWildcardMatch matches the given input string against the provided pattern. The
-// pattern might contain '?' and '*' wildcards.
-// Original code: https://discuss.leetcode.com/topic/9350/python-dp-solution/5
+import (
+	goformat "fmt"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
+)
+
 func IsWildcardMatch(s string, p string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dp := make([][]bool, len(p)+1)
 	for i := range dp {
 		dp[i] = make([]bool, len(s)+1)
@@ -25,4 +31,8 @@ func IsWildcardMatch(s string, p string) bool {
 		}
 	}
 	return dp[len(p)][len(s)]
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

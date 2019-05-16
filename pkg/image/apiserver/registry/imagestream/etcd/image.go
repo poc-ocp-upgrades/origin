@@ -2,7 +2,8 @@ package etcd
 
 import (
 	"fmt"
-
+	imagev1 "github.com/openshift/api/image/v1"
+	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	metainternalversion "k8s.io/apimachinery/pkg/apis/meta/internalversion"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -12,119 +13,93 @@ import (
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	imagev1 "github.com/openshift/api/image/v1"
-	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 )
 
-// ImageLayerIndex is a cache of image digests to the layers they contain.
-// Because a very large number of images can exist on a cluster, we only
-// hold in memory a small subset of the full image object.
 type ImageLayerIndex interface {
 	HasSynced() bool
 	GetByKey(key string) (item interface{}, exists bool, err error)
 	Run(stopCh <-chan struct{})
 }
-
 type ImageListWatch interface {
 	List(metav1.ListOptions) (*imagev1.ImageList, error)
 	Watch(metav1.ListOptions) (watch.Interface, error)
 }
-
-type imageLayerIndex struct {
-	informer cache.SharedIndexInformer
-}
+type imageLayerIndex struct{ informer cache.SharedIndexInformer }
 
 func NewEmptyLayerIndex() ImageLayerIndex {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return imageLayerIndex{}
 }
-
 func (i imageLayerIndex) HasSynced() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if i.informer == nil {
 		return true
 	}
 	return i.informer.HasSynced()
 }
 func (i imageLayerIndex) GetByKey(key string) (item interface{}, exists bool, err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if i.informer == nil {
 		return nil, false, nil
 	}
 	return i.informer.GetStore().GetByKey(key)
 }
 func (i imageLayerIndex) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if i.informer == nil {
 		return
 	}
 	i.informer.Run(stopCh)
 }
-
-// NewImageLayerIndex creates a new index over a store that must return
-// images.
 func NewImageLayerIndex(lw ImageListWatch) ImageLayerIndex {
-	informer := cache.NewSharedIndexInformer(&cache.ListWatch{
-		ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
-			list, err := lw.List(metav1.ListOptions{
-				ResourceVersion: options.ResourceVersion,
-				Limit:           options.Limit,
-				Continue:        options.Continue,
-			})
-			if err != nil {
-				return nil, err
-			}
-			// reduce the full image list to a smaller subset.
-			out := &metainternalversion.List{
-				ListMeta: metav1.ListMeta{
-					Continue:        list.Continue,
-					ResourceVersion: list.ResourceVersion,
-				},
-				Items: make([]runtime.Object, len(list.Items)),
-			}
-			for i, image := range list.Items {
-				out.Items[i] = imageLayersForImage(&image)
-			}
-			return out, nil
-		},
-		WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
-			w, err := lw.Watch(metav1.ListOptions{
-				ResourceVersion: options.ResourceVersion,
-			})
-			if err != nil {
-				return nil, err
-			}
-			return watch.Filter(w, func(in watch.Event) (out watch.Event, keep bool) {
-				if in.Object == nil {
-					return in, true
-				}
-				// reduce each object to the minimal subset we need for the cache
-				image, ok := in.Object.(*imagev1.Image)
-				if !ok {
-					return in, true
-				}
-				in.Object = imageLayersForImage(image)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	informer := cache.NewSharedIndexInformer(&cache.ListWatch{ListFunc: func(options metav1.ListOptions) (runtime.Object, error) {
+		list, err := lw.List(metav1.ListOptions{ResourceVersion: options.ResourceVersion, Limit: options.Limit, Continue: options.Continue})
+		if err != nil {
+			return nil, err
+		}
+		out := &metainternalversion.List{ListMeta: metav1.ListMeta{Continue: list.Continue, ResourceVersion: list.ResourceVersion}, Items: make([]runtime.Object, len(list.Items))}
+		for i, image := range list.Items {
+			out.Items[i] = imageLayersForImage(&image)
+		}
+		return out, nil
+	}, WatchFunc: func(options metav1.ListOptions) (watch.Interface, error) {
+		w, err := lw.Watch(metav1.ListOptions{ResourceVersion: options.ResourceVersion})
+		if err != nil {
+			return nil, err
+		}
+		return watch.Filter(w, func(in watch.Event) (out watch.Event, keep bool) {
+			if in.Object == nil {
 				return in, true
-			}), nil
-		},
-	}, &ImageLayers{}, 0, cache.Indexers{
-		// layers allows fast access to the images with a given layer
-		"layers": func(obj interface{}) ([]string, error) {
-			entry, ok := obj.(*ImageLayers)
+			}
+			image, ok := in.Object.(*imagev1.Image)
 			if !ok {
-				return nil, fmt.Errorf("unexpected cache object %T", obj)
+				return in, true
 			}
-			keys := make([]string, 0, len(entry.Layers))
-			for _, layer := range entry.Layers {
-				keys = append(keys, layer.Name)
-			}
-			return keys, nil
-		},
-	})
+			in.Object = imageLayersForImage(image)
+			return in, true
+		}), nil
+	}}, &ImageLayers{}, 0, cache.Indexers{"layers": func(obj interface{}) ([]string, error) {
+		entry, ok := obj.(*ImageLayers)
+		if !ok {
+			return nil, fmt.Errorf("unexpected cache object %T", obj)
+		}
+		keys := make([]string, 0, len(entry.Layers))
+		for _, layer := range entry.Layers {
+			keys = append(keys, layer.Name)
+		}
+		return keys, nil
+	}})
 	return imageLayerIndex{informer: informer}
 }
-
-// configFromImage attempts to find a config blob description from
-// an image. Images older than schema2 in Docker do not have a config blob - the manifest
-// has that data embedded.
 func configFromImage(image *imagev1.Image) *imagev1.ImageLayer {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if image.DockerImageManifestMediaType != "application/vnd.docker.distribution.manifest.v2+json" {
 		return nil
 	}
@@ -133,16 +108,9 @@ func configFromImage(image *imagev1.Image) *imagev1.ImageLayer {
 		utilruntime.HandleError(fmt.Errorf("Unable to decode image for layer cache: %v", err))
 		return nil
 	}
-	return &imagev1.ImageLayer{
-		Name:      meta.ID,
-		MediaType: "application/vnd.docker.container.image.v1+json",
-	}
+	return &imagev1.ImageLayer{Name: meta.ID, MediaType: "application/vnd.docker.container.image.v1+json"}
 }
 
-// ImageLayers is the minimal set of data we need to retain to provide the cache.
-// Unlike a more general informer cache, we do not retain the full object because of
-// the potential size of the objects being stored. Even a small cluster may have 20k
-// or more images in active use.
 type ImageLayers struct {
 	Name            string
 	ResourceVersion string
@@ -152,17 +120,13 @@ type ImageLayers struct {
 }
 
 func imageLayersForImage(image *imagev1.Image) *ImageLayers {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	mediaType := image.DockerImageManifestMediaType
 	if len(mediaType) == 0 {
 		mediaType = "application/vnd.docker.distribution.manifest.v2+json"
 	}
-	return &ImageLayers{
-		Name:            image.Name,
-		ResourceVersion: image.ResourceVersion,
-		MediaType:       mediaType,
-		Config:          configFromImage(image),
-		Layers:          image.DockerImageLayers,
-	}
+	return &ImageLayers{Name: image.Name, ResourceVersion: image.ResourceVersion, MediaType: mediaType, Config: configFromImage(image), Layers: image.DockerImageLayers}
 }
 
 var (
@@ -170,8 +134,14 @@ var (
 	_ metav1.Object  = &ImageLayers{}
 )
 
-func (l *ImageLayers) GetObjectKind() schema.ObjectKind { return &metav1.TypeMeta{} }
+func (l *ImageLayers) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &metav1.TypeMeta{}
+}
 func (l *ImageLayers) DeepCopyObject() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var layers []imagev1.ImageLayer
 	if l.Layers != nil {
 		layers = make([]imagev1.ImageLayer, len(l.Layers))
@@ -182,52 +152,150 @@ func (l *ImageLayers) DeepCopyObject() runtime.Object {
 		copied := *l.Config
 		config = &copied
 	}
-	return &ImageLayers{
-		Name:            l.Name,
-		ResourceVersion: l.ResourceVersion,
-		MediaType:       l.MediaType,
-		Config:          config,
-		Layers:          layers,
-	}
+	return &ImageLayers{Name: l.Name, ResourceVersion: l.ResourceVersion, MediaType: l.MediaType, Config: config, Layers: layers}
 }
-
-// client-go/cache.SharedIndexInformer hardcodes the key function to assume ObjectMeta.
-// Here we implement the relevant accessors to allow a minimal index to be created.
-// SharedIndexInformer will be refactored to require a more minimal subset of actions
-// in the near future.
-
-func (l *ImageLayers) GetName() string                   { return l.Name }
-func (l *ImageLayers) GetNamespace() string              { return "" }
-func (l *ImageLayers) GetResourceVersion() string        { return l.ResourceVersion }
-func (l *ImageLayers) SetResourceVersion(version string) { l.ResourceVersion = version }
-
-// These methods are unused stubs to satisfy meta.Object.
-
-func (l *ImageLayers) SetNamespace(namespace string)                     {}
-func (l *ImageLayers) SetName(name string)                               {}
-func (l *ImageLayers) GetGenerateName() string                           { return "" }
-func (l *ImageLayers) SetGenerateName(name string)                       {}
-func (l *ImageLayers) GetUID() types.UID                                 { return "" }
-func (l *ImageLayers) SetUID(uid types.UID)                              {}
-func (l *ImageLayers) GetGeneration() int64                              { return 0 }
-func (l *ImageLayers) SetGeneration(generation int64)                    {}
-func (l *ImageLayers) GetSelfLink() string                               { return "" }
-func (l *ImageLayers) SetSelfLink(selfLink string)                       {}
-func (l *ImageLayers) GetCreationTimestamp() metav1.Time                 { return metav1.Time{} }
-func (l *ImageLayers) SetCreationTimestamp(timestamp metav1.Time)        {}
-func (l *ImageLayers) GetDeletionTimestamp() *metav1.Time                { return nil }
-func (l *ImageLayers) SetDeletionTimestamp(timestamp *metav1.Time)       {}
-func (l *ImageLayers) GetDeletionGracePeriodSeconds() *int64             { return nil }
-func (l *ImageLayers) SetDeletionGracePeriodSeconds(*int64)              {}
-func (l *ImageLayers) GetLabels() map[string]string                      { return nil }
-func (l *ImageLayers) SetLabels(labels map[string]string)                {}
-func (l *ImageLayers) GetAnnotations() map[string]string                 { return nil }
-func (l *ImageLayers) SetAnnotations(annotations map[string]string)      {}
-func (l *ImageLayers) GetInitializers() *metav1.Initializers             { return nil }
-func (l *ImageLayers) SetInitializers(initializers *metav1.Initializers) {}
-func (l *ImageLayers) GetFinalizers() []string                           { return nil }
-func (l *ImageLayers) SetFinalizers(finalizers []string)                 {}
-func (l *ImageLayers) GetOwnerReferences() []metav1.OwnerReference       { return nil }
-func (l *ImageLayers) SetOwnerReferences([]metav1.OwnerReference)        {}
-func (l *ImageLayers) GetClusterName() string                            { return "" }
-func (l *ImageLayers) SetClusterName(clusterName string)                 {}
+func (l *ImageLayers) GetName() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return l.Name
+}
+func (l *ImageLayers) GetNamespace() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return ""
+}
+func (l *ImageLayers) GetResourceVersion() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return l.ResourceVersion
+}
+func (l *ImageLayers) SetResourceVersion(version string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	l.ResourceVersion = version
+}
+func (l *ImageLayers) SetNamespace(namespace string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) SetName(name string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetGenerateName() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return ""
+}
+func (l *ImageLayers) SetGenerateName(name string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetUID() types.UID {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return ""
+}
+func (l *ImageLayers) SetUID(uid types.UID) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetGeneration() int64 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return 0
+}
+func (l *ImageLayers) SetGeneration(generation int64) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetSelfLink() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return ""
+}
+func (l *ImageLayers) SetSelfLink(selfLink string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetCreationTimestamp() metav1.Time {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return metav1.Time{}
+}
+func (l *ImageLayers) SetCreationTimestamp(timestamp metav1.Time) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetDeletionTimestamp() *metav1.Time {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetDeletionTimestamp(timestamp *metav1.Time) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetDeletionGracePeriodSeconds() *int64 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetDeletionGracePeriodSeconds(*int64) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetLabels() map[string]string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetLabels(labels map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetAnnotations() map[string]string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetAnnotations(annotations map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetInitializers() *metav1.Initializers {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetInitializers(initializers *metav1.Initializers) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetFinalizers() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetFinalizers(finalizers []string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetOwnerReferences() []metav1.OwnerReference {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return nil
+}
+func (l *ImageLayers) SetOwnerReferences([]metav1.OwnerReference) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
+func (l *ImageLayers) GetClusterName() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return ""
+}
+func (l *ImageLayers) SetClusterName(clusterName string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}

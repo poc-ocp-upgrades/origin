@@ -28,11 +28,11 @@ import (
 func TestDatacenterCreateFolders(t *testing.T) {
 	// For this test we only want the RootFolder, 1 Datacenter and its child folders
 	models := []Model{
-		Model{
+		{
 			ServiceContent: esx.ServiceContent,
 			RootFolder:     esx.RootFolder,
 		},
-		Model{
+		{
 			ServiceContent: vpx.ServiceContent,
 			RootFolder:     vpx.RootFolder,
 			Datacenter:     1,

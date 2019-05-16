@@ -1652,7 +1652,7 @@ func (m *SourceOp) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Attrs) > 0 {
 		keysForAttrs := make([]string, 0, len(m.Attrs))
-		for k, _ := range m.Attrs {
+		for k := range m.Attrs {
 			keysForAttrs = append(keysForAttrs, string(k))
 		}
 		sortkeys.Strings(keysForAttrs)
@@ -1697,7 +1697,7 @@ func (m *BuildOp) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Inputs) > 0 {
 		keysForInputs := make([]string, 0, len(m.Inputs))
-		for k, _ := range m.Inputs {
+		for k := range m.Inputs {
 			keysForInputs = append(keysForInputs, string(k))
 		}
 		sortkeys.Strings(keysForInputs)
@@ -1740,7 +1740,7 @@ func (m *BuildOp) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Attrs) > 0 {
 		keysForAttrs := make([]string, 0, len(m.Attrs))
-		for k, _ := range m.Attrs {
+		for k := range m.Attrs {
 			keysForAttrs = append(keysForAttrs, string(k))
 		}
 		sortkeys.Strings(keysForAttrs)
@@ -1813,7 +1813,7 @@ func (m *OpMetadata) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Description) > 0 {
 		keysForDescription := make([]string, 0, len(m.Description))
-		for k, _ := range m.Description {
+		for k := range m.Description {
 			keysForDescription = append(keysForDescription, string(k))
 		}
 		sortkeys.Strings(keysForDescription)
@@ -1845,7 +1845,7 @@ func (m *OpMetadata) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Caps) > 0 {
 		keysForCaps := make([]string, 0, len(m.Caps))
-		for k, _ := range m.Caps {
+		for k := range m.Caps {
 			keysForCaps = append(keysForCaps, string(k))
 		}
 		sortkeys.Strings(keysForCaps)
@@ -2000,7 +2000,7 @@ func (m *Definition) MarshalTo(dAtA []byte) (int, error) {
 	}
 	if len(m.Metadata) > 0 {
 		keysForMetadata := make([]string, 0, len(m.Metadata))
-		for k, _ := range m.Metadata {
+		for k := range m.Metadata {
 			keysForMetadata = append(keysForMetadata, string(k))
 		}
 		sortkeys.Strings(keysForMetadata)

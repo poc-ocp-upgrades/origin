@@ -1,26 +1,9 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package resourcequota
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
-	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apiserver/pkg/admission"
 	genericadmissioninitializer "k8s.io/apiserver/pkg/admission/initializer"
@@ -31,30 +14,31 @@ import (
 	"k8s.io/kubernetes/pkg/quota/v1/generic"
 	resourcequotaapi "k8s.io/kubernetes/plugin/pkg/admission/resourcequota/apis/resourcequota"
 	"k8s.io/kubernetes/plugin/pkg/admission/resourcequota/apis/resourcequota/validation"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
 const PluginName = "ResourceQuota"
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
-	plugins.Register(PluginName,
-		func(config io.Reader) (admission.Interface, error) {
-			// load the configuration provided (if any)
-			configuration, err := LoadConfiguration(config)
-			if err != nil {
-				return nil, err
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
+		configuration, err := LoadConfiguration(config)
+		if err != nil {
+			return nil, err
+		}
+		if configuration != nil {
+			if errs := validation.ValidateConfiguration(configuration); len(errs) != 0 {
+				return nil, errs.ToAggregate()
 			}
-			// validate the configuration (if any)
-			if configuration != nil {
-				if errs := validation.ValidateConfiguration(configuration); len(errs) != 0 {
-					return nil, errs.ToAggregate()
-				}
-			}
-			return NewResourceQuota(configuration, 5, make(chan struct{}))
-		})
+		}
+		return NewResourceQuota(configuration, 5, make(chan struct{}))
+	})
 }
 
-// QuotaAdmission implements an admission controller that can enforce quota constraints
 type QuotaAdmission struct {
 	*admission.Handler
 	config             *resourcequotaapi.Configuration
@@ -75,39 +59,34 @@ type liveLookupEntry struct {
 	items  []*corev1.ResourceQuota
 }
 
-// NewResourceQuota configures an admission controller that can enforce quota constraints
-// using the provided registry.  The registry must have the capability to handle group/kinds that
-// are persisted by the server this admission controller is intercepting
 func NewResourceQuota(config *resourcequotaapi.Configuration, numEvaluators int, stopCh <-chan struct{}) (*QuotaAdmission, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	quotaAccessor, err := newQuotaAccessor()
 	if err != nil {
 		return nil, err
 	}
-
-	return &QuotaAdmission{
-		Handler:       admission.NewHandler(admission.Create, admission.Update),
-		stopCh:        stopCh,
-		numEvaluators: numEvaluators,
-		config:        config,
-		quotaAccessor: quotaAccessor,
-	}, nil
+	return &QuotaAdmission{Handler: admission.NewHandler(admission.Create, admission.Update), stopCh: stopCh, numEvaluators: numEvaluators, config: config, quotaAccessor: quotaAccessor}, nil
 }
-
 func (a *QuotaAdmission) SetExternalKubeClientSet(client kubernetes.Interface) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	a.quotaAccessor.client = client
 }
-
 func (a *QuotaAdmission) SetExternalKubeInformerFactory(f informers.SharedInformerFactory) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	a.quotaAccessor.lister = f.Core().V1().ResourceQuotas().Lister()
 }
-
 func (a *QuotaAdmission) SetQuotaConfiguration(c quota.Configuration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	a.quotaConfiguration = c
 	a.evaluator = NewQuotaEvaluator(a.quotaAccessor, a.quotaConfiguration.IgnoredResources(), generic.NewRegistry(a.quotaConfiguration.Evaluators()), nil, a.config, a.numEvaluators, a.stopCh)
 }
-
-// ValidateInitialization ensures an authorizer is set.
 func (a *QuotaAdmission) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.quotaAccessor == nil {
 		return fmt.Errorf("missing quotaAccessor")
 	}
@@ -125,16 +104,18 @@ func (a *QuotaAdmission) ValidateInitialization() error {
 	}
 	return nil
 }
-
-// Validate makes admission decisions while enforcing quota
 func (a *QuotaAdmission) Validate(attr admission.Attributes) (err error) {
-	// ignore all operations that correspond to sub-resource actions
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if attr.GetSubresource() != "" {
 		return nil
 	}
-	// ignore all operations that are not namespaced
 	if attr.GetNamespace() == "" {
 		return nil
 	}
 	return a.evaluator.Evaluate(attr)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -145,7 +145,7 @@ func NewCustomer() *Customer {
 			Count:  1,
 			URL:    "https://stripe.example.com/card/A92F4CFE-8B6B-4176-873E-887AC0D120EB",
 			Data: []*Card{
-				&Card{
+				{
 					Name:        "John Smith",
 					ID:          "7526EC97-A0B6-47B2-AAE5-17443626A116",
 					Fingerprint: "4242424242424242",

@@ -1,78 +1,53 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package cache
 
 import (
+	goformat "fmt"
 	"k8s.io/api/core/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// DefaultBindAllHostIP defines the default ip address used to bind to all host.
 const DefaultBindAllHostIP = "0.0.0.0"
 
-// ProtocolPort represents a protocol port pair, e.g. tcp:80.
 type ProtocolPort struct {
 	Protocol string
 	Port     int32
 }
 
-// NewProtocolPort creates a ProtocolPort instance.
 func NewProtocolPort(protocol string, port int32) *ProtocolPort {
-	pp := &ProtocolPort{
-		Protocol: protocol,
-		Port:     port,
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	pp := &ProtocolPort{Protocol: protocol, Port: port}
 	if len(pp.Protocol) == 0 {
 		pp.Protocol = string(v1.ProtocolTCP)
 	}
-
 	return pp
 }
 
-// HostPortInfo stores mapping from ip to a set of ProtocolPort
 type HostPortInfo map[string]map[ProtocolPort]struct{}
 
-// Add adds (ip, protocol, port) to HostPortInfo
 func (h HostPortInfo) Add(ip, protocol string, port int32) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if port <= 0 {
 		return
 	}
-
 	h.sanitize(&ip, &protocol)
-
 	pp := NewProtocolPort(protocol, port)
 	if _, ok := h[ip]; !ok {
-		h[ip] = map[ProtocolPort]struct{}{
-			*pp: {},
-		}
+		h[ip] = map[ProtocolPort]struct{}{*pp: {}}
 		return
 	}
-
 	h[ip][*pp] = struct{}{}
 }
-
-// Remove removes (ip, protocol, port) from HostPortInfo
 func (h HostPortInfo) Remove(ip, protocol string, port int32) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if port <= 0 {
 		return
 	}
-
 	h.sanitize(&ip, &protocol)
-
 	pp := NewProtocolPort(protocol, port)
 	if m, ok := h[ip]; ok {
 		delete(m, *pp)
@@ -81,28 +56,23 @@ func (h HostPortInfo) Remove(ip, protocol string, port int32) {
 		}
 	}
 }
-
-// Len returns the total number of (ip, protocol, port) tuple in HostPortInfo
 func (h HostPortInfo) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	length := 0
 	for _, m := range h {
 		length += len(m)
 	}
 	return length
 }
-
-// CheckConflict checks if the input (ip, protocol, port) conflicts with the existing
-// ones in HostPortInfo.
 func (h HostPortInfo) CheckConflict(ip, protocol string, port int32) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if port <= 0 {
 		return false
 	}
-
 	h.sanitize(&ip, &protocol)
-
 	pp := NewProtocolPort(protocol, port)
-
-	// If ip is 0.0.0.0 check all IP's (protocol, port) pair
 	if ip == DefaultBindAllHostIP {
 		for _, m := range h {
 			if _, ok := m[*pp]; ok {
@@ -111,8 +81,6 @@ func (h HostPortInfo) CheckConflict(ip, protocol string, port int32) bool {
 		}
 		return false
 	}
-
-	// If ip isn't 0.0.0.0, only check IP and 0.0.0.0's (protocol, port) pair
 	for _, key := range []string{DefaultBindAllHostIP, ip} {
 		if m, ok := h[key]; ok {
 			if _, ok2 := m[*pp]; ok2 {
@@ -120,16 +88,19 @@ func (h HostPortInfo) CheckConflict(ip, protocol string, port int32) bool {
 			}
 		}
 	}
-
 	return false
 }
-
-// sanitize the parameters
 func (h HostPortInfo) sanitize(ip, protocol *string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(*ip) == 0 {
 		*ip = DefaultBindAllHostIP
 	}
 	if len(*protocol) == 0 {
 		*protocol = string(v1.ProtocolTCP)
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

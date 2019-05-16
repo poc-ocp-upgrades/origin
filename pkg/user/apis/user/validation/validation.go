@@ -2,20 +2,23 @@ package validation
 
 import (
 	"fmt"
-	"strings"
-
+	goformat "fmt"
+	userapi "github.com/openshift/origin/pkg/user/apis/user"
 	"k8s.io/apimachinery/pkg/api/validation/path"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	kvalidation "k8s.io/kubernetes/pkg/apis/core/validation"
-
-	userapi "github.com/openshift/origin/pkg/user/apis/user"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 func ValidateUserName(name string, _ bool) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
-
 	if strings.Contains(name, ":") {
 		return []string{`may not contain ":"`}
 	}
@@ -24,12 +27,12 @@ func ValidateUserName(name string, _ bool) []string {
 	}
 	return nil
 }
-
 func ValidateIdentityName(name string, _ bool) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
-
 	parts := strings.Split(name, ":")
 	if len(parts) != 2 {
 		return []string{`must be in the format <providerName>:<providerUserName>`}
@@ -42,12 +45,12 @@ func ValidateIdentityName(name string, _ bool) []string {
 	}
 	return nil
 }
-
 func ValidateGroupName(name string, _ bool) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
-
 	if strings.Contains(name, ":") {
 		return []string{`may not contain ":"`}
 	}
@@ -56,26 +59,26 @@ func ValidateGroupName(name string, _ bool) []string {
 	}
 	return nil
 }
-
 func ValidateIdentityProviderName(name string) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if reasons := path.ValidatePathSegmentName(name, false); len(reasons) != 0 {
 		return reasons
 	}
-
 	if strings.Contains(name, ":") {
 		return []string{`may not contain ":"`}
 	}
 	return nil
 }
-
 func ValidateIdentityProviderUserName(name string) []string {
-	// Any provider user name must be a valid user name
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ValidateUserName(name, false)
 }
-
 func ValidateGroup(group *userapi.Group) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMeta(&group.ObjectMeta, false, ValidateGroupName, field.NewPath("metadata"))
-
 	userPath := field.NewPath("user")
 	for index, user := range group.Users {
 		idxPath := userPath.Index(index)
@@ -87,17 +90,18 @@ func ValidateGroup(group *userapi.Group) field.ErrorList {
 			allErrs = append(allErrs, field.Invalid(idxPath, user, strings.Join(reasons, ", ")))
 		}
 	}
-
 	return allErrs
 }
-
 func ValidateGroupUpdate(group *userapi.Group, old *userapi.Group) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&group.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateGroup(group)...)
 	return allErrs
 }
-
 func ValidateUser(user *userapi.User) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMeta(&user.ObjectMeta, false, ValidateUserName, field.NewPath("metadata"))
 	identitiesPath := field.NewPath("identities")
 	for index, identity := range user.Identities {
@@ -106,43 +110,38 @@ func ValidateUser(user *userapi.User) field.ErrorList {
 			allErrs = append(allErrs, field.Invalid(idxPath, identity, strings.Join(reasons, ", ")))
 		}
 	}
-
-	// our strategy should prevent us from ever hitting this case
 	if len(user.Groups) != 0 {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("groups"), user.Groups, "is deprecated and cannot be set"))
 	}
-
 	return allErrs
 }
-
 func ValidateUserUpdate(user *userapi.User, old *userapi.User) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&user.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateUser(user)...)
 	return allErrs
 }
-
 func ValidateIdentity(identity *userapi.Identity) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMeta(&identity.ObjectMeta, false, ValidateIdentityName, field.NewPath("metadata"))
-
 	if len(identity.ProviderName) == 0 {
 		allErrs = append(allErrs, field.Required(field.NewPath("providerName"), ""))
 	} else if reasons := ValidateIdentityProviderName(identity.ProviderName); len(reasons) != 0 {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("providerName"), identity.ProviderName, strings.Join(reasons, ", ")))
 	}
-
 	if len(identity.ProviderUserName) == 0 {
 		allErrs = append(allErrs, field.Required(field.NewPath("providerUserName"), ""))
 	} else if reasons := ValidateIdentityProviderUserName(identity.ProviderUserName); len(reasons) != 0 {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("providerUserName"), identity.ProviderUserName, strings.Join(reasons, ", ")))
 	}
-
 	if len(identity.ProviderName) > 0 && len(identity.ProviderUserName) > 0 {
 		expectedIdentityName := identity.ProviderName + ":" + identity.ProviderUserName
 		if identity.Name != expectedIdentityName {
 			allErrs = append(allErrs, field.Invalid(field.NewPath("metadata", "name"), identity.Name, fmt.Sprintf("must be %s", expectedIdentityName)))
 		}
 	}
-
 	userPath := field.NewPath("user")
 	if reasons := ValidateUserName(identity.User.Name, false); len(reasons) != 0 {
 		allErrs = append(allErrs, field.Invalid(userPath.Child("name"), identity.User.Name, strings.Join(reasons, ", ")))
@@ -153,45 +152,46 @@ func ValidateIdentity(identity *userapi.Identity) field.ErrorList {
 	if len(identity.User.Name) != 0 && len(identity.User.UID) == 0 {
 		allErrs = append(allErrs, field.Required(userPath.Child("uid"), "uid is required when username is provided"))
 	}
-
 	return allErrs
 }
-
 func ValidateIdentityUpdate(identity *userapi.Identity, old *userapi.Identity) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&identity.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateIdentity(identity)...)
-
 	if identity.ProviderName != old.ProviderName {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("providerName"), identity.ProviderName, "may not change providerName"))
 	}
 	if identity.ProviderUserName != old.ProviderUserName {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("providerUserName"), identity.ProviderUserName, "may not change providerUserName"))
 	}
-
 	return allErrs
 }
-
 func ValidateUserIdentityMapping(mapping *userapi.UserIdentityMapping) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMeta(&mapping.ObjectMeta, false, ValidateIdentityName, field.NewPath("metadata"))
-
 	identityPath := field.NewPath("identity")
 	if len(mapping.Identity.Name) == 0 {
 		allErrs = append(allErrs, field.Required(identityPath.Child("name"), ""))
 	} else if mapping.Identity.Name != mapping.Name {
 		allErrs = append(allErrs, field.Invalid(identityPath.Child("name"), mapping.Identity.Name, "must match metadata.name"))
 	}
-
 	if len(mapping.User.Name) == 0 {
 		allErrs = append(allErrs, field.Required(field.NewPath("user", "name"), ""))
 	} else if reasons := ValidateUserName(mapping.User.Name, false); len(reasons) != 0 {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("user", "name"), mapping.User.Name, strings.Join(reasons, ", ")))
 	}
-
 	return allErrs
 }
-
 func ValidateUserIdentityMappingUpdate(mapping *userapi.UserIdentityMapping, old *userapi.UserIdentityMapping) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := kvalidation.ValidateObjectMetaUpdate(&mapping.ObjectMeta, &old.ObjectMeta, field.NewPath("metadata"))
 	allErrs = append(allErrs, ValidateUserIdentityMapping(mapping)...)
 	return allErrs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

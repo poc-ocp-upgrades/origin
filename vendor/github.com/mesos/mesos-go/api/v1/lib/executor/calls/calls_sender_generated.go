@@ -133,18 +133,18 @@ func SenderWith(s Sender, opts ...executor.CallOpt) SenderFunc {
 	if len(opts) == 0 {
 		return s.Send
 	}
-        return func(ctx context.Context, r Request) (mesos.Response, error) {
-                f := func() (c *executor.Call) {
-                        if c = r.Call(); c != nil {
-                                c = c.With(opts...)
-                        }
-                        return
-                }
-                switch r.(type) {
-                case RequestStreaming:
-                        return s.Send(ctx, RequestStreamingFunc(f))
-                default:
-                        return s.Send(ctx, RequestFunc(f))
-                }
-        }
+	return func(ctx context.Context, r Request) (mesos.Response, error) {
+		f := func() (c *executor.Call) {
+			if c = r.Call(); c != nil {
+				c = c.With(opts...)
+			}
+			return
+		}
+		switch r.(type) {
+		case RequestStreaming:
+			return s.Send(ctx, RequestStreamingFunc(f))
+		default:
+			return s.Send(ctx, RequestFunc(f))
+		}
+	}
 }

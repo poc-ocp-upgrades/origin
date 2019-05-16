@@ -105,13 +105,13 @@ func TestSenderWith(t *testing.T) {
 			return nil, nil
 		})
 		ignore = func(_ mesos.Response, _ error) {}
-		c = new(executor.Call)
+		c      = new(executor.Call)
 	)
 
 	for ti, tc := range []Request{NonStreaming(c), Empty().Push(c, c)} {
 		var (
 			invoked bool
-			opt = func(c *executor.Call) { invoked = true }
+			opt     = func(c *executor.Call) { invoked = true }
 		)
 
 		// sanity check (w/o any options)

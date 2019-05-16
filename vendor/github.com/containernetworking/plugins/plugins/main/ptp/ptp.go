@@ -110,7 +110,7 @@ func setupContainerVeth(netns ns.NetNS, ifName string, mtu int, pr *current.Resu
 			}
 
 			for _, r := range []netlink.Route{
-				netlink.Route{
+				{
 					LinkIndex: contVeth.Index,
 					Dst: &net.IPNet{
 						IP:   ipc.Gateway,
@@ -119,7 +119,7 @@ func setupContainerVeth(netns ns.NetNS, ifName string, mtu int, pr *current.Resu
 					Scope: netlink.SCOPE_LINK,
 					Src:   ipc.Address.IP,
 				},
-				netlink.Route{
+				{
 					LinkIndex: contVeth.Index,
 					Dst: &net.IPNet{
 						IP:   ipc.Address.IP.Mask(ipc.Address.Mask),

@@ -1,37 +1,23 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package v1alpha1
 
 import (
-	"time"
-
 	apimachineryconfigv1alpha1 "k8s.io/apimachinery/pkg/apis/config/v1alpha1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kruntime "k8s.io/apimachinery/pkg/runtime"
 	apiserverconfigv1alpha1 "k8s.io/apiserver/pkg/apis/config/v1alpha1"
 	kubectrlmgrconfigv1alpha1 "k8s.io/kube-controller-manager/config/v1alpha1"
 	utilpointer "k8s.io/utils/pointer"
+	"time"
 )
 
 func addDefaultingFuncs(scheme *kruntime.Scheme) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return RegisterDefaults(scheme)
 }
-
 func SetDefaults_KubeControllerManagerConfiguration(obj *kubectrlmgrconfigv1alpha1.KubeControllerManagerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.AttachDetachController.ReconcilerSyncLoopPeriod == zero {
 		obj.AttachDetachController.ReconcilerSyncLoopPeriod = metav1.Duration{Duration: 60 * time.Second}
@@ -51,21 +37,17 @@ func SetDefaults_KubeControllerManagerConfiguration(obj *kubectrlmgrconfigv1alph
 	if obj.TTLAfterFinishedController.ConcurrentTTLSyncs <= 0 {
 		obj.TTLAfterFinishedController.ConcurrentTTLSyncs = 5
 	}
-
-	// These defaults override the recommended defaults from the apimachineryconfigv1alpha1 package that are applied automatically
-	// These client-connection defaults are specific to the kube-controller-manager
 	if obj.Generic.ClientConnection.QPS == 0.0 {
 		obj.Generic.ClientConnection.QPS = 20.0
 	}
 	if obj.Generic.ClientConnection.Burst == 0 {
 		obj.Generic.ClientConnection.Burst = 30
 	}
-
-	// Use the default RecommendedDefaultGenericControllerManagerConfiguration options
 	RecommendedDefaultGenericControllerManagerConfiguration(&obj.Generic)
 }
-
 func RecommendedDefaultGenericControllerManagerConfiguration(obj *kubectrlmgrconfigv1alpha1.GenericControllerManagerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.Address == "" {
 		obj.Address = "0.0.0.0"
@@ -79,13 +61,12 @@ func RecommendedDefaultGenericControllerManagerConfiguration(obj *kubectrlmgrcon
 	if len(obj.Controllers) == 0 {
 		obj.Controllers = []string{"*"}
 	}
-
-	// Use the default ClientConnectionConfiguration and LeaderElectionConfiguration options
 	apimachineryconfigv1alpha1.RecommendedDefaultClientConnectionConfiguration(&obj.ClientConnection)
 	apiserverconfigv1alpha1.RecommendedDefaultLeaderElectionConfiguration(&obj.LeaderElection)
 }
-
 func SetDefaults_KubeCloudSharedConfiguration(obj *kubectrlmgrconfigv1alpha1.KubeCloudSharedConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.NodeMonitorPeriod == zero {
 		obj.NodeMonitorPeriod = metav1.Duration{Duration: 5 * time.Second}
@@ -100,14 +81,16 @@ func SetDefaults_KubeCloudSharedConfiguration(obj *kubectrlmgrconfigv1alpha1.Kub
 		obj.RouteReconciliationPeriod = metav1.Duration{Duration: 10 * time.Second}
 	}
 }
-
 func SetDefaults_ServiceControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.ServiceControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentServiceSyncs == 0 {
 		obj.ConcurrentServiceSyncs = 1
 	}
 }
-
 func SetDefaults_CSRSigningControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.CSRSigningControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.ClusterSigningCertFile == "" {
 		obj.ClusterSigningCertFile = "/etc/kubernetes/ca/ca.pem"
@@ -119,8 +102,9 @@ func SetDefaults_CSRSigningControllerConfiguration(obj *kubectrlmgrconfigv1alpha
 		obj.ClusterSigningDuration = metav1.Duration{Duration: 365 * 24 * time.Hour}
 	}
 }
-
 func SetDefaults_DeploymentControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.DeploymentControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.ConcurrentDeploymentSyncs == 0 {
 		obj.ConcurrentDeploymentSyncs = 5
@@ -129,20 +113,23 @@ func SetDefaults_DeploymentControllerConfiguration(obj *kubectrlmgrconfigv1alpha
 		obj.DeploymentControllerSyncPeriod = metav1.Duration{Duration: 30 * time.Second}
 	}
 }
-
 func SetDefaults_DaemonSetControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.DaemonSetControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentDaemonSetSyncs == 0 {
 		obj.ConcurrentDaemonSetSyncs = 2
 	}
 }
-
 func SetDefaults_EndpointControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.EndpointControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentEndpointSyncs == 0 {
 		obj.ConcurrentEndpointSyncs = 5
 	}
 }
-
 func SetDefaults_GarbageCollectorControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.GarbageCollectorControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.EnableGarbageCollector == nil {
 		obj.EnableGarbageCollector = utilpointer.BoolPtr(true)
 	}
@@ -150,8 +137,9 @@ func SetDefaults_GarbageCollectorControllerConfiguration(obj *kubectrlmgrconfigv
 		obj.ConcurrentGCSyncs = 20
 	}
 }
-
 func SetDefaults_HPAControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.HPAControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.HorizontalPodAutoscalerUseRESTClients == nil {
 		obj.HorizontalPodAutoscalerUseRESTClients = utilpointer.BoolPtr(true)
@@ -178,14 +166,16 @@ func SetDefaults_HPAControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.HPACo
 		obj.HorizontalPodAutoscalerTolerance = 0.1
 	}
 }
-
 func SetDefaults_JobControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.JobControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentJobSyncs == 0 {
 		obj.ConcurrentJobSyncs = 5
 	}
 }
-
 func SetDefaults_NamespaceControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.NamespaceControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.ConcurrentNamespaceSyncs == 0 {
 		obj.ConcurrentNamespaceSyncs = 10
@@ -194,8 +184,9 @@ func SetDefaults_NamespaceControllerConfiguration(obj *kubectrlmgrconfigv1alpha1
 		obj.NamespaceSyncPeriod = metav1.Duration{Duration: 5 * time.Minute}
 	}
 }
-
 func SetDefaults_NodeLifecycleControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.NodeLifecycleControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.PodEvictionTimeout == zero {
 		obj.PodEvictionTimeout = metav1.Duration{Duration: 5 * time.Minute}
@@ -210,26 +201,30 @@ func SetDefaults_NodeLifecycleControllerConfiguration(obj *kubectrlmgrconfigv1al
 		obj.EnableTaintManager = utilpointer.BoolPtr(true)
 	}
 }
-
 func SetDefaults_PodGCControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.PodGCControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.TerminatedPodGCThreshold == 0 {
 		obj.TerminatedPodGCThreshold = 12500
 	}
 }
-
 func SetDefaults_ReplicaSetControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.ReplicaSetControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentRSSyncs == 0 {
 		obj.ConcurrentRSSyncs = 5
 	}
 }
-
 func SetDefaults_ReplicationControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.ReplicationControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.ConcurrentRCSyncs == 0 {
 		obj.ConcurrentRCSyncs = 5
 	}
 }
-
 func SetDefaults_ResourceQuotaControllerConfiguration(obj *kubectrlmgrconfigv1alpha1.ResourceQuotaControllerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	zero := metav1.Duration{}
 	if obj.ConcurrentResourceQuotaSyncs == 0 {
 		obj.ConcurrentResourceQuotaSyncs = 5
@@ -238,8 +233,9 @@ func SetDefaults_ResourceQuotaControllerConfiguration(obj *kubectrlmgrconfigv1al
 		obj.ResourceQuotaSyncPeriod = metav1.Duration{Duration: 5 * time.Minute}
 	}
 }
-
 func SetDefaults_PersistentVolumeRecyclerConfiguration(obj *kubectrlmgrconfigv1alpha1.PersistentVolumeRecyclerConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.MaximumRetry == 0 {
 		obj.MaximumRetry = 3
 	}
@@ -256,8 +252,9 @@ func SetDefaults_PersistentVolumeRecyclerConfiguration(obj *kubectrlmgrconfigv1a
 		obj.IncrementTimeoutHostPath = 30
 	}
 }
-
 func SetDefaults_VolumeConfiguration(obj *kubectrlmgrconfigv1alpha1.VolumeConfiguration) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if obj.EnableHostPathProvisioning == nil {
 		obj.EnableHostPathProvisioning = utilpointer.BoolPtr(false)
 	}

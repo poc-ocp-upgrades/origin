@@ -47,7 +47,7 @@ func main() {
 	// from GetOpenAPIDefinitions. Anonymous function returning empty
 	// Ref is not used.
 	var defNames []string
-	for name, _ := range generated.GetOpenAPIDefinitions(func(name string) spec.Ref {
+	for name := range generated.GetOpenAPIDefinitions(func(name string) spec.Ref {
 		return spec.Ref{}
 	}) {
 		defNames = append(defNames, name)
@@ -86,7 +86,7 @@ func createOpenAPIBuilderConfig() *common.Config {
 			},
 		},
 		ResponseDefinitions: map[string]spec.Response{
-			"NotFound": spec.Response{
+			"NotFound": {
 				ResponseProps: spec.ResponseProps{
 					Description: "Entity not found.",
 				},

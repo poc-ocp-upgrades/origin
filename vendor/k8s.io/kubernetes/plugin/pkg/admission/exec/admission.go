@@ -1,60 +1,38 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package exec
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
-
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apiserver/pkg/admission"
 	genericadmissioninitializer "k8s.io/apiserver/pkg/admission/initializer"
 	"k8s.io/client-go/kubernetes"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const (
-	// DenyEscalatingExec indicates name of admission plugin.
-	DenyEscalatingExec = "DenyEscalatingExec"
-	// DenyExecOnPrivileged indicates name of admission plugin.
-	// Deprecated, should use DenyEscalatingExec instead.
+	DenyEscalatingExec   = "DenyEscalatingExec"
 	DenyExecOnPrivileged = "DenyExecOnPrivileged"
 )
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(DenyEscalatingExec, func(config io.Reader) (admission.Interface, error) {
 		return NewDenyEscalatingExec(), nil
 	})
-
-	// This is for legacy support of the DenyExecOnPrivileged admission controller.  Most
-	// of the time DenyEscalatingExec should be preferred.
 	plugins.Register(DenyExecOnPrivileged, func(config io.Reader) (admission.Interface, error) {
 		return NewDenyExecOnPrivileged(), nil
 	})
 }
 
-// DenyExec is an implementation of admission.Interface which says no to a pod/exec on
-// a pod using host based configurations.
 type DenyExec struct {
 	*admission.Handler
-	client kubernetes.Interface
-
-	// these flags control which items will be checked to deny exec/attach
+	client      kubernetes.Interface
 	hostNetwork bool
 	hostIPC     bool
 	hostPID     bool
@@ -64,51 +42,36 @@ type DenyExec struct {
 var _ admission.ValidationInterface = &DenyExec{}
 var _ = genericadmissioninitializer.WantsExternalKubeClientSet(&DenyExec{})
 
-// NewDenyExecOnPrivileged creates a new admission controller that is only checking the privileged
-// option. This is for legacy support of the DenyExecOnPrivileged admission controller.
-// Most of the time NewDenyEscalatingExec should be preferred.
 func NewDenyExecOnPrivileged() *DenyExec {
-	return &DenyExec{
-		Handler:     admission.NewHandler(admission.Connect),
-		hostNetwork: false,
-		hostIPC:     false,
-		hostPID:     false,
-		privileged:  true,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &DenyExec{Handler: admission.NewHandler(admission.Connect), hostNetwork: false, hostIPC: false, hostPID: false, privileged: true}
 }
-
-// NewDenyEscalatingExec creates a new admission controller that denies an exec operation on a pod
-// using host based configurations.
 func NewDenyEscalatingExec() *DenyExec {
-	return &DenyExec{
-		Handler:     admission.NewHandler(admission.Connect),
-		hostNetwork: true,
-		hostIPC:     true,
-		hostPID:     true,
-		privileged:  true,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &DenyExec{Handler: admission.NewHandler(admission.Connect), hostNetwork: true, hostIPC: true, hostPID: true, privileged: true}
 }
-
-// SetExternalKubeClientSet implements the WantsInternalKubeClientSet interface.
 func (d *DenyExec) SetExternalKubeClientSet(client kubernetes.Interface) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	d.client = client
 }
-
-// ValidateInitialization implements the InitializationValidator interface.
 func (d *DenyExec) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if d.client == nil {
 		return fmt.Errorf("missing client")
 	}
 	return nil
 }
-
-// Validate makes an admission decision based on the request attributes
 func (d *DenyExec) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	path := a.GetResource().Resource
 	if subresource := a.GetSubresource(); subresource != "" {
 		path = path + "/" + subresource
 	}
-	// Only handle exec or attach requests on pods
 	if path != "pods/exec" && path != "pods/attach" {
 		return nil
 	}
@@ -116,28 +79,23 @@ func (d *DenyExec) Validate(a admission.Attributes) (err error) {
 	if err != nil {
 		return admission.NewForbidden(a, err)
 	}
-
 	if d.hostNetwork && pod.Spec.HostNetwork {
 		return admission.NewForbidden(a, fmt.Errorf("cannot exec into or attach to a container using host network"))
 	}
-
 	if d.hostPID && pod.Spec.HostPID {
 		return admission.NewForbidden(a, fmt.Errorf("cannot exec into or attach to a container using host pid"))
 	}
-
 	if d.hostIPC && pod.Spec.HostIPC {
 		return admission.NewForbidden(a, fmt.Errorf("cannot exec into or attach to a container using host ipc"))
 	}
-
 	if d.privileged && isPrivileged(pod) {
 		return admission.NewForbidden(a, fmt.Errorf("cannot exec into or attach to a privileged container"))
 	}
-
 	return nil
 }
-
-// isPrivileged will return true a pod has any privileged containers
 func isPrivileged(pod *corev1.Pod) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, c := range pod.Spec.InitContainers {
 		if c.SecurityContext == nil || c.SecurityContext.Privileged == nil {
 			continue
@@ -155,4 +113,8 @@ func isPrivileged(pod *corev1.Pod) bool {
 		}
 	}
 	return false
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

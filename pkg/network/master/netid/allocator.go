@@ -2,12 +2,13 @@ package netid
 
 import (
 	"errors"
-
+	goformat "fmt"
 	"k8s.io/kubernetes/pkg/registry/core/service/allocator"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// Interface manages the allocation of netids out of a range.
-// Interface should be threadsafe.
 type Interface interface {
 	Allocate(uint32) error
 	AllocateNext() (uint32, error)
@@ -26,38 +27,32 @@ type Allocator struct {
 	alloc      allocator.Interface
 }
 
-// Allocator implements allocator Interface
 var _ Interface = &Allocator{}
 
-// New creates a Allocator over a netid Range, calling allocatorFactory to construct the backing store.
 func New(r *NetIDRange, allocatorFactory allocator.AllocatorFactory) *Allocator {
-	return &Allocator{
-		netIDRange: r,
-		alloc:      allocatorFactory(int(r.Size), r.String()),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Allocator{netIDRange: r, alloc: allocatorFactory(int(r.Size), r.String())}
 }
-
-// Helper that wraps New, for creating a range backed by an in-memory store.
 func NewInMemory(r *NetIDRange) *Allocator {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return New(r, func(max int, rangeSpec string) allocator.Interface {
 		return allocator.NewAllocationMap(max, rangeSpec)
 	})
 }
-
-// Free returns the count of netid left in the range.
 func (r *Allocator) Free() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.alloc.Free()
 }
-
-// Allocate attempts to reserve the provided netid. ErrNotInRange or
-// ErrAllocated will be returned if the netid is not valid for this range
-// or has already been reserved.
 func (r *Allocator) Allocate(id uint32) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ok, offset := r.netIDRange.Contains(id)
 	if !ok {
 		return ErrNotInRange
 	}
-
 	allocated, err := r.alloc.Allocate(int(offset))
 	if err != nil {
 		return err
@@ -67,10 +62,9 @@ func (r *Allocator) Allocate(id uint32) error {
 	}
 	return nil
 }
-
-// AllocateNext reserves one of the netids from the pool. ErrFull may
-// be returned if there are no netids left.
 func (r *Allocator) AllocateNext() (uint32, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	offset, ok, err := r.alloc.AllocateNext()
 	if err != nil {
 		return 0, err
@@ -80,24 +74,25 @@ func (r *Allocator) AllocateNext() (uint32, error) {
 	}
 	return r.netIDRange.Base + uint32(offset), nil
 }
-
-// Release releases the netid back to the pool. Releasing an
-// unallocated netid or a netid out of the range is a no-op and
-// returns no error.
 func (r *Allocator) Release(id uint32) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ok, offset := r.netIDRange.Contains(id)
 	if !ok {
 		return nil
 	}
 	return r.alloc.Release(int(offset))
 }
-
-// Has returns true if the provided netid is already allocated and a call
-// to Allocate(netid) would fail with ErrAllocated.
 func (r *Allocator) Has(id uint32) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ok, offset := r.netIDRange.Contains(id)
 	if !ok {
 		return false
 	}
 	return r.alloc.Has(int(offset))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

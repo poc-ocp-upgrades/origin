@@ -1,125 +1,102 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package garbagecollector
 
 import (
 	"fmt"
-	"sync"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
+	"sync"
 )
 
 type objectReference struct {
 	metav1.OwnerReference
-	// This is needed by the dynamic client
 	Namespace string
 }
 
 func (s objectReference) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("[%s/%s, namespace: %s, name: %s, uid: %s]", s.APIVersion, s.Kind, s.Namespace, s.Name, s.UID)
 }
 
-// The single-threaded GraphBuilder.processGraphChanges() is the sole writer of the
-// nodes. The multi-threaded GarbageCollector.attemptToDeleteItem() reads the nodes.
-// WARNING: node has different locks on different fields. setters and getters
-// use the respective locks, so the return values of the getters can be
-// inconsistent.
 type node struct {
-	identity objectReference
-	// dependents will be read by the orphan() routine, we need to protect it with a lock.
-	dependentsLock sync.RWMutex
-	// dependents are the nodes that have node.identity as a
-	// metadata.ownerReference.
-	dependents map[*node]struct{}
-	// this is set by processGraphChanges() if the object has non-nil DeletionTimestamp
-	// and has the FinalizerDeleteDependents.
+	identity               objectReference
+	dependentsLock         sync.RWMutex
+	dependents             map[*node]struct{}
 	deletingDependents     bool
 	deletingDependentsLock sync.RWMutex
-	// this records if the object's deletionTimestamp is non-nil.
-	beingDeleted     bool
-	beingDeletedLock sync.RWMutex
-	// this records if the object was constructed virtually and never observed via informer event
-	virtual     bool
-	virtualLock sync.RWMutex
-	// when processing an Update event, we need to compare the updated
-	// ownerReferences with the owners recorded in the graph.
-	owners []metav1.OwnerReference
+	beingDeleted           bool
+	beingDeletedLock       sync.RWMutex
+	virtual                bool
+	virtualLock            sync.RWMutex
+	owners                 []metav1.OwnerReference
 }
 
-// An object is on a one way trip to its final deletion if it starts being
-// deleted, so we only provide a function to set beingDeleted to true.
 func (n *node) markBeingDeleted() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.beingDeletedLock.Lock()
 	defer n.beingDeletedLock.Unlock()
 	n.beingDeleted = true
 }
-
 func (n *node) isBeingDeleted() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.beingDeletedLock.RLock()
 	defer n.beingDeletedLock.RUnlock()
 	return n.beingDeleted
 }
-
 func (n *node) markObserved() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.virtualLock.Lock()
 	defer n.virtualLock.Unlock()
 	n.virtual = false
 }
 func (n *node) isObserved() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.virtualLock.RLock()
 	defer n.virtualLock.RUnlock()
 	return n.virtual == false
 }
-
 func (n *node) markDeletingDependents() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.deletingDependentsLock.Lock()
 	defer n.deletingDependentsLock.Unlock()
 	n.deletingDependents = true
 }
-
 func (n *node) isDeletingDependents() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.deletingDependentsLock.RLock()
 	defer n.deletingDependentsLock.RUnlock()
 	return n.deletingDependents
 }
-
 func (ownerNode *node) addDependent(dependent *node) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ownerNode.dependentsLock.Lock()
 	defer ownerNode.dependentsLock.Unlock()
 	ownerNode.dependents[dependent] = struct{}{}
 }
-
 func (ownerNode *node) deleteDependent(dependent *node) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ownerNode.dependentsLock.Lock()
 	defer ownerNode.dependentsLock.Unlock()
 	delete(ownerNode.dependents, dependent)
 }
-
 func (ownerNode *node) dependentsLength() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ownerNode.dependentsLock.RLock()
 	defer ownerNode.dependentsLock.RUnlock()
 	return len(ownerNode.dependents)
 }
-
-// Note that this function does not provide any synchronization guarantees;
-// items could be added to or removed from ownerNode.dependents the moment this
-// function returns.
 func (ownerNode *node) getDependents() []*node {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ownerNode.dependentsLock.RLock()
 	defer ownerNode.dependentsLock.RUnlock()
 	var ret []*node
@@ -128,14 +105,9 @@ func (ownerNode *node) getDependents() []*node {
 	}
 	return ret
 }
-
-// blockingDependents returns the dependents that are blocking the deletion of
-// n, i.e., the dependent that has an ownerReference pointing to n, and
-// the BlockOwnerDeletion field of that ownerReference is true.
-// Note that this function does not provide any synchronization guarantees;
-// items could be added to or removed from ownerNode.dependents the moment this
-// function returns.
 func (n *node) blockingDependents() []*node {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dependents := n.getDependents()
 	var ret []*node
 	for _, dep := range dependents {
@@ -147,10 +119,9 @@ func (n *node) blockingDependents() []*node {
 	}
 	return ret
 }
-
-// String renders node as a string using fmt. Acquires a read lock to ensure the
-// reflective dump of dependents doesn't race with any concurrent writes.
 func (n *node) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	n.dependentsLock.RLock()
 	defer n.dependentsLock.RUnlock()
 	return fmt.Sprintf("%#v", n)
@@ -162,19 +133,23 @@ type concurrentUIDToNode struct {
 }
 
 func (m *concurrentUIDToNode) Write(node *node) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.uidToNodeLock.Lock()
 	defer m.uidToNodeLock.Unlock()
 	m.uidToNode[node.identity.UID] = node
 }
-
 func (m *concurrentUIDToNode) Read(uid types.UID) (*node, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.uidToNodeLock.RLock()
 	defer m.uidToNodeLock.RUnlock()
 	n, ok := m.uidToNode[uid]
 	return n, ok
 }
-
 func (m *concurrentUIDToNode) Delete(uid types.UID) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m.uidToNodeLock.Lock()
 	defer m.uidToNodeLock.Unlock()
 	delete(m.uidToNode, uid)

@@ -2,12 +2,17 @@ package oauth
 
 import (
 	"fmt"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/fields"
 	runtime "k8s.io/apimachinery/pkg/runtime"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 func OAuthAccessTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oauthAccessToken, ok := obj.(*OAuthAccessToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAccessToken", obj)
@@ -18,8 +23,9 @@ func OAuthAccessTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) erro
 	fieldSet["authorizeToken"] = oauthAccessToken.AuthorizeToken
 	return nil
 }
-
 func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oauthAuthorizeToken, ok := obj.(*OAuthAuthorizeToken)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAuthorizeToken", obj)
@@ -29,8 +35,9 @@ func OAuthAuthorizeTokenFieldSelector(obj runtime.Object, fieldSet fields.Set) e
 	fieldSet["userUID"] = oauthAuthorizeToken.UserUID
 	return nil
 }
-
 func OAuthClientAuthorizationFieldSelector(obj runtime.Object, fieldSet fields.Set) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oauthClientAuthorization, ok := obj.(*OAuthClientAuthorization)
 	if !ok {
 		return fmt.Errorf("%T not an OAuthAuthorizeToken", obj)
@@ -39,4 +46,8 @@ func OAuthClientAuthorizationFieldSelector(obj runtime.Object, fieldSet fields.S
 	fieldSet["userName"] = oauthClientAuthorization.UserName
 	fieldSet["userUID"] = oauthClientAuthorization.UserUID
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

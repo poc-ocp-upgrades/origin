@@ -1,41 +1,24 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package options
 
 import (
+	goformat "fmt"
 	"github.com/spf13/pflag"
-
-	"k8s.io/apiserver/pkg/util/globalflag"
-
-	// ensure libs have a chance to globally register their flags
 	_ "k8s.io/apiserver/pkg/admission"
+	"k8s.io/apiserver/pkg/util/globalflag"
 	_ "k8s.io/kubernetes/pkg/cloudprovider/providers"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// AddCustomGlobalFlags explicitly registers flags that internal packages register
-// against the global flagsets from "flag". We do this in order to prevent
-// unwanted flags from leaking into the kube-apiserver's flagset.
 func AddCustomGlobalFlags(fs *pflag.FlagSet) {
-	// Lookup flags in global flag set and re-register the values with our flagset.
-
-	// Adds flags from k8s.io/kubernetes/pkg/cloudprovider/providers.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	globalflag.Register(fs, "cloud-provider-gce-lb-src-cidrs")
-
-	// Adds flags from k8s.io/apiserver/pkg/admission.
 	globalflag.Register(fs, "default-not-ready-toleration-seconds")
 	globalflag.Register(fs, "default-unreachable-toleration-seconds")
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

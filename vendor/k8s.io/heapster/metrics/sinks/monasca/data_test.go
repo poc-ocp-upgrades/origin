@@ -27,23 +27,23 @@ var measureTime = time.Now()
 var testInput = &core.DataBatch{
 	Timestamp: measureTime,
 	MetricSets: map[string]*core.MetricSet{
-		"set1": &core.MetricSet{
+		"set1": {
 			MetricValues: map[string]core.MetricValue{
-				"m2": core.MetricValue{ValueType: core.ValueInt64, IntValue: 2 ^ 63},
-				"m3": core.MetricValue{ValueType: core.ValueFloat, FloatValue: -1023.0233},
+				"m2": {ValueType: core.ValueInt64, IntValue: 2 ^ 63},
+				"m3": {ValueType: core.ValueFloat, FloatValue: -1023.0233},
 			},
 			Labels: map[string]string{
 				core.LabelHostname.Key: "h1",
 			},
 			LabeledMetrics: []core.LabeledMetric{},
 		},
-		"set2": &core.MetricSet{
+		"set2": {
 			MetricValues: map[string]core.MetricValue{},
 			Labels: map[string]string{
 				core.LabelHostname.Key: "10.140.32.11",
 			},
 			LabeledMetrics: []core.LabeledMetric{
-				core.LabeledMetric{
+				{
 					Name: "cpu/usage",
 					Labels: map[string]string{
 						core.LabelContainerName.Key: "POD",
@@ -56,7 +56,7 @@ var testInput = &core.DataBatch{
 						IntValue:  1,
 					},
 				},
-				core.LabeledMetric{
+				{
 					Name: "memory/usage",
 					Labels: map[string]string{
 						core.LabelContainerName.Key: "machine",
@@ -74,7 +74,7 @@ var testInput = &core.DataBatch{
 }
 
 var expectedTransformed = []metric{
-	metric{
+	{
 		Name: "m2",
 		Dimensions: map[string]string{
 			"component":                 emptyValue,
@@ -86,7 +86,7 @@ var expectedTransformed = []metric{
 		Timestamp: measureTime.UnixNano() / 1000000,
 		ValueMeta: map[string]string{},
 	},
-	metric{
+	{
 		Name: "m3",
 		Dimensions: map[string]string{
 			"component":                 emptyValue,
@@ -98,7 +98,7 @@ var expectedTransformed = []metric{
 		Timestamp: measureTime.UnixNano() / 1000000,
 		ValueMeta: map[string]string{},
 	},
-	metric{
+	{
 		Name: "cpu.usage",
 		Dimensions: map[string]string{
 			"component":                 "mypod-hc3s",
@@ -112,7 +112,7 @@ var expectedTransformed = []metric{
 			core.LabelLabels.Key: "run:test pod.name:default/test-u2dc",
 		},
 	},
-	metric{
+	{
 		Name: "memory.usage",
 		Dimensions: map[string]string{
 			"component":                 emptyValue,

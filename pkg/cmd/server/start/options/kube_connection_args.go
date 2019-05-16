@@ -2,55 +2,44 @@ package options
 
 import (
 	"errors"
-	"net/url"
-
+	"github.com/openshift/origin/pkg/cmd/flagtypes"
 	"github.com/spf13/pflag"
-
 	restclient "k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
-
-	"github.com/openshift/origin/pkg/cmd/flagtypes"
+	"net/url"
 )
 
 type KubeConnectionArgs struct {
-	KubernetesAddr flagtypes.Addr
-
-	// ClientConfig is used when connecting to Kubernetes from the master, or
-	// when connecting to the master from a detached node. If StartKube is true,
-	// this value is not used.
-	ClientConfig clientcmd.ClientConfig
-	// ClientConfigLoadingRules is the ruleset used to load the client config.
-	// Only the CommandLinePath is expected to be used.
+	KubernetesAddr           flagtypes.Addr
+	ClientConfig             clientcmd.ClientConfig
 	ClientConfigLoadingRules clientcmd.ClientConfigLoadingRules
 }
 
-// BindKubeConnectionArgs binds values to the given arguments by using flags
 func BindKubeConnectionArgs(args *KubeConnectionArgs, flags *pflag.FlagSet, prefix string) {
-	// TODO remove entirely
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flags.Var(&args.KubernetesAddr, prefix+"kubernetes", "removed in favor of --"+prefix+"kubeconfig")
 	flags.StringVar(&args.ClientConfigLoadingRules.ExplicitPath, prefix+"kubeconfig", "", "Path to the kubeconfig file to use for requests to the Kubernetes API.")
 }
-
-// NewDefaultKubeConnectionArgs returns a new set of default connection
-// arguments for Kubernetes
 func NewDefaultKubeConnectionArgs() *KubeConnectionArgs {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	config := &KubeConnectionArgs{}
-
 	config.KubernetesAddr = flagtypes.Addr{Value: "localhost:8443", DefaultScheme: "https", DefaultPort: 8443, AllowPrefix: true}.Default()
 	config.ClientConfig = clientcmd.NewNonInteractiveDeferredLoadingClientConfig(&config.ClientConfigLoadingRules, &clientcmd.ConfigOverrides{})
-
 	return config
 }
-
 func (args KubeConnectionArgs) Validate() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if args.KubernetesAddr.Provided {
 		return errors.New("--kubernetes is no longer allowed, try using --kubeconfig")
 	}
-
 	return nil
 }
-
 func (args KubeConnectionArgs) GetExternalKubernetesClientConfig() (*restclient.Config, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(args.ClientConfigLoadingRules.ExplicitPath) == 0 || args.ClientConfig == nil {
 		return nil, false, nil
 	}
@@ -60,8 +49,9 @@ func (args KubeConnectionArgs) GetExternalKubernetesClientConfig() (*restclient.
 	}
 	return clientConfig, true, nil
 }
-
 func (args KubeConnectionArgs) GetKubernetesAddress(defaultAddress *url.URL) (*url.URL, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	config, ok, err := args.GetExternalKubernetesClientConfig()
 	if err != nil {
 		return nil, err

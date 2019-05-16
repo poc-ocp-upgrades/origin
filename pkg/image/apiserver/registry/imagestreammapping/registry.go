@@ -2,39 +2,38 @@ package imagestreammapping
 
 import (
 	"context"
-
+	goformat "fmt"
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// Registry is an interface for things that know how to store ImageStreamMapping objects.
 type Registry interface {
-	// CreateImageStreamMapping creates a new image stream mapping.
 	CreateImageStreamMapping(ctx context.Context, mapping *imageapi.ImageStreamMapping) (*metav1.Status, error)
 }
-
-// Storage is an interface for a standard REST Storage backend
 type Storage interface {
 	Create(ctx context.Context, obj runtime.Object) (runtime.Object, error)
 }
+type storage struct{ Storage }
 
-// storage puts strong typing around storage calls
-type storage struct {
-	Storage
-}
-
-// NewRegistry returns a new Registry interface for the given Storage. Any mismatched
-// types will panic.
 func NewRegistry(s Storage) Registry {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &storage{s}
 }
-
-// CreateImageStreamMapping will create an image stream mapping.
 func (s *storage) CreateImageStreamMapping(ctx context.Context, mapping *imageapi.ImageStreamMapping) (*metav1.Status, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := s.Create(ctx, mapping)
 	if err != nil {
 		return nil, err
 	}
 	return obj.(*metav1.Status), nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

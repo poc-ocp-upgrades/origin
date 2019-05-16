@@ -25,9 +25,9 @@ func TestParseEncodings(t *testing.T) {
 	examples := map[string]codings{
 
 		// Examples from RFC 2616
-		"compress, gzip": {"compress": 1.0, "gzip": 1.0},
-		"":               {},
-		"*":              {"*": 1.0},
+		"compress, gzip":                     {"compress": 1.0, "gzip": 1.0},
+		"":                                   {},
+		"*":                                  {"*": 1.0},
 		"compress;q=0.5, gzip;q=1.0":         {"compress": 0.5, "gzip": 1.0},
 		"gzip;q=1.0, identity; q=0.5, *;q=0": {"gzip": 1.0, "identity": 0.5, "*": 0.0},
 

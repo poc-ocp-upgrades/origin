@@ -180,9 +180,9 @@ func TestAppBlockSettings(t *testing.T) {
 	defer os.Unsetenv("HEKETI_DB_PATH")
 
 	conf := &GlusterFSConfig{
-		Executor:  "crazyexec",
-		Allocator: "simple",
-		DBfile:    "/path/to/nonexistent/heketi.db",
+		Executor:                  "crazyexec",
+		Allocator:                 "simple",
+		DBfile:                    "/path/to/nonexistent/heketi.db",
 		CreateBlockHostingVolumes: true,
 		BlockHostingVolumeSize:    500,
 	}

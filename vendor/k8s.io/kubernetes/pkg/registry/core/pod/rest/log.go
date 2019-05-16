@@ -1,25 +1,9 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package rest
 
 import (
 	"context"
 	"fmt"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 	genericregistry "k8s.io/apiserver/pkg/registry/generic/registry"
@@ -29,40 +13,36 @@ import (
 	"k8s.io/kubernetes/pkg/apis/core/validation"
 	"k8s.io/kubernetes/pkg/kubelet/client"
 	"k8s.io/kubernetes/pkg/registry/core/pod"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// LogREST implements the log endpoint for a Pod
 type LogREST struct {
 	KubeletConn client.ConnectionInfoGetter
 	Store       *genericregistry.Store
 }
 
-// LogREST implements GetterWithOptions
 var _ = rest.GetterWithOptions(&LogREST{})
 
-// New creates a new Pod log options object
 func (r *LogREST) New() runtime.Object {
-	// TODO - return a resource that represents a log
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &api.Pod{}
 }
-
-// LogREST implements StorageMetadata
 func (r *LogREST) ProducesMIMETypes(verb string) []string {
-	// Since the default list does not include "plain/text", we need to
-	// explicitly override ProducesMIMETypes, so that it gets added to
-	// the "produces" section for pods/{name}/log
-	return []string{
-		"text/plain",
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return []string{"text/plain"}
 }
-
-// LogREST implements StorageMetadata, return string as the generating object
 func (r *LogREST) ProducesObject(verb string) interface{} {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ""
 }
-
-// Get retrieves a runtime.Object that will stream the contents of the pod log
 func (r *LogREST) Get(ctx context.Context, name string, opts runtime.Object) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	logOpts, ok := opts.(*api.PodLogOptions)
 	if !ok {
 		return nil, fmt.Errorf("invalid options object: %#v", opts)
@@ -74,28 +54,23 @@ func (r *LogREST) Get(ctx context.Context, name string, opts runtime.Object) (ru
 	if err != nil {
 		return nil, err
 	}
-	return &genericrest.LocationStreamer{
-		Location:        location,
-		Transport:       transport,
-		ContentType:     "text/plain",
-		Flush:           logOpts.Follow,
-		ResponseChecker: genericrest.NewGenericHttpResponseChecker(api.Resource("pods/log"), name),
-		RedirectChecker: genericrest.PreventRedirects,
-	}, nil
+	return &genericrest.LocationStreamer{Location: location, Transport: transport, ContentType: "text/plain", Flush: logOpts.Follow, ResponseChecker: genericrest.NewGenericHttpResponseChecker(api.Resource("pods/log"), name), RedirectChecker: genericrest.PreventRedirects}, nil
 }
-
-// NewGetOptions creates a new options object
 func (r *LogREST) NewGetOptions() (runtime.Object, bool, string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &api.PodLogOptions{}, false, ""
 }
-
-// OverrideMetricsVerb override the GET verb to CONNECT for pod log resource
 func (r *LogREST) OverrideMetricsVerb(oldVerb string) (newVerb string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newVerb = oldVerb
-
 	if oldVerb == "GET" {
 		newVerb = "CONNECT"
 	}
-
 	return
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

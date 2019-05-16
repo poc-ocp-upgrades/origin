@@ -1,22 +1,19 @@
 package configprocessing
 
 import (
+	goformat "fmt"
 	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
 	"strings"
+	gotime "time"
 )
 
-// cacheExcludedPaths is small and simple until the handlers include the cache headers they need
-var cacheExcludedPathPrefixes = []string{
-	"/swagger-2.0.0.json",
-	"/swagger-2.0.0.pb-v1",
-	"/swagger-2.0.0.pb-v1.gz",
-	"/swagger.json",
-	"/swaggerapi",
-	"/openapi/",
-}
+var cacheExcludedPathPrefixes = []string{"/swagger-2.0.0.json", "/swagger-2.0.0.pb-v1", "/swagger-2.0.0.pb-v1.gz", "/swagger.json", "/swaggerapi", "/openapi/"}
 
-// cacheControlFilter sets the Cache-Control header to the specified value.
 func WithCacheControl(handler http.Handler, value string) http.Handler {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		if _, ok := w.Header()["Cache-Control"]; ok {
 			handler.ServeHTTP(w, req)
@@ -28,8 +25,11 @@ func WithCacheControl(handler http.Handler, value string) http.Handler {
 				return
 			}
 		}
-
 		w.Header().Set("Cache-Control", value)
 		handler.ServeHTTP(w, req)
 	})
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

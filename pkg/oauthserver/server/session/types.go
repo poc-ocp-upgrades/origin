@@ -1,30 +1,27 @@
 package session
 
 import (
-	"net/http"
-
+	"github.com/openshift/origin/pkg/oauthserver/oauth/handlers"
 	"k8s.io/apiserver/pkg/authentication/authenticator"
 	"k8s.io/apiserver/pkg/authentication/user"
-
-	"github.com/openshift/origin/pkg/oauthserver/oauth/handlers"
+	"net/http"
 )
 
-// Store abstracts HTTP session storage of Values
 type Store interface {
-	// Get and decode the Values associated with the given request
 	Get(r *http.Request) Values
-	// Put encodes and writes the given Values to the response
 	Put(w http.ResponseWriter, v Values) error
 }
-
 type Values map[interface{}]interface{}
 
 func (v Values) GetString(key string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	str, _ := v[key].(string)
 	return str, len(str) != 0
 }
-
 func (v Values) GetInt64(key string) (int64, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	i, _ := v[key].(int64)
 	return i, i != 0
 }
@@ -32,7 +29,6 @@ func (v Values) GetInt64(key string) (int64, bool) {
 type SessionInvalidator interface {
 	InvalidateAuthentication(w http.ResponseWriter, user user.Info) error
 }
-
 type SessionAuthenticator interface {
 	authenticator.Request
 	handlers.AuthenticationSuccessHandler

@@ -234,22 +234,22 @@ func TestCollapseGrants(t *testing.T) {
 			Expiration: time.Now().Add(testStatementExpiration),
 			Grants:     []*jsonGrant{},
 			Revocations: []*jsonRevocation{
-				&jsonRevocation{
+				{
 					Subject:    "/user-1",
 					Revocation: 0x0f,
 					Grantee:    keys[0].KeyID(),
 				},
-				&jsonRevocation{
+				{
 					Subject:    "/user-2",
 					Revocation: 0x08,
 					Grantee:    keys[1].KeyID(),
 				},
-				&jsonRevocation{
+				{
 					Subject:    "/user-6",
 					Revocation: 0x0f,
 					Grantee:    "/user-7",
 				},
-				&jsonRevocation{
+				{
 					Subject:    "/user-9",
 					Revocation: 0x0f,
 					Grantee:    "/user-10",

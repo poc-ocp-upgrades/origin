@@ -232,7 +232,7 @@ func cmdAdd(args *skel.CmdArgs) error {
 		"type":   "host-local",
 		"subnet": fenv.sn.String(),
 		"routes": []types.Route{
-			types.Route{
+			{
 				Dst: *fenv.nw,
 			},
 		},

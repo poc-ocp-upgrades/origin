@@ -2,58 +2,63 @@ package brokertemplateinstance
 
 import (
 	"context"
-
+	goformat "fmt"
+	templateapi "github.com/openshift/origin/pkg/template/apis/template"
+	"github.com/openshift/origin/pkg/template/apis/template/validation"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/apiserver/pkg/storage/names"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	templateapi "github.com/openshift/origin/pkg/template/apis/template"
-	"github.com/openshift/origin/pkg/template/apis/template/validation"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// brokerTemplateInstanceStrategy implements behavior for BrokerTemplateInstances
 type brokerTemplateInstanceStrategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 }
 
-// Strategy is the default logic that applies when creating and updating BrokerTemplateInstance
-// objects via the REST API.
 var Strategy = brokerTemplateInstanceStrategy{legacyscheme.Scheme, names.SimpleNameGenerator}
 
-// NamespaceScoped is false for brokertemplateinstances.
 func (brokerTemplateInstanceStrategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// PrepareForUpdate clears fields that are not allowed to be set by end users on update.
 func (brokerTemplateInstanceStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// Canonicalize normalizes the object after validation.
 func (brokerTemplateInstanceStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// PrepareForCreate clears fields that are not allowed to be set by end users on creation.
 func (brokerTemplateInstanceStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// Validate validates a new brokertemplateinstance.
 func (brokerTemplateInstanceStrategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBrokerTemplateInstance(obj.(*templateapi.BrokerTemplateInstance))
 }
-
-// AllowCreateOnUpdate is false for brokertemplateinstances.
 func (brokerTemplateInstanceStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (brokerTemplateInstanceStrategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (brokerTemplateInstanceStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBrokerTemplateInstanceUpdate(obj.(*templateapi.BrokerTemplateInstance), old.(*templateapi.BrokerTemplateInstance))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

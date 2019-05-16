@@ -31,22 +31,22 @@ func init() {
 
 var testMoFile = &File{
 	Messages: []Message{
-		Message{
+		{
 			MsgContext: "main.init",
 			MsgId:      "Gettext in init.",
 			MsgStr:     "Init函数中的Gettext.",
 		},
-		Message{
+		{
 			MsgContext: "main.main",
 			MsgId:      "Hello, world!",
 			MsgStr:     "你好, 世界!",
 		},
-		Message{
+		{
 			MsgContext: "main.func",
 			MsgId:      "Gettext in func.",
 			MsgStr:     "闭包函数中的Gettext.",
 		},
-		Message{
+		{
 			MsgContext: "code.google.com/p/gettext-go/examples/hi.SayHi",
 			MsgId:      "pkg hi: Hello, world!",
 			MsgStr:     "来自\"Hi\"包的问候: 你好, 世界!",

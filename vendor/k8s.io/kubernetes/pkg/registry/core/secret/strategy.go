@@ -1,25 +1,9 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package secret
 
 import (
 	"context"
 	"fmt"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/labels"
@@ -32,101 +16,103 @@ import (
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/apis/core/validation"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// strategy implements behavior for Secret objects
 type strategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 }
 
-// Strategy is the default logic that applies when creating and updating Secret
-// objects via the REST API.
 var Strategy = strategy{legacyscheme.Scheme, names.SimpleNameGenerator}
-
 var _ = rest.RESTCreateStrategy(Strategy)
-
 var _ = rest.RESTUpdateStrategy(Strategy)
 
 func (strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateSecret(obj.(*api.Secret))
 }
-
 func (strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateSecretUpdate(obj.(*api.Secret), old.(*api.Secret))
 }
-
 func (strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (s strategy) Export(ctx context.Context, obj runtime.Object, exact bool) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	t, ok := obj.(*api.Secret)
 	if !ok {
-		// unexpected programmer error
 		return fmt.Errorf("unexpected object: %v", obj)
 	}
 	s.PrepareForCreate(ctx, obj)
 	if exact {
 		return nil
 	}
-	// secrets that are tied to the UID of a service account cannot be exported anyway
 	if t.Type == api.SecretTypeServiceAccountToken || len(t.Annotations[api.ServiceAccountUIDKey]) > 0 {
-		errs := []*field.Error{
-			field.Invalid(field.NewPath("type"), t, "can not export service account secrets"),
-		}
+		errs := []*field.Error{field.Invalid(field.NewPath("type"), t, "can not export service account secrets")}
 		return errors.NewInvalid(api.Kind("Secret"), t.Name, errs)
 	}
 	return nil
 }
-
-// GetAttrs returns labels and fields of a given object for filtering purposes.
 func GetAttrs(obj runtime.Object) (labels.Set, fields.Set, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	secret, ok := obj.(*api.Secret)
 	if !ok {
 		return nil, nil, false, fmt.Errorf("not a secret")
 	}
 	return labels.Set(secret.Labels), SelectableFields(secret), secret.Initializers != nil, nil
 }
-
-// Matcher returns a generic matcher for a given label and field selector.
 func Matcher(label labels.Selector, field fields.Selector) pkgstorage.SelectionPredicate {
-	return pkgstorage.SelectionPredicate{
-		Label:       label,
-		Field:       field,
-		GetAttrs:    GetAttrs,
-		IndexFields: []string{"metadata.name"},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return pkgstorage.SelectionPredicate{Label: label, Field: field, GetAttrs: GetAttrs, IndexFields: []string{"metadata.name"}}
 }
-
 func SecretNameTriggerFunc(obj runtime.Object) []pkgstorage.MatchValue {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	secret := obj.(*api.Secret)
 	result := pkgstorage.MatchValue{IndexName: "metadata.name", Value: secret.ObjectMeta.Name}
 	return []pkgstorage.MatchValue{result}
 }
-
-// SelectableFields returns a field set that can be used for filter selection
 func SelectableFields(obj *api.Secret) fields.Set {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	objectMetaFieldsSet := generic.ObjectMetaFieldsSet(&obj.ObjectMeta, true)
-	secretSpecificFieldsSet := fields.Set{
-		"type": string(obj.Type),
-	}
+	secretSpecificFieldsSet := fields.Set{"type": string(obj.Type)}
 	return generic.MergeFieldsSets(objectMetaFieldsSet, secretSpecificFieldsSet)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

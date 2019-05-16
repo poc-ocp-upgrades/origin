@@ -362,7 +362,7 @@ func TestMergeSignatures(t *testing.T) {
 	}
 
 	// Make sure we've found all the private keys from verification
-	for keyid, _ := range privkeys {
+	for keyid := range privkeys {
 		if _, ok := found[keyid]; !ok {
 			t.Fatalf("public key %v not found during verification", keyid)
 		}

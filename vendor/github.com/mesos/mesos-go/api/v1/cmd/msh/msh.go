@@ -119,7 +119,7 @@ func main() {
 	if term := os.Getenv("TERM"); term != "" && tty {
 		taskPrototype.Command.Environment = &mesos.Environment{
 			Variables: []mesos.Environment_Variable{
-				mesos.Environment_Variable{Name: "TERM", Value: &term},
+				{Name: "TERM", Value: &term},
 			},
 		}
 	}

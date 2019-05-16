@@ -4,37 +4,35 @@ import (
 	"sync"
 )
 
-type LockFactory interface {
-	GetLock(string) sync.Locker
-}
-
+type LockFactory interface{ GetLock(string) sync.Locker }
 type DefaultLockFactory struct {
-	lock sync.RWMutex
-
+	lock  sync.RWMutex
 	locks map[string]sync.Locker
 }
 
 func NewDefaultLockFactory() *DefaultLockFactory {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &DefaultLockFactory{locks: map[string]sync.Locker{}}
 }
-
 func (f *DefaultLockFactory) GetLock(key string) sync.Locker {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	lock, exists := f.getExistingLock(key)
 	if exists {
 		return lock
 	}
-
 	f.lock.Lock()
 	defer f.lock.Unlock()
 	lock = &sync.Mutex{}
 	f.locks[key] = lock
 	return lock
 }
-
 func (f *DefaultLockFactory) getExistingLock(key string) (sync.Locker, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.lock.RLock()
 	defer f.lock.RUnlock()
-
 	lock, exists := f.locks[key]
 	return lock, exists
 }

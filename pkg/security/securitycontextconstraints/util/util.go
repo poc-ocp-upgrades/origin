@@ -2,58 +2,35 @@ package util
 
 import (
 	"fmt"
-
-	"k8s.io/apimachinery/pkg/util/sets"
-	api "k8s.io/kubernetes/pkg/apis/core"
-
+	goformat "fmt"
 	securityv1 "github.com/openshift/api/security/v1"
 	securityapi "github.com/openshift/origin/pkg/security/apis/security"
+	"k8s.io/apimachinery/pkg/util/sets"
+	api "k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 func GetAllFSTypesExcept(exceptions ...string) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fstypes := GetAllFSTypesAsSet()
 	for _, e := range exceptions {
 		fstypes.Delete(e)
 	}
 	return fstypes
 }
-
 func GetAllFSTypesAsSet() sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fstypes := sets.NewString()
-	fstypes.Insert(
-		string(securityapi.FSTypeHostPath),
-		string(securityapi.FSTypeAzureFile),
-		string(securityapi.FSTypeFlocker),
-		string(securityapi.FSTypeFlexVolume),
-		string(securityapi.FSTypeEmptyDir),
-		string(securityapi.FSTypeGCEPersistentDisk),
-		string(securityapi.FSTypeAWSElasticBlockStore),
-		string(securityapi.FSTypeGitRepo),
-		string(securityapi.FSTypeSecret),
-		string(securityapi.FSTypeNFS),
-		string(securityapi.FSTypeISCSI),
-		string(securityapi.FSTypeGlusterfs),
-		string(securityapi.FSTypePersistentVolumeClaim),
-		string(securityapi.FSTypeRBD),
-		string(securityapi.FSTypeCinder),
-		string(securityapi.FSTypeCephFS),
-		string(securityapi.FSTypeDownwardAPI),
-		string(securityapi.FSTypeFC),
-		string(securityapi.FSTypeConfigMap),
-		string(securityapi.FSTypeVsphereVolume),
-		string(securityapi.FSTypeQuobyte),
-		string(securityapi.FSTypeAzureDisk),
-		string(securityapi.FSTypePhotonPersistentDisk),
-		string(securityapi.FSProjected),
-		string(securityapi.FSPortworxVolume),
-		string(securityapi.FSScaleIO),
-		string(securityapi.FSStorageOS),
-	)
+	fstypes.Insert(string(securityapi.FSTypeHostPath), string(securityapi.FSTypeAzureFile), string(securityapi.FSTypeFlocker), string(securityapi.FSTypeFlexVolume), string(securityapi.FSTypeEmptyDir), string(securityapi.FSTypeGCEPersistentDisk), string(securityapi.FSTypeAWSElasticBlockStore), string(securityapi.FSTypeGitRepo), string(securityapi.FSTypeSecret), string(securityapi.FSTypeNFS), string(securityapi.FSTypeISCSI), string(securityapi.FSTypeGlusterfs), string(securityapi.FSTypePersistentVolumeClaim), string(securityapi.FSTypeRBD), string(securityapi.FSTypeCinder), string(securityapi.FSTypeCephFS), string(securityapi.FSTypeDownwardAPI), string(securityapi.FSTypeFC), string(securityapi.FSTypeConfigMap), string(securityapi.FSTypeVsphereVolume), string(securityapi.FSTypeQuobyte), string(securityapi.FSTypeAzureDisk), string(securityapi.FSTypePhotonPersistentDisk), string(securityapi.FSProjected), string(securityapi.FSPortworxVolume), string(securityapi.FSScaleIO), string(securityapi.FSStorageOS))
 	return fstypes
 }
-
-// getVolumeFSType gets the FSType for a volume.
 func GetVolumeFSType(v api.Volume) (securityapi.FSType, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case v.HostPath != nil:
 		return securityapi.FSTypeHostPath, nil
@@ -110,40 +87,37 @@ func GetVolumeFSType(v api.Volume) (securityapi.FSType, error) {
 	case v.StorageOS != nil:
 		return securityapi.FSStorageOS, nil
 	}
-
 	return "", fmt.Errorf("unknown volume type for volume: %#v", v)
 }
-
-// fsTypeToStringSet converts an FSType slice to a string set.
 func FSTypeToStringSetInternal(fsTypes []securityapi.FSType) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	set := sets.NewString()
 	for _, v := range fsTypes {
 		set.Insert(string(v))
 	}
 	return set
 }
-
-// fsTypeToStringSet converts an FSType slice to a string set.
 func FSTypeToStringSet(fsTypes []securityv1.FSType) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	set := sets.NewString()
 	for _, v := range fsTypes {
 		set.Insert(string(v))
 	}
 	return set
 }
-
-// SCCAllowsAllVolumes checks for FSTypeAll in the scc's allowed volumes.
 func SCCAllowsAllVolumes(scc *securityapi.SecurityContextConstraints) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return SCCAllowsFSTypeInternal(scc, securityapi.FSTypeAll)
 }
-
-// SCCAllowsFSTypeInternal is a utility for checking if an SCC allows a particular FSType.
-// If all volumes are allowed then this will return true for any FSType passed.
 func SCCAllowsFSTypeInternal(scc *securityapi.SecurityContextConstraints, fsType securityapi.FSType) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if scc == nil {
 		return false
 	}
-
 	for _, v := range scc.Volumes {
 		if v == fsType || v == securityapi.FSTypeAll {
 			return true
@@ -151,14 +125,12 @@ func SCCAllowsFSTypeInternal(scc *securityapi.SecurityContextConstraints, fsType
 	}
 	return false
 }
-
-// SCCAllowsFSType is a utility for checking if an SCC allows a particular FSType.
-// If all volumes are allowed then this will return true for any FSType passed.
 func SCCAllowsFSType(scc *securityv1.SecurityContextConstraints, fsType securityv1.FSType) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if scc == nil {
 		return false
 	}
-
 	for _, v := range scc.Volumes {
 		if v == fsType || v == securityv1.FSTypeAll {
 			return true
@@ -166,10 +138,9 @@ func SCCAllowsFSType(scc *securityv1.SecurityContextConstraints, fsType security
 	}
 	return false
 }
-
-// EqualStringSlices compares string slices for equality. Slices are equal when
-// their sizes and elements on similar positions are equal.
 func EqualStringSlices(a, b []string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(a) != len(b) {
 		return false
 	}
@@ -179,4 +150,8 @@ func EqualStringSlices(a, b []string) bool {
 		}
 	}
 	return true
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

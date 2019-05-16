@@ -1,24 +1,8 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package phases
 
 import (
+	goformat "fmt"
 	"github.com/pkg/errors"
-
 	clientset "k8s.io/client-go/kubernetes"
 	kubeadmapi "k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm"
 	"k8s.io/kubernetes/cmd/kubeadm/app/cmd/options"
@@ -27,6 +11,9 @@ import (
 	dnsaddon "k8s.io/kubernetes/cmd/kubeadm/app/phases/addons/dns"
 	proxyaddon "k8s.io/kubernetes/cmd/kubeadm/app/phases/addons/proxy"
 	"k8s.io/kubernetes/pkg/util/normalizer"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 var (
@@ -34,7 +21,6 @@ var (
 		Installs the CoreDNS addon components via the API server.
 		Please note that although the DNS server is deployed, it will not be scheduled until CNI is installed.
 		`)
-
 	kubeProxyAddonLongDesc = normalizer.LongDesc(`
 		Installs the kube-proxy addon components via the API server.
 		`)
@@ -45,38 +31,14 @@ type addonData interface {
 	Client() (clientset.Interface, error)
 }
 
-// NewAddonPhase returns the addon Cobra command
 func NewAddonPhase() workflow.Phase {
-	return workflow.Phase{
-		Name:  "addon",
-		Short: "Installs required addons for passing Conformance tests",
-		Long:  cmdutil.MacroCommandLongDescription,
-		Phases: []workflow.Phase{
-			{
-				Name:           "all",
-				Short:          "Installs all the addons",
-				InheritFlags:   getAddonPhaseFlags("all"),
-				RunAllSiblings: true,
-			},
-			{
-				Name:         "coredns",
-				Short:        "Installs the CoreDNS addon to a Kubernetes cluster",
-				Long:         coreDNSAddonLongDesc,
-				InheritFlags: getAddonPhaseFlags("coredns"),
-				Run:          runCoreDNSAddon,
-			},
-			{
-				Name:         "kube-proxy",
-				Short:        "Installs the kube-proxy addon to a Kubernetes cluster",
-				Long:         kubeProxyAddonLongDesc,
-				InheritFlags: getAddonPhaseFlags("kube-proxy"),
-				Run:          runKubeProxyAddon,
-			},
-		},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return workflow.Phase{Name: "addon", Short: "Installs required addons for passing Conformance tests", Long: cmdutil.MacroCommandLongDescription, Phases: []workflow.Phase{{Name: "all", Short: "Installs all the addons", InheritFlags: getAddonPhaseFlags("all"), RunAllSiblings: true}, {Name: "coredns", Short: "Installs the CoreDNS addon to a Kubernetes cluster", Long: coreDNSAddonLongDesc, InheritFlags: getAddonPhaseFlags("coredns"), Run: runCoreDNSAddon}, {Name: "kube-proxy", Short: "Installs the kube-proxy addon to a Kubernetes cluster", Long: kubeProxyAddonLongDesc, InheritFlags: getAddonPhaseFlags("kube-proxy"), Run: runKubeProxyAddon}}}
 }
-
 func getAddonData(c workflow.RunData) (*kubeadmapi.InitConfiguration, clientset.Interface, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data, ok := c.(addonData)
 	if !ok {
 		return nil, nil, errors.New("addon phase invoked with an invalid data struct")
@@ -88,45 +50,37 @@ func getAddonData(c workflow.RunData) (*kubeadmapi.InitConfiguration, clientset.
 	}
 	return cfg, client, err
 }
-
-// runCoreDNSAddon installs CoreDNS addon to a Kubernetes cluster
 func runCoreDNSAddon(c workflow.RunData) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cfg, client, err := getAddonData(c)
 	if err != nil {
 		return err
 	}
 	return dnsaddon.EnsureDNSAddon(cfg, client)
 }
-
-// runKubeProxyAddon installs KubeProxy addon to a Kubernetes cluster
 func runKubeProxyAddon(c workflow.RunData) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cfg, client, err := getAddonData(c)
 	if err != nil {
 		return err
 	}
 	return proxyaddon.EnsureProxyAddon(cfg, client)
 }
-
 func getAddonPhaseFlags(name string) []string {
-	flags := []string{
-		options.CfgPath,
-		options.KubeconfigPath,
-		options.KubernetesVersion,
-		options.ImageRepository,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	flags := []string{options.CfgPath, options.KubeconfigPath, options.KubernetesVersion, options.ImageRepository}
 	if name == "all" || name == "kube-proxy" {
-		flags = append(flags,
-			options.APIServerAdvertiseAddress,
-			options.APIServerBindPort,
-			options.NetworkingPodSubnet,
-		)
+		flags = append(flags, options.APIServerAdvertiseAddress, options.APIServerBindPort, options.NetworkingPodSubnet)
 	}
 	if name == "all" || name == "coredns" {
-		flags = append(flags,
-			options.FeatureGatesString,
-			options.NetworkingDNSDomain,
-			options.NetworkingServiceSubnet,
-		)
+		flags = append(flags, options.FeatureGatesString, options.NetworkingDNSDomain, options.NetworkingServiceSubnet)
 	}
 	return flags
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

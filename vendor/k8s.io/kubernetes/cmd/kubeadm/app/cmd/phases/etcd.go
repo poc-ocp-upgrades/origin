@@ -1,24 +1,7 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package phases
 
 import (
 	"fmt"
-
 	"github.com/pkg/errors"
 	"k8s.io/klog"
 	kubeadmapi "k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm"
@@ -46,48 +29,33 @@ type etcdData interface {
 	ManifestDir() string
 }
 
-// NewEtcdPhase creates a kubeadm workflow phase that implements handling of etcd.
 func NewEtcdPhase() workflow.Phase {
-	phase := workflow.Phase{
-		Name:  "etcd",
-		Short: "Generates static Pod manifest file for local etcd.",
-		Long:  cmdutil.MacroCommandLongDescription,
-		Phases: []workflow.Phase{
-			newEtcdLocalSubPhase(),
-		},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	phase := workflow.Phase{Name: "etcd", Short: "Generates static Pod manifest file for local etcd.", Long: cmdutil.MacroCommandLongDescription, Phases: []workflow.Phase{newEtcdLocalSubPhase()}}
 	return phase
 }
-
 func newEtcdLocalSubPhase() workflow.Phase {
-	phase := workflow.Phase{
-		Name:         "local",
-		Short:        "Generates the static Pod manifest file for a local, single-node local etcd instance.",
-		Example:      etcdLocalExample,
-		Run:          runEtcdPhaseLocal(),
-		InheritFlags: getEtcdPhaseFlags(),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	phase := workflow.Phase{Name: "local", Short: "Generates the static Pod manifest file for a local, single-node local etcd instance.", Example: etcdLocalExample, Run: runEtcdPhaseLocal(), InheritFlags: getEtcdPhaseFlags()}
 	return phase
 }
-
 func getEtcdPhaseFlags() []string {
-	flags := []string{
-		options.CertificatesDir,
-		options.CfgPath,
-		options.ImageRepository,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	flags := []string{options.CertificatesDir, options.CfgPath, options.ImageRepository}
 	return flags
 }
-
 func runEtcdPhaseLocal() func(c workflow.RunData) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func(c workflow.RunData) error {
 		data, ok := c.(etcdData)
 		if !ok {
 			return errors.New("etcd phase invoked with an invalid data struct")
 		}
 		cfg := data.Cfg()
-
-		// Add etcd static pod spec only if external etcd is not configured
 		if cfg.Etcd.External == nil {
 			fmt.Printf("[etcd] Creating static Pod manifest for local etcd in %q\n", data.ManifestDir())
 			if err := etcdphase.CreateLocalEtcdStaticPodManifestFile(data.ManifestDir(), cfg); err != nil {

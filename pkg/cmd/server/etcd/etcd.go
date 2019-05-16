@@ -2,50 +2,39 @@ package etcd
 
 import (
 	"fmt"
-	"time"
-
+	goformat "fmt"
 	"github.com/coreos/etcd/clientv3"
+	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"golang.org/x/net/context"
-
 	etcdutil "k8s.io/apiserver/pkg/storage/etcd/util"
 	restclient "k8s.io/client-go/rest"
-
-	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// MakeEtcdClientV3Config creates client configuration based on the configapi.
 func MakeEtcdClientV3Config(etcdClientInfo configapi.EtcdConnectionInfo) (*clientv3.Config, error) {
-	tlsConfig, err := restclient.TLSConfigFor(&restclient.Config{
-		TLSClientConfig: restclient.TLSClientConfig{
-			CertFile: etcdClientInfo.ClientCert.CertFile,
-			KeyFile:  etcdClientInfo.ClientCert.KeyFile,
-			CAFile:   etcdClientInfo.CA,
-		},
-	})
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	tlsConfig, err := restclient.TLSConfigFor(&restclient.Config{TLSClientConfig: restclient.TLSClientConfig{CertFile: etcdClientInfo.ClientCert.CertFile, KeyFile: etcdClientInfo.ClientCert.KeyFile, CAFile: etcdClientInfo.CA}})
 	if err != nil {
 		return nil, err
 	}
-
-	return &clientv3.Config{
-		Endpoints:   etcdClientInfo.URLs,
-		DialTimeout: 30 * time.Second,
-		TLS:         tlsConfig,
-	}, nil
+	return &clientv3.Config{Endpoints: etcdClientInfo.URLs, DialTimeout: 30 * time.Second, TLS: tlsConfig}, nil
 }
-
-// MakeEtcdClientV3 creates an etcd v3 client based on the provided config.
 func MakeEtcdClientV3(etcdClientInfo configapi.EtcdConnectionInfo) (*clientv3.Client, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cfg, err := MakeEtcdClientV3Config(etcdClientInfo)
 	if err != nil {
 		return nil, err
 	}
 	return clientv3.New(*cfg)
 }
-
-// TestEtcdClientV3 verifies a client is functional.  It will attempt to
-// connect to the etcd server and block until the server responds at least once, or return an
-// error if the server never responded.
 func TestEtcdClientV3(etcdClient *clientv3.Client) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i := 0; ; i++ {
 		_, err := clientv3.NewKV(etcdClient).Get(context.Background(), "/", clientv3.WithLimit(1))
 		if err == nil || etcdutil.IsEtcdNotFound(err) {
@@ -57,4 +46,8 @@ func TestEtcdClientV3(etcdClient *clientv3.Client) error {
 		time.Sleep(50 * time.Millisecond)
 	}
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

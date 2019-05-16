@@ -260,7 +260,7 @@ func (jc Obj) UnknownKeys() []string {
 		known = ei.(map[string]bool)
 	}
 	var unknown []string
-	for k, _ := range jc {
+	for k := range jc {
 		if ok && known[k] {
 			continue
 		}

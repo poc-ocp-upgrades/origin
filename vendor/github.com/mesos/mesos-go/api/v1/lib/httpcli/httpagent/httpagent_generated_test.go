@@ -36,7 +36,7 @@ func TestNewSender(t *testing.T) {
 		return nil
 	}
 	sender := NewSender(cf)
-	c := &agent.Call{Type:agent.Call_GET_METRICS}
+	c := &agent.Call{Type: agent.Call_GET_METRICS}
 
 	check(sender.Send(context.Background(), calls.NonStreaming(c)))
 	r := sent()

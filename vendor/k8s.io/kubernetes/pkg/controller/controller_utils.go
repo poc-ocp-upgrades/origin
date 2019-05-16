@@ -1,19 +1,3 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package controller
 
 import (
@@ -21,10 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"hash/fnv"
-	"sync"
-	"sync/atomic"
-	"time"
-
 	apps "k8s.io/api/apps/v1"
 	"k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
@@ -44,90 +24,44 @@ import (
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/integer"
 	clientretry "k8s.io/client-go/util/retry"
+	"k8s.io/klog"
 	podutil "k8s.io/kubernetes/pkg/api/v1/pod"
 	_ "k8s.io/kubernetes/pkg/apis/core/install"
 	"k8s.io/kubernetes/pkg/apis/core/validation"
 	schedulerapi "k8s.io/kubernetes/pkg/scheduler/api"
 	hashutil "k8s.io/kubernetes/pkg/util/hash"
 	taintutils "k8s.io/kubernetes/pkg/util/taints"
-
-	"k8s.io/klog"
+	"sync"
+	"sync/atomic"
+	"time"
 )
 
 const (
-	// If a watch drops a delete event for a pod, it'll take this long
-	// before a dormant controller waiting for those packets is woken up anyway. It is
-	// specifically targeted at the case where some problem prevents an update
-	// of expectations, without it the controller could stay asleep forever. This should
-	// be set based on the expected latency of watch events.
-	//
-	// Currently a controller can service (create *and* observe the watch events for said
-	// creation) about 10 pods a second, so it takes about 1 min to service
-	// 500 pods. Just creation is limited to 20qps, and watching happens with ~10-30s
-	// latency/pod at the scale of 3000 pods over 100 nodes.
-	ExpectationsTimeout = 5 * time.Minute
-	// When batching pod creates, SlowStartInitialBatchSize is the size of the
-	// initial batch.  The size of each successive batch is twice the size of
-	// the previous batch.  For example, for a value of 1, batch sizes would be
-	// 1, 2, 4, 8, ...  and for a value of 10, batch sizes would be
-	// 10, 20, 40, 80, ...  Setting the value higher means that quota denials
-	// will result in more doomed API calls and associated event spam.  Setting
-	// the value lower will result in more API call round trip periods for
-	// large batches.
-	//
-	// Given a number of pods to start "N":
-	// The number of doomed calls per sync once quota is exceeded is given by:
-	//      min(N,SlowStartInitialBatchSize)
-	// The number of batches is given by:
-	//      1+floor(log_2(ceil(N/SlowStartInitialBatchSize)))
+	ExpectationsTimeout       = 5 * time.Minute
 	SlowStartInitialBatchSize = 1
 )
 
-var UpdateTaintBackoff = wait.Backoff{
-	Steps:    5,
-	Duration: 100 * time.Millisecond,
-	Jitter:   1.0,
-}
-
-var ShutdownTaint = &v1.Taint{
-	Key:    schedulerapi.TaintNodeShutdown,
-	Effect: v1.TaintEffectNoSchedule,
-}
-
+var UpdateTaintBackoff = wait.Backoff{Steps: 5, Duration: 100 * time.Millisecond, Jitter: 1.0}
+var ShutdownTaint = &v1.Taint{Key: schedulerapi.TaintNodeShutdown, Effect: v1.TaintEffectNoSchedule}
 var (
 	KeyFunc = cache.DeletionHandlingMetaNamespaceKeyFunc
 )
 
 type ResyncPeriodFunc func() time.Duration
 
-// Returns 0 for resyncPeriod in case resyncing is not needed.
 func NoResyncPeriodFunc() time.Duration {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return 0
 }
-
-// StaticResyncPeriodFunc returns the resync period specified
 func StaticResyncPeriodFunc(resyncPeriod time.Duration) ResyncPeriodFunc {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func() time.Duration {
 		return resyncPeriod
 	}
 }
 
-// Expectations are a way for controllers to tell the controller manager what they expect. eg:
-//	ControllerExpectations: {
-//		controller1: expects  2 adds in 2 minutes
-//		controller2: expects  2 dels in 2 minutes
-//		controller3: expects -1 adds in 2 minutes => controller3's expectations have already been met
-//	}
-//
-// Implementation:
-//	ControlleeExpectation = pair of atomic counters to track controllee's creation/deletion
-//	ControllerExpectationsStore = TTLStore + a ControlleeExpectation per controller
-//
-// * Once set expectations can only be lowered
-// * A controller isn't synced till its expectations are either fulfilled, or expire
-// * Controllers that don't set expectations will get woken up for every matching controllee
-
-// ExpKeyFunc to parse out the key from a ControlleeExpectation
 var ExpKeyFunc = func(obj interface{}) (string, error) {
 	if e, ok := obj.(*ControlleeExpectations); ok {
 		return e.key, nil
@@ -135,10 +69,6 @@ var ExpKeyFunc = func(obj interface{}) (string, error) {
 	return "", fmt.Errorf("Could not find key for obj %#v", obj)
 }
 
-// ControllerExpectationsInterface is an interface that allows users to set and wait on expectations.
-// Only abstracted out for testing.
-// Warning: if using KeyFunc it is not safe to use a single ControllerExpectationsInterface with different
-// types of controllers, because the keys might conflict across types.
 type ControllerExpectationsInterface interface {
 	GetExpectations(controllerKey string) (*ControlleeExpectations, bool, error)
 	SatisfiedExpectations(controllerKey string) bool
@@ -151,34 +81,29 @@ type ControllerExpectationsInterface interface {
 	RaiseExpectations(controllerKey string, add, del int)
 	LowerExpectations(controllerKey string, add, del int)
 }
+type ControllerExpectations struct{ cache.Store }
 
-// ControllerExpectations is a cache mapping controllers to what they expect to see before being woken up for a sync.
-type ControllerExpectations struct {
-	cache.Store
-}
-
-// GetExpectations returns the ControlleeExpectations of the given controller.
 func (r *ControllerExpectations) GetExpectations(controllerKey string) (*ControlleeExpectations, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if exp, exists, err := r.GetByKey(controllerKey); err == nil && exists {
 		return exp.(*ControlleeExpectations), true, nil
 	} else {
 		return nil, false, err
 	}
 }
-
-// DeleteExpectations deletes the expectations of the given controller from the TTLStore.
 func (r *ControllerExpectations) DeleteExpectations(controllerKey string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if exp, exists, err := r.GetByKey(controllerKey); err == nil && exists {
 		if err := r.Delete(exp); err != nil {
 			klog.V(2).Infof("Error deleting expectations for controller %v: %v", controllerKey, err)
 		}
 	}
 }
-
-// SatisfiedExpectations returns true if the required adds/dels for the given controller have been observed.
-// Add/del counts are established by the controller at sync time, and updated as controllees are observed by the controller
-// manager.
 func (r *ControllerExpectations) SatisfiedExpectations(controllerKey string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if exp, exists, err := r.GetExpectations(controllerKey); exists {
 		if exp.Fulfilled() {
 			klog.V(4).Infof("Controller expectations fulfilled %#v", exp)
@@ -193,106 +118,89 @@ func (r *ControllerExpectations) SatisfiedExpectations(controllerKey string) boo
 	} else if err != nil {
 		klog.V(2).Infof("Error encountered while checking expectations %#v, forcing sync", err)
 	} else {
-		// When a new controller is created, it doesn't have expectations.
-		// When it doesn't see expected watch events for > TTL, the expectations expire.
-		//	- In this case it wakes up, creates/deletes controllees, and sets expectations again.
-		// When it has satisfied expectations and no controllees need to be created/destroyed > TTL, the expectations expire.
-		//	- In this case it continues without setting expectations till it needs to create/delete controllees.
 		klog.V(4).Infof("Controller %v either never recorded expectations, or the ttl expired.", controllerKey)
 	}
-	// Trigger a sync if we either encountered and error (which shouldn't happen since we're
-	// getting from local store) or this controller hasn't established expectations.
 	return true
 }
-
-// TODO: Extend ExpirationCache to support explicit expiration.
-// TODO: Make this possible to disable in tests.
-// TODO: Support injection of clock.
 func (exp *ControlleeExpectations) isExpired() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return clock.RealClock{}.Since(exp.timestamp) > ExpectationsTimeout
 }
-
-// SetExpectations registers new expectations for the given controller. Forgets existing expectations.
 func (r *ControllerExpectations) SetExpectations(controllerKey string, add, del int) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	exp := &ControlleeExpectations{add: int64(add), del: int64(del), key: controllerKey, timestamp: clock.RealClock{}.Now()}
 	klog.V(4).Infof("Setting expectations %#v", exp)
 	return r.Add(exp)
 }
-
 func (r *ControllerExpectations) ExpectCreations(controllerKey string, adds int) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.SetExpectations(controllerKey, adds, 0)
 }
-
 func (r *ControllerExpectations) ExpectDeletions(controllerKey string, dels int) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.SetExpectations(controllerKey, 0, dels)
 }
-
-// Decrements the expectation counts of the given controller.
 func (r *ControllerExpectations) LowerExpectations(controllerKey string, add, del int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if exp, exists, err := r.GetExpectations(controllerKey); err == nil && exists {
 		exp.Add(int64(-add), int64(-del))
-		// The expectations might've been modified since the update on the previous line.
 		klog.V(4).Infof("Lowered expectations %#v", exp)
 	}
 }
-
-// Increments the expectation counts of the given controller.
 func (r *ControllerExpectations) RaiseExpectations(controllerKey string, add, del int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if exp, exists, err := r.GetExpectations(controllerKey); err == nil && exists {
 		exp.Add(int64(add), int64(del))
-		// The expectations might've been modified since the update on the previous line.
 		klog.V(4).Infof("Raised expectations %#v", exp)
 	}
 }
-
-// CreationObserved atomically decrements the `add` expectation count of the given controller.
 func (r *ControllerExpectations) CreationObserved(controllerKey string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r.LowerExpectations(controllerKey, 1, 0)
 }
-
-// DeletionObserved atomically decrements the `del` expectation count of the given controller.
 func (r *ControllerExpectations) DeletionObserved(controllerKey string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	r.LowerExpectations(controllerKey, 0, 1)
 }
 
-// Expectations are either fulfilled, or expire naturally.
-type Expectations interface {
-	Fulfilled() bool
-}
-
-// ControlleeExpectations track controllee creates/deletes.
+type Expectations interface{ Fulfilled() bool }
 type ControlleeExpectations struct {
-	// Important: Since these two int64 fields are using sync/atomic, they have to be at the top of the struct due to a bug on 32-bit platforms
-	// See: https://golang.org/pkg/sync/atomic/ for more information
 	add       int64
 	del       int64
 	key       string
 	timestamp time.Time
 }
 
-// Add increments the add and del counters.
 func (e *ControlleeExpectations) Add(add, del int64) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	atomic.AddInt64(&e.add, add)
 	atomic.AddInt64(&e.del, del)
 }
-
-// Fulfilled returns true if this expectation has been fulfilled.
 func (e *ControlleeExpectations) Fulfilled() bool {
-	// TODO: think about why this line being atomic doesn't matter
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return atomic.LoadInt64(&e.add) <= 0 && atomic.LoadInt64(&e.del) <= 0
 }
-
-// GetExpectations returns the add and del expectations of the controllee.
 func (e *ControlleeExpectations) GetExpectations() (int64, int64) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return atomic.LoadInt64(&e.add), atomic.LoadInt64(&e.del)
 }
-
-// NewControllerExpectations returns a store for ControllerExpectations.
 func NewControllerExpectations() *ControllerExpectations {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &ControllerExpectations{cache.NewStore(ExpKeyFunc)}
 }
 
-// UIDSetKeyFunc to parse out the key from a UIDSet.
 var UIDSetKeyFunc = func(obj interface{}) (string, error) {
 	if u, ok := obj.(*UIDSet); ok {
 		return u.key, nil
@@ -300,45 +208,29 @@ var UIDSetKeyFunc = func(obj interface{}) (string, error) {
 	return "", fmt.Errorf("Could not find key for obj %#v", obj)
 }
 
-// UIDSet holds a key and a set of UIDs. Used by the
-// UIDTrackingControllerExpectations to remember which UID it has seen/still
-// waiting for.
 type UIDSet struct {
 	sets.String
 	key string
 }
-
-// UIDTrackingControllerExpectations tracks the UID of the pods it deletes.
-// This cache is needed over plain old expectations to safely handle graceful
-// deletion. The desired behavior is to treat an update that sets the
-// DeletionTimestamp on an object as a delete. To do so consistently, one needs
-// to remember the expected deletes so they aren't double counted.
-// TODO: Track creates as well (#22599)
 type UIDTrackingControllerExpectations struct {
 	ControllerExpectationsInterface
-	// TODO: There is a much nicer way to do this that involves a single store,
-	// a lock per entry, and a ControlleeExpectationsInterface type.
 	uidStoreLock sync.Mutex
-	// Store used for the UIDs associated with any expectation tracked via the
-	// ControllerExpectationsInterface.
-	uidStore cache.Store
+	uidStore     cache.Store
 }
 
-// GetUIDs is a convenience method to avoid exposing the set of expected uids.
-// The returned set is not thread safe, all modifications must be made holding
-// the uidStoreLock.
 func (u *UIDTrackingControllerExpectations) GetUIDs(controllerKey string) sets.String {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if uid, exists, err := u.uidStore.GetByKey(controllerKey); err == nil && exists {
 		return uid.(*UIDSet).String
 	}
 	return nil
 }
-
-// ExpectDeletions records expectations for the given deleteKeys, against the given controller.
 func (u *UIDTrackingControllerExpectations) ExpectDeletions(rcKey string, deletedKeys []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.uidStoreLock.Lock()
 	defer u.uidStoreLock.Unlock()
-
 	if existing := u.GetUIDs(rcKey); existing != nil && existing.Len() != 0 {
 		klog.Errorf("Clobbering existing delete keys: %+v", existing)
 	}
@@ -352,12 +244,11 @@ func (u *UIDTrackingControllerExpectations) ExpectDeletions(rcKey string, delete
 	}
 	return u.ControllerExpectationsInterface.ExpectDeletions(rcKey, expectedUIDs.Len())
 }
-
-// DeletionObserved records the given deleteKey as a deletion, for the given rc.
 func (u *UIDTrackingControllerExpectations) DeletionObserved(rcKey, deleteKey string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.uidStoreLock.Lock()
 	defer u.uidStoreLock.Unlock()
-
 	uids := u.GetUIDs(rcKey)
 	if uids != nil && uids.Has(deleteKey) {
 		klog.V(4).Infof("Controller %v received delete for pod %v", rcKey, deleteKey)
@@ -365,13 +256,11 @@ func (u *UIDTrackingControllerExpectations) DeletionObserved(rcKey, deleteKey st
 		uids.Delete(deleteKey)
 	}
 }
-
-// DeleteExpectations deletes the UID set and invokes DeleteExpectations on the
-// underlying ControllerExpectationsInterface.
 func (u *UIDTrackingControllerExpectations) DeleteExpectations(rcKey string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	u.uidStoreLock.Lock()
 	defer u.uidStoreLock.Unlock()
-
 	u.ControllerExpectationsInterface.DeleteExpectations(rcKey)
 	if uidExp, exists, err := u.uidStore.GetByKey(rcKey); err == nil && exists {
 		if err := u.uidStore.Delete(uidExp); err != nil {
@@ -379,37 +268,22 @@ func (u *UIDTrackingControllerExpectations) DeleteExpectations(rcKey string) {
 		}
 	}
 }
-
-// NewUIDTrackingControllerExpectations returns a wrapper around
-// ControllerExpectations that is aware of deleteKeys.
 func NewUIDTrackingControllerExpectations(ce ControllerExpectationsInterface) *UIDTrackingControllerExpectations {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &UIDTrackingControllerExpectations{ControllerExpectationsInterface: ce, uidStore: cache.NewStore(UIDSetKeyFunc)}
 }
 
-// Reasons for pod events
 const (
-	// FailedCreatePodReason is added in an event and in a replica set condition
-	// when a pod for a replica set is failed to be created.
-	FailedCreatePodReason = "FailedCreate"
-	// SuccessfulCreatePodReason is added in an event when a pod for a replica set
-	// is successfully created.
+	FailedCreatePodReason     = "FailedCreate"
 	SuccessfulCreatePodReason = "SuccessfulCreate"
-	// FailedDeletePodReason is added in an event and in a replica set condition
-	// when a pod for a replica set is failed to be deleted.
-	FailedDeletePodReason = "FailedDelete"
-	// SuccessfulDeletePodReason is added in an event when a pod for a replica set
-	// is successfully deleted.
+	FailedDeletePodReason     = "FailedDelete"
 	SuccessfulDeletePodReason = "SuccessfulDelete"
 )
 
-// RSControlInterface is an interface that knows how to add or delete
-// ReplicaSets, as well as increment or decrement them. It is used
-// by the deployment controller to ease testing of actions that it takes.
 type RSControlInterface interface {
 	PatchReplicaSet(namespace, name string, data []byte) error
 }
-
-// RealRSControl is the default implementation of RSControllerInterface.
 type RealRSControl struct {
 	KubeClient clientset.Interface
 	Recorder   record.EventRecorder
@@ -418,47 +292,33 @@ type RealRSControl struct {
 var _ RSControlInterface = &RealRSControl{}
 
 func (r RealRSControl) PatchReplicaSet(namespace, name string, data []byte) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, err := r.KubeClient.ExtensionsV1beta1().ReplicaSets(namespace).Patch(name, types.StrategicMergePatchType, data)
 	return err
 }
 
-// TODO: merge the controller revision interface in controller_history.go with this one
-// ControllerRevisionControlInterface is an interface that knows how to patch
-// ControllerRevisions, as well as increment or decrement them. It is used
-// by the daemonset controller to ease testing of actions that it takes.
 type ControllerRevisionControlInterface interface {
 	PatchControllerRevision(namespace, name string, data []byte) error
 }
-
-// RealControllerRevisionControl is the default implementation of ControllerRevisionControlInterface.
-type RealControllerRevisionControl struct {
-	KubeClient clientset.Interface
-}
+type RealControllerRevisionControl struct{ KubeClient clientset.Interface }
 
 var _ ControllerRevisionControlInterface = &RealControllerRevisionControl{}
 
 func (r RealControllerRevisionControl) PatchControllerRevision(namespace, name string, data []byte) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, err := r.KubeClient.AppsV1beta1().ControllerRevisions(namespace).Patch(name, types.StrategicMergePatchType, data)
 	return err
 }
 
-// PodControlInterface is an interface that knows how to add or delete pods
-// created as an interface to allow testing.
 type PodControlInterface interface {
-	// CreatePods creates new pods according to the spec.
 	CreatePods(namespace string, template *v1.PodTemplateSpec, object runtime.Object) error
-	// CreatePodsOnNode creates a new pod according to the spec on the specified node,
-	// and sets the ControllerRef.
 	CreatePodsOnNode(nodeName, namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error
-	// CreatePodsWithControllerRef creates new pods according to the spec, and sets object as the pod's controller.
 	CreatePodsWithControllerRef(namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error
-	// DeletePod deletes the pod identified by podID.
 	DeletePod(namespace string, podID string, object runtime.Object) error
-	// PatchPod patches the pod.
 	PatchPod(namespace, name string, data []byte) error
 }
-
-// RealPodControl is the default implementation of PodControlInterface.
 type RealPodControl struct {
 	KubeClient clientset.Interface
 	Recorder   record.EventRecorder
@@ -467,37 +327,42 @@ type RealPodControl struct {
 var _ PodControlInterface = &RealPodControl{}
 
 func getPodsLabelSet(template *v1.PodTemplateSpec) labels.Set {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	desiredLabels := make(labels.Set)
 	for k, v := range template.Labels {
 		desiredLabels[k] = v
 	}
 	return desiredLabels
 }
-
 func getPodsFinalizers(template *v1.PodTemplateSpec) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	desiredFinalizers := make([]string, len(template.Finalizers))
 	copy(desiredFinalizers, template.Finalizers)
 	return desiredFinalizers
 }
-
 func getPodsAnnotationSet(template *v1.PodTemplateSpec) labels.Set {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	desiredAnnotations := make(labels.Set)
 	for k, v := range template.Annotations {
 		desiredAnnotations[k] = v
 	}
 	return desiredAnnotations
 }
-
 func getPodsPrefix(controllerName string) string {
-	// use the dash (if the name isn't too long) to make the pod name a bit prettier
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	prefix := fmt.Sprintf("%s-", controllerName)
 	if len(validation.ValidatePodName(prefix, true)) != 0 {
 		prefix = controllerName
 	}
 	return prefix
 }
-
 func validateControllerRef(controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if controllerRef == nil {
 		return fmt.Errorf("controllerRef is nil")
 	}
@@ -515,31 +380,36 @@ func validateControllerRef(controllerRef *metav1.OwnerReference) error {
 	}
 	return nil
 }
-
 func (r RealPodControl) CreatePods(namespace string, template *v1.PodTemplateSpec, object runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.createPods("", namespace, template, object, nil)
 }
-
 func (r RealPodControl) CreatePodsWithControllerRef(namespace string, template *v1.PodTemplateSpec, controllerObject runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := validateControllerRef(controllerRef); err != nil {
 		return err
 	}
 	return r.createPods("", namespace, template, controllerObject, controllerRef)
 }
-
 func (r RealPodControl) CreatePodsOnNode(nodeName, namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := validateControllerRef(controllerRef); err != nil {
 		return err
 	}
 	return r.createPods(nodeName, namespace, template, object, controllerRef)
 }
-
 func (r RealPodControl) PatchPod(namespace, name string, data []byte) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, err := r.KubeClient.CoreV1().Pods(namespace).Patch(name, types.StrategicMergePatchType, data)
 	return err
 }
-
 func GetPodFromTemplate(template *v1.PodTemplateSpec, parentObject runtime.Object, controllerRef *metav1.OwnerReference) (*v1.Pod, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	desiredLabels := getPodsLabelSet(template)
 	desiredFinalizers := getPodsFinalizers(template)
 	desiredAnnotations := getPodsAnnotationSet(template)
@@ -548,23 +418,16 @@ func GetPodFromTemplate(template *v1.PodTemplateSpec, parentObject runtime.Objec
 		return nil, fmt.Errorf("parentObject does not have ObjectMeta, %v", err)
 	}
 	prefix := getPodsPrefix(accessor.GetName())
-
-	pod := &v1.Pod{
-		ObjectMeta: metav1.ObjectMeta{
-			Labels:       desiredLabels,
-			Annotations:  desiredAnnotations,
-			GenerateName: prefix,
-			Finalizers:   desiredFinalizers,
-		},
-	}
+	pod := &v1.Pod{ObjectMeta: metav1.ObjectMeta{Labels: desiredLabels, Annotations: desiredAnnotations, GenerateName: prefix, Finalizers: desiredFinalizers}}
 	if controllerRef != nil {
 		pod.OwnerReferences = append(pod.OwnerReferences, *controllerRef)
 	}
 	pod.Spec = *template.Spec.DeepCopy()
 	return pod, nil
 }
-
 func (r RealPodControl) createPods(nodeName, namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod, err := GetPodFromTemplate(template, object, controllerRef)
 	if err != nil {
 		return err
@@ -589,8 +452,9 @@ func (r RealPodControl) createPods(nodeName, namespace string, template *v1.PodT
 	}
 	return nil
 }
-
 func (r RealPodControl) DeletePod(namespace string, podID string, object runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	accessor, err := meta.Accessor(object)
 	if err != nil {
 		return fmt.Errorf("object does not have ObjectMeta, %v", err)
@@ -619,6 +483,8 @@ type FakePodControl struct {
 var _ PodControlInterface = &FakePodControl{}
 
 func (f *FakePodControl) PatchPod(namespace, name string, data []byte) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.Patches = append(f.Patches, data)
@@ -627,8 +493,9 @@ func (f *FakePodControl) PatchPod(namespace, name string, data []byte) error {
 	}
 	return nil
 }
-
 func (f *FakePodControl) CreatePods(namespace string, spec *v1.PodTemplateSpec, object runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.CreateCallCount++
@@ -641,8 +508,9 @@ func (f *FakePodControl) CreatePods(namespace string, spec *v1.PodTemplateSpec, 
 	}
 	return nil
 }
-
 func (f *FakePodControl) CreatePodsWithControllerRef(namespace string, spec *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.CreateCallCount++
@@ -656,8 +524,9 @@ func (f *FakePodControl) CreatePodsWithControllerRef(namespace string, spec *v1.
 	}
 	return nil
 }
-
 func (f *FakePodControl) CreatePodsOnNode(nodeName, namespace string, template *v1.PodTemplateSpec, object runtime.Object, controllerRef *metav1.OwnerReference) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.CreateCallCount++
@@ -671,8 +540,9 @@ func (f *FakePodControl) CreatePodsOnNode(nodeName, namespace string, template *
 	}
 	return nil
 }
-
 func (f *FakePodControl) DeletePod(namespace string, podID string, object runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.DeletePodName = append(f.DeletePodName, podID)
@@ -681,8 +551,9 @@ func (f *FakePodControl) DeletePod(namespace string, podID string, object runtim
 	}
 	return nil
 }
-
 func (f *FakePodControl) Clear() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f.Lock()
 	defer f.Unlock()
 	f.DeletePodName = []string{}
@@ -693,96 +564,92 @@ func (f *FakePodControl) Clear() {
 	f.CreateCallCount = 0
 }
 
-// ByLogging allows custom sorting of pods so the best one can be picked for getting its logs.
 type ByLogging []*v1.Pod
 
-func (s ByLogging) Len() int      { return len(s) }
-func (s ByLogging) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-
+func (s ByLogging) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(s)
+}
+func (s ByLogging) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	s[i], s[j] = s[j], s[i]
+}
 func (s ByLogging) Less(i, j int) bool {
-	// 1. assigned < unassigned
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if s[i].Spec.NodeName != s[j].Spec.NodeName && (len(s[i].Spec.NodeName) == 0 || len(s[j].Spec.NodeName) == 0) {
 		return len(s[i].Spec.NodeName) > 0
 	}
-	// 2. PodRunning < PodUnknown < PodPending
 	m := map[v1.PodPhase]int{v1.PodRunning: 0, v1.PodUnknown: 1, v1.PodPending: 2}
 	if m[s[i].Status.Phase] != m[s[j].Status.Phase] {
 		return m[s[i].Status.Phase] < m[s[j].Status.Phase]
 	}
-	// 3. ready < not ready
 	if podutil.IsPodReady(s[i]) != podutil.IsPodReady(s[j]) {
 		return podutil.IsPodReady(s[i])
 	}
-	// TODO: take availability into account when we push minReadySeconds information from deployment into pods,
-	//       see https://github.com/kubernetes/kubernetes/issues/22065
-	// 4. Been ready for more time < less time < empty time
 	if podutil.IsPodReady(s[i]) && podutil.IsPodReady(s[j]) && !podReadyTime(s[i]).Equal(podReadyTime(s[j])) {
 		return afterOrZero(podReadyTime(s[j]), podReadyTime(s[i]))
 	}
-	// 5. Pods with containers with higher restart counts < lower restart counts
 	if maxContainerRestarts(s[i]) != maxContainerRestarts(s[j]) {
 		return maxContainerRestarts(s[i]) > maxContainerRestarts(s[j])
 	}
-	// 6. older pods < newer pods < empty timestamp pods
 	if !s[i].CreationTimestamp.Equal(&s[j].CreationTimestamp) {
 		return afterOrZero(&s[j].CreationTimestamp, &s[i].CreationTimestamp)
 	}
 	return false
 }
 
-// ActivePods type allows custom sorting of pods so a controller can pick the best ones to delete.
 type ActivePods []*v1.Pod
 
-func (s ActivePods) Len() int      { return len(s) }
-func (s ActivePods) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
-
+func (s ActivePods) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(s)
+}
+func (s ActivePods) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	s[i], s[j] = s[j], s[i]
+}
 func (s ActivePods) Less(i, j int) bool {
-	// 1. Unassigned < assigned
-	// If only one of the pods is unassigned, the unassigned one is smaller
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if s[i].Spec.NodeName != s[j].Spec.NodeName && (len(s[i].Spec.NodeName) == 0 || len(s[j].Spec.NodeName) == 0) {
 		return len(s[i].Spec.NodeName) == 0
 	}
-	// 2. PodPending < PodUnknown < PodRunning
 	m := map[v1.PodPhase]int{v1.PodPending: 0, v1.PodUnknown: 1, v1.PodRunning: 2}
 	if m[s[i].Status.Phase] != m[s[j].Status.Phase] {
 		return m[s[i].Status.Phase] < m[s[j].Status.Phase]
 	}
-	// 3. Not ready < ready
-	// If only one of the pods is not ready, the not ready one is smaller
 	if podutil.IsPodReady(s[i]) != podutil.IsPodReady(s[j]) {
 		return !podutil.IsPodReady(s[i])
 	}
-	// TODO: take availability into account when we push minReadySeconds information from deployment into pods,
-	//       see https://github.com/kubernetes/kubernetes/issues/22065
-	// 4. Been ready for empty time < less time < more time
-	// If both pods are ready, the latest ready one is smaller
 	if podutil.IsPodReady(s[i]) && podutil.IsPodReady(s[j]) && !podReadyTime(s[i]).Equal(podReadyTime(s[j])) {
 		return afterOrZero(podReadyTime(s[i]), podReadyTime(s[j]))
 	}
-	// 5. Pods with containers with higher restart counts < lower restart counts
 	if maxContainerRestarts(s[i]) != maxContainerRestarts(s[j]) {
 		return maxContainerRestarts(s[i]) > maxContainerRestarts(s[j])
 	}
-	// 6. Empty creation time pods < newer pods < older pods
 	if !s[i].CreationTimestamp.Equal(&s[j].CreationTimestamp) {
 		return afterOrZero(&s[i].CreationTimestamp, &s[j].CreationTimestamp)
 	}
 	return false
 }
-
-// afterOrZero checks if time t1 is after time t2; if one of them
-// is zero, the zero time is seen as after non-zero time.
 func afterOrZero(t1, t2 *metav1.Time) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if t1.Time.IsZero() || t2.Time.IsZero() {
 		return t1.Time.IsZero()
 	}
 	return t1.After(t2.Time)
 }
-
 func podReadyTime(pod *v1.Pod) *metav1.Time {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if podutil.IsPodReady(pod) {
 		for _, c := range pod.Status.Conditions {
-			// we only care about pod ready conditions
 			if c.Type == v1.PodReady && c.Status == v1.ConditionTrue {
 				return &c.LastTransitionTime
 			}
@@ -790,37 +657,36 @@ func podReadyTime(pod *v1.Pod) *metav1.Time {
 	}
 	return &metav1.Time{}
 }
-
 func maxContainerRestarts(pod *v1.Pod) int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	maxRestarts := 0
 	for _, c := range pod.Status.ContainerStatuses {
 		maxRestarts = integer.IntMax(maxRestarts, int(c.RestartCount))
 	}
 	return maxRestarts
 }
-
-// FilterActivePods returns pods that have not terminated.
 func FilterActivePods(pods []*v1.Pod) []*v1.Pod {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var result []*v1.Pod
 	for _, p := range pods {
 		if IsPodActive(p) {
 			result = append(result, p)
 		} else {
-			klog.V(4).Infof("Ignoring inactive pod %v/%v in state %v, deletion time %v",
-				p.Namespace, p.Name, p.Status.Phase, p.DeletionTimestamp)
+			klog.V(4).Infof("Ignoring inactive pod %v/%v in state %v, deletion time %v", p.Namespace, p.Name, p.Status.Phase, p.DeletionTimestamp)
 		}
 	}
 	return result
 }
-
 func IsPodActive(p *v1.Pod) bool {
-	return v1.PodSucceeded != p.Status.Phase &&
-		v1.PodFailed != p.Status.Phase &&
-		p.DeletionTimestamp == nil
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return v1.PodSucceeded != p.Status.Phase && v1.PodFailed != p.Status.Phase && p.DeletionTimestamp == nil
 }
-
-// FilterActiveReplicaSets returns replica sets that have (or at least ought to have) pods.
 func FilterActiveReplicaSets(replicaSets []*apps.ReplicaSet) []*apps.ReplicaSet {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	activeFilter := func(rs *apps.ReplicaSet) bool {
 		return rs != nil && *(rs.Spec.Replicas) > 0
 	}
@@ -829,8 +695,9 @@ func FilterActiveReplicaSets(replicaSets []*apps.ReplicaSet) []*apps.ReplicaSet 
 
 type filterRS func(rs *apps.ReplicaSet) bool
 
-// FilterReplicaSets returns replica sets that are filtered by filterFn (all returned ones should match filterFn).
 func FilterReplicaSets(RSes []*apps.ReplicaSet, filterFn filterRS) []*apps.ReplicaSet {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var filtered []*apps.ReplicaSet
 	for i := range RSes {
 		if filterFn(RSes[i]) {
@@ -839,68 +706,98 @@ func FilterReplicaSets(RSes []*apps.ReplicaSet, filterFn filterRS) []*apps.Repli
 	}
 	return filtered
 }
-
-// PodKey returns a key unique to the given pod within a cluster.
-// It's used so we consistently use the same key scheme in this module.
-// It does exactly what cache.MetaNamespaceKeyFunc would have done
-// except there's not possibility for error since we know the exact type.
 func PodKey(pod *v1.Pod) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%v/%v", pod.Namespace, pod.Name)
 }
 
-// ControllersByCreationTimestamp sorts a list of ReplicationControllers by creation timestamp, using their names as a tie breaker.
 type ControllersByCreationTimestamp []*v1.ReplicationController
 
-func (o ControllersByCreationTimestamp) Len() int      { return len(o) }
-func (o ControllersByCreationTimestamp) Swap(i, j int) { o[i], o[j] = o[j], o[i] }
+func (o ControllersByCreationTimestamp) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(o)
+}
+func (o ControllersByCreationTimestamp) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	o[i], o[j] = o[j], o[i]
+}
 func (o ControllersByCreationTimestamp) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o[i].CreationTimestamp.Equal(&o[j].CreationTimestamp) {
 		return o[i].Name < o[j].Name
 	}
 	return o[i].CreationTimestamp.Before(&o[j].CreationTimestamp)
 }
 
-// ReplicaSetsByCreationTimestamp sorts a list of ReplicaSet by creation timestamp, using their names as a tie breaker.
 type ReplicaSetsByCreationTimestamp []*apps.ReplicaSet
 
-func (o ReplicaSetsByCreationTimestamp) Len() int      { return len(o) }
-func (o ReplicaSetsByCreationTimestamp) Swap(i, j int) { o[i], o[j] = o[j], o[i] }
+func (o ReplicaSetsByCreationTimestamp) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(o)
+}
+func (o ReplicaSetsByCreationTimestamp) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	o[i], o[j] = o[j], o[i]
+}
 func (o ReplicaSetsByCreationTimestamp) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o[i].CreationTimestamp.Equal(&o[j].CreationTimestamp) {
 		return o[i].Name < o[j].Name
 	}
 	return o[i].CreationTimestamp.Before(&o[j].CreationTimestamp)
 }
 
-// ReplicaSetsBySizeOlder sorts a list of ReplicaSet by size in descending order, using their creation timestamp or name as a tie breaker.
-// By using the creation timestamp, this sorts from old to new replica sets.
 type ReplicaSetsBySizeOlder []*apps.ReplicaSet
 
-func (o ReplicaSetsBySizeOlder) Len() int      { return len(o) }
-func (o ReplicaSetsBySizeOlder) Swap(i, j int) { o[i], o[j] = o[j], o[i] }
+func (o ReplicaSetsBySizeOlder) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(o)
+}
+func (o ReplicaSetsBySizeOlder) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	o[i], o[j] = o[j], o[i]
+}
 func (o ReplicaSetsBySizeOlder) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if *(o[i].Spec.Replicas) == *(o[j].Spec.Replicas) {
 		return ReplicaSetsByCreationTimestamp(o).Less(i, j)
 	}
 	return *(o[i].Spec.Replicas) > *(o[j].Spec.Replicas)
 }
 
-// ReplicaSetsBySizeNewer sorts a list of ReplicaSet by size in descending order, using their creation timestamp or name as a tie breaker.
-// By using the creation timestamp, this sorts from new to old replica sets.
 type ReplicaSetsBySizeNewer []*apps.ReplicaSet
 
-func (o ReplicaSetsBySizeNewer) Len() int      { return len(o) }
-func (o ReplicaSetsBySizeNewer) Swap(i, j int) { o[i], o[j] = o[j], o[i] }
+func (o ReplicaSetsBySizeNewer) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(o)
+}
+func (o ReplicaSetsBySizeNewer) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	o[i], o[j] = o[j], o[i]
+}
 func (o ReplicaSetsBySizeNewer) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if *(o[i].Spec.Replicas) == *(o[j].Spec.Replicas) {
 		return ReplicaSetsByCreationTimestamp(o).Less(j, i)
 	}
 	return *(o[i].Spec.Replicas) > *(o[j].Spec.Replicas)
 }
-
-// AddOrUpdateTaintOnNode add taints to the node. If taint was added into node, it'll issue API calls
-// to update nodes; otherwise, no API calls. Return error if any.
 func AddOrUpdateTaintOnNode(c clientset.Interface, nodeName string, taints ...*v1.Taint) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(taints) == 0 {
 		return nil
 	}
@@ -908,8 +805,6 @@ func AddOrUpdateTaintOnNode(c clientset.Interface, nodeName string, taints ...*v
 	return clientretry.RetryOnConflict(UpdateTaintBackoff, func() error {
 		var err error
 		var oldNode *v1.Node
-		// First we try getting node from the API server cache, as it's cheaper. If it fails
-		// we get it from etcd to be sure to have fresh data.
 		if firstTry {
 			oldNode, err = c.CoreV1().Nodes().Get(nodeName, metav1.GetOptions{ResourceVersion: "0"})
 			firstTry = false
@@ -919,7 +814,6 @@ func AddOrUpdateTaintOnNode(c clientset.Interface, nodeName string, taints ...*v
 		if err != nil {
 			return err
 		}
-
 		var newNode *v1.Node
 		oldNodeCopy := oldNode
 		updated := false
@@ -938,16 +832,12 @@ func AddOrUpdateTaintOnNode(c clientset.Interface, nodeName string, taints ...*v
 		return PatchNodeTaints(c, nodeName, oldNode, newNode)
 	})
 }
-
-// RemoveTaintOffNode is for cleaning up taints temporarily added to node,
-// won't fail if target taint doesn't exist or has been removed.
-// If passed a node it'll check if there's anything to be done, if taint is not present it won't issue
-// any API calls.
 func RemoveTaintOffNode(c clientset.Interface, nodeName string, node *v1.Node, taints ...*v1.Taint) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(taints) == 0 {
 		return nil
 	}
-	// Short circuit for limiting amount of API calls.
 	if node != nil {
 		match := false
 		for _, taint := range taints {
@@ -960,13 +850,10 @@ func RemoveTaintOffNode(c clientset.Interface, nodeName string, node *v1.Node, t
 			return nil
 		}
 	}
-
 	firstTry := true
 	return clientretry.RetryOnConflict(UpdateTaintBackoff, func() error {
 		var err error
 		var oldNode *v1.Node
-		// First we try getting node from the API server cache, as it's cheaper. If it fails
-		// we get it from etcd to be sure to have fresh data.
 		if firstTry {
 			oldNode, err = c.CoreV1().Nodes().Get(nodeName, metav1.GetOptions{ResourceVersion: "0"})
 			firstTry = false
@@ -976,7 +863,6 @@ func RemoveTaintOffNode(c clientset.Interface, nodeName string, node *v1.Node, t
 		if err != nil {
 			return err
 		}
-
 		var newNode *v1.Node
 		oldNodeCopy := oldNode
 		updated := false
@@ -995,14 +881,13 @@ func RemoveTaintOffNode(c clientset.Interface, nodeName string, node *v1.Node, t
 		return PatchNodeTaints(c, nodeName, oldNode, newNode)
 	})
 }
-
-// PatchNodeTaints patches node's taints.
 func PatchNodeTaints(c clientset.Interface, nodeName string, oldNode *v1.Node, newNode *v1.Node) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	oldData, err := json.Marshal(oldNode)
 	if err != nil {
 		return fmt.Errorf("failed to marshal old node %#v for node %q: %v", oldNode, nodeName, err)
 	}
-
 	newTaints := newNode.Spec.Taints
 	newNodeClone := oldNode.DeepCopy()
 	newNodeClone.Spec.Taints = newTaints
@@ -1010,44 +895,33 @@ func PatchNodeTaints(c clientset.Interface, nodeName string, oldNode *v1.Node, n
 	if err != nil {
 		return fmt.Errorf("failed to marshal new node %#v for node %q: %v", newNodeClone, nodeName, err)
 	}
-
 	patchBytes, err := strategicpatch.CreateTwoWayMergePatch(oldData, newData, v1.Node{})
 	if err != nil {
 		return fmt.Errorf("failed to create patch for node %q: %v", nodeName, err)
 	}
-
 	_, err = c.CoreV1().Nodes().Patch(nodeName, types.StrategicMergePatchType, patchBytes)
 	return err
 }
-
-// WaitForCacheSync is a wrapper around cache.WaitForCacheSync that generates log messages
-// indicating that the controller identified by controllerName is waiting for syncs, followed by
-// either a successful or failed sync.
 func WaitForCacheSync(controllerName string, stopCh <-chan struct{}, cacheSyncs ...cache.InformerSynced) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.Infof("Waiting for caches to sync for %s controller", controllerName)
-
 	if !cache.WaitForCacheSync(stopCh, cacheSyncs...) {
 		utilruntime.HandleError(fmt.Errorf("Unable to sync caches for %s controller", controllerName))
 		return false
 	}
-
 	klog.Infof("Caches are synced for %s controller", controllerName)
 	return true
 }
-
-// ComputeHash returns a hash value calculated from pod template and
-// a collisionCount to avoid hash collision. The hash will be safe encoded to
-// avoid bad words.
 func ComputeHash(template *v1.PodTemplateSpec, collisionCount *int32) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	podTemplateSpecHasher := fnv.New32a()
 	hashutil.DeepHashObject(podTemplateSpecHasher, *template)
-
-	// Add collisionCount in the hash if it exists.
 	if collisionCount != nil {
 		collisionCountBytes := make([]byte, 8)
 		binary.LittleEndian.PutUint32(collisionCountBytes, uint32(*collisionCount))
 		podTemplateSpecHasher.Write(collisionCountBytes)
 	}
-
 	return rand.SafeEncodeString(fmt.Sprint(podTemplateSpecHasher.Sum32()))
 }

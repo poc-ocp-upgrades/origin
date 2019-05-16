@@ -2,8 +2,11 @@ package teststorage
 
 import (
 	"errors"
-
+	goformat "fmt"
 	"github.com/RangelReale/osin"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type Test struct {
@@ -16,70 +19,63 @@ type Test struct {
 }
 
 func New() *Test {
-	return &Test{
-		Clients:   make(map[string]osin.Client),
-		Authorize: make(map[string]*osin.AuthorizeData),
-		Access:    make(map[string]*osin.AccessData),
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Test{Clients: make(map[string]osin.Client), Authorize: make(map[string]*osin.AuthorizeData), Access: make(map[string]*osin.AccessData)}
 }
-
 func (t *Test) Clone() osin.Storage {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t
 }
-
 func (t *Test) Close() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// GetClient loads the client by id (client_id)
 func (t *Test) GetClient(id string) (osin.Client, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t.Clients[id], t.Err
 }
-
-// SaveAuthorize saves authorize data.
 func (t *Test) SaveAuthorize(data *osin.AuthorizeData) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	t.AuthorizeData = data
 	t.Authorize[data.Code] = data
 	return t.Err
 }
-
-// LoadAuthorize looks up AuthorizeData by a code.
-// Client information MUST be loaded together.
-// Optionally can return error if expired.
 func (t *Test) LoadAuthorize(code string) (*osin.AuthorizeData, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t.Authorize[code], t.Err
 }
-
-// RemoveAuthorize revokes or deletes the authorization code.
 func (t *Test) RemoveAuthorize(code string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	delete(t.Authorize, code)
 	return t.Err
 }
-
-// SaveAccess writes AccessData.
-// If RefreshToken is not blank, it must save in a way that can be loaded using LoadRefresh.
 func (t *Test) SaveAccess(data *osin.AccessData) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	t.AccessData = data
 	t.Access[data.AccessToken] = data
 	return t.Err
 }
-
-// LoadAccess retrieves access data by token. Client information MUST be loaded together.
-// AuthorizeData and AccessData DON'T NEED to be loaded if not easily available.
-// Optionally can return error if expired.
 func (t *Test) LoadAccess(token string) (*osin.AccessData, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t.Access[token], t.Err
 }
-
-// RemoveAccess revokes or deletes an AccessData.
 func (t *Test) RemoveAccess(token string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	delete(t.Access, token)
 	return t.Err
 }
-
-// LoadRefresh retrieves refresh AccessData. Client information MUST be loaded together.
-// AuthorizeData and AccessData DON'T NEED to be loaded if not easily available.
-// Optionally can return error if expired.
 func (t *Test) LoadRefresh(token string) (*osin.AccessData, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, v := range t.Access {
 		if v.RefreshToken == token {
 			return v, t.Err
@@ -87,12 +83,16 @@ func (t *Test) LoadRefresh(token string) (*osin.AccessData, error) {
 	}
 	return nil, errors.New("not found")
 }
-
-// RemoveRefresh revokes or deletes refresh AccessData.
 func (t *Test) RemoveRefresh(token string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data, _ := t.LoadRefresh(token)
 	if data != nil {
 		delete(t.Access, data.AccessToken)
 	}
 	return t.Err
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

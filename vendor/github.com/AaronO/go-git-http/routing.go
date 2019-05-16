@@ -38,17 +38,17 @@ var (
 
 func (g *GitHttp) services() map[*regexp.Regexp]Service {
 	return map[*regexp.Regexp]Service{
-		_serviceRpcUpload:  Service{"POST", g.serviceRpc, "upload-pack"},
-		_serviceRpcReceive: Service{"POST", g.serviceRpc, "receive-pack"},
-		_getInfoRefs:       Service{"GET", g.getInfoRefs, ""},
-		_getHead:           Service{"GET", g.getTextFile, ""},
-		_getAlternates:     Service{"GET", g.getTextFile, ""},
-		_getHttpAlternates: Service{"GET", g.getTextFile, ""},
-		_getInfoPacks:      Service{"GET", g.getInfoPacks, ""},
-		_getInfoFile:       Service{"GET", g.getTextFile, ""},
-		_getLooseObject:    Service{"GET", g.getLooseObject, ""},
-		_getPackFile:       Service{"GET", g.getPackFile, ""},
-		_getIdxFile:        Service{"GET", g.getIdxFile, ""},
+		_serviceRpcUpload:  {"POST", g.serviceRpc, "upload-pack"},
+		_serviceRpcReceive: {"POST", g.serviceRpc, "receive-pack"},
+		_getInfoRefs:       {"GET", g.getInfoRefs, ""},
+		_getHead:           {"GET", g.getTextFile, ""},
+		_getAlternates:     {"GET", g.getTextFile, ""},
+		_getHttpAlternates: {"GET", g.getTextFile, ""},
+		_getInfoPacks:      {"GET", g.getInfoPacks, ""},
+		_getInfoFile:       {"GET", g.getTextFile, ""},
+		_getLooseObject:    {"GET", g.getLooseObject, ""},
+		_getPackFile:       {"GET", g.getPackFile, ""},
+		_getIdxFile:        {"GET", g.getIdxFile, ""},
 	}
 }
 

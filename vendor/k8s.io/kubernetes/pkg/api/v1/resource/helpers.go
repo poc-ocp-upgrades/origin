@@ -1,32 +1,20 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package resource
 
 import (
 	"fmt"
-	"math"
-	"strconv"
-
+	goformat "fmt"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
+	"math"
+	goos "os"
+	godefaultruntime "runtime"
+	"strconv"
+	gotime "time"
 )
 
-// addResourceList adds the resources in newList to list
 func addResourceList(list, new v1.ResourceList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for name, quantity := range new {
 		if value, ok := list[name]; !ok {
 			list[name] = *quantity.Copy()
@@ -36,10 +24,9 @@ func addResourceList(list, new v1.ResourceList) {
 		}
 	}
 }
-
-// maxResourceList sets list to the greater of list/newList for every resource
-// either list
 func maxResourceList(list, new v1.ResourceList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for name, quantity := range new {
 		if value, ok := list[name]; !ok {
 			list[name] = *quantity.Copy()
@@ -51,25 +38,23 @@ func maxResourceList(list, new v1.ResourceList) {
 		}
 	}
 }
-
-// PodRequestsAndLimits returns a dictionary of all defined resources summed up for all
-// containers of the pod.
 func PodRequestsAndLimits(pod *v1.Pod) (reqs, limits v1.ResourceList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	reqs, limits = v1.ResourceList{}, v1.ResourceList{}
 	for _, container := range pod.Spec.Containers {
 		addResourceList(reqs, container.Resources.Requests)
 		addResourceList(limits, container.Resources.Limits)
 	}
-	// init containers define the minimum of any resource
 	for _, container := range pod.Spec.InitContainers {
 		maxResourceList(reqs, container.Resources.Requests)
 		maxResourceList(limits, container.Resources.Limits)
 	}
 	return
 }
-
-// GetResourceRequest finds and returns the request for a specific resource.
 func GetResourceRequest(pod *v1.Pod, resource v1.ResourceName) int64 {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if resource == v1.ResourcePods {
 		return 1
 	}
@@ -83,7 +68,6 @@ func GetResourceRequest(pod *v1.Pod, resource v1.ResourceName) int64 {
 			}
 		}
 	}
-	// take max_resource(sum_pod, any_init_container)
 	for _, container := range pod.Spec.InitContainers {
 		if rQuantity, ok := container.Resources.Requests[resource]; ok {
 			if resource == v1.ResourceCPU && rQuantity.MilliValue() > totalResources {
@@ -95,42 +79,35 @@ func GetResourceRequest(pod *v1.Pod, resource v1.ResourceName) int64 {
 	}
 	return totalResources
 }
-
-// ExtractResourceValueByContainerName extracts the value of a resource
-// by providing container name
 func ExtractResourceValueByContainerName(fs *v1.ResourceFieldSelector, pod *v1.Pod, containerName string) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	container, err := findContainerInPod(pod, containerName)
 	if err != nil {
 		return "", err
 	}
 	return ExtractContainerResourceValue(fs, container)
 }
-
-// ExtractResourceValueByContainerNameAndNodeAllocatable extracts the value of a resource
-// by providing container name and node allocatable
 func ExtractResourceValueByContainerNameAndNodeAllocatable(fs *v1.ResourceFieldSelector, pod *v1.Pod, containerName string, nodeAllocatable v1.ResourceList) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	realContainer, err := findContainerInPod(pod, containerName)
 	if err != nil {
 		return "", err
 	}
-
 	container := realContainer.DeepCopy()
-
 	MergeContainerResourceLimits(container, nodeAllocatable)
-
 	return ExtractContainerResourceValue(fs, container)
 }
-
-// ExtractContainerResourceValue extracts the value of a resource
-// in an already known container
 func ExtractContainerResourceValue(fs *v1.ResourceFieldSelector, container *v1.Container) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	divisor := resource.Quantity{}
 	if divisor.Cmp(fs.Divisor) == 0 {
 		divisor = resource.MustParse("1")
 	} else {
 		divisor = fs.Divisor
 	}
-
 	switch fs.Resource {
 	case "limits.cpu":
 		return convertResourceCPUToString(container.Resources.Limits.Cpu(), divisor)
@@ -145,33 +122,29 @@ func ExtractContainerResourceValue(fs *v1.ResourceFieldSelector, container *v1.C
 	case "requests.ephemeral-storage":
 		return convertResourceEphemeralStorageToString(container.Resources.Requests.StorageEphemeral(), divisor)
 	}
-
 	return "", fmt.Errorf("Unsupported container resource : %v", fs.Resource)
 }
-
-// convertResourceCPUToString converts cpu value to the format of divisor and returns
-// ceiling of the value.
 func convertResourceCPUToString(cpu *resource.Quantity, divisor resource.Quantity) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	c := int64(math.Ceil(float64(cpu.MilliValue()) / float64(divisor.MilliValue())))
 	return strconv.FormatInt(c, 10), nil
 }
-
-// convertResourceMemoryToString converts memory value to the format of divisor and returns
-// ceiling of the value.
 func convertResourceMemoryToString(memory *resource.Quantity, divisor resource.Quantity) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m := int64(math.Ceil(float64(memory.Value()) / float64(divisor.Value())))
 	return strconv.FormatInt(m, 10), nil
 }
-
-// convertResourceEphemeralStorageToString converts ephemeral storage value to the format of divisor and returns
-// ceiling of the value.
 func convertResourceEphemeralStorageToString(ephemeralStorage *resource.Quantity, divisor resource.Quantity) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	m := int64(math.Ceil(float64(ephemeralStorage.Value()) / float64(divisor.Value())))
 	return strconv.FormatInt(m, 10), nil
 }
-
-// findContainerInPod finds a container by its name in the provided pod
 func findContainerInPod(pod *v1.Pod, containerName string) (*v1.Container, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, container := range pod.Spec.Containers {
 		if container.Name == containerName {
 			return &container, nil
@@ -179,11 +152,9 @@ func findContainerInPod(pod *v1.Pod, containerName string) (*v1.Container, error
 	}
 	return nil, fmt.Errorf("container %s not found", containerName)
 }
-
-// MergeContainerResourceLimits checks if a limit is applied for
-// the container, and if not, it sets the limit to the passed resource list.
-func MergeContainerResourceLimits(container *v1.Container,
-	allocatable v1.ResourceList) {
+func MergeContainerResourceLimits(container *v1.Container, allocatable v1.ResourceList) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if container.Resources.Limits == nil {
 		container.Resources.Limits = make(v1.ResourceList)
 	}
@@ -194,4 +165,8 @@ func MergeContainerResourceLimits(container *v1.Container,
 			}
 		}
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

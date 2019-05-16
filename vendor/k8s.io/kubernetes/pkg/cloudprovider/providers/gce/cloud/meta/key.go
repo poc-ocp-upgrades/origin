@@ -1,67 +1,49 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package meta
 
 import (
 	"fmt"
+	goformat "fmt"
+	goos "os"
 	"regexp"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// Key for a GCP resource.
 type Key struct {
 	Name   string
 	Zone   string
 	Region string
 }
-
-// KeyType is the type of the key.
 type KeyType string
 
 const (
-	// Zonal key type.
-	Zonal = "zonal"
-	// Regional key type.
+	Zonal    = "zonal"
 	Regional = "regional"
-	// Global key type.
-	Global = "global"
+	Global   = "global"
 )
 
 var (
-	// locationRegexp is the format of regions/zone names in GCE.
 	locationRegexp = regexp.MustCompile("^[a-z](?:[-a-z0-9]+)?$")
 )
 
-// ZonalKey returns the key for a zonal resource.
 func ZonalKey(name, zone string) *Key {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &Key{name, zone, ""}
 }
-
-// RegionalKey returns the key for a regional resource.
 func RegionalKey(name, region string) *Key {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &Key{name, "", region}
 }
-
-// GlobalKey returns the key for a global resource.
 func GlobalKey(name string) *Key {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &Key{name, "", ""}
 }
-
-// Type returns the type of the key.
 func (k *Key) Type() KeyType {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case k.Zone != "":
 		return Zonal
@@ -71,9 +53,9 @@ func (k *Key) Type() KeyType {
 		return Global
 	}
 }
-
-// String returns a string representation of the key.
 func (k Key) String() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch k.Type() {
 	case Zonal:
 		return fmt.Sprintf("Key{%q, zone: %q}", k.Name, k.Zone)
@@ -83,9 +65,9 @@ func (k Key) String() string {
 		return fmt.Sprintf("Key{%q}", k.Name)
 	}
 }
-
-// Valid is true if the key is valid.
 func (k *Key) Valid() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if k.Zone != "" && k.Region != "" {
 		return false
 	}
@@ -97,12 +79,16 @@ func (k *Key) Valid() bool {
 	}
 	return true
 }
-
-// KeysToMap creates a map[Key]bool from a list of keys.
 func KeysToMap(keys ...Key) map[Key]bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ret := map[Key]bool{}
 	for _, k := range keys {
 		ret[k] = true
 	}
 	return ret
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

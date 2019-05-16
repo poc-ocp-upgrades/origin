@@ -1,34 +1,20 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package v1
 
 import (
 	"fmt"
-	"strings"
-
 	rbacv1 "k8s.io/api/rbac/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
+	"strings"
 )
 
 func RoleRefGroupKind(roleRef rbacv1.RoleRef) schema.GroupKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return schema.GroupKind{Group: roleRef.APIGroup, Kind: roleRef.Kind}
 }
-
 func VerbMatches(rule *rbacv1.PolicyRule, requestedVerb string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, ruleVerb := range rule.Verbs {
 		if ruleVerb == rbacv1.VerbAll {
 			return true
@@ -37,11 +23,11 @@ func VerbMatches(rule *rbacv1.PolicyRule, requestedVerb string) bool {
 			return true
 		}
 	}
-
 	return false
 }
-
 func APIGroupMatches(rule *rbacv1.PolicyRule, requestedGroup string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, ruleGroup := range rule.APIGroups {
 		if ruleGroup == rbacv1.APIGroupAll {
 			return true
@@ -50,53 +36,43 @@ func APIGroupMatches(rule *rbacv1.PolicyRule, requestedGroup string) bool {
 			return true
 		}
 	}
-
 	return false
 }
-
 func ResourceMatches(rule *rbacv1.PolicyRule, combinedRequestedResource, requestedSubresource string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, ruleResource := range rule.Resources {
-		// if everything is allowed, we match
 		if ruleResource == rbacv1.ResourceAll {
 			return true
 		}
-		// if we have an exact match, we match
 		if ruleResource == combinedRequestedResource {
 			return true
 		}
-
-		// We can also match a */subresource.
-		// if there isn't a subresource, then continue
 		if len(requestedSubresource) == 0 {
 			continue
 		}
-		// if the rule isn't in the format */subresource, then we don't match, continue
-		if len(ruleResource) == len(requestedSubresource)+2 &&
-			strings.HasPrefix(ruleResource, "*/") &&
-			strings.HasSuffix(ruleResource, requestedSubresource) {
+		if len(ruleResource) == len(requestedSubresource)+2 && strings.HasPrefix(ruleResource, "*/") && strings.HasSuffix(ruleResource, requestedSubresource) {
 			return true
-
 		}
 	}
-
 	return false
 }
-
 func ResourceNameMatches(rule *rbacv1.PolicyRule, requestedName string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(rule.ResourceNames) == 0 {
 		return true
 	}
-
 	for _, ruleName := range rule.ResourceNames {
 		if ruleName == requestedName {
 			return true
 		}
 	}
-
 	return false
 }
-
 func NonResourceURLMatches(rule *rbacv1.PolicyRule, requestedURL string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, ruleURL := range rule.NonResourceURLs {
 		if ruleURL == rbacv1.NonResourceAll {
 			return true
@@ -108,42 +84,37 @@ func NonResourceURLMatches(rule *rbacv1.PolicyRule, requestedURL string) bool {
 			return true
 		}
 	}
-
 	return false
 }
-
-// subjectsStrings returns users, groups, serviceaccounts, unknown for display purposes.
 func SubjectsStrings(subjects []rbacv1.Subject) ([]string, []string, []string, []string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	users := []string{}
 	groups := []string{}
 	sas := []string{}
 	others := []string{}
-
 	for _, subject := range subjects {
 		switch subject.Kind {
 		case rbacv1.ServiceAccountKind:
 			sas = append(sas, fmt.Sprintf("%s/%s", subject.Namespace, subject.Name))
-
 		case rbacv1.UserKind:
 			users = append(users, subject.Name)
-
 		case rbacv1.GroupKind:
 			groups = append(groups, subject.Name)
-
 		default:
 			others = append(others, fmt.Sprintf("%s/%s/%s", subject.Kind, subject.Namespace, subject.Name))
 		}
 	}
-
 	return users, groups, sas, others
 }
-
 func String(r rbacv1.PolicyRule) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return "PolicyRule" + CompactString(r)
 }
-
-// CompactString exposes a compact string representation for use in escalation error messages
 func CompactString(r rbacv1.PolicyRule) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	formatStringParts := []string{}
 	formatArgs := []interface{}{}
 	if len(r.APIGroups) > 0 {
@@ -172,8 +143,18 @@ func CompactString(r rbacv1.PolicyRule) string {
 
 type SortableRuleSlice []rbacv1.PolicyRule
 
-func (s SortableRuleSlice) Len() int      { return len(s) }
-func (s SortableRuleSlice) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+func (s SortableRuleSlice) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return len(s)
+}
+func (s SortableRuleSlice) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	s[i], s[j] = s[j], s[i]
+}
 func (s SortableRuleSlice) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return strings.Compare(s[i].String(), s[j].String()) < 0
 }

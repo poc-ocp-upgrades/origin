@@ -1,33 +1,12 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// Package app does all of the work necessary to configure and run a
-// Kubernetes app process.
 package app
 
 import (
 	"errors"
 	"fmt"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"io/ioutil"
-	"net/http"
-	"os"
-	goruntime "runtime"
-	"strings"
-	"time"
-
 	"k8s.io/api/core/v1"
 	apimachineryconfig "k8s.io/apimachinery/pkg/apis/config"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -47,6 +26,7 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 	"k8s.io/client-go/tools/record"
+	"k8s.io/klog"
 	"k8s.io/kube-proxy/config/v1alpha1"
 	api "k8s.io/kubernetes/pkg/apis/core"
 	"k8s.io/kubernetes/pkg/kubelet/qos"
@@ -71,11 +51,11 @@ import (
 	"k8s.io/kubernetes/pkg/version/verflag"
 	"k8s.io/utils/exec"
 	utilpointer "k8s.io/utils/pointer"
-
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/spf13/cobra"
-	"github.com/spf13/pflag"
-	"k8s.io/klog"
+	"net/http"
+	"os"
+	goruntime "runtime"
+	"strings"
+	"time"
 )
 
 const (
@@ -85,43 +65,24 @@ const (
 	proxyModeKernelspace = "kernelspace"
 )
 
-// Options contains everything necessary to create and run a proxy server.
 type Options struct {
-	// ConfigFile is the location of the proxy server's configuration file.
-	ConfigFile string
-	// WriteConfigTo is the path where the default configuration will be written.
-	WriteConfigTo string
-	// CleanupAndExit, when true, makes the proxy server clean up iptables rules, then exit.
-	CleanupAndExit bool
-	// CleanupIPVS, when true, makes the proxy server clean up ipvs rules before running.
-	CleanupIPVS bool
-	// WindowsService should be set to true if kube-proxy is running as a service on Windows.
-	// Its corresponding flag only gets registered in Windows builds
-	WindowsService bool
-	// config is the proxy server's configuration object.
-	config *kubeproxyconfig.KubeProxyConfiguration
-
-	// The fields below here are placeholders for flags that can't be directly mapped into
-	// config.KubeProxyConfiguration.
-	//
-	// TODO remove these fields once the deprecated flags are removed.
-
-	// master is used to override the kubeconfig's URL to the apiserver.
-	master string
-	// healthzPort is the port to be used by the healthz server.
-	healthzPort int32
-	// metricsPort is the port to be used by the metrics server.
-	metricsPort int32
-
-	scheme *runtime.Scheme
-	codecs serializer.CodecFactory
-
-	// hostnameOverride, if set from the command line flag, takes precedence over the `HostnameOverride` value from the config file
+	ConfigFile       string
+	WriteConfigTo    string
+	CleanupAndExit   bool
+	CleanupIPVS      bool
+	WindowsService   bool
+	config           *kubeproxyconfig.KubeProxyConfiguration
+	master           string
+	healthzPort      int32
+	metricsPort      int32
+	scheme           *runtime.Scheme
+	codecs           serializer.CodecFactory
 	hostnameOverride string
 }
 
-// AddFlags adds flags to fs and binds them to options.
 func (o *Options) AddFlags(fs *pflag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o.addOSFlags(fs)
 	fs.StringVar(&o.ConfigFile, "config", o.ConfigFile, "The path to the configuration file.")
 	fs.StringVar(&o.WriteConfigTo, "write-config-to", o.WriteConfigTo, "If set, write the default configuration values to this file and exit.")
@@ -129,9 +90,6 @@ func (o *Options) AddFlags(fs *pflag.FlagSet) {
 	fs.MarkDeprecated("cleanup-iptables", "This flag is replaced by --cleanup.")
 	fs.BoolVar(&o.CleanupAndExit, "cleanup", o.CleanupAndExit, "If true cleanup iptables and ipvs rules and exit.")
 	fs.BoolVar(&o.CleanupIPVS, "cleanup-ipvs", o.CleanupIPVS, "If true make kube-proxy cleanup ipvs rules before running.  Default is true")
-
-	// All flags below here are deprecated and will eventually be removed.
-
 	fs.Var(utilflag.IPVar{Val: &o.config.BindAddress}, "bind-address", "The IP address for the proxy server to serve on (set to `0.0.0.0` for all IPv4 interfaces and `::` for all IPv6 interfaces)")
 	fs.StringVar(&o.master, "master", o.master, "The address of the Kubernetes API server (overrides any value in kubeconfig)")
 	fs.Int32Var(&o.healthzPort, "healthz-port", o.healthzPort, "The port to bind the health check server. Use 0 to disable.")
@@ -161,46 +119,30 @@ func (o *Options) AddFlags(fs *pflag.FlagSet) {
 	if o.config.Conntrack.Max == nil {
 		o.config.Conntrack.Max = utilpointer.Int32Ptr(0)
 	}
-	fs.Int32Var(o.config.Conntrack.Max, "conntrack-max", *o.config.Conntrack.Max,
-		"Maximum number of NAT connections to track (0 to leave as-is). This overrides conntrack-max-per-core and conntrack-min.")
+	fs.Int32Var(o.config.Conntrack.Max, "conntrack-max", *o.config.Conntrack.Max, "Maximum number of NAT connections to track (0 to leave as-is). This overrides conntrack-max-per-core and conntrack-min.")
 	fs.MarkDeprecated("conntrack-max", "This feature will be removed in a later release.")
-	fs.Int32Var(o.config.Conntrack.MaxPerCore, "conntrack-max-per-core", *o.config.Conntrack.MaxPerCore,
-		"Maximum number of NAT connections to track per CPU core (0 to leave the limit as-is and ignore conntrack-min).")
-	fs.Int32Var(o.config.Conntrack.Min, "conntrack-min", *o.config.Conntrack.Min,
-		"Minimum number of conntrack entries to allocate, regardless of conntrack-max-per-core (set conntrack-max-per-core=0 to leave the limit as-is).")
+	fs.Int32Var(o.config.Conntrack.MaxPerCore, "conntrack-max-per-core", *o.config.Conntrack.MaxPerCore, "Maximum number of NAT connections to track per CPU core (0 to leave the limit as-is and ignore conntrack-min).")
+	fs.Int32Var(o.config.Conntrack.Min, "conntrack-min", *o.config.Conntrack.Min, "Minimum number of conntrack entries to allocate, regardless of conntrack-max-per-core (set conntrack-max-per-core=0 to leave the limit as-is).")
 	fs.DurationVar(&o.config.Conntrack.TCPEstablishedTimeout.Duration, "conntrack-tcp-timeout-established", o.config.Conntrack.TCPEstablishedTimeout.Duration, "Idle timeout for established TCP connections (0 to leave as-is)")
-	fs.DurationVar(
-		&o.config.Conntrack.TCPCloseWaitTimeout.Duration, "conntrack-tcp-timeout-close-wait",
-		o.config.Conntrack.TCPCloseWaitTimeout.Duration,
-		"NAT timeout for TCP connections in the CLOSE_WAIT state")
+	fs.DurationVar(&o.config.Conntrack.TCPCloseWaitTimeout.Duration, "conntrack-tcp-timeout-close-wait", o.config.Conntrack.TCPCloseWaitTimeout.Duration, "NAT timeout for TCP connections in the CLOSE_WAIT state")
 	fs.BoolVar(&o.config.EnableProfiling, "profiling", o.config.EnableProfiling, "If true enables profiling via web interface on /debug/pprof handler.")
 	fs.StringVar(&o.config.IPVS.Scheduler, "ipvs-scheduler", o.config.IPVS.Scheduler, "The ipvs scheduler type when proxy mode is ipvs")
-	fs.StringSliceVar(&o.config.NodePortAddresses, "nodeport-addresses", o.config.NodePortAddresses,
-		"A string slice of values which specify the addresses to use for NodePorts. Values may be valid IP blocks (e.g. 1.2.3.0/24, 1.2.3.4/32). The default empty string slice ([]) means to use all local addresses.")
-	fs.Var(flag.NewMapStringBool(&o.config.FeatureGates), "feature-gates", "A set of key=value pairs that describe feature gates for alpha/experimental features. "+
-		"Options are:\n"+strings.Join(utilfeature.DefaultFeatureGate.KnownFeatures(), "\n"))
+	fs.StringSliceVar(&o.config.NodePortAddresses, "nodeport-addresses", o.config.NodePortAddresses, "A string slice of values which specify the addresses to use for NodePorts. Values may be valid IP blocks (e.g. 1.2.3.0/24, 1.2.3.4/32). The default empty string slice ([]) means to use all local addresses.")
+	fs.Var(flag.NewMapStringBool(&o.config.FeatureGates), "feature-gates", "A set of key=value pairs that describe feature gates for alpha/experimental features. "+"Options are:\n"+strings.Join(utilfeature.DefaultFeatureGate.KnownFeatures(), "\n"))
 }
-
 func NewOptions() *Options {
-	return &Options{
-		config:      new(kubeproxyconfig.KubeProxyConfiguration),
-		healthzPort: ports.ProxyHealthzPort,
-		metricsPort: ports.ProxyStatusPort,
-		scheme:      scheme.Scheme,
-		codecs:      scheme.Codecs,
-		CleanupIPVS: true,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &Options{config: new(kubeproxyconfig.KubeProxyConfiguration), healthzPort: ports.ProxyHealthzPort, metricsPort: ports.ProxyStatusPort, scheme: scheme.Scheme, codecs: scheme.Codecs, CleanupIPVS: true}
 }
-
-// Complete completes all the required options.
 func (o *Options) Complete() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(o.ConfigFile) == 0 && len(o.WriteConfigTo) == 0 {
 		klog.Warning("WARNING: all flags other than --config, --write-config-to, and --cleanup are deprecated. Please begin using a config file ASAP.")
 		o.applyDeprecatedHealthzPortToConfig()
 		o.applyDeprecatedMetricsPortToConfig()
 	}
-
-	// Load the config file here in Complete, so that Validate validates the fully-resolved config.
 	if len(o.ConfigFile) > 0 {
 		if c, err := o.loadConfigFromFile(o.ConfigFile); err != nil {
 			return err
@@ -208,21 +150,17 @@ func (o *Options) Complete() error {
 			o.config = c
 		}
 	}
-
 	if err := o.processHostnameOverrideFlag(); err != nil {
 		return err
 	}
-
 	if err := utilfeature.DefaultFeatureGate.SetFromMap(o.config.FeatureGates); err != nil {
 		return err
 	}
-
 	return nil
 }
-
-// processHostnameOverrideFlag processes hostname-override flag
 func (o *Options) processHostnameOverrideFlag() error {
-	// Check if hostname-override flag is set and use value since configFile always overrides
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(o.hostnameOverride) > 0 {
 		hostName := strings.TrimSpace(o.hostnameOverride)
 		if len(hostName) == 0 {
@@ -230,37 +168,34 @@ func (o *Options) processHostnameOverrideFlag() error {
 		}
 		o.config.HostnameOverride = strings.ToLower(hostName)
 	}
-
 	return nil
 }
-
-// Validate validates all the required options.
 func (o *Options) Validate(args []string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(args) != 0 {
 		return errors.New("no arguments are supported")
 	}
-
 	if errs := validation.Validate(o.config); len(errs) != 0 {
 		return errs.ToAggregate()
 	}
-
 	return nil
 }
-
 func (o *Options) Run() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(o.WriteConfigTo) > 0 {
 		return o.writeConfigFile()
 	}
-
 	proxyServer, err := NewProxyServer(o)
 	if err != nil {
 		return err
 	}
-
 	return proxyServer.Run()
 }
-
 func (o *Options) writeConfigFile() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var encoder runtime.Encoder
 	mediaTypes := o.codecs.SupportedMediaTypes()
 	for _, info := range mediaTypes {
@@ -274,69 +209,55 @@ func (o *Options) writeConfigFile() error {
 	}
 	encoder = json.NewYAMLSerializer(json.DefaultMetaFactory, o.scheme, o.scheme)
 	encoder = o.codecs.EncoderForVersion(encoder, v1alpha1.SchemeGroupVersion)
-
 	configFile, err := os.Create(o.WriteConfigTo)
 	if err != nil {
 		return err
 	}
 	defer configFile.Close()
-
 	if err := encoder.Encode(o.config, configFile); err != nil {
 		return err
 	}
-
 	klog.Infof("Wrote configuration to: %s\n", o.WriteConfigTo)
-
 	return nil
 }
-
-// applyDeprecatedHealthzPortToConfig sets o.config.HealthzBindAddress from
-// flags passed on the command line based on the following rules:
-//
-// 1. If --healthz-port is 0, disable the healthz server.
-// 2. Otherwise, use the value of --healthz-port for the port portion of
-//    o.config.HealthzBindAddress
 func (o *Options) applyDeprecatedHealthzPortToConfig() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o.healthzPort == 0 {
 		o.config.HealthzBindAddress = ""
 		return
 	}
-
 	index := strings.Index(o.config.HealthzBindAddress, ":")
 	if index != -1 {
 		o.config.HealthzBindAddress = o.config.HealthzBindAddress[0:index]
 	}
-
 	o.config.HealthzBindAddress = fmt.Sprintf("%s:%d", o.config.HealthzBindAddress, o.healthzPort)
 }
-
 func (o *Options) applyDeprecatedMetricsPortToConfig() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o.metricsPort == 0 {
 		o.config.MetricsBindAddress = ""
 		return
 	}
-
 	index := strings.Index(o.config.MetricsBindAddress, ":")
 	if index != -1 {
 		o.config.MetricsBindAddress = o.config.MetricsBindAddress[0:index]
 	}
-
 	o.config.MetricsBindAddress = fmt.Sprintf("%s:%d", o.config.MetricsBindAddress, o.metricsPort)
 }
-
-// loadConfigFromFile loads the contents of file and decodes it as a
-// KubeProxyConfiguration object.
 func (o *Options) loadConfigFromFile(file string) (*kubeproxyconfig.KubeProxyConfiguration, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err
 	}
-
 	return o.loadConfig(data)
 }
-
-// loadConfig decodes data as a KubeProxyConfiguration object.
 func (o *Options) loadConfig(data []byte) (*kubeproxyconfig.KubeProxyConfiguration, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	configObj, gvk, err := o.codecs.UniversalDecoder().Decode(data, nil, nil)
 	if err != nil {
 		return nil, err
@@ -347,71 +268,55 @@ func (o *Options) loadConfig(data []byte) (*kubeproxyconfig.KubeProxyConfigurati
 	}
 	return config, nil
 }
-
 func (o *Options) ApplyDefaults(in *kubeproxyconfig.KubeProxyConfiguration) (*kubeproxyconfig.KubeProxyConfiguration, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	external, err := o.scheme.ConvertToVersion(in, v1alpha1.SchemeGroupVersion)
 	if err != nil {
 		return nil, err
 	}
-
 	o.scheme.Default(external)
-
 	internal, err := o.scheme.ConvertToVersion(external, kubeproxyconfig.SchemeGroupVersion)
 	if err != nil {
 		return nil, err
 	}
-
 	out := internal.(*kubeproxyconfig.KubeProxyConfiguration)
-
 	return out, nil
 }
-
-// NewProxyCommand creates a *cobra.Command object with default parameters
 func NewProxyCommand() *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	opts := NewOptions()
-
-	cmd := &cobra.Command{
-		Use: "kube-proxy",
-		Long: `The Kubernetes network proxy runs on each node. This
+	cmd := &cobra.Command{Use: "kube-proxy", Long: `The Kubernetes network proxy runs on each node. This
 reflects services as defined in the Kubernetes API on each node and can do simple
 TCP, UDP, and SCTP stream forwarding or round robin TCP, UDP, and SCTP forwarding across a set of backends.
 Service cluster IPs and ports are currently found through Docker-links-compatible
 environment variables specifying ports opened by the service proxy. There is an optional
 addon that provides cluster DNS for these cluster IPs. The user must create a service
-with the apiserver API to configure the proxy.`,
-		Run: func(cmd *cobra.Command, args []string) {
-			verflag.PrintAndExitIfRequested()
-			utilflag.PrintFlags(cmd.Flags())
-
-			if err := initForOS(opts.WindowsService); err != nil {
-				klog.Fatalf("failed OS init: %v", err)
-			}
-
-			if err := opts.Complete(); err != nil {
-				klog.Fatalf("failed complete: %v", err)
-			}
-			if err := opts.Validate(args); err != nil {
-				klog.Fatalf("failed validate: %v", err)
-			}
-			klog.Fatal(opts.Run())
-		},
-	}
-
+with the apiserver API to configure the proxy.`, Run: func(cmd *cobra.Command, args []string) {
+		verflag.PrintAndExitIfRequested()
+		utilflag.PrintFlags(cmd.Flags())
+		if err := initForOS(opts.WindowsService); err != nil {
+			klog.Fatalf("failed OS init: %v", err)
+		}
+		if err := opts.Complete(); err != nil {
+			klog.Fatalf("failed complete: %v", err)
+		}
+		if err := opts.Validate(args); err != nil {
+			klog.Fatalf("failed validate: %v", err)
+		}
+		klog.Fatal(opts.Run())
+	}}
 	var err error
 	opts.config, err = opts.ApplyDefaults(opts.config)
 	if err != nil {
 		klog.Fatalf("unable to create flag defaults: %v", err)
 	}
-
 	opts.AddFlags(cmd.Flags())
-
 	cmd.MarkFlagFilename("config", "yaml", "yml", "json")
-
 	return cmd
 }
 
-// ProxyServer represents all the parameters required to start the Kubernetes proxy server. All
-// fields are required.
 type ProxyServer struct {
 	Client                 clientset.Interface
 	EventClient            v1core.EventsGetter
@@ -423,7 +328,7 @@ type ProxyServer struct {
 	Broadcaster            record.EventBroadcaster
 	Recorder               record.EventRecorder
 	ConntrackConfiguration kubeproxyconfig.KubeProxyConntrackConfiguration
-	Conntracker            Conntracker // if nil, ignored
+	Conntracker            Conntracker
 	ProxyMode              string
 	NodeRef                *v1.ObjectReference
 	CleanupAndExit         bool
@@ -438,50 +343,38 @@ type ProxyServer struct {
 	HealthzServer          *healthcheck.HealthzServer
 }
 
-// createClients creates a kube client and an event client from the given config and masterOverride.
-// TODO remove masterOverride when CLI flags are removed.
 func createClients(config apimachineryconfig.ClientConnectionConfiguration, masterOverride string) (clientset.Interface, v1core.EventsGetter, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var kubeConfig *rest.Config
 	var err error
-
 	if len(config.Kubeconfig) == 0 && len(masterOverride) == 0 {
 		klog.Info("Neither kubeconfig file nor master URL was specified. Falling back to in-cluster config.")
 		kubeConfig, err = rest.InClusterConfig()
 	} else {
-		// This creates a client, first loading any specified kubeconfig
-		// file, and then overriding the Master flag, if non-empty.
-		kubeConfig, err = clientcmd.NewNonInteractiveDeferredLoadingClientConfig(
-			&clientcmd.ClientConfigLoadingRules{ExplicitPath: config.Kubeconfig},
-			&clientcmd.ConfigOverrides{ClusterInfo: clientcmdapi.Cluster{Server: masterOverride}}).ClientConfig()
+		kubeConfig, err = clientcmd.NewNonInteractiveDeferredLoadingClientConfig(&clientcmd.ClientConfigLoadingRules{ExplicitPath: config.Kubeconfig}, &clientcmd.ConfigOverrides{ClusterInfo: clientcmdapi.Cluster{Server: masterOverride}}).ClientConfig()
 	}
 	if err != nil {
 		return nil, nil, err
 	}
-
 	kubeConfig.AcceptContentTypes = config.AcceptContentTypes
 	kubeConfig.ContentType = config.ContentType
 	kubeConfig.QPS = config.QPS
-	//TODO make config struct use int instead of int32?
 	kubeConfig.Burst = int(config.Burst)
-
 	client, err := clientset.NewForConfig(kubeConfig)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	eventClient, err := clientset.NewForConfig(kubeConfig)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	return client, eventClient.CoreV1(), nil
 }
-
-// Run runs the specified ProxyServer.  This should never exit (unless CleanupAndExit is set).
 func (s *ProxyServer) Run() error {
-	// To help debugging, immediately log version
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.Infof("Version: %+v", version.Get())
-	// remove iptables rules and exit
 	if s.CleanupAndExit {
 		encounteredError := userspace.CleanupLeftovers(s.IptInterface)
 		encounteredError = iptables.CleanupLeftovers(s.IptInterface) || encounteredError
@@ -491,8 +384,6 @@ func (s *ProxyServer) Run() error {
 		}
 		return nil
 	}
-
-	// TODO(vmarmol): Use container config for this.
 	var oomAdjuster *oom.OOMAdjuster
 	if s.OOMScoreAdj != nil {
 		oomAdjuster = oom.NewOOMAdjuster()
@@ -500,26 +391,19 @@ func (s *ProxyServer) Run() error {
 			klog.V(2).Info(err)
 		}
 	}
-
 	if len(s.ResourceContainer) != 0 {
-		// Run in its own container.
 		if err := resourcecontainer.RunInResourceContainer(s.ResourceContainer); err != nil {
 			klog.Warningf("Failed to start in resource-only container %q: %v", s.ResourceContainer, err)
 		} else {
 			klog.V(2).Infof("Running in resource-only container %q", s.ResourceContainer)
 		}
 	}
-
 	if s.Broadcaster != nil && s.EventClient != nil {
 		s.Broadcaster.StartRecordingToSink(&v1core.EventSinkImpl{Interface: s.EventClient.Events("")})
 	}
-
-	// Start up a healthz server if requested
 	if s.HealthzServer != nil {
 		s.HealthzServer.Run()
 	}
-
-	// Start up a metrics server if requested
 	if len(s.MetricsBindAddress) > 0 {
 		mux := mux.NewPathRecorderMux("kube-proxy")
 		healthz.InstallHandler(mux)
@@ -538,9 +422,6 @@ func (s *ProxyServer) Run() error {
 			}
 		}, 5*time.Second, wait.NeverStop)
 	}
-
-	// Tune conntrack, if requested
-	// Conntracker is always nil for windows
 	if s.Conntracker != nil {
 		max, err := getConntrackMax(s.ConntrackConfiguration)
 		if err != nil {
@@ -552,25 +433,16 @@ func (s *ProxyServer) Run() error {
 				if err != readOnlySysFSError {
 					return err
 				}
-				// readOnlySysFSError is caused by a known docker issue (https://github.com/docker/docker/issues/24000),
-				// the only remediation we know is to restart the docker daemon.
-				// Here we'll send an node event with specific reason and message, the
-				// administrator should decide whether and how to handle this issue,
-				// whether to drain the node and restart docker.
-				// TODO(random-liu): Remove this when the docker bug is fixed.
-				const message = "DOCKER RESTART NEEDED (docker issue #24000): /sys is read-only: " +
-					"cannot modify conntrack limits, problems may arise later."
+				const message = "DOCKER RESTART NEEDED (docker issue #24000): /sys is read-only: " + "cannot modify conntrack limits, problems may arise later."
 				s.Recorder.Eventf(s.NodeRef, api.EventTypeWarning, err.Error(), message)
 			}
 		}
-
 		if s.ConntrackConfiguration.TCPEstablishedTimeout != nil && s.ConntrackConfiguration.TCPEstablishedTimeout.Duration > 0 {
 			timeout := int(s.ConntrackConfiguration.TCPEstablishedTimeout.Duration / time.Second)
 			if err := s.Conntracker.SetTCPEstablishedTimeout(timeout); err != nil {
 				return err
 			}
 		}
-
 		if s.ConntrackConfiguration.TCPCloseWaitTimeout != nil && s.ConntrackConfiguration.TCPCloseWaitTimeout.Duration > 0 {
 			timeout := int(s.ConntrackConfiguration.TCPCloseWaitTimeout.Duration / time.Second)
 			if err := s.Conntracker.SetTCPCloseWaitTimeout(timeout); err != nil {
@@ -578,38 +450,26 @@ func (s *ProxyServer) Run() error {
 			}
 		}
 	}
-
 	informerFactory := informers.NewSharedInformerFactory(s.Client, s.ConfigSyncPeriod)
-
-	// Create configs (i.e. Watches for Services and Endpoints)
-	// Note: RegisterHandler() calls need to happen before creation of Sources because sources
-	// only notify on changes, and the initial update (on process start) may be lost if no handlers
-	// are registered yet.
 	serviceConfig := config.NewServiceConfig(informerFactory.Core().V1().Services(), s.ConfigSyncPeriod)
 	serviceConfig.RegisterEventHandler(s.ServiceEventHandler)
 	go serviceConfig.Run(wait.NeverStop)
-
 	endpointsConfig := config.NewEndpointsConfig(informerFactory.Core().V1().Endpoints(), s.ConfigSyncPeriod)
 	endpointsConfig.RegisterEventHandler(s.EndpointsEventHandler)
 	go endpointsConfig.Run(wait.NeverStop)
-
-	// This has to start after the calls to NewServiceConfig and NewEndpointsConfig because those
-	// functions must configure their shared informer event handlers first.
 	go informerFactory.Start(wait.NeverStop)
-
-	// Birth Cry after the birth is successful
 	s.birthCry()
-
-	// Just loop forever for now...
 	s.Proxier.SyncLoop()
 	return nil
 }
-
 func (s *ProxyServer) birthCry() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s.Recorder.Eventf(s.NodeRef, api.EventTypeNormal, "Starting", "Starting kube-proxy.")
 }
-
 func getConntrackMax(config kubeproxyconfig.KubeProxyConntrackConfiguration) (int, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if config.Max != nil && *config.Max > 0 {
 		if config.MaxPerCore != nil && *config.MaxPerCore > 0 {
 			return -1, fmt.Errorf("invalid config: Conntrack Max and Conntrack MaxPerCore are mutually exclusive")

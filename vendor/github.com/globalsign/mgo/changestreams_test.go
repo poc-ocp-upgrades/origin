@@ -347,10 +347,10 @@ func (s *S) TestStreamsUpdateWithPipeline(c *C) {
 	err = coll.Insert(M{"_id": id2, "a": 2})
 	c.Assert(err, IsNil)
 
-	pipeline1 := []M{M{"$match": M{"documentKey._id": id1}}}
+	pipeline1 := []M{{"$match": M{"documentKey._id": id1}}}
 	changeStream1, err := coll.Watch(pipeline1, mgo.ChangeStreamOptions{MaxAwaitTimeMS: 1500})
 	c.Assert(err, IsNil)
-	pipeline2 := []M{M{"$match": M{"documentKey._id": id2}}}
+	pipeline2 := []M{{"$match": M{"documentKey._id": id2}}}
 	changeStream2, err := coll.Watch(pipeline2, mgo.ChangeStreamOptions{MaxAwaitTimeMS: 1500})
 	c.Assert(err, IsNil)
 

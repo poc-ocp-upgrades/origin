@@ -256,7 +256,7 @@ var _ = Describe("ResourceTicket", func() {
 			server.SetResponseJson(200, mockTask)
 			spec := &ResourceTicketCreateSpec{
 				Name:   randomString(10),
-				Limits: []QuotaLineItem{QuotaLineItem{Unit: "GB", Value: 16, Key: "vm.memory"}},
+				Limits: []QuotaLineItem{{Unit: "GB", Value: 16, Key: "vm.memory"}},
 			}
 			task, err := client.Tenants.CreateResourceTicket(tenantID, spec)
 
@@ -312,7 +312,7 @@ var _ = Describe("Project", func() {
 			projSpec := &ProjectCreateSpec{
 				ResourceTicket: ResourceTicketReservation{
 					resName,
-					[]QuotaLineItem{QuotaLineItem{"GB", 2, "vm.memory"}},
+					[]QuotaLineItem{{"GB", 2, "vm.memory"}},
 				},
 				Name: randomString(10, "go-sdk-project-"),
 			}

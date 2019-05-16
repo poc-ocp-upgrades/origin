@@ -1,28 +1,8 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package admission
 
 import (
+	goformat "fmt"
 	"io/ioutil"
-	"net/http"
-	"time"
-
-	"k8s.io/klog"
-
 	utilwait "k8s.io/apimachinery/pkg/util/wait"
 	"k8s.io/apiserver/pkg/admission"
 	webhookinit "k8s.io/apiserver/pkg/admission/plugin/webhook/initializer"
@@ -33,22 +13,27 @@ import (
 	externalinformers "k8s.io/client-go/informers"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/restmapper"
+	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/client/clientset_generated/internalclientset"
 	quotainstall "k8s.io/kubernetes/pkg/quota/v1/install"
+	"net/http"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
-// Config holds the configuration needed to for initialize the admission plugins
 type Config struct {
 	CloudConfigFile      string
 	LoopbackClientConfig *rest.Config
 	ExternalInformers    externalinformers.SharedInformerFactory
 }
 
-// New sets up the plugins and admission start hooks needed for admission
 func (c *Config) New(proxyTransport *http.Transport, serviceResolver webhook.ServiceResolver) ([]admission.PluginInitializer, server.PostStartHookFunc, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	webhookAuthResolverWrapper := webhook.NewDefaultAuthenticationInfoResolverWrapper(proxyTransport, c.LoopbackClientConfig)
 	webhookPluginInitializer := webhookinit.NewPluginInitializer(webhookAuthResolverWrapper, serviceResolver)
-
 	var cloudConfig []byte
 	if c.CloudConfigFile != "" {
 		var err error
@@ -61,20 +46,17 @@ func (c *Config) New(proxyTransport *http.Transport, serviceResolver webhook.Ser
 	if err != nil {
 		return nil, nil, err
 	}
-
 	discoveryClient := cacheddiscovery.NewMemCacheClient(internalClient.Discovery())
 	discoveryRESTMapper := restmapper.NewDeferredDiscoveryRESTMapper(discoveryClient)
-	kubePluginInitializer := NewPluginInitializer(
-		cloudConfig,
-		discoveryRESTMapper,
-		quotainstall.NewQuotaConfigurationForAdmission(),
-	)
-
+	kubePluginInitializer := NewPluginInitializer(cloudConfig, discoveryRESTMapper, quotainstall.NewQuotaConfigurationForAdmission())
 	admissionPostStartHook := func(context genericapiserver.PostStartHookContext) error {
 		discoveryRESTMapper.Reset()
 		go utilwait.Until(discoveryRESTMapper.Reset, 30*time.Second, context.StopCh)
 		return nil
 	}
-
 	return []admission.PluginInitializer{webhookPluginInitializer, kubePluginInitializer}, admissionPostStartHook, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

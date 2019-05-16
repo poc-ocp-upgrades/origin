@@ -33,7 +33,7 @@ func TestMetrics(t *testing.T) {
 	}{
 		{ctx, p, zp, a},
 		{ctx, p, zp, nil},
-		
+
 		{ctx, p, nil, a},
 		{ctx, nil, zp, a},
 	} {

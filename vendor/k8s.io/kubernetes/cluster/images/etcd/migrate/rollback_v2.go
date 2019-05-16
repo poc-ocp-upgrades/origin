@@ -1,34 +1,7 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"encoding/json"
-	"os"
-	"path"
-	"strconv"
-	"strings"
-	"time"
-
-	// Uncomment when you want to rollback to 2.2.1 version.
-	oldwal "k8s.io/kubernetes/third_party/forked/etcd221/wal"
-	// Uncomment when you want to rollback to 2.3.7 version.
-	// oldwal "k8s.io/kubernetes/third_party/forked/etcd237/wal"
-
 	"github.com/coreos/etcd/etcdserver"
 	pb "github.com/coreos/etcd/etcdserver/etcdserverpb"
 	"github.com/coreos/etcd/etcdserver/membership"
@@ -43,38 +16,36 @@ import (
 	"github.com/coreos/etcd/wal/walpb"
 	"github.com/coreos/go-semver/semver"
 	"k8s.io/klog"
+	oldwal "k8s.io/kubernetes/third_party/forked/etcd221/wal"
+	"os"
+	"path"
+	"strconv"
+	"strings"
+	"time"
 )
 
 const rollbackVersion = "2.2.0"
 
-// RollbackV3ToV2 rolls back an etcd 3.0.x data directory to the 2.x.x version specified by rollbackVersion.
 func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	dbpath := path.Join(migrateDatadir, "member", "snap", "db")
 	klog.Infof("Rolling db file %s back to etcd 2.x", dbpath)
-
-	// etcd3 store backend. We will use it to parse v3 data files and extract information.
 	be := backend.NewDefaultBackend(dbpath)
 	tx := be.BatchTx()
-
-	// etcd2 store backend. We will use v3 data to update this and then save snapshot to disk.
 	st := store.New(etcdserver.StoreClusterPrefix, etcdserver.StoreKeysPrefix)
 	expireTime := time.Now().Add(ttl)
-
 	tx.Lock()
 	err := tx.UnsafeForEach([]byte("key"), func(k, v []byte) error {
 		kv := &mvccpb.KeyValue{}
 		kv.Unmarshal(v)
-
-		// This is compact key.
 		if !strings.HasPrefix(string(kv.Key), "/") {
 			return nil
 		}
-
 		ttlOpt := store.TTLOptionSet{}
 		if kv.Lease != 0 {
 			ttlOpt = store.TTLOptionSet{ExpireTime: expireTime}
 		}
-
 		if !isTombstone(k) {
 			sk := path.Join(strings.Trim(etcdserver.StoreKeysPrefix, "/"), string(kv.Key))
 			_, err := st.Set(sk, false, string(kv.Value), ttlOpt)
@@ -84,25 +55,19 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 		} else {
 			st.Delete(string(kv.Key), false, false)
 		}
-
 		return nil
 	})
 	if err != nil {
 		return err
 	}
 	tx.Unlock()
-
 	if err := traverseAndDeleteEmptyDir(st, "/"); err != nil {
 		return err
 	}
-
-	// rebuild cluster state.
 	metadata, hardstate, oldSt, err := rebuild(migrateDatadir)
 	if err != nil {
 		return err
 	}
-
-	// In the following, it's low level logic that saves metadata and data into v2 snapshot.
 	backupPath := migrateDatadir + ".rollback.backup"
 	if err := os.Rename(migrateDatadir, backupPath); err != nil {
 		return err
@@ -111,7 +76,6 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 		return err
 	}
 	walDir := path.Join(migrateDatadir, "member", "wal")
-
 	w, err := oldwal.Create(walDir, metadata)
 	if err != nil {
 		return err
@@ -121,16 +85,13 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 	if err != nil {
 		return err
 	}
-
 	event, err := oldSt.Get(etcdserver.StoreClusterPrefix, true, false)
 	if err != nil {
 		return err
 	}
-	// nodes (members info) for ConfState
 	nodes := []uint64{}
 	traverseMetadata(event.Node, func(n *store.NodeExtern) {
 		if n.Key != etcdserver.StoreClusterPrefix {
-			// update store metadata
 			v := ""
 			if !n.Dir {
 				v = *n.Value
@@ -141,8 +102,6 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 			if _, err := st.Set(n.Key, n.Dir, v, store.TTLOptionSet{}); err != nil {
 				klog.Error(err)
 			}
-
-			// update nodes
 			fields := strings.Split(n.Key, "/")
 			if len(fields) == 4 && fields[2] == "members" {
 				nodeID, err := strconv.ParseUint(fields[3], 16, 64)
@@ -153,21 +112,11 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 			}
 		}
 	})
-
 	data, err := st.Save()
 	if err != nil {
 		return err
 	}
-	raftSnap := raftpb.Snapshot{
-		Data: data,
-		Metadata: raftpb.SnapshotMetadata{
-			Index: hardstate.Commit,
-			Term:  hardstate.Term,
-			ConfState: raftpb.ConfState{
-				Nodes: nodes,
-			},
-		},
-	}
+	raftSnap := raftpb.Snapshot{Data: data, Metadata: raftpb.SnapshotMetadata{Index: hardstate.Commit, Term: hardstate.Term, ConfState: raftpb.ConfState{Nodes: nodes}}}
 	snapshotter := snap.New(path.Join(migrateDatadir, "member", "snap"))
 	if err := snapshotter.SaveSnap(raftSnap); err != nil {
 		return err
@@ -175,16 +124,14 @@ func RollbackV3ToV2(migrateDatadir string, ttl time.Duration) error {
 	klog.Infof("Finished successfully")
 	return nil
 }
-
 func traverseMetadata(head *store.NodeExtern, handleFunc func(*store.NodeExtern)) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	q := []*store.NodeExtern{head}
-
 	for len(q) > 0 {
 		n := q[0]
 		q = q[1:]
-
 		handleFunc(n)
-
 		for _, next := range n.Nodes {
 			q = append(q, next)
 		}
@@ -192,18 +139,20 @@ func traverseMetadata(head *store.NodeExtern, handleFunc func(*store.NodeExtern)
 }
 
 const (
-	revBytesLen       = 8 + 1 + 8
-	markedRevBytesLen = revBytesLen + 1
-	markBytePosition  = markedRevBytesLen - 1
-
-	markTombstone byte = 't'
+	revBytesLen            = 8 + 1 + 8
+	markedRevBytesLen      = revBytesLen + 1
+	markBytePosition       = markedRevBytesLen - 1
+	markTombstone     byte = 't'
 )
 
 func isTombstone(b []byte) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return len(b) == markedRevBytesLen && b[markBytePosition] == markTombstone
 }
-
 func traverseAndDeleteEmptyDir(st store.Store, dir string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	e, err := st.Get(dir, true, false)
 	if err != nil {
 		return err
@@ -224,33 +173,29 @@ func traverseAndDeleteEmptyDir(st store.Store, dir string) error {
 	}
 	return nil
 }
-
 func rebuild(datadir string) ([]byte, *raftpb.HardState, store.Store, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	waldir := path.Join(datadir, "member", "wal")
 	snapdir := path.Join(datadir, "member", "snap")
-
 	ss := snap.New(snapdir)
 	snapshot, err := ss.Load()
 	if err != nil && err != snap.ErrNoSnapshot {
 		return nil, nil, nil, err
 	}
-
 	var walsnap walpb.Snapshot
 	if snapshot != nil {
 		walsnap.Index, walsnap.Term = snapshot.Metadata.Index, snapshot.Metadata.Term
 	}
-
 	w, err := wal.OpenForRead(waldir, walsnap)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 	defer w.Close()
-
 	meta, hardstate, ents, err := w.ReadAll()
 	if err != nil {
 		return nil, nil, nil, err
 	}
-
 	st := store.New(etcdserver.StoreClusterPrefix, etcdserver.StoreKeysPrefix)
 	if snapshot != nil {
 		err := st.Recovery(snapshot.Data)
@@ -258,11 +203,10 @@ func rebuild(datadir string) ([]byte, *raftpb.HardState, store.Store, error) {
 			return nil, nil, nil, err
 		}
 	}
-
 	cluster := membership.NewCluster("")
 	cluster.SetStore(st)
-	cluster.Recover(func(*semver.Version) {})
-
+	cluster.Recover(func(*semver.Version) {
+	})
 	applier := etcdserver.NewApplierV2(st, cluster)
 	for _, ent := range ents {
 		if ent.Type == raftpb.EntryConfChange {
@@ -287,9 +231,8 @@ func rebuild(datadir string) ([]byte, *raftpb.HardState, store.Store, error) {
 			}
 			continue
 		}
-
 		var raftReq pb.InternalRaftRequest
-		if !pbutil.MaybeUnmarshal(&raftReq, ent.Data) { // backward compatible
+		if !pbutil.MaybeUnmarshal(&raftReq, ent.Data) {
 			var r pb.Request
 			pbutil.MustUnmarshal(&r, ent.Data)
 			applyRequest(&r, applier)
@@ -300,11 +243,11 @@ func rebuild(datadir string) ([]byte, *raftpb.HardState, store.Store, error) {
 			}
 		}
 	}
-
 	return meta, &hardstate, st, nil
 }
-
 func toTTLOptions(r *pb.Request) store.TTLOptionSet {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	refresh, _ := pbutil.GetBool(r.Refresh)
 	ttlOptions := store.TTLOptionSet{Refresh: refresh}
 	if r.Expiration != 0 {
@@ -312,29 +255,10 @@ func toTTLOptions(r *pb.Request) store.TTLOptionSet {
 	}
 	return ttlOptions
 }
-
 func applyRequest(r *pb.Request, applyV2 etcdserver.ApplierV2) {
-	// TODO: find a sane way to perform this cast or avoid it in the first place
-	reqV2 := &etcdserver.RequestV2{
-		ID:               r.ID,
-		Method:           r.Method,
-		Path:             r.Path,
-		Val:              r.Val,
-		Dir:              r.Dir,
-		PrevValue:        r.PrevValue,
-		PrevIndex:        r.PrevIndex,
-		PrevExist:        r.PrevExist,
-		Expiration:       r.Expiration,
-		Wait:             r.Wait,
-		Since:            r.Since,
-		Recursive:        r.Recursive,
-		Sorted:           r.Sorted,
-		Quorum:           r.Quorum,
-		Time:             r.Time,
-		Stream:           r.Stream,
-		Refresh:          r.Refresh,
-		XXX_unrecognized: r.XXX_unrecognized,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	reqV2 := &etcdserver.RequestV2{ID: r.ID, Method: r.Method, Path: r.Path, Val: r.Val, Dir: r.Dir, PrevValue: r.PrevValue, PrevIndex: r.PrevIndex, PrevExist: r.PrevExist, Expiration: r.Expiration, Wait: r.Wait, Since: r.Since, Recursive: r.Recursive, Sorted: r.Sorted, Quorum: r.Quorum, Time: r.Time, Stream: r.Stream, Refresh: r.Refresh, XXX_unrecognized: r.XXX_unrecognized}
 	toTTLOptions(r)
 	switch r.Method {
 	case "PUT":

@@ -3,11 +3,11 @@ package alert
 import (
 	"fmt"
 	"github.com/libopenstorage/openstorage/api"
+	"github.com/libopenstorage/openstorage/pkg/proto/time"
 	"github.com/portworx/kvdb"
 	"github.com/portworx/kvdb/mem"
 	"github.com/stretchr/testify/require"
 	"go.pedge.io/dlog"
-	"github.com/libopenstorage/openstorage/pkg/proto/time"
 	"strconv"
 	"sync"
 	"testing"

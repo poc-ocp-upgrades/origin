@@ -1,25 +1,9 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package localsubjectaccessreview
 
 import (
 	"context"
 	"fmt"
-
+	goformat "fmt"
 	kapierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -29,25 +13,31 @@ import (
 	authorizationapi "k8s.io/kubernetes/pkg/apis/authorization"
 	authorizationvalidation "k8s.io/kubernetes/pkg/apis/authorization/validation"
 	authorizationutil "k8s.io/kubernetes/pkg/registry/authorization/util"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-type REST struct {
-	authorizer authorizer.Authorizer
-}
+type REST struct{ authorizer authorizer.Authorizer }
 
 func NewREST(authorizer authorizer.Authorizer) *REST {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &REST{authorizer}
 }
-
 func (r *REST) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (r *REST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &authorizationapi.LocalSubjectAccessReview{}
 }
-
 func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	localSubjectAccessReview, ok := obj.(*authorizationapi.LocalSubjectAccessReview)
 	if !ok {
 		return nil, kapierrors.NewBadRequest(fmt.Sprintf("not a LocaLocalSubjectAccessReview: %#v", obj))
@@ -62,18 +52,15 @@ func (r *REST) Create(ctx context.Context, obj runtime.Object, createValidation 
 	if namespace != localSubjectAccessReview.Namespace {
 		return nil, kapierrors.NewBadRequest(fmt.Sprintf("spec.resourceAttributes.namespace must match namespace: %v", namespace))
 	}
-
 	authorizationAttributes := authorizationutil.AuthorizationAttributesFrom(localSubjectAccessReview.Spec)
 	decision, reason, evaluationErr := r.authorizer.Authorize(authorizationAttributes)
-
-	localSubjectAccessReview.Status = authorizationapi.SubjectAccessReviewStatus{
-		Allowed: (decision == authorizer.DecisionAllow),
-		Denied:  (decision == authorizer.DecisionDeny),
-		Reason:  reason,
-	}
+	localSubjectAccessReview.Status = authorizationapi.SubjectAccessReviewStatus{Allowed: (decision == authorizer.DecisionAllow), Denied: (decision == authorizer.DecisionDeny), Reason: reason}
 	if evaluationErr != nil {
 		localSubjectAccessReview.Status.EvaluationError = evaluationErr.Error()
 	}
-
 	return localSubjectAccessReview, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

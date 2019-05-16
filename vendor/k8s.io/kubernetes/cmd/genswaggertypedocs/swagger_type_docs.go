@@ -1,30 +1,16 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	"fmt"
-	"io"
-	"os"
-
-	kruntime "k8s.io/apimachinery/pkg/runtime"
-
+	goformat "fmt"
 	flag "github.com/spf13/pflag"
+	"io"
+	kruntime "k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/klog"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 var (
@@ -34,12 +20,12 @@ var (
 )
 
 func main() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flag.Parse()
-
 	if *typeSrc == "" {
 		klog.Fatalf("Please define -s flag as it is the source file")
 	}
-
 	var funcOut io.Writer
 	if *functionDest == "-" {
 		funcOut = os.Stdout
@@ -51,9 +37,7 @@ func main() {
 		defer file.Close()
 		funcOut = file
 	}
-
 	docsForTypes := kruntime.ParseDocumentationFrom(*typeSrc)
-
 	if *verify == true {
 		rc, err := kruntime.VerifySwaggerDocsExist(docsForTypes, funcOut)
 		if err != nil {
@@ -61,11 +45,14 @@ func main() {
 		}
 		os.Exit(rc)
 	}
-
 	if docsForTypes != nil && len(docsForTypes) > 0 {
 		if err := kruntime.WriteSwaggerDocFunc(docsForTypes, funcOut); err != nil {
 			fmt.Fprintf(os.Stderr, "Error when writing swagger documentation functions: %s\n", err)
 			os.Exit(-1)
 		}
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

@@ -2,57 +2,51 @@ package tokenrequest
 
 import (
 	"fmt"
-	"html/template"
-	"io"
-	"net/http"
-	"net/url"
-	"path"
-
+	goformat "fmt"
 	"github.com/RangelReale/osincli"
-
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-	"k8s.io/klog"
-
 	"github.com/openshift/client-go/oauth/clientset/versioned/typed/oauth/v1"
 	"github.com/openshift/origin/pkg/oauth/urls"
 	"github.com/openshift/origin/pkg/oauthserver"
 	"github.com/openshift/origin/pkg/oauthserver/authenticator/password/bootstrap"
 	"github.com/openshift/origin/pkg/oauthserver/server/csrf"
+	"html/template"
+	"io"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/klog"
+	"net/http"
+	"net/url"
+	goos "os"
+	"path"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 const csrfParam = "csrf"
 
 type tokenRequest struct {
-	publicMasterURL string
-	// osinOAuthClientGetter is used to initialize osinOAuthClient.
-	// Since it can return an error, it may be called multiple times.
+	publicMasterURL       string
 	osinOAuthClientGetter func() (*osincli.Client, error)
-
-	// to check if we need the logout link for the bootstrap user
 	tokens                v1.OAuthAccessTokenInterface
 	openShiftLogoutPrefix string
-
-	csrf csrf.CSRF
+	csrf                  csrf.CSRF
 }
 
 func NewTokenRequest(publicMasterURL, openShiftLogoutPrefix string, osinOAuthClientGetter func() (*osincli.Client, error), tokens v1.OAuthAccessTokenInterface, csrf csrf.CSRF) oauthserver.Endpoints {
-	return &tokenRequest{
-		publicMasterURL:       publicMasterURL,
-		osinOAuthClientGetter: osinOAuthClientGetter,
-		tokens:                tokens,
-		openShiftLogoutPrefix: openShiftLogoutPrefix,
-		csrf:                  csrf,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &tokenRequest{publicMasterURL: publicMasterURL, osinOAuthClientGetter: osinOAuthClientGetter, tokens: tokens, openShiftLogoutPrefix: openShiftLogoutPrefix, csrf: csrf}
 }
-
 func (t *tokenRequest) Install(mux oauthserver.Mux, prefix string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	mux.HandleFunc(path.Join(prefix, urls.RequestTokenEndpoint), t.oauthClientHandler(t.requestToken))
 	mux.HandleFunc(path.Join(prefix, urls.DisplayTokenEndpoint), t.oauthClientHandler(t.displayToken))
 	mux.HandleFunc(path.Join(prefix, urls.ImplicitTokenEndpoint), t.implicitToken)
 }
-
 func (t *tokenRequest) oauthClientHandler(delegate func(*osincli.Client, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func(w http.ResponseWriter, h *http.Request) {
 		osinOAuthClient, err := t.osinOAuthClientGetter()
 		if err != nil {
@@ -63,16 +57,16 @@ func (t *tokenRequest) oauthClientHandler(delegate func(*osincli.Client, http.Re
 		delegate(osinOAuthClient, w, h)
 	}
 }
-
-// requestToken works for getting a token in your browser and seeing what your token is
 func (t *tokenRequest) requestToken(osinOAuthClient *osincli.Client, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	authReq := osinOAuthClient.NewAuthorizeRequest(osincli.CODE)
 	oauthURL := authReq.GetAuthorizeUrl()
-
 	http.Redirect(w, req, oauthURL.String(), http.StatusFound)
 }
-
 func (t *tokenRequest) displayToken(osinOAuthClient *osincli.Client, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch req.Method {
 	case http.MethodGet:
 		t.displayTokenGet(osinOAuthClient, w, req)
@@ -82,42 +76,40 @@ func (t *tokenRequest) displayToken(osinOAuthClient *osincli.Client, w http.Resp
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 	}
 }
-
 func (t *tokenRequest) displayTokenGet(osinOAuthClient *osincli.Client, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data := formData{}
 	authorizeData, ok := displayTokenStart(osinOAuthClient, w, req, &data.sharedData)
 	if !ok {
 		renderForm(w, data)
 		return
 	}
-
 	uri, err := getBaseURL(req)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("unable to generate base URL: %v", err))
 		http.Error(w, "Unable to determine URL", http.StatusInternalServerError)
 		return
 	}
-
 	data.Action = uri.String()
 	data.Code = authorizeData.Code
 	data.CSRF = t.csrf.Generate(w, req)
 	renderForm(w, data)
 }
-
 func (t *tokenRequest) displayTokenPost(osinOAuthClient *osincli.Client, w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if ok := t.csrf.Check(req, req.FormValue(csrfParam)); !ok {
 		klog.V(4).Infof("Invalid CSRF token: %s", req.FormValue(csrfParam))
 		http.Error(w, "Could not check CSRF token. Please try again.", http.StatusBadRequest)
 		return
 	}
-
 	data := tokenData{PublicMasterURL: t.publicMasterURL}
 	authorizeData, ok := displayTokenStart(osinOAuthClient, w, req, &data.sharedData)
 	if !ok {
 		renderToken(w, data)
 		return
 	}
-
 	accessReq := osinOAuthClient.NewAccessRequest(osincli.AUTHORIZATION_CODE, authorizeData)
 	accessData, err := accessReq.GetToken()
 	if err != nil {
@@ -126,30 +118,25 @@ func (t *tokenRequest) displayTokenPost(osinOAuthClient *osincli.Client, w http.
 		renderToken(w, data)
 		return
 	}
-
 	token, err := t.tokens.Get(accessData.AccessToken, metav1.GetOptions{})
 	if err != nil {
-		data.Error = "Error checking token" // do not leak error to user, do not log error
+		data.Error = "Error checking token"
 		w.WriteHeader(http.StatusInternalServerError)
 		renderToken(w, data)
 		return
 	}
-
 	if token.UserName == bootstrap.BootstrapUser {
-		// only the bootstrap user has a session we maintain for one more than OAuth flow
 		data.LogoutURL = t.openShiftLogoutPrefix
 	}
-
 	data.AccessToken = accessData.AccessToken
 	renderToken(w, data)
 }
-
 func displayTokenStart(osinOAuthClient *osincli.Client, w http.ResponseWriter, req *http.Request, data *sharedData) (*osincli.AuthorizeData, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-
-	requestURL := urls.OpenShiftOAuthTokenRequestURL("") // relative url to token request endpoint
-	data.RequestURL = requestURL                         // always set this field even on error cases
-
+	requestURL := urls.OpenShiftOAuthTokenRequestURL("")
+	data.RequestURL = requestURL
 	authorizeReq := osinOAuthClient.NewAuthorizeRequest(osincli.CODE)
 	authorizeData, err := authorizeReq.HandleRequest(req)
 	if err != nil {
@@ -157,11 +144,11 @@ func displayTokenStart(osinOAuthClient *osincli.Client, w http.ResponseWriter, r
 		data.Error = fmt.Sprintf("Error handling auth request: %v", err)
 		return nil, false
 	}
-
 	return authorizeData, true
 }
-
 func renderToken(w io.Writer, data tokenData) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := tokenTemplate.Execute(w, data); err != nil {
 		utilruntime.HandleError(fmt.Errorf("unable to render token template: %v", err))
 	}
@@ -171,16 +158,16 @@ type sharedData struct {
 	Error      string
 	RequestURL string
 }
-
 type tokenData struct {
 	sharedData
-
 	AccessToken     string
 	PublicMasterURL string
 	LogoutURL       string
 }
 
 func getBaseURL(req *http.Request) (*url.URL, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	uri, err := url.Parse(req.RequestURI)
 	if err != nil {
 		return nil, err
@@ -191,13 +178,14 @@ func getBaseURL(req *http.Request) (*url.URL, error) {
 
 type formData struct {
 	sharedData
-
 	Action string
 	Code   string
 	CSRF   string
 }
 
 func renderForm(w io.Writer, data formData) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := formTemplate.Execute(w, data); err != nil {
 		utilruntime.HandleError(fmt.Errorf("unable to render form template: %v", err))
 	}
@@ -221,8 +209,7 @@ const cssStyle = `
 </style>
 `
 
-var tokenTemplate = template.Must(template.New("tokenTemplate").Parse(
-	cssStyle + `
+var tokenTemplate = template.Must(template.New("tokenTemplate").Parse(cssStyle + `
 {{ if .Error }}
   {{ .Error }}
 {{ else }}
@@ -249,9 +236,7 @@ var tokenTemplate = template.Must(template.New("tokenTemplate").Parse(
   </form>
 {{ end }}
 `))
-
-var formTemplate = template.Must(template.New("formTemplate").Parse(
-	cssStyle + `
+var formTemplate = template.Must(template.New("formTemplate").Parse(cssStyle + `
 {{ if .Error }}
   {{ .Error }}
   <br><br>
@@ -268,6 +253,8 @@ var formTemplate = template.Must(template.New("formTemplate").Parse(
 `))
 
 func (t *tokenRequest) implicitToken(w http.ResponseWriter, req *http.Request) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	w.Header().Set("Content-Type", "text/plain")
 	_, _ = w.Write([]byte(`
 You have reached this page by following a redirect Location header from an OAuth authorize request.
@@ -283,4 +270,8 @@ Rather than following the redirect here, you can obtain the access token from th
   2. Parse the fragment using the "application/x-www-form-urlencoded" format
   3. The access_token parameter contains the granted OAuth access token
 `))
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

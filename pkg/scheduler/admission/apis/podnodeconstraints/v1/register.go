@@ -6,23 +6,21 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
-func (obj *PodNodeConstraintsConfig) GetObjectKind() schema.ObjectKind { return &obj.TypeMeta }
+func (obj *PodNodeConstraintsConfig) GetObjectKind() schema.ObjectKind {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &obj.TypeMeta
+}
 
 var GroupVersion = schema.GroupVersion{Group: "scheduling.openshift.io", Version: "v1"}
-
 var (
-	schemeBuilder = runtime.NewSchemeBuilder(
-		addKnownTypes,
-		podnodeconstraints.Install,
-
-		addDefaultingFuncs,
-	)
-	Install = schemeBuilder.AddToScheme
+	schemeBuilder = runtime.NewSchemeBuilder(addKnownTypes, podnodeconstraints.Install, addDefaultingFuncs)
+	Install       = schemeBuilder.AddToScheme
 )
 
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(GroupVersion,
-		&PodNodeConstraintsConfig{},
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	scheme.AddKnownTypes(GroupVersion, &PodNodeConstraintsConfig{})
 	return nil
 }

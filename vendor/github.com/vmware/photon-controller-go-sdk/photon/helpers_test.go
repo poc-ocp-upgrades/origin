@@ -57,7 +57,7 @@ func createResTicket(server *mocks.Server, client *Client, tenantID string) stri
 	resTicketName := randomString(10)
 	spec := &ResourceTicketCreateSpec{
 		Name:   resTicketName,
-		Limits: []QuotaLineItem{QuotaLineItem{Unit: "GB", Value: 16, Key: "vm.memory"}},
+		Limits: []QuotaLineItem{{Unit: "GB", Value: 16, Key: "vm.memory"}},
 	}
 	mockTask := createMockTask("CREATE_RESOURCE_TICKET", "COMPLETED")
 	server.SetResponseJson(200, mockTask)
@@ -73,7 +73,7 @@ func createProject(server *mocks.Server, client *Client, tenantID string, resNam
 	projSpec := &ProjectCreateSpec{
 		ResourceTicket: ResourceTicketReservation{
 			resName,
-			[]QuotaLineItem{QuotaLineItem{"GB", 2, "vm.memory"}},
+			[]QuotaLineItem{{"GB", 2, "vm.memory"}},
 		},
 		Name: randomString(10, "go-sdk-project-"),
 	}
@@ -118,7 +118,7 @@ func createFlavor(server *mocks.Server, client *Client) (string, string) {
 	server.SetResponseJson(200, mockTask)
 	flavorName := randomString(10, "go-sdk-flavor-")
 	flavorSpec := &FlavorCreateSpec{
-		[]QuotaLineItem{QuotaLineItem{"COUNT", 1, "persistent-disk.cost"}},
+		[]QuotaLineItem{{"COUNT", 1, "persistent-disk.cost"}},
 		"persistent-disk",
 		flavorName,
 	}

@@ -484,7 +484,7 @@ func TestRouteMultiPath(t *testing.T) {
 	}
 
 	idx := link.Attrs().Index
-	route := Route{Dst: dst, MultiPath: []*NexthopInfo{&NexthopInfo{LinkIndex: idx}, &NexthopInfo{LinkIndex: idx}}}
+	route := Route{Dst: dst, MultiPath: []*NexthopInfo{{LinkIndex: idx}, {LinkIndex: idx}}}
 	if err := RouteAdd(&route); err != nil {
 		t.Fatal(err)
 	}
@@ -632,58 +632,58 @@ func TestMPLSRouteAddDel(t *testing.T) {
 func TestRouteEqual(t *testing.T) {
 	mplsDst := 100
 	cases := []Route{
-		Route{
+		{
 			Dst: nil,
 			Gw:  net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			ILinkIndex: 21,
 			LinkIndex:  20,
 			Dst:        nil,
 			Gw:         net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Protocol:  20,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Priority:  20,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Type:      20,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Table:     200,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Tos:       1,
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 20,
 			Dst:       nil,
 			Flags:     int(FLAG_ONLINK),
 			Gw:        net.IPv4(1, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 10,
 			Dst: &net.IPNet{
 				IP:   net.IPv4(192, 168, 0, 0),
@@ -691,7 +691,7 @@ func TestRouteEqual(t *testing.T) {
 			},
 			Src: net.IPv4(127, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 10,
 			Scope:     syscall.RT_SCOPE_LINK,
 			Dst: &net.IPNet{
@@ -700,7 +700,7 @@ func TestRouteEqual(t *testing.T) {
 			},
 			Src: net.IPv4(127, 1, 1, 1),
 		},
-		Route{
+		{
 			LinkIndex: 3,
 			Dst: &net.IPNet{
 				IP:   net.IPv4(1, 1, 1, 1),
@@ -713,49 +713,49 @@ func TestRouteEqual(t *testing.T) {
 			Type:     syscall.RTN_UNICAST,
 			Tos:      14,
 		},
-		Route{
+		{
 			LinkIndex: 10,
 			MPLSDst:   &mplsDst,
 			NewDst: &MPLSDestination{
 				Labels: []int{200, 300},
 			},
 		},
-		Route{
+		{
 			Dst: nil,
 			Gw:  net.IPv4(1, 1, 1, 1),
 			Encap: &MPLSEncap{
 				Labels: []int{100},
 			},
 		},
-		Route{
+		{
 			Dst:       nil,
-			MultiPath: []*NexthopInfo{&NexthopInfo{LinkIndex: 10}, &NexthopInfo{LinkIndex: 20}},
+			MultiPath: []*NexthopInfo{{LinkIndex: 10}, {LinkIndex: 20}},
 		},
-		Route{
+		{
 			Dst: nil,
-			MultiPath: []*NexthopInfo{&NexthopInfo{
+			MultiPath: []*NexthopInfo{{
 				LinkIndex: 10,
 				Gw:        net.IPv4(1, 1, 1, 1),
-			}, &NexthopInfo{LinkIndex: 20}},
+			}, {LinkIndex: 20}},
 		},
-		Route{
+		{
 			Dst: nil,
-			MultiPath: []*NexthopInfo{&NexthopInfo{
+			MultiPath: []*NexthopInfo{{
 				LinkIndex: 10,
 				Gw:        net.IPv4(1, 1, 1, 1),
 				Encap: &MPLSEncap{
 					Labels: []int{100},
 				},
-			}, &NexthopInfo{LinkIndex: 20}},
+			}, {LinkIndex: 20}},
 		},
-		Route{
+		{
 			Dst: nil,
-			MultiPath: []*NexthopInfo{&NexthopInfo{
+			MultiPath: []*NexthopInfo{{
 				LinkIndex: 10,
 				NewDst: &MPLSDestination{
 					Labels: []int{200, 300},
 				},
-			}, &NexthopInfo{LinkIndex: 20}},
+			}, {LinkIndex: 20}},
 		},
 	}
 	for i1 := range cases {

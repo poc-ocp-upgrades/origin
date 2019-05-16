@@ -1,11 +1,16 @@
 package config
 
-import "k8s.io/apimachinery/pkg/apis/meta/v1"
+import (
+	goformat "fmt"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
+)
 
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type BootstrapIdentityProvider struct{ v1.TypeMeta }
 
-// BootstrapIdentityProvider serves as a marker for an "IDP" that is backed by osin
-// this allows us to reuse most of the logic from existing identity providers
-type BootstrapIdentityProvider struct {
-	v1.TypeMeta
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

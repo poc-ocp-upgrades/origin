@@ -2,48 +2,43 @@ package registryhostname
 
 import (
 	"fmt"
+	goformat "fmt"
+	corev1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"os"
+	goos "os"
+	godefaultruntime "runtime"
 	"strconv"
 	"strings"
 	"sync"
-
-	corev1 "k8s.io/api/core/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	gotime "time"
 )
 
 type serviceEntry struct {
 	host string
 	port string
 }
-
-// ResolverCacheFunc is used for resolving names to services
 type ResolverCacheFunc func(name string, options metav1.GetOptions) (*corev1.Service, error)
-
-// ServiceResolverCache is a cache used for resolving names to services
 type ServiceResolverCache struct {
 	fill  ResolverCacheFunc
 	cache map[string]serviceEntry
 	lock  sync.RWMutex
 }
 
-// NewServiceResolverCache returns a new ServiceResolverCache
 func newServiceResolverCache(fill ResolverCacheFunc) *ServiceResolverCache {
-	return &ServiceResolverCache{
-		cache: make(map[string]serviceEntry),
-		fill:  fill,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &ServiceResolverCache{cache: make(map[string]serviceEntry), fill: fill}
 }
-
 func (c *ServiceResolverCache) get(name string) (host, port string, ok bool) {
-	// check
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	c.lock.RLock()
 	entry, found := c.cache[name]
 	c.lock.RUnlock()
 	if found {
 		return entry.host, entry.port, true
 	}
-
-	// fill the cache
 	c.lock.Lock()
 	defer c.lock.Unlock()
 	if entry, found := c.cache[name]; found {
@@ -57,18 +52,17 @@ func (c *ServiceResolverCache) get(name string) (host, port string, ok bool) {
 		return
 	}
 	host, port, ok = service.Spec.ClusterIP, strconv.Itoa(int(service.Spec.Ports[0].Port)), true
-	c.cache[name] = serviceEntry{
-		host: host,
-		port: port,
-	}
+	c.cache[name] = serviceEntry{host: host, port: port}
 	return
 }
-
 func toServiceName(envName string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return strings.TrimSpace(strings.ToLower(strings.Replace(envName, "_", "-", -1)))
 }
-
 func recognizeVariable(name string) (service string, host bool, ok bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch {
 	case strings.HasSuffix(name, "_SERVICE_HOST"):
 		service = toServiceName(strings.TrimSuffix(name, "_SERVICE_HOST"))
@@ -84,8 +78,9 @@ func recognizeVariable(name string) (service string, host bool, ok bool) {
 	ok = true
 	return
 }
-
 func (c *ServiceResolverCache) resolve(name string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	service, isHost, ok := recognizeVariable(name)
 	if !ok {
 		return "", false
@@ -99,11 +94,9 @@ func (c *ServiceResolverCache) resolve(name string) (string, bool) {
 	}
 	return port, true
 }
-
-// Defer takes a string (with optional variables) and an expansion function and returns
-// a function that can be called to get the value. This method will optimize the
-// expansion away in the event that no expansion is necessary.
 func (c *ServiceResolverCache) Defer(env string) (func() (string, bool), error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	hasExpansion := false
 	invalid := []string{}
 	os.Expand(env, func(name string) string {
@@ -117,10 +110,10 @@ func (c *ServiceResolverCache) Defer(env string) (func() (string, bool), error) 
 		return nil, fmt.Errorf("invalid variable name(s): %s", strings.Join(invalid, ", "))
 	}
 	if !hasExpansion {
-		return func() (string, bool) { return env, true }, nil
+		return func() (string, bool) {
+			return env, true
+		}, nil
 	}
-
-	// only load the value once
 	lock := sync.Mutex{}
 	loaded := false
 	return func() (string, bool) {
@@ -142,4 +135,8 @@ func (c *ServiceResolverCache) Defer(env string) (func() (string, bool), error) 
 		env = expand
 		return env, true
 	}, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

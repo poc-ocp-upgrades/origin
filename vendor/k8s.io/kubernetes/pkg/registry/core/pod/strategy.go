@@ -1,31 +1,9 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package pod
 
 import (
 	"context"
 	"fmt"
-	"net"
-	"net/http"
-	"net/url"
-	"strconv"
-	"strings"
-	"time"
-
+	goformat "fmt"
 	"k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/api/meta"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -48,60 +26,63 @@ import (
 	"k8s.io/kubernetes/pkg/apis/core/validation"
 	"k8s.io/kubernetes/pkg/kubelet/client"
 	proxyutil "k8s.io/kubernetes/pkg/proxy/util"
+	"net"
+	"net/http"
+	"net/url"
+	goos "os"
+	godefaultruntime "runtime"
+	"strconv"
+	"strings"
+	"time"
+	gotime "time"
 )
 
-// podStrategy implements behavior for Pods
 type podStrategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 }
 
-// Strategy is the default logic that applies when creating and updating Pod
-// objects via the REST API.
 var Strategy = podStrategy{legacyscheme.Scheme, names.SimpleNameGenerator}
 
-// NamespaceScoped is true for pods.
 func (podStrategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
-// PrepareForCreate clears fields that are not allowed to be set by end users on creation.
 func (podStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod := obj.(*api.Pod)
-	pod.Status = api.PodStatus{
-		Phase:    api.PodPending,
-		QOSClass: qos.GetPodQOS(pod),
-	}
-
+	pod.Status = api.PodStatus{Phase: api.PodPending, QOSClass: qos.GetPodQOS(pod)}
 	podutil.DropDisabledAlphaFields(&pod.Spec)
 }
-
-// PrepareForUpdate clears fields that are not allowed to be set by end users on update.
 func (podStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newPod := obj.(*api.Pod)
 	oldPod := old.(*api.Pod)
 	newPod.Status = oldPod.Status
-
 	podutil.DropDisabledAlphaFields(&newPod.Spec)
 	podutil.DropDisabledAlphaFields(&oldPod.Spec)
 }
-
-// Validate validates a new pod.
 func (podStrategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod := obj.(*api.Pod)
 	return validation.ValidatePod(pod)
 }
-
-// Canonicalize normalizes the object after validation.
 func (podStrategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// AllowCreateOnUpdate is false for pods.
 func (podStrategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func isUpdatingUninitializedPod(old runtime.Object) (bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !utilfeature.DefaultFeatureGate.Enabled(features.Initializers) {
 		return false, nil
 	}
@@ -115,9 +96,9 @@ func isUpdatingUninitializedPod(old runtime.Object) (bool, error) {
 	}
 	return false, nil
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (podStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	errorList := validation.ValidatePod(obj.(*api.Pod))
 	uninitializedUpdate, err := isUpdatingUninitializedPod(old)
 	if err != nil {
@@ -128,72 +109,62 @@ func (podStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) 
 	}
 	return append(errorList, validation.ValidatePodUpdate(obj.(*api.Pod), old.(*api.Pod))...)
 }
-
-// AllowUnconditionalUpdate allows pods to be overwritten
 func (podStrategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
-// CheckGracefulDelete allows a pod to be gracefully deleted. It updates the DeleteOptions to
-// reflect the desired grace value.
 func (podStrategy) CheckGracefulDelete(ctx context.Context, obj runtime.Object, options *metav1.DeleteOptions) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if options == nil {
 		return false
 	}
 	pod := obj.(*api.Pod)
 	period := int64(0)
-	// user has specified a value
 	if options.GracePeriodSeconds != nil {
 		period = *options.GracePeriodSeconds
 	} else {
-		// use the default value if set, or deletes the pod immediately (0)
 		if pod.Spec.TerminationGracePeriodSeconds != nil {
 			period = *pod.Spec.TerminationGracePeriodSeconds
 		}
 	}
-	// if the pod is not scheduled, delete immediately
 	if len(pod.Spec.NodeName) == 0 {
 		period = 0
 	}
-	// if the pod is already terminated, delete immediately
 	if pod.Status.Phase == api.PodFailed || pod.Status.Phase == api.PodSucceeded {
 		period = 0
 	}
-	// ensure the options and the pod are in sync
 	options.GracePeriodSeconds = &period
 	return true
 }
 
-type podStrategyWithoutGraceful struct {
-	podStrategy
-}
+type podStrategyWithoutGraceful struct{ podStrategy }
 
-// CheckGracefulDelete prohibits graceful deletion.
 func (podStrategyWithoutGraceful) CheckGracefulDelete(ctx context.Context, obj runtime.Object, options *metav1.DeleteOptions) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
 
-// StrategyWithoutGraceful implements the legacy instant delele behavior.
 var StrategyWithoutGraceful = podStrategyWithoutGraceful{Strategy}
 
-type podStatusStrategy struct {
-	podStrategy
-}
+type podStatusStrategy struct{ podStrategy }
 
 var StatusStrategy = podStatusStrategy{Strategy}
 
 func (podStatusStrategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newPod := obj.(*api.Pod)
 	oldPod := old.(*api.Pod)
 	newPod.Spec = oldPod.Spec
 	newPod.DeletionTimestamp = nil
-
-	// don't allow the pods/status endpoint to touch owner references since old kubelets corrupt them in a way
-	// that breaks garbage collection
 	newPod.OwnerReferences = oldPod.OwnerReferences
 }
-
 func (podStatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errorList field.ErrorList
 	uninitializedUpdate, err := isUpdatingUninitializedPod(old)
 	if err != nil {
@@ -202,42 +173,32 @@ func (podStatusStrategy) ValidateUpdate(ctx context.Context, obj, old runtime.Ob
 	if uninitializedUpdate {
 		return append(errorList, field.Forbidden(field.NewPath("status"), apimachineryvalidation.UninitializedStatusUpdateErrorMsg))
 	}
-	// TODO: merge valid fields after update
 	return validation.ValidatePodStatusUpdate(obj.(*api.Pod), old.(*api.Pod))
 }
-
-// GetAttrs returns labels and fields of a given object for filtering purposes.
 func GetAttrs(obj runtime.Object) (labels.Set, fields.Set, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod, ok := obj.(*api.Pod)
 	if !ok {
 		return nil, nil, false, fmt.Errorf("not a pod")
 	}
 	return labels.Set(pod.ObjectMeta.Labels), PodToSelectableFields(pod), pod.Initializers != nil, nil
 }
-
-// MatchPod returns a generic matcher for a given label and field selector.
 func MatchPod(label labels.Selector, field fields.Selector) storage.SelectionPredicate {
-	return storage.SelectionPredicate{
-		Label:       label,
-		Field:       field,
-		GetAttrs:    GetAttrs,
-		IndexFields: []string{"spec.nodeName"},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return storage.SelectionPredicate{Label: label, Field: field, GetAttrs: GetAttrs, IndexFields: []string{"spec.nodeName"}}
 }
-
 func NodeNameTriggerFunc(obj runtime.Object) []storage.MatchValue {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod := obj.(*api.Pod)
 	result := storage.MatchValue{IndexName: "spec.nodeName", Value: pod.Spec.NodeName}
 	return []storage.MatchValue{result}
 }
-
-// PodToSelectableFields returns a field set that represents the object
-// TODO: fields are not labels, and the validation rules for them do not apply.
 func PodToSelectableFields(pod *api.Pod) fields.Set {
-	// The purpose of allocation with a given number of elements is to reduce
-	// amount of allocations needed to create the fields.Set. If you add any
-	// field here or the number of object-meta related fields changes, this should
-	// be adjusted.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	podSpecificFieldsSet := make(fields.Set, 9)
 	podSpecificFieldsSet["spec.nodeName"] = pod.Spec.NodeName
 	podSpecificFieldsSet["spec.restartPolicy"] = string(pod.Spec.RestartPolicy)
@@ -249,12 +210,13 @@ func PodToSelectableFields(pod *api.Pod) fields.Set {
 	return generic.AddObjectMetaFieldsSet(podSpecificFieldsSet, &pod.ObjectMeta, true)
 }
 
-// ResourceGetter is an interface for retrieving resources by ResourceLocation.
 type ResourceGetter interface {
 	Get(context.Context, string, *metav1.GetOptions) (runtime.Object, error)
 }
 
 func getPod(getter ResourceGetter, ctx context.Context, name string) (*api.Pod, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	obj, err := getter.Get(ctx, name, &metav1.GetOptions{})
 	if err != nil {
 		return nil, err
@@ -265,23 +227,17 @@ func getPod(getter ResourceGetter, ctx context.Context, name string) (*api.Pod, 
 	}
 	return pod, nil
 }
-
-// ResourceLocation returns a URL to which one can send traffic for the specified pod.
 func ResourceLocation(getter ResourceGetter, rt http.RoundTripper, ctx context.Context, id string) (*url.URL, http.RoundTripper, error) {
-	// Allow ID as "podname" or "podname:port" or "scheme:podname:port".
-	// If port is not specified, try to use the first defined port on the pod.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	scheme, name, port, valid := utilnet.SplitSchemeNamePort(id)
 	if !valid {
 		return nil, nil, errors.NewBadRequest(fmt.Sprintf("invalid pod request %q", id))
 	}
-	// TODO: if port is not a number but a "(container)/(portname)", do a name lookup.
-
 	pod, err := getPod(getter, ctx, name)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	// Try to figure out a port.
 	if port == "" {
 		for i := range pod.Spec.Containers {
 			if len(pod.Spec.Containers[i].Ports) > 0 {
@@ -290,14 +246,10 @@ func ResourceLocation(getter ResourceGetter, rt http.RoundTripper, ctx context.C
 			}
 		}
 	}
-
 	if err := proxyutil.IsProxyableIP(pod.Status.PodIP); err != nil {
 		return nil, nil, errors.NewBadRequest(err.Error())
 	}
-
-	loc := &url.URL{
-		Scheme: scheme,
-	}
+	loc := &url.URL{Scheme: scheme}
 	if port == "" {
 		loc.Host = pod.Status.PodIP
 	} else {
@@ -305,32 +257,22 @@ func ResourceLocation(getter ResourceGetter, rt http.RoundTripper, ctx context.C
 	}
 	return loc, rt, nil
 }
-
-// getContainerNames returns a formatted string containing the container names
 func getContainerNames(containers []api.Container) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	names := []string{}
 	for _, c := range containers {
 		names = append(names, c.Name)
 	}
 	return strings.Join(names, " ")
 }
-
-// LogLocation returns the log URL for a pod container. If opts.Container is blank
-// and only one container is present in the pod, that container is used.
-func LogLocation(
-	getter ResourceGetter,
-	connInfo client.ConnectionInfoGetter,
-	ctx context.Context,
-	name string,
-	opts *api.PodLogOptions,
-) (*url.URL, http.RoundTripper, error) {
+func LogLocation(getter ResourceGetter, connInfo client.ConnectionInfoGetter, ctx context.Context, name string, opts *api.PodLogOptions) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod, err := getPod(getter, ctx, name)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	// Try to figure out a container
-	// If a container was provided, it must be valid
 	container := opts.Container
 	if len(container) == 0 {
 		switch len(pod.Spec.Containers) {
@@ -354,7 +296,6 @@ func LogLocation(
 	}
 	nodeName := types.NodeName(pod.Spec.NodeName)
 	if len(nodeName) == 0 {
-		// If pod has not been assigned a host, return an empty location
 		return nil, nil, nil
 	}
 	nodeInfo, err := connInfo.GetConnectionInfo(ctx, nodeName)
@@ -383,16 +324,12 @@ func LogLocation(
 	if opts.LimitBytes != nil {
 		params.Add("limitBytes", strconv.FormatInt(*opts.LimitBytes, 10))
 	}
-	loc := &url.URL{
-		Scheme:   nodeInfo.Scheme,
-		Host:     net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port),
-		Path:     fmt.Sprintf("/containerLogs/%s/%s/%s", pod.Namespace, pod.Name, container),
-		RawQuery: params.Encode(),
-	}
+	loc := &url.URL{Scheme: nodeInfo.Scheme, Host: net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port), Path: fmt.Sprintf("/containerLogs/%s/%s/%s", pod.Namespace, pod.Name, container), RawQuery: params.Encode()}
 	return loc, nodeInfo.Transport, nil
 }
-
 func podHasContainerWithName(pod *api.Pod, containerName string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, c := range pod.Spec.Containers {
 		if c.Name == containerName {
 			return true
@@ -405,8 +342,9 @@ func podHasContainerWithName(pod *api.Pod, containerName string) bool {
 	}
 	return false
 }
-
 func streamParams(params url.Values, opts runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch opts := opts.(type) {
 	case *api.PodExecOptions:
 		if opts.Stdin {
@@ -450,47 +388,23 @@ func streamParams(params url.Values, opts runtime.Object) error {
 	}
 	return nil
 }
-
-// AttachLocation returns the attach URL for a pod container. If opts.Container is blank
-// and only one container is present in the pod, that container is used.
-func AttachLocation(
-	getter ResourceGetter,
-	connInfo client.ConnectionInfoGetter,
-	ctx context.Context,
-	name string,
-	opts *api.PodAttachOptions,
-) (*url.URL, http.RoundTripper, error) {
+func AttachLocation(getter ResourceGetter, connInfo client.ConnectionInfoGetter, ctx context.Context, name string, opts *api.PodAttachOptions) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return streamLocation(getter, connInfo, ctx, name, opts, opts.Container, "attach")
 }
-
-// ExecLocation returns the exec URL for a pod container. If opts.Container is blank
-// and only one container is present in the pod, that container is used.
-func ExecLocation(
-	getter ResourceGetter,
-	connInfo client.ConnectionInfoGetter,
-	ctx context.Context,
-	name string,
-	opts *api.PodExecOptions,
-) (*url.URL, http.RoundTripper, error) {
+func ExecLocation(getter ResourceGetter, connInfo client.ConnectionInfoGetter, ctx context.Context, name string, opts *api.PodExecOptions) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return streamLocation(getter, connInfo, ctx, name, opts, opts.Container, "exec")
 }
-
-func streamLocation(
-	getter ResourceGetter,
-	connInfo client.ConnectionInfoGetter,
-	ctx context.Context,
-	name string,
-	opts runtime.Object,
-	container,
-	path string,
-) (*url.URL, http.RoundTripper, error) {
+func streamLocation(getter ResourceGetter, connInfo client.ConnectionInfoGetter, ctx context.Context, name string, opts runtime.Object, container, path string) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod, err := getPod(getter, ctx, name)
 	if err != nil {
 		return nil, nil, err
 	}
-
-	// Try to figure out a container
-	// If a container was provided, it must be valid
 	if container == "" {
 		switch len(pod.Spec.Containers) {
 		case 1:
@@ -513,7 +427,6 @@ func streamLocation(
 	}
 	nodeName := types.NodeName(pod.Spec.NodeName)
 	if len(nodeName) == 0 {
-		// If pod has not been assigned a host, return an empty location
 		return nil, nil, errors.NewBadRequest(fmt.Sprintf("pod %s does not have a host assigned", name))
 	}
 	nodeInfo, err := connInfo.GetConnectionInfo(ctx, nodeName)
@@ -524,31 +437,18 @@ func streamLocation(
 	if err := streamParams(params, opts); err != nil {
 		return nil, nil, err
 	}
-	loc := &url.URL{
-		Scheme:   nodeInfo.Scheme,
-		Host:     net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port),
-		Path:     fmt.Sprintf("/%s/%s/%s/%s", path, pod.Namespace, pod.Name, container),
-		RawQuery: params.Encode(),
-	}
+	loc := &url.URL{Scheme: nodeInfo.Scheme, Host: net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port), Path: fmt.Sprintf("/%s/%s/%s/%s", path, pod.Namespace, pod.Name, container), RawQuery: params.Encode()}
 	return loc, nodeInfo.Transport, nil
 }
-
-// PortForwardLocation returns the port-forward URL for a pod.
-func PortForwardLocation(
-	getter ResourceGetter,
-	connInfo client.ConnectionInfoGetter,
-	ctx context.Context,
-	name string,
-	opts *api.PodPortForwardOptions,
-) (*url.URL, http.RoundTripper, error) {
+func PortForwardLocation(getter ResourceGetter, connInfo client.ConnectionInfoGetter, ctx context.Context, name string, opts *api.PodPortForwardOptions) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	pod, err := getPod(getter, ctx, name)
 	if err != nil {
 		return nil, nil, err
 	}
-
 	nodeName := types.NodeName(pod.Spec.NodeName)
 	if len(nodeName) == 0 {
-		// If pod has not been assigned a host, return an empty location
 		return nil, nil, errors.NewBadRequest(fmt.Sprintf("pod %s does not have a host assigned", name))
 	}
 	nodeInfo, err := connInfo.GetConnectionInfo(ctx, nodeName)
@@ -559,11 +459,10 @@ func PortForwardLocation(
 	if err := streamParams(params, opts); err != nil {
 		return nil, nil, err
 	}
-	loc := &url.URL{
-		Scheme:   nodeInfo.Scheme,
-		Host:     net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port),
-		Path:     fmt.Sprintf("/portForward/%s/%s", pod.Namespace, pod.Name),
-		RawQuery: params.Encode(),
-	}
+	loc := &url.URL{Scheme: nodeInfo.Scheme, Host: net.JoinHostPort(nodeInfo.Hostname, nodeInfo.Port), Path: fmt.Sprintf("/portForward/%s/%s", pod.Namespace, pod.Name), RawQuery: params.Encode()}
 	return loc, nodeInfo.Transport, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

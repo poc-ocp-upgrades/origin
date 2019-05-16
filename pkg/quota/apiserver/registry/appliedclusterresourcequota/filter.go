@@ -2,7 +2,14 @@ package appliedclusterresourcequota
 
 import (
 	"context"
-
+	goformat "fmt"
+	"github.com/openshift/api/quota"
+	quotalister "github.com/openshift/client-go/quota/listers/quota/v1"
+	"github.com/openshift/origin/pkg/api/apihelpers"
+	printersinternal "github.com/openshift/origin/pkg/printers/internalversion"
+	quotaapi "github.com/openshift/origin/pkg/quota/apis/quota"
+	quotav1conversions "github.com/openshift/origin/pkg/quota/apis/quota/v1"
+	"github.com/openshift/origin/pkg/quota/controller/clusterquotamapping"
 	kapierrors "k8s.io/apimachinery/pkg/api/errors"
 	metainternal "k8s.io/apimachinery/pkg/apis/meta/internalversion"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -15,14 +22,9 @@ import (
 	"k8s.io/apiserver/pkg/storage"
 	"k8s.io/kubernetes/pkg/printers"
 	printerstorage "k8s.io/kubernetes/pkg/printers/storage"
-
-	"github.com/openshift/api/quota"
-	quotalister "github.com/openshift/client-go/quota/listers/quota/v1"
-	"github.com/openshift/origin/pkg/api/apihelpers"
-	printersinternal "github.com/openshift/origin/pkg/printers/internalversion"
-	quotaapi "github.com/openshift/origin/pkg/quota/apis/quota"
-	quotav1conversions "github.com/openshift/origin/pkg/quota/apis/quota/v1"
-	"github.com/openshift/origin/pkg/quota/controller/clusterquotamapping"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type AppliedClusterResourceQuotaREST struct {
@@ -32,11 +34,9 @@ type AppliedClusterResourceQuotaREST struct {
 }
 
 func NewREST(quotaMapper clusterquotamapping.ClusterQuotaMapper, quotaLister quotalister.ClusterResourceQuotaLister) *AppliedClusterResourceQuotaREST {
-	return &AppliedClusterResourceQuotaREST{
-		quotaMapper:    quotaMapper,
-		quotaLister:    quotaLister,
-		TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &AppliedClusterResourceQuotaREST{quotaMapper: quotaMapper, quotaLister: quotaLister, TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}}
 }
 
 var _ rest.Getter = &AppliedClusterResourceQuotaREST{}
@@ -44,48 +44,48 @@ var _ rest.Lister = &AppliedClusterResourceQuotaREST{}
 var _ rest.Scoper = &AppliedClusterResourceQuotaREST{}
 
 func (r *AppliedClusterResourceQuotaREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &quotaapi.AppliedClusterResourceQuota{}
 }
-
 func (s *AppliedClusterResourceQuotaREST) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (r *AppliedClusterResourceQuotaREST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	namespace, ok := apirequest.NamespaceFrom(ctx)
 	if !ok {
 		return nil, kapierrors.NewBadRequest("namespace is required")
 	}
-
 	quotaNames, _ := r.quotaMapper.GetClusterQuotasFor(namespace)
 	quotaNamesSet := sets.NewString(quotaNames...)
 	if !quotaNamesSet.Has(name) {
 		return nil, kapierrors.NewNotFound(quota.Resource("appliedclusterresourcequota"), name)
 	}
-
 	clusterQuota, err := r.quotaLister.Get(name)
 	if err != nil {
 		return nil, err
 	}
-
 	return quotaapi.ConvertV1ClusterResourceQuotaToV1AppliedClusterResourceQuota(clusterQuota), nil
 }
-
 func (r *AppliedClusterResourceQuotaREST) NewList() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &quotaapi.AppliedClusterResourceQuotaList{}
 }
-
 func (r *AppliedClusterResourceQuotaREST) List(ctx context.Context, options *metainternal.ListOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	namespace, ok := apirequest.NamespaceFrom(ctx)
 	if !ok {
 		return nil, kapierrors.NewBadRequest("namespace is required")
 	}
-
-	// TODO max resource version?  watch?
 	list := &quotaapi.AppliedClusterResourceQuotaList{}
 	matcher := matcher(apihelpers.InternalListOptionsToSelectors(options))
 	quotaNames, _ := r.quotaMapper.GetClusterQuotasFor(namespace)
-
 	for _, name := range quotaNames {
 		quota, err := r.quotaLister.Get(name)
 		if err != nil {
@@ -100,15 +100,14 @@ func (r *AppliedClusterResourceQuotaREST) List(ctx context.Context, options *met
 		}
 		list.Items = append(list.Items, *internalAppliedQuota)
 	}
-
 	return list, nil
 }
-
-// Matcher returns a generic matcher for a given label and field selector.
 func matcher(label labels.Selector, field fields.Selector) storage.SelectionPredicate {
-	return storage.SelectionPredicate{
-		Label:    label,
-		Field:    field,
-		GetAttrs: storage.DefaultClusterScopedAttr,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return storage.SelectionPredicate{Label: label, Field: field, GetAttrs: storage.DefaultClusterScopedAttr}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

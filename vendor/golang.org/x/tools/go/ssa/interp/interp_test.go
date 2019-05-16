@@ -102,8 +102,8 @@ var gorootTestTests = []string{
 	"floatcmp.go",
 	"crlf.go", // doesn't actually assert anything (runoutput)
 	// Slow tests follow.
-	"bom.go", // ~1.7s
-	"gc1.go", // ~1.7s
+	"bom.go",                         // ~1.7s
+	"gc1.go",                         // ~1.7s
 	"cmplxdivide.go cmplxdivide1.go", // ~2.4s
 
 	// Working, but not worth enabling:

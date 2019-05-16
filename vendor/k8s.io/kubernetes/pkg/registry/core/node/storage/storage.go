@@ -1,27 +1,9 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package storage
 
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"net/url"
-
+	goformat "fmt"
 	"k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -36,73 +18,58 @@ import (
 	printerstorage "k8s.io/kubernetes/pkg/printers/storage"
 	"k8s.io/kubernetes/pkg/registry/core/node"
 	noderest "k8s.io/kubernetes/pkg/registry/core/node/rest"
+	"net/http"
+	"net/url"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// NodeStorage includes storage for nodes and all sub resources
 type NodeStorage struct {
-	Node   *REST
-	Status *StatusREST
-	Proxy  *noderest.ProxyREST
-
+	Node                  *REST
+	Status                *StatusREST
+	Proxy                 *noderest.ProxyREST
 	KubeletConnectionInfo client.ConnectionInfoGetter
 }
-
 type REST struct {
 	*genericregistry.Store
 	connection     client.ConnectionInfoGetter
 	proxyTransport http.RoundTripper
 }
-
-// StatusREST implements the REST endpoint for changing the status of a node.
-type StatusREST struct {
-	store *genericregistry.Store
-}
+type StatusREST struct{ store *genericregistry.Store }
 
 func (r *StatusREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &api.Node{}
 }
-
-// Get retrieves the object from the storage. It is required to support Patch.
 func (r *StatusREST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Get(ctx, name, options)
 }
-
-// Update alters the status subset of an object.
 func (r *StatusREST) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
-	// We are explicitly setting forceAllowCreate to false in the call to the underlying storage because
-	// subresources should never allow create on update.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Update(ctx, name, objInfo, createValidation, updateValidation, false, options)
 }
-
-// NewStorage returns a NodeStorage object that will work against nodes.
 func NewStorage(optsGetter generic.RESTOptionsGetter, kubeletClientConfig client.KubeletClientConfig, proxyTransport http.RoundTripper) (*NodeStorage, error) {
-	store := &genericregistry.Store{
-		NewFunc:                  func() runtime.Object { return &api.Node{} },
-		NewListFunc:              func() runtime.Object { return &api.NodeList{} },
-		PredicateFunc:            node.MatchNode,
-		DefaultQualifiedResource: api.Resource("nodes"),
-
-		CreateStrategy: node.Strategy,
-		UpdateStrategy: node.Strategy,
-		DeleteStrategy: node.Strategy,
-		ExportStrategy: node.Strategy,
-
-		TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	store := &genericregistry.Store{NewFunc: func() runtime.Object {
+		return &api.Node{}
+	}, NewListFunc: func() runtime.Object {
+		return &api.NodeList{}
+	}, PredicateFunc: node.MatchNode, DefaultQualifiedResource: api.Resource("nodes"), CreateStrategy: node.Strategy, UpdateStrategy: node.Strategy, DeleteStrategy: node.Strategy, ExportStrategy: node.Strategy, TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}}
 	options := &generic.StoreOptions{RESTOptions: optsGetter, AttrFunc: node.GetAttrs, TriggerFunc: node.NodeNameTriggerFunc}
 	if err := store.CompleteWithOptions(options); err != nil {
 		return nil, err
 	}
-
 	statusStore := *store
 	statusStore.UpdateStrategy = node.StatusStrategy
-
-	// Set up REST handlers
 	nodeREST := &REST{Store: store, proxyTransport: proxyTransport}
 	statusREST := &StatusREST{store: &statusStore}
 	proxyREST := &noderest.ProxyREST{Store: store, ProxyTransport: proxyTransport}
-
-	// Build a NodeGetter that looks up nodes using the REST handler
 	nodeGetter := client.NodeGetterFunc(func(ctx context.Context, nodeName string, options metav1.GetOptions) (*v1.Node, error) {
 		obj, err := nodeREST.Get(ctx, nodeName, &options)
 		if err != nil {
@@ -112,7 +79,6 @@ func NewStorage(optsGetter generic.RESTOptionsGetter, kubeletClientConfig client
 		if !ok {
 			return nil, fmt.Errorf("unexpected type %T", obj)
 		}
-		// TODO: Remove the conversion. Consider only return the NodeAddresses
 		externalNode := &v1.Node{}
 		err = k8s_api_v1.Convert_core_Node_To_v1_Node(node, externalNode, nil)
 		if err != nil {
@@ -126,24 +92,22 @@ func NewStorage(optsGetter generic.RESTOptionsGetter, kubeletClientConfig client
 	}
 	nodeREST.connection = connectionInfoGetter
 	proxyREST.Connection = connectionInfoGetter
-
-	return &NodeStorage{
-		Node:                  nodeREST,
-		Status:                statusREST,
-		Proxy:                 proxyREST,
-		KubeletConnectionInfo: connectionInfoGetter,
-	}, nil
+	return &NodeStorage{Node: nodeREST, Status: statusREST, Proxy: proxyREST, KubeletConnectionInfo: connectionInfoGetter}, nil
 }
 
-// Implement Redirector.
 var _ = rest.Redirector(&REST{})
 
-// ResourceLocation returns a URL to which one can send traffic for the specified node.
 func (r *REST) ResourceLocation(ctx context.Context, id string) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return node.ResourceLocation(r, r.connection, r.proxyTransport, ctx, id)
 }
-
-// ShortNames implements the ShortNamesProvider interface. Returns a list of short names for a resource.
 func (r *REST) ShortNames() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return []string{"no"}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

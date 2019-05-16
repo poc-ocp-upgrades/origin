@@ -1,34 +1,20 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// User-interface for test-infra/kubetest/e2e.go
-// Equivalent to go get -u k8s.io/test-infra/kubetest && kubetest "${@}"
 package main
 
 import (
 	"flag"
 	"fmt"
+	goformat "fmt"
 	"go/build"
 	"log"
 	"os"
+	goos "os"
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	godefaultruntime "runtime"
 	"strings"
 	"time"
+	gotime "time"
 )
 
 type flags struct {
@@ -43,6 +29,8 @@ const (
 )
 
 func parse(args []string) (flags, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fs := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	get := fs.Bool("get", getDefault, "go get -u kubetest if old or not installed")
 	old := fs.Duration("old", oldDefault, "Consider kubetest old if it exceeds this")
@@ -64,8 +52,9 @@ func parse(args []string) (flags, error) {
 	}
 	return flags{*get, *old, a}, nil
 }
-
 func main() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	f, err := parse(os.Args)
 	if err != nil {
@@ -82,11 +71,11 @@ func main() {
 	}
 	log.Print("Done")
 }
-
 func wait(cmd string, args ...string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	sigChannel := make(chan os.Signal, 1)
 	signal.Notify(sigChannel, os.Interrupt)
-
 	c := exec.Command(cmd, args...)
 	c.Stdout = os.Stdout
 	c.Stderr = os.Stderr
@@ -102,24 +91,21 @@ func wait(cmd string, args ...string) error {
 	return c.Wait()
 }
 
-// Struct that allows unit tests to override functionality.
 type tester struct {
-	// os.Stat
-	stat func(string) (os.FileInfo, error)
-	// exec.LookPath
+	stat     func(string) (os.FileInfo, error)
 	lookPath func(string) (string, error)
-	// build.Default.GOPATH
-	goPath string
-	wait   func(string, ...string) error
+	goPath   string
+	wait     func(string, ...string) error
 }
 
 func newTester() tester {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return tester{os.Stat, exec.LookPath, build.Default.GOPATH, wait}
 }
-
-// Try to find kubetest, either GOPATH/bin/kubetest or PATH
 func (t tester) lookKubetest() (string, error) {
-	// Check for kubetest in GOPATH/bin
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if t.goPath != "" {
 		p := filepath.Join(t.goPath, "bin", "kubetest")
 		_, err := t.stat(p)
@@ -127,25 +113,21 @@ func (t tester) lookKubetest() (string, error) {
 			return p, nil
 		}
 	}
-
-	// Check for kubetest in PATH
 	p, err := t.lookPath("kubetest")
 	return p, err
 }
-
-// Upgrade if kubetest does not exist or has not been updated today
 func (t tester) getKubetest(get bool, old time.Duration) (string, error) {
-	// Find kubetest installation
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	p, err := t.lookKubetest()
 	if err == nil && !get {
-		return p, nil // Installed, Skip update
+		return p, nil
 	}
 	if err == nil {
-		// Installed recently?
 		if s, err := t.stat(p); err != nil {
-			return p, err // Cannot stat
+			return p, err
 		} else if time.Since(s.ModTime()) <= old {
-			return p, nil // Recently updated
+			return p, nil
 		} else if t.goPath == "" {
 			log.Print("Skipping kubetest upgrade because $GOPATH is empty")
 			return p, nil
@@ -158,13 +140,17 @@ func (t tester) getKubetest(get bool, old time.Duration) (string, error) {
 	log.Print("Updating kubetest binary...")
 	cmd := []string{"go", "get", "-u", "k8s.io/test-infra/kubetest"}
 	if err = t.wait(cmd[0], cmd[1:]...); err != nil {
-		return "", fmt.Errorf("%s: %v", strings.Join(cmd, " "), err) // Could not upgrade
+		return "", fmt.Errorf("%s: %v", strings.Join(cmd, " "), err)
 	}
 	if p, err = t.lookKubetest(); err != nil {
-		return "", err // Cannot find kubetest
+		return "", err
 	} else if err = t.wait("touch", p); err != nil {
-		return "", err // Could not touch
+		return "", err
 	} else {
-		return p, nil // Updated modtime
+		return p, nil
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

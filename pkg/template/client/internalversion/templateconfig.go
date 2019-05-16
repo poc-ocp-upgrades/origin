@@ -1,18 +1,21 @@
 package internalversion
 
 import (
-	"k8s.io/client-go/rest"
-
+	goformat "fmt"
 	templateapi "github.com/openshift/origin/pkg/template/apis/template"
+	"k8s.io/client-go/rest"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// TemplateConfigInterface is an interface for processing template client.
 type TemplateProcessorInterface interface {
 	Process(*templateapi.Template) (*templateapi.Template, error)
 }
 
-// NewTemplateProcessorClient returns a client capable of processing the templates.
 func NewTemplateProcessorClient(c rest.Interface, ns string) TemplateProcessorInterface {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &templateProcessor{client: c, ns: ns}
 }
 
@@ -21,13 +24,14 @@ type templateProcessor struct {
 	ns     string
 }
 
-// Process takes an unprocessed template and returns a processed
-// template with all parameters substituted.
 func (c *templateProcessor) Process(in *templateapi.Template) (*templateapi.Template, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	template := &templateapi.Template{}
-	err := c.client.Post().
-		Namespace(c.ns).
-		Resource("processedTemplates").
-		Body(in).Do().Into(template)
+	err := c.client.Post().Namespace(c.ns).Resource("processedTemplates").Body(in).Do().Into(template)
 	return template, err
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

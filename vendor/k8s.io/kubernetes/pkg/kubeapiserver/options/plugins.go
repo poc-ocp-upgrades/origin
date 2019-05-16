@@ -1,29 +1,15 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package options
 
-// This file exists to force the desired plugin implementations to be linked.
-// This should probably be part of some configuration fed into the build for a
-// given binary target.
 import (
-	// Cloud providers
+	"k8s.io/apimachinery/pkg/util/sets"
+	"k8s.io/apiserver/pkg/admission"
+	"k8s.io/apiserver/pkg/admission/plugin/initialization"
+	"k8s.io/apiserver/pkg/admission/plugin/namespace/lifecycle"
+	mutatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/mutating"
+	validatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/validating"
+	utilfeature "k8s.io/apiserver/pkg/util/feature"
 	_ "k8s.io/kubernetes/pkg/cloudprovider/providers"
-
-	// Admission policies
+	"k8s.io/kubernetes/pkg/features"
 	"k8s.io/kubernetes/plugin/pkg/admission/admit"
 	"k8s.io/kubernetes/plugin/pkg/admission/alwayspullimages"
 	"k8s.io/kubernetes/plugin/pkg/admission/antiaffinity"
@@ -51,61 +37,18 @@ import (
 	"k8s.io/kubernetes/plugin/pkg/admission/storage/persistentvolume/resize"
 	"k8s.io/kubernetes/plugin/pkg/admission/storage/storageclass/setdefault"
 	"k8s.io/kubernetes/plugin/pkg/admission/storage/storageobjectinuseprotection"
-
-	"k8s.io/apimachinery/pkg/util/sets"
-	"k8s.io/apiserver/pkg/admission"
-	"k8s.io/apiserver/pkg/admission/plugin/initialization"
-	"k8s.io/apiserver/pkg/admission/plugin/namespace/lifecycle"
-	mutatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/mutating"
-	validatingwebhook "k8s.io/apiserver/pkg/admission/plugin/webhook/validating"
-	utilfeature "k8s.io/apiserver/pkg/util/feature"
-	"k8s.io/kubernetes/pkg/features"
 )
 
-// AllOrderedPlugins is the list of all the plugins in order.
-var AllOrderedPlugins = []string{
-	admit.PluginName,                        // AlwaysAdmit
-	autoprovision.PluginName,                // NamespaceAutoProvision
-	lifecycle.PluginName,                    // NamespaceLifecycle
-	exists.PluginName,                       // NamespaceExists
-	scdeny.PluginName,                       // SecurityContextDeny
-	antiaffinity.PluginName,                 // LimitPodHardAntiAffinityTopology
-	podpreset.PluginName,                    // PodPreset
-	limitranger.PluginName,                  // LimitRanger
-	serviceaccount.PluginName,               // ServiceAccount
-	noderestriction.PluginName,              // NodeRestriction
-	nodetaint.PluginName,                    // TaintNodesByCondition
-	alwayspullimages.PluginName,             // AlwaysPullImages
-	imagepolicy.PluginName,                  // ImagePolicyWebhook
-	podsecuritypolicy.PluginName,            // PodSecurityPolicy
-	podnodeselector.PluginName,              // PodNodeSelector
-	podpriority.PluginName,                  // Priority
-	defaulttolerationseconds.PluginName,     // DefaultTolerationSeconds
-	podtolerationrestriction.PluginName,     // PodTolerationRestriction
-	exec.DenyEscalatingExec,                 // DenyEscalatingExec
-	exec.DenyExecOnPrivileged,               // DenyExecOnPrivileged
-	eventratelimit.PluginName,               // EventRateLimit
-	extendedresourcetoleration.PluginName,   // ExtendedResourceToleration
-	label.PluginName,                        // PersistentVolumeLabel
-	setdefault.PluginName,                   // DefaultStorageClass
-	storageobjectinuseprotection.PluginName, // StorageObjectInUseProtection
-	gc.PluginName,                           // OwnerReferencesPermissionEnforcement
-	resize.PluginName,                       // PersistentVolumeClaimResize
-	mutatingwebhook.PluginName,              // MutatingAdmissionWebhook
-	initialization.PluginName,               // Initializers
-	validatingwebhook.PluginName,            // ValidatingAdmissionWebhook
-	resourcequota.PluginName,                // ResourceQuota
-	deny.PluginName,                         // AlwaysDeny
-}
+var AllOrderedPlugins = []string{admit.PluginName, autoprovision.PluginName, lifecycle.PluginName, exists.PluginName, scdeny.PluginName, antiaffinity.PluginName, podpreset.PluginName, limitranger.PluginName, serviceaccount.PluginName, noderestriction.PluginName, nodetaint.PluginName, alwayspullimages.PluginName, imagepolicy.PluginName, podsecuritypolicy.PluginName, podnodeselector.PluginName, podpriority.PluginName, defaulttolerationseconds.PluginName, podtolerationrestriction.PluginName, exec.DenyEscalatingExec, exec.DenyExecOnPrivileged, eventratelimit.PluginName, extendedresourcetoleration.PluginName, label.PluginName, setdefault.PluginName, storageobjectinuseprotection.PluginName, gc.PluginName, resize.PluginName, mutatingwebhook.PluginName, initialization.PluginName, validatingwebhook.PluginName, resourcequota.PluginName, deny.PluginName}
 
-// RegisterAllAdmissionPlugins registers all admission plugins and
-// sets the recommended plugins order.
 func registerAllAdmissionPlugins(plugins *admission.Plugins) {
-	admit.Register(plugins) // DEPRECATED as no real meaning
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	admit.Register(plugins)
 	alwayspullimages.Register(plugins)
 	antiaffinity.Register(plugins)
 	defaulttolerationseconds.Register(plugins)
-	deny.Register(plugins) // DEPRECATED as no real meaning
+	deny.Register(plugins)
 	eventratelimit.Register(plugins)
 	exec.Register(plugins)
 	extendedresourcetoleration.Register(plugins)
@@ -116,7 +59,7 @@ func registerAllAdmissionPlugins(plugins *admission.Plugins) {
 	exists.Register(plugins)
 	noderestriction.Register(plugins)
 	nodetaint.Register(plugins)
-	label.Register(plugins) // DEPRECATED in favor of NewPersistentVolumeLabelController in CCM
+	label.Register(plugins)
 	podnodeselector.Register(plugins)
 	podpreset.Register(plugins)
 	podtolerationrestriction.Register(plugins)
@@ -129,28 +72,15 @@ func registerAllAdmissionPlugins(plugins *admission.Plugins) {
 	resize.Register(plugins)
 	storageobjectinuseprotection.Register(plugins)
 }
-
-// DefaultOffAdmissionPlugins get admission plugins off by default for kube-apiserver.
 func defaultOffAdmissionPlugins() sets.String {
-	defaultOnPlugins := sets.NewString(
-		lifecycle.PluginName,                //NamespaceLifecycle
-		limitranger.PluginName,              //LimitRanger
-		serviceaccount.PluginName,           //ServiceAccount
-		setdefault.PluginName,               //DefaultStorageClass
-		resize.PluginName,                   //PersistentVolumeClaimResize
-		defaulttolerationseconds.PluginName, //DefaultTolerationSeconds
-		mutatingwebhook.PluginName,          //MutatingAdmissionWebhook
-		validatingwebhook.PluginName,        //ValidatingAdmissionWebhook
-		resourcequota.PluginName,            //ResourceQuota
-	)
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	defaultOnPlugins := sets.NewString(lifecycle.PluginName, limitranger.PluginName, serviceaccount.PluginName, setdefault.PluginName, resize.PluginName, defaulttolerationseconds.PluginName, mutatingwebhook.PluginName, validatingwebhook.PluginName, resourcequota.PluginName)
 	if utilfeature.DefaultFeatureGate.Enabled(features.PodPriority) {
-		defaultOnPlugins.Insert(podpriority.PluginName) //PodPriority
+		defaultOnPlugins.Insert(podpriority.PluginName)
 	}
-
 	if utilfeature.DefaultFeatureGate.Enabled(features.TaintNodesByCondition) {
-		defaultOnPlugins.Insert(nodetaint.PluginName) //TaintNodesByCondition
+		defaultOnPlugins.Insert(nodetaint.PluginName)
 	}
-
 	return sets.NewString(AllOrderedPlugins...).Difference(defaultOnPlugins)
 }

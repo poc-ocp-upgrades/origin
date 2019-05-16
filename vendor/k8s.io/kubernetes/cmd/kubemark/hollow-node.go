@@ -1,32 +1,11 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package main
 
 import (
 	goflag "flag"
 	"fmt"
-	"math/rand"
-	"os"
-	"time"
-
+	goformat "fmt"
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"k8s.io/klog"
-
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/util/sets"
 	utilflag "k8s.io/apiserver/pkg/util/flag"
@@ -35,8 +14,9 @@ import (
 	restclient "k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/tools/record"
+	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-	_ "k8s.io/kubernetes/pkg/client/metrics/prometheus" // for client metric registration
+	_ "k8s.io/kubernetes/pkg/client/metrics/prometheus"
 	cadvisortest "k8s.io/kubernetes/pkg/kubelet/cadvisor/testing"
 	"k8s.io/kubernetes/pkg/kubelet/cm"
 	"k8s.io/kubernetes/pkg/kubelet/dockershim"
@@ -44,9 +24,15 @@ import (
 	"k8s.io/kubernetes/pkg/kubemark"
 	fakeiptables "k8s.io/kubernetes/pkg/util/iptables/testing"
 	fakesysctl "k8s.io/kubernetes/pkg/util/sysctl/testing"
-	_ "k8s.io/kubernetes/pkg/version/prometheus" // for version metric registration
+	_ "k8s.io/kubernetes/pkg/version/prometheus"
 	"k8s.io/kubernetes/pkg/version/verflag"
 	fakeexec "k8s.io/utils/exec/testing"
+	"math/rand"
+	"os"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
 type HollowNodeConfig struct {
@@ -67,11 +53,11 @@ const (
 	podsPerCore = 0
 )
 
-// TODO(#45650): Refactor hollow-node into hollow-kubelet and hollow-proxy
-// and make the config driven.
 var knownMorphs = sets.NewString("kubelet", "proxy")
 
 func (c *HollowNodeConfig) addFlags(fs *pflag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fs.StringVar(&c.KubeconfigPath, "kubeconfig", "/kubeconfig/kubeconfig", "Path to kubeconfig file.")
 	fs.IntVar(&c.KubeletPort, "kubelet-port", 10250, "Port on which HollowKubelet should be listening.")
 	fs.IntVar(&c.KubeletReadOnlyPort, "kubelet-read-only-port", 10255, "Read-only port on which Kubelet is listening.")
@@ -83,8 +69,9 @@ func (c *HollowNodeConfig) addFlags(fs *pflag.FlagSet) {
 	fs.DurationVar(&c.ProxierSyncPeriod, "proxier-sync-period", 30*time.Second, "Period that proxy rules are refreshed in hollow-proxy.")
 	fs.DurationVar(&c.ProxierMinSyncPeriod, "proxier-min-sync-period", 0, "Minimum period that proxy rules are refreshed in hollow-proxy.")
 }
-
 func (c *HollowNodeConfig) createClientConfigFromFile() (*restclient.Config, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	clientConfig, err := clientcmd.LoadFromFile(c.KubeconfigPath)
 	if err != nil {
 		return nil, fmt.Errorf("error while loading kubeconfig from file %v: %v", c.KubeconfigPath, err)
@@ -98,86 +85,52 @@ func (c *HollowNodeConfig) createClientConfigFromFile() (*restclient.Config, err
 	config.Burst = 20
 	return config, nil
 }
-
 func main() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	rand.Seed(time.Now().UnixNano())
-
 	command := newHollowNodeCommand()
-
-	// TODO: once we switch everything over to Cobra commands, we can go back to calling
-	// utilflag.InitFlags() (by removing its pflag.Parse() call). For now, we have to set the
-	// normalize func and add the go flag set by hand.
 	pflag.CommandLine.SetNormalizeFunc(utilflag.WordSepNormalizeFunc)
 	pflag.CommandLine.AddGoFlagSet(goflag.CommandLine)
-	// utilflag.InitFlags()
 	logs.InitLogs()
 	defer logs.FlushLogs()
-
 	if err := command.Execute(); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 }
-
-// newControllerManagerCommand creates a *cobra.Command object with default parameters
 func newHollowNodeCommand() *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s := &HollowNodeConfig{}
-
-	cmd := &cobra.Command{
-		Use:  "kubemark",
-		Long: "kubemark",
-		Run: func(cmd *cobra.Command, args []string) {
-			verflag.PrintAndExitIfRequested()
-			run(s)
-		},
-	}
+	cmd := &cobra.Command{Use: "kubemark", Long: "kubemark", Run: func(cmd *cobra.Command, args []string) {
+		verflag.PrintAndExitIfRequested()
+		run(s)
+	}}
 	s.addFlags(cmd.Flags())
-
 	return cmd
 }
-
 func run(config *HollowNodeConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !knownMorphs.Has(config.Morph) {
 		klog.Fatalf("Unknown morph: %v. Allowed values: %v", config.Morph, knownMorphs.List())
 	}
-
-	// create a client to communicate with API server.
 	clientConfig, err := config.createClientConfigFromFile()
 	if err != nil {
 		klog.Fatalf("Failed to create a ClientConfig: %v. Exiting.", err)
 	}
-
 	client, err := clientset.NewForConfig(clientConfig)
 	if err != nil {
 		klog.Fatalf("Failed to create a ClientSet: %v. Exiting.", err)
 	}
-
 	if config.Morph == "kubelet" {
-		cadvisorInterface := &cadvisortest.Fake{
-			NodeName: config.NodeName,
-		}
+		cadvisorInterface := &cadvisortest.Fake{NodeName: config.NodeName}
 		containerManager := cm.NewStubContainerManager()
-
-		fakeDockerClientConfig := &dockershim.ClientConfig{
-			DockerEndpoint:    libdocker.FakeDockerEndpoint,
-			EnableSleep:       true,
-			WithTraceDisabled: true,
-		}
-
-		hollowKubelet := kubemark.NewHollowKubelet(
-			config.NodeName,
-			client,
-			cadvisorInterface,
-			fakeDockerClientConfig,
-			config.KubeletPort,
-			config.KubeletReadOnlyPort,
-			containerManager,
-			maxPods,
-			podsPerCore,
-		)
+		fakeDockerClientConfig := &dockershim.ClientConfig{DockerEndpoint: libdocker.FakeDockerEndpoint, EnableSleep: true, WithTraceDisabled: true}
+		hollowKubelet := kubemark.NewHollowKubelet(config.NodeName, client, cadvisorInterface, fakeDockerClientConfig, config.KubeletPort, config.KubeletReadOnlyPort, containerManager, maxPods, podsPerCore)
 		hollowKubelet.Run()
 	}
-
 	if config.Morph == "proxy" {
 		client, err := clientset.NewForConfig(clientConfig)
 		if err != nil {
@@ -188,23 +141,14 @@ func run(config *HollowNodeConfig) {
 		execer := &fakeexec.FakeExec{}
 		eventBroadcaster := record.NewBroadcaster()
 		recorder := eventBroadcaster.NewRecorder(legacyscheme.Scheme, v1.EventSource{Component: "kube-proxy", Host: config.NodeName})
-
-		hollowProxy, err := kubemark.NewHollowProxyOrDie(
-			config.NodeName,
-			client,
-			client.CoreV1(),
-			iptInterface,
-			sysctl,
-			execer,
-			eventBroadcaster,
-			recorder,
-			config.UseRealProxier,
-			config.ProxierSyncPeriod,
-			config.ProxierMinSyncPeriod,
-		)
+		hollowProxy, err := kubemark.NewHollowProxyOrDie(config.NodeName, client, client.CoreV1(), iptInterface, sysctl, execer, eventBroadcaster, recorder, config.UseRealProxier, config.ProxierSyncPeriod, config.ProxierMinSyncPeriod)
 		if err != nil {
 			klog.Fatalf("Failed to create hollowProxy instance: %v", err)
 		}
 		hollowProxy.Run()
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

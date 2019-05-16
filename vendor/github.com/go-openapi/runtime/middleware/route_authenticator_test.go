@@ -202,7 +202,7 @@ func TestAuthenticateOptional(t *testing.T) {
 	ra2 := RouteAuthenticator{
 		allowAnonymous: true,
 		Schemes:        []string{""},
-		Scopes:         map[string][]string{"": []string{}},
+		Scopes:         map[string][]string{"": {}},
 	}
 
 	ra3 := RouteAuthenticator{

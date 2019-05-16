@@ -29,7 +29,7 @@ func TestNewData(t *testing.T) {
 
 func TestNewDataBytes(t *testing.T) {
 	// Test ordinary data, and empty slices
-	for _, content := range [][]byte{[]byte("content"), []byte{}} {
+	for _, content := range [][]byte{[]byte("content"), {}} {
 		dh, err := NewDataBytes(content)
 		checkError(t, err)
 

@@ -472,8 +472,8 @@ func TestFromLogEntry(t *testing.T) {
 				Method: "GET",
 				URL:    u,
 				Header: map[string][]string{
-					"User-Agent": []string{"user-agent"},
-					"Referer":    []string{"referer"},
+					"User-Agent": {"user-agent"},
+					"Referer":    {"referer"},
 				},
 			},
 			RequestSize:                    100,
@@ -638,8 +638,8 @@ func TestFromHTTPRequest(t *testing.T) {
 			Method: "GET",
 			URL:    u,
 			Header: map[string][]string{
-				"User-Agent": []string{"user-agent"},
-				"Referer":    []string{"referer"},
+				"User-Agent": {"user-agent"},
+				"Referer":    {"referer"},
 			},
 		},
 		RequestSize:                    100,

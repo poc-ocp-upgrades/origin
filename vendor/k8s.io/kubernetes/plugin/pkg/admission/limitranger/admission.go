@@ -1,30 +1,10 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package limitranger
 
 import (
 	"fmt"
-	"io"
-	"sort"
-	"strings"
-	"time"
-
+	goformat "fmt"
 	"github.com/hashicorp/golang-lru"
-
+	"io"
 	corev1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/meta"
 	"k8s.io/apimachinery/pkg/api/resource"
@@ -38,38 +18,38 @@ import (
 	"k8s.io/client-go/kubernetes"
 	corev1listers "k8s.io/client-go/listers/core/v1"
 	api "k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	"sort"
+	"strings"
+	"time"
+	gotime "time"
 )
 
 const (
 	limitRangerAnnotation = "kubernetes.io/limit-ranger"
-	// PluginName indicates name of admission plugin.
-	PluginName = "LimitRanger"
+	PluginName            = "LimitRanger"
 )
 
-// Register registers a plugin
 func Register(plugins *admission.Plugins) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	plugins.Register(PluginName, func(config io.Reader) (admission.Interface, error) {
 		return NewLimitRanger(&DefaultLimitRangerActions{})
 	})
 }
 
-// LimitRanger enforces usage limits on a per resource basis in the namespace
 type LimitRanger struct {
 	*admission.Handler
-	client  kubernetes.Interface
-	actions LimitRangerActions
-	lister  corev1listers.LimitRangeLister
-
-	// liveLookups holds the last few live lookups we've done to help ammortize cost on repeated lookup failures.
-	// This let's us handle the case of latent caches, by looking up actual results for a namespace on cache miss/no results.
-	// We track the lookup result here so that for repeated requests, we don't look it up very often.
+	client          kubernetes.Interface
+	actions         LimitRangerActions
+	lister          corev1listers.LimitRangeLister
 	liveLookupCache *lru.Cache
 	liveTTL         time.Duration
 }
 
 var _ admission.MutationInterface = &LimitRanger{}
 var _ admission.ValidationInterface = &LimitRanger{}
-
 var _ genericadmissioninitailizer.WantsExternalKubeInformerFactory = &LimitRanger{}
 var _ genericadmissioninitailizer.WantsExternalKubeClientSet = &LimitRanger{}
 
@@ -79,16 +59,20 @@ type liveLookupEntry struct {
 }
 
 func (l *LimitRanger) SetExternalKubeInformerFactory(f informers.SharedInformerFactory) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	limitRangeInformer := f.Core().V1().LimitRanges()
 	l.SetReadyFunc(limitRangeInformer.Informer().HasSynced)
 	l.lister = limitRangeInformer.Lister()
 }
-
 func (a *LimitRanger) SetExternalKubeClientSet(client kubernetes.Interface) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	a.client = client
 }
-
 func (l *LimitRanger) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if l.lister == nil {
 		return fmt.Errorf("missing limitRange lister")
 	}
@@ -97,23 +81,22 @@ func (l *LimitRanger) ValidateInitialization() error {
 	}
 	return nil
 }
-
-// Admit admits resources into cluster that do not violate any defined LimitRange in the namespace
 func (l *LimitRanger) Admit(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return l.runLimitFunc(a, l.actions.MutateLimit)
 }
-
-// Validate admits resources into cluster that do not violate any defined LimitRange in the namespace
 func (l *LimitRanger) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return l.runLimitFunc(a, l.actions.ValidateLimit)
 }
-
 func (l *LimitRanger) runLimitFunc(a admission.Attributes, limitFn func(limitRange *corev1.LimitRange, kind string, obj runtime.Object) error) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !l.actions.SupportsAttributes(a) {
 		return nil
 	}
-
-	// ignore all objects marked for deletion
 	oldObj := a.GetOldObject()
 	if oldObj != nil {
 		oldAccessor, err := meta.Accessor(oldObj)
@@ -124,20 +107,15 @@ func (l *LimitRanger) runLimitFunc(a admission.Attributes, limitFn func(limitRan
 			return nil
 		}
 	}
-
 	items, err := l.GetLimitRanges(a)
 	if err != nil {
 		return err
 	}
-
-	// ensure it meets each prescribed min/max
 	for i := range items {
 		limitRange := items[i]
-
 		if !l.actions.SupportsLimit(limitRange) {
 			continue
 		}
-
 		err = limitFn(limitRange, a.GetResource().Resource, a.GetObject())
 		if err != nil {
 			return admission.NewForbidden(a, err)
@@ -145,22 +123,16 @@ func (l *LimitRanger) runLimitFunc(a admission.Attributes, limitFn func(limitRan
 	}
 	return nil
 }
-
 func (l *LimitRanger) GetLimitRanges(a admission.Attributes) ([]*corev1.LimitRange, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	items, err := l.lister.LimitRanges(a.GetNamespace()).List(labels.Everything())
 	if err != nil {
 		return nil, admission.NewForbidden(a, fmt.Errorf("unable to %s %v at this time because there was an error enforcing limit ranges", a.GetOperation(), a.GetResource()))
 	}
-
-	// if there are no items held in our indexer, check our live-lookup LRU, if that misses, do the live lookup to prime it.
 	if len(items) == 0 {
 		lruItemObj, ok := l.liveLookupCache.Get(a.GetNamespace())
 		if !ok || lruItemObj.(liveLookupEntry).expiry.Before(time.Now()) {
-			// TODO: If there are multiple operations at the same time and cache has just expired,
-			// this may cause multiple List operations being issued at the same time.
-			// If there is already in-flight List() for a given namespace, we should wait until
-			// it is finished and cache is updated instead of doing the same, also to avoid
-			// throttling - see #22422 for details.
 			liveList, err := l.client.CoreV1().LimitRanges(a.GetNamespace()).List(metav1.ListOptions{})
 			if err != nil {
 				return nil, admission.NewForbidden(a, err)
@@ -173,43 +145,30 @@ func (l *LimitRanger) GetLimitRanges(a admission.Attributes) ([]*corev1.LimitRan
 			lruItemObj = newEntry
 		}
 		lruEntry := lruItemObj.(liveLookupEntry)
-
 		for i := range lruEntry.items {
 			items = append(items, lruEntry.items[i])
 		}
-
 	}
-
 	return items, nil
 }
-
-// NewLimitRanger returns an object that enforces limits based on the supplied limit function
 func NewLimitRanger(actions LimitRangerActions) (*LimitRanger, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	liveLookupCache, err := lru.New(10000)
 	if err != nil {
 		return nil, err
 	}
-
 	if actions == nil {
 		actions = &DefaultLimitRangerActions{}
 	}
-
-	return &LimitRanger{
-		Handler:         admission.NewHandler(admission.Create, admission.Update),
-		actions:         actions,
-		liveLookupCache: liveLookupCache,
-		liveTTL:         time.Duration(30 * time.Second),
-	}, nil
+	return &LimitRanger{Handler: admission.NewHandler(admission.Create, admission.Update), actions: actions, liveLookupCache: liveLookupCache, liveTTL: time.Duration(30 * time.Second)}, nil
 }
-
-// defaultContainerResourceRequirements returns the default requirements for a container
-// the requirement.Limits are taken from the LimitRange defaults (if specified)
-// the requirement.Requests are taken from the LimitRange default request (if specified)
 func defaultContainerResourceRequirements(limitRange *corev1.LimitRange) api.ResourceRequirements {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	requirements := api.ResourceRequirements{}
 	requirements.Requests = api.ResourceList{}
 	requirements.Limits = api.ResourceList{}
-
 	for i := range limitRange.Spec.Limits {
 		limit := limitRange.Spec.Limits[i]
 		if limit.Type == corev1.LimitTypeContainer {
@@ -225,9 +184,9 @@ func defaultContainerResourceRequirements(limitRange *corev1.LimitRange) api.Res
 	}
 	return requirements
 }
-
-// mergeContainerResources handles defaulting all of the resources on a container.
 func mergeContainerResources(container *api.Container, defaultRequirements *api.ResourceRequirements, annotationPrefix string, annotations []string) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	setRequests := []string{}
 	setLimits := []string{}
 	if container.Resources.Limits == nil {
@@ -262,20 +221,16 @@ func mergeContainerResources(container *api.Container, defaultRequirements *api.
 	}
 	return annotations
 }
-
-// mergePodResourceRequirements merges enumerated requirements with default requirements
-// it annotates the pod with information about what requirements were modified
 func mergePodResourceRequirements(pod *api.Pod, defaultRequirements *api.ResourceRequirements) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	annotations := []string{}
-
 	for i := range pod.Spec.Containers {
 		annotations = mergeContainerResources(&pod.Spec.Containers[i], defaultRequirements, "container", annotations)
 	}
-
 	for i := range pod.Spec.InitContainers {
 		annotations = mergeContainerResources(&pod.Spec.InitContainers[i], defaultRequirements, "init container", annotations)
 	}
-
 	if len(annotations) > 0 {
 		if pod.ObjectMeta.Annotations == nil {
 			pod.ObjectMeta.Annotations = make(map[string]string)
@@ -284,13 +239,12 @@ func mergePodResourceRequirements(pod *api.Pod, defaultRequirements *api.Resourc
 		pod.ObjectMeta.Annotations[limitRangerAnnotation] = val
 	}
 }
-
-// requestLimitEnforcedValues returns the specified values at a common precision to support comparability
 func requestLimitEnforcedValues(requestQuantity, limitQuantity, enforcedQuantity resource.Quantity) (request, limit, enforced int64) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	request = requestQuantity.Value()
 	limit = limitQuantity.Value()
 	enforced = enforcedQuantity.Value()
-	// do a more precise comparison if possible (if the value won't overflow)
 	if request <= resource.MaxMilliValue && limit <= resource.MaxMilliValue && enforced <= resource.MaxMilliValue {
 		request = requestQuantity.MilliValue()
 		limit = limitQuantity.MilliValue()
@@ -298,13 +252,12 @@ func requestLimitEnforcedValues(requestQuantity, limitQuantity, enforcedQuantity
 	}
 	return
 }
-
-// minConstraint enforces the min constraint over the specified resource
 func minConstraint(limitType string, resourceName string, enforced resource.Quantity, request api.ResourceList, limit api.ResourceList) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, reqExists := request[api.ResourceName(resourceName)]
 	lim, limExists := limit[api.ResourceName(resourceName)]
 	observedReqValue, observedLimValue, enforcedValue := requestLimitEnforcedValues(req, lim, enforced)
-
 	if !reqExists {
 		return fmt.Errorf("minimum %s usage per %s is %s.  No request is specified.", resourceName, limitType, enforced.String())
 	}
@@ -316,13 +269,11 @@ func minConstraint(limitType string, resourceName string, enforced resource.Quan
 	}
 	return nil
 }
-
-// maxRequestConstraint enforces the max constraint over the specified resource
-// use when specify LimitType resource doesn't recognize limit values
 func maxRequestConstraint(limitType string, resourceName string, enforced resource.Quantity, request api.ResourceList) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, reqExists := request[api.ResourceName(resourceName)]
 	observedReqValue, _, enforcedValue := requestLimitEnforcedValues(req, resource.Quantity{}, enforced)
-
 	if !reqExists {
 		return fmt.Errorf("maximum %s usage per %s is %s.  No request is specified.", resourceName, limitType, enforced.String())
 	}
@@ -331,13 +282,12 @@ func maxRequestConstraint(limitType string, resourceName string, enforced resour
 	}
 	return nil
 }
-
-// maxConstraint enforces the max constraint over the specified resource
 func maxConstraint(limitType string, resourceName string, enforced resource.Quantity, request api.ResourceList, limit api.ResourceList) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, reqExists := request[api.ResourceName(resourceName)]
 	lim, limExists := limit[api.ResourceName(resourceName)]
 	observedReqValue, observedLimValue, enforcedValue := requestLimitEnforcedValues(req, lim, enforced)
-
 	if !limExists {
 		return fmt.Errorf("maximum %s usage per %s is %s.  No limit is specified.", resourceName, limitType, enforced.String())
 	}
@@ -349,20 +299,18 @@ func maxConstraint(limitType string, resourceName string, enforced resource.Quan
 	}
 	return nil
 }
-
-// limitRequestRatioConstraint enforces the limit to request ratio over the specified resource
 func limitRequestRatioConstraint(limitType string, resourceName string, enforced resource.Quantity, request api.ResourceList, limit api.ResourceList) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	req, reqExists := request[api.ResourceName(resourceName)]
 	lim, limExists := limit[api.ResourceName(resourceName)]
 	observedReqValue, observedLimValue, _ := requestLimitEnforcedValues(req, lim, enforced)
-
 	if !reqExists || (observedReqValue == int64(0)) {
 		return fmt.Errorf("%s max limit to request ratio per %s is %s, but no request is specified or request is 0.", resourceName, limitType, enforced.String())
 	}
 	if !limExists || (observedLimValue == int64(0)) {
 		return fmt.Errorf("%s max limit to request ratio per %s is %s, but no limit is specified or limit is 0.", resourceName, limitType, enforced.String())
 	}
-
 	observedRatio := float64(observedLimValue) / float64(observedReqValue)
 	displayObservedRatio := observedRatio
 	maxLimitRequestRatio := float64(enforced.Value())
@@ -370,17 +318,14 @@ func limitRequestRatioConstraint(limitType string, resourceName string, enforced
 		observedRatio = observedRatio * 1000
 		maxLimitRequestRatio = float64(enforced.MilliValue())
 	}
-
 	if observedRatio > maxLimitRequestRatio {
 		return fmt.Errorf("%s max limit to request ratio per %s is %s, but provided ratio is %f.", resourceName, limitType, enforced.String(), displayObservedRatio)
 	}
-
 	return nil
 }
-
-// sum takes the total of each named resource across all inputs
-// if a key is not in each input, then the output resource list will omit the key
 func sum(inputs []api.ResourceList) api.ResourceList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	result := api.ResourceList{}
 	keys := []api.ResourceName{}
 	for i := range inputs {
@@ -390,7 +335,6 @@ func sum(inputs []api.ResourceList) api.ResourceList {
 	}
 	for _, key := range keys {
 		total, isSet := int64(0), true
-
 		for i := range inputs {
 			input := inputs[i]
 			v, exists := input[key]
@@ -404,40 +348,33 @@ func sum(inputs []api.ResourceList) api.ResourceList {
 				isSet = false
 			}
 		}
-
 		if isSet {
 			if key == api.ResourceCPU {
 				result[key] = *(resource.NewMilliQuantity(total, resource.DecimalSI))
 			} else {
 				result[key] = *(resource.NewQuantity(total, resource.DecimalSI))
 			}
-
 		}
 	}
 	return result
 }
 
-// DefaultLimitRangerActions is the default implementation of LimitRangerActions.
 type DefaultLimitRangerActions struct{}
 
-// ensure DefaultLimitRangerActions implements the LimitRangerActions interface.
 var _ LimitRangerActions = &DefaultLimitRangerActions{}
 
-// Limit enforces resource requirements of incoming resources against enumerated constraints
-// on the LimitRange.  It may modify the incoming object to apply default resource requirements
-// if not specified, and enumerated on the LimitRange
 func (d *DefaultLimitRangerActions) MutateLimit(limitRange *corev1.LimitRange, resourceName string, obj runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch resourceName {
 	case "pods":
 		return PodMutateLimitFunc(limitRange, obj.(*api.Pod))
 	}
 	return nil
 }
-
-// Limit enforces resource requirements of incoming resources against enumerated constraints
-// on the LimitRange.  It may modify the incoming object to apply default resource requirements
-// if not specified, and enumerated on the LimitRange
 func (d *DefaultLimitRangerActions) ValidateLimit(limitRange *corev1.LimitRange, resourceName string, obj runtime.Object) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	switch resourceName {
 	case "pods":
 		return PodValidateLimitFunc(limitRange, obj.(*api.Pod))
@@ -446,48 +383,36 @@ func (d *DefaultLimitRangerActions) ValidateLimit(limitRange *corev1.LimitRange,
 	}
 	return nil
 }
-
-// SupportsAttributes ignores all calls that do not deal with pod resources or storage requests (PVCs).
-// Also ignores any call that has a subresource defined.
 func (d *DefaultLimitRangerActions) SupportsAttributes(a admission.Attributes) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if a.GetSubresource() != "" {
 		return false
 	}
-
-	// Since containers and initContainers cannot currently be added, removed, or updated, it is unnecessary
-	// to mutate and validate limitrange on pod updates. Trying to mutate containers or initContainers on a pod
-	// update request will always fail pod validation because those fields are immutable once the object is created.
 	if a.GetKind().GroupKind() == api.Kind("Pod") && a.GetOperation() == admission.Update {
 		return false
 	}
-
 	return a.GetKind().GroupKind() == api.Kind("Pod") || a.GetKind().GroupKind() == api.Kind("PersistentVolumeClaim")
 }
-
-// SupportsLimit always returns true.
 func (d *DefaultLimitRangerActions) SupportsLimit(limitRange *corev1.LimitRange) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
-// PersistentVolumeClaimValidateLimitFunc enforces storage limits for PVCs.
-// Users request storage via pvc.Spec.Resources.Requests.  Min/Max is enforced by an admin with LimitRange.
-// Claims will not be modified with default values because storage is a required part of pvc.Spec.
-// All storage enforced values *only* apply to pvc.Spec.Resources.Requests.
 func PersistentVolumeClaimValidateLimitFunc(limitRange *corev1.LimitRange, pvc *api.PersistentVolumeClaim) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errs []error
 	for i := range limitRange.Spec.Limits {
 		limit := limitRange.Spec.Limits[i]
 		limitType := limit.Type
 		if limitType == corev1.LimitTypePersistentVolumeClaim {
 			for k, v := range limit.Min {
-				// normal usage of minConstraint. pvc.Spec.Resources.Limits is not recognized as user input
 				if err := minConstraint(string(limitType), string(k), v, pvc.Spec.Resources.Requests, api.ResourceList{}); err != nil {
 					errs = append(errs, err)
 				}
 			}
 			for k, v := range limit.Max {
-				// We want to enforce the max of the LimitRange against what
-				// the user requested.
 				if err := maxRequestConstraint(string(limitType), string(k), v, pvc.Spec.Resources.Requests); err != nil {
 					errs = append(errs, err)
 				}
@@ -496,25 +421,20 @@ func PersistentVolumeClaimValidateLimitFunc(limitRange *corev1.LimitRange, pvc *
 	}
 	return utilerrors.NewAggregate(errs)
 }
-
-// PodMutateLimitFunc sets resource requirements enumerated by the pod against
-// the specified LimitRange.  The pod may be modified to apply default resource
-// requirements if not specified, and enumerated on the LimitRange
 func PodMutateLimitFunc(limitRange *corev1.LimitRange, pod *api.Pod) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	defaultResources := defaultContainerResourceRequirements(limitRange)
 	mergePodResourceRequirements(pod, &defaultResources)
 	return nil
 }
-
-// PodValidateLimitFunc enforces resource requirements enumerated by the pod against
-// the specified LimitRange.
 func PodValidateLimitFunc(limitRange *corev1.LimitRange, pod *api.Pod) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errs []error
-
 	for i := range limitRange.Spec.Limits {
 		limit := limitRange.Spec.Limits[i]
 		limitType := limit.Type
-		// enforce container limits
 		if limitType == corev1.LimitTypeContainer {
 			for j := range pod.Spec.Containers {
 				container := &pod.Spec.Containers[j]
@@ -553,8 +473,6 @@ func PodValidateLimitFunc(limitRange *corev1.LimitRange, pod *api.Pod) error {
 				}
 			}
 		}
-
-		// enforce pod limits on init containers
 		if limitType == corev1.LimitTypePod {
 			containerRequests, containerLimits := []api.ResourceList{}, []api.ResourceList{}
 			for j := range pod.Spec.Containers {
@@ -566,7 +484,6 @@ func PodValidateLimitFunc(limitRange *corev1.LimitRange, pod *api.Pod) error {
 			podLimits := sum(containerLimits)
 			for j := range pod.Spec.InitContainers {
 				container := &pod.Spec.InitContainers[j]
-				// take max(sum_containers, any_init_container)
 				for k, v := range container.Resources.Requests {
 					if v2, ok := podRequests[k]; ok {
 						if v.Cmp(v2) > 0 {
@@ -604,4 +521,8 @@ func PodValidateLimitFunc(limitRange *corev1.LimitRange, pod *api.Pod) error {
 		}
 	}
 	return utilerrors.NewAggregate(errs)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

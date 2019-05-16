@@ -135,7 +135,7 @@ var _ = Describe("Host", func() {
 			GinkgoT().Log(err)
 			Expect(err).Should(BeNil())
 
-			server.SetResponseJson(200, &Hosts{[]Host{Host{Tags: hostSpec.Tags, ID: task.Entity.ID}}})
+			server.SetResponseJson(200, &Hosts{[]Host{{Tags: hostSpec.Tags, ID: task.Entity.ID}}})
 			hostList, err := client.Hosts.GetAll()
 			GinkgoT().Log(err)
 			Expect(err).Should(BeNil())
@@ -221,7 +221,7 @@ var _ = Describe("Host", func() {
 			projID = createProject(server, client, tenantID, resName)
 			imageID = createImage(server, client)
 			flavorSpec = &FlavorCreateSpec{
-				[]QuotaLineItem{QuotaLineItem{"COUNT", 1, "ephemeral-disk.cost"}},
+				[]QuotaLineItem{{"COUNT", 1, "ephemeral-disk.cost"}},
 				"ephemeral-disk",
 				randomString(10, "go-sdk-flavor-"),
 			}
@@ -234,8 +234,8 @@ var _ = Describe("Host", func() {
 				Name: randomString(10, "go-sdk-flavor-"),
 				Kind: "vm",
 				Cost: []QuotaLineItem{
-					QuotaLineItem{"GB", 2, "vm.memory"},
-					QuotaLineItem{"COUNT", 4, "vm.cpu"},
+					{"GB", 2, "vm.memory"},
+					{"COUNT", 4, "vm.cpu"},
 				},
 			}
 			_, err = client.Flavors.Create(vmFlavorSpec)
@@ -246,7 +246,7 @@ var _ = Describe("Host", func() {
 				Flavor:        vmFlavorSpec.Name,
 				SourceImageID: imageID,
 				AttachedDisks: []AttachedDisk{
-					AttachedDisk{
+					{
 						CapacityGB: 1,
 						Flavor:     flavorSpec.Name,
 						Kind:       "ephemeral-disk",
@@ -282,7 +282,7 @@ var _ = Describe("Host", func() {
 			GinkgoT().Log(err)
 			Expect(err).Should(BeNil())
 
-			server.SetResponseJson(200, &VMs{[]VM{VM{Name: vmSpec.Name}}})
+			server.SetResponseJson(200, &VMs{[]VM{{Name: vmSpec.Name}}})
 			vmList, err := client.Hosts.GetVMs(hostTask.Entity.ID)
 			GinkgoT().Log(err)
 			Expect(err).Should(BeNil())

@@ -1,71 +1,45 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package system
 
 import (
 	"fmt"
-	"io/ioutil"
-	"os/exec"
-	"strings"
-
-	"k8s.io/apimachinery/pkg/util/errors"
-
 	"github.com/blang/semver"
 	pkgerrors "github.com/pkg/errors"
+	"io/ioutil"
+	"k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog"
+	"os/exec"
+	"strings"
 )
 
-// semVerDotsCount is the number of dots in a valid semantic version.
 const semVerDotsCount int = 2
 
-// packageManager is an interface that abstracts the basic operations of a
-// package manager.
 type packageManager interface {
-	// getPackageVersion returns the version of the package given the
-	// packageName, or an error if no such package exists.
 	getPackageVersion(packageName string) (string, error)
 }
 
-// newPackageManager returns the package manager on the running machine, and an
-// error if no package managers is available.
 func newPackageManager() (packageManager, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if m, ok := newDPKG(); ok {
 		return m, nil
 	}
 	return nil, pkgerrors.New("failed to find package manager")
 }
 
-// dpkg implements packageManager. It uses "dpkg-query" to retrieve package
-// information.
 type dpkg struct{}
 
-// newDPKG returns a Debian package manager. It returns (nil, false) if no such
-// package manager exists on the running machine.
 func newDPKG() (packageManager, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	_, err := exec.LookPath("dpkg-query")
 	if err != nil {
 		return nil, false
 	}
 	return dpkg{}, true
 }
-
-// getPackageVersion returns the upstream package version for the package given
-// the packageName, and an error if no such package exists.
 func (_ dpkg) getPackageVersion(packageName string) (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	output, err := exec.Command("dpkg-query", "--show", "--showformat='${Version}'", packageName).Output()
 	if err != nil {
 		return "", pkgerrors.Wrap(err, "dpkg-query failed")
@@ -77,27 +51,23 @@ func (_ dpkg) getPackageVersion(packageName string) (string, error) {
 	return version, nil
 }
 
-// packageValidator implements the Validator interface. It validates packages
-// and their versions.
 type packageValidator struct {
 	reporter      Reporter
 	kernelRelease string
 	osDistro      string
 }
 
-// Name returns the name of the package validator.
 func (self *packageValidator) Name() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return "package"
 }
-
-// Validate checks packages and their versions against the spec using the
-// package manager on the running machine, and returns an error on any
-// package/version mismatch.
 func (self *packageValidator) Validate(spec SysSpec) (error, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(spec.PackageSpecs) == 0 {
 		return nil, nil
 	}
-
 	var err error
 	if self.kernelRelease, err = getKernelRelease(); err != nil {
 		return nil, err
@@ -105,7 +75,6 @@ func (self *packageValidator) Validate(spec SysSpec) (error, error) {
 	if self.osDistro, err = getOSDistro(); err != nil {
 		return nil, err
 	}
-
 	manager, err := newPackageManager()
 	if err != nil {
 		return nil, err
@@ -113,18 +82,13 @@ func (self *packageValidator) Validate(spec SysSpec) (error, error) {
 	specs := applyPackageSpecOverride(spec.PackageSpecs, spec.PackageSpecOverrides, self.osDistro)
 	return self.validate(specs, manager)
 }
-
-// Validate checks packages and their versions against the packageSpecs using
-// the packageManager, and returns an error on any package/version mismatch.
 func (self *packageValidator) validate(packageSpecs []PackageSpec, manager packageManager) (error, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errs []error
 	for _, spec := range packageSpecs {
-		// Substitute variables in package name.
 		packageName := resolvePackageName(spec.Name, self.kernelRelease)
-
 		nameWithVerRange := fmt.Sprintf("%s (%s)", packageName, spec.VersionRange)
-
-		// Get the version of the package on the running machine.
 		version, err := manager.getPackageVersion(packageName)
 		if err != nil {
 			klog.V(1).Infof("Failed to get the version for the package %q: %s\n", packageName, err)
@@ -132,17 +96,10 @@ func (self *packageValidator) validate(packageSpecs []PackageSpec, manager packa
 			self.reporter.Report(nameWithVerRange, "not installed", bad)
 			continue
 		}
-
-		// Version requirement will not be enforced if version range is
-		// not specified in the spec.
 		if spec.VersionRange == "" {
 			self.reporter.Report(packageName, version, good)
 			continue
 		}
-
-		// Convert both the version range in the spec and the version returned
-		// from package manager to semantic version format, and then check if
-		// the version is in the range.
 		sv, err := semver.Make(toSemVer(version))
 		if err != nil {
 			klog.Errorf("Failed to convert %q to semantic version: %s\n", version, err)
@@ -160,18 +117,18 @@ func (self *packageValidator) validate(packageSpecs []PackageSpec, manager packa
 	}
 	return nil, errors.NewAggregate(errs)
 }
-
-// getKernelRelease returns the kernel release of the local machine.
 func getKernelRelease() (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	output, err := exec.Command("uname", "-r").Output()
 	if err != nil {
 		return "", pkgerrors.Wrap(err, "failed to get kernel release")
 	}
 	return strings.TrimSpace(string(output)), nil
 }
-
-// getOSDistro returns the OS distro of the local machine.
 func getOSDistro() (string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f := "/etc/lsb-release"
 	b, err := ioutil.ReadFile(f)
 	if err != nil {
@@ -189,18 +146,15 @@ func getOSDistro() (string, error) {
 		return "", pkgerrors.Errorf("failed to get OS distro: %s", content)
 	}
 }
-
-// resolvePackageName substitutes the variables in the packageName with the
-// local information.
-// E.g., "linux-headers-${KERNEL_RELEASE}" -> "linux-headers-4.4.0-75-generic".
 func resolvePackageName(packageName string, kernelRelease string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	packageName = strings.Replace(packageName, "${KERNEL_RELEASE}", kernelRelease, -1)
 	return packageName
 }
-
-// applyPackageSpecOverride applies the package spec overrides for the given
-// osDistro to the packageSpecs and returns the applied result.
 func applyPackageSpecOverride(packageSpecs []PackageSpec, overrides []PackageSpecOverride, osDistro string) []PackageSpec {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var override *PackageSpecOverride
 	for _, o := range overrides {
 		if o.OSDistro == osDistro {
@@ -211,9 +165,6 @@ func applyPackageSpecOverride(packageSpecs []PackageSpec, overrides []PackageSpe
 	if override == nil {
 		return packageSpecs
 	}
-
-	// Remove packages in the spec that matches the overrides in
-	// Subtractions.
 	var out []PackageSpec
 	subtractions := make(map[string]bool)
 	for _, spec := range override.Subtractions {
@@ -224,17 +175,11 @@ func applyPackageSpecOverride(packageSpecs []PackageSpec, overrides []PackageSpe
 			out = append(out, spec)
 		}
 	}
-
-	// Add packages in the spec that matches the overrides in Additions.
 	return append(out, override.Additions...)
 }
-
-// extractUpstreamVersion returns the upstream version of the given full
-// version in dpkg format. E.g., "1:1.0.6-2ubuntu2.1" -> "1.0.6".
 func extractUpstreamVersion(version string) string {
-	// The full version is in the format of
-	// "[epoch:]upstream_version[-debian_revision]". See
-	// https://www.debian.org/doc/debian-policy/ch-controlfields.html#s-f-Version.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	version = strings.Trim(version, " '")
 	if i := strings.Index(version, ":"); i != -1 {
 		version = version[i+1:]
@@ -244,13 +189,9 @@ func extractUpstreamVersion(version string) string {
 	}
 	return version
 }
-
-// toSemVerRange converts the input to a semantic version range.
-// E.g., ">=1.0"             -> ">=1.0.x"
-//       ">=1"               -> ">=1.x"
-//       ">=1 <=2.3"         -> ">=1.x <=2.3.x"
-//       ">1 || >3.1.0 !4.2" -> ">1.x || >3.1.0 !4.2.x"
 func toSemVerRange(input string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var output []string
 	fields := strings.Fields(input)
 	for _, f := range fields {
@@ -271,13 +212,9 @@ func toSemVerRange(input string) string {
 	}
 	return strings.Join(output, " ")
 }
-
-// toSemVer converts the input to a semantic version, and an empty string on
-// error.
 func toSemVer(version string) string {
-	// Remove the first non-digit and non-dot character as well as the ones
-	// following it.
-	// E.g., "1.8.19p1" -> "1.8.19".
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if i := strings.IndexFunc(version, func(c rune) bool {
 		if (c < '0' || c > '9') && c != '.' {
 			return true
@@ -286,23 +223,15 @@ func toSemVer(version string) string {
 	}); i != -1 {
 		version = version[:i]
 	}
-
-	// Remove the trailing dots if there's any, and then returns an empty
-	// string if nothing left.
 	version = strings.TrimRight(version, ".")
 	if version == "" {
 		return ""
 	}
-
 	numDots := strings.Count(version, ".")
 	switch {
 	case numDots < semVerDotsCount:
-		// Add minor version and patch version.
-		// E.g. "1.18" -> "1.18.0" and "481" -> "481.0.0".
 		version += strings.Repeat(".0", semVerDotsCount-numDots)
 	case numDots > semVerDotsCount:
-		// Remove anything beyond the patch version
-		// E.g. "2.0.10.4" -> "2.0.10".
 		for numDots != semVerDotsCount {
 			if i := strings.LastIndex(version, "."); i != -1 {
 				version = version[:i]
@@ -310,10 +239,6 @@ func toSemVer(version string) string {
 			}
 		}
 	}
-
-	// Remove leading zeros in major/minor/patch version.
-	// E.g., "2.02"     -> "2.2"
-	//       "8.0.0095" -> "8.0.95"
 	var subs []string
 	for _, s := range strings.Split(version, ".") {
 		s := strings.TrimLeft(s, "0")

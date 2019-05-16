@@ -2,41 +2,41 @@ package imagestreamimport
 
 import (
 	"context"
-
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/validation/field"
-	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
 	imageapi "github.com/openshift/origin/pkg/image/apis/image"
 	"github.com/openshift/origin/pkg/image/apis/image/validation"
 	"github.com/openshift/origin/pkg/image/apis/image/validation/whitelist"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/validation/field"
+	"k8s.io/kubernetes/pkg/api/legacyscheme"
 )
 
-// strategy implements behavior for ImageStreamImports.
 type strategy struct {
 	runtime.ObjectTyper
 	registryWhitelister whitelist.RegistryWhitelister
 }
 
 func NewStrategy(rw whitelist.RegistryWhitelister) *strategy {
-	return &strategy{
-		ObjectTyper:         legacyscheme.Scheme,
-		registryWhitelister: rw,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &strategy{ObjectTyper: legacyscheme.Scheme, registryWhitelister: rw}
 }
-
 func (s *strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (s *strategy) GenerateName(string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ""
 }
-
 func (s *strategy) Canonicalize(runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (s *strategy) ValidateAllowedRegistries(isi *imageapi.ImageStreamImport) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	errs := field.ErrorList{}
 	validate := func(path *field.Path, name string, insecure bool) field.ErrorList {
 		ref, _ := imageapi.ParseDockerImageReference(name)
@@ -53,24 +53,23 @@ func (s *strategy) ValidateAllowedRegistries(isi *imageapi.ImageStreamImport) fi
 	}
 	return errs
 }
-
 func (s *strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newIST := obj.(*imageapi.ImageStreamImport)
 	newIST.Status = imageapi.ImageStreamImportStatus{}
 }
-
 func (s *strategy) PrepareImageForCreate(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	image := obj.(*imageapi.Image)
-
-	// signatures can be added using "images" or "imagesignatures" resources
 	image.Signatures = nil
-
-	// Remove the raw manifest as it's very big and this leads to a large memory consumption in etcd.
 	image.DockerImageManifest = ""
 	image.DockerImageConfig = ""
 }
-
 func (s *strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	isi := obj.(*imageapi.ImageStreamImport)
 	return validation.ValidateImageStreamImport(isi)
 }

@@ -1,44 +1,41 @@
 package etcd
 
 import (
+	goformat "fmt"
+	"github.com/openshift/api/network"
+	networkapi "github.com/openshift/origin/pkg/network/apis/network"
+	"github.com/openshift/origin/pkg/network/apiserver/registry/hostsubnet"
+	printersinternal "github.com/openshift/origin/pkg/printers/internalversion"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apiserver/pkg/registry/generic"
 	"k8s.io/apiserver/pkg/registry/generic/registry"
 	"k8s.io/apiserver/pkg/registry/rest"
 	"k8s.io/kubernetes/pkg/printers"
 	printerstorage "k8s.io/kubernetes/pkg/printers/storage"
-
-	"github.com/openshift/api/network"
-	networkapi "github.com/openshift/origin/pkg/network/apis/network"
-	"github.com/openshift/origin/pkg/network/apiserver/registry/hostsubnet"
-	printersinternal "github.com/openshift/origin/pkg/printers/internalversion"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// rest implements a RESTStorage for sdn against etcd
-type REST struct {
-	*registry.Store
-}
+type REST struct{ *registry.Store }
 
 var _ rest.StandardStorage = &REST{}
 
-// NewREST returns a RESTStorage object that will work against subnets
 func NewREST(optsGetter generic.RESTOptionsGetter) (*REST, error) {
-	store := &registry.Store{
-		NewFunc:                  func() runtime.Object { return &networkapi.HostSubnet{} },
-		NewListFunc:              func() runtime.Object { return &networkapi.HostSubnetList{} },
-		DefaultQualifiedResource: network.Resource("hostsubnets"),
-
-		TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)},
-
-		CreateStrategy: hostsubnet.Strategy,
-		UpdateStrategy: hostsubnet.Strategy,
-		DeleteStrategy: hostsubnet.Strategy,
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	store := &registry.Store{NewFunc: func() runtime.Object {
+		return &networkapi.HostSubnet{}
+	}, NewListFunc: func() runtime.Object {
+		return &networkapi.HostSubnetList{}
+	}, DefaultQualifiedResource: network.Resource("hostsubnets"), TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}, CreateStrategy: hostsubnet.Strategy, UpdateStrategy: hostsubnet.Strategy, DeleteStrategy: hostsubnet.Strategy}
 	options := &generic.StoreOptions{RESTOptions: optsGetter}
 	if err := store.CompleteWithOptions(options); err != nil {
 		return nil, err
 	}
-
 	return &REST{store}, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

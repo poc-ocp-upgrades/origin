@@ -1,27 +1,8 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package storage
 
 import (
 	"context"
 	"fmt"
-	"net/http"
-	"net/url"
-
 	"k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -41,9 +22,10 @@ import (
 	printerstorage "k8s.io/kubernetes/pkg/printers/storage"
 	"k8s.io/kubernetes/pkg/registry/core/pod"
 	podrest "k8s.io/kubernetes/pkg/registry/core/pod/rest"
+	"net/http"
+	"net/url"
 )
 
-// PodStorage includes storage for pods and all sub resources
 type PodStorage struct {
 	Pod         *REST
 	Binding     *BindingREST
@@ -55,109 +37,81 @@ type PodStorage struct {
 	Attach      *podrest.AttachREST
 	PortForward *podrest.PortForwardREST
 }
-
-// REST implements a RESTStorage for pods
 type REST struct {
 	*genericregistry.Store
 	proxyTransport http.RoundTripper
 }
 
-// NewStorage returns a RESTStorage object that will work against pods.
 func NewStorage(optsGetter generic.RESTOptionsGetter, k client.ConnectionInfoGetter, proxyTransport http.RoundTripper, podDisruptionBudgetClient policyclient.PodDisruptionBudgetsGetter) PodStorage {
-
-	store := &genericregistry.Store{
-		NewFunc:                  func() runtime.Object { return &api.Pod{} },
-		NewListFunc:              func() runtime.Object { return &api.PodList{} },
-		PredicateFunc:            pod.MatchPod,
-		DefaultQualifiedResource: api.Resource("pods"),
-
-		CreateStrategy:      pod.Strategy,
-		UpdateStrategy:      pod.Strategy,
-		DeleteStrategy:      pod.Strategy,
-		ReturnDeletedObject: true,
-
-		TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	store := &genericregistry.Store{NewFunc: func() runtime.Object {
+		return &api.Pod{}
+	}, NewListFunc: func() runtime.Object {
+		return &api.PodList{}
+	}, PredicateFunc: pod.MatchPod, DefaultQualifiedResource: api.Resource("pods"), CreateStrategy: pod.Strategy, UpdateStrategy: pod.Strategy, DeleteStrategy: pod.Strategy, ReturnDeletedObject: true, TableConvertor: printerstorage.TableConvertor{TablePrinter: printers.NewTablePrinter().With(printersinternal.AddHandlers)}}
 	options := &generic.StoreOptions{RESTOptions: optsGetter, AttrFunc: pod.GetAttrs, TriggerFunc: pod.NodeNameTriggerFunc}
 	if err := store.CompleteWithOptions(options); err != nil {
-		panic(err) // TODO: Propagate error up
+		panic(err)
 	}
-
 	statusStore := *store
 	statusStore.UpdateStrategy = pod.StatusStrategy
-
-	return PodStorage{
-		Pod:         &REST{store, proxyTransport},
-		Binding:     &BindingREST{store: store},
-		Eviction:    newEvictionStorage(store, podDisruptionBudgetClient),
-		Status:      &StatusREST{store: &statusStore},
-		Log:         &podrest.LogREST{Store: store, KubeletConn: k},
-		Proxy:       &podrest.ProxyREST{Store: store, ProxyTransport: proxyTransport},
-		Exec:        &podrest.ExecREST{Store: store, KubeletConn: k},
-		Attach:      &podrest.AttachREST{Store: store, KubeletConn: k},
-		PortForward: &podrest.PortForwardREST{Store: store, KubeletConn: k},
-	}
+	return PodStorage{Pod: &REST{store, proxyTransport}, Binding: &BindingREST{store: store}, Eviction: newEvictionStorage(store, podDisruptionBudgetClient), Status: &StatusREST{store: &statusStore}, Log: &podrest.LogREST{Store: store, KubeletConn: k}, Proxy: &podrest.ProxyREST{Store: store, ProxyTransport: proxyTransport}, Exec: &podrest.ExecREST{Store: store, KubeletConn: k}, Attach: &podrest.AttachREST{Store: store, KubeletConn: k}, PortForward: &podrest.PortForwardREST{Store: store, KubeletConn: k}}
 }
 
-// Implement Redirector.
 var _ = rest.Redirector(&REST{})
 
-// ResourceLocation returns a pods location from its HostIP
 func (r *REST) ResourceLocation(ctx context.Context, name string) (*url.URL, http.RoundTripper, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return pod.ResourceLocation(r, r.proxyTransport, ctx, name)
 }
 
-// Implement ShortNamesProvider
 var _ rest.ShortNamesProvider = &REST{}
 
-// ShortNames implements the ShortNamesProvider interface. Returns a list of short names for a resource.
 func (r *REST) ShortNames() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return []string{"po"}
 }
 
-// Implement CategoriesProvider
 var _ rest.CategoriesProvider = &REST{}
 
-// Categories implements the CategoriesProvider interface. Returns a list of categories a resource is part of.
 func (r *REST) Categories() []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return []string{"all"}
 }
 
-// BindingREST implements the REST endpoint for binding pods to nodes when etcd is in use.
-type BindingREST struct {
-	store *genericregistry.Store
-}
+type BindingREST struct{ store *genericregistry.Store }
 
-// NamespaceScoped fulfill rest.Scoper
 func (r *BindingREST) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.NamespaceScoped()
 }
-
-// New creates a new binding resource
 func (r *BindingREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &api.Binding{}
 }
 
 var _ = rest.Creater(&BindingREST{})
 
-// Create ensures a pod is bound to a specific host.
 func (r *BindingREST) Create(ctx context.Context, obj runtime.Object, createValidation rest.ValidateObjectFunc, options *metav1.CreateOptions) (out runtime.Object, err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	binding := obj.(*api.Binding)
-
-	// TODO: move me to a binding strategy
 	if errs := validation.ValidatePodBinding(binding); len(errs) != 0 {
 		return nil, errs.ToAggregate()
 	}
-
 	err = r.assignPod(ctx, binding.Name, binding.Target.Name, binding.Annotations, dryrun.IsDryRun(options.DryRun))
 	out = &metav1.Status{Status: metav1.StatusSuccess}
 	return
 }
-
-// setPodHostAndAnnotations sets the given pod's host to 'machine' if and only if it was
-// previously 'oldMachine' and merges the provided annotations with those of the pod.
-// Returns the current state of the pod, or an error.
 func (r *BindingREST) setPodHostAndAnnotations(ctx context.Context, podID, oldMachine, machine string, annotations map[string]string, dryRun bool) (finalPod *api.Pod, err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	podKey, err := r.store.KeyFunc(ctx, podID)
 	if err != nil {
 		return nil, err
@@ -180,18 +134,15 @@ func (r *BindingREST) setPodHostAndAnnotations(ctx context.Context, podID, oldMa
 		for k, v := range annotations {
 			pod.Annotations[k] = v
 		}
-		podutil.UpdatePodCondition(&pod.Status, &api.PodCondition{
-			Type:   api.PodScheduled,
-			Status: api.ConditionTrue,
-		})
+		podutil.UpdatePodCondition(&pod.Status, &api.PodCondition{Type: api.PodScheduled, Status: api.ConditionTrue})
 		finalPod = pod
 		return pod, nil
 	}), dryRun)
 	return finalPod, err
 }
-
-// assignPod assigns the given pod to the given machine.
 func (r *BindingREST) assignPod(ctx context.Context, podID string, machine string, annotations map[string]string, dryRun bool) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if _, err = r.setPodHostAndAnnotations(ctx, podID, "", machine, annotations, dryRun); err != nil {
 		err = storeerr.InterpretGetError(err, api.Resource("pods"), podID)
 		err = storeerr.InterpretUpdateError(err, api.Resource("pods"), podID)
@@ -202,24 +153,20 @@ func (r *BindingREST) assignPod(ctx context.Context, podID string, machine strin
 	return
 }
 
-// StatusREST implements the REST endpoint for changing the status of a pod.
-type StatusREST struct {
-	store *genericregistry.Store
-}
+type StatusREST struct{ store *genericregistry.Store }
 
-// New creates a new pod resource
 func (r *StatusREST) New() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &api.Pod{}
 }
-
-// Get retrieves the object from the storage. It is required to support Patch.
 func (r *StatusREST) Get(ctx context.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Get(ctx, name, options)
 }
-
-// Update alters the status subset of an object.
 func (r *StatusREST) Update(ctx context.Context, name string, objInfo rest.UpdatedObjectInfo, createValidation rest.ValidateObjectFunc, updateValidation rest.ValidateObjectUpdateFunc, forceAllowCreate bool, options *metav1.UpdateOptions) (runtime.Object, bool, error) {
-	// We are explicitly setting forceAllowCreate to false in the call to the underlying storage because
-	// subresources should never allow create on update.
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return r.store.Update(ctx, name, objInfo, createValidation, updateValidation, false, options)
 }

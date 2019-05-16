@@ -5,29 +5,27 @@ import (
 	api "k8s.io/kubernetes/pkg/apis/core"
 )
 
-// mustRunAs implements the GroupSecurityContextConstraintsStrategy interface
-type runAsAny struct {
-}
+type runAsAny struct{}
 
 var _ GroupSecurityContextConstraintsStrategy = &runAsAny{}
 
-// NewRunAsAny provides a new RunAsAny strategy.
 func NewRunAsAny() (GroupSecurityContextConstraintsStrategy, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &runAsAny{}, nil
 }
-
-// Generate creates the group based on policy rules.  This strategy returns an empty slice.
 func (s *runAsAny) Generate(_ *api.Pod) ([]int64, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil, nil
 }
-
-// Generate a single value to be applied.  This is used for FSGroup.  This strategy returns nil.
 func (s *runAsAny) GenerateSingle(_ *api.Pod) (*int64, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return nil, nil
 }
-
-// Validate ensures that the specified values fall within the range of the strategy.
 func (s *runAsAny) Validate(_ *api.Pod, groups []int64) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return field.ErrorList{}
-
 }

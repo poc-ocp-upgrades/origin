@@ -1,62 +1,49 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package options
 
 import (
+	goformat "fmt"
 	"github.com/spf13/pflag"
-
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	kubectrlmgrconfig "k8s.io/kubernetes/pkg/controller/apis/config"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// AttachDetachControllerOptions holds the AttachDetachController options.
 type AttachDetachControllerOptions struct {
 	ReconcilerSyncLoopPeriod          metav1.Duration
 	DisableAttachDetachReconcilerSync bool
 }
 
-// AddFlags adds flags related to AttachDetachController for controller manager to the specified FlagSet.
 func (o *AttachDetachControllerOptions) AddFlags(fs *pflag.FlagSet) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o == nil {
 		return
 	}
-
 	fs.BoolVar(&o.DisableAttachDetachReconcilerSync, "disable-attach-detach-reconcile-sync", false, "Disable volume attach detach reconciler sync. Disabling this may cause volumes to be mismatched with pods. Use wisely.")
 	fs.DurationVar(&o.ReconcilerSyncLoopPeriod.Duration, "attach-detach-reconcile-sync-period", o.ReconcilerSyncLoopPeriod.Duration, "The reconciler sync wait time between volume attach detach. This duration must be larger than one second, and increasing this value from the default may allow for volumes to be mismatched with pods.")
 }
-
-// ApplyTo fills up AttachDetachController config with options.
 func (o *AttachDetachControllerOptions) ApplyTo(cfg *kubectrlmgrconfig.AttachDetachControllerConfiguration) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o == nil {
 		return nil
 	}
-
 	cfg.DisableAttachDetachReconcilerSync = o.DisableAttachDetachReconcilerSync
 	cfg.ReconcilerSyncLoopPeriod = o.ReconcilerSyncLoopPeriod
-
 	return nil
 }
-
-// Validate checks validation of AttachDetachControllerOptions.
 func (o *AttachDetachControllerOptions) Validate() []error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if o == nil {
 		return nil
 	}
-
 	errs := []error{}
 	return errs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

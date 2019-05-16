@@ -138,7 +138,7 @@ func (m *WorkerRecord) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.ID)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+		for k := range m.Labels {
 			dAtA[i] = 0x12
 			i++
 			v := m.Labels[k]

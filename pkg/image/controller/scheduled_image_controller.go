@@ -2,55 +2,38 @@ package controller
 
 import (
 	"fmt"
-
-	"k8s.io/klog"
-
+	imagev1 "github.com/openshift/api/image/v1"
+	imagev1lister "github.com/openshift/client-go/image/listers/image/v1"
+	metrics "github.com/openshift/origin/pkg/image/metrics/prometheus"
 	apierrs "k8s.io/apimachinery/pkg/api/errors"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/util/flowcontrol"
-
-	imagev1 "github.com/openshift/api/image/v1"
-	imagev1lister "github.com/openshift/client-go/image/listers/image/v1"
-	metrics "github.com/openshift/origin/pkg/image/metrics/prometheus"
+	"k8s.io/klog"
 )
 
 type uniqueItem struct {
 	uid             string
 	resourceVersion string
 }
-
 type ScheduledImageStreamController struct {
-	// boolean flag whether this controller is active
-	enabled bool
-
-	// image stream client
-	client rest.Interface
-
-	// lister can list/get image streams from a shared informer's cache
-	lister imagev1lister.ImageStreamLister
-	// listerSynced makes sure the is store is synced before reconciling streams
-	listerSynced cache.InformerSynced
-
-	// rateLimiter to be used when re-importing images
-	rateLimiter flowcontrol.RateLimiter
-
-	// scheduler for timely image re-imports
-	scheduler *scheduler
-
-	// importCounter counts successful and failed imports for metric collection
+	enabled       bool
+	client        rest.Interface
+	lister        imagev1lister.ImageStreamLister
+	listerSynced  cache.InformerSynced
+	rateLimiter   flowcontrol.RateLimiter
+	scheduler     *scheduler
 	importCounter *ImportMetricCounter
 }
 
-// Importing is invoked when the controller decides to import a stream in order to push back
-// the next schedule time.
 func (s *ScheduledImageStreamController) Importing(stream *imagev1.ImageStream) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !s.enabled {
 		return
 	}
 	klog.V(5).Infof("DEBUG: stream %s was just imported", stream.Name)
-	// Push the current key back to the end of the queue because it's just been imported
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(stream)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("failed to get the key for stream %s: %v", stream.Name, err))
@@ -58,33 +41,29 @@ func (s *ScheduledImageStreamController) Importing(stream *imagev1.ImageStream) 
 	}
 	s.scheduler.Delay(key)
 }
-
-// Run begins watching and syncing.
 func (s *ScheduledImageStreamController) Run(stopCh <-chan struct{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	defer utilruntime.HandleCrash()
-
 	klog.Infof("Starting scheduled import controller")
-
-	// Wait for the stream store to sync before starting any work in this controller.
 	if !cache.WaitForCacheSync(stopCh, s.listerSynced) {
 		utilruntime.HandleError(fmt.Errorf("timed out waiting for caches to sync"))
 		return
 	}
-
 	go s.scheduler.RunUntil(stopCh)
-
 	metrics.InitializeImportCollector(true, s.importCounter.Collect)
-
 	<-stopCh
 	klog.Infof("Shutting down image stream controller")
 }
-
 func (s *ScheduledImageStreamController) addImageStream(obj interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	stream := obj.(*imagev1.ImageStream)
 	s.enqueueImageStream(stream)
 }
-
 func (s *ScheduledImageStreamController) updateImageStream(old, cur interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	curStream, ok := cur.(*imagev1.ImageStream)
 	if !ok {
 		return
@@ -93,15 +72,14 @@ func (s *ScheduledImageStreamController) updateImageStream(old, cur interface{})
 	if !ok {
 		return
 	}
-	// we only compare resource version, since deeper inspection if a stream
-	// needs to be re-imported happens in syncImageStream
 	if curStream.ResourceVersion == oldStream.ResourceVersion {
 		return
 	}
 	s.enqueueImageStream(curStream)
 }
-
 func (s *ScheduledImageStreamController) deleteImageStream(obj interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
 	if err != nil {
 		utilruntime.HandleError(fmt.Errorf("unable to get namespace key for %#v", obj))
@@ -109,9 +87,9 @@ func (s *ScheduledImageStreamController) deleteImageStream(obj interface{}) {
 	}
 	s.scheduler.Remove(key, nil)
 }
-
-// enqueueImageStream ensures an image stream is checked for scheduling
 func (s *ScheduledImageStreamController) enqueueImageStream(stream *imagev1.ImageStream) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !s.enabled {
 		return
 	}
@@ -124,9 +102,9 @@ func (s *ScheduledImageStreamController) enqueueImageStream(stream *imagev1.Imag
 		s.scheduler.Add(key, uniqueItem{uid: string(stream.UID), resourceVersion: stream.ResourceVersion})
 	}
 }
-
-// syncTimed is invoked when a key is ready to be processed.
 func (s *ScheduledImageStreamController) syncTimed(key, value interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !s.enabled {
 		s.scheduler.Remove(key, value)
 		return
@@ -141,10 +119,7 @@ func (s *ScheduledImageStreamController) syncTimed(key, value interface{}) {
 		return
 	}
 	if err := s.syncTimedByName(namespace, name); err != nil {
-		// the stream cannot be imported
 		if err == ErrNotImportable {
-			// value must match to be removed, so we avoid races against creation by ensuring that we only
-			// remove the stream if the uid and resource version in the scheduler are exactly the same.
 			s.scheduler.Remove(key, value)
 			return
 		}
@@ -152,8 +127,9 @@ func (s *ScheduledImageStreamController) syncTimed(key, value interface{}) {
 		return
 	}
 }
-
 func (s *ScheduledImageStreamController) syncTimedByName(namespace, name string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	sharedStream, err := s.lister.ImageStreams(namespace).Get(name)
 	if err != nil {
 		if apierrs.IsNotFound(err) {
@@ -164,18 +140,16 @@ func (s *ScheduledImageStreamController) syncTimedByName(namespace, name string)
 	if !needsScheduling(sharedStream) {
 		return ErrNotImportable
 	}
-
 	stream := sharedStream.DeepCopy()
 	resetScheduledTags(stream)
-
 	klog.V(3).Infof("Scheduled import of stream %s/%s...", stream.Namespace, stream.Name)
 	result, err := handleImageStream(stream, s.client, nil)
 	s.importCounter.Increment(result, err)
 	return err
 }
-
-// resetScheduledTags artificially increments the generation on the tags that should be imported.
 func resetScheduledTags(stream *imagev1.ImageStream) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	next := stream.Generation + 1
 	for tag, tagRef := range stream.Spec.Tags {
 		if tagImportable(tagRef) && tagRef.ImportPolicy.Scheduled {
@@ -184,9 +158,9 @@ func resetScheduledTags(stream *imagev1.ImageStream) {
 		}
 	}
 }
-
-// needsScheduling returns true if this image stream has any scheduled tags
 func needsScheduling(stream *imagev1.ImageStream) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, tagRef := range stream.Spec.Tags {
 		if tagImportable(tagRef) && tagRef.ImportPolicy.Scheduled {
 			return true

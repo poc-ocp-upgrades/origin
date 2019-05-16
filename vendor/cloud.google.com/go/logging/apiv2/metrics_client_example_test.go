@@ -40,7 +40,7 @@ func ExampleMetricsClient_ListLogMetrics() {
 	}
 
 	req := &loggingpb.ListLogMetricsRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	it := c.ListLogMetrics(ctx, req)
 	for {
@@ -62,7 +62,7 @@ func ExampleMetricsClient_GetLogMetric() {
 	}
 
 	req := &loggingpb.GetLogMetricRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.GetLogMetric(ctx, req)
 	if err != nil {
@@ -80,7 +80,7 @@ func ExampleMetricsClient_CreateLogMetric() {
 	}
 
 	req := &loggingpb.CreateLogMetricRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.CreateLogMetric(ctx, req)
 	if err != nil {
@@ -98,7 +98,7 @@ func ExampleMetricsClient_UpdateLogMetric() {
 	}
 
 	req := &loggingpb.UpdateLogMetricRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.UpdateLogMetric(ctx, req)
 	if err != nil {
@@ -116,7 +116,7 @@ func ExampleMetricsClient_DeleteLogMetric() {
 	}
 
 	req := &loggingpb.DeleteLogMetricRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	err = c.DeleteLogMetric(ctx, req)
 	if err != nil {

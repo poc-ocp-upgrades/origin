@@ -40,7 +40,7 @@ func ExampleConfigClient_ListSinks() {
 	}
 
 	req := &loggingpb.ListSinksRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	it := c.ListSinks(ctx, req)
 	for {
@@ -62,7 +62,7 @@ func ExampleConfigClient_GetSink() {
 	}
 
 	req := &loggingpb.GetSinkRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.GetSink(ctx, req)
 	if err != nil {
@@ -80,7 +80,7 @@ func ExampleConfigClient_CreateSink() {
 	}
 
 	req := &loggingpb.CreateSinkRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.CreateSink(ctx, req)
 	if err != nil {
@@ -98,7 +98,7 @@ func ExampleConfigClient_UpdateSink() {
 	}
 
 	req := &loggingpb.UpdateSinkRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.UpdateSink(ctx, req)
 	if err != nil {
@@ -116,7 +116,7 @@ func ExampleConfigClient_DeleteSink() {
 	}
 
 	req := &loggingpb.DeleteSinkRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	err = c.DeleteSink(ctx, req)
 	if err != nil {

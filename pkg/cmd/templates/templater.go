@@ -3,15 +3,17 @@ package templates
 import (
 	"bytes"
 	"fmt"
-	"strings"
-	"text/template"
-	"unicode"
-
+	goformat "fmt"
 	"github.com/openshift/origin/pkg/cmd/util/term"
-	ktemplates "k8s.io/kubernetes/pkg/kubectl/util/templates"
-
 	"github.com/spf13/cobra"
 	flag "github.com/spf13/pflag"
+	ktemplates "k8s.io/kubernetes/pkg/kubectl/util/templates"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	"text/template"
+	gotime "time"
+	"unicode"
 )
 
 type FlagExposer interface {
@@ -19,33 +21,20 @@ type FlagExposer interface {
 }
 
 func ActsAsRootCommand(cmd *cobra.Command, filters []string, groups ...ktemplates.CommandGroup) FlagExposer {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if cmd == nil {
 		panic("nil root command")
 	}
-	templater := &templater{
-		RootCmd:       cmd,
-		UsageTemplate: mainUsageTemplate(),
-		HelpTemplate:  ktemplates.MainHelpTemplate(),
-		CommandGroups: groups,
-		Filtered:      filters,
-	}
+	templater := &templater{RootCmd: cmd, UsageTemplate: mainUsageTemplate(), HelpTemplate: ktemplates.MainHelpTemplate(), CommandGroups: groups, Filtered: filters}
 	cmd.SetUsageFunc(templater.UsageFunc())
 	cmd.SetHelpFunc(templater.HelpFunc())
 	return templater
 }
-
 func mainUsageTemplate() string {
-	sections := []string{
-		"\n\n",
-		ktemplates.SectionVars,
-		ktemplates.SectionAliases,
-		ktemplates.SectionUsage,
-		ktemplates.SectionExamples,
-		ktemplates.SectionSubcommands,
-		ktemplates.SectionFlags,
-		ktemplates.SectionTipsHelp,
-		ktemplates.SectionTipsGlobalOptions,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	sections := []string{"\n\n", ktemplates.SectionVars, ktemplates.SectionAliases, ktemplates.SectionUsage, ktemplates.SectionExamples, ktemplates.SectionSubcommands, ktemplates.SectionFlags, ktemplates.SectionTipsHelp, ktemplates.SectionTipsGlobalOptions}
 	return strings.TrimRightFunc(strings.Join(sections, ""), unicode.IsSpace)
 }
 
@@ -58,11 +47,14 @@ type templater struct {
 }
 
 func (templater *templater) ExposeFlags(cmd *cobra.Command, flags ...string) FlagExposer {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cmd.SetUsageFunc(templater.UsageFunc(flags...))
 	return templater
 }
-
 func (templater *templater) HelpFunc() func(*cobra.Command, []string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func(c *cobra.Command, s []string) {
 		t := template.New("help")
 		t.Funcs(templater.templateFuncs())
@@ -74,8 +66,9 @@ func (templater *templater) HelpFunc() func(*cobra.Command, []string) {
 		}
 	}
 }
-
 func (templater *templater) UsageFunc(exposedFlags ...string) func(*cobra.Command) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func(c *cobra.Command) error {
 		t := template.New("usage")
 		t.Funcs(templater.templateFuncs(exposedFlags...))
@@ -84,54 +77,38 @@ func (templater *templater) UsageFunc(exposedFlags ...string) func(*cobra.Comman
 		return t.Execute(out, c)
 	}
 }
-
 func (templater *templater) templateFuncs(exposedFlags ...string) template.FuncMap {
-	return template.FuncMap{
-		"trim":                strings.TrimSpace,
-		"trimRight":           func(s string) string { return strings.TrimRightFunc(s, unicode.IsSpace) },
-		"trimLeft":            func(s string) string { return strings.TrimLeftFunc(s, unicode.IsSpace) },
-		"gt":                  cobra.Gt,
-		"eq":                  cobra.Eq,
-		"rpad":                rpad,
-		"appendIfNotPresent":  appendIfNotPresent,
-		"flagsNotIntersected": flagsNotIntersected,
-		"visibleFlags":        visibleFlags,
-		"flagsUsages":         flagsUsages,
-		"cmdGroups":           templater.cmdGroups,
-		"cmdGroupsString":     templater.cmdGroupsString,
-		"rootCmd":             templater.rootCmdName,
-		"isRootCmd":           templater.isRootCmd,
-		"optionsCmdFor":       templater.optionsCmdFor,
-		"usageLine":           templater.usageLine,
-		"exposed": func(c *cobra.Command) *flag.FlagSet {
-			exposed := flag.NewFlagSet("exposed", flag.ContinueOnError)
-			if len(exposedFlags) > 0 {
-				for _, name := range exposedFlags {
-					if flag := c.Flags().Lookup(name); flag != nil {
-						exposed.AddFlag(flag)
-					}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return template.FuncMap{"trim": strings.TrimSpace, "trimRight": func(s string) string {
+		return strings.TrimRightFunc(s, unicode.IsSpace)
+	}, "trimLeft": func(s string) string {
+		return strings.TrimLeftFunc(s, unicode.IsSpace)
+	}, "gt": cobra.Gt, "eq": cobra.Eq, "rpad": rpad, "appendIfNotPresent": appendIfNotPresent, "flagsNotIntersected": flagsNotIntersected, "visibleFlags": visibleFlags, "flagsUsages": flagsUsages, "cmdGroups": templater.cmdGroups, "cmdGroupsString": templater.cmdGroupsString, "rootCmd": templater.rootCmdName, "isRootCmd": templater.isRootCmd, "optionsCmdFor": templater.optionsCmdFor, "usageLine": templater.usageLine, "exposed": func(c *cobra.Command) *flag.FlagSet {
+		exposed := flag.NewFlagSet("exposed", flag.ContinueOnError)
+		if len(exposedFlags) > 0 {
+			for _, name := range exposedFlags {
+				if flag := c.Flags().Lookup(name); flag != nil {
+					exposed.AddFlag(flag)
 				}
 			}
-			return exposed
-		},
-	}
+		}
+		return exposed
+	}}
 }
-
 func (templater *templater) cmdGroups(c *cobra.Command, all []*cobra.Command) []ktemplates.CommandGroup {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(templater.CommandGroups) > 0 && c == templater.RootCmd {
 		all = filter(all, templater.Filtered...)
 		return ktemplates.AddAdditionalCommands(templater.CommandGroups, "Other Commands:", all)
 	}
 	all = filter(all, "options")
-	return []ktemplates.CommandGroup{
-		{
-			Message:  "Available Commands:",
-			Commands: all,
-		},
-	}
+	return []ktemplates.CommandGroup{{Message: "Available Commands:", Commands: all}}
 }
-
 func (t *templater) cmdGroupsString(c *cobra.Command) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	groups := []string{}
 	for _, cmdGroup := range t.cmdGroups(c, c.Commands()) {
 		cmds := []string{cmdGroup.Message}
@@ -144,16 +121,19 @@ func (t *templater) cmdGroupsString(c *cobra.Command) string {
 	}
 	return strings.Join(groups, "\n\n")
 }
-
 func (t *templater) rootCmdName(c *cobra.Command) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t.rootCmd(c).CommandPath()
 }
-
 func (t *templater) isRootCmd(c *cobra.Command) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return t.rootCmd(c) == c
 }
-
 func (t *templater) rootCmd(c *cobra.Command) *cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if c != nil && !c.HasParent() {
 		return c
 	}
@@ -162,33 +142,30 @@ func (t *templater) rootCmd(c *cobra.Command) *cobra.Command {
 	}
 	return t.RootCmd
 }
-
 func (t *templater) optionsCmdFor(c *cobra.Command) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !c.Runnable() {
 		return ""
 	}
-
 	parentCmdHasOptsArg := false
 	currentCmdHasOptsArg := false
-
 	if t.RootCmd.HasParent() {
 		if _, args, err := t.RootCmd.Parent().Find([]string{"options"}); err == nil && len(args) == 0 {
 			parentCmdHasOptsArg = true
 		}
 	}
-
 	if _, args, err := t.RootCmd.Find([]string{"options"}); err == nil && len(args) == 0 {
 		currentCmdHasOptsArg = true
 	}
-
 	if (parentCmdHasOptsArg && currentCmdHasOptsArg) || !t.RootCmd.HasParent() {
 		return t.RootCmd.CommandPath() + " options"
 	}
-
 	return t.RootCmd.Parent().CommandPath() + " options"
 }
-
 func (t *templater) usageLine(c *cobra.Command) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	usage := c.UseLine()
 	suffix := "[flags]"
 	if c.HasFlags() && !strings.Contains(usage, suffix) {
@@ -196,45 +173,44 @@ func (t *templater) usageLine(c *cobra.Command) string {
 	}
 	return usage
 }
-
 func flagsUsages(f *flag.FlagSet) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	x := new(bytes.Buffer)
-
 	f.VisitAll(func(flag *flag.Flag) {
 		if flag.Hidden {
 			return
 		}
 		format := "--%s=%s: %s\n"
-
 		if flag.Value.Type() == "string" {
 			format = "--%s='%s': %s\n"
 		}
-
 		if len(flag.Shorthand) > 0 {
 			format = "  -%s, " + format
 		} else {
 			format = "   %s   " + format
 		}
-
 		fmt.Fprintf(x, format, flag.Shorthand, flag.Name, flag.DefValue, flag.Usage)
 	})
-
 	return x.String()
 }
-
 func rpad(s string, padding int) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	template := fmt.Sprintf("%%-%ds", padding)
 	return fmt.Sprintf(template, s)
 }
-
 func appendIfNotPresent(s, stringToAppend string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if strings.Contains(s, stringToAppend) {
 		return s
 	}
 	return s + " " + stringToAppend
 }
-
 func flagsNotIntersected(l *flag.FlagSet, r *flag.FlagSet) *flag.FlagSet {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	f := flag.NewFlagSet("notIntersected", flag.ContinueOnError)
 	l.VisitAll(func(flag *flag.Flag) {
 		if r.Lookup(flag.Name) == nil {
@@ -243,8 +219,9 @@ func flagsNotIntersected(l *flag.FlagSet, r *flag.FlagSet) *flag.FlagSet {
 	})
 	return f
 }
-
 func visibleFlags(l *flag.FlagSet) *flag.FlagSet {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	hidden := "help"
 	f := flag.NewFlagSet("visible", flag.ContinueOnError)
 	l.VisitAll(func(flag *flag.Flag) {
@@ -254,8 +231,9 @@ func visibleFlags(l *flag.FlagSet) *flag.FlagSet {
 	})
 	return f
 }
-
 func filter(cmds []*cobra.Command, names ...string) []*cobra.Command {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	out := []*cobra.Command{}
 	for _, c := range cmds {
 		if c.Hidden {
@@ -274,4 +252,8 @@ func filter(cmds []*cobra.Command, names ...string) []*cobra.Command {
 		out = append(out, c)
 	}
 	return out
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

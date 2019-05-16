@@ -1,29 +1,16 @@
-/*
-Copyright 2014 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package validation
 
 import (
 	"fmt"
-	"time"
-
+	goformat "fmt"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/util/validation"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/kubernetes/pkg/apis/core"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
 const (
@@ -33,27 +20,21 @@ const (
 	NoteLengthLimit              = 1024
 )
 
-// ValidateEvent makes sure that the event makes sense.
 func ValidateEvent(event *core.Event) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrs := field.ErrorList{}
-	// Because go
 	zeroTime := time.Time{}
-
-	// "New" Events need to have EventTime set, so it's validating old object.
 	if event.EventTime.Time == zeroTime {
-		// Make sure event.Namespace and the involvedInvolvedObject.Namespace agree
 		if len(event.InvolvedObject.Namespace) == 0 {
-			// event.Namespace must also be empty (or "default", for compatibility with old clients)
 			if event.Namespace != metav1.NamespaceNone && event.Namespace != metav1.NamespaceDefault {
 				allErrs = append(allErrs, field.Invalid(field.NewPath("involvedObject", "namespace"), event.InvolvedObject.Namespace, "does not match event.namespace"))
 			}
 		} else {
-			// event namespace must match
 			if event.Namespace != event.InvolvedObject.Namespace {
 				allErrs = append(allErrs, field.Invalid(field.NewPath("involvedObject", "namespace"), event.InvolvedObject.Namespace, "does not match event.namespace"))
 			}
 		}
-
 	} else {
 		if len(event.InvolvedObject.Namespace) == 0 && event.Namespace != metav1.NamespaceSystem {
 			allErrs = append(allErrs, field.Invalid(field.NewPath("involvedObject", "namespace"), event.InvolvedObject.Namespace, "does not match event.namespace"))
@@ -86,9 +67,12 @@ func ValidateEvent(event *core.Event) field.ErrorList {
 			allErrs = append(allErrs, field.Invalid(field.NewPath("message"), "", fmt.Sprintf("can have at most %v characters", NoteLengthLimit)))
 		}
 	}
-
 	for _, msg := range validation.IsDNS1123Subdomain(event.Namespace) {
 		allErrs = append(allErrs, field.Invalid(field.NewPath("namespace"), event.Namespace, msg))
 	}
 	return allErrs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

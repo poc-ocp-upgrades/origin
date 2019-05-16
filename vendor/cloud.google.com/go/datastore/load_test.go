@@ -307,7 +307,7 @@ func TestLoadEntityNested(t *testing.T) {
 			},
 
 			&NestedSliceOfSimple{
-				A: []Simple{Simple{I: 3}, Simple{I: 4}},
+				A: []Simple{{I: 3}, {I: 4}},
 			},
 		},
 		{

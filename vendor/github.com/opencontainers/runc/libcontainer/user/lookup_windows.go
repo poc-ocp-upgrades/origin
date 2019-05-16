@@ -3,10 +3,10 @@
 package user
 
 import (
-	"fmt"
-	"os/user"
 	"errors"
+	"fmt"
 	"io"
+	"os/user"
 )
 
 func lookupUser(username string) (User, error) {
@@ -66,4 +66,3 @@ func CurrentUser() (User, error) {
 func CurrentGroup() (Group, error) {
 	return Group{}, notSupported
 }
-

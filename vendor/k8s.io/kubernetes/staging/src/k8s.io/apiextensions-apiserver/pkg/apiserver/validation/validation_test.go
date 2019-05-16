@@ -152,7 +152,7 @@ func TestNullable(t *testing.T) {
 		{"!nullable against non-null", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: false,
 					},
@@ -163,7 +163,7 @@ func TestNullable(t *testing.T) {
 		{"!nullable against null", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: false,
 					},
@@ -174,7 +174,7 @@ func TestNullable(t *testing.T) {
 		{"!nullable against undefined", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: false,
 					},
@@ -185,7 +185,7 @@ func TestNullable(t *testing.T) {
 		{"nullable against non-null", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: true,
 					},
@@ -196,7 +196,7 @@ func TestNullable(t *testing.T) {
 		{"nullable against null", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: true,
 					},
@@ -207,7 +207,7 @@ func TestNullable(t *testing.T) {
 		{"!nullable against undefined", args{
 			apiextensions.JSONSchemaProps{
 				Properties: map[string]apiextensions.JSONSchemaProps{
-					"field": apiextensions.JSONSchemaProps{
+					"field": {
 						Type:     "object",
 						Nullable: true,
 					},

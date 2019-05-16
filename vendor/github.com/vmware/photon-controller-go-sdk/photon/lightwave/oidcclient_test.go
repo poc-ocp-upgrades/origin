@@ -66,7 +66,7 @@ var _ = Describe("OIDCClient", func() {
 			Context("when server responds with valid certificate", func() {
 				BeforeEach(func() {
 					template := &x509.Certificate{
-						IsCA: true,
+						IsCA:                  true,
 						BasicConstraintsValid: true,
 						SubjectKeyId:          []byte{1, 2, 3},
 						SerialNumber:          big.NewInt(1234),
@@ -93,7 +93,7 @@ var _ = Describe("OIDCClient", func() {
 					Expect(err).To(BeNil())
 
 					body := []lightWaveCert{
-						lightWaveCert{Value: certOut.String()},
+						{Value: certOut.String()},
 					}
 					server.SetResponseJsonForPath(certDownloadPath, 200, body)
 				})
@@ -122,7 +122,7 @@ var _ = Describe("OIDCClient", func() {
 			Context("when server responds with unparasble cert data", func() {
 				BeforeEach(func() {
 					body := []lightWaveCert{
-						lightWaveCert{Value: "text"},
+						{Value: "text"},
 					}
 
 					server.SetResponseJson(200, body)

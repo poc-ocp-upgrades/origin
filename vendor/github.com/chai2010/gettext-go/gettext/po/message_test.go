@@ -49,7 +49,7 @@ msgstr ""
 }
 
 var testPoEntrys = []Message{
-	Message{
+	{
 		Comment: Comment{
 			TranslatorComment: `SOME DESCRIPTIVE TITLE.
 Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER

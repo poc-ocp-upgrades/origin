@@ -11,29 +11,20 @@ const (
 )
 
 var (
-	schemeBuilder = runtime.NewSchemeBuilder(
-		addKnownTypes,
-		core.AddToScheme,
-	)
-	Install = schemeBuilder.AddToScheme
-
-	// DEPRECATED kept for generated code
+	schemeBuilder      = runtime.NewSchemeBuilder(addKnownTypes, core.AddToScheme)
+	Install            = schemeBuilder.AddToScheme
 	SchemeGroupVersion = schema.GroupVersion{Group: GroupName, Version: runtime.APIVersionInternal}
-	// DEPRECATED kept for generated code
-	AddToScheme = schemeBuilder.AddToScheme
+	AddToScheme        = schemeBuilder.AddToScheme
 )
 
-// Resource kept for generated code
-// DEPRECATED
 func Resource(resource string) schema.GroupResource {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
-
-// Adds the list of known types to api.Scheme.
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(SchemeGroupVersion,
-		&Route{},
-		&RouteList{},
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	scheme.AddKnownTypes(SchemeGroupVersion, &Route{}, &RouteList{})
 	return nil
 }

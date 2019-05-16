@@ -40,7 +40,7 @@ func ExampleClient_AnalyzeSentiment() {
 	}
 
 	req := &languagepb.AnalyzeSentimentRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.AnalyzeSentiment(ctx, req)
 	if err != nil {
@@ -58,7 +58,7 @@ func ExampleClient_AnalyzeEntities() {
 	}
 
 	req := &languagepb.AnalyzeEntitiesRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.AnalyzeEntities(ctx, req)
 	if err != nil {
@@ -76,7 +76,7 @@ func ExampleClient_AnnotateText() {
 	}
 
 	req := &languagepb.AnnotateTextRequest{
-	// TODO: Fill request struct fields.
+		// TODO: Fill request struct fields.
 	}
 	resp, err := c.AnnotateText(ctx, req)
 	if err != nil {

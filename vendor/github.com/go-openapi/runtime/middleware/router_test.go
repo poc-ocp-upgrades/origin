@@ -232,11 +232,11 @@ func TestPathConverter(t *testing.T) {
 func TestExtractCompositParameters(t *testing.T) {
 	// name is the composite parameter's name, value is the value of this composit parameter, pattern is the pattern to be matched
 	cases := []struct {
-		name string
-		value string
+		name    string
+		value   string
 		pattern string
-		names []string
-		values []string
+		names   []string
+		values  []string
 	}{
 		{name: "fragment", value: "gie", pattern: "e", names: []string{"fragment"}, values: []string{"gi"}},
 		{name: "fragment", value: "t.simpson", pattern: ".{subfragment}", names: []string{"fragment", "subfragment"}, values: []string{"t", "simpson"}},

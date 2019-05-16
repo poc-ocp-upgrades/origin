@@ -32,7 +32,7 @@ var _ = Describe("Deployment", func() {
 		deploymentSpec = &DeploymentCreateSpec{
 			ImageDatastores:         []string{randomString(10, "go-sdk-deployment-")},
 			UseImageDatastoreForVms: true,
-			Auth: &AuthInfo{},
+			Auth:                    &AuthInfo{},
 		}
 	})
 
@@ -59,8 +59,8 @@ var _ = Describe("Deployment", func() {
 			mockDeployment := Deployment{
 				ImageDatastores:         deploymentSpec.ImageDatastores,
 				UseImageDatastoreForVms: deploymentSpec.UseImageDatastoreForVms,
-				Auth:                 &AuthInfo{},
-				NetworkConfiguration: &NetworkConfiguration{Enabled: false},
+				Auth:                    &AuthInfo{},
+				NetworkConfiguration:    &NetworkConfiguration{Enabled: false},
 			}
 			server.SetResponseJson(200, mockDeployment)
 			deployment, err := client.Deployments.Get(task.Entity.ID)
@@ -166,7 +166,7 @@ var _ = Describe("Deployment", func() {
 				projID = createProject(server, client, tenantID, resName)
 				imageID = createImage(server, client)
 				flavorSpec = &FlavorCreateSpec{
-					[]QuotaLineItem{QuotaLineItem{"COUNT", 1, "ephemeral-disk.cost"}},
+					[]QuotaLineItem{{"COUNT", 1, "ephemeral-disk.cost"}},
 					"ephemeral-disk",
 					randomString(10, "go-sdk-flavor-"),
 				}
@@ -179,8 +179,8 @@ var _ = Describe("Deployment", func() {
 					Name: randomString(10, "go-sdk-flavor-"),
 					Kind: "vm",
 					Cost: []QuotaLineItem{
-						QuotaLineItem{"GB", 2, "vm.memory"},
-						QuotaLineItem{"COUNT", 4, "vm.cpu"},
+						{"GB", 2, "vm.memory"},
+						{"COUNT", 4, "vm.cpu"},
 					},
 				}
 				_, err = client.Flavors.Create(vmFlavorSpec)
@@ -191,7 +191,7 @@ var _ = Describe("Deployment", func() {
 					Flavor:        vmFlavorSpec.Name,
 					SourceImageID: imageID,
 					AttachedDisks: []AttachedDisk{
-						AttachedDisk{
+						{
 							CapacityGB: 1,
 							Flavor:     flavorSpec.Name,
 							Kind:       "ephemeral-disk",

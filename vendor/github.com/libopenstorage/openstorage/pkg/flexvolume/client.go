@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"go.pedge.io/dlog"
 	"github.com/golang/protobuf/ptypes/empty"
+	"go.pedge.io/dlog"
 	"golang.org/x/net/context"
 )
 

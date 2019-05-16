@@ -2,17 +2,16 @@ package v1
 
 import "github.com/openshift/api/route/v1"
 
-// If adding or changing route defaults, updates may be required to
-// pkg/router/controller/controller.go to ensure the routes generated from
-// ingress resources will match routes created via the api.
-
 func SetDefaults_RouteSpec(obj *v1.RouteSpec) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.WildcardPolicy) == 0 {
 		obj.WildcardPolicy = v1.WildcardPolicyNone
 	}
 }
-
 func SetDefaults_RouteTargetReference(obj *v1.RouteTargetReference) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.Kind) == 0 {
 		obj.Kind = "Service"
 	}
@@ -21,8 +20,9 @@ func SetDefaults_RouteTargetReference(obj *v1.RouteTargetReference) {
 		*obj.Weight = 100
 	}
 }
-
 func SetDefaults_TLSConfig(obj *v1.TLSConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.Termination) == 0 && len(obj.DestinationCACertificate) == 0 {
 		obj.Termination = v1.TLSTerminationEdge
 	}
@@ -35,8 +35,9 @@ func SetDefaults_TLSConfig(obj *v1.TLSConfig) {
 		obj.Termination = v1.TLSTerminationPassthrough
 	}
 }
-
 func SetDefaults_RouteIngress(obj *v1.RouteIngress) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if len(obj.WildcardPolicy) == 0 {
 		obj.WildcardPolicy = v1.WildcardPolicyNone
 	}

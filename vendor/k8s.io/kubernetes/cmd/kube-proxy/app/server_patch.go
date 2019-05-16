@@ -5,5 +5,7 @@ import (
 )
 
 func (o *Options) GetConfig() *kubeproxyconfig.KubeProxyConfiguration {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.config
 }

@@ -9,14 +9,16 @@ type tag struct {
 	Name    string
 	Created time.Time
 }
-
 type byCreationTimestamp []tag
 
 func (t byCreationTimestamp) Len() int {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return len(t)
 }
-
 func (t byCreationTimestamp) Less(i, j int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	delta := t[i].Created.Sub(t[j].Created)
 	if delta > 0 {
 		return true
@@ -24,18 +26,16 @@ func (t byCreationTimestamp) Less(i, j int) bool {
 	if delta < 0 {
 		return false
 	}
-	// time has only second precision, so we need to have a secondary sort condition
-	// to get stable sorts
 	return t[i].Name < t[j].Name
 }
-
 func (t byCreationTimestamp) Swap(i, j int) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	t[i], t[j] = t[j], t[i]
 }
-
-// SortStatusTags sorts the status tags of an image stream based on
-// the latest created
 func SortStatusTags(tags map[string]TagEventList) []string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	tagSlice := make([]tag, len(tags))
 	index := 0
 	for tag, list := range tags {
@@ -45,13 +45,10 @@ func SortStatusTags(tags map[string]TagEventList) []string {
 		}
 		index++
 	}
-
 	sort.Sort(byCreationTimestamp(tagSlice))
-
 	actual := make([]string, len(tagSlice))
 	for i, tag := range tagSlice {
 		actual[i] = tag.Name
 	}
-
 	return actual
 }

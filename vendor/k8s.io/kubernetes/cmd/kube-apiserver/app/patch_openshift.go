@@ -14,20 +14,22 @@ var OpenShiftKubeAPIServerConfigPatch KubeAPIServerConfigFunc = nil
 type KubeAPIServerServerFunc func(server *master.Master) error
 
 func PatchKubeAPIServerConfig(config *genericapiserver.Config, versionedInformers clientgoinformers.SharedInformerFactory, pluginInitializers *[]admission.PluginInitializer) (genericapiserver.DelegationTarget, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if OpenShiftKubeAPIServerConfigPatch == nil {
 		return genericapiserver.NewEmptyDelegate(), nil
 	}
-
 	return OpenShiftKubeAPIServerConfigPatch(config, versionedInformers, pluginInitializers)
 }
 
 var OpenShiftKubeAPIServerServerPatch KubeAPIServerServerFunc = nil
 
 func PatchKubeAPIServerServer(server *master.Master) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if OpenShiftKubeAPIServerServerPatch == nil {
 		return nil
 	}
-
 	return OpenShiftKubeAPIServerServerPatch(server)
 }
 

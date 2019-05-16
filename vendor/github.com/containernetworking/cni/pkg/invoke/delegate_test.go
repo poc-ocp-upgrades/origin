@@ -46,7 +46,7 @@ var _ = Describe("Delegate", func() {
 		expectedResult = &current.Result{
 			CNIVersion: "0.3.1",
 			IPs: []*current.IPConfig{
-				&current.IPConfig{
+				{
 					Version: "4",
 					Address: net.IPNet{
 						IP:   net.ParseIP("10.1.2.3"),

@@ -3,9 +3,10 @@ package nodeenv
 import (
 	"errors"
 	"fmt"
+	goformat "fmt"
+	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
+	"github.com/openshift/origin/pkg/util/labelselector"
 	"io"
-	"time"
-
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apiserver/pkg/admission"
@@ -13,16 +14,18 @@ import (
 	"k8s.io/client-go/informers"
 	corev1listers "k8s.io/client-go/listers/core/v1"
 	coreapi "k8s.io/kubernetes/pkg/apis/core"
-
-	oadmission "github.com/openshift/origin/pkg/cmd/server/admission"
-	"github.com/openshift/origin/pkg/util/labelselector"
+	goos "os"
+	godefaultruntime "runtime"
+	"time"
+	gotime "time"
 )
 
 func Register(plugins *admission.Plugins) {
-	plugins.Register("scheduling.openshift.io/OriginPodNodeEnvironment",
-		func(config io.Reader) (admission.Interface, error) {
-			return NewPodNodeEnvironment()
-		})
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	plugins.Register("scheduling.openshift.io/OriginPodNodeEnvironment", func(config io.Reader) (admission.Interface, error) {
+		return NewPodNodeEnvironment()
+	})
 }
 
 const (
@@ -31,12 +34,10 @@ const (
 	openShiftProjectNodeSelector = "openshift.io/node-selector"
 )
 
-// podNodeEnvironment is an implementation of admission.MutationInterface.
 type podNodeEnvironment struct {
 	*admission.Handler
-	nsLister       corev1listers.NamespaceLister
-	nsListerSynced func() bool
-	// TODO this should become a piece of config passed to the admission plugin
+	nsLister            corev1listers.NamespaceLister
+	nsListerSynced      func() bool
 	defaultNodeSelector string
 }
 
@@ -45,25 +46,22 @@ var _ = oadmission.WantsDefaultNodeSelector(&podNodeEnvironment{})
 var _ = admission.ValidationInterface(&podNodeEnvironment{})
 var _ = admission.MutationInterface(&podNodeEnvironment{})
 
-// Admit enforces that pod and its project node label selectors matches at least a node in the cluster.
 func (p *podNodeEnvironment) admit(a admission.Attributes, mutationAllowed bool) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	resource := a.GetResource().GroupResource()
 	if resource != corev1.Resource("pods") {
 		return nil
 	}
 	if a.GetSubresource() != "" {
-		// only run the checks below on pods proper and not subresources
 		return nil
 	}
-
 	obj := a.GetObject()
 	pod, ok := obj.(*coreapi.Pod)
 	if !ok {
 		return nil
 	}
-
 	name := pod.Name
-
 	if !p.waitForSyncedStore(time.After(timeToWaitForCacheSync)) {
 		return admission.NewForbidden(a, errors.New("scheduling.openshift.io/OriginPodNodeEnvironment: caches not synchronized"))
 	}
@@ -71,13 +69,9 @@ func (p *podNodeEnvironment) admit(a admission.Attributes, mutationAllowed bool)
 	if err != nil {
 		return apierrors.NewForbidden(resource, name, err)
 	}
-
-	// If scheduler.alpha.kubernetes.io/node-selector is set on the pod,
-	// do not process the pod further.
 	if _, ok := namespace.ObjectMeta.Annotations[kubeProjectNodeSelector]; ok {
 		return nil
 	}
-
 	selector := p.defaultNodeSelector
 	if projectNodeSelector, ok := namespace.ObjectMeta.Annotations[openShiftProjectNodeSelector]; ok {
 		selector = projectNodeSelector
@@ -86,40 +80,39 @@ func (p *podNodeEnvironment) admit(a admission.Attributes, mutationAllowed bool)
 	if err != nil {
 		return err
 	}
-
 	if labelselector.Conflicts(projectNodeSelector, pod.Spec.NodeSelector) {
 		return apierrors.NewForbidden(resource, name, fmt.Errorf("pod node label selector conflicts with its project node label selector"))
 	}
-
 	if !mutationAllowed && len(labelselector.Merge(projectNodeSelector, pod.Spec.NodeSelector)) != len(pod.Spec.NodeSelector) {
-		// no conflict, different size => pod.Spec.NodeSelector does not contain projectNodeSelector
 		return apierrors.NewForbidden(resource, name, fmt.Errorf("pod node label selector does not extend project node label selector"))
 	}
-
-	// modify pod node selector = project node selector + current pod node selector
 	pod.Spec.NodeSelector = labelselector.Merge(projectNodeSelector, pod.Spec.NodeSelector)
-
 	return nil
 }
-
 func (p *podNodeEnvironment) Admit(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return p.admit(a, true)
 }
-
 func (p *podNodeEnvironment) Validate(a admission.Attributes) (err error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return p.admit(a, false)
 }
-
 func (p *podNodeEnvironment) SetDefaultNodeSelector(in string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	p.defaultNodeSelector = in
 }
-
 func (p *podNodeEnvironment) SetExternalKubeInformerFactory(kubeInformers informers.SharedInformerFactory) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	p.nsLister = kubeInformers.Core().V1().Namespaces().Lister()
 	p.nsListerSynced = kubeInformers.Core().V1().Namespaces().Informer().HasSynced
 }
-
 func (p *podNodeEnvironment) waitForSyncedStore(timeout <-chan time.Time) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for !p.nsListerSynced() {
 		select {
 		case <-time.After(100 * time.Millisecond):
@@ -127,11 +120,11 @@ func (p *podNodeEnvironment) waitForSyncedStore(timeout <-chan time.Time) bool {
 			return p.nsListerSynced()
 		}
 	}
-
 	return true
 }
-
 func (p *podNodeEnvironment) ValidateInitialization() error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if p.nsLister == nil {
 		return fmt.Errorf("project node environment plugin needs a namespace lister")
 	}
@@ -140,9 +133,12 @@ func (p *podNodeEnvironment) ValidateInitialization() error {
 	}
 	return nil
 }
-
 func NewPodNodeEnvironment() (admission.Interface, error) {
-	return &podNodeEnvironment{
-		Handler: admission.NewHandler(admission.Create),
-	}, nil
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return &podNodeEnvironment{Handler: admission.NewHandler(admission.Create)}, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

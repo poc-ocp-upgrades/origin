@@ -2,8 +2,10 @@ package mount
 
 // CustomLoad defines the mounter.Load callback function for customer mounters
 type CustomLoad func([]string, DeviceMap, PathMap) error
+
 // CustomReload defines the mounter.Reload callback function for customer mounters
 type CustomReload func(string, DeviceMap, PathMap) error
+
 // CustomMounter defines the CustomMount function that retursn the load and reload callbacks
 type CustomMounter func() (CustomLoad, CustomReload)
 
@@ -24,9 +26,9 @@ func NewCustomMounter(
 
 	m := &CustomMounterHandler{
 		Mounter: Mounter{
-			mountImpl: mountImpl,
-			mounts:    make(DeviceMap),
-			paths:     make(PathMap),
+			mountImpl:   mountImpl,
+			mounts:      make(DeviceMap),
+			paths:       make(PathMap),
 			allowedDirs: allowedDirs,
 		},
 	}

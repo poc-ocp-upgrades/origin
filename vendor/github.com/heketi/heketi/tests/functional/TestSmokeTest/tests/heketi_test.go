@@ -451,7 +451,7 @@ func TestRemoveDevice(t *testing.T) {
 		}
 	}
 
-	for device, _ := range deviceOccurence {
+	for device := range deviceOccurence {
 		logger.Info("Key: %v , Value: %v", device, deviceOccurence[device])
 	}
 

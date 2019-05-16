@@ -1230,7 +1230,7 @@ func TestValidateCustomResourceDefinitionValidation(t *testing.T) {
 			input: apiextensions.CustomResourceValidation{
 				OpenAPIV3Schema: &apiextensions.JSONSchemaProps{
 					Properties: map[string]apiextensions.JSONSchemaProps{
-						"null": apiextensions.JSONSchemaProps{
+						"null": {
 							Type: "null",
 						},
 					},
@@ -1253,7 +1253,7 @@ func TestValidateCustomResourceDefinitionValidation(t *testing.T) {
 			input: apiextensions.CustomResourceValidation{
 				OpenAPIV3Schema: &apiextensions.JSONSchemaProps{
 					Properties: map[string]apiextensions.JSONSchemaProps{
-						"nullable": apiextensions.JSONSchemaProps{
+						"nullable": {
 							Nullable: true,
 						},
 					},
@@ -1266,11 +1266,11 @@ func TestValidateCustomResourceDefinitionValidation(t *testing.T) {
 			input: apiextensions.CustomResourceValidation{
 				OpenAPIV3Schema: &apiextensions.JSONSchemaProps{
 					Properties: map[string]apiextensions.JSONSchemaProps{
-						"object": apiextensions.JSONSchemaProps{
+						"object": {
 							Type:     "object",
 							Nullable: true,
 						},
-						"array": apiextensions.JSONSchemaProps{
+						"array": {
 							Type:     "array",
 							Nullable: true,
 						},

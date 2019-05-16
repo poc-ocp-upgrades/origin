@@ -2,95 +2,82 @@ package buildconfig
 
 import (
 	"context"
-
+	goformat "fmt"
+	buildapi "github.com/openshift/origin/pkg/build/apis/build"
+	"github.com/openshift/origin/pkg/build/apis/build/validation"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/apiserver/pkg/registry/rest"
 	"k8s.io/apiserver/pkg/storage/names"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	buildapi "github.com/openshift/origin/pkg/build/apis/build"
-	"github.com/openshift/origin/pkg/build/apis/build/validation"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 var (
-	// GroupStrategy is the logic that applies when creating and updating BuildConfig objects
-	// in the Group api.
-	// This differs from the LegacyStrategy in that on create it will set a default build
-	// pruning limit value for both successful and failed builds.  This is new behavior that
-	// can only be introduced to users consuming the new group based api.
-	GroupStrategy = groupStrategy{strategy{legacyscheme.Scheme, names.SimpleNameGenerator}}
-
-	// LegacyStrategy is the default logic that applies when creating BuildConfig objects.
-	// Specifically it will not set the default build pruning limit values because that was not
-	// part of the legacy api.
+	GroupStrategy  = groupStrategy{strategy{legacyscheme.Scheme, names.SimpleNameGenerator}}
 	LegacyStrategy = legacyStrategy{strategy{legacyscheme.Scheme, names.SimpleNameGenerator}}
 )
 
-// strategy implements most of the behavior for BuildConfig objects
-// It does not provide a PrepareForCreate implementation, that is expected
-// to be implemented by the child implementation.
 type strategy struct {
 	runtime.ObjectTyper
 	names.NameGenerator
 }
 
 func (strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
-// AllowCreateOnUpdate is false for BuildConfig objects.
 func (strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// Canonicalize normalizes the object after validation.
 func (strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
-// PrepareForCreate clears fields that are not allowed to be set by end users on creation.
-// This is invoked by the Group and Legacy strategies.
 func (s strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	bc := obj.(*buildapi.BuildConfig)
 	dropUnknownTriggers(bc)
 }
-
-// PrepareForUpdate clears fields that are not allowed to be set by end users on update.
 func (strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newBC := obj.(*buildapi.BuildConfig)
 	oldBC := old.(*buildapi.BuildConfig)
 	dropUnknownTriggers(newBC)
-	// Do not allow the build version to go backwards or we'll
-	// get conflicts with existing builds.
 	if newBC.Status.LastVersion < oldBC.Status.LastVersion {
 		newBC.Status.LastVersion = oldBC.Status.LastVersion
 	}
 }
-
-// Validate validates a new policy.
 func (strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBuildConfig(obj.(*buildapi.BuildConfig))
 }
-
-// ValidateUpdate is the default update validation for an end user.
 func (strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return validation.ValidateBuildConfigUpdate(obj.(*buildapi.BuildConfig), old.(*buildapi.BuildConfig))
 }
 
-// groupStrategy implements behavior for BuildConfig objects in the Group api
-type groupStrategy struct {
-	strategy
-}
+type groupStrategy struct{ strategy }
 
-// PrepareForCreate delegates to the common strategy and sets default pruning limits
 func (s groupStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s.strategy.PrepareForCreate(ctx, obj)
-
 	bc := obj.(*buildapi.BuildConfig)
 	if bc.Spec.SuccessfulBuildsHistoryLimit == nil {
 		v := buildapi.DefaultSuccessfulBuildsHistoryLimit
@@ -102,34 +89,29 @@ func (s groupStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object)
 	}
 }
 
-// legacyStrategy implements behavior for BuildConfig objects in the legacy api
-type legacyStrategy struct {
-	strategy
-}
+type legacyStrategy struct{ strategy }
 
-// PrepareForCreate delegates to the common strategy.
 func (s legacyStrategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s.strategy.PrepareForCreate(ctx, obj)
-
-	// legacy buildconfig api does not apply default pruning values, to maintain
-	// backwards compatibility.
-
 }
 
 var _ rest.GarbageCollectionDeleteStrategy = legacyStrategy{}
 
-// DefaultGarbageCollectionPolicy for legacy buildconfigs will orphan dependents.
 func (s legacyStrategy) DefaultGarbageCollectionPolicy(ctx context.Context) rest.GarbageCollectionPolicy {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return rest.OrphanDependents
 }
-
-// CheckGracefulDelete allows a build config to be gracefully deleted.
 func (strategy) CheckGracefulDelete(obj runtime.Object, options *metav1.DeleteOptions) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// dropUnknownTriggers drops any triggers that are of an unknown type
 func dropUnknownTriggers(bc *buildapi.BuildConfig) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	triggers := []buildapi.BuildTriggerPolicy{}
 	for _, t := range bc.Spec.Triggers {
 		if buildapi.KnownTriggerTypes.Has(string(t.Type)) {
@@ -137,4 +119,8 @@ func dropUnknownTriggers(bc *buildapi.BuildConfig) {
 		}
 	}
 	bc.Spec.Triggers = triggers
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

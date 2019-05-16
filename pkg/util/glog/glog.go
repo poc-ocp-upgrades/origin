@@ -2,102 +2,120 @@ package glog
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io"
-	"strings"
-
 	"k8s.io/klog"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
-// Logger is a simple interface that is roughly equivalent to klog.
 type Logger interface {
 	Is(level int) bool
 	V(level int) Logger
 	Infof(format string, args ...interface{})
 }
 
-// ToFile creates a logger that will log any items at level or below to file, and defer
-// any other output to glog (no matter what the level is.)
 func ToFile(w io.Writer, level int) Logger {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return file{w, level}
 }
 
 var (
-	// None implements the Logger interface but does nothing with the log output
 	None Logger = discard{}
-	// Log implements the Logger interface for Glog
-	Log Logger = glogger{}
+	Log  Logger = glogger{}
 )
 
-// discard is a Logger that outputs nothing.
 type discard struct{}
 
-func (discard) Is(level int) bool                { return false }
-func (discard) V(level int) Logger               { return None }
-func (discard) Infof(_ string, _ ...interface{}) {}
+func (discard) Is(level int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return false
+}
+func (discard) V(level int) Logger {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return None
+}
+func (discard) Infof(_ string, _ ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+}
 
-// glogger outputs log messages to glog
 type glogger struct{}
 
 func (glogger) Is(level int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return bool(klog.V(klog.Level(level)))
 }
-
 func (glogger) V(level int) Logger {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return gverbose{klog.V(klog.Level(level))}
 }
-
 func (glogger) Infof(format string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	klog.InfoDepth(2, fmt.Sprintf(format, args...))
 }
 
-// gverbose handles klog.V(x) calls
-type gverbose struct {
-	klog.Verbose
-}
+type gverbose struct{ klog.Verbose }
 
 func (gverbose) Is(level int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return bool(klog.V(klog.Level(level)))
 }
-
 func (gverbose) V(level int) Logger {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if klog.V(klog.Level(level)) {
 		return Log
 	}
 	return None
 }
-
 func (g gverbose) Infof(format string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if g.Verbose {
 		klog.InfoDepth(2, fmt.Sprintf(format, args...))
 	}
 }
 
-// file logs the provided messages at level or below to the writer, or delegates
-// to klog.
 type file struct {
 	w     io.Writer
 	level int
 }
 
 func (f file) Is(level int) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return level <= f.level || bool(klog.V(klog.Level(level)))
 }
-
 func (f file) V(level int) Logger {
-	// only log things that glog allows
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if !klog.V(klog.Level(level)) {
 		return None
 	}
-	// send anything above our level to glog
 	if level > f.level {
 		return Log
 	}
 	return f
 }
-
 func (f file) Infof(format string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	fmt.Fprintf(f.w, format, args...)
 	if !strings.HasSuffix(format, "\n") {
 		fmt.Fprintln(f.w)
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

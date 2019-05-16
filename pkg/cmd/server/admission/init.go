@@ -1,16 +1,19 @@
 package admission
 
 import (
-	"k8s.io/apiserver/pkg/admission"
-	restclient "k8s.io/client-go/rest"
-	quota "k8s.io/kubernetes/pkg/quota/v1"
-
+	goformat "fmt"
 	quotainformer "github.com/openshift/client-go/quota/informers/externalversions/quota/v1"
 	securityv1informer "github.com/openshift/client-go/security/informers/externalversions/security/v1"
 	userinformer "github.com/openshift/client-go/user/informers/externalversions"
 	"github.com/openshift/origin/pkg/image/apiserver/registryhostname"
 	"github.com/openshift/origin/pkg/project/cache"
 	"github.com/openshift/origin/pkg/quota/controller/clusterquotamapping"
+	"k8s.io/apiserver/pkg/admission"
+	restclient "k8s.io/client-go/rest"
+	quota "k8s.io/kubernetes/pkg/quota/v1"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 type PluginInitializer struct {
@@ -25,9 +28,9 @@ type PluginInitializer struct {
 	UserInformers                userinformer.SharedInformerFactory
 }
 
-// Initialize will check the initialization interfaces implemented by each plugin
-// and provide the appropriate initialization data
 func (i *PluginInitializer) Initialize(plugin admission.Interface) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if wantsProjectCache, ok := plugin.(WantsProjectCache); ok {
 		wantsProjectCache.SetProjectCache(i.ProjectCache)
 	}
@@ -53,10 +56,9 @@ func (i *PluginInitializer) Initialize(plugin admission.Interface) {
 		wantsUserInformer.SetUserInformer(i.UserInformers)
 	}
 }
-
-// Validate will call the Validate function in each plugin if they implement
-// the Validator interface.
 func Validate(plugins []admission.Interface) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, plugin := range plugins {
 		if validater, ok := plugin.(admission.InitializationValidator); ok {
 			err := validater.ValidateInitialization()
@@ -66,4 +68,8 @@ func Validate(plugins []admission.Interface) error {
 		}
 	}
 	return nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

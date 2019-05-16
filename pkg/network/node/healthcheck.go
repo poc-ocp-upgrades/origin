@@ -2,14 +2,11 @@ package node
 
 import (
 	"fmt"
-	"time"
-
-	"k8s.io/klog"
-
+	"github.com/openshift/origin/pkg/util/ovs/ovsclient"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
 	utilwait "k8s.io/apimachinery/pkg/util/wait"
-
-	"github.com/openshift/origin/pkg/util/ovs/ovsclient"
+	"k8s.io/klog"
+	"time"
 )
 
 const (
@@ -20,9 +17,9 @@ const (
 	ovsDialDefaultAddress  = "/var/run/openvswitch/db.sock"
 )
 
-// waitForOVS polls until the OVS server responds to a connection and an 'echo'
-// command.
 func waitForOVS(network, addr string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return utilwait.PollImmediate(time.Second, time.Minute, func() (bool, error) {
 		c, err := ovsclient.DialTimeout(network, addr, ovsDialTimeout)
 		if err != nil {
@@ -37,14 +34,9 @@ func waitForOVS(network, addr string) error {
 		return true, nil
 	})
 }
-
-// runOVSHealthCheck runs two background loops - one that waits for disconnection
-// from the OVS server and then checks healthFn, and one that periodically checks
-// healthFn. If healthFn returns false in either of these two cases while the OVS
-// server is responsive the node process will terminate.
 func runOVSHealthCheck(network, addr string, healthFn func() error) {
-	// this loop holds an open socket connection to OVS until it times out, then
-	// checks for health
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	go utilwait.Until(func() {
 		c, err := ovsclient.DialTimeout(network, addr, ovsDialTimeout)
 		if err != nil {
@@ -52,10 +44,8 @@ func runOVSHealthCheck(network, addr string, healthFn func() error) {
 			return
 		}
 		defer c.Close()
-
 		err = c.WaitForDisconnect()
 		utilruntime.HandleError(fmt.Errorf("SDN healthcheck disconnected from OVS server: %v", err))
-
 		err = utilwait.PollImmediate(100*time.Millisecond, ovsRecoveryTimeout, func() (bool, error) {
 			c, err := ovsclient.DialTimeout(network, addr, ovsDialTimeout)
 			if err != nil {
@@ -73,14 +63,9 @@ func runOVSHealthCheck(network, addr string, healthFn func() error) {
 			return true, nil
 		})
 		if err != nil {
-			// If OVS restarts and our health check fails, we exit
-			// TODO: make openshift-sdn able to reconcile without a restart
 			klog.Fatalf("SDN healthcheck detected unhealthy OVS server, restarting: %v", err)
 		}
 	}, ovsDialTimeout, utilwait.NeverStop)
-
-	// this loop periodically verifies we can still connect to the OVS server and
-	// is an upper bound on the time we wait before detecting a failed OVS configuartion
 	go utilwait.Until(func() {
 		c, err := ovsclient.DialTimeout(network, addr, ovsDialTimeout)
 		if err != nil {

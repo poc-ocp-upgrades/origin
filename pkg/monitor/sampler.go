@@ -6,20 +6,16 @@ import (
 	"time"
 )
 
-type ConditionalSampler interface {
-	ConditionWhenFailing(*Condition) SamplerFunc
-}
-
+type ConditionalSampler interface{ ConditionWhenFailing(*Condition) SamplerFunc }
 type sampler struct {
 	lock      sync.Mutex
 	available bool
 }
 
 func StartSampling(ctx context.Context, recorder Recorder, interval time.Duration, sampleFn func(previous bool) (*Condition, bool)) ConditionalSampler {
-	s := &sampler{
-		available: true,
-	}
-
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	s := &sampler{available: true}
 	go func() {
 		ticker := time.NewTicker(interval)
 		defer ticker.Stop()
@@ -37,22 +33,25 @@ func StartSampling(ctx context.Context, recorder Recorder, interval time.Duratio
 			s.setAvailable(ok)
 		}
 	}()
-
 	return s
 }
-
 func (s *sampler) isAvailable() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	return s.available
 }
 func (s *sampler) setAvailable(b bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	s.lock.Lock()
 	defer s.lock.Unlock()
 	s.available = b
 }
-
 func (s *sampler) ConditionWhenFailing(condition *Condition) SamplerFunc {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return func(_ time.Time) []*Condition {
 		if s.isAvailable() {
 			return nil

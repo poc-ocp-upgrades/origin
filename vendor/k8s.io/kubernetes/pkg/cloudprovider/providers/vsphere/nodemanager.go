@@ -1,134 +1,94 @@
-/*
-Copyright 2016 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package vsphere
 
 import (
 	"context"
 	"fmt"
-	"strings"
-	"sync"
-
 	"k8s.io/api/core/v1"
 	k8stypes "k8s.io/apimachinery/pkg/types"
 	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/cloudprovider/providers/vsphere/vclib"
+	"strings"
+	"sync"
 )
 
-// Stores info about the kubernetes node
 type NodeInfo struct {
 	dataCenter *vclib.Datacenter
 	vm         *vclib.VirtualMachine
 	vcServer   string
 	vmUUID     string
 }
-
 type NodeManager struct {
-	// TODO: replace map with concurrent map when k8s supports go v1.9
-
-	// Maps the VC server to VSphereInstance
-	vsphereInstanceMap map[string]*VSphereInstance
-	// Maps node name to node info.
-	nodeInfoMap map[string]*NodeInfo
-	// Maps node name to node structure
-	registeredNodes map[string]*v1.Node
-	//CredentialsManager
-	credentialManager *SecretCredentialManager
-
-	// Mutexes
+	vsphereInstanceMap    map[string]*VSphereInstance
+	nodeInfoMap           map[string]*NodeInfo
+	registeredNodes       map[string]*v1.Node
+	credentialManager     *SecretCredentialManager
 	registeredNodesLock   sync.RWMutex
 	nodeInfoLock          sync.RWMutex
 	credentialManagerLock sync.Mutex
 }
-
 type NodeDetails struct {
 	NodeName string
 	vm       *vclib.VirtualMachine
 	VMUUID   string
 }
 
-// TODO: Make it configurable in vsphere.conf
 const (
 	POOL_SIZE  = 8
 	QUEUE_SIZE = POOL_SIZE * 10
 )
 
 func (nm *NodeManager) DiscoverNode(node *v1.Node) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	type VmSearch struct {
 		vc         string
 		datacenter *vclib.Datacenter
 	}
-
 	var mutex = &sync.Mutex{}
 	var globalErrMutex = &sync.Mutex{}
 	var queueChannel chan *VmSearch
 	var wg sync.WaitGroup
 	var globalErr *error
-
 	queueChannel = make(chan *VmSearch, QUEUE_SIZE)
 	nodeUUID, err := GetNodeUUID(node)
 	if err != nil {
 		klog.Errorf("Node Discovery failed to get node uuid for node %s with error: %v", node.Name, err)
 		return err
 	}
-
 	klog.V(4).Infof("Discovering node %s with uuid %s", node.ObjectMeta.Name, nodeUUID)
-
 	vmFound := false
 	globalErr = nil
-
 	setGlobalErr := func(err error) {
 		globalErrMutex.Lock()
 		globalErr = &err
 		globalErrMutex.Unlock()
 	}
-
 	setVMFound := func(found bool) {
 		mutex.Lock()
 		vmFound = found
 		mutex.Unlock()
 	}
-
 	getVMFound := func() bool {
 		mutex.Lock()
 		found := vmFound
 		mutex.Unlock()
 		return found
 	}
-
 	go func() {
 		var datacenterObjs []*vclib.Datacenter
 		for vc, vsi := range nm.vsphereInstanceMap {
-
 			found := getVMFound()
 			if found == true {
 				break
 			}
-
-			// Create context
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
-
 			err := nm.vcConnect(ctx, vsi)
 			if err != nil {
 				klog.V(4).Info("Discovering node error vc:", err)
 				setGlobalErr(err)
 				continue
 			}
-
 			if vsi.cfg.Datacenters == "" {
 				datacenterObjs, err = vclib.GetAllDatacenter(ctx, vsi.conn)
 				if err != nil {
@@ -152,23 +112,17 @@ func (nm *NodeManager) DiscoverNode(node *v1.Node) error {
 					datacenterObjs = append(datacenterObjs, datacenterObj)
 				}
 			}
-
 			for _, datacenterObj := range datacenterObjs {
 				found := getVMFound()
 				if found == true {
 					break
 				}
-
 				klog.V(4).Infof("Finding node %s in vc=%s and datacenter=%s", node.Name, vc, datacenterObj.Name())
-				queueChannel <- &VmSearch{
-					vc:         vc,
-					datacenter: datacenterObj,
-				}
+				queueChannel <- &VmSearch{vc: vc, datacenter: datacenterObj}
 			}
 		}
 		close(queueChannel)
 	}()
-
 	for i := 0; i < POOL_SIZE; i++ {
 		go func() {
 			for res := range queueChannel {
@@ -176,20 +130,16 @@ func (nm *NodeManager) DiscoverNode(node *v1.Node) error {
 				defer cancel()
 				vm, err := res.datacenter.GetVMByUUID(ctx, nodeUUID)
 				if err != nil {
-					klog.V(4).Infof("Error while looking for vm=%+v in vc=%s and datacenter=%s: %v",
-						vm, res.vc, res.datacenter.Name(), err)
+					klog.V(4).Infof("Error while looking for vm=%+v in vc=%s and datacenter=%s: %v", vm, res.vc, res.datacenter.Name(), err)
 					if err != vclib.ErrNoVMFound {
 						setGlobalErr(err)
 					} else {
-						klog.V(4).Infof("Did not find node %s in vc=%s and datacenter=%s",
-							node.Name, res.vc, res.datacenter.Name())
+						klog.V(4).Infof("Did not find node %s in vc=%s and datacenter=%s", node.Name, res.vc, res.datacenter.Name())
 					}
 					continue
 				}
 				if vm != nil {
-					klog.V(4).Infof("Found node %s as vm=%+v in vc=%s and datacenter=%s",
-						node.Name, vm, res.vc, res.datacenter.Name())
-
+					klog.V(4).Infof("Found node %s as vm=%+v in vc=%s and datacenter=%s", node.Name, vm, res.vc, res.datacenter.Name())
 					nodeInfo := &NodeInfo{dataCenter: res.datacenter, vm: vm, vcServer: res.vc, vmUUID: nodeUUID}
 					nm.addNodeInfo(node.ObjectMeta.Name, nodeInfo)
 					for range queueChannel {
@@ -209,32 +159,34 @@ func (nm *NodeManager) DiscoverNode(node *v1.Node) error {
 	if globalErr != nil {
 		return *globalErr
 	}
-
 	klog.V(4).Infof("Discovery Node: %q vm not found", node.Name)
 	return vclib.ErrNoVMFound
 }
-
 func (nm *NodeManager) RegisterNode(node *v1.Node) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.addNode(node)
 	nm.DiscoverNode(node)
 	return nil
 }
-
 func (nm *NodeManager) UnRegisterNode(node *v1.Node) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.removeNode(node)
 	return nil
 }
-
 func (nm *NodeManager) RediscoverNode(nodeName k8stypes.NodeName) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	node, err := nm.GetNode(nodeName)
-
 	if err != nil {
 		return err
 	}
 	return nm.DiscoverNode(&node)
 }
-
 func (nm *NodeManager) GetNode(nodeName k8stypes.NodeName) (v1.Node, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.registeredNodesLock.RLock()
 	node := nm.registeredNodes[convertToString(nodeName)]
 	nm.registeredNodesLock.RUnlock()
@@ -243,29 +195,26 @@ func (nm *NodeManager) GetNode(nodeName k8stypes.NodeName) (v1.Node, error) {
 	}
 	return *node, nil
 }
-
 func (nm *NodeManager) addNode(node *v1.Node) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.registeredNodesLock.Lock()
 	nm.registeredNodes[node.ObjectMeta.Name] = node
 	nm.registeredNodesLock.Unlock()
 }
-
 func (nm *NodeManager) removeNode(node *v1.Node) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.registeredNodesLock.Lock()
 	delete(nm.registeredNodes, node.ObjectMeta.Name)
 	nm.registeredNodesLock.Unlock()
-
 	nm.nodeInfoLock.Lock()
 	delete(nm.nodeInfoMap, node.ObjectMeta.Name)
 	nm.nodeInfoLock.Unlock()
 }
-
-// GetNodeInfo returns a NodeInfo which datacenter, vm and vc server ip address.
-// This method returns an error if it is unable find node VCs and DCs listed in vSphere.conf
-// NodeInfo returned may not be updated to reflect current VM location.
-//
-// This method is a getter but it can cause side-effect of updating NodeInfo object.
 func (nm *NodeManager) GetNodeInfo(nodeName k8stypes.NodeName) (NodeInfo, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	getNodeInfo := func(nodeName k8stypes.NodeName) *NodeInfo {
 		nm.nodeInfoLock.RLock()
 		nodeInfo := nm.nodeInfoMap[convertToString(nodeName)]
@@ -275,7 +224,6 @@ func (nm *NodeManager) GetNodeInfo(nodeName k8stypes.NodeName) (NodeInfo, error)
 	nodeInfo := getNodeInfo(nodeName)
 	var err error
 	if nodeInfo == nil {
-		// Rediscover node if no NodeInfo found.
 		klog.V(4).Infof("No VM found for node %q. Initiating rediscovery.", convertToString(nodeName))
 		err = nm.RediscoverNode(nodeName)
 		if err != nil {
@@ -284,7 +232,6 @@ func (nm *NodeManager) GetNodeInfo(nodeName k8stypes.NodeName) (NodeInfo, error)
 		}
 		nodeInfo = getNodeInfo(nodeName)
 	} else {
-		// Renew the found NodeInfo to avoid stale vSphere connection.
 		klog.V(4).Infof("Renewing NodeInfo %+v for node %q", nodeInfo, convertToString(nodeName))
 		nodeInfo, err = nm.renewNodeInfo(nodeInfo, true)
 		if err != nil {
@@ -295,15 +242,12 @@ func (nm *NodeManager) GetNodeInfo(nodeName k8stypes.NodeName) (NodeInfo, error)
 	}
 	return *nodeInfo, nil
 }
-
-// GetNodeDetails returns NodeDetails for all the discovered nodes.
-//
-// This method is a getter but it can cause side-effect of updating NodeInfo objects.
 func (nm *NodeManager) GetNodeDetails() ([]NodeDetails, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.registeredNodesLock.Lock()
 	defer nm.registeredNodesLock.Unlock()
 	var nodeDetails []NodeDetails
-
 	for nodeName, nodeObj := range nm.registeredNodes {
 		nodeInfo, err := nm.GetNodeInfoWithNodeObject(nodeObj)
 		if err != nil {
@@ -314,14 +258,16 @@ func (nm *NodeManager) GetNodeDetails() ([]NodeDetails, error) {
 	}
 	return nodeDetails, nil
 }
-
 func (nm *NodeManager) addNodeInfo(nodeName string, nodeInfo *NodeInfo) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.nodeInfoLock.Lock()
 	nm.nodeInfoMap[nodeName] = nodeInfo
 	nm.nodeInfoLock.Unlock()
 }
-
 func (nm *NodeManager) GetVSphereInstance(nodeName k8stypes.NodeName) (VSphereInstance, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nodeInfo, err := nm.GetNodeInfo(nodeName)
 	if err != nil {
 		klog.V(4).Infof("node info for node %q not found", convertToString(nodeName))
@@ -333,12 +279,11 @@ func (nm *NodeManager) GetVSphereInstance(nodeName k8stypes.NodeName) (VSphereIn
 	}
 	return *vsphereInstance, nil
 }
-
-// renewNodeInfo renews vSphere connection, VirtualMachine and Datacenter for NodeInfo instance.
 func (nm *NodeManager) renewNodeInfo(nodeInfo *NodeInfo, reconnect bool) (*NodeInfo, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-
 	vsphereInstance := nm.vsphereInstanceMap[nodeInfo.vcServer]
 	if vsphereInstance == nil {
 		err := fmt.Errorf("vSphereInstance for vSphere %q not found while refershing NodeInfo for VM %q", nodeInfo.vcServer, nodeInfo.vm)
@@ -351,41 +296,29 @@ func (nm *NodeManager) renewNodeInfo(nodeInfo *NodeInfo, reconnect bool) (*NodeI
 		}
 	}
 	vm := nodeInfo.vm.RenewVM(vsphereInstance.conn.Client)
-	return &NodeInfo{
-		vm:         &vm,
-		dataCenter: vm.Datacenter,
-		vcServer:   nodeInfo.vcServer,
-		vmUUID:     nodeInfo.vmUUID,
-	}, nil
+	return &NodeInfo{vm: &vm, dataCenter: vm.Datacenter, vcServer: nodeInfo.vcServer, vmUUID: nodeInfo.vmUUID}, nil
 }
-
 func (nodeInfo *NodeInfo) VM() *vclib.VirtualMachine {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if nodeInfo == nil {
 		return nil
 	}
 	return nodeInfo.vm
 }
-
-// vcConnect connects to vCenter with existing credentials
-// If credentials are invalid:
-// 		1. It will fetch credentials from credentialManager
-//      2. Update the credentials
-//		3. Connects again to vCenter with fetched credentials
 func (nm *NodeManager) vcConnect(ctx context.Context, vsphereInstance *VSphereInstance) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	err := vsphereInstance.conn.Connect(ctx)
 	if err == nil {
 		return nil
 	}
-
 	credentialManager := nm.CredentialManager()
 	if !vclib.IsInvalidCredentialsError(err) || credentialManager == nil {
 		klog.Errorf("Cannot connect to vCenter with err: %v", err)
 		return err
 	}
-
 	klog.V(4).Infof("Invalid credentials. Cannot connect to server %q. Fetching credentials from secrets.", vsphereInstance.conn.Hostname)
-
-	// Get latest credentials from SecretCredentialManager
 	credentials, err := credentialManager.GetCredential(vsphereInstance.conn.Hostname)
 	if err != nil {
 		klog.Errorf("Failed to get credentials from Secret Credential Manager with err: %v", err)
@@ -394,13 +327,9 @@ func (nm *NodeManager) vcConnect(ctx context.Context, vsphereInstance *VSphereIn
 	vsphereInstance.conn.UpdateCredentials(credentials.User, credentials.Password)
 	return vsphereInstance.conn.Connect(ctx)
 }
-
-// GetNodeInfoWithNodeObject returns a NodeInfo which datacenter, vm and vc server ip address.
-// This method returns an error if it is unable find node VCs and DCs listed in vSphere.conf
-// NodeInfo returned may not be updated to reflect current VM location.
-//
-// This method is a getter but it can cause side-effect of updating NodeInfo object.
 func (nm *NodeManager) GetNodeInfoWithNodeObject(node *v1.Node) (NodeInfo, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nodeName := node.Name
 	getNodeInfo := func(nodeName string) *NodeInfo {
 		nm.nodeInfoLock.RLock()
@@ -411,7 +340,6 @@ func (nm *NodeManager) GetNodeInfoWithNodeObject(node *v1.Node) (NodeInfo, error
 	nodeInfo := getNodeInfo(nodeName)
 	var err error
 	if nodeInfo == nil {
-		// Rediscover node if no NodeInfo found.
 		klog.V(4).Infof("No VM found for node %q. Initiating rediscovery.", nodeName)
 		err = nm.DiscoverNode(node)
 		if err != nil {
@@ -420,7 +348,6 @@ func (nm *NodeManager) GetNodeInfoWithNodeObject(node *v1.Node) (NodeInfo, error
 		}
 		nodeInfo = getNodeInfo(nodeName)
 	} else {
-		// Renew the found NodeInfo to avoid stale vSphere connection.
 		klog.V(4).Infof("Renewing NodeInfo %+v for node %q", nodeInfo, nodeName)
 		nodeInfo, err = nm.renewNodeInfo(nodeInfo, true)
 		if err != nil {
@@ -431,14 +358,16 @@ func (nm *NodeManager) GetNodeInfoWithNodeObject(node *v1.Node) (NodeInfo, error
 	}
 	return *nodeInfo, nil
 }
-
 func (nm *NodeManager) CredentialManager() *SecretCredentialManager {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.credentialManagerLock.Lock()
 	defer nm.credentialManagerLock.Unlock()
 	return nm.credentialManager
 }
-
 func (nm *NodeManager) UpdateCredentialManager(credentialManager *SecretCredentialManager) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	nm.credentialManagerLock.Lock()
 	defer nm.credentialManagerLock.Unlock()
 	nm.credentialManager = credentialManager

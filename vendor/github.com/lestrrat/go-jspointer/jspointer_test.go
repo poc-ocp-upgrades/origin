@@ -131,9 +131,9 @@ func TestSet(t *testing.T) {
 
 func TestStruct(t *testing.T) {
 	var s struct {
-		Foo string `json:"foo"`
-		Bar map[string]interface{} `json:"bar"`
-		Baz map[int]int `json:"baz"`
+		Foo  string                 `json:"foo"`
+		Bar  map[string]interface{} `json:"bar"`
+		Baz  map[int]int            `json:"baz"`
 		quux int
 	}
 
@@ -164,5 +164,3 @@ func TestStruct(t *testing.T) {
 		return
 	}
 }
-
-

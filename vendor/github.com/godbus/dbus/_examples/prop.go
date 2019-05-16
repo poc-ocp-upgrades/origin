@@ -63,6 +63,6 @@ func main() {
 
 	c := make(chan *dbus.Signal)
 	conn.Signal(c)
-	for _ = range c {
+	for range c {
 	}
 }

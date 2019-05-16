@@ -255,7 +255,7 @@ func (m *Plugin) MarshalTo(dAtA []byte) (int, error) {
 		}
 	}
 	if len(m.Exports) > 0 {
-		for k, _ := range m.Exports {
+		for k := range m.Exports {
 			dAtA[i] = 0x2a
 			i++
 			v := m.Exports[k]
@@ -457,7 +457,7 @@ func (this *Plugin) String() string {
 		return "nil"
 	}
 	keysForExports := make([]string, 0, len(this.Exports))
-	for k, _ := range this.Exports {
+	for k := range this.Exports {
 		keysForExports = append(keysForExports, k)
 	}
 	github_com_gogo_protobuf_sortkeys.Strings(keysForExports)

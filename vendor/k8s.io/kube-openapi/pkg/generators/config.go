@@ -20,11 +20,11 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/golang/glog"
 	"k8s.io/gengo/args"
 	"k8s.io/gengo/generator"
 	"k8s.io/gengo/namer"
 	"k8s.io/gengo/types"
-	"github.com/golang/glog"
 
 	generatorargs "k8s.io/kube-openapi/cmd/openapi-gen/args"
 )

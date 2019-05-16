@@ -6,10 +6,9 @@ import (
 )
 
 func RunOriginNamespaceController(ctx *ControllerContext) (bool, error) {
-	controller := projectcontroller.NewProjectFinalizerController(
-		ctx.KubernetesInformers.Core().V1().Namespaces(),
-		ctx.ClientBuilder.ClientOrDie(bootstrappolicy.InfraOriginNamespaceServiceAccountName),
-	)
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	controller := projectcontroller.NewProjectFinalizerController(ctx.KubernetesInformers.Core().V1().Namespaces(), ctx.ClientBuilder.ClientOrDie(bootstrappolicy.InfraOriginNamespaceServiceAccountName))
 	go controller.Run(ctx.Stop, 5)
 	return true, nil
 }

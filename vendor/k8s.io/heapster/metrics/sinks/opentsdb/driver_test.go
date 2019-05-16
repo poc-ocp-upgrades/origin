@@ -32,7 +32,7 @@ var (
 	fakePodName      = "redis-test"
 	fakePodUid       = "redis-test-uid"
 	fakeLabel        = map[string]string{
-		"name": "redis",
+		"name":                   "redis",
 		"io.kubernetes.pod.name": "default/redis-test",
 		"pod_id":                 fakePodUid,
 		"pod_namespace":          "default",
@@ -190,7 +190,7 @@ func generateMetricSet(name string, metricType core.MetricType, value int64) *co
 	return &core.MetricSet{
 		Labels: fakeLabel,
 		MetricValues: map[string]core.MetricValue{
-			name: core.MetricValue{
+			name: {
 				MetricType: metricType,
 				ValueType:  core.ValueInt64,
 				IntValue:   value,

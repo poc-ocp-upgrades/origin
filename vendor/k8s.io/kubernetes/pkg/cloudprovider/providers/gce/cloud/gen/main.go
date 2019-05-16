@@ -1,46 +1,26 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// Generator for GCE compute wrapper code. You must regenerate the code after
-// modifying this file:
-//
-//   $ go run gen/main.go > gen.go
 package main
 
 import (
 	"bytes"
 	"flag"
 	"fmt"
+	goformat "fmt"
 	"io"
+	"k8s.io/kubernetes/pkg/cloudprovider/providers/gce/cloud/meta"
 	"log"
 	"os"
+	goos "os"
 	"os/exec"
+	godefaultruntime "runtime"
 	"text/template"
 	"time"
-
-	"k8s.io/kubernetes/pkg/cloudprovider/providers/gce/cloud/meta"
+	gotime "time"
 )
 
 const (
 	gofmt       = "gofmt"
 	packageRoot = "k8s.io/kubernetes/pkg/cloudprovider/providers/gce/cloud"
-
-	// readOnly specifies that the given resource is read-only and should not
-	// have insert() or delete() methods generated for the wrapper.
-	readOnly = iota
+	readOnly    = iota
 )
 
 var flags = struct {
@@ -49,28 +29,29 @@ var flags = struct {
 }{}
 
 func init() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flag.BoolVar(&flags.gofmt, "gofmt", true, "run output through gofmt")
 	flag.StringVar(&flags.mode, "mode", "src", "content to generate: src, test, dummy")
 }
-
-// gofmtContent runs "gofmt" on the given contents.
 func gofmtContent(r io.Reader) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cmd := exec.Command(gofmt, "-s")
 	out := &bytes.Buffer{}
 	cmd.Stdin = r
 	cmd.Stdout = out
 	cmdErr := &bytes.Buffer{}
 	cmd.Stderr = cmdErr
-
 	if err := cmd.Run(); err != nil {
 		fmt.Fprintf(os.Stderr, cmdErr.String())
 		panic(err)
 	}
 	return out.String()
 }
-
-// genHeader generate the header for the file.
 func genHeader(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `/*
 Copyright {{.Year}} The Kubernetes Authors.
 
@@ -106,14 +87,10 @@ import (
 
 `
 	tmpl := template.Must(template.New("header").Parse(text))
-	values := map[string]string{
-		"Year":        fmt.Sprintf("%v", time.Now().Year()),
-		"PackageRoot": packageRoot,
-	}
+	values := map[string]string{"Year": fmt.Sprintf("%v", time.Now().Year()), "PackageRoot": packageRoot}
 	if err := tmpl.Execute(wr, values); err != nil {
 		panic(err)
 	}
-
 	var hasGA, hasAlpha, hasBeta bool
 	for _, s := range meta.AllServices {
 		switch s.Version() {
@@ -136,9 +113,9 @@ import (
 	}
 	fmt.Fprintf(wr, ")\n\n")
 }
-
-// genStubs generates the interface and wrapper stubs.
 func genStubs(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `// Cloud is an interface for the GCE compute API.
 type Cloud interface {
 {{- range .All}}
@@ -258,15 +235,14 @@ func (m *Mock{{.Service}}Obj) ToGA() *{{.GA.FQObjectType}} {
 		All    []*meta.ServiceInfo
 		Groups map[string]*meta.ServiceGroup
 	}{meta.AllServices, meta.AllServicesByGroup}
-
 	tmpl := template.Must(template.New("interface").Parse(text))
 	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
 }
-
-// genTypes generates the type wrappers.
 func genTypes(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `// {{.WrapType}} is an interface that allows for mocking of {{.Service}}.
 type {{.WrapType}} interface {
 {{- if .GenerateCustomOps}}
@@ -984,9 +960,9 @@ func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 		}
 	}
 }
-
-// genTypes generates the type wrappers.
 func genResourceIDs(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `
 // New{{.Service}}ResourceID creates a ResourceID for the {{.Service}} resource.
 {{- if .KeyIsProject}}
@@ -1016,8 +992,9 @@ func New{{.Service}}ResourceID(project, zone, name string) *ResourceID {
 		}
 	}
 }
-
 func genUnitTestHeader(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `/*
 Copyright {{.Year}} The Kubernetes Authors.
 
@@ -1055,16 +1032,14 @@ import (
 const location = "location"
 `
 	tmpl := template.Must(template.New("header").Parse(text))
-	values := map[string]string{
-		"Year":        fmt.Sprintf("%v", time.Now().Year()),
-		"PackageRoot": packageRoot,
-	}
+	values := map[string]string{"Year": fmt.Sprintf("%v", time.Now().Year()), "PackageRoot": packageRoot}
 	if err := tmpl.Execute(wr, values); err != nil {
 		panic(err)
 	}
 }
-
 func genUnitTestServices(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `
 func Test{{.Service}}Group(t *testing.T) {
 	t.Parallel()
@@ -1275,8 +1250,9 @@ func Test{{.Service}}Group(t *testing.T) {
 		}
 	}
 }
-
 func genUnitTestResourceIDConversion(wr io.Writer) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	const text = `
 func TestResourceIDConversion(t *testing.T) {
 	t.Parallel()
@@ -1340,20 +1316,17 @@ func TestResourceIDConversion(t *testing.T) {
 	}
 }
 `
-	data := struct {
-		Groups []*meta.ServiceGroup
-	}{meta.SortedServicesGroups}
+	data := struct{ Groups []*meta.ServiceGroup }{meta.SortedServicesGroups}
 	tmpl := template.Must(template.New("unittest-resourceIDs").Parse(text))
 	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
 }
-
 func main() {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	flag.Parse()
-
 	out := &bytes.Buffer{}
-
 	switch flags.mode {
 	case "src":
 		genHeader(out)
@@ -1367,10 +1340,13 @@ func main() {
 	default:
 		log.Fatalf("Invalid -mode: %q", flags.mode)
 	}
-
 	if flags.gofmt {
 		fmt.Print(gofmtContent(out))
 	} else {
 		fmt.Print(out.String())
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

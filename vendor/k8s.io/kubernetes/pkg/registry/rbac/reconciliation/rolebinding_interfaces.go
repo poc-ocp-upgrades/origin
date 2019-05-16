@@ -1,19 +1,3 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package reconciliation
 
 import (
@@ -25,54 +9,61 @@ import (
 	rbacv1client "k8s.io/client-go/kubernetes/typed/rbac/v1"
 )
 
-// +k8s:deepcopy-gen=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/kubernetes/pkg/registry/rbac/reconciliation.RoleBinding
-// +k8s:deepcopy-gen:nonpointer-interfaces=true
-type RoleBindingAdapter struct {
-	RoleBinding *rbacv1.RoleBinding
-}
+type RoleBindingAdapter struct{ RoleBinding *rbacv1.RoleBinding }
 
 func (o RoleBindingAdapter) GetObject() runtime.Object {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding
 }
-
 func (o RoleBindingAdapter) GetNamespace() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.Namespace
 }
-
 func (o RoleBindingAdapter) GetName() string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.Name
 }
-
 func (o RoleBindingAdapter) GetUID() types.UID {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.UID
 }
-
 func (o RoleBindingAdapter) GetLabels() map[string]string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.Labels
 }
-
 func (o RoleBindingAdapter) SetLabels(in map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o.RoleBinding.Labels = in
 }
-
 func (o RoleBindingAdapter) GetAnnotations() map[string]string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.Annotations
 }
-
 func (o RoleBindingAdapter) SetAnnotations(in map[string]string) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o.RoleBinding.Annotations = in
 }
-
 func (o RoleBindingAdapter) GetRoleRef() rbacv1.RoleRef {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.RoleRef
 }
-
 func (o RoleBindingAdapter) GetSubjects() []rbacv1.Subject {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return o.RoleBinding.Subjects
 }
-
 func (o RoleBindingAdapter) SetSubjects(in []rbacv1.Subject) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	o.RoleBinding.Subjects = in
 }
 
@@ -82,34 +73,37 @@ type RoleBindingClientAdapter struct {
 }
 
 func (c RoleBindingClientAdapter) Get(namespace, name string) (RoleBinding, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ret, err := c.Client.RoleBindings(namespace).Get(name, metav1.GetOptions{})
 	if err != nil {
 		return nil, err
 	}
 	return RoleBindingAdapter{RoleBinding: ret}, err
 }
-
 func (c RoleBindingClientAdapter) Create(in RoleBinding) (RoleBinding, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if err := tryEnsureNamespace(c.NamespaceClient, in.GetNamespace()); err != nil {
 		return nil, err
 	}
-
 	ret, err := c.Client.RoleBindings(in.GetNamespace()).Create(in.(RoleBindingAdapter).RoleBinding)
 	if err != nil {
 		return nil, err
 	}
 	return RoleBindingAdapter{RoleBinding: ret}, err
 }
-
 func (c RoleBindingClientAdapter) Update(in RoleBinding) (RoleBinding, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	ret, err := c.Client.RoleBindings(in.GetNamespace()).Update(in.(RoleBindingAdapter).RoleBinding)
 	if err != nil {
 		return nil, err
 	}
 	return RoleBindingAdapter{RoleBinding: ret}, err
-
 }
-
 func (c RoleBindingClientAdapter) Delete(namespace, name string, uid types.UID) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return c.Client.RoleBindings(namespace).Delete(name, &metav1.DeleteOptions{Preconditions: &metav1.Preconditions{UID: &uid}})
 }

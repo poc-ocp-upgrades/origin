@@ -25,8 +25,8 @@ func TestTransportParseStoreReference(t *testing.T) {
 		{"[unterminated", "", ""},                                    // Unterminated store specifier
 		{"[garbage]busybox", "docker.io/library/busybox:latest", ""}, // Store specifier is overridden by the store we pass to ParseStoreReference
 
-		{"UPPERCASEISINVALID", "", ""},                                                     // Invalid single-component name
-		{"sha256:" + sha256digestHex, "docker.io/library/sha256:" + sha256digestHex, ""},   // Valid single-component name; the hex part is not an ID unless it has a "@" prefix
+		{"UPPERCASEISINVALID", "", ""}, // Invalid single-component name
+		{"sha256:" + sha256digestHex, "docker.io/library/sha256:" + sha256digestHex, ""}, // Valid single-component name; the hex part is not an ID unless it has a "@" prefix
 		{sha256digestHex, "", ""},                                                          // Invalid single-component ID; not an ID without a "@" prefix, so it's parsed as a name, but names aren't allowed to look like IDs
 		{"@" + sha256digestHex, "", sha256digestHex},                                       // Valid single-component ID
 		{"sha256:ab", "docker.io/library/sha256:ab", ""},                                   // Valid single-component name, explicit tag

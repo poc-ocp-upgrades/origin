@@ -3,7 +3,9 @@ package imagestreamtag
 import (
 	"context"
 	"fmt"
-
+	imageapi "github.com/openshift/origin/pkg/image/apis/image"
+	"github.com/openshift/origin/pkg/image/apis/image/validation"
+	"github.com/openshift/origin/pkg/image/apis/image/validation/whitelist"
 	"k8s.io/apimachinery/pkg/fields"
 	"k8s.io/apimachinery/pkg/labels"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -11,32 +13,26 @@ import (
 	"k8s.io/apiserver/pkg/registry/generic"
 	kstorage "k8s.io/apiserver/pkg/storage"
 	"k8s.io/kubernetes/pkg/api/legacyscheme"
-
-	imageapi "github.com/openshift/origin/pkg/image/apis/image"
-	"github.com/openshift/origin/pkg/image/apis/image/validation"
-	"github.com/openshift/origin/pkg/image/apis/image/validation/whitelist"
 )
 
-// Strategy implements behavior for ImageStreamTags.
 type Strategy struct {
 	runtime.ObjectTyper
 	registryWhitelister whitelist.RegistryWhitelister
 }
 
-// NewStrategy is the default logic that applies when creating and updating
-// ImageStreamTag objects via the REST API.
 func NewStrategy(registryWhitelister whitelist.RegistryWhitelister) Strategy {
-	return Strategy{
-		ObjectTyper:         legacyscheme.Scheme,
-		registryWhitelister: registryWhitelister,
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return Strategy{ObjectTyper: legacyscheme.Scheme, registryWhitelister: registryWhitelister}
 }
-
 func (s Strategy) NamespaceScoped() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return true
 }
-
 func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newIST := obj.(*imageapi.ImageStreamTag)
 	if newIST.Tag != nil && len(newIST.Tag.Name) == 0 {
 		_, tag, _ := imageapi.SplitImageStreamTag(newIST.Name)
@@ -45,35 +41,36 @@ func (s Strategy) PrepareForCreate(ctx context.Context, obj runtime.Object) {
 	newIST.Conditions = nil
 	newIST.Image = imageapi.Image{}
 }
-
 func (s Strategy) GenerateName(base string) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return base
 }
-
 func (s Strategy) Validate(ctx context.Context, obj runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	istag := obj.(*imageapi.ImageStreamTag)
-
 	return validation.ValidateImageStreamTagWithWhitelister(s.registryWhitelister, istag)
 }
-
 func (s Strategy) AllowCreateOnUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
 func (Strategy) AllowUnconditionalUpdate() bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return false
 }
-
-// Canonicalize normalizes the object after validation.
 func (Strategy) Canonicalize(obj runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 }
-
 func (s Strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newIST := obj.(*imageapi.ImageStreamTag)
 	oldIST := old.(*imageapi.ImageStreamTag)
-
-	// for backwards compatibility, callers can't be required to set both annotation locations when
-	// doing a GET and then update.
 	if newIST.Tag != nil {
 		newIST.Tag.Annotations = newIST.Annotations
 	}
@@ -81,30 +78,26 @@ func (s Strategy) PrepareForUpdate(ctx context.Context, obj, old runtime.Object)
 	newIST.SelfLink = oldIST.SelfLink
 	newIST.Image = oldIST.Image
 }
-
 func (s Strategy) ValidateUpdate(ctx context.Context, obj, old runtime.Object) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	newIST := obj.(*imageapi.ImageStreamTag)
 	oldIST := old.(*imageapi.ImageStreamTag)
-
 	return validation.ValidateImageStreamTagUpdateWithWhitelister(s.registryWhitelister, newIST, oldIST)
 }
-
-// MatchImageStreamTag returns a generic matcher for a given label and field selector.
 func MatchImageStreamTag(label labels.Selector, field fields.Selector) kstorage.SelectionPredicate {
-	return kstorage.SelectionPredicate{
-		Label: label,
-		Field: field,
-		GetAttrs: func(o runtime.Object) (labels.Set, fields.Set, bool, error) {
-			obj, ok := o.(*imageapi.ImageStreamTag)
-			if !ok {
-				return nil, nil, false, fmt.Errorf("not an ImageStreamTag")
-			}
-			return labels.Set(obj.Labels), SelectableFields(obj), obj.Initializers != nil, nil
-		},
-	}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
+	return kstorage.SelectionPredicate{Label: label, Field: field, GetAttrs: func(o runtime.Object) (labels.Set, fields.Set, bool, error) {
+		obj, ok := o.(*imageapi.ImageStreamTag)
+		if !ok {
+			return nil, nil, false, fmt.Errorf("not an ImageStreamTag")
+		}
+		return labels.Set(obj.Labels), SelectableFields(obj), obj.Initializers != nil, nil
+	}}
 }
-
-// SelectableFields returns a field set that can be used for filter selection
 func SelectableFields(obj *imageapi.ImageStreamTag) fields.Set {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return generic.ObjectMetaFieldsSet(&obj.ObjectMeta, true)
 }

@@ -6,27 +6,24 @@ import (
 )
 
 func GetOpenShiftAPIServerConfigFileReferences(config *openshiftcontrolplanev1.OpenShiftAPIServerConfig) []*string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if config == nil {
 		return []*string{}
 	}
-
 	refs := []*string{}
-
 	refs = append(refs, helpers.GetGenericAPIServerConfigFileReferences(&config.GenericAPIServerConfig)...)
 	refs = append(refs, &config.ImagePolicyConfig.AdditionalTrustedCA)
-
 	return refs
 }
-
 func GetOpenShiftControllerConfigFileReferences(config *openshiftcontrolplanev1.OpenShiftControllerManagerConfig) []*string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if config == nil {
 		return []*string{}
 	}
-
 	refs := []*string{}
-
 	refs = append(refs, helpers.GetHTTPServingInfoFileReferences(config.ServingInfo)...)
 	refs = append(refs, helpers.GetKubeClientConfigFileReferences(&config.KubeClientConfig)...)
-
 	return refs
 }

@@ -68,7 +68,7 @@ func (pc *packetSock) Write(packet []byte) error {
 	fillUDPHdr(pkt[minIPHdrLen:minIPHdrLen+udpHdrLen], uint16(len(packet)))
 
 	// payload
-	copy(pkt[minIPHdrLen+udpHdrLen:len(pkt)], packet)
+	copy(pkt[minIPHdrLen+udpHdrLen:], packet)
 
 	return unix.Sendto(pc.fd, pkt, 0, &lladdr)
 }
@@ -128,7 +128,7 @@ func fillIPHdr(hdr []byte, payloadLen uint16) {
 	// dst IP
 	copy(hdr[16:20], net.IPv4bcast.To4())
 	// compute IP hdr checksum
-	chksum(hdr[0:len(hdr)], hdr[10:12])
+	chksum(hdr[0:], hdr[10:12])
 }
 
 func fillUDPHdr(hdr []byte, payloadLen uint16) {

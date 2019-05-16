@@ -52,7 +52,7 @@ var testPoComments = []testPoComment{
 	// CheckStringer: true
 	// --------------------------------------------------------------
 
-	testPoComment{
+	{
 		CheckStringer: true,
 		Data: `# translator comments
 `,
@@ -60,7 +60,7 @@ var testPoComments = []testPoComment{
 			TranslatorComment: `translator comments`,
 		},
 	},
-	testPoComment{
+	{
 		CheckStringer: true,
 		Data: `# translator comments
 `,
@@ -69,7 +69,7 @@ var testPoComments = []testPoComment{
 		},
 	},
 
-	testPoComment{
+	{
 		CheckStringer: true,
 		Data: `# translator-comments
 # bad comment
@@ -98,7 +98,7 @@ var testPoComments = []testPoComment{
 	// CheckStringer: false
 	// --------------------------------------------------------------
 
-	testPoComment{
+	{
 		CheckStringer: false,
 		Data: `
 #  translator-comments
@@ -124,7 +124,7 @@ var testPoComments = []testPoComment{
 			PrevMsgId:         "previous-untranslated-string1\nprevious-untranslated-string2",
 		},
 	},
-	testPoComment{
+	{
 		CheckStringer: false,
 		Data: `
 # SOME DESCRIPTIVE TITLE.
@@ -154,7 +154,7 @@ FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 `,
 		},
 	},
-	testPoComment{
+	{
 		CheckStringer: false,
 		Data: `
 #. TRANSLATORS: This is version information in about dialog, it is followed
@@ -172,7 +172,7 @@ by version number when used (wxWidgets 2.8)`,
 			PrevMsgContext: "previous-context asdasd",
 		},
 	},
-	testPoComment{
+	{
 		CheckStringer: false,
 		Data: `
 #: tst-gettext2.c:33
@@ -184,7 +184,7 @@ msgstr "Lang1: 1st string"
 			ReferenceLine: []int{33},
 		},
 	},
-	testPoComment{
+	{
 		CheckStringer: false,
 		Data: `
 #: app/app_procs.c:307

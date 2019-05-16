@@ -2,76 +2,58 @@ package templateprocessing
 
 import (
 	"fmt"
-	"regexp"
-	"strings"
-
-	"k8s.io/apimachinery/pkg/api/meta"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/util/validation/field"
-
+	goformat "fmt"
 	templatev1 "github.com/openshift/api/template/v1"
 	"github.com/openshift/origin/pkg/api/legacygroupification"
 	templateapi "github.com/openshift/origin/pkg/template/apis/template"
 	. "github.com/openshift/origin/pkg/template/generator"
 	"github.com/openshift/origin/pkg/util"
 	"github.com/openshift/origin/pkg/util/stringreplace"
+	"k8s.io/apimachinery/pkg/api/meta"
+	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/util/validation/field"
+	goos "os"
+	"regexp"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
-// match ${KEY}, KEY will be grouped
 var stringParameterExp = regexp.MustCompile(`\$\{([a-zA-Z0-9\_]+?)\}`)
-
-// match ${{KEY}} exact match only, KEY will be grouped
 var nonStringParameterExp = regexp.MustCompile(`^\$\{\{([a-zA-Z0-9\_]+)\}\}$`)
 
-// Processor process the Template into the List with substituted parameters
-type Processor struct {
-	Generators map[string]Generator
-}
+type Processor struct{ Generators map[string]Generator }
 
-// NewProcessor creates new Processor and initializes its set of generators.
 func NewProcessor(generators map[string]Generator) *Processor {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return &Processor{Generators: generators}
 }
-
-// Process transforms Template object into List object. It generates
-// Parameter values using the defined set of generators first, and then it
-// substitutes all Parameter expression occurrences with their corresponding
-// values (currently in the containers' Environment variables only).
 func (p *Processor) Process(template *templateapi.Template) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	templateErrors := field.ErrorList{}
-
 	if errs := p.GenerateParameterValues(template); len(errs) > 0 {
 		return append(templateErrors, errs...)
 	}
-
-	// Place parameters into a map for efficient lookup
 	paramMap := make(map[string]templateapi.Parameter)
 	for _, param := range template.Parameters {
 		paramMap[param.Name] = param
 	}
-
-	// Perform parameter substitution on the template's user message. This can be used to
-	// instruct a user on next steps for the template.
 	template.Message, _ = p.EvaluateParameterSubstitution(paramMap, template.Message)
-
-	// substitute parameters in ObjectLabels - must be done before the template
-	// objects themselves are iterated.
 	for k, v := range template.ObjectLabels {
 		newk, _ := p.EvaluateParameterSubstitution(paramMap, k)
 		v, _ = p.EvaluateParameterSubstitution(paramMap, v)
 		template.ObjectLabels[newk] = v
-
 		if newk != k {
 			delete(template.ObjectLabels, k)
 		}
 	}
-
 	itemPath := field.NewPath("item")
 	for i, item := range template.Objects {
 		idxPath := itemPath.Index(i)
 		if obj, ok := item.(*runtime.Unknown); ok {
-			// TODO: use runtime.DecodeList when it returns ValidationErrorList
 			decodedObj, err := runtime.Decode(unstructured.UnstructuredJSONScheme, obj.Raw)
 			if err != nil {
 				templateErrors = append(templateErrors, field.Invalid(idxPath.Child("objects"), obj, fmt.Sprintf("unable to handle object: %v", err)))
@@ -79,41 +61,28 @@ func (p *Processor) Process(template *templateapi.Template) field.ErrorList {
 			}
 			item = decodedObj
 		}
-
-		// If an object definition's metadata includes a hardcoded namespace field, the field will be stripped out of
-		// the definition during template instantiation.  Namespace fields that contain a ${PARAMETER_REFERENCE}
-		// will be left in place, resolved during parameter substition, and the object will be created in the
-		// referenced namespace.
 		stripNamespace(item)
-
 		newItem, err := p.SubstituteParameters(paramMap, item)
 		if err != nil {
 			templateErrors = append(templateErrors, field.Invalid(idxPath.Child("parameters"), template.Parameters, err.Error()))
 		}
-
-		// this changes oapi GVKs to groupified GVKs so they can be submitted to modern, aggregated servers
-		// It is done after substitution in case someone substitutes a kind.
 		gvk := item.GetObjectKind().GroupVersionKind()
 		legacygroupification.OAPIToGroupifiedGVK(&gvk)
 		item.GetObjectKind().SetGroupVersionKind(gvk)
-
 		if err := util.AddObjectLabels(newItem, template.ObjectLabels); err != nil {
-			templateErrors = append(templateErrors, field.Invalid(idxPath.Child("labels"),
-				template.ObjectLabels, fmt.Sprintf("label could not be applied: %v", err)))
+			templateErrors = append(templateErrors, field.Invalid(idxPath.Child("labels"), template.ObjectLabels, fmt.Sprintf("label could not be applied: %v", err)))
 		}
 		template.Objects[i] = newItem
 	}
-
 	return templateErrors
 }
-
 func stripNamespace(obj runtime.Object) {
-	// Remove namespace from the item unless it contains a ${PARAMETER_REFERENCE}
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if itemMeta, err := meta.Accessor(obj); err == nil && len(itemMeta.GetNamespace()) > 0 && !stringParameterExp.MatchString(itemMeta.GetNamespace()) {
 		itemMeta.SetNamespace("")
 		return
 	}
-	// TODO: allow meta.Accessor to handle runtime.Unstructured
 	if unstruct, ok := obj.(*unstructured.Unstructured); ok && unstruct.Object != nil {
 		if obj, ok := unstruct.Object["metadata"]; ok {
 			if m, ok := obj.(map[string]interface{}); ok {
@@ -133,11 +102,9 @@ func stripNamespace(obj runtime.Object) {
 		}
 	}
 }
-
-// TODO: remove once consumers are switched to deal with external versions
-// DeprecatedGetParameterByNameInternal searches for a Parameter in the Template
-// based on its name.
 func DeprecatedGetParameterByNameInternal(t *templateapi.Template, name string) *templateapi.Parameter {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i, param := range t.Parameters {
 		if param.Name == name {
 			return &(t.Parameters[i])
@@ -145,10 +112,9 @@ func DeprecatedGetParameterByNameInternal(t *templateapi.Template, name string) 
 	}
 	return nil
 }
-
-// GetParameterByName searches for a Parameter in the Template
-// based on its name.
 func GetParameterByName(t *templatev1.Template, name string) *templatev1.Parameter {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for i, param := range t.Parameters {
 		if param.Name == name {
 			return &(t.Parameters[i])
@@ -156,18 +122,10 @@ func GetParameterByName(t *templatev1.Template, name string) *templatev1.Paramet
 	}
 	return nil
 }
-
-// EvaluateParameterSubstitution replaces escaped parameters in a string with values from the
-// provided map.  Returns the substituted value (if any substitution applied) and a boolean
-// indicating if the resulting value should be treated as a string(true) or a non-string
-// value(false) for purposes of json encoding.
 func (p *Processor) EvaluateParameterSubstitution(params map[string]templateapi.Parameter, in string) (string, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	out := in
-	// First check if the value matches the "${{KEY}}" substitution syntax, which
-	// means replace and drop the quotes because the parameter value is to be used
-	// as a non-string value.  If we hit a match here, we're done because the
-	// "${{KEY}}" syntax is exact match only, it cannot be used in a value like
-	// "FOO_${{KEY}}_BAR", no substitution will be performed if it is used in that way.
 	for _, match := range nonStringParameterExp.FindAllStringSubmatch(in, -1) {
 		if len(match) > 1 {
 			if paramValue, found := params[match[1]]; found {
@@ -176,10 +134,6 @@ func (p *Processor) EvaluateParameterSubstitution(params map[string]templateapi.
 			}
 		}
 	}
-
-	// If we didn't do a non-string substitution above, do normal string substitution
-	// on the value here if it contains a "${KEY}" reference.  This substitution does
-	// allow multiple matches and prefix/postfix, eg "FOO_${KEY1}_${KEY2}_BAR"
 	for _, match := range stringParameterExp.FindAllStringSubmatch(in, -1) {
 		if len(match) > 1 {
 			if paramValue, found := params[match[1]]; found {
@@ -189,36 +143,18 @@ func (p *Processor) EvaluateParameterSubstitution(params map[string]templateapi.
 	}
 	return out, true
 }
-
-// SubstituteParameters loops over all values defined in structured
-// and unstructured types that are children of item.
-//
-// Example of Parameter expression:
-//   - ${PARAMETER_NAME}
-//
 func (p *Processor) SubstituteParameters(params map[string]templateapi.Parameter, item runtime.Object) (runtime.Object, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	stringreplace.VisitObjectStrings(item, func(in string) (string, bool) {
 		return p.EvaluateParameterSubstitution(params, in)
 	})
 	return item, nil
 }
-
-// GenerateParameterValues generates Value for each Parameter of the given
-// Template that has Generate field specified where Value is not already
-// supplied.
-//
-// Examples:
-//
-// from             | value
-// -----------------------------
-// "test[0-9]{1}x"  | "test7x"
-// "[0-1]{8}"       | "01001100"
-// "0x[A-F0-9]{4}"  | "0xB3AF"
-// "[a-zA-Z0-9]{8}" | "hW4yQU5i"
-// If an error occurs, the parameter that caused the error is returned along with the error message.
 func (p *Processor) GenerateParameterValues(t *templateapi.Template) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errs field.ErrorList
-
 	for i := range t.Parameters {
 		param := &t.Parameters[i]
 		if len(param.Value) > 0 {
@@ -254,6 +190,9 @@ func (p *Processor) GenerateParameterValues(t *templateapi.Template) field.Error
 			errs = append(errs, field.Required(templatePath, err.Error()))
 		}
 	}
-
 	return errs
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

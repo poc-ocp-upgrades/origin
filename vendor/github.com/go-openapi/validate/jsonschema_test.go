@@ -115,11 +115,11 @@ var enabled = []string{
 }
 
 var optionalFixtures = []string{
-// Optional fixtures from JSON schema suite
-//"zeroTerminatedFloats",
-//"format",	/* error on strict URI formatting */
-//"bignum",
-//"ecmascript-regex",
+	// Optional fixtures from JSON schema suite
+	//"zeroTerminatedFloats",
+	//"format",	/* error on strict URI formatting */
+	//"bignum",
+	//"ecmascript-regex",
 }
 
 var extendedFixtures = []string{

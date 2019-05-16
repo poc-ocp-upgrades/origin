@@ -2,28 +2,34 @@ package common
 
 import (
 	"fmt"
-	"net"
-
-	kapi "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
-	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
-
+	goformat "fmt"
 	networkapi "github.com/openshift/api/network/v1"
 	networkclient "github.com/openshift/client-go/network/clientset/versioned"
 	configapi "github.com/openshift/origin/pkg/cmd/server/apis/config"
 	"github.com/openshift/origin/pkg/util/netutils"
+	kapi "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"net"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
 func HostSubnetToString(subnet *networkapi.HostSubnet) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%s (host: %q, ip: %q, subnet: %q)", subnet.Name, subnet.Host, subnet.HostIP, subnet.Subnet)
 }
-
 func ClusterNetworkToString(n *networkapi.ClusterNetwork) string {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return fmt.Sprintf("%s (network: %q, hostSubnetBits: %d, serviceNetwork: %q, pluginName: %q)", n.Name, n.Network, n.HostSubnetLength, n.ServiceNetwork, n.PluginName)
 }
-
 func ClusterNetworkListContains(clusterNetworks []ClusterNetwork, ipaddr net.IP) (*net.IPNet, bool) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, cn := range clusterNetworks {
 		if cn.ClusterCIDR.Contains(ipaddr) {
 			return cn.ClusterCIDR, true
@@ -37,15 +43,15 @@ type NetworkInfo struct {
 	ServiceNetwork  *net.IPNet
 	VXLANPort       uint32
 }
-
 type ClusterNetwork struct {
 	ClusterCIDR      *net.IPNet
 	HostSubnetLength uint32
 }
 
 func ParseNetworkInfo(clusterNetwork []networkapi.ClusterNetworkEntry, serviceNetwork string, vxlanPort *uint32) (*NetworkInfo, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var cns []ClusterNetwork
-
 	for _, entry := range clusterNetwork {
 		cidr, err := netutils.ParseCIDRMask(entry.CIDR)
 		if err != nil {
@@ -57,7 +63,6 @@ func ParseNetworkInfo(clusterNetwork []networkapi.ClusterNetworkEntry, serviceNe
 		}
 		cns = append(cns, ClusterNetwork{ClusterCIDR: cidr, HostSubnetLength: entry.HostSubnetLength})
 	}
-
 	sn, err := netutils.ParseCIDRMask(serviceNetwork)
 	if err != nil {
 		_, sn, err = net.ParseCIDR(serviceNetwork)
@@ -66,42 +71,33 @@ func ParseNetworkInfo(clusterNetwork []networkapi.ClusterNetworkEntry, serviceNe
 		}
 		utilruntime.HandleError(fmt.Errorf("Configured serviceNetworkCIDR value %q is invalid; treating it as %q", serviceNetwork, sn.String()))
 	}
-
 	if vxlanPort == nil {
 		tmp := uint32(4789)
 		vxlanPort = &tmp
 	}
-
-	return &NetworkInfo{
-		ClusterNetworks: cns,
-		ServiceNetwork:  sn,
-		VXLANPort:       *vxlanPort,
-	}, nil
+	return &NetworkInfo{ClusterNetworks: cns, ServiceNetwork: sn, VXLANPort: *vxlanPort}, nil
 }
-
 func (ni *NetworkInfo) ValidateNodeIP(nodeIP string) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if nodeIP == "" || nodeIP == "127.0.0.1" {
 		return fmt.Errorf("invalid node IP %q", nodeIP)
 	}
-
-	// Ensure each node's NodeIP is not contained by the cluster network,
-	// which could cause a routing loop. (rhbz#1295486)
 	ipaddr := net.ParseIP(nodeIP)
 	if ipaddr == nil {
 		return fmt.Errorf("failed to parse node IP %s", nodeIP)
 	}
-
 	if conflictingCIDR, found := ClusterNetworkListContains(ni.ClusterNetworks, ipaddr); found {
 		return fmt.Errorf("node IP %s conflicts with cluster network %s", nodeIP, conflictingCIDR.String())
 	}
 	if ni.ServiceNetwork.Contains(ipaddr) {
 		return fmt.Errorf("node IP %s conflicts with service network %s", nodeIP, ni.ServiceNetwork.String())
 	}
-
 	return nil
 }
-
 func (ni *NetworkInfo) CheckHostNetworks(hostIPNets []*net.IPNet) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	errList := []error{}
 	for _, ipNet := range hostIPNets {
 		for _, clusterNetwork := range ni.ClusterNetworks {
@@ -115,10 +111,10 @@ func (ni *NetworkInfo) CheckHostNetworks(hostIPNets []*net.IPNet) error {
 	}
 	return kerrors.NewAggregate(errList)
 }
-
 func (ni *NetworkInfo) CheckClusterObjects(subnets []networkapi.HostSubnet, pods []kapi.Pod, services []kapi.Service) error {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var errList []error
-
 	for _, subnet := range subnets {
 		subnetIP, _, _ := net.ParseCIDR(subnet.Subnet)
 		if subnetIP == nil {
@@ -150,14 +146,14 @@ func (ni *NetworkInfo) CheckClusterObjects(subnets []networkapi.HostSubnet, pods
 			}
 		}
 	}
-
 	if len(errList) >= 10 {
 		errList = append(errList, fmt.Errorf("too many errors... truncating"))
 	}
 	return kerrors.NewAggregate(errList)
 }
-
 func GetNetworkInfo(networkClient networkclient.Interface) (*NetworkInfo, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	cn, err := networkClient.NetworkV1().ClusterNetworks().Get(networkapi.ClusterNetworkDefault, v1.GetOptions{})
 	if err != nil {
 		return nil, err
@@ -165,6 +161,9 @@ func GetNetworkInfo(networkClient networkclient.Interface) (*NetworkInfo, error)
 	if err = ValidateClusterNetwork(cn); err != nil {
 		return nil, fmt.Errorf("ClusterNetwork is invalid (%v)", err)
 	}
-
 	return ParseNetworkInfo(cn.ClusterNetworks, cn.ServiceNetwork, cn.VXLANPort)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

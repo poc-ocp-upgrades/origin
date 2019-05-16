@@ -2,30 +2,34 @@ package identitymapper
 
 import (
 	"fmt"
-
-	"k8s.io/klog"
-
-	"k8s.io/apiserver/pkg/authentication/authenticator"
-
+	goformat "fmt"
 	"github.com/openshift/origin/pkg/oauthserver/api"
+	"k8s.io/apiserver/pkg/authentication/authenticator"
+	"k8s.io/klog"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// ResponseFor bridges the UserIdentityMapper interface with the authenticator.{Password|Request} interfaces
 func ResponseFor(mapper api.UserIdentityMapper, identity api.UserIdentityInfo) (*authenticator.Response, bool, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	user, err := mapper.UserFor(identity)
 	if err != nil {
 		logf("error creating or updating mapping for: %#v due to %v", identity, err)
 		return nil, false, err
 	}
 	logf("got userIdentityMapping: %#v", user)
-
-	// only set User field as IDPs have no concept of Audiences
 	return &authenticator.Response{User: user}, true, nil
 }
-
-// logf(...) is the same as klog.V(4).Infof(...) except it reports the caller as the line number
 func logf(format string, args ...interface{}) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	if klog.V(4) {
 		klog.InfoDepth(2, fmt.Sprintf("identitymapper: "+format, args...))
 	}
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

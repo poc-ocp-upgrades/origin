@@ -2,30 +2,28 @@ package examples
 
 import (
 	"fmt"
+	goformat "fmt"
 	"io/ioutil"
 	"net/http"
+	goos "os"
 	"regexp"
+	godefaultruntime "runtime"
 	"strings"
+	gotime "time"
 )
 
-// RemoteValueGenerator implements GeneratorInterface. It fetches random value
-// from an external url endpoint based on the "[GET:<url>]" input expression.
-//
-// Example:
-//   - "[GET:http://api.example.com/generateRandomValue]"
-type RemoteValueGenerator struct {
-}
+type RemoteValueGenerator struct{}
 
 var remoteExp = regexp.MustCompile(`\[GET\:(http(s)?:\/\/(.+))\]`)
 
-// NewRemoteValueGenerator creates new RemoteValueGenerator.
 func NewRemoteValueGenerator() RemoteValueGenerator {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return RemoteValueGenerator{}
 }
-
-// GenerateValue fetches random value from an external url. The input
-// expression must be of the form "[GET:<url>]".
 func (g RemoteValueGenerator) GenerateValue(expression string) (interface{}, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	matches := remoteExp.FindAllStringIndex(expression, -1)
 	if len(matches) < 1 {
 		return expression, fmt.Errorf("no matches found.")
@@ -43,4 +41,8 @@ func (g RemoteValueGenerator) GenerateValue(expression string) (interface{}, err
 		expression = strings.Replace(expression, expression[r[0]:r[1]], strings.TrimSpace(string(body)), 1)
 	}
 	return expression, nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

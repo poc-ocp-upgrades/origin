@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"go.pedge.io/dlog"
 	"github.com/libopenstorage/openstorage/pkg/proto/time"
-	
+	"go.pedge.io/dlog"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"

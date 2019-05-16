@@ -299,7 +299,6 @@ func (c *Client) DeclinePacket(acknowledgement *dhcp4.Packet) dhcp4.Packet {
 	return packet
 }
 
-
 //Lets do a Full DHCP Request.
 func (c *Client) Request() (bool, dhcp4.Packet, error) {
 	discoveryPacket, err := c.SendDiscoverPacket()

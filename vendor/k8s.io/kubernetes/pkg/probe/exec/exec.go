@@ -1,44 +1,29 @@
-/*
-Copyright 2015 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package exec
 
 import (
+	goformat "fmt"
+	"k8s.io/klog"
 	"k8s.io/kubernetes/pkg/probe"
 	"k8s.io/utils/exec"
-
-	"k8s.io/klog"
+	goos "os"
+	godefaultruntime "runtime"
+	gotime "time"
 )
 
-// New creates a Prober.
 func New() Prober {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return execProber{}
 }
 
-// Prober is an interface defining the Probe object for container readiness/liveness checks.
 type Prober interface {
 	Probe(e exec.Cmd) (probe.Result, string, error)
 }
-
 type execProber struct{}
 
-// Probe executes a command to check the liveness/readiness of container
-// from executing a command. Returns the Result status, command output, and
-// errors if any.
 func (pr execProber) Probe(e exec.Cmd) (probe.Result, string, error) {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	data, err := e.CombinedOutput()
 	klog.V(4).Infof("Exec probe response: %q", string(data))
 	if err != nil {
@@ -52,4 +37,8 @@ func (pr execProber) Probe(e exec.Cmd) (probe.Result, string, error) {
 		return probe.Unknown, "", err
 	}
 	return probe.Success, string(data), nil
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

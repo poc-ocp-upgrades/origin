@@ -1,25 +1,8 @@
-/*
-Copyright 2017 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
 package validation
 
 import (
 	"fmt"
-	"strings"
-
+	goformat "fmt"
 	genericvalidation "k8s.io/apimachinery/pkg/api/validation"
 	metav1validation "k8s.io/apimachinery/pkg/apis/meta/v1/validation"
 	"k8s.io/apimachinery/pkg/util/sets"
@@ -27,29 +10,35 @@ import (
 	"k8s.io/apimachinery/pkg/util/validation/field"
 	"k8s.io/apiserver/pkg/util/webhook"
 	"k8s.io/kubernetes/pkg/apis/admissionregistration"
+	goos "os"
+	godefaultruntime "runtime"
+	"strings"
+	gotime "time"
 )
 
 func ValidateInitializerConfiguration(ic *admissionregistration.InitializerConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrors := genericvalidation.ValidateObjectMeta(&ic.ObjectMeta, false, genericvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))
 	for i, initializer := range ic.Initializers {
 		allErrors = append(allErrors, validateInitializer(&initializer, field.NewPath("initializers").Index(i))...)
 	}
 	return allErrors
 }
-
 func validateInitializer(initializer *admissionregistration.Initializer, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
-	// initlializer.Name must be fully qualified
 	allErrors = append(allErrors, validation.IsFullyQualifiedName(fldPath.Child("name"), initializer.Name)...)
-
 	for i, rule := range initializer.Rules {
 		notAllowSubresources := false
 		allErrors = append(allErrors, validateRule(&rule, fldPath.Child("rules").Index(i), notAllowSubresources)...)
 	}
 	return allErrors
 }
-
 func hasWildcard(slice []string) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, s := range slice {
 		if s == "*" {
 			return true
@@ -57,24 +46,18 @@ func hasWildcard(slice []string) bool {
 	}
 	return false
 }
-
 func validateResources(resources []string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
 	if len(resources) == 0 {
 		allErrors = append(allErrors, field.Required(fldPath, ""))
 	}
-
-	// */x
 	resourcesWithWildcardSubresoures := sets.String{}
-	// x/*
 	subResoucesWithWildcardResource := sets.String{}
-	// */*
 	hasDoubleWildcard := false
-	// *
 	hasSingleWildcard := false
-	// x
 	hasResourceWithoutSubresource := false
-
 	for i, resSub := range resources {
 		if resSub == "" {
 			allErrors = append(allErrors, field.Required(fldPath.Index(i), ""))
@@ -113,8 +96,9 @@ func validateResources(resources []string, fldPath *field.Path) field.ErrorList 
 	}
 	return allErrors
 }
-
 func validateResourcesNoSubResources(resources []string, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
 	if len(resources) == 0 {
 		allErrors = append(allErrors, field.Required(fldPath, ""))
@@ -132,8 +116,9 @@ func validateResourcesNoSubResources(resources []string, fldPath *field.Path) fi
 	}
 	return allErrors
 }
-
 func validateRule(rule *admissionregistration.Rule, fldPath *field.Path, allowSubResource bool) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
 	if len(rule.APIGroups) == 0 {
 		allErrors = append(allErrors, field.Required(fldPath.Child("apiGroups"), ""))
@@ -141,7 +126,6 @@ func validateRule(rule *admissionregistration.Rule, fldPath *field.Path, allowSu
 	if len(rule.APIGroups) > 1 && hasWildcard(rule.APIGroups) {
 		allErrors = append(allErrors, field.Invalid(fldPath.Child("apiGroups"), rule.APIGroups, "if '*' is present, must not specify other API groups"))
 	}
-	// Note: group could be empty, e.g., the legacy "v1" API
 	if len(rule.APIVersions) == 0 {
 		allErrors = append(allErrors, field.Required(fldPath.Child("apiVersions"), ""))
 	}
@@ -160,32 +144,34 @@ func validateRule(rule *admissionregistration.Rule, fldPath *field.Path, allowSu
 	}
 	return allErrors
 }
-
 func ValidateInitializerConfigurationUpdate(newIC, oldIC *admissionregistration.InitializerConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ValidateInitializerConfiguration(newIC)
 }
-
 func ValidateValidatingWebhookConfiguration(e *admissionregistration.ValidatingWebhookConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrors := genericvalidation.ValidateObjectMeta(&e.ObjectMeta, false, genericvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))
 	for i, hook := range e.Webhooks {
 		allErrors = append(allErrors, validateWebhook(&hook, field.NewPath("webhooks").Index(i))...)
 	}
 	return allErrors
 }
-
 func ValidateMutatingWebhookConfiguration(e *admissionregistration.MutatingWebhookConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	allErrors := genericvalidation.ValidateObjectMeta(&e.ObjectMeta, false, genericvalidation.NameIsDNSSubdomain, field.NewPath("metadata"))
 	for i, hook := range e.Webhooks {
 		allErrors = append(allErrors, validateWebhook(&hook, field.NewPath("webhooks").Index(i))...)
 	}
 	return allErrors
 }
-
 func validateWebhook(hook *admissionregistration.Webhook, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
-	// hook.Name must be fully qualified
 	allErrors = append(allErrors, validation.IsFullyQualifiedName(fldPath.Child("name"), hook.Name)...)
-
 	for i, rule := range hook.Rules {
 		allErrors = append(allErrors, validateRuleWithOperations(&rule, fldPath.Child("rules").Index(i))...)
 	}
@@ -195,11 +181,9 @@ func validateWebhook(hook *admissionregistration.Webhook, fldPath *field.Path) f
 	if hook.SideEffects != nil && !supportedSideEffectClasses.Has(string(*hook.SideEffects)) {
 		allErrors = append(allErrors, field.NotSupported(fldPath.Child("sideEffects"), *hook.SideEffects, supportedSideEffectClasses.List()))
 	}
-
 	if hook.NamespaceSelector != nil {
 		allErrors = append(allErrors, metav1validation.ValidateLabelSelector(hook.NamespaceSelector, fldPath.Child("namespaceSelector"))...)
 	}
-
 	cc := hook.ClientConfig
 	switch {
 	case (cc.URL == nil) == (cc.Service == nil):
@@ -212,27 +196,13 @@ func validateWebhook(hook *admissionregistration.Webhook, fldPath *field.Path) f
 	return allErrors
 }
 
-var supportedFailurePolicies = sets.NewString(
-	string(admissionregistration.Ignore),
-	string(admissionregistration.Fail),
-)
-
-var supportedSideEffectClasses = sets.NewString(
-	string(admissionregistration.SideEffectClassUnknown),
-	string(admissionregistration.SideEffectClassNone),
-	string(admissionregistration.SideEffectClassSome),
-	string(admissionregistration.SideEffectClassNoneOnDryRun),
-)
-
-var supportedOperations = sets.NewString(
-	string(admissionregistration.OperationAll),
-	string(admissionregistration.Create),
-	string(admissionregistration.Update),
-	string(admissionregistration.Delete),
-	string(admissionregistration.Connect),
-)
+var supportedFailurePolicies = sets.NewString(string(admissionregistration.Ignore), string(admissionregistration.Fail))
+var supportedSideEffectClasses = sets.NewString(string(admissionregistration.SideEffectClassUnknown), string(admissionregistration.SideEffectClassNone), string(admissionregistration.SideEffectClassSome), string(admissionregistration.SideEffectClassNoneOnDryRun))
+var supportedOperations = sets.NewString(string(admissionregistration.OperationAll), string(admissionregistration.Create), string(admissionregistration.Update), string(admissionregistration.Delete), string(admissionregistration.Connect))
 
 func hasWildcardOperation(operations []admissionregistration.OperationType) bool {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	for _, o := range operations {
 		if o == admissionregistration.OperationAll {
 			return true
@@ -240,8 +210,9 @@ func hasWildcardOperation(operations []admissionregistration.OperationType) bool
 	}
 	return false
 }
-
 func validateRuleWithOperations(ruleWithOperations *admissionregistration.RuleWithOperations, fldPath *field.Path) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	var allErrors field.ErrorList
 	if len(ruleWithOperations.Operations) == 0 {
 		allErrors = append(allErrors, field.Required(fldPath.Child("operations"), ""))
@@ -258,11 +229,17 @@ func validateRuleWithOperations(ruleWithOperations *admissionregistration.RuleWi
 	allErrors = append(allErrors, validateRule(&ruleWithOperations.Rule, fldPath, allowSubResource)...)
 	return allErrors
 }
-
 func ValidateValidatingWebhookConfigurationUpdate(newC, oldC *admissionregistration.ValidatingWebhookConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ValidateValidatingWebhookConfiguration(newC)
 }
-
 func ValidateMutatingWebhookConfigurationUpdate(newC, oldC *admissionregistration.MutatingWebhookConfiguration) field.ErrorList {
+	_logClusterCodePath("Entered function: ")
+	defer _logClusterCodePath("Exited function: ")
 	return ValidateMutatingWebhookConfiguration(newC)
+}
+func _logClusterCodePath(op string) {
+	pc, _, _, _ := godefaultruntime.Caller(1)
+	goformat.Fprintf(goos.Stderr, "[%v][ANALYTICS] %s%s\n", gotime.Now().UTC(), op, godefaultruntime.FuncForPC(pc).Name())
 }

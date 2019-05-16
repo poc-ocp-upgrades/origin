@@ -726,7 +726,7 @@ func TestDockerfileBuildLabels(t *testing.T) {
 
 		Environment: api.EnvironmentList{},
 		Labels: map[string]string{"label1": "value1",
-			"label2": "value2",
+			"label2":                               "value2",
 			"io.openshift.s2i.build.commit.author": "shadowman"},
 
 		AsDockerfile: filepath.Join(tempdir, "Dockerfile"),

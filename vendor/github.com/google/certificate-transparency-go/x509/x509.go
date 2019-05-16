@@ -2368,7 +2368,7 @@ func buildExtensions(template *Certificate, subjectIsEmpty bool, authorityKeyId 
 			dp := distributionPoint{
 				DistributionPoint: distributionPointName{
 					FullName: []asn1.RawValue{
-						asn1.RawValue{Tag: 6, Class: asn1.ClassContextSpecific, Bytes: []byte(name)},
+						{Tag: 6, Class: asn1.ClassContextSpecific, Bytes: []byte(name)},
 					},
 				},
 			}
@@ -2998,7 +2998,7 @@ func ParseCertificateRequest(asn1Data []byte) (*CertificateRequest, error) {
 
 func parseCertificateRequest(in *certificateRequest) (*CertificateRequest, error) {
 	out := &CertificateRequest{
-		Raw: in.Raw,
+		Raw:                      in.Raw,
 		RawTBSCertificateRequest: in.TBSCSR.Raw,
 		RawSubjectPublicKeyInfo:  in.TBSCSR.PublicKey.Raw,
 		RawSubject:               in.TBSCSR.Subject.FullBytes,
